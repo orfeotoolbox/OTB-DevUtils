@@ -82,6 +82,7 @@ class TestProcessing:
     __disableBuildExamples__ = False
     __disableUseVtk__ = False
     __disableTestOTBApplicationsWithInstallOTB___ = False
+    __disableGlUseAccel__ = True
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
     __itkVersion__ = "3.8.0"
@@ -104,6 +105,7 @@ class TestProcessing:
     __homeOtbDataSourceDir__ = ""
     __homeOtbDataSourceName__ = ""
     __homeOtbDataLargeInputSourceDir__ = ""
+    __enableUseOtbDataLargeInput__ = True
     __visual_command__ = ""
     
     __svn_username__ = "otbval"
@@ -386,8 +388,8 @@ class TestProcessing:
         self.CallCommand("Update OTB-Applications ...","hg update -r "+revisionValue)
 
         # ---  SVN update OTB-Data / LargeInput   ----------------------------------
-        if self.__homeOtbDataLargeInputSourceDir__ != "disable":
-           	self.CallCommand("Update OTB-Data-LargeInput..."," svn update " + self.GetOtbDataLargeInputSourceDir() +" --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword())
+#        if self.__homeOtbDataLargeInputSourceDir__ != "disable":
+#           	self.CallCommand("Update OTB-Data-LargeInput..."," svn update " + self.GetOtbDataLargeInputSourceDir() +" --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword())
 
         # ---  HG update OTB-Data-HG (ou OTB-Data)  ----------------------------------
         self.CallChangeDirectory("OTB-Data",self.GetOtbDataSourceDir() )
@@ -515,6 +517,19 @@ class TestProcessing:
         else:
                 return "False"
                 
+    def EnableGlUseAccel(self):
+        self.__disableGlUseAccel__ = False
+    def DisableGlUseAccel(self):
+        self.__disableGlUseAccel__ = True
+
+
+    def EnableUseOtbDataLargeInput(self):
+        self.__enableUseOtbDataLargeInput__ = True
+    def DisableUseOtbDataLargeInput(self):
+        self.__enableUseOtbDataLargeInput__ = False
+    def GetUseOtbDataLargeInput(self):
+        return self.__enableUseOtbDataLargeInput__
+
     # ---  Set/Get RunDir methods   -----------------------------------
     def SetRunDir(self,homedir):
         save_rep = os.getcwd() 
@@ -567,6 +582,15 @@ class TestProcessing:
         HomeSourcesDir = os.getcwd()
         os.chdir(save_rep)
         self.__homeBaseSourcesDir__ = HomeSourcesDir
+
+    # --- Set OtbDataLargeInputDir 
+    def SetOtbDataLargeInputDir(self,HomeDir):
+        save_rep = os.getcwd() 
+        os.chdir(HomeDir)
+        HomeDir = os.getcwd()
+        os.chdir(save_rep)
+        self.__homeOtbDataLargeInputSourceDir__ = HomeDir
+
         
     def InitSourcesDir(self):
         # manip for cygwin : D: -> /cygdrive/d 
@@ -604,18 +628,18 @@ class TestProcessing:
         self.CallCheckDirectoryExit("OTB-Data dir",self.__homeOtbDataSourceDir__)
 
         # Find OTB-Data-LargeInput source dir
-        value = os.path.normpath(rep_base+"/OTB-Data-LargeInput-HG")
-        if self.CallCheckDirectory("OTB-Data-LargeInput dir",value) != 0:
-                self.__homeOtbDataLargeInputSourceDir__ = value
-        else:
-                value = os.path.normpath(rep_base+"/OTB-Data-LargeInput")
-                if self.CallCheckDirectory("OTB-Data-LargeInput dir",value) != 0:
-                        self.__homeOtbDataLargeInputSourceDir__ = value
-                else:
-                        self.__homeOtbDataLargeInputSourceDir__ = "disable"
-                        self.PrintMsg( "-> OTB-Data-LargeInput disable !!")
+#        value = os.path.normpath(rep_base+"/OTB-Data-LargeInput-HG")
+#        if self.CallCheckDirectory("OTB-Data-LargeInput dir",value) != 0:
+#                self.__homeOtbDataLargeInputSourceDir__ = value
+#        else:
+#                value = os.path.normpath(rep_base+"/OTB-Data-LargeInput")
+#                if self.CallCheckDirectory("OTB-Data-LargeInput dir",value) != 0:
+#                        self.__homeOtbDataLargeInputSourceDir__ = value
+#                else:
+#                        self.__homeOtbDataLargeInputSourceDir__ = "disable"
+#                        self.PrintMsg( "-> OTB-Data-LargeInput disable !!")
 
-#        self.CallCheckDirectoryExit("OTB-Data-LargeInput dir",self.__homeOtbDataLargeInputSourceDir__)
+        self.CallCheckDirectoryExit("OTB-Data-LargeInput dir",self.__homeOtbDataLargeInputSourceDir__)
 
         return
 
@@ -768,7 +792,12 @@ class TestProcessing:
                 command_line.append(' -D "OTB_USE_JPEG2000:BOOL=ON" ')
                 command_line.append(' -D "OTB_USE_PATENTED:BOOL=OFF" ')
                 command_line.append(' -D "OTB_USE_VISU_GUI:BOOL=ON" ')
-
+                
+                if self.__disableGlUseAccel__ == True:
+                        command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=OFF" ')
+                else:
+                        command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=ON" ')
+                
         if BinComponent == "OTB-Applications":
                 command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
                 command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_standard+'"  ')
@@ -794,7 +823,7 @@ class TestProcessing:
                 command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' '+NameComponent+'.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
 
         command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
-        if self.__homeOtbDataLargeInputSourceDir__ == "disable":
+        if self.GetUseOtbDataLargeInput() == False:
                 command_line.append(' -D "OTB_DATA_USE_LARGEINPUT:BOOL=OFF" ')
         else:
                 command_line.append(' -D "OTB_DATA_USE_LARGEINPUT:BOOL=ON" ')
