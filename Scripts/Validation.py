@@ -979,17 +979,17 @@ class TestProcessing:
                 build_name=build_name+'Static'
         build_name=build_name+'-'
         if self.GetTestConfigurationDir().find("itk-int") != -1:
-                build_name=build_name+'ITK-Int'
+                build_name=build_name+'ITK-Internal'
         else:
-                build_name=build_name+'ITK-Ext'
+                build_name=build_name+'ITK-External'
         build_name=build_name+'-'
         if self.GetTestConfigurationDir().find("fltk-int") != -1:
-                build_name=build_name+'FLTK-Int'
+                build_name=build_name+'FLTK-Internal'
         else:
-                build_name=build_name+'FLTK-Ext'
-        if len(build_name) > 64:
-                build_name=build_name[0:64]
-                self.PrintMsg("BuildName troncated 64 char :"+build_name)
+                build_name=build_name+'FLTK-External'
+#        if len(build_name) > 64:
+#                build_name=build_name[0:64]
+#                self.PrintMsg("BuildName troncated 64 char :"+build_name)
         return build_name
 
     # =====================================================================================================================================
