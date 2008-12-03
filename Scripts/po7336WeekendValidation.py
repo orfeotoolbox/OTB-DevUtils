@@ -21,7 +21,12 @@ if __name__ == "__main__":
         x.SetSourcesDir("Z:\\")
         x.DisableUpdateSources()
 
+        x.DisableTestOTBApplicationsWithInstallOTB()
+        x.DisableUseVtk()
+        x.DisableGlUseAccel()
+#        x.DisableBuildExamples()
+
+        x.EnableGenerateMakefiles()
 
         # List of platform must been tested
 	x.Run("visual7-static-release-itk-internal-fltk-internal")
-
