@@ -21,16 +21,7 @@ if __name__ == "__main__":
         #os.chdir("..")
         x=Validation.TestProcessing()
 
-        #Set the external tools version
-#        x.SetItkVersion("3.6.0")
-#        x.SetFltkVersion("1.1.9")
-#        x.SetVtkVersion("5.0")
-
-#        x.DisableBuildExamples()
-#        x.DisableUseVtk()
-        x.DisableTestOTBApplicationsWithInstallOTB()
-        x.DisableGlUseAccel()
-
+        # Set dirs
         x.SetOtbDataLargeInputDir("/home2/data/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
 
@@ -39,12 +30,20 @@ if __name__ == "__main__":
 
         x.SetOutilsDir("/ORFEO/otbval")
         x.SetRunDir("/ORFEO/otbval")
-        
+
+        # Set generate makefile options
 	# Set Generals configuration tests
 #        x.EnableMakeClean()
-        x.EnableGenerateMakefiles()
-        # List of platform must been tested
+#        x.EnableGenerateMakefiles()
+#        x.DisableBuildExamples()
+#        x.DisableUseVtk()
+#        x.DisableTestOTBApplicationsWithInstallOTB()
+#        x.DisableGlUseAccel()
+     
 #        x.DisableCTest()
         
-	x.Run("linux-static-release-itk-external-fltk-external")
+        # List of platform must been tested
+	x.Run("linux-static-debug-itk-internal-fltk-internal")
+
+
 

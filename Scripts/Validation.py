@@ -77,7 +77,7 @@ class TestProcessing:
 
     # Users parameters
     __typeTest__ = "Experimental" #"Nightly"
-    __makeClean__ = True
+    __makeClean__ = False
     __disableCTest__ = False
     __disableBuildExamples__ = False
     __disableUseVtk__ = False
