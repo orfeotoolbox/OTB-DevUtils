@@ -14,14 +14,20 @@ if __name__ == "__main__":
 
         #os.chdir("..")
         x=Validation.TestProcessing()
-        x.SetRunDir("D:\\")
-        x.SetOutilsDir("D:\\")
-        x.SetOtbDataLargeInputDir("X:\\OTB-Data-LargeInput")
+        x.SetRunDir("/cygdrive/d")
+        x.SetOutilsDir("/cygdrive/d")
+        x.SetOtbDataLargeInputDir("/cygdrive/d/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("Z:\\")
         x.DisableUpdateSources()
 
+        x.DisableTestOTBApplicationsWithInstallOTB()
+        x.DisableUseVtk()
+        x.DisableGlUseAccel()
+        x.DisableBuildExamples()
+
+        x.EnableGenerateMakefiles()
 
         # List of platform must been tested
-	x.Run("visual7-static-debug-itk-internal-fltk-internal")
+	x.Run("cygwin-static-release-itk-internal-fltk-internal")
 

@@ -29,4 +29,5 @@ if __name__ == "__main__":
         x.EnableGenerateMakefiles()
 
         # List of platform must been tested
-	x.Run("visual7-static-release-itk-internal-fltk-internal")
+	x.Run("visual7-static-debug-itk-internal-fltk-internal")
+	x.Run("visual7-static-release-itk-external-fltk-external")
