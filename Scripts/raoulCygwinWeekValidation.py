@@ -23,6 +23,6 @@ if __name__ == "__main__":
         x.EnableGenerateMakefiles()
 
         # List of platform must been tested
-	x.Run("test-cygwin-static-debug-itk-internal-fltk-internal")
+	x.Run("cygwin-static-debug-itk-internal-fltk-internal")
 	
 
