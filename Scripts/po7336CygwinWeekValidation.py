@@ -18,7 +18,7 @@ if __name__ == "__main__":
         x.SetOutilsDir("/cygdrive/d")
         x.SetOtbDataLargeInputDir("/cygdrive/d/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
-        x.SetSourcesDir("Z:\\")
+        x.SetSourcesDir("/cygdrive/d")
         x.DisableUpdateSources()
 
         x.DisableTestOTBApplicationsWithInstallOTB()

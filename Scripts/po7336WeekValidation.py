@@ -18,9 +18,10 @@ if __name__ == "__main__":
         x.SetOutilsDir("D:\\")
         x.SetOtbDataLargeInputDir("X:\\OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
-        x.SetSourcesDir("Z:\\")
-        x.DisableUpdateSources()
+        x.SetSourcesDir("E:\\")
+        x.EnableUpdateSources()
 
+        x.EnableGenerateMakefiles()
 
         # List of platform must been tested
 	x.Run("visual7-static-debug-itk-internal-fltk-internal")
