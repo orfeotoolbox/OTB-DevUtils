@@ -18,7 +18,7 @@ if __name__ == "__main__":
         x.SetOutilsDir("D:\\")
         x.SetOtbDataLargeInputDir("X:\\OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
-        x.SetSourcesDir("E:\\")
+        x.SetSourcesDir("D:\\")
         x.EnableUpdateSources()
 
         x.EnableGenerateMakefiles()
