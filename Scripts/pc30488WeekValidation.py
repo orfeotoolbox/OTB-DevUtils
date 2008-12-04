@@ -19,6 +19,11 @@ if __name__ == "__main__":
         x.SetSourcesDir("Z:\\")
         x.DisableUpdateSources()
 
+        x.DisableTestOTBApplicationsWithInstallOTB()
+        x.DisableUseVtk()
+        x.DisableGlUseAccel()
+        x.DisableBuildExamples()
+
         x.EnableGenerateMakefiles()
         
         # List of platform must been tested
