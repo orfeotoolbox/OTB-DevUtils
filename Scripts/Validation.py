@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import time
 from datetime import date
+import urllib
 
 # RESTA A FAIRE : 
 # note du 15 jin 2008
@@ -356,33 +357,35 @@ class TestProcessing:
     # =====================================================================================================================================
     def UpdateSources(self):
     	
+        proxy_address = 'http://proxycs-toulouse.si.c-s.fr:8080'
+        os.environ['http_proxy'] = proxy_address
 
         
-	# ---  HG update OTB-HG  ----------------------------------
-        self.CallChangeDirectory("Tmp",self.GetHomeDir()+"/tmp")
-        if os.path.exists("libNightlyNumber"):
-          	os.remove("libNightlyNumber")
+	# ---  HG update OTB  ----------------------------------
+#        self.CallChangeDirectory("Tmp",self.GetHomeDir()+"/tmp")
+#        if os.path.exists("libNightlyNumber"):
+#          	os.remove("libNightlyNumber")
+#        self.CallCommand("wget libNightlyNumber file ",'wget "http://www.orfeo-toolbox.org/nightly/libNightlyNumber"' )
+#        file = open("libNightlyNumber","r")
+#        revisionValue = file.read()
+#        file.close()
 
-        self.CallCommand("wget libNightlyNumber file ",'wget "http://www.orfeo-toolbox.org/nightly/libNightlyNumber"' )
-        file = open("libNightlyNumber","r")
-        revisionValue = file.read()
-        file.close()
-	self.PrintMsg("libNightlyNumber: "+revisionValue)
+#        conn = httplib.HTTPConnection('www.orfeo-toolbox.org')
+#        conn.request("GET", "/nightly/libNightlyNumber")
+
+        revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/libNightlyNumber').read()
+        self.PrintMsg("OTB revision: "+revisionValue)
 	
         self.CallChangeDirectory("OTB",self.GetOtbSourceDir())
         self.CallCommand("Purge OTB ...","hg purge")
         self.CallCommand("Pull OTB ...","hg pull")
         self.CallCommand("Update OTB ...","hg update -r "+revisionValue)
 
-        # ---  HG update OTB-Applications-HG   ----------------------------------
-        self.CallChangeDirectory("Tmp",self.GetHomeDir()+"/tmp")
-        if os.path.exists("applicationsNightlyNumber"):
-          	os.remove("applicationsNightlyNumber")
-        self.CallCommand("wget applicationsNightlyNumber file ",'wget "http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber"' )
-        file = open("applicationsNightlyNumber","r")
-        revisionValue = file.read()
-        file.close()
-	self.PrintMsg("applicationsNightlyNumber: "+revisionValue)
+        # ---  HG update OTB-Applications   ----------------------------------
+
+        revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
+	self.PrintMsg("OTB-Application revision: "+revisionValue)
+
         self.CallChangeDirectory("OTB-Applications",self.GetOtbApplicationsSourceDir())
         self.CallCommand("Pull OTB-Applications ...","hg pull")
         self.CallCommand("Update OTB-Applications ...","hg update -r "+revisionValue)
@@ -391,7 +394,7 @@ class TestProcessing:
 #        if self.__homeOtbDataLargeInputSourceDir__ != "disable":
 #           	self.CallCommand("Update OTB-Data-LargeInput..."," svn update " + self.GetOtbDataLargeInputSourceDir() +" --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword())
 
-        # ---  HG update OTB-Data-HG (ou OTB-Data)  ----------------------------------
+        # ---  HG update OTB-Data (ou OTB-Data)  ----------------------------------
         self.CallChangeDirectory("OTB-Data",self.GetOtbDataSourceDir() )
         self.CallCommand("Pull OTB-Data ...","hg pull")
         self.CallCommand("Update OTB-Data ...","hg update default")
