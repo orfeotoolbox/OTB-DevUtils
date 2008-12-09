@@ -1390,12 +1390,13 @@ class TestProcessing:
                 exit(1)
 
     def CallChangeDirectory(self,comment,directory):
+        directory = os.path.normpath(directory)
         self.AddMsgToCDLAndCrtFile("  Change current directory to "+comment+" directory ("+directory+")  ...")
         try:
                 os.chdir(directory)
                 self.AddMsgToCDLAndCrtFile("  The current directory is <"+os.getcwd()+">")
         except:
-                self.AddMsgToCDLAndCrtFile("  ERROR: One error to execute following process: os.removedir("+directory+").")
+                self.AddMsgToCDLAndCrtFile("  ERROR: One error to execute following process: os.chdir("+directory+").")
                 exit(1)
 
     def AddMsgToCDLAndCrtFile(self,line):
