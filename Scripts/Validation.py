@@ -82,7 +82,7 @@ class TestProcessing:
     __disableCTest__ = False
     __disableBuildExamples__ = False
     __disableUseVtk__ = False
-    __disableTestOTBApplicationsWithInstallOTB___ = False
+    __disableTestOTBApplicationsWithInstallOTB___ = True
     __disableGlUseAccel__ = True
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
