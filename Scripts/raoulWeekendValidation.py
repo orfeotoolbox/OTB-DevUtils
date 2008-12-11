@@ -2,7 +2,6 @@ import sys
 import os
 import platform
 import socket
-#import subprocess
 
 if __name__ == "__main__":
         sys.path.append(os.getcwd()+"/OTB-DevUtils/Scripts")
@@ -12,7 +11,6 @@ if __name__ == "__main__":
                 print 'Impossible to find Validation module (import Validation abort!!)'
                 exit(1)
 
-        #os.chdir("..")
         x=Validation.TestProcessing()
 
         x.SetOutilsDir("E:\\")
@@ -20,8 +18,8 @@ if __name__ == "__main__":
         x.SetOtbDataLargeInputDir("E:\\OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
 
-        x.SetSourcesDir("Z:\\")
-        x.DisableUpdateSources()
+        x.SetSourcesDir("E:\\")
+        x.EnableUpdateSources()
 
         
 	# Set Generals configuration tests
