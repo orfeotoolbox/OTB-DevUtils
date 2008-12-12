@@ -24,5 +24,5 @@ if __name__ == "__main__":
         x.DisableGenerateMakefiles()
         
         # List of platform must been tested
-	x.Run("visual8-static-debug-itk-external-fltk-external")
+	x.Run("visual8-static-debug-itk-internal-fltk-internal")
 
