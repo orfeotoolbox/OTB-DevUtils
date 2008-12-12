@@ -5,8 +5,9 @@ import socket
 import shutil
 import subprocess
 import time
-from datetime import date
+from datetime import date,datetime
 import urllib
+
 
 # RESTA A FAIRE : 
 # note du 15 jin 2008
@@ -17,7 +18,7 @@ import urllib
 
 # DESCRIPTION
 # locale DIRECTOR (ex: ..../OTB-NIGHTLY-VALIDATION/sources/otb-hg-msdos
-#                                                         /otb-hg-mingw     s
+#                                                         /otb-hg-mingw     
 #                                                         /otb-hg-cygwin
 #                                                         /otb-hg-linux
 #                                                         /otb-hg 'si aucune ambiguite comande svn (linux, unix)
@@ -1350,12 +1351,15 @@ class TestProcessing:
     def RemoveDirectories(self,top):
         for root, dirs, files in os.walk(top, topdown=False):
                 for name in files:
-	                os.remove(os.path.join(root,name))
-#	                self.PrintMsg(os.path.join(root,name))
+			try:
+                                os.remove(os.path.join(root,name))
+                        except:
+                                self.PrintMsg("Error removing file "+name+" in directory "+root)
                 for name in dirs:
-	                os.rmdir(os.path.join(root,name))
-#	                self.PrintMsg(os.path.join(root,name))
-	
+	                try:
+				os.rmdir(os.path.join(root,name))
+			except:
+				self.PrintMsg("Error removing directory "+name+" in directory "+root)
         if os.path.exists(top):
                 os.rmdir(top)
         
@@ -1400,10 +1404,11 @@ class TestProcessing:
                 exit(1)
 
     def AddMsgToCDLAndCrtFile(self,line):
-        print line
+	date = datetime.now().isoformat(' ')
+        print date+' '+line
 	sys.stdout.flush()
         crtfile = open(self.GetCrtFile(),"a")
-        crtfile.write(line + '\n')
+        crtfile.write(date+' '+line + '\n')
         crtfile.close()
         
 
