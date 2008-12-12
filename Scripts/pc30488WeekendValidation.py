@@ -16,8 +16,8 @@ if __name__ == "__main__":
         x.SetOutilsDir("G:\\")
         x.SetOtbDataLargeInputDir("G:\\OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
-        x.SetSourcesDir("Z:\\")
-        x.DisableUpdateSources()
+        x.SetSourcesDir("G:\\")
+        x.EnableUpdateSources()
 
         x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
