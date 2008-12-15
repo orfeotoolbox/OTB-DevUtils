@@ -21,12 +21,12 @@ if __name__ == "__main__":
         x.SetSourcesDir("/cygdrive/d")
         x.DisableUpdateSources()
 
-        x.DisableTestOTBApplicationsWithInstallOTB()
-        x.DisableUseVtk()
-        x.DisableGlUseAccel()
-        x.DisableBuildExamples()
+#        x.DisableTestOTBApplicationsWithInstallOTB()
+#        x.DisableUseVtk()
+#        x.DisableGlUseAccel()
+#        x.DisableBuildExamples()
 
-        x.EnableGenerateMakefiles()
+#        x.EnableGenerateMakefiles()
 
         # List of platform must been tested
 	x.Run("cygwin-static-release-itk-internal-fltk-internal")

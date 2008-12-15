@@ -16,16 +16,17 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
         x.SetRunDir("D:\\")
         x.SetOutilsDir("D:\\")
-        x.SetOtbDataLargeInputDir("X:\\OTB-Data-LargeInput")
+        x.SetOtbDataLargeInputDir("D:\\OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("D:\\")
-        x.EnableUpdateSources()
+        x.DisableUpdateSources()
 
         x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
         x.DisableGlUseAccel()
 #        x.DisableBuildExamples()
 
+        # -> Active generation makefiles
         x.EnableGenerateMakefiles()
 
         # List of platform must been tested

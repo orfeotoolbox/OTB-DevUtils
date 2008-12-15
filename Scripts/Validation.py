@@ -1161,7 +1161,7 @@ class TestProcessing:
                 else:
                         self.CallCommand("ITK make", "make")
                         self.CallCommand("ITK make intall", "make install")
-                self.CallRemoveDirectory("ITK binaries",itk_binary_dir)
+#                self.CallRemoveDirectory("ITK binaries",itk_binary_dir)
                 self.PrintMsg("ITK library installed with success (on directory <"+itk_install_dir+">) !")
 
     # =====================================================================================================================================
@@ -1251,7 +1251,7 @@ class TestProcessing:
                 else:
                         self.CallCommand("VTK make", "make")
                         self.CallCommand("VTK make intall", "make install")
-                self.CallRemoveDirectory("VTK binaries",vtk_binary_dir)
+#                self.CallRemoveDirectory("VTK binaries",vtk_binary_dir)
                 self.PrintMsg("VTK library installed with success (on directory <"+vtk_install_dir+">) !")
 
 
