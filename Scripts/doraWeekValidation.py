@@ -34,7 +34,7 @@ if __name__ == "__main__":
         # Set generate makefile options
 	# Set Generals configuration tests
 #        x.EnableMakeClean()
-#        x.EnableGenerateMakefiles()
+	x.EnableGenerateMakefiles()
 #        x.DisableBuildExamples()
 #        x.DisableUseVtk()
 #        x.DisableTestOTBApplicationsWithInstallOTB()
@@ -43,7 +43,11 @@ if __name__ == "__main__":
 #        x.DisableCTest()
         
         # List of platform must been tested
-	x.Run("linux-static-debug-itk-internal-fltk-internal")
+	try:
+		x.Run("linux-static-debug-itk-internal-fltk-internal")
+	except:
+		print 'Error while executing run method', sys.exc_info()[0]
+		exit(1)
 
 
 

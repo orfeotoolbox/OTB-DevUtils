@@ -8,7 +8,7 @@ if __name__ == "__main__":
         # Update OTB-DevUtils module
         os.chdir("OTB-DevUtils")
         subprocess.call("hg pull", shell=True)
-        subprocess.call("hg update -r default", shell=True)
+        subprocess.call("hg update default", shell=True)
         print os.getcwd()
         sys.path.append(os.getcwd()+"/Scripts")
         try:
