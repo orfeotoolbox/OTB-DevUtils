@@ -19,13 +19,17 @@ if __name__ == "__main__":
         x.SetSourcesDir("G:\\")
         x.EnableUpdateSources()
 
+#        if len(sys.argv) == 7:
         x.DisableTestOTBApplicationsWithInstallOTB()
-        x.DisableUseVtk()
-        x.DisableGlUseAccel()
-        x.DisableBuildExamples()
+#        x.DisableUseVtk()
+#        x.DisableGlUseAccel()
+#        x.DisableBuildExamples()
 
-        x.EnableGenerateMakefiles()
+#        x.EnableGenerateMakefiles()
         
+        print "dede"
+        if len(sys.argv) == 2:
+                print "Run for ", sys.argv[1]
         # List of platform must been tested
         x.Run("visual7-static-debug-itk-internal-fltk-internal")
 
