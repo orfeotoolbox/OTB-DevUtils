@@ -801,6 +801,12 @@ class TestProcessing:
                         command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=OFF" ')
                 else:
                         command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=ON" ')
+                        
+                if self.GetTestConfigurationDir().find("cygwin") != -1:
+                        self.PrintMsg("For Cygwin, disable UUID cmake parameters in OTB generation makefiles process !!!")
+                        command_line.append(' -D "UUID_INCLUDE_DIR:PATH=" ')
+                        command_line.append(' -D "UUID_LIBRARY:FILEPATH=" ')
+                        
                 
         if BinComponent == "OTB-Applications":
                 command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
