@@ -23,15 +23,20 @@ if __name__ == "__main__":
         x.SetSourcesDir("G:\\")
         x.EnableUpdateSources()
 
-        x.DisableTestOTBApplicationsWithInstallOTB()
-        x.DisableUseVtk()
-        x.DisableGlUseAccel()
+#        if sys.argv[1] == "WEEKEND":
+#                x.DisableBuildExamples()
+#                x.DisableTestOTBApplicationsWithInstallOTB()
+#                x.DisableGlUseAccel()
+#                x.DisableUseVtk()
+#                x.EnableGenerateMakefiles()
+#        else:
+#                x.DisableGenerateMakefiles()
+# Provisoire pour Dashboard du 17 décembre
         x.DisableBuildExamples()
-
-        if sys.argv[1] == "WEEKEND":
-                x.EnableGenerateMakefiles()
-        else:
-                x.DisableGenerateMakefiles()
+        x.DisableTestOTBApplicationsWithInstallOTB()
+        x.DisableGlUseAccel()
+        x.DisableUseVtk()
+        x.EnableGenerateMakefiles()
 
         # List of platform must been tested
         x.Run("visual7-static-debug-itk-internal-fltk-internal")

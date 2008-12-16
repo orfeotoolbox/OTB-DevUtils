@@ -25,14 +25,20 @@ if __name__ == "__main__":
 
 
         # -> Active generation makefiles
-        if sys.argv[1] == "WEEKEND":
-                x.DisableTestOTBApplicationsWithInstallOTB()
-                x.DisableUseVtk()
-                x.DisableGlUseAccel()
-                x.DisableBuildExamples()
-                x.EnableGenerateMakefiles()
-        else:
-                x.DisableGenerateMakefiles()
+#        if sys.argv[1] == "WEEKEND":
+#                x.DisableBuildExamples()
+#                x.DisableTestOTBApplicationsWithInstallOTB()
+#                x.DisableGlUseAccel()
+#                x.DisableUseVtk()
+#                x.EnableGenerateMakefiles()
+#        else:
+#                x.DisableGenerateMakefiles()
+# Provisoire pour Dashboard du 17 décembre
+        x.DisableBuildExamples()
+        x.DisableTestOTBApplicationsWithInstallOTB()
+        x.DisableGlUseAccel()
+        x.DisableUseVtk()
+        x.EnableGenerateMakefiles()
 
         # List of platform must been tested
 	x.Run("visual7-static-debug-itk-internal-fltk-internal")
