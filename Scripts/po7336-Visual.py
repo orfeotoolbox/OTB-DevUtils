@@ -33,7 +33,7 @@ if __name__ == "__main__":
 #                x.EnableGenerateMakefiles()
 #        else:
 #                x.DisableGenerateMakefiles()
-# Provisoire pour Dashboard du 17 décembre
+# Provisoire pour Dashboard du 17 decembre
         x.DisableBuildExamples()
         x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableGlUseAccel()
