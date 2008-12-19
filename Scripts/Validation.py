@@ -60,7 +60,9 @@ class TestProcessing:
     __use_to_running_visual_8_command__ = 'C:/PROGRA~1/MICROS~4/Common7/IDE/devenv.com'
     __use_to_detect_visual_express9_command__ = "C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\VCExpress.exe"
     __use_to_running_visual_express9_command__ = 'C:\PROGRA~1\MICROS~1.0\Common7\IDE\VCExpress.exe'
-
+    __use_to_running_visual_express2005_command__ = 'C:\PROGRA~1\MICROS~3\Common7\IDE\VCExpress.exe'
+    __use_to_detect_visual_express2005_command__ = 'C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\VCExpress.exe'
+	
     # Mingw call system command
     __mingw_system_command__ = 'C:/msys/1.0/bin/rxvt -backspacekey  -sl 2500 -fg Navy -bg LightYellow -sr -fn Courier-12 -tn msys -geometry 80x25 -e /bin/sh --login -i '
     # Cygwin call system command
@@ -664,6 +666,9 @@ class TestProcessing:
         elif self.GetTestConfigurationDir().find("visual9") != -1:
                 self.__visual_command__ = self.__use_to_running_visual_express9_command__
                 mode = "visual9"
+        elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
+                self.__visual_command__ = self.__use_to_running_visual_express2005_command__
+                mode = "visualExpress2005"
         elif self.GetTestConfigurationDir().find("visual") != -1:
                 if os.path.exists(self.__use_to_detect_visual_7_command__) != 0 :
                         self.__visual_command__ = self.__use_to_running_visual_7_command__
@@ -671,7 +676,6 @@ class TestProcessing:
                         self.__visual_command__ = self.__use_to_running_visual_8_command__
                 if os.path.exists(self.__use_to_detect_visual_express9_command__) != 0:
                         self.__visual_command__ = self.__use_to_running_visual_express9_command__
-
         #Check
         if self.GetTestConfigurationDir().find("visual") != -1:
                 self.CallCheckDirectoryExit("Visual program",self.__visual_command__)
@@ -877,6 +881,8 @@ class TestProcessing:
                 mode = "visual8"
         elif self.GetTestConfigurationDir().find("visual9") != -1:
                 mode = "visual9"
+        elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
+                mode = "visualExpress2005"		
         elif self.GetTestConfigurationDir().find("visual") != -1:
                 mode = "visual"
         elif self.GetTestConfigurationDir().find("mingw") != -1:
@@ -1219,7 +1225,6 @@ class TestProcessing:
        
 #                command_line.append(' -D "BUILD_DOXYGEN:BOOL=OFF" ')
                 command_line.append(' -D "BUILD_EXAMPLES:BOOL=OFF" ')
-                command_line.append(' -D "BUILD_TESTING:BOOL=OFF" ')
                 command_line.append(' -D "VTK_WRAP_JAVA:BOOL=OFF" ')
                 command_line.append(' -D "VTK_WRAP_PYTHON:BOOL=OFF" ')
                 command_line.append(' -D "VTK_WRAP_TCL:BOOL=OFF" ')
