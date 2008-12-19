@@ -1219,6 +1219,7 @@ class TestProcessing:
        
 #                command_line.append(' -D "BUILD_DOXYGEN:BOOL=OFF" ')
                 command_line.append(' -D "BUILD_EXAMPLES:BOOL=OFF" ')
+                command_line.append(' -D "BUILD_TESTING:BOOL=OFF" ')
                 command_line.append(' -D "VTK_WRAP_JAVA:BOOL=OFF" ')
                 command_line.append(' -D "VTK_WRAP_PYTHON:BOOL=OFF" ')
                 command_line.append(' -D "VTK_WRAP_TCL:BOOL=OFF" ')
