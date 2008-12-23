@@ -20,7 +20,9 @@ if __name__ == "__main__":
 
         # Set dirs
         x.SetSourcesDir("/ORFEO/otbval")
-        x.DisableUpdateSources()
+        # CYRILLE : CORRECTION POUR LA MISE A JOUR DES SOURCES
+		#x.DisableUpdateSources()
+        x.EnableUpdateSources()
         x.SetOtbDataLargeInputDir("/home2/data/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetOutilsDir("/ORFEO/otbval")
