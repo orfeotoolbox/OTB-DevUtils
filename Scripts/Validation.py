@@ -969,21 +969,21 @@ class TestProcessing:
     def GetBuildName(self):
         build_name=""
         if self.GetTestConfigurationDir().find("mingw") != -1:
-                build_name=build_name+'MinGW'
+                build_name=build_name+'Win32-MinGW-GCC'+self.GetGCCVersion()
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
-                build_name=build_name+'Cygwin'
+                build_name=build_name+'Win32-Cygwin-GCC'+self.GetGCCVersion()
         elif self.GetTestConfigurationDir().find("macosx") != -1:
-                build_name=build_name+'MacOSX'
+                build_name=build_name+'Darwin-OSX-GCC'+self.GetGCCVersion()
         elif self.GetTestConfigurationDir().find("sun") != -1:
-                build_name=build_name+'Sun'
+                build_name=build_name+'Sun-GCC'+self.GetGCCVersion()
         elif self.GetTestConfigurationDir().find("linux") != -1:
-                build_name=build_name+'Linux'
+                build_name=build_name+'Linux-GCC'+self.GetGCCVersion()
         elif self.GetTestConfigurationDir().find("visual7") != -1:
-                build_name=build_name+'Visual7'
+                build_name=build_name+'Win32-Visual7'
         elif self.GetTestConfigurationDir().find("visual8") != -1:
-                build_name=build_name+'Visual8'
+                build_name=build_name+'Win32-Visual8'
         elif self.GetTestConfigurationDir().find("visual9") != -1:
-                build_name=build_name+'VisualExpress'
+                build_name=build_name+'Win32-VisualExpress'
         else:
                 #Sinon essaie de trouver la plaforme Hote
                 build_name=build_name+'Local'
@@ -1007,6 +1007,19 @@ class TestProcessing:
 #                build_name=build_name[0:64]
 #                self.PrintMsg("BuildName troncated 64 char :"+build_name)
         return build_name
+        
+    def GetGCCVersion(self):
+        filename = self.GetHomeDir()+"/gcc-version.tmp"
+        crtfile = open(filename,"w")
+        retcode = subprocess.call("gcc --version", stdout=crtfile, shell=True)
+        crtfile.close()
+        crtfile = open(filename,"r")
+        tab = crtfile.read()
+        tab2 = tab.split(" ")
+        crtfile.close()
+        result = ""
+        result = tab2[2]
+        return result
 
     # =====================================================================================================================================
     # ===  Check (and install) FLTK library : generation of command line argument for cmake generation   ==================================
