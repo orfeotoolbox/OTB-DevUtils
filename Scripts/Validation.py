@@ -360,8 +360,8 @@ class TestProcessing:
     # =====================================================================================================================================
     def UpdateSources(self):
     	
-        proxy_address = 'http://proxycs-toulouse.si.c-s.fr:8080'
-        os.environ['http_proxy'] = proxy_address
+#        proxy_address = 'http://proxycs-toulouse.si.c-s.fr:8080'
+#        os.environ['http_proxy'] = proxy_address
 
         
 	# ---  HG update OTB  ----------------------------------
