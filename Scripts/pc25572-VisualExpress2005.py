@@ -10,7 +10,6 @@ if __name__ == "__main__":
         except:
                 print 'Impossible to find Validation module (import Validation abort!!)'
                 exit(1)
-
         if len(sys.argv) != 2:
                 print "Error  -->   Usage: ", sys.argv[0], " WEEK/WEEKEND"
                 exit(1)
@@ -22,15 +21,18 @@ if __name__ == "__main__":
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("D:\\OTB")
         x.EnableUpdateSources()
-
-        x.DisableGenerateMakefiles()
-        #x.DisableUseVtk()
-        x.Run("visualExpress2005-static-debug-itk-internal-fltk-internal")
+        x.DisableUseVtk()
 		
+        # -> Active generation makefiles
         if sys.argv[1] == "WEEKEND":
-                x.DisableBuildExamples()
                 x.DisableTestOTBApplicationsWithInstallOTB()
+                x.DisableUseVtk()
                 x.DisableGlUseAccel()
-				x.DisableUseVtk()
+                x.DisableBuildExamples()
                 x.EnableGenerateMakefiles()
-                x.Run("visualExpress2005-static-release-itk-internal-fltk-internal")
+        else:
+                x.DisableGenerateMakefiles()
+
+        # List of platform must been tested
+        x.Run("visualExpress2005-static-debug-itk-internal-fltk-internal")
+
