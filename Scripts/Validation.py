@@ -89,6 +89,7 @@ class TestProcessing:
     __disableGlUseAccel__ = True
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
+    __build_name__ = ""
     __itkVersion__ = "3.10.1"
     __fltkVersion__ = "1.1.9"
     __vtkVersion__ = "5.0"
@@ -475,6 +476,12 @@ class TestProcessing:
                 return "True"
         else:
                 return "False"
+
+    def SetPrefixBuildName(self,prefix_build_name):
+        self.__prefix_build_name__ = prefix_build_name
+    def GetPrefixBuildName(self):
+        return self.__prefix_build_name__
+
 
     # ---  Disable/Enable Update sources methods   -----------------------------------
     def EnableUpdateSources(self):
@@ -968,6 +975,8 @@ class TestProcessing:
     # =====================================================================================================================================
     def GetBuildName(self):
         build_name=""
+        if self.GetPrefixBuildName() != "":
+                build_name=self.GetPrefixBuildName()+'-'
         if self.GetTestConfigurationDir().find("mingw") != -1:
                 build_name=build_name+'Win32-MinGW-GCC'+self.GetGCCVersion()
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
@@ -1003,6 +1012,10 @@ class TestProcessing:
                 build_name=build_name+'FLTK-Internal'
         else:
                 build_name=build_name+'FLTK-External'
+        if self.__disableBuildExamples__ == True:
+                build_name=build_name+'-DisableExamples'
+
+
 #        if len(build_name) > 64:
 #                build_name=build_name[0:64]
 #                self.PrintMsg("BuildName troncated 64 char :"+build_name)
