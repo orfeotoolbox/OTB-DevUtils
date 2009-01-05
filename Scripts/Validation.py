@@ -729,13 +729,20 @@ class TestProcessing:
         if mode == "":
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install/include")
                 gdal_lib_dir=os.path.normpath(HomeDirOutils + "/gdal/install/lib")
-                itk_dir=os.path.normpath(HomeDirOutils + "/itk/install-" + build_mode +"-"+ build_type + "/lib/InsightToolkit")
+                # Set Binaries FOR VISUAL and Debug (The .pch files are not installed, and generet WARNING)
+                if self.GetTestConfigurationDir().find("visual") != -1 & self.GetTestConfigurationDir().find("debug") != -1:
+                        itk_dir=os.path.normpath(HomeDirOutils + "/itk/binaries-" + build_mode +"-"+ build_type)
+                else:
+                        itk_dir=os.path.normpath(HomeDirOutils + "/itk/install-" + build_mode +"-"+ build_type + "/lib/InsightToolkit")
                 fltk_dir=os.path.normpath(HomeDirOutils + "/fltk/binaries-" + build_mode +"-" + build_type +"-fltk-"+ self.GetFltkVersion())
                 vtk_dir=os.path.normpath(HomeDirOutils + "/vtk/install-" + build_mode +"-"+ build_type + "-vtk-"+ self.GetVtkVersion() + "/lib/vtk-"+ self.GetVtkVersion())
         else:
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/include")
                 gdal_lib_dir=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib")
-                itk_dir=os.path.normpath(HomeDirOutils + "/itk/install-" + mode + "-" + build_mode +"-"+ build_type +"-itk-"+ self.GetItkVersion() + "/lib/InsightToolkit")
+                if self.GetTestConfigurationDir().find("visual") != -1 & self.GetTestConfigurationDir().find("debug") != -1:
+                        itk_dir=os.path.normpath(HomeDirOutils + "/itk/binaries-" + mode + "-" + build_mode +"-"+ build_type +"-itk-"+ self.GetItkVersion())
+                else:
+                        itk_dir=os.path.normpath(HomeDirOutils + "/itk/install-" + mode + "-" + build_mode +"-"+ build_type +"-itk-"+ self.GetItkVersion() + "/lib/InsightToolkit")
                 fltk_dir=os.path.normpath(HomeDirOutils + "/fltk/binaries-" + mode + "-" + build_mode +"-" + build_type +"-fltk-"+ self.GetFltkVersion() )
                 vtk_dir=os.path.normpath(HomeDirOutils + "/vtk/install-" + mode + "-" + build_mode +"-"+ build_type +"-vtk-"+ self.GetVtkVersion() + "/lib/vtk-"+ self.GetVtkVersion())
 
@@ -1006,12 +1013,12 @@ class TestProcessing:
         if self.GetTestConfigurationDir().find("itk-int") != -1:
                 build_name=build_name+'ITK-Internal'
         else:
-                build_name=build_name+'ITK-External'
+                build_name=build_name+'ITK'+self.GetItkVersion()+'-External'
         build_name=build_name+'-'
         if self.GetTestConfigurationDir().find("fltk-int") != -1:
                 build_name=build_name+'FLTK-Internal'
         else:
-                build_name=build_name+'FLTK-External'
+                build_name=build_name+'FLTK'+self.GetFltkVersion()+'-External'
         if self.__disableBuildExamples__ == True:
                 build_name=build_name+'-DisableExamples'
 
