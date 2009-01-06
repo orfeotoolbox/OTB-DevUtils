@@ -89,7 +89,7 @@ class TestProcessing:
     __disableGlUseAccel__ = True
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
-    __build_name__ = ""
+    __prefix_build_name__ = ""
     __itkVersion__ = "3.10.1"
     __fltkVersion__ = "1.1.9"
     __vtkVersion__ = "5.0"
