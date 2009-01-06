@@ -23,7 +23,7 @@ if __name__ == "__main__":
         x.EnableUpdateSources()
         x.DisableUseVtk()
 		
-        # -> Active generation makefiles
+		# -> Active generation makefiles
         if sys.argv[1] == "WEEKEND":
                 x.DisableTestOTBApplicationsWithInstallOTB()
                 x.DisableUseVtk()
