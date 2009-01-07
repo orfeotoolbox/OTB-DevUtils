@@ -60,6 +60,10 @@ class TestProcessing:
     __use_to_running_visual_8_command__ = 'C:/PROGRA~1/MICROS~4/Common7/IDE/devenv.com'
     __use_to_detect_visual_express9_command__ = "C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\VCExpress.exe"
     __use_to_running_visual_express9_command__ = 'C:\PROGRA~1\MICROS~1.0\Common7\IDE\VCExpress.exe'
+
+    __use_to_running_visual_express2008_command__ = 'C:\PROGRA~1\MICROS~3\Common7\IDE\VCExpress.exe'
+    __use_to_detect_visual_express2008_command__ = 'C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\VCExpress.exe'
+
     __use_to_running_visual_express2005_command__ = 'C:\PROGRA~1\MICROS~3\Common7\IDE\VCExpress.exe'
     __use_to_detect_visual_express2005_command__ = 'C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\VCExpress.exe'
 	
@@ -90,6 +94,7 @@ class TestProcessing:
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
     __prefix_build_name__ = ""
+    __distrib_name__ = ""
     __itkVersion__ = "3.10.1"
     __fltkVersion__ = "1.1.9"
     __vtkVersion__ = "5.0"
@@ -477,10 +482,17 @@ class TestProcessing:
         else:
                 return "False"
 
+    # ---  Set/Get prefix buildname methods   -----------------------------------
     def SetPrefixBuildName(self,prefix_build_name):
         self.__prefix_build_name__ = prefix_build_name
     def GetPrefixBuildName(self):
         return self.__prefix_build_name__
+    
+    # ---  Set/Get distrib OS... methods   -----------------------------------
+    def SetDistribName(self,distrib):
+        self.__distrib_name__ = distrib
+    def GetDistribName(self):
+        return self.__distrib_name__
 
 
     # ---  Disable/Enable Update sources methods   -----------------------------------
@@ -670,7 +682,7 @@ class TestProcessing:
         elif self.GetTestConfigurationDir().find("visual8") != -1:
                 self.__visual_command__ = self.__use_to_running_visual_8_command__
                 mode = "visual8"
-        elif self.GetTestConfigurationDir().find("visual9") != -1:
+        elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
                 self.__visual_command__ = self.__use_to_running_visual_express9_command__
                 mode = "visual9"
         elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
@@ -895,6 +907,8 @@ class TestProcessing:
                 mode = "visual8"
         elif self.GetTestConfigurationDir().find("visual9") != -1:
                 mode = "visual9"
+        elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
+                mode = "visualExpress2008"		
         elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
                 mode = "visualExpress2005"		
         elif self.GetTestConfigurationDir().find("visual") != -1:
@@ -967,7 +981,11 @@ class TestProcessing:
                 cmake_command_line='-G "Visual Studio 7 .NET 2003" '
         elif self.GetTestConfigurationDir().find("visual8") != -1:
                 cmake_command_line=' -G "Visual Studio 8 2005" '
+        elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
+                cmake_command_line=' -G "Visual Studio 8 2005" '
         elif self.GetTestConfigurationDir().find("visual9") != -1:
+                cmake_command_line=' -G "Visual Studio 9 2008" '
+        elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
                 cmake_command_line=' -G "Visual Studio 9 2008" '
         elif self.GetTestConfigurationDir().find("mingw") != -1:
                 cmake_command_line=' -G "MSYS Makefiles" '
@@ -982,44 +1000,75 @@ class TestProcessing:
     # =====================================================================================================================================
     def GetBuildName(self):
         build_name=""
-        if self.GetPrefixBuildName() != "":
+        # Prefix Buildname
+	if self.GetPrefixBuildName() != "":
                 build_name=self.GetPrefixBuildName()+'-'
-        if self.GetTestConfigurationDir().find("mingw") != -1:
-                build_name=build_name+'Win32-MinGW-GCC'+self.GetGCCVersion()
+
+	# Ditrib (ex: CentOS, RedHat, Ubuntu, XP, Vista, ...)
+	if self.GetDistribName() != "":
+                build_name=build_name+self.GetDistribName()+'-'
+	else:
+		if self.GetTestConfigurationDir().find("mingw") != -1:
+        	        build_name=build_name+'Win32-MinGW-'
+	        elif self.GetTestConfigurationDir().find("cygwin") != -1:
+        	        build_name=build_name+'Win32-Cygwin-'
+	        elif self.GetTestConfigurationDir().find("macosx") != -1:
+        	        build_name=build_name+'Darwin-OSX-'
+	        elif self.GetTestConfigurationDir().find("sun") != -1:
+        	        build_name=build_name+'Sun-'
+	        elif self.GetTestConfigurationDir().find("linux") != -1:
+        	        build_name=build_name+'Linux-'
+	        elif self.GetTestConfigurationDir().find("visual7") != -1:
+        	        build_name=build_name+'Win32-Visual7-'
+	        elif self.GetTestConfigurationDir().find("visual8") != -1:
+        	        build_name=build_name+'Win32-Visual8-'
+		elif self.GetTestConfigurationDir().find("visual9") != -1:
+        	        build_name=build_name+'Win32-Visual9-'
+		elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
+        	        build_name=build_name+'Win32-VisualExpress2005-'
+		elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
+        	        build_name=build_name+'Win32-VisualExpress2008-'
+	        else:
+        	        #Sinon essaie de trouver la plaforme Hote
+                	build_name=build_name+'Local-'
+	
+        # GCC Info
+	if self.GetTestConfigurationDir().find("mingw") != -1:
+                build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
-                build_name=build_name+'Win32-Cygwin-GCC'+self.GetGCCVersion()
+                build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
         elif self.GetTestConfigurationDir().find("macosx") != -1:
-                build_name=build_name+'Darwin-OSX-GCC'+self.GetGCCVersion()
+                build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
         elif self.GetTestConfigurationDir().find("sun") != -1:
-                build_name=build_name+'Sun-GCC'+self.GetGCCVersion()
+                build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
         elif self.GetTestConfigurationDir().find("linux") != -1:
-                build_name=build_name+'Linux-GCC'+self.GetGCCVersion()
-        elif self.GetTestConfigurationDir().find("visual7") != -1:
-                build_name=build_name+'Win32-Visual7'
-        elif self.GetTestConfigurationDir().find("visual8") != -1:
-                build_name=build_name+'Win32-Visual8'
-        elif self.GetTestConfigurationDir().find("visual9") != -1:
-                build_name=build_name+'Win32-VisualExpress'
-        else:
-                #Sinon essaie de trouver la plaforme Hote
-                build_name=build_name+'Local'
-        
-        build_name=build_name+'-'+self.GetCmakeBuildType2()+'-'
+                build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
+
+	# 32/64bits info	
+	if self.GetTestConfigurationDir().find("32bit") != -1:
+               build_name=build_name+'32Bits-'
+	elif self.GetTestConfigurationDir().find("64bit") != -1:
+                build_name=build_name+'64Bits-'
+	
+        # CMake build info
+	build_name=build_name+self.GetCmakeBuildType2()+'-'
         if self.GetTestConfigurationDir().find("shared") != -1:
-                build_name=build_name+'Shared'
+                build_name=build_name+'Shared-'
         else:
-                build_name=build_name+'Static'
-        build_name=build_name+'-'
-        if self.GetTestConfigurationDir().find("itk-int") != -1:
-                build_name=build_name+'ITK-Internal'
+                build_name=build_name+'Static-'
+        # ITK Info
+	if self.GetTestConfigurationDir().find("itk-int") != -1:
+                build_name=build_name+'ITK-Internal-'
         else:
-                build_name=build_name+'ITK'+self.GetItkVersion()+'-External'
-        build_name=build_name+'-'
+                build_name=build_name+'ITK'+self.GetItkVersion()+'-External-'
+        # FLTK Info
         if self.GetTestConfigurationDir().find("fltk-int") != -1:
                 build_name=build_name+'FLTK-Internal'
         else:
                 build_name=build_name+'FLTK'+self.GetFltkVersion()+'-External'
-        if self.__disableBuildExamples__ == True:
+
+	# DisableExamples
+	if self.__disableBuildExamples__ == True:
                 build_name=build_name+'-DisableExamples'
 
 
