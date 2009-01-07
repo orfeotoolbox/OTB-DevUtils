@@ -664,7 +664,8 @@ class TestProcessing:
 #                        self.__homeOtbDataLargeInputSourceDir__ = "disable"
 #                        self.PrintMsg( "-> OTB-Data-LargeInput disable !!")
 
-        self.CallCheckDirectoryExit("OTB-Data-LargeInput dir",self.__homeOtbDataLargeInputSourceDir__)
+        if self.GetUseOtbDataLargeInput() == True:
+                self.CallCheckDirectoryExit("OTB-Data-LargeInput dir",self.__homeOtbDataLargeInputSourceDir__)
 
         return
 
