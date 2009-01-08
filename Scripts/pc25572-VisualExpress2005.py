@@ -17,12 +17,13 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
         x.SetRunDir("D:\\OTB")
         x.SetOutilsDir("D:\\OTB")
-        x.SetOtbDataLargeInputDir("D:\\OTB\\WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY\\OTB-LargeInput")
+        x.SetOtbDataLargeInputDir("D:\\OTB\\OTB-NIGHTLY\\OTB-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("D:\\OTB")
+        x.SetHomeSourcesName("OTB-NIGHTLY")
         x.EnableUpdateSources()
         x.DisableUseVtk()
-		
+ 
 		# -> Active generation makefiles
         if sys.argv[1] == "WEEKEND":
                 x.DisableTestOTBApplicationsWithInstallOTB()
