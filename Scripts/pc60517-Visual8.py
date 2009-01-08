@@ -20,6 +20,7 @@ if __name__ == "__main__":
         x.SetRunDir("E:\\Validation-OTB")
         x.SetOtbDataLargeInputDir("E:\\Validation-OTB\OTB-Data-LargeInput")
         x.SetSourcesDir("E:\\Validation-OTB")
+	x.SetHomeSourcesName("HG")
         x.EnableUpdateSources()
         x.DisableBuildExamples()
         x.DisableGlUseAccel()

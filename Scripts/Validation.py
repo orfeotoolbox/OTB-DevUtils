@@ -608,6 +608,9 @@ class TestProcessing:
         os.chdir(save_rep)
         self.__homeBaseSourcesDir__ = HomeSourcesDir
 
+    def SetHomeSourcesName(self,HomeSourcesName):
+        self.__homeSourcesName__=HomeSourcesName
+
     # --- Set OtbDataLargeInputDir 
     def SetOtbDataLargeInputDir(self,HomeDir):
         save_rep = os.getcwd() 
