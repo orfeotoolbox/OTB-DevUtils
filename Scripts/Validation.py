@@ -86,6 +86,8 @@ class TestProcessing:
     # Users parameters
     __typeTest__ = "Experimental" #"Nightly"
     __makeClean__ = False
+    __makeCleanAfterCTest__ = False
+    __cleanTestingResultsAfterCTest__ = False
     __disableCTest__ = False
     __disableBuildExamples__ = False
     __disableUseVtk__ = False
@@ -319,10 +321,9 @@ class TestProcessing:
         component_cpt = component_cpt + 1
         self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
         self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
-
+        component_cpt = component_cpt + 1
+        self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
         if self.__disableTestOTBApplicationsWithInstallOTB___ == False:
-                component_cpt = component_cpt + 1
-                self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
                 self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
         else:
                 self.PrintMsg("Testing OTB-Applications with install OTB dir is DISABLE")
@@ -357,6 +358,14 @@ class TestProcessing:
                         self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +" 	/project INSTALL")
                 else:
                         self.CallCommand("Make Install", "make install")
+                if self.__makeCleanAfterCTest__ == True:
+                        if self.GetTestConfigurationDir().find("visual") != -1:
+                                self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                        else:
+                                self.CallCommand("Make Clean (After CTest)", "make clean")
+                        self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
+                if self.__cleanTestingResultsAfterCTest__ == True:
+                        self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
         else:
                 self.PrintMsg("CTest execution DISABLE")
 
@@ -365,33 +374,25 @@ class TestProcessing:
     # ===  Update sources method
     # =====================================================================================================================================
     def UpdateSources(self):
-    	
-#        proxy_address = 'http://proxycs-toulouse.si.c-s.fr:8080'
-#        os.environ['http_proxy'] = proxy_address
+        self.PrintWarning("Deprecated 'UpdateSources' function: Use 'UpdateNightlySources' or 'UpdateCurrentSources' functions to updates sources.") 
+        self.UpdateNightlySources()
 
+    # =====================================================================================================================================
+    # ===  Update Nightly sources method
+    # =====================================================================================================================================
+    def UpdateNightlySources(self):
+#        os.environ['http_proxy'] = 'http://proxycs-toulouse.si.c-s.fr:8080'
+        self.PrintMsg("Update Nightly Sources ...")
         
 	# ---  HG update OTB  ----------------------------------
-#        self.CallChangeDirectory("Tmp",self.GetHomeDir()+"/tmp")
-#        if os.path.exists("libNightlyNumber"):
-#          	os.remove("libNightlyNumber")
-#        self.CallCommand("wget libNightlyNumber file ",'wget "http://www.orfeo-toolbox.org/nightly/libNightlyNumber"' )
-#        file = open("libNightlyNumber","r")
-#        revisionValue = file.read()
-#        file.close()
-
-#        conn = httplib.HTTPConnection('www.orfeo-toolbox.org')
-#        conn.request("GET", "/nightly/libNightlyNumber")
-
         revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/libNightlyNumber').read()
         self.PrintMsg("OTB revision: "+revisionValue)
-	
         self.CallChangeDirectory("OTB",self.GetOtbSourceDir())
         self.CallCommand("Purge OTB ...","hg purge")
         self.CallCommand("Pull OTB ...","hg pull")
         self.CallCommand("Update OTB ...","hg update -r "+revisionValue)
 
         # ---  HG update OTB-Applications   ----------------------------------
-
         revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
 	self.PrintMsg("OTB-Application revision: "+revisionValue)
 
@@ -402,6 +403,29 @@ class TestProcessing:
         # ---  SVN update OTB-Data / LargeInput   ----------------------------------
 #        if self.__homeOtbDataLargeInputSourceDir__ != "disable":
 #           	self.CallCommand("Update OTB-Data-LargeInput..."," svn update " + self.GetOtbDataLargeInputSourceDir() +" --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword())
+
+        # ---  HG update OTB-Data (ou OTB-Data)  ----------------------------------
+        self.CallChangeDirectory("OTB-Data",self.GetOtbDataSourceDir() )
+        self.CallCommand("Pull OTB-Data ...","hg pull")
+        self.CallCommand("Update OTB-Data ...","hg update default")
+        
+	self.DisableUpdateSources()
+    # =====================================================================================================================================
+    # ===  Update Current sources method
+    # =====================================================================================================================================
+    def UpdateCurrentSources(self):
+        self.PrintMsg("Update Current Sources ...")
+    	
+	# ---  HG update OTB  ----------------------------------
+        self.CallChangeDirectory("OTB",self.GetOtbSourceDir())
+        self.CallCommand("Purge OTB ...","hg purge")
+        self.CallCommand("Pull OTB ...","hg pull")
+        self.CallCommand("Update OTB ...","hg update default")
+
+        # ---  HG update OTB-Applications   ----------------------------------
+        self.CallChangeDirectory("OTB-Applications",self.GetOtbApplicationsSourceDir())
+        self.CallCommand("Pull OTB-Applications ...","hg pull")
+        self.CallCommand("Update OTB-Applications ...","hg update default")
 
         # ---  HG update OTB-Data (ou OTB-Data)  ----------------------------------
         self.CallChangeDirectory("OTB-Data",self.GetOtbDataSourceDir() )
@@ -456,6 +480,18 @@ class TestProcessing:
     def EnableTestOTBApplicationsWithInstallOTB(self):
         self.__disableTestOTBApplicationsWithInstallOTB___ = False
 
+
+    # ---  Disable/Enable Make Clean After CTest methods   -----------------------------------
+    def DisableMakeCleanAfterCTest(self):
+        self.__makeCleanAfterCTest__ = False
+    def EnableMakeCleanAfterCTest(self):
+        self.__makeCleanAfterCTest__ = True
+
+    # ---  Disable/Enable Make Clean After CTest methods   -----------------------------------
+    def DisableCleanTestingResultsAfterCTest(self):
+        self.__cleanTestingResultsAfterCTest__ = False
+    def EnableCleanTestingResultsAfterCTest(self):
+        self.__cleanTestingResultsAfterCTest__ = True
 
     # ---  Disable/Enable UseVtk methods   -----------------------------------
     def DisableUseVtk(self):
@@ -783,6 +819,12 @@ class TestProcessing:
         if self.GetTestConfigurationDir().find("itk-ext") != -1:
                 self.CallCheckDirectoryExit("ITK",itk_dir)
 
+        #Print Msg if parsing "itk-int" or "itk-ext" is failed
+        if self.GetTestConfigurationDir().find("itk-int") == -1 & self.GetTestConfigurationDir().find("itk-ext") == -1 :
+                self.PrintWarning("Parsing 'itk-int' or 'itk-ext' is not detected in '"+self.GetTestConfigurationDir()+"' configuration !! ITK Internal is default value.")
+        if self.GetTestConfigurationDir().find("fltk-int") == -1 & self.GetTestConfigurationDir().find("fltk-ext") == -1 :
+                self.PrintWarning("Parsing 'fltk-int' or 'fltk-ext' is not detected in '"+self.GetTestConfigurationDir()+"' configuration !! FLTK Internal is default value.")
+
         # For Visual, set CMAKE_CONFIGURATION_TYPES parameter        
         if self.GetTestConfigurationDir().find("visual") != -1:
                 command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
@@ -790,6 +832,9 @@ class TestProcessing:
                 command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
                 command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
                 command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
+                command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+                command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+
 
         command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
 
@@ -813,18 +858,18 @@ class TestProcessing:
                 command_line.append(' -D "GDAL_INCLUDE_DIRS:PATH='+gdal_include_dir+'"  ')
                 command_line.append(' -D "GDAL_LIBRARY_DIRS:PATH='+gdal_lib_dir+'" ')
                 
-                if self.GetTestConfigurationDir().find("fltk-int") != -1:
-                        command_line.append(' -D "OTB_USE_EXTERNAL_FLTK:BOOL=OFF" ')
-                else:
+                if self.GetTestConfigurationDir().find("fltk-ext") != -1:
                         command_line.append(' -D "OTB_USE_EXTERNAL_FLTK:BOOL=ON" ')
                         command_line.append(' -D "FLTK_DIR:PATH='+fltk_dir+'" ')
                         command_line.append(' -D "FLTK_FLUID_EXECUTABLE:FILEPATH='+fltk_fluid_exe+'" ' )
-                        
-                if self.GetTestConfigurationDir().find("itk-int") != -1:
-                        command_line.append(' -D "OTB_USE_EXTERNAL_ITK:BOOL=OFF" ')
                 else:
+                        command_line.append(' -D "OTB_USE_EXTERNAL_FLTK:BOOL=OFF" ')
+                        
+                if self.GetTestConfigurationDir().find("itk-ext") != -1:
                         command_line.append(' -D "OTB_USE_EXTERNAL_ITK:BOOL=ON" ')
                         command_line.append(' -D "ITK_DIR:PATH='+itk_dir+'" ')
+                else:
+                        command_line.append(' -D "OTB_USE_EXTERNAL_ITK:BOOL=OFF" ')
                 
                 command_line.append(' -D "OTB_USE_JPEG2000:BOOL=ON" ')
                 command_line.append(' -D "OTB_USE_PATENTED:BOOL=OFF" ')
@@ -836,7 +881,7 @@ class TestProcessing:
                         command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=ON" ')
                         
                 if self.GetTestConfigurationDir().find("cygwin") != -1:
-                        self.PrintMsg("For Cygwin, disable UUID cmake parameters in OTB generation makefiles process !!!")
+                        self.PrintWarning("For Cygwin, disable UUID cmake parameters in OTB generation makefiles process !!! UUID_INCLUDE_DIR and UUID_LIBRARY cmake variables are set to empty.")
                         command_line.append(' -D "UUID_INCLUDE_DIR:PATH=" ')
                         command_line.append(' -D "UUID_LIBRARY:FILEPATH=" ')
                         
@@ -1060,16 +1105,20 @@ class TestProcessing:
         else:
                 build_name=build_name+'Static-'
         # ITK Info
-	if self.GetTestConfigurationDir().find("itk-int") != -1:
-                build_name=build_name+'ITK-Internal-'
-        else:
+	if self.GetTestConfigurationDir().find("itk-ext") != -1:
                 build_name=build_name+'ITK'+self.GetItkVersion()+'-External-'
-        # FLTK Info
-        if self.GetTestConfigurationDir().find("fltk-int") != -1:
-                build_name=build_name+'FLTK-Internal'
         else:
+                build_name=build_name+'ITK-Internal-'
+        # FLTK Info
+        if self.GetTestConfigurationDir().find("fltk-ext") != -1:
                 build_name=build_name+'FLTK'+self.GetFltkVersion()+'-External'
+        else:
+                build_name=build_name+'FLTK-Internal'
 
+        # Disable VTK
+        if self.__disableUseVtk__ == True:
+                build_name=build_name+'-DisableUseVtk'
+                
 	# DisableExamples
 	if self.__disableBuildExamples__ == True:
                 build_name=build_name+'-DisableExamples'
@@ -1398,6 +1447,8 @@ class TestProcessing:
         self.PrintMsg("    "+command)
         f.close()
 
+    def PrintWarning(self,msg):
+        self.PrintMsg("#############   WARNING: "+msg)
     def PrintMsg(self,msg):
         self.AddMsgToCDLAndCrtFile("  "+msg)
     def PrintTitle(self,msg):
