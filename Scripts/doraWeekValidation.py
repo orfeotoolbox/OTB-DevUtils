@@ -35,10 +35,10 @@ if __name__ == "__main__":
 	# Set Generals configuration tests
 #        x.EnableMakeClean()
 	x.EnableGenerateMakefiles()
-#        x.DisableBuildExamples()
-#        x.DisableUseVtk()
-#        x.DisableTestOTBApplicationsWithInstallOTB()
-#        x.DisableGlUseAccel()
+        x.DisableBuildExamples()
+        x.DisableUseVtk()
+        x.DisableTestOTBApplicationsWithInstallOTB()
+        x.DisableGlUseAccel()
      
 #        x.DisableCTest()
         
