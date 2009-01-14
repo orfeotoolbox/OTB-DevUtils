@@ -1280,6 +1280,11 @@ class TestProcessing:
 
                 command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+itk_install_dir+'"  ')
 
+                if self.GetTestConfigurationDir().find("cygwin") != -1:
+                        self.PrintWarning("For Cygwin, disable UUID cmake parameters in ITK generation makefiles process !!! UUID_INCLUDE_DIR and UUID_LIBRARY cmake variables are set to empty.")
+                        command_line.append(' -D "UUID_INCLUDE_DIR:PATH=" ')
+                        command_line.append(' -D "UUID_LIBRARY:FILEPATH=" ')
+
                 if self.GetTestConfigurationDir().find("visual") != -1:
                         command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' ITK.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
 
