@@ -16,12 +16,12 @@ if __name__ == "__main__":
 
         x=Validation.TestProcessing()
 
-        x.SetOutilsDir("Z:\\Outils")
-        x.SetRunDir("Z:\\Outils")
-        x.SetOtbDataLargeInputDir("Z:\\Outils\\OTB-Data-LargeInput")
+        x.SetOutilsDir("Z:\\")
+        x.SetRunDir("Z:\\")
+        x.SetOtbDataLargeInputDir("Z:\\OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
-        x.SetSourcesDir("Z:\\Outils")
-#        x.EnableUpdateSources()
+        x.SetSourcesDir("Z:\\")
+        # The sources are hupdated by raoul CentOS OS
         x.DisableUpdateSources()
         
         # -> Active generation makefiles
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         # List of platform must been tested
 	x.Run("visualExpress2008-static-debug-itk-internal-fltk-internal")
 #        if sys.argv[1] == "WEEKEND":
-#	        x.Run("visual8-static-release-itk-internal-fltk-internal")
-#	        x.Run("visual8-static-debug-itk-external-fltk-external")
-#	        x.Run("visual8-static-release-itk-external-fltk-external")
+#	        x.Run("visualExpress2008-static-release-itk-internal-fltk-internal")
+#	        x.Run("visualExpress2008-static-debug-itk-external-fltk-external")
+#	        x.Run("visualExpress2008-static-release-itk-external-fltk-external")
 

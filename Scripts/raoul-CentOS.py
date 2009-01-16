@@ -20,23 +20,35 @@ if __name__ == "__main__":
         x.SetOtbDataLargeInputDir("/data/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("/data")
-#        x.EnableUpdateSources()
-        x.DisableUpdateSources()
+        x.EnableUpdateSources()
 
         # -> Active generation makefiles
+        x.EnableTestOTBApplicationsWithInstallOTB()
+        x.EnableUseVtk()
+        x.DisableGlUseAccel()
+        x.EnableBuildExamples()
+        x.SetDistribName("CentOS-5.2")
+
+        # =========    WEEK    ============ 
+        x.DisableGenerateMakefiles()
+
+        # Debug - Internal
+        x.Run("CentOS-linux-64bits-static-debug-itk-internal-fltk-internal")
+
+        # -> Complet GENERATION
+        x.EnableGenerateMakefiles()
+
+        x.Run("CentOS-linux-64bits-shared-release-itk-external-fltk-external")
+
+        # =========    WEEKEND    ============ 
         if sys.argv[1] == "WEEKEND":
-                x.DisableTestOTBApplicationsWithInstallOTB()
-                x.DisableUseVtk()
-                x.DisableGlUseAccel()
-                x.DisableBuildExamples()
-                x.EnableGenerateMakefiles()
-		x.SetDistribName("CentOS-5.2")
-        else:
-                x.DisableGenerateMakefiles()
+                x.Run("CentOS-linux-64bits-static-debug-itk-external-fltk-external")
 
-        # List of platform must been tested
-	x.Run("linux-64bits-static-debug-itk-internal-fltk-internal")
-#        if sys.argv[1] == "WEEKEND":
-#        	x.Run("linux-shared-release-itk-internal-fltk-internal")
-	
-
+                x.Run("CentOS-linux-64bits-shared-debug-itk-internal-fltk-internal")
+                # Debug - External
+                x.Run("CentOS-linux-64bits-shared-debug-itk-external-fltk-external")
+                # Release - Internal
+                x.Run("CentOS-linux-64bits-static-release-itk-internal-fltk-internal")
+                x.Run("CentOS-linux-64bits-shared-release-itk-internal-fltk-internal")
+                # Release - External
+                x.Run("CentOS-linux-64bits-static-release-itk-external-fltk-external")
