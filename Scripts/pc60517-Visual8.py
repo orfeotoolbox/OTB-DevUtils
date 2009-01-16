@@ -19,26 +19,14 @@ if __name__ == "__main__":
         x.SetOutilsDir("E:\\Validation-OTB")
         x.SetRunDir("E:\\Validation-OTB")
         x.SetOtbDataLargeInputDir("E:\\Validation-OTB\OTB-Data-LargeInput")
-        x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("E:\\Validation-OTB")
+	x.SetHomeSourcesName("HG")
         x.EnableUpdateSources()
-
-        
-        # -> Active generation makefiles
-#        if sys.argv[1] == "WEEKEND":
-#                x.DisableBuildExamples()
-#                x.DisableTestOTBApplicationsWithInstallOTB()
-#                x.DisableGlUseAccel()
-#                x.DisableUseVtk()
-#                x.EnableGenerateMakefiles()
-#        else:
-#                x.DisableGenerateMakefiles()
-# Provisoire pour Dashboard du 17 decembre
         x.DisableBuildExamples()
-        x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableGlUseAccel()
         x.DisableUseVtk()
         x.EnableGenerateMakefiles()
+	x.EnableMakeClean()
 
         # List of platform must been tested
 	x.Run("visual8-static-relwithdebinfo-itk-internal-fltk-external")
