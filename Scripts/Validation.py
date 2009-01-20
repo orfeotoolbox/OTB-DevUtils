@@ -895,7 +895,7 @@ class TestProcessing:
         if BinComponent == "OTB-Applications-with-install-OTB":
                 command_line.append(' -D "OTB_DIR:PATH='+otb_lib_install_standard+'"  ')
                 command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_with_install_OTB+'"  ')
-                build_name='zApps-'+build_name+'-Inst-OTB'
+                build_name='zApps-'+build_name+'-WithInstallOTB'
 
         # Add VTK parameters
         if BinComponent.find("OTB-Applications") != -1:
@@ -903,6 +903,7 @@ class TestProcessing:
                         command_line.append(' -D "OTB_USE_VTK:BOOL=OFF" ')
                 else:
                         if self.CallCheckDirectory("VTK install",vtk_dir) == 0:
+                                self.PrintWarning("TK was selected but the VTK library is not installed!!! Using VTK is disable (OTB_USE_VTK:BOOL=OFF)")
                                 command_line.append(' -D "OTB_USE_VTK:BOOL=OFF" ')
                         else:
                                 command_line.append(' -D "OTB_USE_VTK:BOOL=ON" ')
@@ -1057,26 +1058,26 @@ class TestProcessing:
 	if self.GetDistribName() != "":
                 build_name=build_name+self.GetDistribName()+'-'
 	else:
-		if self.GetTestConfigurationDir().find("mingw") != -1:
-        	        build_name=build_name+'Win32-MinGW-'
-	        elif self.GetTestConfigurationDir().find("cygwin") != -1:
-        	        build_name=build_name+'Win32-Cygwin-'
-	        elif self.GetTestConfigurationDir().find("macosx") != -1:
-        	        build_name=build_name+'Darwin-OSX-'
-	        elif self.GetTestConfigurationDir().find("sun") != -1:
-        	        build_name=build_name+'Sun-'
-	        elif self.GetTestConfigurationDir().find("linux") != -1:
-        	        build_name=build_name+'Linux-'
-	        elif self.GetTestConfigurationDir().find("visual7") != -1:
-        	        build_name=build_name+'Win32-Visual7-'
-	        elif self.GetTestConfigurationDir().find("visual8") != -1:
-        	        build_name=build_name+'Win32-Visual8-'
-		elif self.GetTestConfigurationDir().find("visual9") != -1:
-        	        build_name=build_name+'Win32-Visual9-'
-		elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
-        	        build_name=build_name+'Win32-VisualExpress2005-'
-		elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
-        	        build_name=build_name+'Win32-VisualExpress2008-'
+                if self.GetTestConfigurationDir().find("mingw") != -1:
+                        build_name=build_name+'MinGW-Win32-'
+                elif self.GetTestConfigurationDir().find("cygwin") != -1:
+                        build_name=build_name+'Cygwin-Win32-'
+                elif self.GetTestConfigurationDir().find("macosx") != -1:
+                        build_name=build_name+'Darwin-OSX-'
+                elif self.GetTestConfigurationDir().find("sun") != -1:
+                        build_name=build_name+'Sun-'
+                elif self.GetTestConfigurationDir().find("linux") != -1:
+                        build_name=build_name+'Linux-'
+                elif self.GetTestConfigurationDir().find("visual7") != -1:
+                        build_name=build_name+'Visual7.1-Win32-'
+                elif self.GetTestConfigurationDir().find("visual8") != -1:
+                        build_name=build_name+'Visual8.0-Win32-'
+                elif self.GetTestConfigurationDir().find("visual9") != -1:
+                        build_name=build_name+'Visual9.0-Win32-'
+                elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
+                        build_name=build_name+'VisualExpress2005-Win32-'
+                elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
+                        build_name=build_name+'VisualExpress2008-Win32-'
 	        else:
         	        #Sinon essaie de trouver la plaforme Hote
                 	build_name=build_name+'Local-'
@@ -1116,14 +1117,17 @@ class TestProcessing:
         else:
                 build_name=build_name+'FLTK-Internal'
 
+        # DisableExamples
+        if self.__disableBuildExamples__ == True:
+                build_name=build_name+'-DisableExamples'
+        else:
+                build_name=build_name+'-EnableExamples'
+
         # Disable VTK
         if self.__disableUseVtk__ == True:
                 build_name=build_name+'-DisableUseVtk'
-                
-	# DisableExamples
-	if self.__disableBuildExamples__ == True:
-                build_name=build_name+'-DisableExamples'
-
+        else:
+                build_name=build_name+'-EnableUseVtk'
 
 #        if len(build_name) > 64:
 #                build_name=build_name[0:64]

@@ -29,21 +29,16 @@ if __name__ == "__main__":
         x.EnableBuildExamples()
         x.SetDistribName("CentOS-5.2")
 
-        # =========    WEEK    ============ 
-        x.DisableGenerateMakefiles()
-
-        # Debug - Internal
-        x.Run("CentOS-linux-64bits-static-debug-itk-internal-fltk-internal")
-
         # -> Complet GENERATION
         x.EnableGenerateMakefiles()
 
+        # =========    WEEK    ============ 
         x.Run("CentOS-linux-64bits-shared-release-itk-external-fltk-external")
+        x.Run("CentOS-linux-64bits-static-debug-itk-internal-fltk-internal")
 
         # =========    WEEKEND    ============ 
         if sys.argv[1] == "WEEKEND":
                 x.Run("CentOS-linux-64bits-static-debug-itk-external-fltk-external")
-
                 x.Run("CentOS-linux-64bits-shared-debug-itk-internal-fltk-internal")
                 # Debug - External
                 x.Run("CentOS-linux-64bits-shared-debug-itk-external-fltk-external")
