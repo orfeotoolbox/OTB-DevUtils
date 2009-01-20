@@ -60,6 +60,10 @@ class TestProcessing:
     __use_to_running_visual_8_command__ = 'C:/PROGRA~1/MICROS~4/Common7/IDE/devenv.com'
     __use_to_detect_visual_express9_command__ = "C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\VCExpress.exe"
     __use_to_running_visual_express9_command__ = 'C:\PROGRA~1\MICROS~1.0\Common7\IDE\VCExpress.exe'
+
+    __use_to_running_visual_express2008_command__ = 'C:\PROGRA~1\MICROS~3\Common7\IDE\VCExpress.exe'
+    __use_to_detect_visual_express2008_command__ = 'C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\VCExpress.exe'
+
     __use_to_running_visual_express2005_command__ = 'C:\PROGRA~1\MICROS~3\Common7\IDE\VCExpress.exe'
     __use_to_detect_visual_express2005_command__ = 'C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\VCExpress.exe'
 	
@@ -82,6 +86,8 @@ class TestProcessing:
     # Users parameters
     __typeTest__ = "Experimental" #"Nightly"
     __makeClean__ = False
+    __makeCleanAfterCTest__ = False
+    __cleanTestingResultsAfterCTest__ = False
     __disableCTest__ = False
     __disableBuildExamples__ = False
     __disableUseVtk__ = False
@@ -89,7 +95,9 @@ class TestProcessing:
     __disableGlUseAccel__ = True
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
-    __itkVersion__ = "3.8.0"
+    __prefix_build_name__ = ""
+    __distrib_name__ = ""
+    __itkVersion__ = "3.10.1"
     __fltkVersion__ = "1.1.9"
     __vtkVersion__ = "5.0"
     __homeDir__ = ""
@@ -313,10 +321,9 @@ class TestProcessing:
         component_cpt = component_cpt + 1
         self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
         self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
-
+        component_cpt = component_cpt + 1
+        self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
         if self.__disableTestOTBApplicationsWithInstallOTB___ == False:
-                component_cpt = component_cpt + 1
-                self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
                 self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
         else:
                 self.PrintMsg("Testing OTB-Applications with install OTB dir is DISABLE")
@@ -351,6 +358,14 @@ class TestProcessing:
                         self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +" 	/project INSTALL")
                 else:
                         self.CallCommand("Make Install", "make install")
+                if self.__makeCleanAfterCTest__ == True:
+                        if self.GetTestConfigurationDir().find("visual") != -1:
+                                self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                        else:
+                                self.CallCommand("Make Clean (After CTest)", "make clean")
+                        self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
+                if self.__cleanTestingResultsAfterCTest__ == True:
+                        self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
         else:
                 self.PrintMsg("CTest execution DISABLE")
 
@@ -359,33 +374,25 @@ class TestProcessing:
     # ===  Update sources method
     # =====================================================================================================================================
     def UpdateSources(self):
-    	
-        proxy_address = 'http://proxycs-toulouse.si.c-s.fr:8080'
-        os.environ['http_proxy'] = proxy_address
+        self.PrintWarning("Deprecated 'UpdateSources' function: Use 'UpdateNightlySources' or 'UpdateCurrentSources' functions to updates sources.") 
+        self.UpdateNightlySources()
 
+    # =====================================================================================================================================
+    # ===  Update Nightly sources method
+    # =====================================================================================================================================
+    def UpdateNightlySources(self):
+#        os.environ['http_proxy'] = 'http://proxycs-toulouse.si.c-s.fr:8080'
+        self.PrintMsg("Update Nightly Sources ...")
         
 	# ---  HG update OTB  ----------------------------------
-#        self.CallChangeDirectory("Tmp",self.GetHomeDir()+"/tmp")
-#        if os.path.exists("libNightlyNumber"):
-#          	os.remove("libNightlyNumber")
-#        self.CallCommand("wget libNightlyNumber file ",'wget "http://www.orfeo-toolbox.org/nightly/libNightlyNumber"' )
-#        file = open("libNightlyNumber","r")
-#        revisionValue = file.read()
-#        file.close()
-
-#        conn = httplib.HTTPConnection('www.orfeo-toolbox.org')
-#        conn.request("GET", "/nightly/libNightlyNumber")
-
         revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/libNightlyNumber').read()
         self.PrintMsg("OTB revision: "+revisionValue)
-	
         self.CallChangeDirectory("OTB",self.GetOtbSourceDir())
         self.CallCommand("Purge OTB ...","hg purge")
         self.CallCommand("Pull OTB ...","hg pull")
         self.CallCommand("Update OTB ...","hg update -r "+revisionValue)
 
         # ---  HG update OTB-Applications   ----------------------------------
-
         revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
 	self.PrintMsg("OTB-Application revision: "+revisionValue)
 
@@ -396,6 +403,29 @@ class TestProcessing:
         # ---  SVN update OTB-Data / LargeInput   ----------------------------------
 #        if self.__homeOtbDataLargeInputSourceDir__ != "disable":
 #           	self.CallCommand("Update OTB-Data-LargeInput..."," svn update " + self.GetOtbDataLargeInputSourceDir() +" --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword())
+
+        # ---  HG update OTB-Data (ou OTB-Data)  ----------------------------------
+        self.CallChangeDirectory("OTB-Data",self.GetOtbDataSourceDir() )
+        self.CallCommand("Pull OTB-Data ...","hg pull")
+        self.CallCommand("Update OTB-Data ...","hg update default")
+        
+	self.DisableUpdateSources()
+    # =====================================================================================================================================
+    # ===  Update Current sources method
+    # =====================================================================================================================================
+    def UpdateCurrentSources(self):
+        self.PrintMsg("Update Current Sources ...")
+    	
+	# ---  HG update OTB  ----------------------------------
+        self.CallChangeDirectory("OTB",self.GetOtbSourceDir())
+        self.CallCommand("Purge OTB ...","hg purge")
+        self.CallCommand("Pull OTB ...","hg pull")
+        self.CallCommand("Update OTB ...","hg update default")
+
+        # ---  HG update OTB-Applications   ----------------------------------
+        self.CallChangeDirectory("OTB-Applications",self.GetOtbApplicationsSourceDir())
+        self.CallCommand("Pull OTB-Applications ...","hg pull")
+        self.CallCommand("Update OTB-Applications ...","hg update default")
 
         # ---  HG update OTB-Data (ou OTB-Data)  ----------------------------------
         self.CallChangeDirectory("OTB-Data",self.GetOtbDataSourceDir() )
@@ -451,6 +481,18 @@ class TestProcessing:
         self.__disableTestOTBApplicationsWithInstallOTB___ = False
 
 
+    # ---  Disable/Enable Make Clean After CTest methods   -----------------------------------
+    def DisableMakeCleanAfterCTest(self):
+        self.__makeCleanAfterCTest__ = False
+    def EnableMakeCleanAfterCTest(self):
+        self.__makeCleanAfterCTest__ = True
+
+    # ---  Disable/Enable Make Clean After CTest methods   -----------------------------------
+    def DisableCleanTestingResultsAfterCTest(self):
+        self.__cleanTestingResultsAfterCTest__ = False
+    def EnableCleanTestingResultsAfterCTest(self):
+        self.__cleanTestingResultsAfterCTest__ = True
+
     # ---  Disable/Enable UseVtk methods   -----------------------------------
     def DisableUseVtk(self):
         self.__disableUseVtk__ = True
@@ -475,6 +517,19 @@ class TestProcessing:
                 return "True"
         else:
                 return "False"
+
+    # ---  Set/Get prefix buildname methods   -----------------------------------
+    def SetPrefixBuildName(self,prefix_build_name):
+        self.__prefix_build_name__ = prefix_build_name
+    def GetPrefixBuildName(self):
+        return self.__prefix_build_name__
+    
+    # ---  Set/Get distrib OS... methods   -----------------------------------
+    def SetDistribName(self,distrib):
+        self.__distrib_name__ = distrib
+    def GetDistribName(self):
+        return self.__distrib_name__
+
 
     # ---  Disable/Enable Update sources methods   -----------------------------------
     def EnableUpdateSources(self):
@@ -589,6 +644,9 @@ class TestProcessing:
         os.chdir(save_rep)
         self.__homeBaseSourcesDir__ = HomeSourcesDir
 
+    def SetHomeSourcesName(self,HomeSourcesName):
+        self.__homeSourcesName__=HomeSourcesName
+
     # --- Set OtbDataLargeInputDir 
     def SetOtbDataLargeInputDir(self,HomeDir):
         save_rep = os.getcwd() 
@@ -663,7 +721,7 @@ class TestProcessing:
         elif self.GetTestConfigurationDir().find("visual8") != -1:
                 self.__visual_command__ = self.__use_to_running_visual_8_command__
                 mode = "visual8"
-        elif self.GetTestConfigurationDir().find("visual9") != -1:
+        elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
                 self.__visual_command__ = self.__use_to_running_visual_express9_command__
                 mode = "visual9"
         elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
@@ -722,13 +780,20 @@ class TestProcessing:
         if mode == "":
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install/include")
                 gdal_lib_dir=os.path.normpath(HomeDirOutils + "/gdal/install/lib")
-                itk_dir=os.path.normpath(HomeDirOutils + "/itk/install-" + build_mode +"-"+ build_type + "/lib/InsightToolkit")
+                # Set Binaries FOR VISUAL and Debug (The .pch files are not installed, and generet WARNING)
+                if self.GetTestConfigurationDir().find("visual") != -1 & self.GetTestConfigurationDir().find("debug") != -1:
+                        itk_dir=os.path.normpath(HomeDirOutils + "/itk/binaries-" + build_mode +"-"+ build_type)
+                else:
+                        itk_dir=os.path.normpath(HomeDirOutils + "/itk/install-" + build_mode +"-"+ build_type + "/lib/InsightToolkit")
                 fltk_dir=os.path.normpath(HomeDirOutils + "/fltk/binaries-" + build_mode +"-" + build_type +"-fltk-"+ self.GetFltkVersion())
                 vtk_dir=os.path.normpath(HomeDirOutils + "/vtk/install-" + build_mode +"-"+ build_type + "-vtk-"+ self.GetVtkVersion() + "/lib/vtk-"+ self.GetVtkVersion())
         else:
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/include")
                 gdal_lib_dir=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib")
-                itk_dir=os.path.normpath(HomeDirOutils + "/itk/install-" + mode + "-" + build_mode +"-"+ build_type +"-itk-"+ self.GetItkVersion() + "/lib/InsightToolkit")
+                if self.GetTestConfigurationDir().find("visual") != -1 & self.GetTestConfigurationDir().find("debug") != -1:
+                        itk_dir=os.path.normpath(HomeDirOutils + "/itk/binaries-" + mode + "-" + build_mode +"-"+ build_type +"-itk-"+ self.GetItkVersion())
+                else:
+                        itk_dir=os.path.normpath(HomeDirOutils + "/itk/install-" + mode + "-" + build_mode +"-"+ build_type +"-itk-"+ self.GetItkVersion() + "/lib/InsightToolkit")
                 fltk_dir=os.path.normpath(HomeDirOutils + "/fltk/binaries-" + mode + "-" + build_mode +"-" + build_type +"-fltk-"+ self.GetFltkVersion() )
                 vtk_dir=os.path.normpath(HomeDirOutils + "/vtk/install-" + mode + "-" + build_mode +"-"+ build_type +"-vtk-"+ self.GetVtkVersion() + "/lib/vtk-"+ self.GetVtkVersion())
 
@@ -745,6 +810,7 @@ class TestProcessing:
         otb_binary_dir=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/binaries/OTB')
         otb_lib_install_standard=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install-standard/lib/otb')
         
+
         self.CallCheckDirectoryExit("GDAL include",gdal_include_dir)
         self.CallCheckDirectoryExit("GDAL lib",gdal_lib_dir)
         if self.GetTestConfigurationDir().find("fltk-ext") != -1:
@@ -754,6 +820,12 @@ class TestProcessing:
         if self.GetTestConfigurationDir().find("itk-ext") != -1:
                 self.CallCheckDirectoryExit("ITK",itk_dir)
 
+        #Print Msg if parsing "itk-int" or "itk-ext" is failed
+        if self.GetTestConfigurationDir().find("itk-int") == -1 & self.GetTestConfigurationDir().find("itk-ext") == -1 :
+                self.PrintWarning("Parsing 'itk-int' or 'itk-ext' is not detected in '"+self.GetTestConfigurationDir()+"' configuration !! ITK Internal is default value.")
+        if self.GetTestConfigurationDir().find("fltk-int") == -1 & self.GetTestConfigurationDir().find("fltk-ext") == -1 :
+                self.PrintWarning("Parsing 'fltk-int' or 'fltk-ext' is not detected in '"+self.GetTestConfigurationDir()+"' configuration !! FLTK Internal is default value.")
+
         # For Visual, set CMAKE_CONFIGURATION_TYPES parameter        
         if self.GetTestConfigurationDir().find("visual") != -1:
                 command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
@@ -761,6 +833,9 @@ class TestProcessing:
                 command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
                 command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
                 command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
+                command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+                command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+
 
         command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
 
@@ -784,18 +859,18 @@ class TestProcessing:
                 command_line.append(' -D "GDAL_INCLUDE_DIRS:PATH='+gdal_include_dir+'"  ')
                 command_line.append(' -D "GDAL_LIBRARY_DIRS:PATH='+gdal_lib_dir+'" ')
                 
-                if self.GetTestConfigurationDir().find("fltk-int") != -1:
-                        command_line.append(' -D "OTB_USE_EXTERNAL_FLTK:BOOL=OFF" ')
-                else:
+                if self.GetTestConfigurationDir().find("fltk-ext") != -1:
                         command_line.append(' -D "OTB_USE_EXTERNAL_FLTK:BOOL=ON" ')
                         command_line.append(' -D "FLTK_DIR:PATH='+fltk_dir+'" ')
                         command_line.append(' -D "FLTK_FLUID_EXECUTABLE:FILEPATH='+fltk_fluid_exe+'" ' )
-                        
-                if self.GetTestConfigurationDir().find("itk-int") != -1:
-                        command_line.append(' -D "OTB_USE_EXTERNAL_ITK:BOOL=OFF" ')
                 else:
+                        command_line.append(' -D "OTB_USE_EXTERNAL_FLTK:BOOL=OFF" ')
+                        
+                if self.GetTestConfigurationDir().find("itk-ext") != -1:
                         command_line.append(' -D "OTB_USE_EXTERNAL_ITK:BOOL=ON" ')
                         command_line.append(' -D "ITK_DIR:PATH='+itk_dir+'" ')
+                else:
+                        command_line.append(' -D "OTB_USE_EXTERNAL_ITK:BOOL=OFF" ')
                 
                 command_line.append(' -D "OTB_USE_JPEG2000:BOOL=ON" ')
                 command_line.append(' -D "OTB_USE_PATENTED:BOOL=OFF" ')
@@ -807,7 +882,7 @@ class TestProcessing:
                         command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=ON" ')
                         
                 if self.GetTestConfigurationDir().find("cygwin") != -1:
-                        self.PrintMsg("For Cygwin, disable UUID cmake parameters in OTB generation makefiles process !!!")
+                        self.PrintWarning("For Cygwin, disable UUID cmake parameters in OTB generation makefiles process !!! UUID_INCLUDE_DIR and UUID_LIBRARY cmake variables are set to empty.")
                         command_line.append(' -D "UUID_INCLUDE_DIR:PATH=" ')
                         command_line.append(' -D "UUID_LIBRARY:FILEPATH=" ')
                         
@@ -881,6 +956,8 @@ class TestProcessing:
                 mode = "visual8"
         elif self.GetTestConfigurationDir().find("visual9") != -1:
                 mode = "visual9"
+        elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
+                mode = "visualExpress2008"		
         elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
                 mode = "visualExpress2005"		
         elif self.GetTestConfigurationDir().find("visual") != -1:
@@ -953,7 +1030,11 @@ class TestProcessing:
                 cmake_command_line='-G "Visual Studio 7 .NET 2003" '
         elif self.GetTestConfigurationDir().find("visual8") != -1:
                 cmake_command_line=' -G "Visual Studio 8 2005" '
+        elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
+                cmake_command_line=' -G "Visual Studio 8 2005" '
         elif self.GetTestConfigurationDir().find("visual9") != -1:
+                cmake_command_line=' -G "Visual Studio 9 2008" '
+        elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
                 cmake_command_line=' -G "Visual Studio 9 2008" '
         elif self.GetTestConfigurationDir().find("mingw") != -1:
                 cmake_command_line=' -G "MSYS Makefiles" '
@@ -968,45 +1049,99 @@ class TestProcessing:
     # =====================================================================================================================================
     def GetBuildName(self):
         build_name=""
-        if self.GetTestConfigurationDir().find("mingw") != -1:
-                build_name=build_name+'MinGW'
+        # Prefix Buildname
+	if self.GetPrefixBuildName() != "":
+                build_name=self.GetPrefixBuildName()+'-'
+
+	# Ditrib (ex: CentOS, RedHat, Ubuntu, XP, Vista, ...)
+	if self.GetDistribName() != "":
+                build_name=build_name+self.GetDistribName()+'-'
+	else:
+		if self.GetTestConfigurationDir().find("mingw") != -1:
+        	        build_name=build_name+'Win32-MinGW-'
+	        elif self.GetTestConfigurationDir().find("cygwin") != -1:
+        	        build_name=build_name+'Win32-Cygwin-'
+	        elif self.GetTestConfigurationDir().find("macosx") != -1:
+        	        build_name=build_name+'Darwin-OSX-'
+	        elif self.GetTestConfigurationDir().find("sun") != -1:
+        	        build_name=build_name+'Sun-'
+	        elif self.GetTestConfigurationDir().find("linux") != -1:
+        	        build_name=build_name+'Linux-'
+	        elif self.GetTestConfigurationDir().find("visual7") != -1:
+        	        build_name=build_name+'Win32-Visual7-'
+	        elif self.GetTestConfigurationDir().find("visual8") != -1:
+        	        build_name=build_name+'Win32-Visual8-'
+		elif self.GetTestConfigurationDir().find("visual9") != -1:
+        	        build_name=build_name+'Win32-Visual9-'
+		elif self.GetTestConfigurationDir().find("visualExpress2005") != -1:
+        	        build_name=build_name+'Win32-VisualExpress2005-'
+		elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
+        	        build_name=build_name+'Win32-VisualExpress2008-'
+	        else:
+        	        #Sinon essaie de trouver la plaforme Hote
+                	build_name=build_name+'Local-'
+	
+        # GCC Info
+	if self.GetTestConfigurationDir().find("mingw") != -1:
+                build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
-                build_name=build_name+'Cygwin'
+                build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
         elif self.GetTestConfigurationDir().find("macosx") != -1:
-                build_name=build_name+'MacOSX'
+                build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
         elif self.GetTestConfigurationDir().find("sun") != -1:
-                build_name=build_name+'Sun'
+                build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
         elif self.GetTestConfigurationDir().find("linux") != -1:
-                build_name=build_name+'Linux'
-        elif self.GetTestConfigurationDir().find("visual7") != -1:
-                build_name=build_name+'Visual7'
-        elif self.GetTestConfigurationDir().find("visual8") != -1:
-                build_name=build_name+'Visual8'
-        elif self.GetTestConfigurationDir().find("visual9") != -1:
-                build_name=build_name+'VisualExpress'
-        else:
-                #Sinon essaie de trouver la plaforme Hote
-                build_name=build_name+'Local'
-        
-        build_name=build_name+'-'+self.GetCmakeBuildType2()+'-'
+                build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
+
+	# 32/64bits info	
+	if self.GetTestConfigurationDir().find("32bit") != -1:
+               build_name=build_name+'32Bits-'
+	elif self.GetTestConfigurationDir().find("64bit") != -1:
+                build_name=build_name+'64Bits-'
+	
+        # CMake build info
+	build_name=build_name+self.GetCmakeBuildType2()+'-'
         if self.GetTestConfigurationDir().find("shared") != -1:
-                build_name=build_name+'Shared'
+                build_name=build_name+'Shared-'
         else:
-                build_name=build_name+'Static'
-        build_name=build_name+'-'
-        if self.GetTestConfigurationDir().find("itk-int") != -1:
-                build_name=build_name+'ITK-Internal'
+                build_name=build_name+'Static-'
+        # ITK Info
+	if self.GetTestConfigurationDir().find("itk-ext") != -1:
+                build_name=build_name+'ITK'+self.GetItkVersion()+'-External-'
         else:
-                build_name=build_name+'ITK-External'
-        build_name=build_name+'-'
-        if self.GetTestConfigurationDir().find("fltk-int") != -1:
+                build_name=build_name+'ITK-Internal-'
+        # FLTK Info
+        if self.GetTestConfigurationDir().find("fltk-ext") != -1:
+                build_name=build_name+'FLTK'+self.GetFltkVersion()+'-External'
+        else:
                 build_name=build_name+'FLTK-Internal'
-        else:
-                build_name=build_name+'FLTK-External'
+
+        # Disable VTK
+        if self.__disableUseVtk__ == True:
+                build_name=build_name+'-DisableUseVtk'
+                
+	# DisableExamples
+	if self.__disableBuildExamples__ == True:
+                build_name=build_name+'-DisableExamples'
+
+
 #        if len(build_name) > 64:
 #                build_name=build_name[0:64]
 #                self.PrintMsg("BuildName troncated 64 char :"+build_name)
         return build_name
+        
+    def GetGCCVersion(self):
+        filename = self.GetHomeDir()+"/gcc-version.tmp"
+        crtfile = open(filename,"w")
+        retcode = subprocess.call("gcc --version", stdout=crtfile, shell=True)
+        crtfile.close()
+        crtfile = open(filename,"r")
+        tab = crtfile.read()
+        tab2 = tab.split(" ")
+        crtfile.close()
+        result = ""
+        result = tab2[2]
+        return result
 
     # =====================================================================================================================================
     # ===  Check (and install) FLTK library : generation of command line argument for cmake generation   ==================================
@@ -1145,6 +1280,11 @@ class TestProcessing:
 
 
                 command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+itk_install_dir+'"  ')
+
+                if self.GetTestConfigurationDir().find("cygwin") != -1:
+                        self.PrintWarning("For Cygwin, disable UUID cmake parameters in ITK generation makefiles process !!! UUID_INCLUDE_DIR and UUID_LIBRARY cmake variables are set to empty.")
+                        command_line.append(' -D "UUID_INCLUDE_DIR:PATH=" ')
+                        command_line.append(' -D "UUID_LIBRARY:FILEPATH=" ')
 
                 if self.GetTestConfigurationDir().find("visual") != -1:
                         command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' ITK.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
@@ -1313,6 +1453,8 @@ class TestProcessing:
         self.PrintMsg("    "+command)
         f.close()
 
+    def PrintWarning(self,msg):
+        self.PrintMsg("#############   WARNING: "+msg)
     def PrintMsg(self,msg):
         self.AddMsgToCDLAndCrtFile("  "+msg)
     def PrintTitle(self,msg):

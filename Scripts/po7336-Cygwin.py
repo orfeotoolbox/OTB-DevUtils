@@ -20,7 +20,7 @@ if __name__ == "__main__":
         x.SetOtbDataLargeInputDir("/cygdrive/d/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("/cygdrive/d")
-        x.EnableUpdateSources()
+        x.DisableUpdateSources()
 
         # -> Active generation makefiles
         if sys.argv[1] == "WEEKEND":

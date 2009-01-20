@@ -15,12 +15,13 @@ if __name__ == "__main__":
                 exit(1)
 
         x=Validation.TestProcessing()
-        x.SetRunDir("/cygdrive/e")
-        x.SetOutilsDir("/cygdrive/e")
-        x.SetOtbDataLargeInputDir("/cygdrive/e/OTB-Data-LargeInput")
+        x.SetRunDir("/cygdrive/z")
+        x.SetOutilsDir("/cygdrive/z")
+        x.SetOtbDataLargeInputDir("/cygdrive/z/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
-        x.SetSourcesDir("/cygdrive/e")
-        x.EnableUpdateSources()
+        x.SetSourcesDir("/cygdrive/z")
+        # The sources are updated by raoul CentOS OS
+        x.DisableUpdateSources()
 
         # -> Active generation makefiles
         if sys.argv[1] == "WEEKEND":
