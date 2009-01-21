@@ -125,7 +125,8 @@ class TestProcessing:
     # Modiy by the administrator 
     # Set to True to suppress svn update error when the OTB/Utilities/ITK source dir was updated. !!!!
     __cleanItkSourceDir__ = False 
-    __update_sources__ = False
+    __update_nightly_sources__ = False
+    __update_current_sources__ = False
 
     
     def __init__(self):
@@ -277,19 +278,20 @@ class TestProcessing:
         # ================================================================
         if self.__disableUseVtk__ == False:
                 self.CheckVtkInstallation()
-                
 
         # ------------------------------------------------------------
         self.PrintTitle("2/6  :  Update sources  ... ")
         # ------------------------------------------------------------
 #        self.CallChangeDirectory("otb source",self.GetHomeDir() )
-        if self.GetUpdateSources() == True:
-		self.UpdateSources()
+        if self.GetUpdateNightlySources() == True:
+                self.UpdateNightlySources()
+        elif self.GetUpdateCurrentSources() == True:
+                self.UpdateCurrentSources()
         else:
                 self.PrintMsg("Update sources DISABLE !!")
 
         self.CallChangeDirectory("otb source",self.GetHomeDir() )
-        
+
         # ------------------------------------------------------------
         self.PrintTitle("3/6  :  Cleans/Creates operations  ... ")
         # ------------------------------------------------------------
@@ -370,13 +372,7 @@ class TestProcessing:
                 self.PrintMsg("CTest execution DISABLE")
 
 
-    # =====================================================================================================================================
-    # ===  Update sources method
-    # =====================================================================================================================================
-    def UpdateSources(self):
-        self.PrintWarning("Deprecated 'UpdateSources' function: Use 'UpdateNightlySources' or 'UpdateCurrentSources' functions to updates sources.") 
-        self.UpdateNightlySources()
-
+    
     # =====================================================================================================================================
     # ===  Update Nightly sources method
     # =====================================================================================================================================
@@ -409,7 +405,7 @@ class TestProcessing:
         self.CallCommand("Pull OTB-Data ...","hg pull")
         self.CallCommand("Update OTB-Data ...","hg update default")
         
-	self.DisableUpdateSources()
+	self.DisableUpdateNightlySources()
     # =====================================================================================================================================
     # ===  Update Current sources method
     # =====================================================================================================================================
@@ -432,7 +428,7 @@ class TestProcessing:
         self.CallCommand("Pull OTB-Data ...","hg pull")
         self.CallCommand("Update OTB-Data ...","hg update default")
         
-	self.DisableUpdateSources()
+	self.DisableUpdateCurrentSources()
     
     # =====================================================================================================================================
     # ===  Set/Get methods to configure the test process
@@ -531,13 +527,33 @@ class TestProcessing:
         return self.__distrib_name__
 
 
-    # ---  Disable/Enable Update sources methods   -----------------------------------
+    # ---  Disable/Enable Update Nightly sources methods   -----------------------------------
+    def EnableUpdateNightlySources(self):
+        self.__update_nightly_sources__ = True
+    def DisableUpdateNightlySources(self):
+        self.__update_nightly_sources__ = False
+    def GetUpdateNightlySources(self):
+        return self.__update_nightly_sources__
+
+    # ---  Disable/Enable Update Current sources methods   -----------------------------------
+    def EnableUpdateCurrentSources(self):
+        self.__update_current_sources__ = True
+    def DisableUpdateCurrentSources(self):
+        self.__update_current_sources__ = False
+    def GetUpdateCurrentSources(self):
+        return self.__update_current_sources__
+    
+    # ---  deprecated Disable/Enable Update sources methods   -----------------------------------
     def EnableUpdateSources(self):
-        self.__update_sources__ = True
+        self.PrintWarning("Deprecated 'EnableUpdateSources' function: Use 'EnableUpdateNightlySources' or 'EnableUpdateCurrentSources' functions to updates sources.") 
+        self.EnableUpdateNightlySources()
+        self.EnableUpdateCurrentSources()
     def DisableUpdateSources(self):
-        self.__update_sources__ = False
-    def GetUpdateSources(self):
-        return self.__update_sources__
+        self.PrintWarning("Deprecated 'DisableUpdateSources' function: Use 'DisableUpdateNightlySources' or 'DisableUpdateCurrentSources' functions to updates sources.") 
+        self.DisableUpdateNightlySources()
+        self.DisableUpdateCurrentSources()
+    
+    
     def GetStringUpdateSources(self):
         if self.__update_sources__ == True:
                 return "True"

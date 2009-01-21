@@ -20,7 +20,7 @@ if __name__ == "__main__":
         x.SetOtbDataLargeInputDir("/data/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("/data")
-        x.EnableUpdateSources()
+        x.EnableUpdateNightlySources()
 
         # -> Active generation makefiles
         x.EnableTestOTBApplicationsWithInstallOTB()
