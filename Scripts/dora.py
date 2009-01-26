@@ -21,22 +21,14 @@ if __name__ == "__main__":
         # Set dirs
         x.SetSourcesDir("/ORFEO/otbval")
         # CYRILLE : CORRECTION POUR LA MISE A JOUR DES SOURCES
-		#x.DisableUpdateSources()
-        x.EnableUpdateSources()
+        
+	x.EnableUpdateNightlySources()
         x.SetOtbDataLargeInputDir("/home2/data/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetOutilsDir("/ORFEO/otbval")
         x.SetRunDir("/ORFEO/otbval")
 
-        if sys.argv[1] == "WEEKEND":
-                x.DisableUseVtk()
-                x.DisableTestOTBApplicationsWithInstallOTB()
-                x.DisableGlUseAccel()
-                x.EnableBuildExamples()
-                x.EnableGenerateMakefiles()
-        else:
-                x.DisableGenerateMakefiles()
-
+        x.DisableGenerateMakefiles()
 	# Run WeekValidation tests
         x.Run("linux-static-debug-itk-internal-fltk-internal")
 
