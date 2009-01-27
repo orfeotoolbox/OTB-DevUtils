@@ -32,7 +32,7 @@ if __name__ == "__main__":
         x.EnableUseVtk()
         x.EnableTestOTBApplicationsWithInstallOTB()
         x.DisableGlUseAccel()
-        x.SetDistribName("RHEL4.0") 
+        x.SetDistribName("UBU-8.04") 
 #        x.DisableCTest()
         
         # List of platform must been tested

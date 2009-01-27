@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
         # Set dirs
         x.SetSourcesDir("/ORFEO/otbval")
-        x.DisableUpdateSources()
+        x.DisableUpdateNightlySources()
 
         x.SetOtbDataLargeInputDir("/home2/data/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
@@ -24,25 +24,17 @@ if __name__ == "__main__":
         x.SetOutilsDir("/ORFEO/otbval")
         x.SetRunDir("/ORFEO/otbval")
 
-        #Set the external tools version
-#        x.SetItkVersion("3.6.0")
-#        x.SetFltkVersion("1.1.9")
-#        x.SetVtkVersion("5.0")
-
-        x.DisableUseVtk()
-        x.DisableTestOTBApplicationsWithInstallOTB()
+        x.EnableBuildExamples()
+        x.EnableUseVtk()
+        x.EnableTestOTBApplicationsWithInstallOTB()
         x.DisableGlUseAccel()
-#        x.DisableBuildExamples()
+        x.SetDistribName("UBU-8.04") 
 
-        x.EnableGenerateMakefiles()
+	x.EnableGenerateMakefiles()
 
-	# Run WeekValidation tests
-	x.Run("linux-static-debug-itk-internal-fltk-internal")
-
-#        x.DisableBuildExamples()
-
-        # Run specifics Weekend tests
-	x.Run("linux-static-release-itk-external-fltk-external")
-	x.Run("linux-shared-release-itk-internal-fltk-internal")
-	x.Run("linux-shared-debug-itk-external-fltk-external")
+        # Run WeekValidation tests
+        x.Run("linux-static-debug-itk-internal-fltk-internal")
+        x.Run("linux-static-release-itk-external-fltk-external")
+        x.Run("linux-shared-release-itk-internal-fltk-internal")
+        x.Run("linux-shared-debug-itk-external-fltk-external")
 
