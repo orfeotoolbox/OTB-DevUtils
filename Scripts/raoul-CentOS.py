@@ -28,7 +28,8 @@ if __name__ == "__main__":
         x.DisableGlUseAccel()
         x.EnableBuildExamples()
         x.SetDistribName("CentOS-5.2")
-
+        x.SetGeotiffIncludeDirs("/data/OTB-OUTILS/gdal/binaries-linux/frmts/gtiff/libgeotiff")
+        
         # -> Complet GENERATION
         x.EnableGenerateMakefiles()
 

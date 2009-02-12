@@ -128,6 +128,10 @@ class TestProcessing:
     __update_nightly_sources__ = False
     __update_current_sources__ = False
 
+    __geotiff_include_dirs__ = ""
+    __tiff_include_dirs__ = ""
+    __geotiff_library__ = ""
+    
     
     def __init__(self):
 
@@ -138,9 +142,6 @@ class TestProcessing:
         self.__list_otb_name_components__.append("OTB")
         self.__list_otb_name_components__.append("OTB-Applications")
         self.__list_otb_name_components__.append("OTB-Applications")
-#        self.__list_otb_components__.append("OTB-HG")
-#        self.__list_otb_components__.append("OTB-Applications-HG")
-#        self.__list_otb_components__.append("OTB-Applications-HG")
 	
 	# Default value
 #	self.SetExperimental()
@@ -526,6 +527,24 @@ class TestProcessing:
     def GetDistribName(self):
         return self.__distrib_name__
 
+    # ---  Set/Get GEOTIFF_INCLUDE_DIRS methods   -----------------------------------
+    def SetGeotiffIncludeDirs(self,geotiff_include_dirs):
+        self.__geotiff_include_dirs__ = geotiff_include_dirs
+    def GetGeotiffIncludeDirs(self):
+        return self.__geotiff_include_dirs__ 
+
+    # ---  Set/Get GEOTIFF_LIBRARY methods   -----------------------------------
+    def SetGeotiffLibrary(self,geotiff_library):
+        self.__geotiff_library__ = geotiff_library
+    def GetGeotiffLibrary(self):
+        return self.__geotiff_library__ 
+    
+    # ---  Set/Get TIFF_INCLUDE_DIRS methods   -----------------------------------
+    def SetTiffIncludeDirs(self,tiff_include_dirs):
+        self.__tiff_include_dirs__ = tiff_include_dirs
+    def GetTiffIncludeDirs(self):
+        return self.__tiff_include_dirs__ 
+
 
     # ---  Disable/Enable Update Nightly sources methods   -----------------------------------
     def EnableUpdateNightlySources(self):
@@ -681,30 +700,18 @@ class TestProcessing:
         rep_base = os.path.normpath(self.__homeBaseSourcesDir__+"/"+self.__homeSourcesName__)
 #        print "rep_base -> ",rep_base
         # Find OTB source dir
-        value = os.path.normpath(rep_base+"/OTB-HG")
-        if self.CallCheckDirectory("OTB dir",value) != 0:
-                self.__homeOtbSourceDir__ = value
-        else:
-                value = os.path.normpath(rep_base+"/OTB")
-                self.__homeOtbSourceDir__ = value
+        value = os.path.normpath(rep_base+"/OTB")
+        self.__homeOtbSourceDir__ = value
         self.CallCheckDirectoryExit("OTB dir",self.__homeOtbSourceDir__)
         
         # Find OTB-Applications source dir
-        value = os.path.normpath(rep_base+"/OTB-Applications-HG")
-        if self.CallCheckDirectory("OTB-Applications dir",value) != 0:
-                self.__homeOtbApplicationsSourceDir__ = value
-        else:
-                value = os.path.normpath(rep_base+"/OTB-Applications")
-                self.__homeOtbApplicationsSourceDir__ = value
+        value = os.path.normpath(rep_base+"/OTB-Applications")
+        self.__homeOtbApplicationsSourceDir__ = value
         self.CallCheckDirectoryExit("OTB-Applications dir",self.__homeOtbApplicationsSourceDir__)
 
         # Find OTB-Data source dir
-        value = os.path.normpath(rep_base+"/OTB-Data-HG")
-        if self.CallCheckDirectory("OTB-Data dir",value) != 0:
-                self.__homeOtbDataSourceDir__ = value
-        else:
-                value = os.path.normpath(rep_base+"/OTB-Data")
-                self.__homeOtbDataSourceDir__ = value
+        value = os.path.normpath(rep_base+"/OTB-Data")
+        self.__homeOtbDataSourceDir__ = value
         self.CallCheckDirectoryExit("OTB-Data dir",self.__homeOtbDataSourceDir__)
 
         # Find OTB-Data-LargeInput source dir
@@ -901,6 +908,13 @@ class TestProcessing:
                         self.PrintWarning("For Cygwin, disable UUID cmake parameters in OTB generation makefiles process !!! UUID_INCLUDE_DIR and UUID_LIBRARY cmake variables are set to empty.")
                         command_line.append(' -D "UUID_INCLUDE_DIR:PATH=" ')
                         command_line.append(' -D "UUID_LIBRARY:FILEPATH=" ')
+                        
+                if self.GetTiffIncludeDirs() != "" :
+                        command_line.append(' -D "TIFF_INCLUDE_DIRS:PATH='+self.GetTiffIncludeDirs()+'" ')
+                if self.GetGeotiffIncludeDirs() != "" :
+                        command_line.append(' -D "GEOTIFF_INCLUDE_DIRS:PATH='+self.GetGeotiffIncludeDirs()+'" ')
+                if self.GetGeotiffLibrary() != "" :
+                        command_line.append(' -D "GEOTIFF_LIBRARY:PATH='+self.GetGeotiffLibrary()+'" ')
                         
                 
         if BinComponent == "OTB-Applications":
