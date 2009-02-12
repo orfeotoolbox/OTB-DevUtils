@@ -21,8 +21,10 @@ if __name__ == "__main__":
         x.SetOtbDataLargeInputDir("D:\\OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("D:\\")
-        x.EnableUpdateSources()
+        x.EnableUpdateNightlySources()
 
+        x.SetGeotiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\binaries-visual-geotiff\\include")
+        x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\binaries-visual-geotiff\\include")
 
         # -> Active generation makefiles
         if sys.argv[1] == "WEEKEND":
@@ -35,6 +37,6 @@ if __name__ == "__main__":
                 x.DisableGenerateMakefiles()
 
         # List of platform must been tested
-	x.Run("visual7-static-debug-itk-internal-fltk-internal")
+        x.Run("visual7-static-debug-itk-internal-fltk-internal")
         if sys.argv[1] == "WEEKEND":
         	x.Run("visual7-static-release-itk-external-fltk-external")

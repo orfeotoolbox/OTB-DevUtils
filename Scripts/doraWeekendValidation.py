@@ -30,7 +30,7 @@ if __name__ == "__main__":
         x.DisableGlUseAccel()
         x.SetDistribName("UBU-8.04") 
         x.SetGeotiffIncludeDirs("/ORFEO/otbval/OTB-OUTILS/gdal/binaries-linux/frmts/gtiff/libgeotiff")
-        x.SetTiffIncludeDirs("/usr/include")
+        x.SetTiffIncludeDirs("/ORFEO/otbval/OTB-OUTILS/gdal/binaries-linux/frmts/gtiff/libgeotiff")
 
         x.EnableGenerateMakefiles()
 

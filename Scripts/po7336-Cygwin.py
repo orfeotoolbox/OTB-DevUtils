@@ -20,7 +20,7 @@ if __name__ == "__main__":
         x.SetOtbDataLargeInputDir("/cygdrive/d/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("/cygdrive/d")
-        x.DisableUpdateSources()
+        x.DisableUpdateNightlySources()
 
         # -> Active generation makefiles
         if sys.argv[1] == "WEEKEND":
@@ -34,7 +34,7 @@ if __name__ == "__main__":
                 x.DisableGenerateMakefiles()
 
         # List of platform must been tested
-	x.Run("cygwin-static-debug-itk-internal-fltk-internal")
+        x.Run("cygwin-static-debug-itk-internal-fltk-internal")
         if sys.argv[1] == "WEEKEND":
-	        x.Run("cygwin-shared-release-itk-internal-fltk-internal")
+            x.Run("cygwin-shared-release-itk-internal-fltk-internal")
 
