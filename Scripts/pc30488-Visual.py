@@ -21,17 +21,11 @@ if __name__ == "__main__":
         x.SetOtbDataLargeInputDir("G:\\OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("G:\\")
-        x.EnableUpdateSources()
+        x.EnableUpdateNightlySources()
 
-#        if sys.argv[1] == "WEEKEND":
-#                x.DisableBuildExamples()
-#                x.DisableTestOTBApplicationsWithInstallOTB()
-#                x.DisableGlUseAccel()
-#                x.DisableUseVtk()
-#                x.EnableGenerateMakefiles()
-#        else:
-#                x.DisableGenerateMakefiles()
-# Provisoire pour Dashboard du 17 decembre
+        x.SetGeotiffIncludeDirs("G:\\OTB-OUTILS\\gdal\\binaries-visual-geotiff\\include")
+        x.SetTiffIncludeDirs("G:\\OTB-OUTILS\\gdal\\binaries-visual-geotiff\\include")
+
         x.DisableBuildExamples()
         x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableGlUseAccel()
