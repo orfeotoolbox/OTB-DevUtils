@@ -29,8 +29,10 @@ if __name__ == "__main__":
         x.EnableTestOTBApplicationsWithInstallOTB()
         x.DisableGlUseAccel()
         x.SetDistribName("UBU-8.04") 
+        x.SetGeotiffIncludeDirs("/ORFEO/otbval/OTB-OUTILS/gdal/binaries-linux/frmts/gtiff/libgeotiff")
+        x.SetTiffIncludeDirs("/usr/include")
 
-	x.EnableGenerateMakefiles()
+        x.EnableGenerateMakefiles()
 
         # Run WeekValidation tests
         x.Run("linux-static-debug-itk-internal-fltk-internal")

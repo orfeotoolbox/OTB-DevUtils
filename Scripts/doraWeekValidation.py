@@ -26,12 +26,15 @@ if __name__ == "__main__":
         x.SetRunDir("/ORFEO/otbval")
 
         # Set generate makefile options
-	# Set Generals configuration tests
-	x.EnableGenerateMakefiles()
+	    # Set Generals configuration tests
+        x.EnableGenerateMakefiles()
+
         x.EnableBuildExamples()
         x.EnableUseVtk()
         x.EnableTestOTBApplicationsWithInstallOTB()
         x.DisableGlUseAccel()
+        x.SetGeotiffIncludeDirs("/ORFEO/otbval/OTB-OUTILS/gdal/binaries-linux/frmts/gtiff/libgeotiff")
+        x.SetTiffIncludeDirs("/usr/include")
         x.SetDistribName("UBU-8.04") 
 #        x.DisableCTest()
         
