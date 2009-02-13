@@ -130,6 +130,8 @@ class TestProcessing:
 
     __geotiff_include_dirs__ = ""
     __tiff_include_dirs__ = ""
+    __jpeg_include_dirs__ = ""
+    __gdal_library__ = ""
     __geotiff_library__ = ""
     
     
@@ -545,6 +547,17 @@ class TestProcessing:
     def GetTiffIncludeDirs(self):
         return self.__tiff_include_dirs__ 
 
+    # ---  Set/Get JPEG_INCLUDE_DIRS methods   -----------------------------------
+    def SetJpegIncludeDirs(self,jpeg_include_dirs):
+        self.__jpeg_include_dirs__ = jpeg_include_dirs
+    def GetJpegIncludeDirs(self):
+        return self.__jpeg_include_dirs__ 
+
+    # ---  Set/Get GDAL_LIBRARY methods   -----------------------------------
+    def SetGdalLibrary(self,gdal_library):
+        self.__gdal_library__ = gdal_library
+    def GetGdalLibrary(self):
+        return self.__gdal_library__ 
 
     # ---  Disable/Enable Update Nightly sources methods   -----------------------------------
     def EnableUpdateNightlySources(self):
@@ -800,9 +813,13 @@ class TestProcessing:
         # A FAIRE
         
         #Init paths for externals lib
+        gdal_lib = ""
         if mode == "":
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install/include")
-                gdal_lib_dir=os.path.normpath(HomeDirOutils + "/gdal/install/lib")
+                if self.GetTestConfigurationDir().find("visual") != -1:
+                    gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/gdal.lib")
+                else:
+                    gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/libgdal.so")
                 # Set Binaries FOR VISUAL and Debug (The .pch files are not installed, and generet WARNING)
                 if self.GetTestConfigurationDir().find("visual") != -1 & self.GetTestConfigurationDir().find("debug") != -1:
                         itk_dir=os.path.normpath(HomeDirOutils + "/itk/binaries-" + build_mode +"-"+ build_type)
@@ -812,7 +829,10 @@ class TestProcessing:
                 vtk_dir=os.path.normpath(HomeDirOutils + "/vtk/install-" + build_mode +"-"+ build_type + "-vtk-"+ self.GetVtkVersion() + "/lib/vtk-"+ self.GetVtkVersion())
         else:
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/include")
-                gdal_lib_dir=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib")
+                if self.GetTestConfigurationDir().find("visual") != -1:
+                    gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/gdal.lib")
+                else:
+                    gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/libgdal.so")
                 if self.GetTestConfigurationDir().find("visual") != -1 & self.GetTestConfigurationDir().find("debug") != -1:
                         itk_dir=os.path.normpath(HomeDirOutils + "/itk/binaries-" + mode + "-" + build_mode +"-"+ build_type +"-itk-"+ self.GetItkVersion())
                 else:
@@ -835,7 +855,7 @@ class TestProcessing:
         
 
         self.CallCheckDirectoryExit("GDAL include",gdal_include_dir)
-        self.CallCheckDirectoryExit("GDAL lib",gdal_lib_dir)
+#        self.CallCheckDirectoryExit("GDAL lib",gdal_lib_dir)
         if self.GetTestConfigurationDir().find("fltk-ext") != -1:
                 self.CallCheckDirectoryExit("FLTK",fltk_dir)
 #dede                if os.path.isfile(fltk_fluid_exe):
@@ -879,8 +899,12 @@ class TestProcessing:
                         command_line.append(' -D "BUILD_SHARED_LIBS:BOOL=OFF" ')
 
                 command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_standard+'"  ')
+
                 command_line.append(' -D "GDAL_INCLUDE_DIRS:PATH='+gdal_include_dir+'"  ')
-                command_line.append(' -D "GDAL_LIBRARY_DIRS:PATH='+gdal_lib_dir+'" ')
+                if self.GetGdalLibrary() != "" :
+                        command_line.append(' -D "GDAL_LIBRARY:FILEPATH='+self.GetGdalLibrary()+'" ')
+                else:
+                        command_line.append(' -D "GDAL_LIBRARY:FILEPATH='+gdal_lib+'" ')
                 
                 if self.GetTestConfigurationDir().find("fltk-ext") != -1:
                         command_line.append(' -D "OTB_USE_EXTERNAL_FLTK:BOOL=ON" ')
@@ -911,10 +935,13 @@ class TestProcessing:
                         
                 if self.GetTiffIncludeDirs() != "" :
                         command_line.append(' -D "TIFF_INCLUDE_DIRS:PATH='+self.GetTiffIncludeDirs()+'" ')
+                if self.GetJpegIncludeDirs() != "" :
+                        command_line.append(' -D "JPEG_INCLUDE_DIRS:PATH='+self.GetJpegIncludeDirs()+'" ')
                 if self.GetGeotiffIncludeDirs() != "" :
                         command_line.append(' -D "GEOTIFF_INCLUDE_DIRS:PATH='+self.GetGeotiffIncludeDirs()+'" ')
                 if self.GetGeotiffLibrary() != "" :
-                        command_line.append(' -D "GEOTIFF_LIBRARY:PATH='+self.GetGeotiffLibrary()+'" ')
+                        command_line.append(' -D "GEOTIFF_LIBRARY:FILEPATH='+self.GetGeotiffLibrary()+'" ')
+
                         
                 
         if BinComponent == "OTB-Applications":
