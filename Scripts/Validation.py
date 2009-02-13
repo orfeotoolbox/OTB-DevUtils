@@ -1371,10 +1371,12 @@ class TestProcessing:
                 if self.GetTestConfigurationDir().find("visual") != -1:
                         self.CallCommand("ITK make", self.GetVisualCommand() + " ITK.sln /build "+self.GetCmakeBuildType() +" /project ALL_BUILD")
                         self.CallCommand("ITK make intall", self.GetVisualCommand() + " ITK.sln /build "+self.GetCmakeBuildType() +" /project INSTALL")
+                        if self.GetTestConfigurationDir().find("debug") == -1:
+                                self.CallRemoveDirectory("ITK binaries",itk_binary_dir)
                 else:
                         self.CallCommand("ITK make", "make")
                         self.CallCommand("ITK make intall", "make install")
-#                self.CallRemoveDirectory("ITK binaries",itk_binary_dir)
+                        self.CallRemoveDirectory("ITK binaries",itk_binary_dir)
                 self.PrintMsg("ITK library installed with success (on directory <"+itk_install_dir+">) !")
 
     # =====================================================================================================================================
