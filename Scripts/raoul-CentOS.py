@@ -15,11 +15,11 @@ if __name__ == "__main__":
                 exit(1)
 
         x=Validation.TestProcessing()
-        x.SetRunDir("/data")
-        x.SetOutilsDir("/data")
+        x.SetRunDir("/data/otbval")
+        x.SetOutilsDir("/data/otbval")
         x.SetOtbDataLargeInputDir("/data/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
-        x.SetSourcesDir("/data")
+        x.SetSourcesDir("/data/otbval")
         x.EnableUpdateNightlySources()
 
         # -> Active generation makefiles
@@ -28,7 +28,7 @@ if __name__ == "__main__":
         x.DisableGlUseAccel()
         x.EnableBuildExamples()
         x.SetDistribName("CentOS-5.2")
-        x.SetGeotiffIncludeDirs("/data/OTB-OUTILS/gdal/binaries-linux/frmts/gtiff/libgeotiff")
+        x.SetGeotiffIncludeDirs("/data/otbval/OTB-OUTILS/gdal/binaries-linux/frmts/gtiff/libgeotiff")
         
         # -> Complet GENERATION
         x.EnableGenerateMakefiles()
