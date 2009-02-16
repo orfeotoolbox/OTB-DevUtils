@@ -818,8 +818,12 @@ class TestProcessing:
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install/include")
                 if self.GetTestConfigurationDir().find("visual") != -1:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/gdal.lib")
+                    self.CallCheckFileExit("gdal library",gdal_lib)
                 else:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/libgdal.so")
+                    if self.CallCheckFile("gdal library",gdal_lib)  == 0:
+                        gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/libgdal.a")
+                        self.CallCheckFileExit("gdal library",gdal_lib)
                 # Set Binaries FOR VISUAL and Debug (The .pch files are not installed, and generet WARNING)
                 if self.GetTestConfigurationDir().find("visual") != -1 and self.GetTestConfigurationDir().find("debug") != -1:
                         itk_dir=os.path.normpath(HomeDirOutils + "/itk/binaries-" + build_mode +"-"+ build_type)
@@ -831,8 +835,12 @@ class TestProcessing:
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/include")
                 if self.GetTestConfigurationDir().find("visual") != -1:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/gdal.lib")
+                    self.CallCheckFileExit("gdal library",gdal_lib)
                 else:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/libgdal.so")
+                    if self.CallCheckFile("gdal library",gdal_lib)  == 0:
+                        gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/libgdal.a")
+                        self.CallCheckFileExit("gdal library",gdal_lib)
                 if self.GetTestConfigurationDir().find("visual") != -1 and self.GetTestConfigurationDir().find("debug") != -1:
                         itk_dir=os.path.normpath(HomeDirOutils + "/itk/binaries-" + mode + "-" + build_mode +"-"+ build_type +"-itk-"+ self.GetItkVersion())
                 else:
@@ -1578,6 +1586,31 @@ class TestProcessing:
         if os.path.exists(top):
                 os.rmdir(top)
         
+
+#        if self.CallCheckDirectory("OTB-Data-LargeInput dir",value) != 0:
+#                self.__homeOtbDataLargeInputSourceDir__ = value
+#        else:
+#                value = os.path.normpath(rep_base+"/OTB-Data-LargeInput")
+#                if self.CallCheckDirectory("OTB-Data-LargeInput dir",value) != 0:
+#                        self.__homeOtbDataLargeInputSourceDir__ = value
+#                else:
+#                        self.__homeOtbDataLargeInputSourceDir__ = "disable"
+#                        self.PrintMsg( "-> OTB-Data-LargeInput disable !!")
+
+        self.CallCheckDirectoryExit("OTB-Data-LargeInput dir",self.__homeOtbDataLargeInputSourceDir__)
+
+    def CallCheckFileExit(self,comment,directory):
+        if self.CallCheckFile(comment,directory) == 0:
+                exit(1)
+    def CallCheckFile(self,comment,directory):
+        if os.path.exists(directory) == 0:
+                self.AddMsgToCDLAndCrtFile("  Check "+comment+" file ("+directory+") ...  KO !")
+        else:
+                self.AddMsgToCDLAndCrtFile("  Check "+comment+" file ("+directory+") ...  OK")
+        return os.path.exists(directory)
+
+
+
     # Exit if don't exist !!
     def CallCheckDirectoryExit(self,comment,directory):
         if self.CallCheckDirectory(comment,directory) == 0:
