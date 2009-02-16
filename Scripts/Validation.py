@@ -821,7 +821,7 @@ class TestProcessing:
                 else:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/libgdal.so")
                 # Set Binaries FOR VISUAL and Debug (The .pch files are not installed, and generet WARNING)
-                if self.GetTestConfigurationDir().find("visual") != -1 & self.GetTestConfigurationDir().find("debug") != -1:
+                if self.GetTestConfigurationDir().find("visual") != -1 and self.GetTestConfigurationDir().find("debug") != -1:
                         itk_dir=os.path.normpath(HomeDirOutils + "/itk/binaries-" + build_mode +"-"+ build_type)
                 else:
                         itk_dir=os.path.normpath(HomeDirOutils + "/itk/install-" + build_mode +"-"+ build_type + "/lib/InsightToolkit")
@@ -833,7 +833,7 @@ class TestProcessing:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/gdal.lib")
                 else:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/libgdal.so")
-                if self.GetTestConfigurationDir().find("visual") != -1 & self.GetTestConfigurationDir().find("debug") != -1:
+                if self.GetTestConfigurationDir().find("visual") != -1 and self.GetTestConfigurationDir().find("debug") != -1:
                         itk_dir=os.path.normpath(HomeDirOutils + "/itk/binaries-" + mode + "-" + build_mode +"-"+ build_type +"-itk-"+ self.GetItkVersion())
                 else:
                         itk_dir=os.path.normpath(HomeDirOutils + "/itk/install-" + mode + "-" + build_mode +"-"+ build_type +"-itk-"+ self.GetItkVersion() + "/lib/InsightToolkit")
