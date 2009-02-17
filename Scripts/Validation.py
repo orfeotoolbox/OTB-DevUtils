@@ -134,6 +134,8 @@ class TestProcessing:
     __gdal_library__ = ""
     __geotiff_library__ = ""
     
+    __disableRunTesting__ = False
+    
     
     def __init__(self):
 
@@ -358,7 +360,11 @@ class TestProcessing:
                         self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
  
         if self.IsDisableCTest() == False:
-                self.CallCommand("CTest execution","ctest -D "+self.GetTypeTest()+" --track Nightly")
+                if self.__disableRunTesting__ == True:
+                        self.PrintWarning("CTest execution with disable run testing (ctest ... -I 1,1)")
+                        self.CallCommand("CTest execution","ctest -D "+self.GetTypeTest()+" --track Nightly -I 1,1")
+                else:
+                        self.CallCommand("CTest execution","ctest -D "+self.GetTypeTest()+" --track Nightly")
                 if self.GetTestConfigurationDir().find("visual") != -1:
                         self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +" 	/project INSTALL")
                 else:
@@ -503,7 +509,15 @@ class TestProcessing:
         self.__disableBuildExamples__ = True
     def EnableBuildExamples(self):
         self.__disableBuildExamples__ = False
+    
+    # ---  Disable/Enable RunTesting methods run ctest with -I 1,1  -----------------------------------
+    def DisableRunTesting(self):
+        self.__disableRunTesting__ = True
+    def EnableRunTesting(self):
+        self.__disableRunTesting__ = False
 
+
+    
     # ---  Disable/Enable CTest (ex: only cmake generation ) methods   -----------------------------------
     def DisableCTest(self):
         self.__disableCTest__ = True
