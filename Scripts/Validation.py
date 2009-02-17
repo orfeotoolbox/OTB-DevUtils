@@ -362,7 +362,7 @@ class TestProcessing:
         if self.IsDisableCTest() == False:
                 if self.__disableRunTesting__ == True:
                         self.PrintWarning("CTest execution with disable run testing (ctest ... -I 1,1)")
-                        self.CallCommand("CTest execution","ctest -D "+self.GetTypeTest()+" --track Nightly -I 1,1")
+                        self.CallCommand("CTest execution","ctest -D "+self.GetTypeTest()+" --track Continuous -I 1,1")
                 else:
                         self.CallCommand("CTest execution","ctest -D "+self.GetTypeTest()+" --track Nightly")
                 if self.GetTestConfigurationDir().find("visual") != -1:
