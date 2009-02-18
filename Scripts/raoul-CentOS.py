@@ -33,19 +33,22 @@ if __name__ == "__main__":
         if sys.argv[1] == "DAY_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
+                x.EnableGenerateMakefiles()
+                x.SetFullContinuousTesting()
                 x.Run("CentOS-linux-64bits-shared-release-itk-external-fltk-external")
  
         # =========    DAY COMPILATION   ============ 
         if sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.DisableRunTesting() # Run ctest -I 1,1
+                x.SetTuContinuousTesting()
                 x.Run("CentOS-linux-64bits-shared-release-itk-external-fltk-external")
  
         # =========    WEEK    ============ 
         if sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
+                x.SetFullNightlyTesting()
                 x.Run("CentOS-linux-64bits-shared-release-itk-external-fltk-external")
                 x.Run("CentOS-linux-64bits-static-debug-itk-internal-fltk-internal")
 
@@ -53,6 +56,7 @@ if __name__ == "__main__":
         if sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
+                x.SetFullNightlyTesting()
                 x.Run("CentOS-linux-64bits-shared-release-itk-external-fltk-external")
                 x.Run("CentOS-linux-64bits-static-debug-itk-internal-fltk-internal")
 

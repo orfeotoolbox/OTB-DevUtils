@@ -84,7 +84,6 @@ class TestProcessing:
     __list_otb_name_components__ = []
 
     # Users parameters
-    __typeTest__ = "Experimental" #"Nightly"
     __makeClean__ = False
     __makeCleanAfterCTest__ = False
     __cleanTestingResultsAfterCTest__ = False
@@ -134,8 +133,11 @@ class TestProcessing:
     __gdal_library__ = ""
     __geotiff_library__ = ""
     
-    __disableRunTesting__ = False
-    
+    __tu_continuous_testing__ = "TU_CONTINUOUS_TESTING"
+    __full_nightly_testing__ = "FULL_NIGHTLY_TESTING"
+    __full_continuous_testing__ = "FULL_CONTINUOUS_TESTING"
+    __configurationRunTesting__ = __full_nightly_testing__
+
     
     def __init__(self):
 
@@ -360,11 +362,18 @@ class TestProcessing:
                         self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
  
         if self.IsDisableCTest() == False:
-                if self.__disableRunTesting__ == True:
-                        self.PrintWarning("CTest execution with disable run testing (ctest ... -I 1,1)")
-                        self.CallCommand("CTest execution","ctest -D "+self.GetTypeTest()+" --track Continuous -I 1,1")
+                # ctest ...
+                if self.__configurationRunTesting__ == self.__tu_continuous_testing__:
+                        self.PrintWarning("CTest Continuous testing with only Tu (ctest -R ..Tu)")
+                        self.CallCommand("CTest execution","ctest -D Experimental --track Continuous -R ..Tu")
+                elif self.__configurationRunTesting__ == self.__full_continuous_testing__:
+                        self.CallCommand("CTest execution","ctest -D Experimental --track Continuous")
+                elif self.__configurationRunTesting__ == self.__full_nightly_testing__:
+                        self.CallCommand("CTest execution","ctest -D Experimental --track Nightly")
                 else:
-                        self.CallCommand("CTest execution","ctest -D "+self.GetTypeTest()+" --track Nightly")
+                        self.CallCommand("CTest execution","ctest -D Experimental --track Nightly")
+                
+                # make install
                 if self.GetTestConfigurationDir().find("visual") != -1:
                         self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +" 	/project INSTALL")
                 else:
@@ -469,16 +478,6 @@ class TestProcessing:
     def GetVtkVersion(self):
         return self.__vtkVersion__
        
-    # ---  Type Tests configuration methods   -----------------------------------
-#    def SetNightly(self):
-#        self.__typeTest__ = "Nightly"
-#    def SetExperimental(self):
-#        self.__typeTest__ = "Experimental"
-#    def SetContinuous(self):
-#        self.__typeTest__ = "Continuous"
-    def GetTypeTest(self):
-        return self.__typeTest__
-
     # ---  Disable/Enable UseVtk methods   -----------------------------------
     def DisableTestOTBApplicationsWithInstallOTB(self):
         self.__disableTestOTBApplicationsWithInstallOTB___ = True
@@ -510,14 +509,15 @@ class TestProcessing:
     def EnableBuildExamples(self):
         self.__disableBuildExamples__ = False
     
-    # ---  Disable/Enable RunTesting methods run ctest with -I 1,1  -----------------------------------
-    def DisableRunTesting(self):
-        self.__disableRunTesting__ = True
-    def EnableRunTesting(self):
-        self.__disableRunTesting__ = False
-
-
     
+    
+    def SetFullNightlyTesting(self):
+        self.__configurationRunTesting__ = self.__full_nightly_testing__
+    def SetFullContinuousTesting(self):
+        self.__configurationRunTesting__ = self.__full_continuous_testing__
+    def SetTuContinuousTesting(self):
+        self.__configurationRunTesting__ = self.__tu_continuous_testing__
+
     # ---  Disable/Enable CTest (ex: only cmake generation ) methods   -----------------------------------
     def DisableCTest(self):
         self.__disableCTest__ = True
@@ -1506,36 +1506,6 @@ class TestProcessing:
         crt_file = home_dir + "/crt/"+TestConfigurationDir+"-"+thedate+".log"
         return  crt_file       
     
-    # Needs for Cygwin and MinGW platforms
-    def GenerateTemporaryShellAAAAAAAAAAA(self,file_name,PythonCommand,TestConfigurationDir):
-        self.PrintMsg("Creation of the temporary file name: "+file_name)
-        f = open(file_name,"w")
-        f.writelines("#!/bin/sh")
-        f.writelines("# File "+file_name+" generate by otb.py process")
-        f.writelines("# for "+TestConfigurationDir+" configuration.")
-#        f.write(" \n")
-        command = 'cd "' + os.getcwd() + '"' 
-        f.writelines(command)
-        self.PrintMsg("    "+command)
-        command = PythonCommand + ' otb.py ' + TestConfigurationDir + ' ' + self.GetTypeTest() + ' ' + self.GetStringMakeClean() + ' ' + self.GetStringGenerateMakefiles()
-        f.writelines(command)
-        self.PrintMsg("    "+command)
-        f.close()
-    def GenerateTemporaryShell(self,file_name,PythonCommand,TestConfigurationDir):
-        self.PrintMsg("Creation of the temporary file name: "+file_name)
-        f = open(file_name,"w")
-        f.write("#!/bin/sh \n")
-        f.write("# File "+file_name+" generate by otb.py process \n")
-        f.write("# for "+TestConfigurationDir+" configuration.\n")
-        command = 'cd "' + os.getcwd() + '"' 
-        f.write(command+ '\n')
-        self.PrintMsg("    "+command)
-        command = PythonCommand + ' otb.py ' + TestConfigurationDir + ' ' + self.GetTypeTest() + ' ' + self.GetStringMakeClean() + ' ' + self.GetStringGenerateMakefiles() + ' ' + self.GetStringDisableCTest() + ' ' + self.GetStringUpdateSources()
-#        f.write(command+ '\n')
-        f.write(command)
-        self.PrintMsg("    "+command)
-        f.close()
-
     def PrintWarning(self,msg):
         self.PrintMsg("#############   WARNING: "+msg)
     def PrintMsg(self,msg):
