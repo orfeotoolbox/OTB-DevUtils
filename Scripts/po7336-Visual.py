@@ -23,8 +23,9 @@ if __name__ == "__main__":
         x.SetSourcesDir("D:\\")
         x.EnableUpdateNightlySources()
 
-        x.SetGeotiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\binaries-visual-geotiff\\include")
-        x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\binaries-visual-geotiff\\include")
+        x.SetGeotiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\binaries-visual7-gdal-1.6.0\\frmts\\gtiff\\libgeotiff")
+        x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\binaries-visual7-gdal-1.6.0\\frmts\\gtiff\\libtiff")
+        x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\binaries-visual7-gdal-1.6.0\\frmts\\jpeg\\libjpeg")
 
         # -> Active generation makefiles
         if sys.argv[1] == "WEEKEND":
