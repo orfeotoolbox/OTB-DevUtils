@@ -23,9 +23,9 @@ if __name__ == "__main__":
         x.SetSourcesDir("D:\\")
         x.EnableUpdateNightlySources()
 
-        x.SetGeotiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\binaries-visual7-gdal-1.6.0\\frmts\\gtiff\\libgeotiff")
-        x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\binaries-visual7-gdal-1.6.0\\frmts\\gtiff\\libtiff")
-        x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\binaries-visual7-gdal-1.6.0\\frmts\\jpeg\\libjpeg")
+        x.SetGeotiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\sources\\gdal-1.6.0\\frmts\\gtiff\\libgeotiff")
+        x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\sources\\gdal-1.6.0\\frmts\\gtiff\\libtiff")
+        x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\sources\\gdal-1.6.0\\frmts\\jpeg\\libjpeg")
 
         # -> Active generation makefiles
         if sys.argv[1] == "WEEKEND":
@@ -38,6 +38,7 @@ if __name__ == "__main__":
                 x.DisableGenerateMakefiles()
 
         # List of platform must been tested
-        x.Run("visual7-static-debug-itk-internal-fltk-internal")
-        if sys.argv[1] == "WEEKEND":
-        	x.Run("visual7-static-release-itk-external-fltk-external")
+#        x.Run("visual7-static-debug-itk-internal-fltk-internal")
+        x.Run("visual7-static-release-itk-internal-fltk-internal")
+#        if sys.argv[1] == "WEEKEND":
+#        	x.Run("visual7-static-release-itk-external-fltk-external")

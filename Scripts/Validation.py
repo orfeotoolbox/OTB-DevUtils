@@ -833,6 +833,9 @@ class TestProcessing:
                 if self.GetTestConfigurationDir().find("visual") != -1:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/gdal.lib")
                     self.CallCheckFileExit("gdal library",gdal_lib)
+                elif self.GetTestConfigurationDir().find("cygwin") != -1:
+                    gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/libgdal.dll.a")
+                    self.CallCheckFileExit("gdal library",gdal_lib)
                 else:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/libgdal.so")
                     if self.CallCheckFile("gdal library",gdal_lib)  == 0:
@@ -849,6 +852,9 @@ class TestProcessing:
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/include")
                 if self.GetTestConfigurationDir().find("visual") != -1:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/gdal.lib")
+                    self.CallCheckFileExit("gdal library",gdal_lib)
+                elif self.GetTestConfigurationDir().find("cygwin") != -1:
+                    gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/libgdal.dll.a")
                     self.CallCheckFileExit("gdal library",gdal_lib)
                 else:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/libgdal.so")
