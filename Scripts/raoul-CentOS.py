@@ -33,7 +33,6 @@ if __name__ == "__main__":
         if sys.argv[1] == "DAY_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.EnableGenerateMakefiles()
                 x.SetFullContinuousTesting()
                 x.Run("CentOS-linux-64bits-shared-release-itk-external-fltk-external")
  

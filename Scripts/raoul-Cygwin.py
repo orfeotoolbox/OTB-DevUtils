@@ -11,31 +11,61 @@ if __name__ == "__main__":
                 print 'Impossible to find Validation module (import Validation abort!!)'
                 exit(1)
         if len(sys.argv) != 2:
-                print "Error  -->   Usage: ", sys.argv[0], " WEEK/WEEKEND"
+                print "Error  -->   Usage: ", sys.argv[0], " WEEK/WEEKEND/DAY_TESTING/DAY_COMPILATION/LOCAL_TESTING"
                 exit(1)
 
         x=Validation.TestProcessing()
-        x.SetRunDir("/cygdrive/z")
-        x.SetOutilsDir("/cygdrive/z")
-        x.SetOtbDataLargeInputDir("/cygdrive/z/OTB-Data-LargeInput")
+        x.SetRunDir("/cygdrive/y")
+        x.SetOutilsDir("/cygdrive/y")
+        x.SetOtbDataLargeInputDir("/cygdrive/y/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
-        x.SetSourcesDir("/cygdrive/z")
-        # The sources are updated by raoul CentOS OS
-        x.DisableUpdateSources()
+        x.SetSourcesDir("/cygdrive/y")
 
-        # -> Active generation makefiles
-        if sys.argv[1] == "WEEKEND":
-                x.DisableTestOTBApplicationsWithInstallOTB()
-                x.DisableUseVtk()
-                x.DisableGlUseAccel()
-                x.DisableBuildExamples()
-                x.EnableGenerateMakefiles()
-        else:
-                x.DisableGenerateMakefiles()
+        x.SetGeotiffIncludeDirs("/cygdrive/y/OTB-OUTILS/gdal/install-cygwin/include")
+        x.SetTiffIncludeDirs("/cygdrive/y/OTB-OUTILS/gdal/install-cygwin/include")
+        x.SetJpegIncludeDirs("/cygdrive/y/OTB-OUTILS/gdal/install-cygwin/include")
 
-        # List of platform must been tested
-	x.Run("cygwin-static-debug-itk-internal-fltk-internal")
-        if sys.argv[1] == "WEEKEND":
-        	x.Run("cygwin-shared-release-itk-internal-fltk-internal")
+        x.DisableTestOTBApplicationsWithInstallOTB()
+        x.DisableUseVtk()
+        x.DisableGlUseAccel()
+        x.DisableBuildExamples()
 	
+        # =========    DAY TESTING   ============ 
+        if sys.argv[1] == "DAY_TESTING":
+                x.EnableUpdateCurrentSources()
+                x.DisableGenerateMakefiles()
+                x.SetFullContinuousTesting()
+                x.Run("cygwin-shared-release-itk-external-fltk-external")
+ 
+        # =========    DAY COMPILATION   ============ 
+        elif sys.argv[1] == "DAY_COMPILATION":
+                x.EnableUpdateCurrentSources()
+                x.DisableGenerateMakefiles()
+                x.SetTuContinuousTesting()
+                x.Run("cygwin-shared-release-itk-external-fltk-external")
+ 
+        # =========    WEEKEND    ============ 
+        elif sys.argv[1] == "WEEKEND":
+                x.EnableUpdateNightlySources()
+                x.EnableGenerateMakefiles()
+                x.SetFullNightlyTesting()
+                x.Run("cygwin-shared-release-itk-external-fltk-external")
+                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
+
+        # =========    WEEK    ============ 
+        elif sys.argv[1] == "WEEK":
+                x.EnableUpdateNightlySources()
+                x.EnableGenerateMakefiles()
+                x.SetFullNightlyTesting()
+                x.Run("cygwin-shared-release-itk-external-fltk-external")
+
+        # =========    LOCAL TESTING   ============ 
+        elif sys.argv[1] == "LOCAL_TESTING":
+                x.EnableUpdateCurrentSources()
+                x.EnableGenerateMakefiles()
+                x.SetTuContinuousTesting()
+                x.DisableCTest()
+                x.Run("local-testing-cygwin-shared-release-itk-external-fltk-external")
+
+
 
