@@ -30,21 +30,21 @@ if __name__ == "__main__":
 
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
-                x.EnableUpdateCurrentSources()
+                x.DisableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.SetFullContinuousTesting()
                 x.Run("cygwin-static-debug-itk-internal-fltk-internal")
  
         # =========    DAY COMPILATION   ============ 
         elif sys.argv[1] == "DAY_COMPILATION":
-                x.EnableUpdateCurrentSources()
+                x.DisableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.SetTuContinuousTesting()
                 x.Run("cygwin-static-debug-itk-internal-fltk-internal")
  
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
-                x.EnableUpdateNightlySources()
+                x.DisableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetFullNightlyTesting()
                 x.Run("cygwin-static-debug-itk-internal-fltk-internal")
@@ -52,8 +52,8 @@ if __name__ == "__main__":
 
         # =========    WEEK    ============ 
         elif sys.argv[1] == "WEEK":
-                x.EnableUpdateNightlySources()
-                x.EnableGenerateMakefiles()
+                x.DisableUpdateNightlySources()
+                x.DisableGenerateMakefiles()
                 x.SetFullNightlyTesting()
                 x.Run("cygwin-static-debug-itk-internal-fltk-internal")
 
