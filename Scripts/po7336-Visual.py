@@ -23,9 +23,12 @@ if __name__ == "__main__":
         x.SetSourcesDir("D:\\")
         x.EnableUpdateNightlySources()
 
-        x.SetGeotiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\sources\\gdal-1.6.0\\frmts\\gtiff\\libgeotiff")
-        x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\sources\\gdal-1.6.0\\frmts\\gtiff\\libtiff")
-        x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\sources\\gdal-1.6.0\\frmts\\jpeg\\libjpeg")
+#        x.SetGeotiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\sources\\gdal-1.6.0\\frmts\\gtiff\\libgeotiff")
+#        x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\sources\\gdal-1.6.0\\frmts\\gtiff\\libtiff")
+#        x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\sources\\gdal-1.6.0\\frmts\\jpeg\\libjpeg")
+        x.SetGeotiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visual7\\include")
+        x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visual7\\include")
+        x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visual7\\include")
 
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":

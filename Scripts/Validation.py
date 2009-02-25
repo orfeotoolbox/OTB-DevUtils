@@ -137,8 +137,8 @@ class TestProcessing:
     __full_nightly_testing__ = "FULL_NIGHTLY_TESTING"
     __full_continuous_testing__ = "FULL_CONTINUOUS_TESTING"
     __configurationRunTesting__ = __full_nightly_testing__
-
     
+   
     def __init__(self):
 
 
@@ -187,22 +187,22 @@ class TestProcessing:
         dos2unix = os.path.abspath(home_dir+'/DOS2UNIX.exe')
 
         if TestConfigurationDir.find("mingw") != -1:
-	        print "Call Mingw X-server..."
-	        self.GenerateTemporaryShell(tmpFileName, self.__python_mingw_command__, TestConfigurationDir)
+                print "Call Mingw X-server..."
+                self.GenerateTemporaryShell(tmpFileName, self.__python_mingw_command__, TestConfigurationDir)
 #                shell=home_dir + "/otb-internal.sh " + self.__python_mingw_command__ + " " + os.getcwd() + " " + TestConfigurationDir +" "+ self.GetTypeTest() +" "+  self.GetStringMakeClean()
 #                tmpFileName="/e/travail/shell-test-otb/otb-internal-otb-auto.sh"
                 self.CallCommand("Run Testing on MinGW plaform",self.__mingw_system_command__ + tmpFileName )
         else:
                 if TestConfigurationDir.find("cygwin") != -1:
-			print "Call Cygwin X-server..."
-        	        self.GenerateTemporaryShell(tmpFileName, self.__python_cygwin_command__, TestConfigurationDir)
+                        print "Call Cygwin X-server..."
+                        self.GenerateTemporaryShell(tmpFileName, self.__python_cygwin_command__, TestConfigurationDir)
                         self.CallCommand("Run dos2unix on Cygwin plaform",dos2unix + ' ' + tmpFileName )
                         self.CallCommand("Run Testing on Cygwin plaform",self.__cygwin_system_command__ + ' "' + tmpFileName +'"')
                 else:
                         print "RunHostPlatform"
-			self.Run(TestConfigurationDir)
+                        self.Run(TestConfigurationDir)
         if os.path.exists(tmpFileName):
-        	os.remove(tmpFileName)
+                os.remove(tmpFileName)
         
 
   
@@ -236,8 +236,7 @@ class TestProcessing:
 
 #        self.InitOutilsDir()
         self.InitSourcesDir()
-	
-	self.UpdateSources()
+        self.UpdateSources()
     
     def Run(self,TestConfigurationDir):
         # Get CrtFile
@@ -272,6 +271,11 @@ class TestProcessing:
         self.InitSetVisualCommand()
 
         binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
+
+        self.PrintMsg("Get Initial version of OTB sources ...")
+        initial_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
+        initial_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
+        initial_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
 
         # Check ITK installation
         # ================================================================
@@ -315,25 +319,43 @@ class TestProcessing:
                 self.CallRemoveDirectory("Install standard",binary_home_dir+"/install-standard")
                 self.CallRemoveDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
 
-	if self.__cleanItkSourceDir__ == True:
-		self.CallRemoveDirectory(" ******************  ATTENTION *******************  =>  OTB/Utilities/ITK (to suppress error svn because ITK version had been updated",os.path.normpath(self.GetOtbSourceDir()+'/OTB/Utilities/ITK'))
-		self.__cleanItkSourceDir__ = False
+        if self.__cleanItkSourceDir__ == True:
+                self.CallRemoveDirectory(" ******************  ATTENTION *******************  =>  OTB/Utilities/ITK (to suppress error svn because ITK version had been updated",os.path.normpath(self.GetOtbSourceDir()+'/OTB/Utilities/ITK'))
+                self.__cleanItkSourceDir__ = False
         
                 
 
 	# ---  Processing test for alls modules   ----------------------------------
 
+                        # Read hg current version 
+        current_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
+        current_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
+        current_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
+        self.PrintMsg("OTB Version before " + initial_version_otb_source_dir + " and current " +current_version_otb_source_dir+".")
+        self.PrintMsg("OTB-Applications Version before " + initial_version_otb_applications_source_dir + " and current " +current_version_otb_applications_source_dir+".")
+        self.PrintMsg("OTB-Data Version before " + initial_version_otb_data_source_dir + " and current " +current_version_otb_data_source_dir+".")
         component_cpt=0
         self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
 #        self.RunProcessTesting(self.__list_otb_components__[component_cpt],self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
-        self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
+        is_up_to_date = True
+        if initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
+            is_up_to_date = False
+        elif initial_version_otb_source_dir != current_version_otb_source_dir:
+            is_up_to_date = False
+        self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
         component_cpt = component_cpt + 1
         self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
-        self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
+
+        is_up_to_date = True
+        if initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
+            is_up_to_date = False
+        elif initial_version_otb_applications_source_dir != current_version_otb_applications_source_dir:
+            is_up_to_date = False
+        self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
         component_cpt = component_cpt + 1
         self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
         if self.__disableTestOTBApplicationsWithInstallOTB___ == False:
-                self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
+                self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
         else:
                 self.PrintMsg("Testing OTB-Applications with install OTB dir is DISABLE")
 
@@ -344,7 +366,7 @@ class TestProcessing:
     # =====================================================================================================================================
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
-    def RunProcessTesting(self,current_module,current_name_module):
+    def RunProcessTesting(self,current_module,current_name_module,is_up_to_date):
         binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
         current_binary_dir=binary_home_dir + "/binaries/"+current_module
         self.CallChangeDirectory(current_module,current_binary_dir )
@@ -364,10 +386,12 @@ class TestProcessing:
         if self.IsDisableCTest() == False:
                 # ctest ...
                 if self.__configurationRunTesting__ == self.__tu_continuous_testing__:
-                        self.PrintWarning("CTest Continuous testing with only Tu (ctest -R ..Tu)")
-                        self.CallCommand("CTest execution","ctest -D Experimental --track Continuous -R ..Tu")
+                        if is_up_to_date == False:
+                                self.PrintWarning("CTest Continuous testing with only Tu (ctest -R ..Tu)")
+                                self.CallCommand("CTest execution","ctest -D Experimental --track Continuous -R ..Tu")
                 elif self.__configurationRunTesting__ == self.__full_continuous_testing__:
-                        self.CallCommand("CTest execution","ctest -D Experimental --track Continuous")
+                        if is_up_to_date == False:
+                                self.CallCommand("CTest execution","ctest -D Experimental --track Continuous")
                 elif self.__configurationRunTesting__ == self.__full_nightly_testing__:
                         self.CallCommand("CTest execution","ctest -D Experimental --track Nightly")
                 else:
@@ -408,7 +432,7 @@ class TestProcessing:
 
         # ---  HG update OTB-Applications   ----------------------------------
         revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
-	self.PrintMsg("OTB-Application revision: "+revisionValue)
+        self.PrintMsg("OTB-Application revision: "+revisionValue)
 
         self.CallChangeDirectory("OTB-Applications",self.GetOtbApplicationsSourceDir())
         self.CallCommand("Pull OTB-Applications ...","hg pull")
@@ -423,7 +447,10 @@ class TestProcessing:
         self.CallCommand("Pull OTB-Data ...","hg pull")
         self.CallCommand("Update OTB-Data ...","hg update default")
         
-	self.DisableUpdateNightlySources()
+        self.DisableUpdateNightlySources()
+        
+        
+        
     # =====================================================================================================================================
     # ===  Update Current sources method
     # =====================================================================================================================================
@@ -446,7 +473,7 @@ class TestProcessing:
         self.CallCommand("Pull OTB-Data ...","hg pull")
         self.CallCommand("Update OTB-Data ...","hg update default")
         
-	self.DisableUpdateCurrentSources()
+        self.DisableUpdateCurrentSources()
     
     # =====================================================================================================================================
     # ===  Set/Get methods to configure the test process
@@ -1136,13 +1163,13 @@ class TestProcessing:
     def GetBuildName(self):
         build_name=""
         # Prefix Buildname
-	if self.GetPrefixBuildName() != "":
+        if self.GetPrefixBuildName() != "":
                 build_name=self.GetPrefixBuildName()+'-'
 
 	# Ditrib (ex: CentOS, RedHat, Ubuntu, XP, Vista, ...)
-	if self.GetDistribName() != "":
+        if self.GetDistribName() != "":
                 build_name=build_name+self.GetDistribName()+'-'
-	else:
+        else:
                 if self.GetTestConfigurationDir().find("mingw") != -1:
                         build_name=build_name+'MinGW-Win32-'
                 elif self.GetTestConfigurationDir().find("cygwin") != -1:
@@ -1163,12 +1190,12 @@ class TestProcessing:
                         build_name=build_name+'VisualExpress2005-Win32-'
                 elif self.GetTestConfigurationDir().find("visualExpress2008") != -1:
                         build_name=build_name+'VisualExpress2008-Win32-'
-	        else:
-        	        #Sinon essaie de trouver la plaforme Hote
-                	build_name=build_name+'Local-'
+                else:
+                        #Sinon essaie de trouver la plaforme Hote
+                        build_name=build_name+'Local-'
 	
         # GCC Info
-	if self.GetTestConfigurationDir().find("mingw") != -1:
+        if self.GetTestConfigurationDir().find("mingw") != -1:
                 build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
                 build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
@@ -1180,19 +1207,19 @@ class TestProcessing:
                 build_name=build_name+'GCC'+self.GetGCCVersion()+'-'
 
 	# 32/64bits info	
-	if self.GetTestConfigurationDir().find("32bit") != -1:
+        if self.GetTestConfigurationDir().find("32bit") != -1:
                build_name=build_name+'32Bits-'
-	elif self.GetTestConfigurationDir().find("64bit") != -1:
+        elif self.GetTestConfigurationDir().find("64bit") != -1:
                 build_name=build_name+'64Bits-'
 	
         # CMake build info
-	build_name=build_name+self.GetCmakeBuildType2()+'-'
+        build_name=build_name+self.GetCmakeBuildType2()+'-'
         if self.GetTestConfigurationDir().find("shared") != -1:
                 build_name=build_name+'Shared-'
         else:
                 build_name=build_name+'Static-'
         # ITK Info
-	if self.GetTestConfigurationDir().find("itk-ext") != -1:
+        if self.GetTestConfigurationDir().find("itk-ext") != -1:
                 build_name=build_name+'ITK'+self.GetItkVersion()+'-External-'
         else:
                 build_name=build_name+'ITK-Internal-'
@@ -1523,6 +1550,21 @@ class TestProcessing:
         self.AddMsgToCDLAndCrtFile(command)
 
     # ===  Internals methods   ==================================
+    def CallGetVersion(self,source_dir):
+        filename = "otb.tmp"
+        crtfile = open(filename,"w")
+        save_rep = os.getcwd() 
+        os.chdir(source_dir)
+        value = subprocess.call("hg tip", shell=True, stdout=crtfile)
+        crtfile.close()
+        os.chdir(save_rep)
+        crtfile2 = open(filename,"r")
+        value2 = crtfile2.readline()
+        crtfile2.close()
+        value3 = value2.split(" ")
+        
+        return value3[3][0:16]
+
 
     def CallCommand(self,comment,command):
         __command = "  Call "+comment+" -> subprocess.call("+command+", shell=True) ..."
@@ -1555,8 +1597,8 @@ class TestProcessing:
         command = "  Remove "+comment+" directory ("+directory+") ..."
         self.AddMsgToCDLAndCrtFile(command)
         try:
-		if os.path.exists(directory):
-		        self.RemoveDirectories(directory)
+                if os.path.exists(directory):
+                        self.RemoveDirectories(directory)
                 self.AddMsgToCDLAndCrtFile(command+"  OK")
         except:
                 self.AddMsgToCDLAndCrtFile("  ERROR: One error to execute following process: RemoveDirectories "+directory)
@@ -1564,15 +1606,15 @@ class TestProcessing:
     def RemoveDirectories(self,top):
         for root, dirs, files in os.walk(top, topdown=False):
                 for name in files:
-			try:
+                        try:
                                 os.remove(os.path.join(root,name))
                         except:
                                 self.PrintMsg("Error removing file "+name+" in directory "+root)
                 for name in dirs:
-	                try:
-				os.rmdir(os.path.join(root,name))
-			except:
-				self.PrintMsg("Error removing directory "+name+" in directory "+root)
+                        try:
+                                os.rmdir(os.path.join(root,name))
+                        except:
+                                self.PrintMsg("Error removing directory "+name+" in directory "+root)
         if os.path.exists(top):
                 os.rmdir(top)
         
@@ -1615,8 +1657,8 @@ class TestProcessing:
     def CallCreateDirectory(self,comment,directory):
         self.AddMsgToCDLAndCrtFile("  "+comment+" -> os.makedirs("+directory+")")
         try:
-		if os.path.exists(directory) == 0:
-                	os.makedirs(directory)
+                if os.path.exists(directory) == 0:
+                        os.makedirs(directory)
         except:
                 self.AddMsgToCDLAndCrtFile("  ERROR: One error to execute following process: os.makedirs("+directory+").")
                 exit(1)
@@ -1624,8 +1666,8 @@ class TestProcessing:
         command = "  Create "+comment+" directory -> os.makedirs("+directory+")"
         self.AddMsgToCDLAndCrtFile(command)
         try:
-		if os.path.exists(directory) == 0:
-                	os.makedirs(directory)
+                if os.path.exists(directory) == 0:
+                        os.makedirs(directory)
                 self.AddMsgToCDLAndCrtFile(command+"  OK")
         except:
                 self.AddMsgToCDLAndCrtFile("  ERROR: One error to execute following process: os.makedirs("+directory+").")
@@ -1642,9 +1684,9 @@ class TestProcessing:
                 exit(1)
 
     def AddMsgToCDLAndCrtFile(self,line):
-	date = datetime.now().isoformat(' ')
+        date = datetime.now().isoformat(' ')
         print date+' '+line
-	sys.stdout.flush()
+        sys.stdout.flush()
         crtfile = open(self.GetCrtFile(),"a")
         crtfile.write(date+' '+line + '\n')
         crtfile.close()
