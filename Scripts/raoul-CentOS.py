@@ -17,7 +17,7 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
         x.SetRunDir("/data/otbval")
         x.SetOutilsDir("/data/otbval")
-        x.SetOtbDataLargeInputDir("/data/OTB-Data-LargeInput")
+        x.SetOtbDataLargeInputDir("/data/otbval/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("/data/otbval")
 

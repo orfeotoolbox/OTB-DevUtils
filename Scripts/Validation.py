@@ -385,31 +385,32 @@ class TestProcessing:
  
         if self.IsDisableCTest() == False:
                 # ctest ...
-                if self.__configurationRunTesting__ == self.__tu_continuous_testing__:
-                        if is_up_to_date == False:
+                if is_up_to_date == False:
+                        if self.__configurationRunTesting__ == self.__tu_continuous_testing__:
                                 self.PrintWarning("CTest Continuous testing with only Tu (ctest -R ..Tu)")
                                 self.CallCommand("CTest execution","ctest -D Experimental --track Continuous -R ..Tu")
-                elif self.__configurationRunTesting__ == self.__full_continuous_testing__:
-                        if is_up_to_date == False:
+                        elif self.__configurationRunTesting__ == self.__full_continuous_testing__:
                                 self.CallCommand("CTest execution","ctest -D Experimental --track Continuous")
-                elif self.__configurationRunTesting__ == self.__full_nightly_testing__:
-                        self.CallCommand("CTest execution","ctest -D Experimental --track Nightly")
-                else:
-                        self.CallCommand("CTest execution","ctest -D Experimental --track Nightly")
-                
-                # make install
-                if self.GetTestConfigurationDir().find("visual") != -1:
-                        self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +" 	/project INSTALL")
-                else:
-                        self.CallCommand("Make Install", "make install")
-                if self.__makeCleanAfterCTest__ == True:
-                        if self.GetTestConfigurationDir().find("visual") != -1:
-                                self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                        elif self.__configurationRunTesting__ == self.__full_nightly_testing__:
+                                self.CallCommand("CTest execution","ctest -D Experimental --track Nightly")
                         else:
-                                self.CallCommand("Make Clean (After CTest)", "make clean")
-                        self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
-                if self.__cleanTestingResultsAfterCTest__ == True:
-                        self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
+                                self.CallCommand("CTest execution","ctest -D Experimental --track Nightly")
+                
+                        # make install
+                        if self.GetTestConfigurationDir().find("visual") != -1:
+                                self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +" 	/project INSTALL")
+                        else:
+                                self.CallCommand("Make Install", "make install")
+                        if self.__makeCleanAfterCTest__ == True:
+                                if self.GetTestConfigurationDir().find("visual") != -1:
+                                        self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                                else:
+                                        self.CallCommand("Make Clean (After CTest)", "make clean")
+                                self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
+                        if self.__cleanTestingResultsAfterCTest__ == True:
+                                self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
+                else:
+                        self.PrintMsg("CTest execution disable: the source code was up to date !")
         else:
                 self.PrintMsg("CTest execution DISABLE")
 
