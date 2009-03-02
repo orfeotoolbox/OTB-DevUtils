@@ -65,7 +65,8 @@ if __name__ == "__main__":
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.EnableUpdateCurrentSources()
-                x.EnableGenerateMakefiles()
+#                x.EnableGenerateMakefiles()
+                x.DisableGenerateMakefiles()
                 x.SetTuContinuousTesting()
                 x.DisableCTest()
                 x.Run("cygwin-shared-release-itk-external-fltk-external")

@@ -327,7 +327,7 @@ class TestProcessing:
 
 	# ---  Processing test for alls modules   ----------------------------------
 
-                        # Read hg current version 
+        # Read hg current version 
         current_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
         current_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
         current_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
@@ -367,25 +367,25 @@ class TestProcessing:
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
     def RunProcessTesting(self,current_module,current_name_module,is_up_to_date):
-        binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
-        current_binary_dir=binary_home_dir + "/binaries/"+current_module
-        self.CallChangeDirectory(current_module,current_binary_dir )
+        if is_up_to_date == False:
+                binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
+                current_binary_dir=binary_home_dir + "/binaries/"+current_module
+                self.CallChangeDirectory(current_module,current_binary_dir )
 
-        if self.GetGenerateMakefiles() == True:
+                if self.GetGenerateMakefiles() == True:
 #                self.GenerateMakefiles(otb_components,current_module,current_name_module)
-                self.GenerateMakefiles(current_module,current_name_module)
-        else:
-                self.CallRemoveDirectory("Testing/Temporary",current_binary_dir + "/Testing/Temporary")
-                if self.GetMakeClean() == True:
-                        if self.GetTestConfigurationDir().find("visual") != -1:
-                                self.CallCommand("Make Clean", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
-                        else:
-                                self.CallCommand("Make Clean", "make clean")
-                        self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
+                        self.GenerateMakefiles(current_module,current_name_module)
+                else:
+                        self.CallRemoveDirectory("Testing/Temporary",current_binary_dir + "/Testing/Temporary")
+                        if self.GetMakeClean() == True:
+                                if self.GetTestConfigurationDir().find("visual") != -1:
+                                        self.CallCommand("Make Clean", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                                else:
+                                        self.CallCommand("Make Clean", "make clean")
+                                self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
  
-        if self.IsDisableCTest() == False:
+                if self.IsDisableCTest() == False:
                 # ctest ...
-                if is_up_to_date == False:
                         if self.__configurationRunTesting__ == self.__tu_continuous_testing__:
                                 self.PrintWarning("CTest Continuous testing with only Tu (ctest -R ..Tu)")
                                 self.CallCommand("CTest execution","ctest -D Experimental --track Continuous -R ..Tu")
@@ -410,10 +410,10 @@ class TestProcessing:
                         if self.__cleanTestingResultsAfterCTest__ == True:
                                 self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
                 else:
-                        self.PrintMsg("CTest execution disable: the source code was up to date !")
-        else:
-                self.PrintMsg("CTest execution DISABLE")
+                        self.PrintMsg("CTest execution DISABLE")
 
+        else:
+                self.PrintMsg("CTest execution disable: the source code was UP TO DATE !")
 
     
     # =====================================================================================================================================
