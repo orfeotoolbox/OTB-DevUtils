@@ -366,14 +366,13 @@ class TestProcessing:
     # =====================================================================================================================================
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
-    def RunProcessTesting(self,current_module,current_name_module,is_up_to_date):
+    def RunSubProcessTesting(self,current_module,current_name_module,comment_ctest_call_command,ctest_call_command,is_up_to_date):
         if is_up_to_date == False:
                 binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
                 current_binary_dir=binary_home_dir + "/binaries/"+current_module
                 self.CallChangeDirectory(current_module,current_binary_dir )
 
                 if self.GetGenerateMakefiles() == True:
-#                self.GenerateMakefiles(otb_components,current_module,current_name_module)
                         self.GenerateMakefiles(current_module,current_name_module)
                 else:
                         self.CallRemoveDirectory("Testing/Temporary",current_binary_dir + "/Testing/Temporary")
@@ -385,20 +384,12 @@ class TestProcessing:
                                 self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
  
                 if self.IsDisableCTest() == False:
-                # ctest ...
-                        if self.__configurationRunTesting__ == self.__tu_continuous_testing__:
-                                self.PrintWarning("CTest Continuous testing with only Tu (ctest -R ..Tu)")
-                                self.CallCommand("CTest execution","ctest -D Experimental --track Continuous -R ..Tu")
-                        elif self.__configurationRunTesting__ == self.__full_continuous_testing__:
-                                self.CallCommand("CTest execution","ctest -D Experimental --track Continuous")
-                        elif self.__configurationRunTesting__ == self.__full_nightly_testing__:
-                                self.CallCommand("CTest execution","ctest -D Experimental --track Nightly")
-                        else:
-                                self.CallCommand("CTest execution","ctest -D Experimental --track Nightly")
-                
+                        # ctest ...
+                        self.PrintWarning(comment_ctest_call_command)
+                        self.CallCommand("CTest execution",ctest_call_command)
                         # make install
                         if self.GetTestConfigurationDir().find("visual") != -1:
-                                self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +" 	/project INSTALL")
+                                self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL")
                         else:
                                 self.CallCommand("Make Install", "make install")
                         if self.__makeCleanAfterCTest__ == True:
@@ -414,6 +405,21 @@ class TestProcessing:
 
         else:
                 self.PrintMsg("CTest execution disable: the source code was UP TO DATE !")
+    
+    
+    # =====================================================================================================================================
+    # ===  Run Process Testing for a component
+    # =====================================================================================================================================
+    def RunProcessTesting(self,current_module,current_name_module,is_up_to_date):
+        if self.__configurationRunTesting__ == self.__tu_continuous_testing__:
+            self.RunSubProcessTesting(current_module,current_name_module,"CTest Continuous testing with only Tu (ctest -R ..Tu)", "CTest Continuous testing with only Tu (ctest -R ..Tu)", is_up_to_date )
+        elif self.__configurationRunTesting__ == self.__full_continuous_testing__:
+            self.RunSubProcessTesting(current_module,current_name_module,
+            "CTest Full Continuous testing","ctest -D Experimental --track Continuous",is_up_to_date)
+        elif self.__configurationRunTesting__ == self.__full_nightly_testing__:
+            self.RunSubProcessTesting(current_module,current_name_module, "CTest Full Nightly testing", "CTest execution","ctest -D Experimental --track Nightly",false) # false -> Force execution 
+        else:
+            self.RunSubProcessTesting(current_module,current_name_module, "CTest Full Nightly", "CTest execution","ctest -D Experimental --track Nightly",false)
 
     
     # =====================================================================================================================================
