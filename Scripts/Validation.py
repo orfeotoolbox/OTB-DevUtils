@@ -385,8 +385,8 @@ class TestProcessing:
  
                 # ctest ...
                 if self.IsDisableCTest() == False:
-                    self.PrintWarning(comment_ctest_call_command)
-                    self.CallCommand("CTest execution",ctest_call_command)
+                        self.PrintWarning(comment_ctest_call_command)
+                        self.CallCommand("CTest execution",ctest_call_command)
                 # make install
                 if self.GetTestConfigurationDir().find("visual") != -1:
                         self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL")
