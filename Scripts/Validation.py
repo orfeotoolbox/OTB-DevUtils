@@ -367,7 +367,7 @@ class TestProcessing:
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
     def RunSubProcessTesting(self,current_module,current_name_module,comment_ctest_call_command,ctest_call_command,is_up_to_date):
-        if is_up_to_date == False:
+        if is_up_to_date == False or self.IsDisableCTest() == True:
                 binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
                 current_binary_dir=binary_home_dir + "/binaries/"+current_module
                 self.CallChangeDirectory(current_module,current_binary_dir )
@@ -383,27 +383,26 @@ class TestProcessing:
                                         self.CallCommand("Make Clean", "make clean")
                                 self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
  
-                if self.IsDisableCTest() == False:
-                        # ctest ...
-                        self.PrintWarning(comment_ctest_call_command)
-                        self.CallCommand("CTest execution",ctest_call_command)
-                        # make install
-                        if self.GetTestConfigurationDir().find("visual") != -1:
-                                self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL")
-                        else:
-                                self.CallCommand("Make Install", "make install")
-                        if self.__makeCleanAfterCTest__ == True:
-                                if self.GetTestConfigurationDir().find("visual") != -1:
-                                        self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
-                                else:
-                                        self.CallCommand("Make Clean (After CTest)", "make clean")
-                                self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
-                        if self.__cleanTestingResultsAfterCTest__ == True:
-                                self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
+                # ctest ...
+                self.PrintWarning(comment_ctest_call_command)
+                self.CallCommand("CTest execution",ctest_call_command)
+                # make install
+                if self.GetTestConfigurationDir().find("visual") != -1:
+                        self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL")
                 else:
-                        self.PrintMsg("CTest execution DISABLE")
+                        self.CallCommand("Make Install", "make install")
+                if self.__makeCleanAfterCTest__ == True:
+                        if self.GetTestConfigurationDir().find("visual") != -1:
+                                self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                        else:
+                                self.CallCommand("Make Clean (After CTest)", "make clean")
+                        self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
+                if self.__cleanTestingResultsAfterCTest__ == True:
+                        self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
 
-        else:
+        if self.IsDisableCTest() == True:
+                self.PrintMsg("CTest execution DISABLE")
+        if is_up_to_date == True:
                 self.PrintMsg("CTest execution disable: the source code was UP TO DATE !")
     
     
