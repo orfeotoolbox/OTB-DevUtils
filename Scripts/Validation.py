@@ -384,8 +384,9 @@ class TestProcessing:
                                 self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
  
                 # ctest ...
-                self.PrintWarning(comment_ctest_call_command)
-                self.CallCommand("CTest execution",ctest_call_command)
+                if self.IsDisableCTest() == False:
+                    self.PrintWarning(comment_ctest_call_command)
+                    self.CallCommand("CTest execution",ctest_call_command)
                 # make install
                 if self.GetTestConfigurationDir().find("visual") != -1:
                         self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL")
