@@ -417,9 +417,9 @@ class TestProcessing:
             self.RunSubProcessTesting(current_module,current_name_module,
             "CTest Full Continuous testing","ctest -D Experimental --track Continuous",is_up_to_date)
         elif self.__configurationRunTesting__ == self.__full_nightly_testing__:
-            self.RunSubProcessTesting(current_module,current_name_module, "CTest Full Nightly testing", "CTest execution","ctest -D Experimental --track Nightly",false) # false -> Force execution 
+            self.RunSubProcessTesting(current_module,current_name_module, "CTest Full Nightly testing","ctest -D Experimental --track Nightly",False) # false -> Force execution 
         else:
-            self.RunSubProcessTesting(current_module,current_name_module, "CTest Full Nightly", "CTest execution","ctest -D Experimental --track Nightly",false)
+            self.RunSubProcessTesting(current_module,current_name_module, "CTest Full Nightly testing", "ctest -D Experimental --track Nightly",False)
 
     
     # =====================================================================================================================================
