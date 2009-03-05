@@ -412,7 +412,7 @@ class TestProcessing:
     # =====================================================================================================================================
     def RunProcessTesting(self,current_module,current_name_module,is_up_to_date):
         if self.__configurationRunTesting__ == self.__tu_continuous_testing__:
-            self.RunSubProcessTesting(current_module,current_name_module,"CTest Continuous testing with only Tu (ctest -R ..Tu)", "CTest Continuous testing with only Tu (ctest -R ..Tu)", is_up_to_date )
+            self.RunSubProcessTesting(current_module,current_name_module,"CTest Continuous testing with only Tu (ctest -R ..Tu)", "ctest -D Experimental --track Continuous -R ..Tu", is_up_to_date )
         elif self.__configurationRunTesting__ == self.__full_continuous_testing__:
             self.RunSubProcessTesting(current_module,current_name_module,
             "CTest Full Continuous testing","ctest -D Experimental --track Continuous",is_up_to_date)
