@@ -318,6 +318,8 @@ class TestProcessing:
                 # ---  Clean the Install directory   ----------------------------------
                 self.CallRemoveDirectory("Install standard",binary_home_dir+"/install-standard")
                 self.CallRemoveDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
+                self.CallCreateDirectory("Install standard",binary_home_dir+"/install-standard")
+                self.CallCreateDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
 
         if self.__cleanItkSourceDir__ == True:
                 self.CallRemoveDirectory(" ******************  ATTENTION *******************  =>  OTB/Utilities/ITK (to suppress error svn because ITK version had been updated",os.path.normpath(self.GetOtbSourceDir()+'/OTB/Utilities/ITK'))
@@ -387,19 +389,19 @@ class TestProcessing:
                 if self.IsDisableCTest() == False:
                         self.PrintWarning(comment_ctest_call_command)
                         self.CallCommand("CTest execution",ctest_call_command)
-                # make install
-                if self.GetTestConfigurationDir().find("visual") != -1:
-                        self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL")
-                else:
-                        self.CallCommand("Make Install", "make install")
-                if self.__makeCleanAfterCTest__ == True:
+                        # make install
                         if self.GetTestConfigurationDir().find("visual") != -1:
-                                self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                                self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL")
                         else:
-                                self.CallCommand("Make Clean (After CTest)", "make clean")
-                        self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
-                if self.__cleanTestingResultsAfterCTest__ == True:
-                        self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
+                                self.CallCommand("Make Install", "make install")
+                        if self.__makeCleanAfterCTest__ == True:
+                                if self.GetTestConfigurationDir().find("visual") != -1:
+                                        self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                                else:
+                                        self.CallCommand("Make Clean (After CTest)", "make clean")
+                                self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
+                        if self.__cleanTestingResultsAfterCTest__ == True:
+                                self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
 
         if self.IsDisableCTest() == True:
                 self.PrintMsg("CTest execution DISABLE")
@@ -936,10 +938,16 @@ class TestProcessing:
                 command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
         else:
                 command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
+                # DEBUG
                 command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
                 command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
                 command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
                 command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+                # RELEASE
+                command_line.append(' -D "CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall" ')
+                command_line.append(' -D "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall" ')
+                command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
+                command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
 
 
         command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
