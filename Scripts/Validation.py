@@ -126,6 +126,7 @@ class TestProcessing:
     __cleanItkSourceDir__ = False 
     __update_nightly_sources__ = False
     __update_current_sources__ = False
+    __forceExecution__ = False
 
     __geotiff_include_dirs__ = ""
     __tiff_include_dirs__ = ""
@@ -340,7 +341,9 @@ class TestProcessing:
         self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
 #        self.RunProcessTesting(self.__list_otb_components__[component_cpt],self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
         is_up_to_date = True
-        if initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
+        if self.__forceExecution__ == True:
+            is_up_to_date = False
+        elif initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
             is_up_to_date = False
         elif initial_version_otb_source_dir != current_version_otb_source_dir:
             is_up_to_date = False
@@ -349,7 +352,9 @@ class TestProcessing:
         self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
 
         is_up_to_date = True
-        if initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
+        if self.__forceExecution__ == True:
+            is_up_to_date = False
+        elif initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
             is_up_to_date = False
         elif initial_version_otb_applications_source_dir != current_version_otb_applications_source_dir:
             is_up_to_date = False
@@ -545,6 +550,9 @@ class TestProcessing:
     def EnableBuildExamples(self):
         self.__disableBuildExamples__ = False
     
+    # ---  Disable Up to date condition   -----------------------------------
+    def ForceExecution(self):
+        self.__forceExecution__ = True
     
     
     def SetFullNightlyTesting(self):
