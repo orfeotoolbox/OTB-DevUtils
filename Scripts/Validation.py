@@ -872,6 +872,9 @@ class TestProcessing:
                 elif self.GetTestConfigurationDir().find("cygwin") != -1:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/libgdal.dll.a")
                     self.CallCheckFileExit("gdal library",gdal_lib)
+                elif self.GetTestConfigurationDir().find("macosx") != -1:
+                    gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/libgdal.dylib")
+                    self.CallCheckFileExit("gdal library",gdal_lib)
                 else:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/libgdal.so")
                     if self.CallCheckFile("gdal library",gdal_lib)  == 0:
@@ -891,6 +894,9 @@ class TestProcessing:
                     self.CallCheckFileExit("gdal library",gdal_lib)
                 elif self.GetTestConfigurationDir().find("cygwin") != -1:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/libgdal.dll.a")
+                    self.CallCheckFileExit("gdal library",gdal_lib)
+                elif self.GetTestConfigurationDir().find("macosx") != -1:
+                    gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/libgdal.dylib")
                     self.CallCheckFileExit("gdal library",gdal_lib)
                 else:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/libgdal.so")
@@ -953,7 +959,7 @@ class TestProcessing:
         command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
 
         build_name=self.GetBuildName()
-        
+
         if BinComponent == "OTB":
         
                 command_line.append(' -D "OTB_SHOW_ALL_MSG_DEBUG:BOOL=OFF" ')
@@ -1012,7 +1018,9 @@ class TestProcessing:
                 if self.GetGeotiffLibrary() != "" :
                         command_line.append(' -D "GEOTIFF_LIBRARY:FILEPATH='+self.GetGeotiffLibrary()+'" ')
 
-                        
+        if self.GetTestConfigurationDir().find("macosx") != -1:
+                self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
+                command_line.append(' -D "CMAKE_OSX_ARCHITECTURES:STRING=i386" ')
                 
         if BinComponent == "OTB-Applications":
                 command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
