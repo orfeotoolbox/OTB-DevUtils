@@ -21,9 +21,9 @@ if __name__ == "__main__":
 #        x.SetOtbDataLargeInputDir("/cygdrive/d/XXXXXXXXXXXXXXXX_OTB-Data-LargeInput")
         x.SetSourcesDir("/cygdrive/d/OTB-VALIDATION")
 
-        x.SetGeotiffIncludeDirs("/cygdrive/d/OTB-VALIDATION/OTB-OUTILS/gdal/install-cygwin")
-        x.SetTiffIncludeDirs("/cygdrive/d/OTB-VALIDATION/OTB-OUTILS/gdal/install-cygwin")
-        x.SetJpegIncludeDirs("/cygdrive/d/OTB-VALIDATION/OTB-OUTILS/gdal/install-cygwin")
+        x.SetGeotiffIncludeDirs("/cygdrive/d/OTB-VALIDATION/OTB-OUTILS/gdal/install-cygwin/include")
+        x.SetTiffIncludeDirs("/cygdrive/d/OTB-VALIDATION/OTB-OUTILS/gdal/install-cygwin/include")
+        x.SetJpegIncludeDirs("/cygdrive/d/OTB-VALIDATION/OTB-OUTILS/gdal/install-cygwin/include")
 
          # -> Active generation makefiles
         x.DisableTestOTBApplicationsWithInstallOTB()
@@ -34,28 +34,28 @@ if __name__ == "__main__":
         reference_configuration = "cygwin-shared-release-itk-internal-fltk-internal"
        # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
-                x.DisableUpdateCurrentSources()
+                x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.SetFullContinuousTesting()
                 x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
         elif sys.argv[1] == "DAY_COMPILATION":
-                x.DisableUpdateCurrentSources()
+                x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.SetTuContinuousTesting()
                 x.Run(reference_configuration)
  
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
-                x.DisableUpdateNightlySources()
+                x.EnsableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetFullNightlyTesting()
                 x.Run(reference_configuration)
 
         # =========    WEEK    ============ 
         elif sys.argv[1] == "WEEK":
-                x.DisableUpdateNightlySources()
+                x.EnableUpdateNightlySources()
                 x.DisableGenerateMakefiles()
                 x.SetFullNightlyTesting()
                 x.Run(reference_configuration)
