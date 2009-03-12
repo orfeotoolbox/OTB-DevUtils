@@ -951,8 +951,23 @@ class TestProcessing:
         # For Visual, set CMAKE_CONFIGURATION_TYPES parameter        
         if self.GetTestConfigurationDir().find("visual") != -1:
                 command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
-        else:
+        # Mac gcc optimization systems : add -pipe 
+        elif self.GetTestConfigurationDir().find("macosx") != -1:
+#                command_line.append(' -D "CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc -pipe" ')
+#                command_line.append(' -D "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++ -pipe" ')
+                self.PrintWarning("MACOS X Architecture: CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall -pipe")
                 command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
+                # DEBUG
+                command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall -pipe" ')
+                command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall -pipe" ')
+                command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+                command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+                # RELEASE
+                command_line.append(' -D "CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall -pipe" ')
+                command_line.append(' -D "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall -pipe" ')
+                command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
+                command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
+        else:
                 # DEBUG
                 command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
                 command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
@@ -964,11 +979,11 @@ class TestProcessing:
                 command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
                 command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
 
-
         command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
 
         build_name=self.GetBuildName()
-
+        
+        
         if BinComponent == "OTB":
         
                 command_line.append(' -D "OTB_SHOW_ALL_MSG_DEBUG:BOOL=OFF" ')

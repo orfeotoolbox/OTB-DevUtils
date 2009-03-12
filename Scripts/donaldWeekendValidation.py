@@ -32,10 +32,17 @@ if __name__ == "__main__":
         x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableGlUseAccel()
      
-       
+#        x.DisableCTest()
         # List of platform must been tested
-        x.Run("macosx-static-debug-itk-internal-fltk-internal")
-        x.Run("macosx-shared-release-itk-internal-fltk-internal")
+        x.Run("macosx-static-debug-itk-external-fltk-external")
+#        x.Run("macosx-static-release-itk-external-fltk-external")
+#        x.Run("macosx-static-debug-itk-internal-fltk-internal")
+#        x.Run("macosx-static-release-itk-internal-fltk-internal")
+
+        x.Run("macosx-shared-debug-itk-external-fltk-external")
+#        x.Run("macosx-shared-release-itk-external-fltk-external")
+#        x.Run("macosx-shared-debug-itk-internal-fltk-internal")
+#        x.Run("macosx-shared-release-itk-internal-fltk-internal")
 
 
 
