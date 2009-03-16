@@ -48,7 +48,7 @@ if __name__ == "__main__":
  
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
-                x.EnsableUpdateNightlySources()
+                x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetFullNightlyTesting()
                 x.Run(reference_configuration)
