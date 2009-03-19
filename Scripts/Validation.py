@@ -8,6 +8,8 @@ import time
 from datetime import date,datetime
 import urllib
 
+import string
+
 
 # RESTA A FAIRE : 
 # note du 15 jin 2008
@@ -243,71 +245,67 @@ class TestProcessing:
         # Get CrtFile
         crt_file = self.FindCrtFileName(TestConfigurationDir)
         self.SetCrtFile(crt_file)
-        # Set TestConfiguration 
-        self.SetTestConfigurationDir(TestConfigurationDir)
+        try:
 
+            # Set TestConfiguration 
+            self.SetTestConfigurationDir(TestConfigurationDir)
 
+            self.PrintTitle("Run Host Platform process for "+self.GetTestConfigurationDir()+" testing !")
 
-        self.PrintTitle('Run Host Platform process for "'+self.GetTestConfigurationDir()+'" testing !')
-    
-
-        # ------------------------------------------------------------
-        self.PrintTitle("1/6  :  Check directories  ... ")
-        # ------------------------------------------------------------
-        # Set and Check directories
-        if self.__homeBaseRunDir__ == "local":
+            # ------------------------------------------------------------
+            self.PrintTitle("1/6  :  Check directories  ... ")
+            # ------------------------------------------------------------
+            # Set and Check directories
+            if self.__homeBaseRunDir__ == "local":
                 self.__homeDir__ = os.path.abspath(os.getcwd())
-        else:
+            else:
                 value = os.path.normpath(self.__homeBaseRunDir__+"/"+self.__homeRunName__)
                 self.CallCheckDirectoryExit(self.__homeRunName__ +" dir",value)
                 self.__homeDir__ = value
 
-        self.InitOutilsDir()
-        self.InitSourcesDir()
-#        self.SetHomeDir(os.getcwd())
-#        self.SetOtbSourceDir(self.GetHomeDir())
-#        self.SetOtbDataSourceDir(self.GetHomeDir())
-#        self.SetHomeDirOutils(self.GetHomeDir())
+            self.InitOutilsDir()
+            self.InitSourcesDir()
  
-        self.InitSetVisualCommand()
+            self.InitSetVisualCommand()
 
-        binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
+            binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
 
-        self.PrintMsg("Get Initial version of OTB sources ...")
-        initial_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
-        initial_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
-        initial_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
+#            self.PrintMsg("Get Initial version of OTB sources ...")
+            
+            initial_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
+            initial_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
+            initial_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
 
-        # Check ITK installation
-        # ================================================================
-        if self.GetTestConfigurationDir().find("itk-exter") != -1:
+            # Check ITK installation
+            # ================================================================
+            if self.GetTestConfigurationDir().find("itk-exter") != -1:
                 self.CheckItkInstallation()
-        # Check  FLTK installation
-        # ================================================================
-        if self.GetTestConfigurationDir().find("fltk-exter") != -1:
+            # Check  FLTK installation
+            # ================================================================
+            if self.GetTestConfigurationDir().find("fltk-exter") != -1:
                 self.CheckFltkInstallation()
-        # Check  VTK installation
-        # ================================================================
-        if self.__disableUseVtk__ == False:
+            # Check  VTK installation
+            # ================================================================
+            if self.__disableUseVtk__ == False:
                 self.CheckVtkInstallation()
 
-        # ------------------------------------------------------------
-        self.PrintTitle("2/6  :  Update sources  ... ")
-        # ------------------------------------------------------------
+            # ------------------------------------------------------------
+            self.PrintTitle("2/6  :  Update sources  ... ")
+            # ------------------------------------------------------------
 #        self.CallChangeDirectory("otb source",self.GetHomeDir() )
-        if self.GetUpdateNightlySources() == True:
+            if self.GetUpdateNightlySources() == True:
                 self.UpdateNightlySources()
-        elif self.GetUpdateCurrentSources() == True:
+            elif self.GetUpdateCurrentSources() == True:
                 self.UpdateCurrentSources()
-        else:
+            else:
                 self.PrintMsg("Update sources DISABLE !!")
 
-        self.CallChangeDirectory("otb source",self.GetHomeDir() )
+            self.CallChangeDirectory("otb source",self.GetHomeDir() )
 
-        # ------------------------------------------------------------
-        self.PrintTitle("3/6  :  Cleans/Creates operations  ... ")
-        # ------------------------------------------------------------
-        if self.GetGenerateMakefiles() == True:
+            # ------------------------------------------------------------
+            self.PrintTitle("3/6  :  Cleans/Creates operations  ... ")
+            # ------------------------------------------------------------
+            if self.GetGenerateMakefiles() == True:
                 self.CallRemoveDirectory("Main test",binary_home_dir)
                 self.CallCreateDirectory(self.__list_binary_components__[0]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[0])
                 self.CallCreateDirectory(self.__list_binary_components__[1]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[1])
@@ -315,59 +313,61 @@ class TestProcessing:
                 self.CallCreateDirectory("Install standard",binary_home_dir+"/install-standard")
                 self.CallCreateDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
         
-        else:
+            else:
                 # ---  Clean the Install directory   ----------------------------------
                 self.CallRemoveDirectory("Install standard",binary_home_dir+"/install-standard")
                 self.CallRemoveDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
                 self.CallCreateDirectory("Install standard",binary_home_dir+"/install-standard")
                 self.CallCreateDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
 
-        if self.__cleanItkSourceDir__ == True:
+            if self.__cleanItkSourceDir__ == True:
                 self.CallRemoveDirectory(" ******************  ATTENTION *******************  =>  OTB/Utilities/ITK (to suppress error svn because ITK version had been updated",os.path.normpath(self.GetOtbSourceDir()+'/OTB/Utilities/ITK'))
                 self.__cleanItkSourceDir__ = False
-        
-                
+
 
 	# ---  Processing test for alls modules   ----------------------------------
 
-        # Read hg current version 
-        current_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
-        current_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
-        current_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
-        self.PrintMsg("OTB Version before " + initial_version_otb_source_dir + " and current " +current_version_otb_source_dir+".")
-        self.PrintMsg("OTB-Applications Version before " + initial_version_otb_applications_source_dir + " and current " +current_version_otb_applications_source_dir+".")
-        self.PrintMsg("OTB-Data Version before " + initial_version_otb_data_source_dir + " and current " +current_version_otb_data_source_dir+".")
-        component_cpt=0
-        self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            # Read hg current version 
+            current_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
+            current_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
+            current_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
+            self.PrintMsg("OTB Version before " + initial_version_otb_source_dir + " and current " +current_version_otb_source_dir+".")
+            self.PrintMsg("OTB-Applications Version before " + initial_version_otb_applications_source_dir + " and current " +current_version_otb_applications_source_dir+".")
+            self.PrintMsg("OTB-Data Version before " + initial_version_otb_data_source_dir + " and current " +current_version_otb_data_source_dir+".")
+            component_cpt=0
+            self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
 #        self.RunProcessTesting(self.__list_otb_components__[component_cpt],self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
-        is_up_to_date = True
-        if self.__forceExecution__ == True:
-            is_up_to_date = False
-        elif initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
-            is_up_to_date = False
-        elif initial_version_otb_source_dir != current_version_otb_source_dir:
-            is_up_to_date = False
-        self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
-        component_cpt = component_cpt + 1
-        self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            is_up_to_date = True
+            if self.__forceExecution__ == True:
+                is_up_to_date = False
+            elif initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
+                is_up_to_date = False
+            elif initial_version_otb_source_dir != current_version_otb_source_dir:
+                is_up_to_date = False
+            self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
+            component_cpt = component_cpt + 1
+            self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
 
-        is_up_to_date = True
-        if self.__forceExecution__ == True:
-            is_up_to_date = False
-        elif initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
-            is_up_to_date = False
-        elif initial_version_otb_applications_source_dir != current_version_otb_applications_source_dir:
-            is_up_to_date = False
-        self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
-        component_cpt = component_cpt + 1
-        self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
-        if self.__disableTestOTBApplicationsWithInstallOTB___ == False:
+            is_up_to_date = True
+            if self.__forceExecution__ == True:
+                is_up_to_date = False
+            elif initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
+                is_up_to_date = False
+            elif initial_version_otb_applications_source_dir != current_version_otb_applications_source_dir:
+                is_up_to_date = False
+            self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
+            component_cpt = component_cpt + 1
+            self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            if self.__disableTestOTBApplicationsWithInstallOTB___ == False:
                 self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
-        else:
+            else:
                 self.PrintMsg("Testing OTB-Applications with install OTB dir is DISABLE")
 
-        self.CallChangeDirectory("Home",self.GetHomeDir())
-
+            self.CallChangeDirectory("Home",self.GetHomeDir())
+        # try End Run
+        except:
+            self.PrintMsg("Error while executing Run method with " +TestConfigurationDir + " configuration !!")
+            print 'Error while executing Run method with ', TestConfigurationDir, ' configuration !!'
 
 
     # =====================================================================================================================================
@@ -380,7 +380,10 @@ class TestProcessing:
                 self.CallChangeDirectory(current_module,current_binary_dir )
 
                 if self.GetGenerateMakefiles() == True:
-                        self.GenerateMakefiles(current_module,current_name_module)
+                        try:
+                                self.GenerateMakefiles(current_module,current_name_module)
+                        except:
+                                self.PrintMsg("Error while executing GenerateMakefiles method for " +current_module + " module !!")
                 else:
                         self.CallRemoveDirectory("Testing/Temporary",current_binary_dir + "/Testing/Temporary")
                         if self.GetMakeClean() == True:
@@ -1579,15 +1582,22 @@ class TestProcessing:
 
     def FindCrtFileName(self,TestConfigurationDir):
         home_dir = os.getcwd()
-        thedate = date.today().isoformat()
-        
+#        thedate = date.today().isoformat()
+        thedate = datetime.today().isoformat(" ")
+#        thedate = datetime.now().isoformat(" ")
+        chaine = ""
+        chaine = thedate.__str__()
+        chaine2 = chaine.replace(' ','-')
         if os.path.exists(home_dir+"/crt") == 0:
                 os.mkdir(home_dir+"/crt")
-        crt_file = home_dir + "/crt/"+TestConfigurationDir+"-"+thedate+".log"
-        return  crt_file       
+#        crt_file = home_dir + "/crt/"+TestConfigurationDir+"-"+thedate+".log"
+        crt_file = home_dir + "/crt/"+TestConfigurationDir+"-"+chaine2+".log"
+        return  crt_file
     
+    def PrintError(self,msg):
+        self.PrintMsg("#############   ERROR: "+msg)
     def PrintWarning(self,msg):
-        self.PrintMsg("#############   WARNING: "+msg)
+        self.PrintMsg("=============   WARNING: "+msg)
     def PrintMsg(self,msg):
         self.AddMsgToCDLAndCrtFile("  "+msg)
     def PrintTitle(self,msg):
@@ -1623,7 +1633,7 @@ class TestProcessing:
 #                sts = os.waitpid(p.pid, 0)
 #                crtfile = open(self.GetCrtFile(),"a")
 
-                retcode = subprocess.call(command, shell=True)
+                retcode = subprocess.call(command, stdout=None, stderr=None, bufsize=1, shell=True)
 		#, env="http_proxy=http://feuvriert:montdor25-@proxy-HTTP1.cnes.fr:8050")
 #                retcode = subprocess.call(command, shell=True, stdout=crtfile, stderr=crtfile)
 #                retcode = subprocess.check_call(command, shell=True)
@@ -1635,10 +1645,28 @@ class TestProcessing:
                         print >>sys.stderr, "Child returned", retcode
                         self.AddMsgToCDLAndCrtFile( __command+"  OK")
         except OSError, e:
+                self.PrintError(" Execution failed (OSError error): "+__command)
+                exit(1)
+        except IOError, e:
                 print >>sys.stderr, "Execution failed:", e
+                self.PrintError(" Execution failed (IOError error): "+__command)
+#                self.PrintError("THOMAS2 " + os.strerror(errno.errorcode))
+#                self.PrintError("sys.exc_info "+sys.exc_info()[0])
+#                self.PrintError(sys.exc_info()[1])
+#                self.PrintError(sys.exc_info()[2])
+#                print >>sys.stdout, "Execution failed:", e
+#                print >>sys.stderr, "Execution failed:", e
+#                print sys.exc_info()
+                exit(1)
+        except StandardError, e:
+                self.PrintError(" Execution failed (StandardError error): "+__command)
+                exit(1)
+#                print >>sys.stderr, "Execution failed:", e
 #        except:
+#                self.AddMsgToCDLAndCrtFile("  ERROR: error (OSError error) to execute following process: "+ comment+"  subprocess.call("+command+", shell = True).")
+        except:
+                self.PrintError(" Execution failed: Call "+comment+" -> subprocess.call("+command+", shell=True) ...")
                 self.AddMsgToCDLAndCrtFile("  ERROR: error to execute following process: "+ comment+"  subprocess.call("+command+", shell = True).")
-
     def CallRemoveDirectory(self,comment,directory):
         directory = os.path.normpath(directory)
         command = "  Remove "+comment+" directory ("+directory+") ..."
@@ -1676,7 +1704,7 @@ class TestProcessing:
 #                        self.__homeOtbDataLargeInputSourceDir__ = "disable"
 #                        self.PrintMsg( "-> OTB-Data-LargeInput disable !!")
 
-        self.CallCheckDirectoryExit("OTB-Data-LargeInput dir",self.__homeOtbDataLargeInputSourceDir__)
+#        self.CallCheckDirectoryExit("OTB-Data-LargeInput dir",self.__homeOtbDataLargeInputSourceDir__)
 
     def CallCheckFileExit(self,comment,directory):
         if self.CallCheckFile(comment,directory) == 0:
@@ -1731,12 +1759,13 @@ class TestProcessing:
                 exit(1)
 
     def AddMsgToCDLAndCrtFile(self,line):
-        date = datetime.now().isoformat(' ')
-        print date+' '+line
-        sys.stdout.flush()
-        crtfile = open(self.GetCrtFile(),"a")
-        crtfile.write(date+' '+line + '\n')
-        crtfile.close()
+        thedate = datetime.now().isoformat(' ')
+        chaine = ""
+        chaine = thedate.__str__()
+        chaine2 = chaine.replace(' ','-')
+        crtfile2 = open(self.GetCrtFile(),"a")
+        crtfile2.write(chaine2+"  =>  "+line+"\n")
+        crtfile2.close()
         
 
 ###################################################################################################################""

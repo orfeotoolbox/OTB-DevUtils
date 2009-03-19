@@ -5,7 +5,7 @@ import socket
 import subprocess
 
 if __name__ == "__main__":
-        sys.path.append(os.getcwd()+"/OTB-DevUtils/Scripts")
+        sys.path.append("/ORFEO/otbval/OTB-NIGHTLY-VALIDATION/OTB-DevUtils/Scripts")
         try:
                 import Validation
         except:
