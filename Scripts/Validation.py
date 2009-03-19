@@ -1587,7 +1587,9 @@ class TestProcessing:
 #        thedate = datetime.now().isoformat(" ")
         chaine = ""
         chaine = thedate.__str__()
-        chaine2 = chaine.replace(' ','-')
+        chaine222 = chaine.replace('.','-')
+        chaine22 = chaine222.replace(':','-')
+        chaine2 = chaine22.replace(' ','-')
         if os.path.exists(home_dir+"/crt") == 0:
                 os.mkdir(home_dir+"/crt")
 #        crt_file = home_dir + "/crt/"+TestConfigurationDir+"-"+thedate+".log"

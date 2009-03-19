@@ -76,5 +76,6 @@ if __name__ == "__main__":
                 x.EnableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
                 x.SetTuContinuousTesting()
-                x.DisableCTest()
-                x.Run("centOS-linux-64bits-shared-release-itk-internal-fltk-internal")
+#                x.DisableCTest()
+                x.ForceExecution()
+                x.Run("essai-validation-centOS-linux-64bits-shared-release-itk-internal-fltk-internal")
