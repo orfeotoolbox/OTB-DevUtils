@@ -21,13 +21,13 @@ if __name__ == "__main__":
         x.SetOutilsDir("/Users/thomas/")
         x.SetRunDir("/Users/thomas/")
         x.SetOtbDataLargeInputDir("/Users/thomas/OTB-Data-LargeInput")
-        x.EnableUseOtbDataLargeInput()
+        x.DisableUseOtbDataLargeInput()
         x.SetSourcesDir("/Users/thomas/")
 
-        x.EnableTestOTBApplicationsWithInstallOTB()
+        x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
         x.DisableGlUseAccel()
-        x.EnableBuildExamples()
+        x.DisableBuildExamples()
 
         x.SetGeotiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/gdal1.6.0/frmts/gtiff/libgeotiff")
         x.SetTiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/gdal1.6.0/frmts/gtiff/libtiff")
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         # =========    WEEK    ============ 
         if sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
-                x.EnableGenerateMakefiles()
+                x.DisableGenerateMakefiles()
                 x.SetFullNightlyTesting()
                 x.Run(reference_configuration)
 
@@ -61,7 +61,6 @@ if __name__ == "__main__":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetFullNightlyTesting()
-
                 x.Run(reference_configuration)
 
         # =========    LOCAL TESTING   ============ 
