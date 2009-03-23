@@ -29,9 +29,9 @@ if __name__ == "__main__":
         x.DisableGlUseAccel()
         x.DisableBuildExamples()
 
-        x.SetGeotiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/gdal1.6.0/frmts/gtiff/libgeotiff")
-        x.SetTiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/gdal1.6.0/frmts/gtiff/libtiff")
-        x.SetJpegIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/gdal1.6.0/frmts/jpeg/libjpeg")
+        x.SetGeotiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/gtiff/libgeotiff")
+        x.SetTiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/gtiff/libtiff")
+        x.SetJpegIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/jpeg/libjpeg")
 
         reference_configuration = "macosx-static-release-itk-internal-fltk-external"
 
