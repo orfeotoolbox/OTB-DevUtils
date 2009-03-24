@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
         x.SetTuContinuousTesting()
         x.DisableCTest()
-        x.ForceExecution()
+#        x.ForceExecution()
 
         # List of platform must been tested
 #        try:

@@ -937,11 +937,8 @@ class TestProcessing:
         
 
         self.CallCheckDirectoryExit("GDAL include",gdal_include_dir)
-#        self.CallCheckDirectoryExit("GDAL lib",gdal_lib_dir)
         if self.GetTestConfigurationDir().find("fltk-ext") != -1:
                 self.CallCheckDirectoryExit("FLTK",fltk_dir)
-#dede                if os.path.isfile(fltk_fluid_exe):
-#                self.CallCheckDirectoryExit("Fluid executable",fltk_fluid_exe)
         if self.GetTestConfigurationDir().find("itk-ext") != -1:
                 self.CallCheckDirectoryExit("ITK",itk_dir)
 
@@ -956,8 +953,6 @@ class TestProcessing:
                 command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
         # Mac gcc optimization systems : add -pipe 
         elif self.GetTestConfigurationDir().find("macosx") != -1:
-#                command_line.append(' -D "CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc -pipe" ')
-#                command_line.append(' -D "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++ -pipe" ')
                 self.PrintWarning("MACOS X Architecture: CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall -pipe")
                 command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
                 # DEBUG
@@ -985,7 +980,6 @@ class TestProcessing:
         command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
 
         build_name=self.GetBuildName()
-        
         
         if BinComponent == "OTB":
         
@@ -1592,7 +1586,6 @@ class TestProcessing:
         chaine2 = chaine22.replace(' ','-')
         if os.path.exists(home_dir+"/crt") == 0:
                 os.mkdir(home_dir+"/crt")
-#        crt_file = home_dir + "/crt/"+TestConfigurationDir+"-"+thedate+".log"
         crt_file = home_dir + "/crt/"+TestConfigurationDir+"-"+chaine2+".log"
         return  crt_file
     
@@ -1641,16 +1634,16 @@ class TestProcessing:
 #                retcode = subprocess.check_call(command, shell=True)
 #                crtfile.close()
                 if retcode < 0:
-                        print >>sys.stderr, "Child was terminated by signal", -retcode
-                        self.AddMsgToCDLAndCrtFile( __command+"  KO")
+#                        print >>sys.stderr, "Child was terminated by signal", -retcode
+                        self.PrintError("retcode <0: "+ __command+"  KO")
                 else:
-                        print >>sys.stderr, "Child returned", retcode
+#                        print >>sys.stderr, "Child returned", retcode
                         self.AddMsgToCDLAndCrtFile( __command+"  OK")
         except OSError, e:
                 self.PrintError(" Execution failed (OSError error): "+__command)
                 exit(1)
         except IOError, e:
-                print >>sys.stderr, "Execution failed:", e
+#                print >>sys.stderr, "Execution failed:", e
                 self.PrintError(" Execution failed (IOError error): "+__command)
 #                self.PrintError("THOMAS2 " + os.strerror(errno.errorcode))
 #                self.PrintError("sys.exc_info "+sys.exc_info()[0])
@@ -1668,7 +1661,8 @@ class TestProcessing:
 #                self.AddMsgToCDLAndCrtFile("  ERROR: error (OSError error) to execute following process: "+ comment+"  subprocess.call("+command+", shell = True).")
         except:
                 self.PrintError(" Execution failed: Call "+comment+" -> subprocess.call("+command+", shell=True) ...")
-                self.AddMsgToCDLAndCrtFile("  ERROR: error to execute following process: "+ comment+"  subprocess.call("+command+", shell = True).")
+#                self.AddMsgToCDLAndCrtFile("  ERROR: error to execute following process: "+ comment+"  subprocess.call("+command+", shell = True).")
+    
     def CallRemoveDirectory(self,comment,directory):
         directory = os.path.normpath(directory)
         command = "  Remove "+comment+" directory ("+directory+") ..."
@@ -1713,9 +1707,9 @@ class TestProcessing:
                 exit(1)
     def CallCheckFile(self,comment,directory):
         if os.path.exists(directory) == 0:
-                self.AddMsgToCDLAndCrtFile("  Check "+comment+" file ("+directory+") ...  KO !")
+                self.PrintMsg("Check "+comment+" file ("+directory+") ...  KO !")
         else:
-                self.AddMsgToCDLAndCrtFile("  Check "+comment+" file ("+directory+") ...  OK")
+                self.PrintMsg("Check "+comment+" file ("+directory+") ...  OK")
         return os.path.exists(directory)
 
 
@@ -1726,38 +1720,38 @@ class TestProcessing:
                 exit(1)
     def CallCheckDirectory(self,comment,directory):
         if os.path.exists(directory) == 0:
-                self.AddMsgToCDLAndCrtFile("  Check "+comment+" directory ("+directory+") ...  KO !")
+                self.PrintMsg("Check "+comment+" directory ("+directory+") ...  KO !")
         else:
-                self.AddMsgToCDLAndCrtFile("  Check "+comment+" directory ("+directory+") ...  OK")
+                self.PrintMsg("Check "+comment+" directory ("+directory+") ...  OK")
         return os.path.exists(directory)
 
     def CallCreateDirectory(self,comment,directory):
-        self.AddMsgToCDLAndCrtFile("  "+comment+" -> os.makedirs("+directory+")")
+        self.PrintMsg(comment+" -> os.makedirs("+directory+")")
         try:
                 if os.path.exists(directory) == 0:
                         os.makedirs(directory)
         except:
-                self.AddMsgToCDLAndCrtFile("  ERROR: One error to execute following process: os.makedirs("+directory+").")
+                self.PrintError("One error to execute following process: os.makedirs("+directory+").")
                 exit(1)
     def CallCreateDirectory(self,comment,directory):
         command = "  Create "+comment+" directory -> os.makedirs("+directory+")"
-        self.AddMsgToCDLAndCrtFile(command)
+        self.PrintMsg(command)
         try:
                 if os.path.exists(directory) == 0:
                         os.makedirs(directory)
-                self.AddMsgToCDLAndCrtFile(command+"  OK")
+                self.PrintMsg(command+"  OK")
         except:
-                self.AddMsgToCDLAndCrtFile("  ERROR: One error to execute following process: os.makedirs("+directory+").")
+                self.PrintError("One error to execute following process: os.makedirs("+directory+").")
                 exit(1)
 
     def CallChangeDirectory(self,comment,directory):
         directory = os.path.normpath(directory)
-        self.AddMsgToCDLAndCrtFile("  Change current directory to "+comment+" directory ("+directory+")  ...")
+        self.PrintMsg("Change current directory to "+comment+" directory ("+directory+")  ...")
         try:
                 os.chdir(directory)
-                self.AddMsgToCDLAndCrtFile("  The current directory is <"+os.getcwd()+">")
+                self.PrintMsg("The current directory is <"+os.getcwd()+">")
         except:
-                self.AddMsgToCDLAndCrtFile("  ERROR: One error to execute following process: os.chdir("+directory+").")
+                self.PrintError("One error to execute following process: os.chdir("+directory+").")
                 exit(1)
 
     def AddMsgToCDLAndCrtFile(self,line):
