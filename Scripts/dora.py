@@ -58,6 +58,7 @@ if __name__ == "__main__":
                 x.SetFullNightlyTesting()
                
                 x.Run(reference_configuration)
+                x.Run(reference_configuration2)
 
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
