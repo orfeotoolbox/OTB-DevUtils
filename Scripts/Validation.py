@@ -858,10 +858,6 @@ class TestProcessing:
 #        self.CallCommand("Pull "+SrcComponent+"..."," hg pull " + SrcComponent )
 #        self.CallCommand("Update "+SrcComponent+"..."," hg update " + SrcComponent )
 
-        command_line = []
-        command_line.append('cmake ')
-
-        command_line.append( self.GetCmakePlatform())
         
         mode = self.GetMode()        
         build_type=self.GetBuildType()
@@ -949,40 +945,46 @@ class TestProcessing:
                 self.PrintWarning("Parsing 'fltk-int' or 'fltk-ext' is not detected in '"+self.GetTestConfigurationDir()+"' configuration !! FLTK Internal is default value.")
 
         # For Visual, set CMAKE_CONFIGURATION_TYPES parameter        
+        command_line = []
+        command_line.append('cmake ')
+
+        command_line.append( self.GetCmakePlatform())
+        
         if self.GetTestConfigurationDir().find("visual") != -1:
                 command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
-        # Mac gcc optimization systems : add -pipe 
-        elif self.GetTestConfigurationDir().find("macosx") != -1:
-                self.PrintWarning("MACOS X Architecture: CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall -pipe")
-                command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
-                # DEBUG
-                command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall -pipe" ')
-                command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall -pipe" ')
-                command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
-                command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
-                # RELEASE
-                command_line.append(' -D "CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall -pipe" ')
-                command_line.append(' -D "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall -pipe" ')
-                command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
-                command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
-        else:
-                # DEBUG
-                command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
-                command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
-                command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
-                command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
-                # RELEASE
-                command_line.append(' -D "CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall" ')
-                command_line.append(' -D "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall" ')
-                command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
-                command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
 
         command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
 
         build_name=self.GetBuildName()
         
         if BinComponent == "OTB":
-        
+                # Mac gcc optimization systems : add -pipe 
+                # These options are automatically report in the OTB-Applications CMakeLists
+                if self.GetTestConfigurationDir().find("macosx") != -1:
+                        self.PrintWarning("MACOS X Architecture: CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall -pipe")
+                        command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
+                        # DEBUG
+                        command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall -pipe" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall -pipe" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+                        # RELEASE
+                        command_line.append(' -D "CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall -pipe" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall -pipe" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
+                  else:
+                        # DEBUG
+                        command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
+                        # RELEASE
+                        command_line.append(' -D "CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
+
                 command_line.append(' -D "OTB_SHOW_ALL_MSG_DEBUG:BOOL=OFF" ')
                 command_line.append(' -D "BUILD_DOXYGEN:BOOL=OFF" ')
                 if self.__disableBuildExamples__ == True:
@@ -1665,15 +1667,25 @@ class TestProcessing:
     
     def CallRemoveDirectory(self,comment,directory):
         directory = os.path.normpath(directory)
-        command = "  Remove "+comment+" directory ("+directory+") ..."
-        self.AddMsgToCDLAndCrtFile(command)
+        command = "Remove "+comment+" directory ("+directory+") ..."
+        self.PrintMsg(command)
         try:
                 if os.path.exists(directory):
                         self.RemoveDirectories(directory)
-                self.AddMsgToCDLAndCrtFile(command+"  OK")
+                self.PrintMsg(command+"  OK")
         except:
-                self.AddMsgToCDLAndCrtFile("  ERROR: One error to execute following process: RemoveDirectories "+directory)
-                
+                self.PrintError("One error to execute following process: RemoveDirectories "+directory)
+                self.PrintWarning("Force remove directory by call system process") 
+                if self.GetMode().find("visual") == -1:
+                        try:
+                                  self.CallCommand("Remove "+comment+" directory ("+directory+") ...","\rm -rf "+directory)
+                        except:
+                                  self.PrintError("\rm -rf has throwed an exception")
+                if os.path.exists(directory):
+                        self.PrintMsg("Force remove directory abort !")
+                else: 
+                        self.PrintWarning("Force remove directory success !") 
+    
     def RemoveDirectories(self,top):
         for root, dirs, files in os.walk(top, topdown=False):
                 for name in files:
