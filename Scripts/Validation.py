@@ -1676,7 +1676,12 @@ class TestProcessing:
         except:
                 self.PrintError("One error to execute following process: RemoveDirectories "+directory)
                 self.PrintWarning("Force remove directory by call system process") 
-                if self.GetMode().find("visual") == -1:
+                if self.GetMode().find("visual") != -1:
+                        try:
+                                  self.CallCommand("Remove "+comment+" directory ("+directory+") ...","rmdir /S /Q "+directory)
+                        except:
+                                  self.PrintError("rmdir /S /Q has throwed an exception")
+                else:
                         try:
                                   self.CallCommand("Remove "+comment+" directory ("+directory+") ...","\rm -rf "+directory)
                         except:
