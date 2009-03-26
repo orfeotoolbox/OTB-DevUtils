@@ -973,7 +973,7 @@ class TestProcessing:
                         command_line.append(' -D "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall -pipe" ')
                         command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
                         command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
-                else:
+                elif self.GetTestConfigurationDir().find("visual") == -1:
                         # DEBUG
                         command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
                         command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
