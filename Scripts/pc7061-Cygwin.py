@@ -2,7 +2,6 @@ import sys
 import os
 import platform
 import socket
-import subprocess
 
 if __name__ == "__main__":
         sys.path.append(os.getcwd()+"/OTB-DevUtils/Scripts")
@@ -16,26 +15,24 @@ if __name__ == "__main__":
                 exit(1)
 
         x=Validation.TestProcessing()
-
-        # Set dirs
-        x.SetOutilsDir("/Users/thomas/")
-        x.SetRunDir("/Users/thomas/")
-        x.SetOtbDataLargeInputDir("/Users/thomas/OTB-Data-LargeInput")
+        x.SetRunDir("/cygdrive/d/OTB-VALIDATION")
+        x.SetOutilsDir("/cygdrive/d/OTB-VALIDATION")
         x.DisableUseOtbDataLargeInput()
-        x.SetSourcesDir("/Users/thomas/")
+#        x.SetOtbDataLargeInputDir("/cygdrive/d/XXXXXXXXXXXXXXXX_OTB-Data-LargeInput")
+        x.SetSourcesDir("/cygdrive/d/OTB-VALIDATION")
 
+        x.SetGeotiffIncludeDirs("/cygdrive/d/OTB-VALIDATION/OTB-OUTILS/gdal/install-cygwin/include")
+        x.SetTiffIncludeDirs("/cygdrive/d/OTB-VALIDATION/OTB-OUTILS/gdal/install-cygwin/include")
+        x.SetJpegIncludeDirs("/cygdrive/d/OTB-VALIDATION/OTB-OUTILS/gdal/install-cygwin/include")
+
+         # -> Active generation makefiles
         x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
         x.DisableGlUseAccel()
         x.DisableBuildExamples()
 
-        x.SetGeotiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/gtiff/libgeotiff")
-        x.SetTiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/gtiff/libtiff")
-        x.SetJpegIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/jpeg/libjpeg")
-
-        reference_configuration = "macosx-static-release-itk-internal-fltk-external"
-
-        # =========    DAY TESTING   ============ 
+        reference_configuration = "cygwin-shared-release-itk-internal-fltk-internal"
+       # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
@@ -43,31 +40,33 @@ if __name__ == "__main__":
                 x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
-        if sys.argv[1] == "DAY_COMPILATION":
+        elif sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.SetTuContinuousTesting()
                 x.Run(reference_configuration)
  
+        # =========    WEEKEND    ============ 
+        elif sys.argv[1] == "WEEKEND":
+                x.EnableUpdateNightlySources()
+                x.EnableGenerateMakefiles()
+                x.SetFullNightlyTesting()
+                x.Run(reference_configuration)
+
         # =========    WEEK    ============ 
-        if sys.argv[1] == "WEEK":
+        elif sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.DisableGenerateMakefiles()
                 x.SetFullNightlyTesting()
                 x.Run(reference_configuration)
 
-        # =========    WEEKEND    ============ 
-        if sys.argv[1] == "WEEKEND":
-                x.EnableUpdateNightlySources()
-                x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
-                x.Run(reference_configuration)
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.DisableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
                 x.SetTuContinuousTesting()
-                x.ForceExecution()
                 x.DisableCTest()
-                x.Run("macosx-static-release-itk-internal-fltk-external")
+                x.Run(reference_configuration)
+
+

@@ -46,7 +46,8 @@ if __name__ == "__main__":
  
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
-                x.EnableUpdateNightlySources()
+#                x.EnableUpdateNightlySources()
+                x.DisableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetFullNightlyTesting()
                 x.Run("cygwin-shared-release-itk-external-fltk-external")
@@ -54,7 +55,9 @@ if __name__ == "__main__":
 
         # =========    WEEK    ============ 
         elif sys.argv[1] == "WEEK":
-                x.EnableUpdateNightlySources()
+#                x.EnableUpdateNightlySources()
+                x.DisableUpdateNightlySources()
+#                x.DisableGenerateMakefiles()
                 x.EnableGenerateMakefiles()
                 x.SetFullNightlyTesting()
                 x.Run("cygwin-shared-release-itk-external-fltk-external")
@@ -62,10 +65,11 @@ if __name__ == "__main__":
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.EnableUpdateCurrentSources()
-                x.EnableGenerateMakefiles()
+#                x.EnableGenerateMakefiles()
+                x.DisableGenerateMakefiles()
                 x.SetTuContinuousTesting()
                 x.DisableCTest()
-                x.Run("local-testing-cygwin-shared-release-itk-external-fltk-external")
+                x.Run("cygwin-shared-release-itk-external-fltk-external")
 
 
 

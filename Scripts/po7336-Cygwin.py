@@ -64,6 +64,7 @@ if __name__ == "__main__":
                 x.EnableGenerateMakefiles()
                 x.SetTuContinuousTesting()
                 x.DisableCTest()
-                x.Run("local-testing-cygwin-static-debug-itk-external-fltk-external")
+                x.Run("cygwin-shared-release-itk-external-fltk-external")
+                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
 
 
