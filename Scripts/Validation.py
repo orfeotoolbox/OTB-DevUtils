@@ -1683,9 +1683,9 @@ class TestProcessing:
                                   self.PrintError("rmdir /S /Q has throwed an exception")
                 else:
                         try:
-                                  self.CallCommand("Remove "+comment+" directory ("+directory+") ...","\rm -rf "+directory)
+                                  self.CallCommand("Remove "+comment+" directory ("+directory+") ...","\\rm -rf "+directory)
                         except:
-                                  self.PrintError("\rm -rf has throwed an exception")
+                                  self.PrintError("\\rm -rf has throwed an exception")
                 if os.path.exists(directory):
                         self.PrintMsg("Force remove directory abort !")
                 else: 
