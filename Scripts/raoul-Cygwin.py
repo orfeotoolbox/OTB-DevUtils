@@ -17,7 +17,7 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
         x.SetRunDir("/cygdrive/y")
         x.SetOutilsDir("/cygdrive/y")
-        x.SetOtbDataLargeInputDir("/cygdrive/y/OTB-Data-LargeInput")
+        x.SetOtbDataLargeInputDir("/cygdrive/y/OTB-HG-CS/OTB-Data-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("/cygdrive/y")
 

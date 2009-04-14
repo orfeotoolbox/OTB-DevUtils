@@ -947,7 +947,7 @@ class TestProcessing:
         # For Visual, set CMAKE_CONFIGURATION_TYPES parameter        
         command_line = []
         command_line.append('cmake ')
-
+        command_line.append('-Wno-dev')
         command_line.append( self.GetCmakePlatform())
         
         if self.GetTestConfigurationDir().find("visual") != -1:
