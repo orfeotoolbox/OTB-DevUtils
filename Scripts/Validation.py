@@ -1011,6 +1011,7 @@ class TestProcessing:
                         command_line.append(' -D "FLTK_FLUID_EXECUTABLE:FILEPATH='+fltk_fluid_exe+'" ' )
                 else:
                         command_line.append(' -D "OTB_USE_EXTERNAL_FLTK:BOOL=OFF" ')
+                        command_line.append(' -D "FLTK_FLUID_EXECUTABLE:FILEPATH=" ' )
                         
                 if self.GetTestConfigurationDir().find("itk-ext") != -1:
                         command_line.append(' -D "OTB_USE_EXTERNAL_ITK:BOOL=ON" ')
