@@ -13,3 +13,7 @@ SET( MAKECOMMAND "/usr/bin/make -i -j 8 -k" CACHE STRING "debianRelease" FORCE )
 SET( OTB_GL_USE_ACCEL ON CACHE BOOL "debianRelease" FORCE )
 SET( ITK_USE_REVIEW ON CACHE BOOL "debianRelease" FORCE )
 SET( ITK_USE_OPTIMIZED_REGISTRATION_METHODS ON CACHE BOOL "Multithreaded registration" FORCE )
+
+SET( OTB_USE_MAPNIK ON CACHE BOOL "Using mapnik" FORCE)
+SET( MAPNIK_INCLUDE_DIR "/home/christop/slash/include" CACHE STRING "mapnik include" FORCE)
+SET( MAPNIK_LIBRARY "/home/christop/slash/lib64" CACHE STRING "mapnik lib" FORCE)
