@@ -961,30 +961,18 @@ class TestProcessing:
                 # Mac gcc optimization systems : add -pipe 
                 # These options are automatically report in the OTB-Applications CMakeLists
                 if self.GetTestConfigurationDir().find("macosx") != -1:
-                        self.PrintWarning("MACOS X Architecture: CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall -pipe")
+                        self.PrintWarning("MACOS X Architecture: CMAKE_CXX_FLAGS:STRING=-Wall -pipe")
                         command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
-                        # DEBUG
-                        command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall -pipe" ')
-                        command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall -pipe" ')
-                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
-                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
-                        # RELEASE
-                        command_line.append(' -D "CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall -pipe" ')
-                        command_line.append(' -D "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall -pipe" ')
-                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
-                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall -pipe" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall -pipe" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
                 elif self.GetTestConfigurationDir().find("visual") == -1:
-                        # DEBUG
-                        command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
-                        command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
-                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
-                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-Wall" ')
-                        # RELEASE
-                        command_line.append(' -D "CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall" ')
-                        command_line.append(' -D "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG -Wall" ')
-                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
-                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=-Wall" ')
-
+                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
+                
                 command_line.append(' -D "OTB_SHOW_ALL_MSG_DEBUG:BOOL=OFF" ')
                 command_line.append(' -D "BUILD_DOXYGEN:BOOL=OFF" ')
                 if self.__disableBuildExamples__ == True:
@@ -1349,8 +1337,10 @@ class TestProcessing:
                         command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
                 else:
                         command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
-                        command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
-                        command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
+                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
 
                 command_line.append(' -D "BUILD_EXAMPLES:BOOL=OFF" ')
                 command_line.append(' -D "BUILD_TESTING:BOOL=OFF" ')
@@ -1430,8 +1420,10 @@ class TestProcessing:
                         command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
                 else:
                         command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
-                        command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
-                        command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
+                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
        
 #                command_line.append(' -D "BUILD_DOXYGEN:BOOL=OFF" ')
                 command_line.append(' -D "BUILD_EXAMPLES:BOOL=OFF" ')
@@ -1524,8 +1516,10 @@ class TestProcessing:
                         command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
                 else:
                         command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
-                        command_line.append(' -D "CMAKE_C_FLAGS_DEBUG:STRING=-g -Wall" ')
-                        command_line.append(' -D "CMAKE_CXX_FLAGS_DEBUG:STRING=-g -Wall" ')
+                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
        
 #                command_line.append(' -D "BUILD_DOXYGEN:BOOL=OFF" ')
                 command_line.append(' -D "BUILD_EXAMPLES:BOOL=OFF" ')
