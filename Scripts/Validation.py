@@ -98,7 +98,7 @@ class TestProcessing:
     __testConfigurationDir__ = "Undefined"
     __prefix_build_name__ = ""
     __distrib_name__ = ""
-    __itkVersion__ = "3.10.1"
+    __itkVersion__ = "3.12.0"
     __fltkVersion__ = "1.1.9"
     __vtkVersion__ = "5.0"
     __homeDir__ = ""
@@ -1079,6 +1079,7 @@ class TestProcessing:
                 command_line.append(' -D "OTB_DATA_LARGEINPUT_ROOT:PATH='+self.GetOtbDataLargeInputSourceDir()+'" ')
 
         command_line.append(' -D "BUILDNAME:STRING='+build_name+'" ' )
+        command_line.append(' -D "OTB_USE_CPACK:BOOL=ON" ')
 
         # Add sources dir
         if BinComponent.find("OTB-Applications") != -1:
