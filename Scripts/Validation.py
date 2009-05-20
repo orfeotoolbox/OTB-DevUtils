@@ -157,90 +157,16 @@ class TestProcessing:
 
 
 
-    #########################################################################################################"
-    #########################################################################################################"
-    ####                                                                                                  ###"
-    ####                                                                                                  ###"
-    ####                             M  A  I  N           R  U  N                                         ###"
-    ####                                                                                                  ###"
-    ####                           L O C A L   H O S T   S Y S T E M                                      ###"
-    ####                                                                                                  ###"
-    #########################################################################################################"
-    #########################################################################################################"
-    def RunLocalHostSytem(self,TestConfigurationDir):
-        # Create CRT file
-        home_dir = os.getcwd()
-        crt_file = self.FindCrtFileName(TestConfigurationDir)
-        if os.path.exists(crt_file):
-                os.remove(crt_file)
-
-        self.SetCrtFile(crt_file)
-
-        # For MinGW and Cygwin, call system_command with this .py file (recursive call)
-        # Attention : pou Cygwin, le fichhier doit etre en mode UNIX 
-        # => solution, copy d'un fichier en UNIX et ecriture dedans
-        # => autre solution a faire : dos2unix !!!
-
-        # dos2unix transform temporary file (necessary for Cygwin)
-        if os.path.exists(home_dir+"/tmp") == 0:
-                os.mkdir(home_dir+"/tmp")
-        tmpFileName =  os.path.abspath(home_dir+'/tmp/'+TestConfigurationDir+'.sh') #self.FindTemporayFileName()
-#        tmpFileNameUnix = os.path.abspath(home_dir+'/otb-auto-unix-'+TestConfigurationDir+'.sh')
-#        fileDos2Unix = os.path.abspath(home_dir+'/dos2unix.sh')
-        dos2unix = os.path.abspath(home_dir+'/DOS2UNIX.exe')
-
-        if TestConfigurationDir.find("mingw") != -1:
-                print "Call Mingw X-server..."
-                self.GenerateTemporaryShell(tmpFileName, self.__python_mingw_command__, TestConfigurationDir)
-#                shell=home_dir + "/otb-internal.sh " + self.__python_mingw_command__ + " " + os.getcwd() + " " + TestConfigurationDir +" "+ self.GetTypeTest() +" "+  self.GetStringMakeClean()
-#                tmpFileName="/e/travail/shell-test-otb/otb-internal-otb-auto.sh"
-                self.CallCommand("Run Testing on MinGW plaform",self.__mingw_system_command__ + tmpFileName )
-        else:
-                if TestConfigurationDir.find("cygwin") != -1:
-                        print "Call Cygwin X-server..."
-                        self.GenerateTemporaryShell(tmpFileName, self.__python_cygwin_command__, TestConfigurationDir)
-                        self.CallCommand("Run dos2unix on Cygwin plaform",dos2unix + ' ' + tmpFileName )
-                        self.CallCommand("Run Testing on Cygwin plaform",self.__cygwin_system_command__ + ' "' + tmpFileName +'"')
-                else:
-                        print "RunHostPlatform"
-                        self.Run(TestConfigurationDir)
-        if os.path.exists(tmpFileName):
-                os.remove(tmpFileName)
-        
-
-  
-    # In HOST SYSTEM 
-    #########################################################################################################"
-    #########################################################################################################"
-    ####                                                                                                  ###"
-    ####                                                                                                  ###"
-    ####                             M  A  I  N           R  U  N                                         ###"
-    ####                                                                                                  ###"
-    ####                              H O S T   P L A T F O R M                                           ###"
-    ####                                                                                                  ###"
-    #########################################################################################################"
-    #########################################################################################################"
-    def RunUpdateSources(self):
-        # Get CrtFile
-        crt_file = self.FindCrtFileName("update_sources")
-        self.SetCrtFile(crt_file)
-        # Set TestConfiguration 
-        self.SetTestConfigurationDir("update_sources")
-
-        self.PrintTitle('Run Update sources !')
-
-        # Set and Check directories
-        if self.__homeBaseRunDir__ == "local":
-                self.__homeDir__ = os.path.abspath(os.getcwd())
-        else:
-                value = os.path.normpath(self.__homeBaseRunDir__+"/"+self.__homeRunName__)
-                self.CallCheckDirectoryExit(self.__homeRunName__ +" dir",value)
-                self.__homeDir__ = value
-
-#        self.InitOutilsDir()
-        self.InitSourcesDir()
-        self.UpdateSources()
     
+    #########################################################################################################"
+    #########################################################################################################"
+    ####                                                                                                  ###"
+    ####                                                                                                  ###"
+    ####                             M  A  I  N           R  U  N                                         ###"
+    ####                                                                                                  ###"
+    ####                                                                                                  ###"
+    #########################################################################################################"
+    #########################################################################################################"
     def Run(self,TestConfigurationDir):
         # Get CrtFile
         crt_file = self.FindCrtFileName(TestConfigurationDir)
@@ -367,8 +293,28 @@ class TestProcessing:
         # try End Run
         except:
             self.PrintMsg("Error while executing Run method with " +TestConfigurationDir + " configuration !!")
-            print 'Error while executing Run method with ', TestConfigurationDir, ' configuration !!'
 
+
+    def RunUpdateSources(self):
+        # Get CrtFile
+        crt_file = self.FindCrtFileName("update_sources")
+        self.SetCrtFile(crt_file)
+        # Set TestConfiguration 
+        self.SetTestConfigurationDir("update_sources")
+
+        self.PrintTitle('Run Update sources !')
+
+        # Set and Check directories
+        if self.__homeBaseRunDir__ == "local":
+                self.__homeDir__ = os.path.abspath(os.getcwd())
+        else:
+                value = os.path.normpath(self.__homeBaseRunDir__+"/"+self.__homeRunName__)
+                self.CallCheckDirectoryExit(self.__homeRunName__ +" dir",value)
+                self.__homeDir__ = value
+
+#        self.InitOutilsDir()
+        self.InitSourcesDir()
+        self.UpdateSources()
 
     # =====================================================================================================================================
     # ===  Run Process Testing for a component
