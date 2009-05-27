@@ -15,61 +15,62 @@ if __name__ == "__main__":
                 exit(1)
 
         x=Validation.TestProcessing()
-        x.SetRunDir("/cygdrive/y")
-        x.SetOutilsDir("/cygdrive/y")
-        x.SetOtbDataLargeInputDir("/cygdrive/y/OTB-HG-CS/OTB-Data-LargeInput")
-        x.EnableUseOtbDataLargeInput()
-        x.SetSourcesDir("/cygdrive/y")
+        x.SetRunDir("/cygdrive/d")
+        x.SetOutilsDir("/cygdrive/d")
+#        x.SetOtbDataLargeInputDir("/cygdrive/y/OTB-HG-CS/OTB-Data-LargeInput")
+        x.DisableUseOtbDataLargeInput()
+        x.SetSourcesDir("/cygdrive/d")
 
-        x.SetGeotiffIncludeDirs("/cygdrive/y/OTB-OUTILS/gdal/install-cygwin/include")
-        x.SetTiffIncludeDirs("/cygdrive/y/OTB-OUTILS/gdal/install-cygwin/include")
-        x.SetJpegIncludeDirs("/cygdrive/y/OTB-OUTILS/gdal/install-cygwin/include")
+        x.SetGeotiffIncludeDirs("/cygdrive/d/OTB-OUTILS/gdal/install-cygwin/include")
+        x.SetTiffIncludeDirs("/cygdrive/d/OTB-OUTILS/gdal/install-cygwin/include")
+        x.SetJpegIncludeDirs("/cygdrive/d/OTB-OUTILS/gdal/install-cygwin/include")
 
         x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
         x.DisableGlUseAccel()
         x.DisableBuildExamples()
+
+        reference_configuration = "cygwin-shared-release-itk-internal-fltk-internal"
 	
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.SetFullContinuousTesting()
-                x.Run("cygwin-shared-release-itk-external-fltk-external")
+                x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
         elif sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.SetTuContinuousTesting()
-                x.Run("cygwin-shared-release-itk-external-fltk-external")
+                x.Run(reference_configuration)
  
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
-#                x.EnableUpdateNightlySources()
                 x.DisableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetFullNightlyTesting()
-                x.Run("cygwin-shared-release-itk-external-fltk-external")
+                x.Run(reference_configuration)
                 x.Run("cygwin-static-debug-itk-internal-fltk-internal")
 
         # =========    WEEK    ============ 
         elif sys.argv[1] == "WEEK":
-#                x.EnableUpdateNightlySources()
                 x.DisableUpdateNightlySources()
-#                x.DisableGenerateMakefiles()
-                x.EnableGenerateMakefiles()
+                x.DisableGenerateMakefiles()
+#                x.EnableGenerateMakefiles()
                 x.SetFullNightlyTesting()
-                x.Run("cygwin-shared-release-itk-external-fltk-external")
+                x.Run(reference_configuration)
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
-                x.EnableUpdateCurrentSources()
-#                x.EnableGenerateMakefiles()
-                x.DisableGenerateMakefiles()
+                x.DisableUpdateCurrentSources()
+#                x.DisableGenerateMakefiles()
+                x.EnableGenerateMakefiles()
                 x.SetTuContinuousTesting()
                 x.DisableCTest()
-                x.Run("cygwin-shared-release-itk-external-fltk-external")
+#                x.ForceExecution()
+                x.Run(reference_configuration)
 
 
 
