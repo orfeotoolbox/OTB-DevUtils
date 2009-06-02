@@ -1,6 +1,6 @@
 SET( CMAKE_BUILD_TYPE "Release" CACHE STRING "debianRelease" FORCE )
 SET( OTB_DIR "/home/otbtesting/OTB/OTB-Binary-Nightly" CACHE STRING "debianRelease" FORCE )
-SET( OTB_DATA_ROOT "/home/christop/OTB/trunk/OTB-Data" CACHE STRING "debianRelease" FORCE )
+SET( OTB_DATA_ROOT "/home/otbtesting/OTB/trunk/OTB-Data" CACHE STRING "debianRelease" FORCE )
 SET( BUILD_TESTING "ON" CACHE STRING "debianRelease" FORCE )
 SET( OTB_USE_VTK "ON" CACHE STRING "debianRelease" FORCE )
 SET( CMAKE_C_FLAGS " -Wall  -Wno-uninitialized -Wno-unused-variable" CACHE STRING "debianRelease" FORCE )
