@@ -136,10 +136,13 @@ class TestProcessing:
     __gdal_library__ = ""
     __geotiff_library__ = ""
     
-    __tu_continuous_testing__ = "TU_CONTINUOUS_TESTING"
-    __full_nightly_testing__ = "FULL_NIGHTLY_TESTING"
-    __full_continuous_testing__ = "FULL_CONTINUOUS_TESTING"
-    __configurationRunTesting__ = __full_nightly_testing__
+    __experimental_testing__ = "EXPERIMENTAL_TESTING"
+    __continuous_testing__ = "CONTINUOUS_TESTING"
+    __nightly_testing__ = "NIGHTLY_TESTING"
+    __configurationRunTesting__ = __nightly_testing__
+    __enableTuTesting__ = True
+    __enableTvTesting__ = True
+    __enableTlTesting__ = True
     
    
     def __init__(self):
@@ -266,6 +269,9 @@ class TestProcessing:
             is_up_to_date = True
             if self.__forceExecution__ == True:
                 is_up_to_date = False
+            # Force execution for Nightly validation
+            elif self.__configurationRunTesting__ == self.__nightly_testing__:
+                is_up_to_date = False
             elif initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
                 is_up_to_date = False
             elif initial_version_otb_source_dir != current_version_otb_source_dir:
@@ -319,7 +325,7 @@ class TestProcessing:
     # =====================================================================================================================================
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
-    def RunSubProcessTesting(self,current_module,current_name_module,comment_ctest_call_command,ctest_call_command,is_up_to_date):
+    def RunSubProcessTesting(self,current_module,current_name_module,ctest_call_command,is_up_to_date):
         if is_up_to_date == False or self.IsDisableCTest() == True:
                 binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
                 current_binary_dir=binary_home_dir + "/binaries/"+current_module
@@ -341,7 +347,6 @@ class TestProcessing:
  
                 # ctest ...
                 if self.IsDisableCTest() == False:
-                        self.PrintWarning(comment_ctest_call_command)
                         self.CallCommand("CTest execution",ctest_call_command)
                         # make install
                         if self.GetTestConfigurationDir().find("visual") != -1:
@@ -367,16 +372,29 @@ class TestProcessing:
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
     def RunProcessTesting(self,current_module,current_name_module,is_up_to_date):
-        if self.__configurationRunTesting__ == self.__tu_continuous_testing__:
-            self.RunSubProcessTesting(current_module,current_name_module,"CTest Continuous testing with only Tu (ctest -R ..Tu)", "ctest -D Experimental --track Continuous -R ..Tu", is_up_to_date )
-        elif self.__configurationRunTesting__ == self.__full_continuous_testing__:
-            self.RunSubProcessTesting(current_module,current_name_module,
-            "CTest Full Continuous testing","ctest -D Experimental --track Continuous",is_up_to_date)
-        elif self.__configurationRunTesting__ == self.__full_nightly_testing__:
-            self.RunSubProcessTesting(current_module,current_name_module, "CTest Full Nightly testing","ctest -D Experimental --track Nightly",False) # false -> Force execution 
+        command = "ctest  -D Experimental "
+        if self.__configurationRunTesting__ == self.__continuous_testing__:
+            self.PrintWarning("Select 'Continuous' testing")
+            command = command + " --track Continuous " 
+        elif self.__configurationRunTesting__ == self.__nightly_testing__:
+            self.PrintWarning("Select 'Nightly' testing")
+            command = command + " --track Nightly " 
+        elif self.__configurationRunTesting__ == self.__experimental_testing__:
+            self.PrintWarning("Select 'Experimental' testing")
         else:
-            self.RunSubProcessTesting(current_module,current_name_module, "CTest Full Nightly testing", "ctest -D Experimental --track Nightly",False)
-
+            self.PrintError("CTest Uknown testing !!!!!!!!!!!!!")
+        
+        if self.__enableTuTesting__ == True:
+            command = command + " -R ..Tu " 
+            self.PrintWarning("Select '-R ..Tu' testing")
+        if self.__enableTvTesting__ == True:
+            self.PrintWarning("Select '-R ..Tv' testing")
+            command = command + " -R ..Tv " 
+        if self.__enableTlTesting__ == True:
+            self.PrintWarning("Select '-R ..Tl' testing")
+            command = command + " -R ..Tl " 
+ 
+        self.RunSubProcessTesting(current_module,current_name_module,command,is_up_to_date)
     
     # =====================================================================================================================================
     # ===  Update Nightly sources method
@@ -504,12 +522,25 @@ class TestProcessing:
         self.__forceExecution__ = True
     
     
-    def SetFullNightlyTesting(self):
-        self.__configurationRunTesting__ = self.__full_nightly_testing__
-    def SetFullContinuousTesting(self):
-        self.__configurationRunTesting__ = self.__full_continuous_testing__
-    def SetTuContinuousTesting(self):
-        self.__configurationRunTesting__ = self.__tu_continuous_testing__
+    def SetNightlyTesting(self):
+        self.__configurationRunTesting__ = self.__nightly_testing__
+    def SetContinuousTesting(self):
+        self.__configurationRunTesting__ = self.__continuous_testing__
+
+    def DisableTuTesting(self):
+        self.__enableTuTesting__ = False
+    def EnableTuTesting(self):
+        self.__enableTuTesting__ = True
+    def DisableTvTesting(self):
+        self.__enableTvTesting__ = False
+    def EnableTvTesting(self):
+        self.__enableTvTesting__ = True
+    def DisableTlTesting(self):
+        self.__enableTlTesting__ = False
+    def EnableTlTesting(self):
+        self.__enableTlTesting__ = True
+ 
+ 
 
     # ---  Disable/Enable CTest (ex: only cmake generation ) methods   -----------------------------------
     def DisableCTest(self):

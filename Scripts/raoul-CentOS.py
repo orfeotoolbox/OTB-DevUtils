@@ -36,21 +36,30 @@ if __name__ == "__main__":
         if sys.argv[1] == "DAY_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetFullContinuousTesting()
+                x.SetContinuousTesting()
                 x.Run(reference_configuration)
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.DisableTlTesting() 
  
         # =========    DAY COMPILATION   ============ 
         elif sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetTuContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
                 x.Run(reference_configuration)
  
         # =========    WEEK    ============ 
         elif sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
                 x.Run(reference_configuration)
                 x.Run(reference_configuration2)
 
@@ -58,7 +67,10 @@ if __name__ == "__main__":
         elif sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
 
                 x.Run(reference_configuration)
                 x.Run(reference_configuration2)
@@ -77,7 +89,10 @@ if __name__ == "__main__":
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
-                x.SetTuContinuousTesting()
-                x.DisableCTest()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+#                x.DisableCTest()
                 x.ForceExecution()
                 x.Run("essai-validation-centOS-linux-64bits-shared-release-itk-external-fltk-internal")
