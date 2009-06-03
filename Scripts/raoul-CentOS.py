@@ -29,7 +29,8 @@ if __name__ == "__main__":
         x.SetDistribName("CentOS-5.2")
         x.SetGeotiffIncludeDirs("/data/otbval/OTB-OUTILS/gdal/binaries-linux/frmts/gtiff/libgeotiff")
         
-        reference_configuration = "centOS-linux-64bits-shared-release-itk-internal-fltk-internal"
+        reference_configuration =  "centOS-linux-64bits-static-release-itk-internal-fltk-internal"
+        reference_configuration2 = "centOS-linux-64bits-static-debug-itk-external-fltk-external"
 
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
@@ -39,27 +40,28 @@ if __name__ == "__main__":
                 x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
-        if sys.argv[1] == "DAY_COMPILATION":
+        elif sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.SetTuContinuousTesting()
                 x.Run(reference_configuration)
  
         # =========    WEEK    ============ 
-        if sys.argv[1] == "WEEK":
+        elif sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetFullNightlyTesting()
                 x.Run(reference_configuration)
-                x.Run("centOS-linux-64bits-static-release-itk-internal-fltk-internal")
+                x.Run(reference_configuration2)
 
         # =========    WEEKEND    ============ 
-        if sys.argv[1] == "WEEKEND":
+        elif sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetFullNightlyTesting()
 
                 x.Run(reference_configuration)
+                x.Run(reference_configuration2)
 #                x.Run("centOS-linux-64bits-static-debug-itk-internal-fltk-internal")
 #                x.Run("centOS-linux-64bits-static-debug-itk-external-fltk-external")
 #                x.Run("centOS-linux-64bits-shared-debug-itk-internal-fltk-internal")
