@@ -32,21 +32,33 @@ if __name__ == "__main__":
         if sys.argv[1] == "DAY_TESTING":
                 x.DisableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetFullContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run("cygwin-static-debug-itk-internal-fltk-internal")
  
         # =========    DAY COMPILATION   ============ 
         elif sys.argv[1] == "DAY_COMPILATION":
                 x.DisableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetTuContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run("cygwin-static-debug-itk-internal-fltk-internal")
  
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
                 x.DisableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.DisableTlTesting() 
+                x.EnableTeTesting() 
                 x.Run("cygwin-static-debug-itk-internal-fltk-internal")
                 x.Run("cygwin-shared-release-itk-internal-fltk-internal")
 
@@ -54,17 +66,26 @@ if __name__ == "__main__":
         elif sys.argv[1] == "WEEK":
                 x.DisableUpdateNightlySources()
                 x.DisableGenerateMakefiles()
-                x.SetFullNightlyTesting()
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run("cygwin-static-debug-itk-internal-fltk-internal")
 
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
-                x.EnableUpdateCurrentSources()
+                x.DisableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
-                x.SetTuContinuousTesting()
-                x.DisableCTest()
-                x.Run("cygwin-shared-release-itk-external-fltk-external")
-                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.DisableTeTesting() 
+#                x.DisableCTest()
+                x.ForceExecution()
+                x.Run("cygwin-shared-release-itk-internal-fltk-internal")
+#                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
 
 

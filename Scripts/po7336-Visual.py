@@ -30,38 +30,62 @@ if __name__ == "__main__":
         x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visual7\\include")
         x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visual7\\include")
 
+        reference_configuration = "visual7-static-release-itk-internal-fltk-internal"
+
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetFullContinuousTesting()
-                x.Run("visual7-static-release-itk-internal-fltk-internal")
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
+                x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
         if sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetTuContinuousTesting()
-                x.Run("visual7-static-release-itk-internal-fltk-internal")
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
+                x.Run(reference_configuration)
  
         # =========    WEEK    ============ 
         if sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
-                x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
-                x.Run("visual7-static-release-itk-internal-fltk-internal")
+                x.DisableGenerateMakefiles()
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.DisableTeTesting() 
+                x.Run(reference_configuration)
 
         # =========    WEEKEND    ============ 
         if sys.argv[1] == "WEEKEND":
-                x.EnableUpdateNightlySources()
+#                x.EnableUpdateNightlySources()
+                x.DisableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
-                x.Run("visual7-static-release-itk-internal-fltk-internal")
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.EnableTeTesting() 
+                x.Run(reference_configuration)
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
-                x.SetTuContinuousTesting()
-                x.DisableCTest()
-                x.Run("visual7-static-release-itk-internal-fltk-internal")
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.DisableTeTesting() 
+#                x.DisableCTest()
+                x.ForceExecution()
+                x.Run(reference_configuration)

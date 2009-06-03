@@ -41,6 +41,7 @@ if __name__ == "__main__":
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.DisableTlTesting() 
+                x.DisableTeTesting() 
  
         # =========    DAY COMPILATION   ============ 
         elif sys.argv[1] == "DAY_COMPILATION":
@@ -50,6 +51,7 @@ if __name__ == "__main__":
                 x.EnableTuTesting() 
                 x.DisableTvTesting() 
                 x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run(reference_configuration)
  
         # =========    WEEK    ============ 
@@ -60,6 +62,7 @@ if __name__ == "__main__":
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
+                x.EnableTeTesting() 
                 x.Run(reference_configuration)
                 x.Run(reference_configuration2)
 
@@ -71,6 +74,7 @@ if __name__ == "__main__":
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
+                x.EnableTeTesting() 
 
                 x.Run(reference_configuration)
                 x.Run(reference_configuration2)
@@ -93,6 +97,7 @@ if __name__ == "__main__":
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
+                x.EnableTeTesting() 
 #                x.DisableCTest()
                 x.ForceExecution()
                 x.Run("essai-validation-centOS-linux-64bits-shared-release-itk-external-fltk-internal")

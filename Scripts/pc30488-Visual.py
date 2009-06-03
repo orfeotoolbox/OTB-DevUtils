@@ -36,21 +36,33 @@ if __name__ == "__main__":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.EnableGenerateMakefiles()
-                x.SetFullContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run("visual7-static-debug-itk-internal-fltk-internal")
  
         # =========    DAY COMPILATION   ============ 
         elif sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetTuContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run("visual7-static-debug-itk-internal-fltk-internal")
 
         # =========    WEEK END VALIDATION   ============ 
         elif sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.DisableTeTesting() 
+                x.SetNightlyTesting()
                 x.Run("visual7-static-debug-itk-internal-fltk-internal")
                 x.Run("visual7-static-release-itk-internal-fltk-internal")
                 x.Run("visual7-static-debug-itk-external-fltk-external")
@@ -60,13 +72,21 @@ if __name__ == "__main__":
         elif sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run("visual7-static-debug-itk-internal-fltk-internal")
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
-                x.SetTuContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.DisableTeTesting() 
                 x.DisableCTest()
                 x.Run("visual7-static-release-itk-internal-fltk-internal")

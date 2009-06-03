@@ -39,35 +39,55 @@ if __name__ == "__main__":
         if sys.argv[1] == "DAY_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetFullContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
         if sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetTuContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run(reference_configuration)
  
         # =========    WEEK    ============ 
         if sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.DisableGenerateMakefiles()
-                x.SetFullNightlyTesting()
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run(reference_configuration)
 
         # =========    WEEKEND    ============ 
         if sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run(reference_configuration)
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.DisableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
-                x.SetTuContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.DisableTeTesting() 
                 x.ForceExecution()
                 x.DisableCTest()
                 x.Run("macosx-static-release-itk-internal-fltk-external")

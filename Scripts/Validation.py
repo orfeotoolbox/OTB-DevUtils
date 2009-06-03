@@ -143,6 +143,7 @@ class TestProcessing:
     __enableTuTesting__ = True
     __enableTvTesting__ = True
     __enableTlTesting__ = True
+    __enableTeTesting__ = True
     
    
     def __init__(self):
@@ -393,6 +394,9 @@ class TestProcessing:
         if self.__enableTlTesting__ == True:
             self.PrintWarning("Select '-R ..Tl' testing")
             command = command + " -R ..Tl " 
+        if self.__enableTeTesting__ == True:
+            self.PrintWarning("Select '-R ..Te' testing")
+            command = command + " -R ..Te " 
  
         self.RunSubProcessTesting(current_module,current_name_module,command,is_up_to_date)
     
@@ -539,6 +543,10 @@ class TestProcessing:
         self.__enableTlTesting__ = False
     def EnableTlTesting(self):
         self.__enableTlTesting__ = True
+    def DisableTeTesting(self):
+        self.__enableTeTesting__ = False
+    def EnableTeTesting(self):
+        self.__enableTeTesting__ = True
  
  
 

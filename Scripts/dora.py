@@ -40,14 +40,22 @@ if __name__ == "__main__":
         if sys.argv[1] == "DAY_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetFullContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
         elif sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetTuContinuousTesting()
+                x.SetContinuousTesting()
+                x.EnableTuTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 
                 x.Run(reference_configuration)
  
@@ -55,7 +63,11 @@ if __name__ == "__main__":
         elif sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.EnableTeTesting() 
                
                 x.Run(reference_configuration)
                 x.Run(reference_configuration2)
@@ -64,7 +76,11 @@ if __name__ == "__main__":
         elif sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.SetFullNightlyTesting()
+                x.SetNightlyTesting()
+                x.EnableTuTesting() 
+                x.EnableTvTesting() 
+                x.EnableTlTesting() 
+                x.EnableTeTesting() 
 
                 x.Run(reference_configuration)
                 x.Run(reference_configuration2)
