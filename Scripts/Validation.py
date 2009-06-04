@@ -386,17 +386,17 @@ class TestProcessing:
             self.PrintError("CTest Uknown testing !!!!!!!!!!!!!")
         
         if self.__enableTuTesting__ == True:
-            command = command + " -R ..Tu " 
-            self.PrintWarning("Select '-R ..Tu' testing")
+            command = command + " -R ^..Tu " 
+            self.PrintWarning("Select '-R ^..Tu' testing")
         if self.__enableTvTesting__ == True:
-            self.PrintWarning("Select '-R ..Tv' testing")
-            command = command + " -R ..Tv " 
+            self.PrintWarning("Select '-R ^..Tv' testing")
+            command = command + " -R ^..Tv " 
         if self.__enableTlTesting__ == True:
-            self.PrintWarning("Select '-R ..Tl' testing")
-            command = command + " -R ..Tl " 
+            self.PrintWarning("Select '-R ^..Tl' testing")
+            command = command + " -R ^..Tl " 
         if self.__enableTeTesting__ == True:
-            self.PrintWarning("Select '-R ..Te' testing")
-            command = command + " -R ..Te " 
+            self.PrintWarning("Select '-R ^..Te' testing")
+            command = command + " -R ^..Te " 
  
         self.RunSubProcessTesting(current_module,current_name_module,command,is_up_to_date)
     
