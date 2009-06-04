@@ -92,12 +92,12 @@ if __name__ == "__main__":
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.EnableUpdateCurrentSources()
-                x.EnableGenerateMakefiles()
+                x.DisableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.EnableTlTesting() 
-                x.EnableTeTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
 #                x.DisableCTest()
                 x.ForceExecution()
-                x.Run("essai-validation-centOS-linux-64bits-shared-release-itk-external-fltk-internal")
+                x.Run(reference_configuration)

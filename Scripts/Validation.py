@@ -348,17 +348,17 @@ class TestProcessing:
  
                 # ctest ...
                 if self.IsDisableCTest() == False:
-                        self.CallCommand("CTest execution",ctest_call_command)
+                        self.CallCommand("CTest execution",ctest_call_command,True)
                         # make install
                         if self.GetTestConfigurationDir().find("visual") != -1:
-                                self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL")
+                                self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL",True)
                         else:
-                                self.CallCommand("Make Install", "make install")
+                                self.CallCommand("Make Install", "make install",True)
                         if self.__makeCleanAfterCTest__ == True:
                                 if self.GetTestConfigurationDir().find("visual") != -1:
-                                        self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                                        self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD",True)
                                 else:
-                                        self.CallCommand("Make Clean (After CTest)", "make clean")
+                                        self.CallCommand("Make Clean (After CTest)", "make clean",True)
                                 self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
                         if self.__cleanTestingResultsAfterCTest__ == True:
                                 self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
@@ -1076,7 +1076,7 @@ class TestProcessing:
                 cpt = cpt + 1
 #        self.CallCommand(cpt,nb_commands,"Makefiles generation... (cmake)",cmake_command_line)
         self.CallChangeDirectory(BinComponent,HomeDir+'/'+self.GetTestConfigurationDir()+"/binaries/"+BinComponent)
-        self.CallCommand(BinComponent +" generation",cmake_command_line)
+        self.CallCommand(BinComponent +" generation",cmake_command_line,True)
 
 
     # =====================================================================================================================================
@@ -1354,9 +1354,9 @@ class TestProcessing:
                 self.CallChangeDirectory("FLTK binaries",fltk_binary_dir)
                 self.CallCommand("FLTK generation",cmake_command_line)
                 if self.GetTestConfigurationDir().find("visual") != -1:
-                        self.CallCommand("FLTK make", self.GetVisualCommand() + " FLTK.sln /build "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                        self.CallCommand("FLTK make", self.GetVisualCommand() + " FLTK.sln /build "+self.GetCmakeBuildType() +" /project ALL_BUILD",True)
                 else:
-                        self.CallCommand("FLTK make", "make")
+                        self.CallCommand("FLTK make", "make",True)
 
                 self.PrintMsg("FLTK library installed with success (on directory <"+fltk_binary_dir+">) !")
 
@@ -1449,11 +1449,11 @@ class TestProcessing:
                 self.CallCommand("ITK generation",cmake_command_line)
                 
                 if self.GetTestConfigurationDir().find("visual") != -1:
-                        self.CallCommand("ITK make", self.GetVisualCommand() + " ITK.sln /build "+self.GetCmakeBuildType() +" /project ALL_BUILD")
-                        self.CallCommand("ITK make intall", self.GetVisualCommand() + " ITK.sln /build "+self.GetCmakeBuildType() +" /project INSTALL")
+                        self.CallCommand("ITK make", self.GetVisualCommand() + " ITK.sln /build "+self.GetCmakeBuildType() +" /project ALL_BUILD",True)
+                        self.CallCommand("ITK make intall", self.GetVisualCommand() + " ITK.sln /build "+self.GetCmakeBuildType() +" /project INSTALL",True)
                 else:
-                        self.CallCommand("ITK make", "make")
-                        self.CallCommand("ITK make intall", "make install")
+                        self.CallCommand("ITK make", "make",True)
+                        self.CallCommand("ITK make intall", "make install",True)
 #                self.CallRemoveDirectory("ITK binaries",itk_binary_dir)
                 self.PrintMsg("ITK library installed with success (on directory <"+itk_install_dir+">) !")
 
@@ -1541,11 +1541,11 @@ class TestProcessing:
                 self.CallCommand("VTK generation",cmake_command_line)
                 
                 if self.GetTestConfigurationDir().find("visual") != -1:
-                        self.CallCommand("VTK make", self.GetVisualCommand() + " VTK.sln /build "+self.GetCmakeBuildType() +" /project ALL_BUILD")
-                        self.CallCommand("VTK make intall", self.GetVisualCommand() + " VTK.sln /build "+self.GetCmakeBuildType() +" /project INSTALL")
+                        self.CallCommand("VTK make", self.GetVisualCommand() + " VTK.sln /build "+self.GetCmakeBuildType() +" /project ALL_BUILD",True)
+                        self.CallCommand("VTK make intall", self.GetVisualCommand() + " VTK.sln /build "+self.GetCmakeBuildType() +" /project INSTALL",True)
                 else:
-                        self.CallCommand("VTK make", "make")
-                        self.CallCommand("VTK make intall", "make install")
+                        self.CallCommand("VTK make", "make",True)
+                        self.CallCommand("VTK make intall", "make install",True)
 #                self.CallRemoveDirectory("VTK binaries",vtk_binary_dir)
                 self.PrintMsg("VTK library installed with success (on directory <"+vtk_install_dir+">) !")
 
@@ -1601,7 +1601,10 @@ class TestProcessing:
         return value3[3][0:16]
 
 
-    def CallCommand(self,comment,command):
+    def CallCommand(self,comment,command,fileout=False):
+        if fileout == True:
+                self.PrintWarning("Output command are include in the file "+self.GetCrtFile()+".")
+                command = command + " >> " + self.GetCrtFile()
         __command = "  Call "+comment+" -> subprocess.call("+command+", shell=True) ..."
         self.AddMsgToCDLAndCrtFile(__command)
         try:
