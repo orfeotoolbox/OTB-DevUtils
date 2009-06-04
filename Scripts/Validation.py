@@ -385,19 +385,29 @@ class TestProcessing:
         else:
             self.PrintError("CTest Uknown testing !!!!!!!!!!!!!")
         
+        selection_testing = []
         if self.__enableTuTesting__ == True:
-            command = command + " -R ^..Tu " 
-            self.PrintWarning("Select '-R ^..Tu' testing")
+            selection_testing.append("..Tu") 
+            self.PrintWarning("Select Tu testing")
         if self.__enableTvTesting__ == True:
-            self.PrintWarning("Select '-R ^..Tv' testing")
-            command = command + " -R ^..Tv " 
+            selection_testing.append("..Tv") 
+            self.PrintWarning("Select Tv testing")
         if self.__enableTlTesting__ == True:
-            self.PrintWarning("Select '-R ^..Tl' testing")
-            command = command + " -R ^..Tl " 
+            selection_testing.append("..Tl") 
+            self.PrintWarning("Select Tl testing")
         if self.__enableTeTesting__ == True:
-            self.PrintWarning("Select '-R ^..Te' testing")
-            command = command + " -R ^..Te " 
- 
+            selection_testing.append("..Te") 
+            self.PrintWarning("Select Te testing")
+        if len(selection_testing) == 0:
+            selection_testing.append("..Tu")
+        selection_testing_line="^("+selection_testing[0]
+        cpt = 1
+        while cpt < len(selection_testing):
+                selection_testing_line = selection_testing_line+ "|"+selection_testing[cpt]
+                cpt = cpt + 1
+        selection_testing_line = selection_testing_line+ ")"
+        selection_testing_line = '"' + selection_testing_line + '"'
+        command = command + selection_testing_line
         self.RunSubProcessTesting(current_module,current_name_module,command,is_up_to_date)
     
     # =====================================================================================================================================

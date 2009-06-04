@@ -95,7 +95,7 @@ if __name__ == "__main__":
                 x.DisableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
-                x.DisableTvTesting() 
+                x.EnableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
 #                x.DisableCTest()
