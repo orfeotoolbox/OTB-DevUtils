@@ -387,19 +387,19 @@ class TestProcessing:
         
         selection_testing = []
         if self.__enableTuTesting__ == True:
-            selection_testing.append("..Tu") 
+            selection_testing.append("..Tu|...Tu|....Tu") 
             self.PrintWarning("Select Tu testing")
         if self.__enableTvTesting__ == True:
-            selection_testing.append("..Tv") 
+            selection_testing.append("..Tv|...Tv|....Tv") 
             self.PrintWarning("Select Tv testing")
         if self.__enableTlTesting__ == True:
-            selection_testing.append("..Tl") 
+            selection_testing.append("..Tl|...Tl|....Tl") 
             self.PrintWarning("Select Tl testing")
         if self.__enableTeTesting__ == True:
-            selection_testing.append("..Te") 
+            selection_testing.append("..Te|...Te|....Te") 
             self.PrintWarning("Select Te testing")
         if len(selection_testing) == 0:
-            selection_testing.append("..Tu")
+            selection_testing.append("..Tu|...Tu|....Tu")
         selection_testing_line="^("+selection_testing[0]
         cpt = 1
         while cpt < len(selection_testing):
