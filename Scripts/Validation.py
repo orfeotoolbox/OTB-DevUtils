@@ -406,7 +406,7 @@ class TestProcessing:
                 selection_testing_line = selection_testing_line+ "|"+selection_testing[cpt]
                 cpt = cpt + 1
         selection_testing_line = selection_testing_line+ ")"
-        selection_testing_line = '"' + selection_testing_line + '"'
+        selection_testing_line = '-R "' + selection_testing_line + '"'
         command = command + selection_testing_line
         self.RunSubProcessTesting(current_module,current_name_module,command,is_up_to_date)
     
