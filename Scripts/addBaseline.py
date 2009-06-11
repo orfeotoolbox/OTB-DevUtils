@@ -4,14 +4,18 @@ import sys, string, shutil, os
 
 def help():
   print """
-  This script provides an easy way to add new baseline by simply copying the
+  This script provides an easy way to add new baselines by simply copying the
   part of the command line corresponding to the compare-image, compare-ascii
-  etc. in the dashboard.
-  The script checks for existing baselines and add it after.
+  etc. from the dashboard.
+  The script checks for existing baselines and add them after, incrementing the
+  baseline id number.
 
-  Think before doing 'hg add' or 'hg commit'!!!
+  Using the first argument '0' performs a dryrun letting you know which
+  baseline will be added. Always do that first!
 
-  Argument should be given as:
+  WARNING: Think twice before doing 'hg add' or 'hg commit'!!!
+
+  Arguments should be given as:
   0 baseline1 temporary1 baseline2 temporary2...
   Use the first argument to tell if you want to do a simulation (0) or really
   replace the baselines (1)
