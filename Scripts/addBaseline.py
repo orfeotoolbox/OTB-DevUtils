@@ -50,6 +50,7 @@ def main(argv):
   argc = len(argv)
   if (argc < 4):
     help()
+    return
   replace = argv[1]
   for i in range(2,argc,2):
     if (i+1 == argc):
