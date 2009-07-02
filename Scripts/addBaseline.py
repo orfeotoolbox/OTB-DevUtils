@@ -34,14 +34,21 @@ def copyBaseline(src,dst,replace):
   dstparts = string.split(dst, '.')
   prefix = '.'.join(dstparts[0:-1])
   suffix = dstparts[-1]
-  ident = ['.','.1.','.2.','.3.','.4.','.5.','.6.','.7.','.8.','.9.']
+  ident = ['','.1','.2','.3','.4','.5','.6','.7','.8','.9']
   for baselineid in ident:
-    dstnewbaseline = prefix+baselineid+suffix
-    if not os.path.isfile(prefix+baselineid+suffix):
+    dstnewbaseline = prefix+baselineid+'.'+suffix
+    if not os.path.isfile(prefix+baselineid +'.'+suffix):
       print "Adding baseline as "+dstnewbaseline
       if (int(replace) == 1):
         shutil.copyfile(src,dstnewbaseline)
         print "Done!"
+      if (suffix == 'hdr'):
+        srcparts = string.split(src, '.')
+        srcprefix = '.'.join(srcparts[0:-1])
+        print "Adding baseline as "+prefix+baselineid
+        if (int(replace) == 1):
+          shutil.copyfile(srcprefix,prefix+baselineid)
+          print "Done!"
       return
   print "ERROR: already 10 baselines, you might want to look at the test itself..."
   return
