@@ -3,6 +3,7 @@ SET( OTB_DIR "/home/otbtesting/OTB/OTB-Binary-Nightly" CACHE STRING "debianRelea
 SET( CableSwig_DIR "/home/christop/opensource/CableSwig-Binary" CACHE STRING "debianRelease" FORCE )
 SET( WRAP_LevelSet OFF CACHE BOOL "debianRelease" FORCE )
 SET( WRAP_Morphology OFF CACHE BOOL "debianRelease" FORCE )
+SET( WRAP_ChangeDetection OFF CACHE BOOL "debianRelease" FORCE )
 SET( WRAP_ITK_DIMS "2" CACHE STRING "debianRelease" FORCE )
 SET( WRAP_ITK_JAVA ON CACHE BOOL "debianRelease" FORCE )
 SET( JAVA_AWT_INCLUDE_PATH "/usr/lib/jvm/java-6-sun-1.6.0.12/include" CACHE STRING "debianRelease" FORCE )
