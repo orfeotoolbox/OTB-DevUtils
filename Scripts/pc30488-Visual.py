@@ -18,75 +18,55 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
         x.SetRunDir("G:\\")
         x.SetOutilsDir("G:\\")
-        x.SetOtbDataLargeInputDir("G:\\OTB-Data-LargeInput")
+        x.SetOtbDataLargeInputDir("G:\\OTB-BASE-SVN\\OTB-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("G:\\")
 
-        x.SetGeotiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visual7\\include")
-        x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visual7\\include")
-        x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visual7\\include")
+        x.SetGeotiffIncludeDirs("G:\\OTB-OUTILS\\gdal\\install-visual7\\include")
+        x.SetTiffIncludeDirs("G:\\OTB-OUTILS\\gdal\\install-visual7\\include")
+        x.SetJpegIncludeDirs("G:\\OTB-OUTILS\\gdal\\install-visual7\\include")
 
         x.EnableBuildExamples()
-        x.DisableTestOTBApplicationsWithInstallOTB()
+        x.EnableTestOTBApplicationsWithInstallOTB()
         x.DisableGlUseAccel()
         x.DisableUseVtk()
+        
+        reference_configuration = "visual7-static-release-itk-internal-fltk-internal"
 
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.EnableGenerateMakefiles()
-                x.SetContinuousTesting()
-                x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.DisableTlTesting() 
-                x.DisableTeTesting() 
-                x.Run("visual7-static-debug-itk-internal-fltk-internal")
+                x.SetFullContinuousTesting()
+                x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
         elif sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
-                x.SetContinuousTesting()
-                x.EnableTuTesting() 
-                x.DisableTvTesting() 
-                x.DisableTlTesting() 
-                x.DisableTeTesting() 
-                x.Run("visual7-static-debug-itk-internal-fltk-internal")
+                x.SetTuContinuousTesting()
+                x.Run(reference_configuration)
 
         # =========    WEEK END VALIDATION   ============ 
         elif sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.EnableTlTesting() 
-                x.DisableTeTesting() 
-                x.SetNightlyTesting()
-                x.Run("visual7-static-debug-itk-internal-fltk-internal")
-                x.Run("visual7-static-release-itk-internal-fltk-internal")
-                x.Run("visual7-static-debug-itk-external-fltk-external")
-                x.Run("visual7-static-release-itk-external-fltk-external")
+                x.SetFullNightlyTesting()
+                x.Run(reference_configuration)
+#                x.Run("visual7-static-release-itk-external-fltk-external")
 
         # =========    WEEK VALIDATION   ============ 
         elif sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
-                x.EnableGenerateMakefiles()
-                x.SetNightlyTesting()
-                x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.EnableTlTesting() 
-                x.DisableTeTesting() 
-                x.Run("visual7-static-debug-itk-internal-fltk-internal")
+                x.DisableGenerateMakefiles()
+                x.SetFullNightlyTesting()
+                x.Run(reference_configuration)
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.EnableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
-                x.SetContinuousTesting()
-                x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.EnableTlTesting() 
-                x.DisableTeTesting() 
-                x.DisableCTest()
-                x.Run("visual7-static-release-itk-internal-fltk-internal")
+                x.SetTuContinuousTesting()
+#                x.DisableCTest()
+                x.ForceExecution()
+                x.Run(reference_configuration)
