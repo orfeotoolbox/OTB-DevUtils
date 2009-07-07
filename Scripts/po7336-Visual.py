@@ -18,7 +18,7 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
         x.SetRunDir("D:\\")
         x.SetOutilsDir("D:\\")
-        x.SetOtbDataLargeInputDir("D:\\OTB-Data-LargeInput")
+        x.SetOtbDataLargeInputDir("D:\\OTB-CNES\\OTB-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("D:\\")
         x.EnableUpdateNightlySources()
@@ -61,7 +61,7 @@ if __name__ == "__main__":
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
-                x.EnableTlTesting() 
+                x.DisableTlTesting() 
                 x.DisableTeTesting() 
                 x.Run(reference_configuration)
 
@@ -80,11 +80,11 @@ if __name__ == "__main__":
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.EnableUpdateCurrentSources()
-                x.EnableGenerateMakefiles()
+                x.DisableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.EnableTlTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
                 x.DisableTeTesting() 
 #                x.DisableCTest()
                 x.ForceExecution()
