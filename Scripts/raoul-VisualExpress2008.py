@@ -18,8 +18,8 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
         x.SetRunDir("D:\\")
         x.SetOutilsDir("D:\\")
-        x.DisableUseOtbDataLargeInput()
-#        x.SetOtbDataLargeInputDir("Y:\\OTB-Data-LargeInput")
+        x.EnableUseOtbDataLargeInput()
+        x.SetOtbDataLargeInputDir("D:\\OTB-CNES\\OTB-LargeInput")
         x.SetSourcesDir("D:\\")
 
         # -> Active generation makefiles

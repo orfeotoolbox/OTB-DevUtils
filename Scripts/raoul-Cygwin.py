@@ -17,8 +17,8 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
         x.SetRunDir("/cygdrive/d")
         x.SetOutilsDir("/cygdrive/d")
-#        x.SetOtbDataLargeInputDir("/cygdrive/y/OTB-HG-CS/OTB-Data-LargeInput")
-        x.DisableUseOtbDataLargeInput()
+        x.EnableUseOtbDataLargeInput()
+        x.SetOtbDataLargeInputDir("/cygdrive/d/OTB-CNES/OTB-LargeInput")
         x.SetSourcesDir("/cygdrive/d")
 
         x.SetGeotiffIncludeDirs("/cygdrive/d/OTB-OUTILS/gdal/install-cygwin/include")
