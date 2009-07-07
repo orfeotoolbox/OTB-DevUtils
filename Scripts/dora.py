@@ -15,7 +15,7 @@ if __name__ == "__main__":
                 exit(1)
 
         x=Validation.TestProcessing()
-        x.SetOtbDataLargeInputDir("/home2/data/OTB-Data-LargeInput")
+        x.SetOtbDataLargeInputDir("/home2/data/OTB-BASE-SVN/OTB-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("/ORFEO/otbval")
         x.SetOutilsDir("/ORFEO/otbval")
