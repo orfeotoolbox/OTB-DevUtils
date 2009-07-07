@@ -422,25 +422,26 @@ class TestProcessing:
         self.PrintMsg("OTB revision: "+revisionValue)
         self.CallChangeDirectory("OTB",self.GetOtbSourceDir())
         self.CallCommand("Purge OTB ...","hg purge")
-        self.CallCommand("Pull OTB ...","hg pull")
-        self.CallCommand("Update OTB ...","hg update -r "+revisionValue)
+        self.CallCommand("Pull OTB ...","hg pull",True)
+        self.CallCommand("Update OTB ...","hg update -r "+revisionValue),True
 
         # ---  HG update OTB-Applications   ----------------------------------
         revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
         self.PrintMsg("OTB-Application revision: "+revisionValue)
 
         self.CallChangeDirectory("OTB-Applications",self.GetOtbApplicationsSourceDir())
-        self.CallCommand("Pull OTB-Applications ...","hg pull")
-        self.CallCommand("Update OTB-Applications ...","hg update -r "+revisionValue)
+        self.CallCommand("Pull OTB-Applications ...","hg pull",True)
+        self.CallCommand("Update OTB-Applications ...","hg update -r "+revisionValue,True)
 
         # ---  SVN update OTB-Data / LargeInput   ----------------------------------
-#        if self.__homeOtbDataLargeInputSourceDir__ != "disable":
-#           	self.CallCommand("Update OTB-Data-LargeInput..."," svn update " + self.GetOtbDataLargeInputSourceDir() +" --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword())
+        if self.GetOtbDataLargeInputSourceDir() != "disable":
+            self.CallChangeDirectory("OTB-Data-LargeInput",self.GetOtbDataLargeInputSourceDir())
+            self.CallCommand("Update OTB-Data-LargeInput...","svn update ",True) #() +" --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword())
 
         # ---  HG update OTB-Data (ou OTB-Data)  ----------------------------------
         self.CallChangeDirectory("OTB-Data",self.GetOtbDataSourceDir() )
-        self.CallCommand("Pull OTB-Data ...","hg pull")
-        self.CallCommand("Update OTB-Data ...","hg update default")
+        self.CallCommand("Pull OTB-Data ...","hg pull",True)
+        self.CallCommand("Update OTB-Data ...","hg update default",True)
         
         self.DisableUpdateNightlySources()
         
@@ -455,18 +456,23 @@ class TestProcessing:
 	# ---  HG update OTB  ----------------------------------
         self.CallChangeDirectory("OTB",self.GetOtbSourceDir())
         self.CallCommand("Purge OTB ...","hg purge")
-        self.CallCommand("Pull OTB ...","hg pull")
-        self.CallCommand("Update OTB ...","hg update default")
+        self.CallCommand("Pull OTB ...","hg pull",True)
+        self.CallCommand("Update OTB ...","hg update default",True)
 
         # ---  HG update OTB-Applications   ----------------------------------
         self.CallChangeDirectory("OTB-Applications",self.GetOtbApplicationsSourceDir())
-        self.CallCommand("Pull OTB-Applications ...","hg pull")
-        self.CallCommand("Update OTB-Applications ...","hg update default")
+        self.CallCommand("Pull OTB-Applications ...","hg pull",True)
+        self.CallCommand("Update OTB-Applications ...","hg update default",True)
 
         # ---  HG update OTB-Data (ou OTB-Data)  ----------------------------------
         self.CallChangeDirectory("OTB-Data",self.GetOtbDataSourceDir() )
-        self.CallCommand("Pull OTB-Data ...","hg pull")
-        self.CallCommand("Update OTB-Data ...","hg update default")
+        self.CallCommand("Pull OTB-Data ...","hg pull",True)
+        self.CallCommand("Update OTB-Data ...","hg update default",True)
+        
+        # ---  SVN update OTB-Data / LargeInput   ----------------------------------
+        if self.GetOtbDataLargeInputSourceDir() != "disable":
+            self.CallChangeDirectory("OTB-Data-LargeInput",self.GetOtbDataLargeInputSourceDir())
+            self.CallCommand("Update OTB-Data-LargeInput...","svn update ",True)
         
         self.DisableUpdateCurrentSources()
     
@@ -1613,7 +1619,7 @@ class TestProcessing:
 
     def CallCommand(self,comment,command,fileout=False):
         if fileout == True:
-                self.PrintWarning("Output command are include in the file "+self.GetCrtFile()+".")
+                self.PrintWarning("Output in CRT file.")
                 command = command + " >> " + self.GetCrtFile()
         __command = "  Call "+comment+" -> subprocess.call("+command+", shell=True) ..."
         self.AddMsgToCDLAndCrtFile(__command)

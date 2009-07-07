@@ -17,7 +17,7 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
         x.SetRunDir("/data/otbval")
         x.SetOutilsDir("/data/otbval")
-        x.SetOtbDataLargeInputDir("/data/otbval/OTB-HG-CS/OTB-Data-LargeInput")
+        x.SetOtbDataLargeInputDir("/data/otbval/OTB-CNES/OTB-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("/data/otbval")
 
@@ -95,7 +95,7 @@ if __name__ == "__main__":
                 x.DisableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
-                x.EnableTvTesting() 
+                x.DisableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
 #                x.DisableCTest()
