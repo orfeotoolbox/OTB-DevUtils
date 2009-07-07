@@ -121,8 +121,8 @@ class TestProcessing:
     __enableUseOtbDataLargeInput__ = True
     __visual_command__ = ""
     
-    __svn_username__ = "otbval"
-    __svn_password__ = "otbval"
+    __svn_username__ = "thomas"
+    __svn_password__ = "0thomas9"
     # Modiy by the administrator 
     # Set to True to suppress svn update error when the OTB/Utilities/ITK source dir was updated. !!!!
     __cleanItkSourceDir__ = False 
@@ -436,7 +436,7 @@ class TestProcessing:
         # ---  SVN update OTB-Data / LargeInput   ----------------------------------
         if self.GetOtbDataLargeInputSourceDir() != "disable":
             self.CallChangeDirectory("OTB-Data-LargeInput",self.GetOtbDataLargeInputSourceDir())
-            self.CallCommand("Update OTB-Data-LargeInput...","svn update ",True) #() +" --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword())
+            self.CallCommand("Update OTB-Data-LargeInput...","svn update --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword(),True)
 
         # ---  HG update OTB-Data (ou OTB-Data)  ----------------------------------
         self.CallChangeDirectory("OTB-Data",self.GetOtbDataSourceDir() )
@@ -472,7 +472,7 @@ class TestProcessing:
         # ---  SVN update OTB-Data / LargeInput   ----------------------------------
         if self.GetOtbDataLargeInputSourceDir() != "disable":
             self.CallChangeDirectory("OTB-Data-LargeInput",self.GetOtbDataLargeInputSourceDir())
-            self.CallCommand("Update OTB-Data-LargeInput...","svn update ",True)
+            self.CallCommand("Update OTB-Data-LargeInput...","svn update --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword(),True)
         
         self.DisableUpdateCurrentSources()
     
