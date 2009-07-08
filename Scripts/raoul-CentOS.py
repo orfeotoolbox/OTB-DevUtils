@@ -30,7 +30,7 @@ if __name__ == "__main__":
         x.SetGeotiffIncludeDirs("/data/otbval/OTB-OUTILS/gdal/binaries-linux/frmts/gtiff/libgeotiff")
         
         reference_configuration =  "centOS-linux-64bits-static-release-itk-internal-fltk-internal"
-        reference_configuration2 = "centOS-linux-64bits-static-debug-itk-external-fltk-external"
+        reference_configuration2 = "centOS-linux-64bits-shared-debug-itk-internal-fltk-internal"
 
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
@@ -78,16 +78,16 @@ if __name__ == "__main__":
 
                 x.Run(reference_configuration)
                 x.Run(reference_configuration2)
-#                x.Run("centOS-linux-64bits-static-debug-itk-internal-fltk-internal")
+                x.Run("centOS-linux-64bits-static-debug-itk-internal-fltk-internal")
 #                x.Run("centOS-linux-64bits-static-debug-itk-external-fltk-external")
 #                x.Run("centOS-linux-64bits-shared-debug-itk-internal-fltk-internal")
                 # Debug - External
 #                x.Run("centOS-linux-64bits-shared-debug-itk-external-fltk-external")
                 # Release - Internal
-                x.Run("centOS-linux-64bits-static-release-itk-internal-fltk-internal")
+#                x.Run("centOS-linux-64bits-static-release-itk-internal-fltk-internal")
                 # Release - External
                 x.Run("centOS-linux-64bits-shared-release-itk-external-fltk-external")
-                x.Run("centOS-linux-64bits-static-release-itk-external-fltk-external")
+#                x.Run("centOS-linux-64bits-static-release-itk-external-fltk-external")
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
