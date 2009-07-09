@@ -18,4 +18,4 @@ SET( ITK_USE_OPTIMIZED_REGISTRATION_METHODS ON CACHE BOOL "Multithreaded registr
 
 SET( OTB_USE_MAPNIK ON CACHE BOOL "Using mapnik" FORCE)
 SET( MAPNIK_INCLUDE_DIR "/home/christop/slash/include" CACHE STRING "mapnik include" FORCE)
-SET( MAPNIK_LIBRARY "/home/christop/slash/lib64" CACHE STRING "mapnik lib" FORCE)
+SET( MAPNIK_LIBRARY "/home/christop/slash/lib64/libmapnik.so" CACHE STRING "mapnik lib" FORCE)
