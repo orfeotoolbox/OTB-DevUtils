@@ -264,9 +264,10 @@ class TestProcessing:
             self.PrintMsg("OTB Version before " + initial_version_otb_source_dir + " and current " +current_version_otb_source_dir+".")
             self.PrintMsg("OTB-Applications Version before " + initial_version_otb_applications_source_dir + " and current " +current_version_otb_applications_source_dir+".")
             self.PrintMsg("OTB-Data Version before " + initial_version_otb_data_source_dir + " and current " +current_version_otb_data_source_dir+".")
+
+            # OTB testing ------------------------------
             component_cpt=0
             self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
-#        self.RunProcessTesting(self.__list_otb_components__[component_cpt],self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt])
             is_up_to_date = True
             if self.__forceExecution__ == True:
                 is_up_to_date = False
@@ -278,17 +279,22 @@ class TestProcessing:
             elif initial_version_otb_source_dir != current_version_otb_source_dir:
                 is_up_to_date = False
             self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
+
+            # OTB-Applications testing ------------------------------
             component_cpt = component_cpt + 1
             self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
-
             is_up_to_date = True
             if self.__forceExecution__ == True:
+                is_up_to_date = False
+            # Force execution for Nightly validation
+            elif self.__configurationRunTesting__ == self.__nightly_testing__:
                 is_up_to_date = False
             elif initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
                 is_up_to_date = False
             elif initial_version_otb_applications_source_dir != current_version_otb_applications_source_dir:
                 is_up_to_date = False
             self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
+            # OTB-Applications With Install OTB testing ------------------------------
             component_cpt = component_cpt + 1
             self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             if self.__disableTestOTBApplicationsWithInstallOTB___ == False:
