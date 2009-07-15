@@ -59,9 +59,10 @@ if __name__ == "__main__":
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
-                x.EnableTlTesting() 
+                x.EnableTeTesting() 
+                x.DisableTlTesting() 
                 x.Run(reference_configuration)
-                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
+#                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
 
         # =========    WEEK    ============ 
         elif sys.argv[1] == "WEEK":
@@ -71,7 +72,8 @@ if __name__ == "__main__":
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
-                x.EnableTlTesting() 
+                x.DisableTeTesting() 
+                x.DisableTlTesting() 
                 x.Run(reference_configuration)
 
         # =========    LOCAL TESTING   ============ 
