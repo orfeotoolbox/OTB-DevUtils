@@ -44,7 +44,7 @@ if __name__ == "__main__":
                 x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
-        if sys.argv[1] == "DAY_COMPILATION":
+        elif sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.SetContinuousTesting()
@@ -55,7 +55,7 @@ if __name__ == "__main__":
                 x.Run(reference_configuration)
  
         # =========    WEEK    ============ 
-        if sys.argv[1] == "WEEK":
+        elif sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.DisableGenerateMakefiles()
                 x.SetNightlyTesting()
@@ -66,9 +66,8 @@ if __name__ == "__main__":
                 x.Run(reference_configuration)
 
         # =========    WEEKEND    ============ 
-        if sys.argv[1] == "WEEKEND":
-#                x.EnableUpdateNightlySources()
-                x.DisableUpdateNightlySources()
+        elif sys.argv[1] == "WEEKEND":
+                x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
@@ -80,12 +79,12 @@ if __name__ == "__main__":
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
                 x.EnableUpdateCurrentSources()
-                x.DisableGenerateMakefiles()
+                x.EnableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
                 x.DisableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
-#                x.DisableCTest()
-                x.ForceExecution()
-                x.Run(reference_configuration)
+                x.DisableCTest()
+#                x.ForceExecution()
+                x.Run("visual7-static-debug-itk-internal-fltk-internal")

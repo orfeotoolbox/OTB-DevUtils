@@ -97,6 +97,7 @@ class TestProcessing:
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
     __prefix_build_name__ = ""
+    __site__ = ""
     __distrib_name__ = ""
     __itkVersion__ = "3.12.0"
     __fltkVersion__ = "1.1.9"
@@ -115,6 +116,7 @@ class TestProcessing:
     __homeRunName__ = "OTB-NIGHTLY-VALIDATION"
     __homeOtbSourceDir__ = ""
     __homeOtbApplicationsSourceDir__ = ""
+    __homeOtbWrappingSourceDir__ = ""
     __homeOtbDataSourceDir__ = ""
     __homeOtbDataSourceName__ = ""
     __homeOtbDataLargeInputSourceDir__ = ""
@@ -144,7 +146,15 @@ class TestProcessing:
     __enableTvTesting__ = True
     __enableTlTesting__ = True
     __enableTeTesting__ = True
+
+
+    # WRAPPING parameters
+    __enableOTBWrapping__ = False
     
+    __wrap_enable_python__ = True
+    __wrap_enable_java__ = True
+    
+    __cableswigVersion__ = "3.14.0"
    
     def __init__(self):
 
@@ -205,6 +215,9 @@ class TestProcessing:
             initial_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
             initial_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
             initial_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
+            if self.__enableOTBWrapping__ == True:
+                initial_version_otb_wrapping_source_dir = self.CallGetVersion(self.GetOtbWrappingSourceDir())
+
 
             # Check ITK installation
             # ================================================================
@@ -218,6 +231,14 @@ class TestProcessing:
             # ================================================================
             if self.__disableUseVtk__ == False:
                 self.CheckVtkInstallation()
+            
+            # Check  CableSwig installation
+            # ================================================================
+            if self.__enableOTBWrapping__ == True:
+                self.CheckCableSwigInstallation()
+
+
+
 
             # ------------------------------------------------------------
             self.PrintTitle("2/6  :  Update sources  ... ")
@@ -240,6 +261,8 @@ class TestProcessing:
                 self.CallCreateDirectory(self.__list_binary_components__[0]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[0])
                 self.CallCreateDirectory(self.__list_binary_components__[1]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[1])
                 self.CallCreateDirectory(self.__list_binary_components__[2]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[2])
+                if self.__enableOTBWrapping__ == True:
+                    self.CallCreateDirectory("OTB-Wrapping binary",binary_home_dir+"/binaries/OTB-Wrapping")
                 self.CallCreateDirectory("Install standard",binary_home_dir+"/install-standard")
                 self.CallCreateDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
         
@@ -264,10 +287,13 @@ class TestProcessing:
             self.PrintMsg("OTB Version before " + initial_version_otb_source_dir + " and current " +current_version_otb_source_dir+".")
             self.PrintMsg("OTB-Applications Version before " + initial_version_otb_applications_source_dir + " and current " +current_version_otb_applications_source_dir+".")
             self.PrintMsg("OTB-Data Version before " + initial_version_otb_data_source_dir + " and current " +current_version_otb_data_source_dir+".")
+            if self.__enableOTBWrapping__ == True:
+                current_version_otb_wrapping_source_dir = self.CallGetVersion(self.GetOtbWrappingSourceDir())
+                self.PrintMsg("OTB-Wrapping Version before " + initial_version_otb_wrapping_source_dir + " and current " +current_version_otb_wrapping_source_dir+".")
 
             # OTB testing ------------------------------
             component_cpt=0
-            self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/7  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             is_up_to_date = True
             if self.__forceExecution__ == True:
                 is_up_to_date = False
@@ -282,7 +308,7 @@ class TestProcessing:
 
             # OTB-Applications testing ------------------------------
             component_cpt = component_cpt + 1
-            self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/7  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             is_up_to_date = True
             if self.__forceExecution__ == True:
                 is_up_to_date = False
@@ -296,11 +322,30 @@ class TestProcessing:
             self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
             # OTB-Applications With Install OTB testing ------------------------------
             component_cpt = component_cpt + 1
-            self.PrintTitle(str(component_cpt+4)+"/6  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/7  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             if self.__disableTestOTBApplicationsWithInstallOTB___ == False:
                 self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
             else:
                 self.PrintMsg("Testing OTB-Applications with install OTB dir is DISABLE")
+
+            # OTB-Wrapping testing ------------------------------
+            component_cpt = component_cpt + 1
+            self.PrintTitle(str(component_cpt+4)+"/7  :  OTB-Wrapping processing  ... ")
+            if self.__enableOTBWrapping__ == True:
+                is_up_to_date = True
+                if self.__forceExecution__ == True:
+                    is_up_to_date = False
+                # Force execution for Nightly validation
+                elif self.__configurationRunTesting__ == self.__nightly_testing__:
+                    is_up_to_date = False
+                elif initial_version_otb_source_dir != current_version_otb_source_dir:
+                    is_up_to_date = False
+                elif initial_version_otb_wrapping_source_dir != current_version_otb_wrapping_source_dir:
+                    is_up_to_date = False
+
+                self.RunSubProcessOTBWrappingTesting(is_up_to_date)
+            else:
+                self.PrintMsg("Testing OTB-Wrapping is DISABLE")
 
             self.CallChangeDirectory("Home",self.GetHomeDir())
         # try End Run
@@ -374,6 +419,65 @@ class TestProcessing:
         if is_up_to_date == True:
                 self.PrintMsg("CTest execution disable: the source code was UP TO DATE !")
     
+    # =====================================================================================================================================
+    # ===  Run Process Testing for a component
+    # =====================================================================================================================================
+    def RunSubProcessOTBWrappingTesting(self,is_up_to_date):
+        if is_up_to_date == False or self.IsDisableCTest() == True:
+                binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
+                current_binary_dir=binary_home_dir + "/binaries/OTB-Wrapping"
+                self.CallChangeDirectory("OTB-Wrapping",current_binary_dir )
+
+#                if self.GetGenerateMakefiles() == True:
+                if True == True:
+                        try:
+                                self.GenerateMakefilesOTBWrapping()
+                        except:
+                                self.PrintMsg("Error while executing GenerateMakefiles method for OTB-Wrapping module !!")
+                else:
+                        self.CallRemoveDirectory("Testing/Temporary",current_binary_dir + "/Testing/Temporary")
+                        if self.GetMakeClean() == True:
+                                if self.GetTestConfigurationDir().find("visual") != -1:
+                                        self.CallCommand("Make Clean", self.GetVisualCommand() + " WrapITK.sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                                else:
+                                        self.CallCommand("Make Clean", "make clean")
+                                self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
+ 
+                # ctest ...
+                if self.IsDisableCTest() == False:
+                        ctest_call_command = "ctest  -D Experimental "
+                        if self.__configurationRunTesting__ == self.__continuous_testing__:
+                                self.PrintWarning("Select 'Continuous' testing")
+                                ctest_call_command = ctest_call_command + " --track Continuous " 
+                        elif self.__configurationRunTesting__ == self.__nightly_testing__:
+                                self.PrintWarning("Select 'Nightly' testing")
+                                ctest_call_command = ctest_call_command + " --track Nightly " 
+                        elif self.__configurationRunTesting__ == self.__experimental_testing__:
+                                self.PrintWarning("Select 'Experimental' testing")
+                        else:
+                            self.PrintError("CTest Uknown testing !!!!!!!!!!!!!")
+                        self.CallCommand("CTest execution",ctest_call_command,True)
+                        # make install
+#                        if self.GetTestConfigurationDir().find("visual") != -1:
+#                                self.CallCommand("Make Install", self.GetVisualCommand() + " WrapITK.sln /build "+self.GetCmakeBuildType() +"   /project INSTALL",True)
+#                        else:
+#                                self.CallCommand("Make Install", "make install",True)
+                        if self.__makeCleanAfterCTest__ == True:
+                                if self.GetTestConfigurationDir().find("visual") != -1:
+                                        self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() +  " WrapITK.sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD",True)
+                                else:
+                                        self.CallCommand("Make Clean (After CTest)", "make clean",True)
+                                self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
+                        if self.__cleanTestingResultsAfterCTest__ == True:
+                                self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
+
+        if self.IsDisableCTest() == True:
+                self.PrintMsg("CTest execution DISABLE")
+        if is_up_to_date == True:
+                self.PrintMsg("CTest execution disable: the source code was UP TO DATE !")
+     
+    
+    
     
     # =====================================================================================================================================
     # ===  Run Process Testing for a component
@@ -438,6 +542,18 @@ class TestProcessing:
         self.CallChangeDirectory("OTB-Applications",self.GetOtbApplicationsSourceDir())
         self.CallCommand("Pull OTB-Applications ...","hg pull",True)
         self.CallCommand("Update OTB-Applications ...","hg update -r "+revisionValue,True)
+        
+        # ---  HG update OTB-Wrapping   ----------------------------------
+        if self.__enableOTBWrapping__ == True:
+            #revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
+            #self.PrintMsg("OTB-Wrapping revision: "+revisionValue)
+
+            self.CallChangeDirectory("OTB-Wrapping",self.GetOtbWrappingSourceDir())
+            self.CallCommand("Pull OTB-Wrapping ...","hg pull",True)
+            #self.CallCommand("Update OTB-Wrapping ...","hg update -r "+revisionValue,True)
+            self.CallCommand("Update OTB-Wrapping ...","hg update default",True)
+
+
 
         # ---  SVN update OTB-Data / LargeInput   ----------------------------------
         if self.GetOtbDataLargeInputSourceDir() != "disable":
@@ -459,7 +575,7 @@ class TestProcessing:
     def UpdateCurrentSources(self):
         self.PrintMsg("Update Current Sources ...")
     	
-	# ---  HG update OTB  ----------------------------------
+	    # ---  HG update OTB  ----------------------------------
         self.CallChangeDirectory("OTB",self.GetOtbSourceDir())
         self.CallCommand("Purge OTB ...","hg purge")
         self.CallCommand("Pull OTB ...","hg pull",True)
@@ -469,6 +585,12 @@ class TestProcessing:
         self.CallChangeDirectory("OTB-Applications",self.GetOtbApplicationsSourceDir())
         self.CallCommand("Pull OTB-Applications ...","hg pull",True)
         self.CallCommand("Update OTB-Applications ...","hg update default",True)
+
+        # ---  HG update OTB-Wrapping   ----------------------------------
+        if self.__enableOTBWrapping__ == True:
+            self.CallChangeDirectory("OTB-Wrapping",self.GetOtbWrappingSourceDir())
+            self.CallCommand("Pull OTB-Wrapping ...","hg pull",True)
+            self.CallCommand("Update OTB-Wrapping ...","hg update default",True)
 
         # ---  HG update OTB-Data (ou OTB-Data)  ----------------------------------
         self.CallChangeDirectory("OTB-Data",self.GetOtbDataSourceDir() )
@@ -552,6 +674,8 @@ class TestProcessing:
         self.__configurationRunTesting__ = self.__nightly_testing__
     def SetContinuousTesting(self):
         self.__configurationRunTesting__ = self.__continuous_testing__
+    def SetExperimentalTesting(self):
+        self.__configurationRunTesting__ = self.__experimental_testing__
 
     def DisableTuTesting(self):
         self.__enableTuTesting__ = False
@@ -590,6 +714,12 @@ class TestProcessing:
         self.__prefix_build_name__ = prefix_build_name
     def GetPrefixBuildName(self):
         return self.__prefix_build_name__
+
+    # ---  Set/Get Site name methods   -----------------------------------
+    def SetSite(self,site):
+        self.__site__ = site
+    def GetSite(self):
+        return self.__site__
     
     # ---  Set/Get distrib OS... methods   -----------------------------------
     def SetDistribName(self,distrib):
@@ -747,11 +877,13 @@ class TestProcessing:
         return self.__homeOtbSourceDir__
     def GetOtbApplicationsSourceDir(self):
         return self.__homeOtbApplicationsSourceDir__
+    def GetOtbWrappingSourceDir(self):
+        return self.__homeOtbWrappingSourceDir__
+        
     def GetOtbDataSourceDir(self):
         return self.__homeOtbDataSourceDir__
     def GetOtbDataLargeInputSourceDir(self):
         return self.__homeOtbDataLargeInputSourceDir__
-
     # --- HomeSourcesDir
     def SetSourcesDir(self,HomeSourcesDir):
         save_rep = os.getcwd() 
@@ -794,6 +926,12 @@ class TestProcessing:
         value = os.path.normpath(rep_base+"/OTB-Data")
         self.__homeOtbDataSourceDir__ = value
         self.CallCheckDirectoryExit("OTB-Data dir",self.__homeOtbDataSourceDir__)
+
+        if self.__enableOTBWrapping__ == True:
+                # Find OTB-Wrapping source dir
+                value = os.path.normpath(rep_base+"/OTB-Wrapping")
+                self.__homeOtbWrappingSourceDir__ = value
+                self.CallCheckDirectoryExit("OTB-Wrapping dir",self.__homeOtbWrappingSourceDir__)
 
         # Find OTB-Data-LargeInput source dir
 #        value = os.path.normpath(rep_base+"/OTB-Data-LargeInput-HG")
@@ -843,6 +981,35 @@ class TestProcessing:
         if self.GetTestConfigurationDir().find("visual") != -1:
                 self.CallCheckDirectoryExit("Visual program",self.__visual_command__)
 
+
+
+    # ==============================================================
+    # ===  OTB-Wrapping methods   ==================================
+    # ==============================================================
+
+
+    # ---  Enable/Disable OTB-Wrapping methods   -----------------------------------
+    def EnableOTBWrapping(self):
+        self.__enableOTBWrapping__ = True
+    def DisableOTBWrapping(self):
+        self.__enableOTBWrapping__ = False
+
+
+
+    # ---  Set/Get CableSwigVersion methods   -----------------------------------
+    def SetCableSwigVersion(self,cableswigVersion):
+        self.__cableswigVersion__ = cableswigVersion
+    def GetCableSwigVersion(self):
+        return self.__cableswigVersion__
+
+    def EnableWrapPython(self):
+        self.__wrap_enable_python__ = True
+    def DisableWrapPython(self):
+        self.__wrap_enable_python__ = False
+    def EnableWrapJava(self):
+        self.__wrap_enable_java__ = True
+    def DisableWrapJava(self):
+        self.__wrap_enable_java__ = False
 
 
     # ===  Internals methods   ==================================
@@ -1074,6 +1241,8 @@ class TestProcessing:
                 command_line.append(' -D "OTB_DATA_LARGEINPUT_ROOT:PATH='+self.GetOtbDataLargeInputSourceDir()+'" ')
 
         command_line.append(' -D "BUILDNAME:STRING='+build_name+'" ' )
+        if self.GetSite() != "":
+                command_line.append(' -D "SITE:STRING='+self.GetSite()+'" ' )
         command_line.append(' -D "OTB_USE_CPACK:BOOL=ON" ')
 
         # Add sources dir
@@ -1099,6 +1268,113 @@ class TestProcessing:
 #        self.CallCommand(cpt,nb_commands,"Makefiles generation... (cmake)",cmake_command_line)
         self.CallChangeDirectory(BinComponent,HomeDir+'/'+self.GetTestConfigurationDir()+"/binaries/"+BinComponent)
         self.CallCommand(BinComponent +" generation",cmake_command_line,True)
+
+
+    # =====================================================================================================================================
+    # ===  Generation of OTB-Wrapping makefiles (cmake process)
+    # =====================================================================================================================================
+    def GenerateMakefilesOTBWrapping(self):
+        HomeDir = self.GetHomeDir()
+        HomeDirOutils=self.GetHomeDirOutils()
+        mode = ""
+       
+        mode = self.GetMode()        
+        build_type=self.GetBuildType()
+        
+        if self.GetTestConfigurationDir().find("shared") != -1:
+                build_mode="shared"
+        else:
+                build_mode="static"
+
+        #Init paths for externals lib
+        if mode == "":
+                cableswig_binary_dir=os.path.normpath(HomeDirOutils + "/cableswig/binaries-"+ build_type + "-cableswig-"+ self.GetCableSwigVersion())
+        else:
+                cableswig_binary_dir=os.path.normpath(HomeDirOutils + "/cableswig/binaries-" + mode +"-" + build_type + "-cableswig-"+ self.GetCableSwigVersion())
+
+        otb_binary_dir=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/binaries/OTB')
+
+
+        self.CallCheckDirectoryExit("CableSwig binary",cableswig_binary_dir)
+        self.CallCheckDirectoryExit("OTB binary",otb_binary_dir)
+
+        # For Visual, set CMAKE_CONFIGURATION_TYPES parameter        
+        command_line = []
+        command_line.append('cmake ')
+        command_line.append('-Wno-dev')
+        command_line.append( self.GetCmakePlatform())
+        
+        if self.GetTestConfigurationDir().find("visual") != -1:
+                command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
+
+        command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
+
+        command_line.append(' -D "CableSwig_DIR:PATH='+cableswig_binary_dir+'" ')
+
+        build_name=self.GetBuildName()
+        
+        # Mac gcc optimization systems : add -pipe 
+        # These options are automatically report in the OTB-Applications CMakeLists
+        if self.GetTestConfigurationDir().find("macosx") != -1:
+                        self.PrintWarning("MACOS X Architecture: CMAKE_CXX_FLAGS:STRING=-Wall -pipe")
+                        command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
+                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall -pipe" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall -pipe" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
+        elif self.GetTestConfigurationDir().find("visual") == -1:
+                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
+                
+
+
+        if self.__wrap_enable_python__ == True:
+            command_line.append(' -D "WRAP_ITK_PYTHON:BOOL=ON" ')
+        else:
+            command_line.append(' -D "WRAP_ITK_PYTHON:BOOL=OFF" ')
+        if self.__wrap_enable_java__ == True:
+            command_line.append(' -D "WRAP_ITK_JAVA:BOOL=ON" ')
+        else:
+            command_line.append(' -D "WRAP_ITK_JAVA:BOOL=OFF" ')
+
+
+        if self.GetTestConfigurationDir().find("shared") != -1:
+            command_line.append(' -D "BUILD_SHARED_LIBS:BOOL=ON" ')
+        else:
+            command_line.append(' -D "BUILD_SHARED_LIBS:BOOL=OFF" ')
+
+        if self.GetTestConfigurationDir().find("macosx") != -1:
+                self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
+                command_line.append(' -D "CMAKE_OSX_ARCHITECTURES:STRING=i386" ')
+                
+        command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
+
+
+        if self.GetTestConfigurationDir().find("visual") != -1:
+                command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' WrapITK.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
+
+        command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
+
+        command_line.append(' -D "BUILDNAME:STRING='+build_name+'" ' )
+        if self.GetSite() != "":
+                command_line.append(' -D "SITE:STRING='+self.GetSite()+'" ' )
+
+        command_line.append(self.GetOtbWrappingSourceDir())
+        
+        cpt = 0
+        self.PrintMsg("cmake configuration:")
+        while cpt < len(command_line):
+                self.PrintMsg(command_line[cpt])
+                cpt = cpt + 1
+        cmake_command_line=""
+        cpt = 0
+        while cpt < len(command_line):
+                cmake_command_line = cmake_command_line + " " + command_line[cpt]
+                cpt = cpt + 1
+        self.CallChangeDirectory("OTB-Wrapping",HomeDir+'/'+self.GetTestConfigurationDir()+"/binaries/OTB-Wrapping")
+        self.CallCommand("OTB-Wrapping generation",cmake_command_line,True)
 
 
     # =====================================================================================================================================
@@ -1570,6 +1846,77 @@ class TestProcessing:
                         self.CallCommand("VTK make intall", "make install",True)
 #                self.CallRemoveDirectory("VTK binaries",vtk_binary_dir)
                 self.PrintMsg("VTK library installed with success (on directory <"+vtk_install_dir+">) !")
+
+    # =====================================================================================================================================
+    # ===  Check (and install) CableSwig library : generation of command line argument for cmake generation   ==================================
+    # =====================================================================================================================================
+    def CheckCableSwigInstallation(self):
+
+        mode = self.GetMode()
+        build_type=self.GetBuildType()
+
+        command_line = []
+        command_line.append('cmake ')
+
+        command_line.append( self.GetCmakePlatform())
+        
+        #Sous Linux ou Unix, pas d'ambiguite platform : donc pas forcement linux dans le nom du repetoire  
+        # A FAIRE
+        HomeDirOutils = self.GetHomeDirOutils()
+        
+        if mode == "":
+                cableswig_binary_dir=HomeDirOutils + "/cableswig/binaries-"+ build_type + "-cableswig-"+ self.GetCableSwigVersion()
+        else:
+                cableswig_binary_dir=HomeDirOutils + "/cableswig/binaries-" + mode +"-" + build_type + "-cableswig-"+ self.GetCableSwigVersion()
+        
+        if ( self.CallCheckDirectory("CableSwig binary",cableswig_binary_dir) == 0 ):
+                self.PrintMsg("CableSwig generation ........")
+                #Init paths for externals lib
+                cableswig_source_dir=HomeDirOutils + "/cableswig/sources/CableSwig-ITK-"+self.GetCableSwigVersion()
+                self.CallCheckDirectoryExit("CableSwig source dir",cableswig_source_dir)
+                # Clean directories
+                self.CallRemoveDirectory("CableSwig binaries",cableswig_binary_dir)
+                command_line = command_line
+        
+                # For Visual, set CMAKE_CONFIGURATION_TYPES parameter        
+                if self.GetTestConfigurationDir().find("visual") != -1:
+                        command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
+                else:
+                        command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
+                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
+       
+                command_line.append(' -D "BUILD_SHARED_LIBS:BOOL=OFF" ')
+
+
+                if self.GetTestConfigurationDir().find("visual") != -1:
+                        command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' CableSwig.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
+#                command_line.append(vtk_source_dir)
+                command_line.append("../sources/CableSwig-ITK-"+self.GetCableSwigVersion())
+
+                cpt = 0
+                self.PrintMsg("CableSwig cmake configuration:")
+                while cpt < len(command_line):
+                        self.PrintMsg(command_line[cpt])
+                        cpt = cpt + 1
+                cmake_command_line=""
+                cpt = 0
+                while cpt < len(command_line):
+                        cmake_command_line = cmake_command_line + " " + command_line[cpt]
+                        cpt = cpt + 1
+                
+                self.CallCreateDirectory("CableSwig binaries",cableswig_binary_dir)
+                self.CallChangeDirectory("CableSwig binaries",cableswig_binary_dir)
+                self.CallCommand("CableSwig generation",cmake_command_line,True)
+                
+                if self.GetTestConfigurationDir().find("visual") != -1:
+                        self.CallCommand("CableSwig make", self.GetVisualCommand() + " CableSwig.sln /build "+self.GetCmakeBuildType() +" /project ALL_BUILD",True)
+                else:
+                        self.CallCommand("CableSwig make", "make",True)
+#                self.CallRemoveDirectory("VTK binaries",vtk_binary_dir)
+                self.PrintMsg("CableSwig library generated with success (on directory <"+cableswig_binary_dir+">) !")
 
 
 
