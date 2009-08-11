@@ -14,14 +14,14 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
 
         # Set dirs
-        x.SetOtbDataLargeInputDir("/Users/thomas/OTB-Data-LargeInput")
+        x.SetOtbDataLargeInputDir("/Users/cyrille/ORFEO-TOOLBOX/LargeInput")
         x.EnableUseOtbDataLargeInput()
 
         x.SetSourcesDir("/Users/thomas/")
         x.EnableUpdateSources()
 
-        x.SetOutilsDir("/Users/thomas/")
-        x.SetRunDir("/Users/thomas/")
+        x.SetOutilsDir("/Users/otbval/")
+        x.SetRunDir("/Users/otbval/")
 
         # Set generate makefile options
 	# Set Generals configuration tests
@@ -34,12 +34,12 @@ if __name__ == "__main__":
      
 #        x.DisableCTest()
         # List of platform must been tested
-        x.Run("macosx-static-debug-itk-external-fltk-external")
+        x.Run("macosx-shared-release-itk-internal-fltk-external")
 #        x.Run("macosx-static-release-itk-external-fltk-external")
 #        x.Run("macosx-static-debug-itk-internal-fltk-internal")
 #        x.Run("macosx-static-release-itk-internal-fltk-internal")
 
-        x.Run("macosx-shared-debug-itk-external-fltk-external")
+#        x.Run("macosx-shared-debug-itk-external-fltk-external")
 #        x.Run("macosx-shared-release-itk-external-fltk-external")
 #        x.Run("macosx-shared-debug-itk-internal-fltk-internal")
 #        x.Run("macosx-shared-release-itk-internal-fltk-internal")

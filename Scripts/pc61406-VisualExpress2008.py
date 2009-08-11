@@ -2,7 +2,6 @@ import sys
 import os
 import platform
 import socket
-import subprocess
 
 if __name__ == "__main__":
         sys.path.append(os.getcwd()+"/OTB-DevUtils/Scripts")
@@ -11,29 +10,30 @@ if __name__ == "__main__":
         except:
                 print 'Impossible to find Validation module (import Validation abort!!)'
                 exit(1)
+
         if len(sys.argv) != 2:
                 print "Error  -->   Usage: ", sys.argv[0], " WEEK/WEEKEND/DAY_TESTING/DAY_COMPILATION/LOCAL_TESTING"
                 exit(1)
 
         x=Validation.TestProcessing()
-
-        # Set dirs
-        x.SetOutilsDir("/Users/thomas/")
-        x.SetRunDir("/Users/thomas/")
-        x.SetOtbDataLargeInputDir("/Users/thomas/OTB-Data-LargeInput")
+        x.SetRunDir("D:\\OTB-NIGHTLY")
+        x.SetOutilsDir("D:\\OTB-NIGHTLY")
         x.DisableUseOtbDataLargeInput()
-        x.SetSourcesDir("/Users/thomas/")
+#        x.SetOtbDataLargeInputDir("D:\\OTB-NIGHTLY\\OTB-Data-LargeInput")
+        x.SetSourcesDir("D:\\OTB-NIGHTLY")
+        x.EnableUpdateNightlySources()
 
-        x.DisableTestOTBApplicationsWithInstallOTB()
+        # -> Active generation makefiles
+        x.EnableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
         x.DisableGlUseAccel()
-        x.DisableBuildExamples()
+        x.EnableBuildExamples()
 
-        x.SetGeotiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/gtiff/libgeotiff")
-        x.SetTiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/gtiff/libtiff")
-        x.SetJpegIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/jpeg/libjpeg")
+        x.SetGeotiffIncludeDirs("D:\\OTB-NIGHTLY\\OTB-OUTILS\\gdal\\install-visualExpress2008\\include")
+        x.SetTiffIncludeDirs("D:\\OTB-NIGHTLY\\OTB-OUTILS\\gdal\\install-visualExpress2008\\include")
+        x.SetJpegIncludeDirs("D:\\OTB-NIGHTLY\\OTB-OUTILS\\gdal\\install-visualExpress2008\\include")
 
-        reference_configuration = "macosx-static-release-itk-internal-fltk-external"
+        reference_configuration = "visualExpress2008-static-release-itk-internal-fltk-internal"
 
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
@@ -60,11 +60,11 @@ if __name__ == "__main__":
         # =========    WEEK    ============ 
         if sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
-                x.DisableGenerateMakefiles()
+                x.EnableGenerateMakefiles()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
-                x.EnableTlTesting() 
+                x.DisableTlTesting() 
                 x.DisableTeTesting() 
                 x.Run(reference_configuration)
 
@@ -75,19 +75,18 @@ if __name__ == "__main__":
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
-                x.EnableTlTesting() 
+                x.DisableTlTesting() 
                 x.DisableTeTesting() 
                 x.Run(reference_configuration)
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
-                x.DisableUpdateCurrentSources()
+                x.EnableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
-                x.SetContinuousTesting()
+                x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
                 x.DisableTeTesting() 
-                x.ForceExecution()
-                x.DisableCTest()
-                x.Run("macosx-static-release-itk-internal-fltk-external")
+#				x.DisableCTest()
+                x.Run(reference_configuration)

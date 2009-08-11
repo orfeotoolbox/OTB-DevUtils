@@ -18,20 +18,20 @@ if __name__ == "__main__":
         x=Validation.TestProcessing()
 
         # Set dirs
-        x.SetOutilsDir("/Users/thomas/")
-        x.SetRunDir("/Users/thomas/")
-        x.SetOtbDataLargeInputDir("/Users/thomas/OTB-Data-LargeInput")
+        x.SetOutilsDir("/Users/otbval/")
+        x.SetRunDir("/Users/otbval/")
+        x.SetOtbDataLargeInputDir("/Users/cyrille/ORFEO-TOOLBOX/LargeInput")
         x.DisableUseOtbDataLargeInput()
-        x.SetSourcesDir("/Users/thomas/")
+        x.SetSourcesDir("/Users/otbval/")
 
-        x.DisableTestOTBApplicationsWithInstallOTB()
+        #x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
         x.DisableGlUseAccel()
         x.DisableBuildExamples()
 
-        x.SetGeotiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/gtiff/libgeotiff")
-        x.SetTiffIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/gtiff/libtiff")
-        x.SetJpegIncludeDirs("/Users/thomas/OTB-OUTILS/gdal/binaries-macosx-gdal-1.6.0/frmts/jpeg/libjpeg")
+        x.SetGeotiffIncludeDirs("/Users/otbval/OTB-OUTILS/gdal/gdal-1.6.1/frmts/gtiff/libgeotiff")
+        x.SetTiffIncludeDirs("/Users/otbval/OTB-OUTILS/gdal/gdal-1.6.1/frmts/gtiff/libtiff")
+        x.SetJpegIncludeDirs("/Users/otbval/OTB-OUTILS/gdal/gdal-1.6.1/frmts/jpeg/libjpeg")
 
         reference_configuration = "macosx-static-release-itk-internal-fltk-external"
 
@@ -88,6 +88,6 @@ if __name__ == "__main__":
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
                 x.DisableTeTesting() 
-                x.ForceExecution()
+                #x.ForceExecution()
                 x.DisableCTest()
                 x.Run("macosx-static-release-itk-internal-fltk-external")

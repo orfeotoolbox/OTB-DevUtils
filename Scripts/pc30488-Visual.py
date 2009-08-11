@@ -12,29 +12,61 @@ if __name__ == "__main__":
                 exit(1)
 
         if len(sys.argv) != 2:
-                print "Error  -->   Usage: ", sys.argv[0], " WEEK/WEEKEND"
+                print "Error  -->   Usage: ", sys.argv[0], " WEEK/WEEKEND/DAY_TESTING/DAY_COMPILATION/LOCAL_TESTING"
                 exit(1)
         
         x=Validation.TestProcessing()
         x.SetRunDir("G:\\")
         x.SetOutilsDir("G:\\")
-        x.SetOtbDataLargeInputDir("G:\\OTB-Data-LargeInput")
+        x.SetOtbDataLargeInputDir("G:\\OTB-BASE-SVN\\OTB-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("G:\\")
-        x.EnableUpdateNightlySources()
 
-        x.SetGeotiffIncludeDirs("G:\\OTB-OUTILS\\gdal\\binaries-visual-geotiff\\include")
-        x.SetTiffIncludeDirs("G:\\OTB-OUTILS\\gdal\\binaries-visual-geotiff\\include")
+        x.SetGeotiffIncludeDirs("G:\\OTB-OUTILS\\gdal\\install-visual7\\include")
+        x.SetTiffIncludeDirs("G:\\OTB-OUTILS\\gdal\\install-visual7\\include")
+        x.SetJpegIncludeDirs("G:\\OTB-OUTILS\\gdal\\install-visual7\\include")
 
-        x.DisableBuildExamples()
-        x.DisableTestOTBApplicationsWithInstallOTB()
+        x.EnableBuildExamples()
+        x.EnableTestOTBApplicationsWithInstallOTB()
         x.DisableGlUseAccel()
         x.DisableUseVtk()
-        x.EnableGenerateMakefiles()
+        
+        reference_configuration = "visual7-static-release-itk-internal-fltk-internal"
 
-        # List of platform must been tested
-        x.Run("visual7-static-debug-itk-internal-fltk-internal")
-        if sys.argv[1] == "WEEKEND":
-                x.Run("visual7-static-release-itk-internal-fltk-internal")
-                x.Run("visual7-static-debug-itk-external-fltk-external")
-                x.Run("visual7-static-release-itk-external-fltk-external")
+        # =========    DAY TESTING   ============ 
+        if sys.argv[1] == "DAY_TESTING":
+                x.EnableUpdateCurrentSources()
+                x.DisableGenerateMakefiles()
+                x.SetFullContinuousTesting()
+                x.Run(reference_configuration)
+ 
+        # =========    DAY COMPILATION   ============ 
+        elif sys.argv[1] == "DAY_COMPILATION":
+                x.EnableUpdateCurrentSources()
+                x.DisableGenerateMakefiles()
+                x.SetTuContinuousTesting()
+                x.Run(reference_configuration)
+
+        # =========    WEEK END VALIDATION   ============ 
+        elif sys.argv[1] == "WEEKEND":
+                x.EnableUpdateNightlySources()
+                x.EnableGenerateMakefiles()
+                x.SetFullNightlyTesting()
+                x.Run(reference_configuration)
+#                x.Run("visual7-static-release-itk-external-fltk-external")
+
+        # =========    WEEK VALIDATION   ============ 
+        elif sys.argv[1] == "WEEK":
+                x.EnableUpdateNightlySources()
+                x.DisableGenerateMakefiles()
+                x.SetFullNightlyTesting()
+                x.Run(reference_configuration)
+
+        # =========    LOCAL TESTING   ============ 
+        elif sys.argv[1] == "LOCAL_TESTING":
+                x.EnableUpdateCurrentSources()
+                x.EnableGenerateMakefiles()
+                x.SetTuContinuousTesting()
+#                x.DisableCTest()
+                x.ForceExecution()
+                x.Run(reference_configuration)
