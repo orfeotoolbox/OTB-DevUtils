@@ -131,7 +131,8 @@ class TestProcessing:
     __update_nightly_sources__ = False
     __update_current_sources__ = False
     __forceExecution__ = False
-
+    __enable_compile_with_full_warning__ = False
+    
     __geotiff_include_dirs__ = ""
     __tiff_include_dirs__ = ""
     __jpeg_include_dirs__ = ""
@@ -343,7 +344,12 @@ class TestProcessing:
                 elif initial_version_otb_wrapping_source_dir != current_version_otb_wrapping_source_dir:
                     is_up_to_date = False
 
-                self.RunSubProcessOTBWrappingTesting(is_up_to_date)
+                if self.__wrap_enable_python__ == True:
+                    self.PrintMsg("Testing OTB-Wrapping for Python...")
+                    self.RunSubProcessOTBWrappingTesting(is_up_to_date,"Python")
+                if self.__wrap_enable_java__ == True:
+                    self.PrintMsg("Testing OTB-Wrapping for Java...")
+                    self.RunSubProcessOTBWrappingTesting(is_up_to_date,"Java")
             else:
                 self.PrintMsg("Testing OTB-Wrapping is DISABLE")
 
@@ -422,16 +428,16 @@ class TestProcessing:
     # =====================================================================================================================================
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
-    def RunSubProcessOTBWrappingTesting(self,is_up_to_date):
+    def RunSubProcessOTBWrappingTesting(self,is_up_to_date,langage):
         if is_up_to_date == False or self.IsDisableCTest() == True:
                 binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
-                current_binary_dir=binary_home_dir + "/binaries/OTB-Wrapping"
+                current_binary_dir=binary_home_dir + "/binaries/OTB-Wrapping-"+langage
                 self.CallChangeDirectory("OTB-Wrapping",current_binary_dir )
 
 #                if self.GetGenerateMakefiles() == True:
                 if True == True:
                         try:
-                                self.GenerateMakefilesOTBWrapping()
+                                self.GenerateMakefilesOTBWrapping(langage)
                         except:
                                 self.PrintMsg("Error while executing GenerateMakefiles method for OTB-Wrapping module !!")
                 else:
@@ -1001,7 +1007,6 @@ class TestProcessing:
         self.__cableswigVersion__ = cableswigVersion
     def GetCableSwigVersion(self):
         return self.__cableswigVersion__
-
     def EnableWrapPython(self):
         self.__wrap_enable_python__ = True
     def DisableWrapPython(self):
@@ -1010,6 +1015,11 @@ class TestProcessing:
         self.__wrap_enable_java__ = True
     def DisableWrapJava(self):
         self.__wrap_enable_java__ = False
+
+    def EnableCompileWithFullWarning(self):
+        self.__enable_compile_with_full_warning__ = True
+    def DisableCompileWithFullWarning(self):
+        self.__enable_compile_with_full_warning__ = False
 
 
     # ===  Internals methods   ==================================
@@ -1134,18 +1144,21 @@ class TestProcessing:
         if BinComponent == "OTB":
                 # Mac gcc optimization systems : add -pipe 
                 # These options are automatically report in the OTB-Applications CMakeLists
-                if self.GetTestConfigurationDir().find("macosx") != -1:
-                        self.PrintWarning("MACOS X Architecture: CMAKE_CXX_FLAGS:STRING=-Wall -pipe")
+#                if self.GetTestConfigurationDir().find("macosx") != -1:
+#                        self.PrintWarning("MACOS X Architecture: CMAKE_CXX_FLAGS:STRING=-Wall -pipe")
+#                        command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
+#                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall -pipe" ')
+#                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall -pipe" ')
+#                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+#                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
+                if self.GetTestConfigurationDir().find("visual") == -1:
                         command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
-                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall -pipe" ')
-                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall -pipe" ')
-                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
-                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
-                elif self.GetTestConfigurationDir().find("visual") == -1:
-                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
-                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
-                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
-                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
+                        # Add -Wall only if no Full warning
+                        if self.__enable_compile_with_full_warning__ == False:
+                                command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
+                                command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
+                                command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+                                command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
                 
                 command_line.append(' -D "OTB_SHOW_ALL_MSG_DEBUG:BOOL=OFF" ')
                 command_line.append(' -D "BUILD_DOXYGEN:BOOL=OFF" ')
@@ -1204,6 +1217,9 @@ class TestProcessing:
                 if self.GetGeotiffLibrary() != "" :
                         command_line.append(' -D "GEOTIFF_LIBRARY:FILEPATH='+self.GetGeotiffLibrary()+'" ')
 
+        if self.__enable_compile_with_full_warning__ == True:
+                command_line.append(' -D "OTB_COMPILE_WITH_FULL_WARNING:BOOL=ON" ')
+        
         if self.GetTestConfigurationDir().find("macosx") != -1:
                 self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
                 command_line.append(' -D "CMAKE_OSX_ARCHITECTURES:STRING=i386" ')
@@ -1244,6 +1260,9 @@ class TestProcessing:
         if self.GetSite() != "":
                 command_line.append(' -D "SITE:STRING='+self.GetSite()+'" ' )
         command_line.append(' -D "OTB_USE_CPACK:BOOL=ON" ')
+        
+
+
 
         # Add sources dir
         if BinComponent.find("OTB-Applications") != -1:
@@ -1273,7 +1292,7 @@ class TestProcessing:
     # =====================================================================================================================================
     # ===  Generation of OTB-Wrapping makefiles (cmake process)
     # =====================================================================================================================================
-    def GenerateMakefilesOTBWrapping(self):
+    def GenerateMakefilesOTBWrapping(self,langage):
         HomeDir = self.GetHomeDir()
         HomeDirOutils=self.GetHomeDirOutils()
         mode = ""
@@ -1313,16 +1332,9 @@ class TestProcessing:
 
         build_name=self.GetBuildName()
         
-        # Mac gcc optimization systems : add -pipe 
         # These options are automatically report in the OTB-Applications CMakeLists
-        if self.GetTestConfigurationDir().find("macosx") != -1:
-                        self.PrintWarning("MACOS X Architecture: CMAKE_CXX_FLAGS:STRING=-Wall -pipe")
+        if self.GetTestConfigurationDir().find("visual") == -1:
                         command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
-                        command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall -pipe" ')
-                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall -pipe" ')
-                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
-                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
-        elif self.GetTestConfigurationDir().find("visual") == -1:
                         command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
                         command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
                         command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
@@ -1330,15 +1342,25 @@ class TestProcessing:
                 
 
 
-        if self.__wrap_enable_python__ == True:
+        if langage == "Python":
             command_line.append(' -D "WRAP_ITK_PYTHON:BOOL=ON" ')
+            build_name = build_name + "-PythonON"
         else:
             command_line.append(' -D "WRAP_ITK_PYTHON:BOOL=OFF" ')
-        if self.__wrap_enable_java__ == True:
+            build_name = build_name + "-PythonOFF"
+        
+        if langage == "Java":
             command_line.append(' -D "WRAP_ITK_JAVA:BOOL=ON" ')
+            build_name = build_name + "-JavaON"
         else:
             command_line.append(' -D "WRAP_ITK_JAVA:BOOL=OFF" ')
+            build_name = build_name + "-JavaOFF"
 
+        command_line.append(' -D "WRAP_ChangeDetection:BOOL=OFF" ')
+        command_line.append(' -D "WRAP_LevelSet:BOOL=OFF" ')
+        command_line.append(' -D "WRAP_Morphology:BOOL=OFF" ')
+
+        self.PrintWarning("Disable WRAP_ChangeDetection, WRAP_LevelSet and WRAP_Morphology wrapping !!")
 
         if self.GetTestConfigurationDir().find("shared") != -1:
             command_line.append(' -D "BUILD_SHARED_LIBS:BOOL=ON" ')
@@ -1373,7 +1395,7 @@ class TestProcessing:
         while cpt < len(command_line):
                 cmake_command_line = cmake_command_line + " " + command_line[cpt]
                 cpt = cpt + 1
-        self.CallChangeDirectory("OTB-Wrapping",HomeDir+'/'+self.GetTestConfigurationDir()+"/binaries/OTB-Wrapping")
+        self.CallChangeDirectory("OTB-Wrapping",HomeDir+'/'+self.GetTestConfigurationDir()+"/binaries/OTB-Wrapping-"+langage)
         self.CallCommand("OTB-Wrapping generation",cmake_command_line,True)
 
 

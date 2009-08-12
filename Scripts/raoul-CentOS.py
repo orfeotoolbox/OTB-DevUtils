@@ -58,6 +58,7 @@ if __name__ == "__main__":
         elif sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
+                x.EnableCompileWithFullWarning()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
@@ -70,6 +71,7 @@ if __name__ == "__main__":
         elif sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
+                x.EnableCompileWithFullWarning()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 

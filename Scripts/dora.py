@@ -63,6 +63,7 @@ if __name__ == "__main__":
         elif sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
+                x.EnableCompileWithFullWarning()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
@@ -70,12 +71,13 @@ if __name__ == "__main__":
                 x.EnableTeTesting() 
                
                 x.Run(reference_configuration)
-                x.Run(reference_configuration2)
+#                x.Run(reference_configuration2)
 
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
+                x.EnableCompileWithFullWarning()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
@@ -87,10 +89,17 @@ if __name__ == "__main__":
         
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
-                x.EnableUpdateCurrentSources()
+#                x.EnableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
-                x.SetTuContinuousTesting()
-#                x.ForceExecution()
-                x.DisableCTest()
+                x.EnableOTBWrapping()
+#                x.EnableWrapPython()
+                x.EnableWrapJava()
+#                x.EnableCompileWithFullWarning()
+                x.SetContinuousTesting()
+                x.ForceExecution()
+                x.EnableTuTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 
-                x.Run(reference_configuration)
+                x.Run("test-wrappinf_java-linux-static-release-itk-internal-fltk-internal")
