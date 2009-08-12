@@ -204,40 +204,64 @@ class TestProcessing:
                 self.CallCheckDirectoryExit(self.__homeRunName__ +" dir",value)
                 self.__homeDir__ = value
 
+            self.PrintWarning("AVANT INI ouitls")
             self.InitOutilsDir()
             self.InitSourcesDir()
  
+            self.PrintWarning("ICI")
             self.InitSetVisualCommand()
 
+            self.PrintWarning("LA")
             binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
 
+            self.CallChangeDirectory("Validation home dir",self.GetHomeDir() )
+
 #            self.PrintMsg("Get Initial version of OTB sources ...")
-            
-            initial_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
+            toto = self.GetOtbSourceDir()
+            self.PrintWarning("sourcidir = "+toto)
+            self.PrintWarning("ICIDEDEDE")
+
+            initial_version_otb_source_dir = self.CallGetVersion(toto)
+
+            self.PrintWarning("initial_version_otb_source_dir: "+initial_version_otb_source_dir)
+
             initial_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
+
+            self.PrintWarning("initial_version_otb_applications_source_dir: "+initial_version_otb_applications_source_dir)
+
             initial_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
+
+            self.PrintWarning("initial_version_otb_data_source_dir: "+initial_version_otb_data_source_dir)
+
             if self.__enableOTBWrapping__ == True:
+                self.PrintWarning("wrap")
                 initial_version_otb_wrapping_source_dir = self.CallGetVersion(self.GetOtbWrappingSourceDir())
 
+            self.PrintWarning("Toto")
 
             # Check ITK installation
             # ================================================================
             if self.GetTestConfigurationDir().find("itk-exter") != -1:
                 self.CheckItkInstallation()
+            self.PrintWarning("Totoaaaaaaaaa")
             # Check  FLTK installation
             # ================================================================
             if self.GetTestConfigurationDir().find("fltk-exter") != -1:
                 self.CheckFltkInstallation()
+            self.PrintWarning("TotoWWWWWWWWWW")
             # Check  VTK installation
             # ================================================================
             if self.__disableUseVtk__ == False:
                 self.CheckVtkInstallation()
+
+            self.PrintWarning("Totoqqqqqqqqqqqqqqqqqqqqq")
             
             # Check  CableSwig installation
             # ================================================================
             if self.__enableOTBWrapping__ == True:
                 self.CheckCableSwigInstallation()
 
+            self.PrintWarning("Titi")
 
 
 
@@ -253,6 +277,7 @@ class TestProcessing:
                 self.PrintMsg("Update sources DISABLE !!")
 
             self.CallChangeDirectory("otb source",self.GetHomeDir() )
+            self.PrintWarning("dede")
 
             # ------------------------------------------------------------
             self.PrintTitle("3/6  :  Cleans/Creates operations  ... ")
@@ -1980,19 +2005,27 @@ class TestProcessing:
         filename = "otb.tmp"
         crtfile = open(filename,"w")
         save_rep = os.getcwd() 
-        os.chdir(source_dir)
-        value = subprocess.call("hg tip", shell=True, stdout=crtfile)
-        crtfile.close()
-        os.chdir(save_rep)
-        crtfile2 = open(filename,"r")
-        value2 = crtfile2.readline()
-        crtfile2.close()
-        value3 = value2.split(" ")
+        try:
+                os.chdir(os.path.normpath(source_dir))
+                value = subprocess.call("hg tip", shell=True, stdout=crtfile)
+                crtfile.close()
+        except:
+                self.PrintError(" Execution failed: CallGetVersion on "+source_dir+" directory : hg tip !!")
+        try:
+                os.chdir(os.path.normpath(save_rep))
+                crtfile2 = open(filename,"r")
+                value2 = crtfile2.readline()
+                crtfile2.close()
+                value3 = value2.split(" ")
+                self.PrintWarning(" GetVersion found : "+value3+" directory !!")
+       
+        except:
+                self.PrintError(" Execution failed: CallGetVersion on "+source_dir+" directory : get Version value!!")
         
         return value3[3][0:16]
 
 
-    def CallCommand(self,comment,command,fileout=False):
+    def CallCommand(self,comment,command,fileout=True):
         if fileout == True:
                 self.PrintWarning("Output in CRT file.")
                 command = command + " >> " + self.GetCrtFile()
@@ -2111,11 +2144,11 @@ class TestProcessing:
         if self.CallCheckDirectory(comment,directory) == 0:
                 exit(1)
     def CallCheckDirectory(self,comment,directory):
-        if os.path.exists(directory) == 0:
+        if os.path.exists(os.path.normpath(directory)) == 0:
                 self.PrintMsg("Check "+comment+" directory ("+directory+") ...  KO !")
         else:
                 self.PrintMsg("Check "+comment+" directory ("+directory+") ...  OK")
-        return os.path.exists(directory)
+        return os.path.exists(os.path.normpath(directory))
 
     def CallCreateDirectory(self,comment,directory):
         self.PrintMsg(comment+" -> os.makedirs("+directory+")")
