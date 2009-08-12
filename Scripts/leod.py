@@ -20,7 +20,7 @@ if __name__ == "__main__":
         # Set dirs
         x.SetOutilsDir("/Users/otbval/")
         x.SetRunDir("/Users/otbval/")
-        x.SetOtbDataLargeInputDir("/Users/cyrille/ORFEO-TOOLBOX/LargeInput")
+        x.SetOtbDataLargeInputDir("/Users/data/OTB-LargeInput")
         x.DisableUseOtbDataLargeInput()
         x.SetSourcesDir("/Users/otbval/")
 
