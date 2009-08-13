@@ -204,24 +204,18 @@ class TestProcessing:
                 self.CallCheckDirectoryExit(self.__homeRunName__ +" dir",value)
                 self.__homeDir__ = value
 
-            self.PrintWarning("AVANT INI ouitls")
             self.InitOutilsDir()
             self.InitSourcesDir()
  
-            self.PrintWarning("ICI")
             self.InitSetVisualCommand()
 
-            self.PrintWarning("LA")
             binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
 
             self.CallChangeDirectory("Validation home dir",self.GetHomeDir() )
 
 #            self.PrintMsg("Get Initial version of OTB sources ...")
-            toto = self.GetOtbSourceDir()
-            self.PrintWarning("sourcidir = "+toto)
-            self.PrintWarning("ICIDEDEDE")
 
-            initial_version_otb_source_dir = self.CallGetVersion(toto)
+            initial_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
 
             self.PrintWarning("initial_version_otb_source_dir: "+initial_version_otb_source_dir)
 
@@ -234,35 +228,25 @@ class TestProcessing:
             self.PrintWarning("initial_version_otb_data_source_dir: "+initial_version_otb_data_source_dir)
 
             if self.__enableOTBWrapping__ == True:
-                self.PrintWarning("wrap")
                 initial_version_otb_wrapping_source_dir = self.CallGetVersion(self.GetOtbWrappingSourceDir())
-
-            self.PrintWarning("Toto")
 
             # Check ITK installation
             # ================================================================
             if self.GetTestConfigurationDir().find("itk-exter") != -1:
                 self.CheckItkInstallation()
-            self.PrintWarning("Totoaaaaaaaaa")
             # Check  FLTK installation
             # ================================================================
             if self.GetTestConfigurationDir().find("fltk-exter") != -1:
                 self.CheckFltkInstallation()
-            self.PrintWarning("TotoWWWWWWWWWW")
             # Check  VTK installation
             # ================================================================
             if self.__disableUseVtk__ == False:
                 self.CheckVtkInstallation()
 
-            self.PrintWarning("Totoqqqqqqqqqqqqqqqqqqqqq")
-            
             # Check  CableSwig installation
             # ================================================================
             if self.__enableOTBWrapping__ == True:
                 self.CheckCableSwigInstallation()
-
-            self.PrintWarning("Titi")
-
 
 
             # ------------------------------------------------------------
@@ -277,7 +261,6 @@ class TestProcessing:
                 self.PrintMsg("Update sources DISABLE !!")
 
             self.CallChangeDirectory("otb source",self.GetHomeDir() )
-            self.PrintWarning("dede")
 
             # ------------------------------------------------------------
             self.PrintTitle("3/6  :  Cleans/Creates operations  ... ")
