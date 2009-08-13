@@ -24,6 +24,8 @@ if __name__ == "__main__":
         x.DisableUseOtbDataLargeInput()
         x.SetSourcesDir("/Users/otbval/")
 
+        x.SetSite("leod")
+        
         #x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
         x.DisableGlUseAccel()
