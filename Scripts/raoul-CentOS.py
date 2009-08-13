@@ -58,27 +58,30 @@ if __name__ == "__main__":
         elif sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.EnableCompileWithFullWarning()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
                 x.EnableTeTesting() 
+                x.EnableCompileWithFullWarning()
                 x.Run(reference_configuration)
+                x.DisableCompileWithFullWarning()
                 x.Run(reference_configuration2)
 
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
-                x.EnableCompileWithFullWarning()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
                 x.EnableTeTesting() 
 
+                x.EnableCompileWithFullWarning()
                 x.Run(reference_configuration)
+                
+                x.DisableCompileWithFullWarning()
                 x.Run(reference_configuration2)
                 x.Run("centOS-linux-64bits-static-debug-itk-internal-fltk-internal")
 #                x.Run("centOS-linux-64bits-static-debug-itk-external-fltk-external")
