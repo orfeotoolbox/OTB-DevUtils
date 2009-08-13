@@ -1264,6 +1264,8 @@ class TestProcessing:
                 command_line.append(' -D "OTB_DATA_USE_LARGEINPUT:BOOL=ON" ')
                 command_line.append(' -D "OTB_DATA_LARGEINPUT_ROOT:PATH='+self.GetOtbDataLargeInputSourceDir()+'" ')
 
+        if self.__enable_compile_with_full_warning__ == True:
+                build_name=build_name+'-FULL_WARNING'
         command_line.append(' -D "BUILDNAME:STRING='+build_name+'" ' )
         if self.GetSite() != "":
                 command_line.append(' -D "SITE:STRING='+self.GetSite()+'" ' )
