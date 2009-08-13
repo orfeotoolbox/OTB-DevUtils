@@ -1985,9 +1985,9 @@ class TestProcessing:
 
     # ===  Internals methods   ==================================
     def CallGetVersion(self,source_dir):
-        filename = "otb.tmp"
+        filename = os.path.normpath(self.GetHomeDir()+"/otb-hg-version.tmp")
         crtfile = open(filename,"w")
-        save_rep = os.getcwd() 
+#        save_rep = os.getcwd() 
         try:
                 os.chdir(os.path.normpath(source_dir))
                 value = subprocess.call("hg tip", shell=True, stdout=crtfile)
@@ -1995,7 +1995,7 @@ class TestProcessing:
         except:
                 self.PrintError(" Execution failed: CallGetVersion on "+source_dir+" directory : hg tip !!")
         try:
-                os.chdir(os.path.normpath(save_rep))
+#                os.chdir(os.path.normpath(save_rep))
                 crtfile2 = open(filename,"r")
                 value2 = crtfile2.readline()
                 crtfile2.close()
