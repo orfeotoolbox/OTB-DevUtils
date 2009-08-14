@@ -270,8 +270,6 @@ class TestProcessing:
                 self.CallCreateDirectory(self.__list_binary_components__[0]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[0])
                 self.CallCreateDirectory(self.__list_binary_components__[1]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[1])
                 self.CallCreateDirectory(self.__list_binary_components__[2]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[2])
-                if self.__enableOTBWrapping__ == True:
-                    self.CallCreateDirectory("OTB-Wrapping binary",binary_home_dir+"/binaries/OTB-Wrapping")
                 self.CallCreateDirectory("Install standard",binary_home_dir+"/install-standard")
                 self.CallCreateDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
         
@@ -440,7 +438,9 @@ class TestProcessing:
         if is_up_to_date == False or self.IsDisableCTest() == True:
                 binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
                 current_binary_dir=binary_home_dir + "/binaries/OTB-Wrapping-"+langage
-                self.CallChangeDirectory("OTB-Wrapping",current_binary_dir )
+                if self.CallCheckDirectory("OTB-Wrapping binary "+langage,current_binary_dir) == 0:
+                    self.CallCreateDirectory("OTB-Wrapping binary"+langage,current_binary_dir)
+                self.CallChangeDirectory("OTB-Wrapping binary"+langage,current_binary_dir )
 
 #                if self.GetGenerateMakefiles() == True:
                 if True == True:
