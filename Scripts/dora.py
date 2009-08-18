@@ -72,6 +72,7 @@ if __name__ == "__main__":
                 x.EnableOTBWrapping()
                 x.DisableWrapPython()
                 x.EnableWrapJava()
+                x.SetJavaJvmBaseDir("/usr/lib/jvm/java-6-sun")
                 x.Run(reference_configuration)
 #                x.Run(reference_configuration2)
 
