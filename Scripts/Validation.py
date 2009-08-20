@@ -156,6 +156,7 @@ class TestProcessing:
     __wrap_enable_java__ = True
     
     __wrap_java_jvm_base_dir__ = "/usr/lib/jvm/java-6-sun"
+    __wrap_itk_dims__ = "2"
     
     __cableswigVersion__ = "3.14.0"
    
@@ -1027,6 +1028,9 @@ class TestProcessing:
         self.__wrap_enable_java__ = False
     def SetJavaJvmBaseDir(self,java_jvm_dir):
         self.__wrap_java_jvm_base_dir__ = java_jvm_dir
+    def SetWrapItkDims(self,wrap_itk_dims):
+        self.__wrap_itk_dims__ = wrap_itk_dims
+
 
     def EnableCompileWithFullWarning(self):
         self.__enable_compile_with_full_warning__ = True
@@ -1342,7 +1346,7 @@ class TestProcessing:
                 command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
 
         command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
-
+        command_line.append(' -D "WRAP_ITK_DIMS:STRING='+self.__wrap_itk_dims__+'" ')
         command_line.append(' -D "CableSwig_DIR:PATH='+cableswig_binary_dir+'" ')
 
         build_name=self.GetBuildName()

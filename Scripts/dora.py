@@ -32,6 +32,9 @@ if __name__ == "__main__":
         x.SetTiffIncludeDirs("/ORFEO/otbval/OTB-OUTILS/gdal/gdal-1.6.0/frmts/gtiff/libtiff")
         x.SetJpegIncludeDirs("/ORFEO/otbval/OTB-OUTILS/gdal/gdal-1.6.0/frmts/jpeg/libjpeg")
         x.SetDistribName("UBU-8.04") 
+        # Wrap configurations
+        x.SetJavaJvmBaseDir("/usr/lib/jvm/java-6-sun")
+        x.SetWrapItkDims("2")
 
         reference_configuration  = "linux-shared-release-itk-internal-fltk-internal"
         reference_configuration2 = "linux-static-debug-itk-external-fltk-external"
@@ -72,7 +75,6 @@ if __name__ == "__main__":
                 x.EnableOTBWrapping()
                 x.DisableWrapPython()
                 x.EnableWrapJava()
-                x.SetJavaJvmBaseDir("/usr/lib/jvm/java-6-sun")
                 x.Run(reference_configuration)
 #                x.Run(reference_configuration2)
 
@@ -87,8 +89,9 @@ if __name__ == "__main__":
                 x.EnableTeTesting() 
 
                 x.EnableOTBWrapping()
-                x.DisableWrapPython()
+                x.EnableWrapPython()
                 x.EnableWrapJava()
+
                 x.Run(reference_configuration)
                 
                 x.DisableOTBWrapping()
@@ -97,7 +100,7 @@ if __name__ == "__main__":
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
 #                x.EnableUpdateCurrentSources()
-                x.EnableGenerateMakefiles()
+                x.DisableGenerateMakefiles()
                 x.EnableOTBWrapping()
 #                x.EnableWrapPython()
                 x.EnableWrapJava()
@@ -109,4 +112,4 @@ if __name__ == "__main__":
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
                 
-                x.Run("test-wrappinf_java-linux-static-release-itk-internal-fltk-internal")
+                x.Run(reference_configuration) #"test-wrappinf_java-linux-static-release-itk-internal-fltk-internal")
