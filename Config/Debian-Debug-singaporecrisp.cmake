@@ -10,6 +10,6 @@ SET( OTB_DATA_LARGEINPUT_ROOT "/home/christop/OTB/trunk/OTB-Data/LargeInput" CAC
 SET( CMAKE_C_FLAGS " -Wall -fprofile-arcs -ftest-coverage" CACHE STRING "debianDebug" FORCE )
 SET( CMAKE_CXX_FLAGS " -Wall -Wno-deprecated -fprofile-arcs -ftest-coverage" CACHE STRING "debianDebug" FORCE )
 SET( CMAKE_EXE_LINKER "-Wno-deprecated -fprofile-arcs -ftest-coverage" CACHE STRING "debianDebug" FORCE )
-SET( MAKECOMMAND "/usr/bin/make -i -j 2" CACHE STRING "debianDebug" FORCE )
+SET( MAKECOMMAND "/usr/bin/make -i -k -j 2" CACHE STRING "debianDebug" FORCE )
 SET( OTB_GL_USE_ACCEL "ON" CACHE STRING "debianDebug" FORCE )
 SET( ITK_USE_REVIEW "ON" CACHE STRING "debianDebug" FORCE )

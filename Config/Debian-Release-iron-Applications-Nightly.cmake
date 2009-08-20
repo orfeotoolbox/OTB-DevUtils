@@ -6,7 +6,7 @@ SET( OTB_USE_VTK "ON" CACHE STRING "debianRelease" FORCE )
 SET( CMAKE_C_FLAGS " -Wall  -Wno-uninitialized -Wno-unused-variable" CACHE STRING "debianRelease" FORCE )
 SET( CMAKE_CXX_FLAGS " -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable" CACHE STRING "debianRelease" FORCE )
 SET( CMAKE_EXE_LINKER " " CACHE STRING "debianRelease" FORCE )
-SET( MAKECOMMAND "/usr/bin/make -i -j 8" CACHE STRING "debianRelease" FORCE )
+SET( MAKECOMMAND "/usr/bin/make -i -k -j 8" CACHE STRING "debianRelease" FORCE )
 
 SET( CMAKE_INSTALL_PREFIX "/home/otbtesting/OTB/tmp" CACHE STRING "Used for package generation" FORCE )
 SET( OTB_USE_CPACK ON CACHE BOOL "Use CPack" FORCE )

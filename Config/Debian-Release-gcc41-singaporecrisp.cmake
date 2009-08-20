@@ -11,6 +11,6 @@ SET( OTB_DATA_ROOT "/home/christop/OTB/trunk/OTB-Data" CACHE STRING "debianRelea
 SET( CMAKE_C_FLAGS " -Wall -Wno-uninitialized -Wno-unused-variable" CACHE STRING "debianRelease" FORCE )
 SET( CMAKE_CXX_FLAGS " -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable" CACHE STRING "debianRelease" FORCE )
 SET( CMAKE_EXE_LINKER " " CACHE STRING "debianRelease" FORCE )
-SET( MAKECOMMAND "/usr/bin/make -i -j 4" CACHE STRING "debianRelease" FORCE )
+SET( MAKECOMMAND "/usr/bin/make -i -k -j 4" CACHE STRING "debianRelease" FORCE )
 SET( OTB_GL_USE_ACCEL "ON" CACHE STRING "debianRelease" FORCE )
 SET( ITK_USE_REVIEW "ON" CACHE STRING "debianRelease" FORCE )
