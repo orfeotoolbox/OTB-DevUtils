@@ -73,7 +73,7 @@ if __name__ == "__main__":
         # =========    WEEKEND    ============ 
         if sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
-                x.EnableGenerateMakefiles()
+                x.DisableGenerateMakefiles()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
