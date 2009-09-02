@@ -139,6 +139,16 @@ class TestProcessing:
     __gdal_library__ = ""
     __geotiff_library__ = ""
     
+    # Init by InitExternalLibrariesDir() method
+    __fltk_fluid_exe__ = ""
+    __fltk_dir__ = ""
+    __gdal_lib__ = ""
+    __gdal_lib_dir__ = ""
+    __gdal_include_dir__ = ""
+    __itk_dir__ = ""
+    __vtk_dir__ = ""
+    
+    
     __experimental_testing__ = "EXPERIMENTAL_TESTING"
     __continuous_testing__ = "CONTINUOUS_TESTING"
     __nightly_testing__ = "NIGHTLY_TESTING"
@@ -287,6 +297,11 @@ class TestProcessing:
                 self.CallRemoveDirectory(" ******************  ATTENTION *******************  =>  OTB/Utilities/ITK (to suppress error svn because ITK version had been updated",os.path.normpath(self.GetOtbSourceDir()+'/OTB/Utilities/ITK'))
                 self.__cleanItkSourceDir__ = False
 
+            self.InitExternalLibrariesDir()
+            
+            # Init LD_LIBRARY_PATH var env for Wrapping execution
+            os.environ["LD_LIBRARY_PATH"] =  binary_home_dir+"/binaries/"+self.__list_binary_components__[0]+":"+self.__gdal_lib_dir__
+            self.PrintWarning("Set LD_LIBRARY_PATH: " + os.environ["LD_LIBRARY_PATH"])
 
 	# ---  Processing test for alls modules   ----------------------------------
 
@@ -1047,19 +1062,11 @@ class TestProcessing:
     # =====================================================================================================================================
     # ===  Generation of OTB makefiles (cmake process): BinComponent=OTB, OTB-Application or OTB-Applications-with-install-OTB
     # =====================================================================================================================================
-    def GenerateMakefiles(self,BinComponent,NameComponent):
+    def InitExternalLibrariesDir(self):
         HomeDir = self.GetHomeDir()
         HomeDirOutils=self.GetHomeDirOutils()
         mode = ""
-        
-        # ---  SVN update SrcComponent   ----------------------------------
-#        self.CallChangeDirectory("otb source",self.GetOtbSourceDir() )
-#        self.CallCommand("Update "+SrcComponent+"..."," svn update " + SrcComponent +" --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword())
-#        self.CallCommand("Pull "+SrcComponent+"..."," hg pull " + SrcComponent )
-#        self.CallCommand("Update "+SrcComponent+"..."," hg update " + SrcComponent )
-
-        
-        mode = self.GetMode()        
+        mode = self.GetMode() 
         build_type=self.GetBuildType()
         
         if self.GetTestConfigurationDir().find("shared") != -1:
@@ -1074,6 +1081,7 @@ class TestProcessing:
         gdal_lib = ""
         if mode == "":
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install/include")
+                gdal_lib_dir=os.path.normpath(HomeDirOutils + "/gdal/install/lib")
                 if self.GetTestConfigurationDir().find("visual") != -1:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install/lib/gdal.lib")
                     self.CallCheckFileExit("gdal library",gdal_lib)
@@ -1097,6 +1105,7 @@ class TestProcessing:
                 vtk_dir=os.path.normpath(HomeDirOutils + "/vtk/install-" + build_mode +"-"+ build_type + "-vtk-"+ self.GetVtkVersion() + "/lib/vtk-"+ self.GetVtkVersion())
         else:
                 gdal_include_dir=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/include")
+                gdal_lib_dir=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib")
                 if self.GetTestConfigurationDir().find("visual") != -1:
                     gdal_lib=os.path.normpath(HomeDirOutils + "/gdal/install-"+ mode+"/lib/gdal.lib")
                     self.CallCheckFileExit("gdal library",gdal_lib)
@@ -1125,6 +1134,49 @@ class TestProcessing:
                 fltk_fluid_exe=os.path.normpath(fltk_dir+'/bin/fluid.exe')
         else:        
                 fltk_fluid_exe=os.path.normpath(fltk_dir+'/bin/fluid')
+    
+    
+        self.__fltk_fluid_exe__ = fltk_fluid_exe
+        self.__fltk_dir__ = fltk_dir
+        self.__gdal_lib_dir__ = gdal_lib_dir
+        self.__gdal_lib__ = gdal_lib
+        self.__gdal_include_dir__ = gdal_include_dir
+        self.__itk_dir__ = itk_dir
+        self.__vtk_dir__ = vtk_dir
+    
+    # =====================================================================================================================================
+    # ===  Generation of OTB makefiles (cmake process): BinComponent=OTB, OTB-Application or OTB-Applications-with-install-OTB
+    # =====================================================================================================================================
+    def GenerateMakefiles(self,BinComponent,NameComponent):
+        HomeDir = self.GetHomeDir()
+        HomeDirOutils=self.GetHomeDirOutils()
+        mode = ""
+        
+        # ---  SVN update SrcComponent   ----------------------------------
+#        self.CallChangeDirectory("otb source",self.GetOtbSourceDir() )
+#        self.CallCommand("Update "+SrcComponent+"..."," svn update " + SrcComponent +" --username "+self.GetSvnUsername() + " --password "+self.GetSvnPassword())
+#        self.CallCommand("Pull "+SrcComponent+"..."," hg pull " + SrcComponent )
+#        self.CallCommand("Update "+SrcComponent+"..."," hg update " + SrcComponent )
+
+        
+        mode = self.GetMode()        
+        build_type=self.GetBuildType()
+        
+        if self.GetTestConfigurationDir().find("shared") != -1:
+                build_mode="shared"
+        else:
+                build_mode="static"
+
+        # Sous Linux ou Unix, pas d'ambiguite platform : donc pas forcement linux dans le nom du repetoire  
+        # A FAIRE
+        
+        fltk_fluid_exe = self.__fltk_fluid_exe__ 
+        fltk_dir = self.__fltk_dir__ 
+        gdal_lib = self.__gdal_lib__ 
+        gdal_include_dir = self.__gdal_include_dir__ 
+        itk_dir = self.__itk_dir__
+        vtk_dir = self.__vtk_dir__
+ 
 
         otb_install_standard=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install-standard')
         otb_install_with_install_OTB=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install-with-install-OTB')

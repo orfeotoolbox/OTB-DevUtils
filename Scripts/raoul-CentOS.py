@@ -96,7 +96,7 @@ if __name__ == "__main__":
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
-                x.EnableUpdateCurrentSources()
+                x.DisableUpdateCurrentSources()
                 x.DisableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
