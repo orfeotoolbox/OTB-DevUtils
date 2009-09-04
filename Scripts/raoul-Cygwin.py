@@ -31,6 +31,9 @@ if __name__ == "__main__":
         x.DisableBuildExamples()
 
         reference_configuration = "cygwin-shared-release-itk-internal-fltk-internal"
+        reference_configuration2 = "cygwin-static-debug-itk-external-fltk-internal"
+        reference_configuration3 = "cygwin-static-release-itk-external-fltk-external"
+        x.SetItkVersion("3.14.0")
 	
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
@@ -62,7 +65,12 @@ if __name__ == "__main__":
                 x.EnableTeTesting() 
                 x.DisableTlTesting() 
                 x.Run(reference_configuration)
-#                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
+
+                x.DisableTeTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
+                x.Run(reference_configuration2)
+                x.Run(reference_configuration3)
 
         # =========    WEEK    ============ 
         elif sys.argv[1] == "WEEK":
@@ -83,11 +91,11 @@ if __name__ == "__main__":
                 x.EnableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.EnableTlTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
                 x.DisableCTest()
 #                x.ForceExecution()
-                x.Run(reference_configuration)
+                x.Run(reference_configuration2)
 
 
 
