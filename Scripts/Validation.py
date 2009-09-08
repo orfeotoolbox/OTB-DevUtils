@@ -1265,6 +1265,7 @@ class TestProcessing:
                         command_line.append(' -D "ITK_DIR:PATH='+itk_dir+'" ')
                 else:
                         command_line.append(' -D "OTB_USE_EXTERNAL_ITK:BOOL=OFF" ')
+                        command_line.append(' -D "ITK_USE_REVIEW:BOOL=ON" ')
                 
                 command_line.append(' -D "OTB_USE_JPEG2000:BOOL=ON" ')
                 command_line.append(' -D "OTB_USE_PATENTED:BOOL=OFF" ')
@@ -1275,6 +1276,7 @@ class TestProcessing:
                 else:
                         command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=ON" ')
                         
+                command_line.append(' -D "OTB_USE_LIBLAS:BOOL=ON" ')
                 if self.GetTestConfigurationDir().find("cygwin") != -1:
                         self.PrintWarning("For Cygwin, disable UUID cmake parameters in OTB generation makefiles process !!! UUID_INCLUDE_DIR and UUID_LIBRARY cmake variables are set to empty.")
                         command_line.append(' -D "UUID_INCLUDE_DIR:PATH=" ')
