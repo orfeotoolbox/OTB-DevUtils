@@ -31,6 +31,7 @@ if __name__ == "__main__":
         
         reference_configuration =  "centOS-linux-64bits-static-release-itk-internal-fltk-internal"
         reference_configuration2 = "centOS-linux-64bits-shared-debug-itk-internal-fltk-internal"
+        reference_configuration3 = "centOS-linux-64bits-static-debug-itk-external-fltk-external"
 
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
@@ -66,7 +67,11 @@ if __name__ == "__main__":
                 x.EnableCompileWithFullWarning()
                 x.Run(reference_configuration)
                 x.DisableCompileWithFullWarning()
+                x.DisableTlTesting() 
+                x.DisableTeTesting() 
                 x.Run(reference_configuration2)
+                x.DisableTvTesting() 
+                x.Run(reference_configuration3)
 
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
@@ -83,6 +88,7 @@ if __name__ == "__main__":
                 
                 x.DisableCompileWithFullWarning()
                 x.Run(reference_configuration2)
+                x.Run(reference_configuration3)
                 x.Run("centOS-linux-64bits-static-debug-itk-internal-fltk-internal")
 #                x.Run("centOS-linux-64bits-static-debug-itk-external-fltk-external")
 #                x.Run("centOS-linux-64bits-shared-debug-itk-internal-fltk-internal")
