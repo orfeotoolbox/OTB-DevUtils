@@ -93,6 +93,7 @@ class TestProcessing:
     __disableBuildExamples__ = False
     __disableUseVtk__ = False
     __disableTestOTBApplicationsWithInstallOTB___ = True
+    __disableTestMonteverdiWithInstallOTB___ = True
     __disableGlUseAccel__ = True
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
@@ -110,11 +111,11 @@ class TestProcessing:
     __homeSourcesName__ = "WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY"
     __fileLibNightlyNumber__ = ""
     __libNightlyNumber__ = ""
-    __fileApplicationsNightlyNumber__ = ""
     __applicationsNightlyNumber__ = ""
     __homeOutilsName__ = "OTB-OUTILS"
     __homeRunName__ = "OTB-NIGHTLY-VALIDATION"
     __homeOtbSourceDir__ = ""
+    __homeMonteverdiSourceDir__ = ""
     __homeOtbApplicationsSourceDir__ = ""
     __homeOtbWrappingSourceDir__ = ""
     __homeOtbDataSourceDir__ = ""
@@ -174,9 +175,14 @@ class TestProcessing:
 
 
         self.__list_binary_components__.append("OTB")
+        self.__list_binary_components__.append("Monteverdi")
+        self.__list_binary_components__.append("Monteverdi-with-install-OTB")
         self.__list_binary_components__.append("OTB-Applications")
         self.__list_binary_components__.append("OTB-Applications-with-install-OTB")
+        
         self.__list_otb_name_components__.append("OTB")
+        self.__list_otb_name_components__.append("Monteverdi")
+        self.__list_otb_name_components__.append("Monteverdi")
         self.__list_otb_name_components__.append("OTB-Applications")
         self.__list_otb_name_components__.append("OTB-Applications")
 	
@@ -229,15 +235,15 @@ class TestProcessing:
 #            self.PrintMsg("Get Initial version of OTB sources ...")
 
             initial_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
-
             self.PrintWarning("initial_version_otb_source_dir: "+initial_version_otb_source_dir)
 
             initial_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
-
             self.PrintWarning("initial_version_otb_applications_source_dir: "+initial_version_otb_applications_source_dir)
 
-            initial_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
+            initial_version_monteverdi_source_dir = self.CallGetVersion(self.GetMonteverdiSourceDir())
+            self.PrintWarning("initial_version_monteverdi_source_dir: "+initial_version_monteverdi_source_dir)
 
+            initial_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
             self.PrintWarning("initial_version_otb_data_source_dir: "+initial_version_otb_data_source_dir)
 
             if self.__enableOTBWrapping__ == True:
@@ -283,6 +289,8 @@ class TestProcessing:
                 self.CallCreateDirectory(self.__list_binary_components__[0]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[0])
                 self.CallCreateDirectory(self.__list_binary_components__[1]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[1])
                 self.CallCreateDirectory(self.__list_binary_components__[2]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[2])
+                self.CallCreateDirectory(self.__list_binary_components__[3]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[3])
+                self.CallCreateDirectory(self.__list_binary_components__[4]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[4])
                 self.CallCreateDirectory("Install standard",binary_home_dir+"/install-standard")
                 self.CallCreateDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
         
@@ -312,9 +320,11 @@ class TestProcessing:
             # Read hg current version 
             current_version_otb_source_dir = self.CallGetVersion(self.GetOtbSourceDir())
             current_version_otb_applications_source_dir = self.CallGetVersion(self.GetOtbApplicationsSourceDir())
+            current_version_monteverdi_source_dir = self.CallGetVersion(self.GetMonteverdiSourceDir())
             current_version_otb_data_source_dir = self.CallGetVersion(self.GetOtbDataSourceDir())
             self.PrintMsg("OTB Version before " + initial_version_otb_source_dir + " and current " +current_version_otb_source_dir+".")
             self.PrintMsg("OTB-Applications Version before " + initial_version_otb_applications_source_dir + " and current " +current_version_otb_applications_source_dir+".")
+            self.PrintMsg("Monteverdi Version before " + initial_version_monteverdi_source_dir + " and current " +current_version_monteverdi_source_dir+".")
             self.PrintMsg("OTB-Data Version before " + initial_version_otb_data_source_dir + " and current " +current_version_otb_data_source_dir+".")
             if self.__enableOTBWrapping__ == True:
                 current_version_otb_wrapping_source_dir = self.CallGetVersion(self.GetOtbWrappingSourceDir())
@@ -322,7 +332,7 @@ class TestProcessing:
 
             # OTB testing ------------------------------
             component_cpt=0
-            self.PrintTitle(str(component_cpt+4)+"/7  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/9  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             is_up_to_date = True
             if self.__forceExecution__ == True:
                 is_up_to_date = False
@@ -335,9 +345,32 @@ class TestProcessing:
                 is_up_to_date = False
             self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
 
+            # Monteverdi testing ------------------------------
+            component_cpt = component_cpt + 1
+            self.PrintTitle(str(component_cpt+4)+"/9  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            is_up_to_date = True
+            if self.__forceExecution__ == True:
+                is_up_to_date = False
+            # Force execution for Nightly validation
+            elif self.__configurationRunTesting__ == self.__nightly_testing__:
+                is_up_to_date = False
+            elif initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
+                is_up_to_date = False
+            elif initial_version_monteverdi_source_dir != current_version_monteverdi_source_dir:
+                is_up_to_date = False
+            self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
+            
+            # Monteverdi With Install OTB testing ------------------------------
+            component_cpt = component_cpt + 1
+            self.PrintTitle(str(component_cpt+4)+"/9  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            if self.__disableTestMonteverdiWithInstallOTB___ == False:
+                self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
+            else:
+                self.PrintMsg("Testing Monteverdi with install OTB dir is DISABLE")
+            
             # OTB-Applications testing ------------------------------
             component_cpt = component_cpt + 1
-            self.PrintTitle(str(component_cpt+4)+"/7  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/9  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             is_up_to_date = True
             if self.__forceExecution__ == True:
                 is_up_to_date = False
@@ -349,9 +382,10 @@ class TestProcessing:
             elif initial_version_otb_applications_source_dir != current_version_otb_applications_source_dir:
                 is_up_to_date = False
             self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
+            
             # OTB-Applications With Install OTB testing ------------------------------
             component_cpt = component_cpt + 1
-            self.PrintTitle(str(component_cpt+4)+"/7  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/9  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             if self.__disableTestOTBApplicationsWithInstallOTB___ == False:
                 self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
             else:
@@ -359,7 +393,7 @@ class TestProcessing:
 
             # OTB-Wrapping testing ------------------------------
             component_cpt = component_cpt + 1
-            self.PrintTitle(str(component_cpt+4)+"/7  :  OTB-Wrapping processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/9  :  OTB-Wrapping processing  ... ")
             if self.__enableOTBWrapping__ == True:
                 is_up_to_date = True
                 if self.__forceExecution__ == True:
@@ -579,6 +613,14 @@ class TestProcessing:
         self.CallCommand("Pull OTB-Applications ...","hg pull",True)
         self.CallCommand("Update OTB-Applications ...","hg update -r "+revisionValue,True)
         
+        # ---  HG update Monteverdi   ----------------------------------
+        revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/MonteverdiNightlyNumber').read()
+        self.PrintMsg("Monteverdi revision: "+revisionValue)
+
+        self.CallChangeDirectory("Monteverdi",self.GetMonteverdiSourceDir())
+        self.CallCommand("Pull Monteverdi ...","hg pull",True)
+        self.CallCommand("Update Monteverdi ...","hg update -r "+revisionValue,True)
+        
         # ---  HG update OTB-Wrapping   ----------------------------------
         if self.__enableOTBWrapping__ == True:
             #revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
@@ -621,6 +663,11 @@ class TestProcessing:
         self.CallChangeDirectory("OTB-Applications",self.GetOtbApplicationsSourceDir())
         self.CallCommand("Pull OTB-Applications ...","hg pull",True)
         self.CallCommand("Update OTB-Applications ...","hg update default",True)
+
+        # ---  HG update Monteverdi   ----------------------------------
+        self.CallChangeDirectory("Monteverdi",self.GetMonteverdiSourceDir())
+        self.CallCommand("Pull Monteverdi ...","hg pull",True)
+        self.CallCommand("Update Monteverdi ...","hg update default",True)
 
         # ---  HG update OTB-Wrapping   ----------------------------------
         if self.__enableOTBWrapping__ == True:
@@ -670,11 +717,17 @@ class TestProcessing:
     def GetVtkVersion(self):
         return self.__vtkVersion__
        
-    # ---  Disable/Enable UseVtk methods   -----------------------------------
+    # ---  Disable/Enable OTBApplicationsWithInstallOTB methods   -----------------------------------
     def DisableTestOTBApplicationsWithInstallOTB(self):
         self.__disableTestOTBApplicationsWithInstallOTB___ = True
     def EnableTestOTBApplicationsWithInstallOTB(self):
         self.__disableTestOTBApplicationsWithInstallOTB___ = False
+
+    # ---  Disable/Enable MonteverdiallOTB methods   -----------------------------------
+    def DisableTestMonteverdiWithInstallOTB(self):
+        self.__disableTestMonteverdiWithInstallOTB___ = True
+    def EnableTestMonteverdiWithInstallOTB(self):
+        self.__disableTestMonteverdiWithInstallOTB___ = False
 
 
     # ---  Disable/Enable Make Clean After CTest methods   -----------------------------------
@@ -913,6 +966,8 @@ class TestProcessing:
         return self.__homeOtbSourceDir__
     def GetOtbApplicationsSourceDir(self):
         return self.__homeOtbApplicationsSourceDir__
+    def GetMonteverdiSourceDir(self):
+        return self.__homeMonteverdiSourceDir__
     def GetOtbWrappingSourceDir(self):
         return self.__homeOtbWrappingSourceDir__
         
@@ -951,22 +1006,43 @@ class TestProcessing:
         # Find OTB source dir
         value = os.path.normpath(rep_base+"/OTB")
         self.__homeOtbSourceDir__ = value
+        if self.CallCheckDirectory("OTB dir",self.__homeOtbSourceDir__) == 0:
+            self.CallChangeDirectory("Source base dir",rep_base)
+            self.CallCommand("Clone OTB ...","hg clone http://hg.orfeo-toolbox.org/OTB",True)
         self.CallCheckDirectoryExit("OTB dir",self.__homeOtbSourceDir__)
         
         # Find OTB-Applications source dir
         value = os.path.normpath(rep_base+"/OTB-Applications")
         self.__homeOtbApplicationsSourceDir__ = value
+        if self.CallCheckDirectory("OTB-Applications dir",self.__homeOtbApplicationsSourceDir__) == 0:
+            self.CallChangeDirectory("Source base dir",rep_base)
+            self.CallCommand("Clone OTB-Applications ...","hg clone http://hg.orfeo-toolbox.org/OTB-Applications",True)
         self.CallCheckDirectoryExit("OTB-Applications dir",self.__homeOtbApplicationsSourceDir__)
+
+        # Find Monteverdi source dir
+        value = os.path.normpath(rep_base+"/Monteverdi")
+        self.__homeMonteverdiSourceDir__ = value
+        if self.CallCheckDirectory("Monteverdi dir",self.__homeMonteverdiSourceDir__) == 0:
+            self.CallChangeDirectory("Source base dir",rep_base)
+            self.CallCommand("Clone Monteverdi ...","hg clone http://hg.orfeo-toolbox.org/Monteverdi",True)
+        self.CallCheckDirectoryExit("Monteverdi dir",self.__homeMonteverdiSourceDir__)
 
         # Find OTB-Data source dir
         value = os.path.normpath(rep_base+"/OTB-Data")
         self.__homeOtbDataSourceDir__ = value
+        if self.CallCheckDirectory("OTB-Data dir",self.__homeOtbDataSourceDir__) == 0:
+            self.CallChangeDirectory("Source base dir",rep_base)
+            self.CallCommand("Clone OTB-Data ...","hg clone http://hg.orfeo-toolbox.org/OTB-Data",True)
+        self.CallCheckDirectoryExit("OTB-Data dir",self.__homeOtbDataSourceDir__)
         self.CallCheckDirectoryExit("OTB-Data dir",self.__homeOtbDataSourceDir__)
 
         if self.__enableOTBWrapping__ == True:
                 # Find OTB-Wrapping source dir
                 value = os.path.normpath(rep_base+"/OTB-Wrapping")
                 self.__homeOtbWrappingSourceDir__ = value
+                if self.CallCheckDirectory("OTB-Wrapping dir",self.__homeOtbWrappingSourceDir__) == 0:
+                    self.CallChangeDirectory("Source base dir",rep_base)
+                    self.CallCommand("Clone OTB-Wrapping ...","hg clone http://hg.orfeo-toolbox.org/OTB-Wrapping",True)
                 self.CallCheckDirectoryExit("OTB-Wrapping dir",self.__homeOtbWrappingSourceDir__)
 
         # Find OTB-Data-LargeInput source dir
@@ -1297,8 +1373,16 @@ class TestProcessing:
 
         if self.__enable_compile_with_full_warning__ == True:
                 command_line.append(' -D "OTB_COMPILE_WITH_FULL_WARNING:BOOL=ON" ')
-        
-                
+
+        if BinComponent == "Monteverdi":
+                command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
+                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_standard+'"  ')
+
+        if BinComponent == "Monteverdi-with-install-OTB":
+                command_line.append(' -D "OTB_DIR:PATH='+otb_lib_install_standard+'"  ')
+                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_with_install_OTB+'"  ')
+                build_name=build_name+'-WithInstallOTB'
+
         if BinComponent == "OTB-Applications":
                 command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
                 command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_standard+'"  ')
@@ -1315,7 +1399,7 @@ class TestProcessing:
                         command_line.append(' -D "OTB_USE_VTK:BOOL=OFF" ')
                 else:
                         if self.CallCheckDirectory("VTK install",vtk_dir) == 0:
-                                self.PrintWarning("TK was selected but the VTK library is not installed!!! Using VTK is disable (OTB_USE_VTK:BOOL=OFF)")
+                                self.PrintWarning("VTK was selected but the VTK library is not installed!!! Using VTK is disable (OTB_USE_VTK:BOOL=OFF)")
                                 command_line.append(' -D "OTB_USE_VTK:BOOL=OFF" ')
                         else:
                                 command_line.append(' -D "OTB_USE_VTK:BOOL=ON" ')
@@ -1344,6 +1428,8 @@ class TestProcessing:
         # Add sources dir
         if BinComponent.find("OTB-Applications") != -1:
                 command_line.append(self.GetOtbApplicationsSourceDir())
+        elif BinComponent.find("Monteverdi") != -1:
+                command_line.append(self.GetMonteverdiSourceDir())
         else:
                 command_line.append(self.GetOtbSourceDir())
         

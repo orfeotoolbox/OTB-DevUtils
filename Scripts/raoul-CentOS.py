@@ -102,13 +102,13 @@ if __name__ == "__main__":
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
-                x.DisableUpdateCurrentSources()
-                x.DisableGenerateMakefiles()
+                x.EnableUpdateCurrentSources()
+                x.EnableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
                 x.DisableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
-#                x.DisableCTest()
-                x.ForceExecution()
-                x.Run(reference_configuration)
+                x.DisableCTest()
+#                x.ForceExecution()
+                x.Run("monteverdi-centOS-linux-64bits-static-release-itk-internal-fltk-internal")
