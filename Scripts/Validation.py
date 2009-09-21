@@ -100,7 +100,7 @@ class TestProcessing:
     __prefix_build_name__ = ""
     __site__ = ""
     __distrib_name__ = ""
-    __itkVersion__ = "3.14.0"
+    __itkVersion__ = "3.16.0"
     __fltkVersion__ = "1.1.9"
     __vtkVersion__ = "5.0"
     __homeDir__ = ""
