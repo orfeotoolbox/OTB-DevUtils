@@ -95,6 +95,7 @@ class TestProcessing:
     __disableTestOTBApplicationsWithInstallOTB___ = True
     __disableTestMonteverdiWithInstallOTB___ = True
     __disableGlUseAccel__ = True
+    __disableUseCurl__ = True
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
     __prefix_build_name__ = ""
@@ -913,6 +914,13 @@ class TestProcessing:
         else:
                 return "False"
                 
+
+
+    def EnableUseCurl(self):
+        self.__disableUseCurl__ = False
+    def DisableUseCurl(self):
+        self.__disableUseCurl__ = True
+
     def EnableGlUseAccel(self):
         self.__disableGlUseAccel__ = False
     def DisableGlUseAccel(self):
@@ -1351,6 +1359,11 @@ class TestProcessing:
                 command_line.append(' -D "OTB_USE_PATENTED:BOOL=OFF" ')
                 command_line.append(' -D "OTB_USE_VISU_GUI:BOOL=ON" ')
                 
+                if self.__disableUseCurl__ == True:
+                        command_line.append(' -D "OTB_USE_CURL:BOOL=OFF" ')
+                else:
+                        command_line.append(' -D "OTB_USE_CURL:BOOL=ON" ')
+
                 if self.__disableGlUseAccel__ == True:
                         command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=OFF" ')
                 else:

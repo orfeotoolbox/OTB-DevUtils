@@ -20,6 +20,7 @@ if __name__ == "__main__":
         x.SetOtbDataLargeInputDir("/cygdrive/d/OTB-CNES/OTB-LargeInput")
         x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("/cygdrive/d")
+        x.DisableUseCurl()
 
 #        x.SetGeotiffIncludeDirs("/cygdrive/d/OTB-OUTILS/gdal/sources/gdal-1.6.0/frmts/gtiff/libgeotiff")
 #        x.SetTiffIncludeDirs("/cygdrive/d/OTB-OUTILS/gdal/sources/gdal-1.6.0/frmts/gtiff/libtiff")
@@ -28,6 +29,8 @@ if __name__ == "__main__":
         x.SetTiffIncludeDirs("/cygdrive/d/OTB-OUTILS/gdal/install-cygwin")
         x.SetJpegIncludeDirs("/cygdrive/d/OTB-OUTILS/gdal/install-cygwin")
 
+        reference_configuration =  "cygwin-static-debug-itk-internal-fltk-internal"
+        reference_configuration2 =  "cygwin-shared-release-itk-internal-fltk-internal"
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
                 x.DisableUpdateCurrentSources()
@@ -37,7 +40,7 @@ if __name__ == "__main__":
                 x.EnableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
-                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
+                x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
         elif sys.argv[1] == "DAY_COMPILATION":
@@ -48,7 +51,7 @@ if __name__ == "__main__":
                 x.DisableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
-                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
+                x.Run(reference_configuration)
  
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
@@ -59,8 +62,8 @@ if __name__ == "__main__":
                 x.EnableTvTesting() 
                 x.DisableTlTesting() 
                 x.EnableTeTesting() 
-                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
-                x.Run("cygwin-shared-release-itk-internal-fltk-internal")
+                x.Run(reference_configuration)
+                x.Run(reference_configuration2)
 
         # =========    WEEK    ============ 
         elif sys.argv[1] == "WEEK":
@@ -71,7 +74,7 @@ if __name__ == "__main__":
                 x.EnableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
-                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
+                x.Run(reference_configuration)
 
 
         # =========    LOCAL TESTING   ============ 
@@ -80,12 +83,12 @@ if __name__ == "__main__":
                 x.EnableGenerateMakefiles()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.EnableTlTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
                 x.DisableTeTesting() 
-#                x.DisableCTest()
-                x.ForceExecution()
-                x.Run("cygwin-shared-release-itk-internal-fltk-internal")
-#                x.Run("cygwin-static-debug-itk-internal-fltk-internal")
+                x.DisableCTest()
+#                x.ForceExecution()
+#                x.Run(reference_configuration2)
+                x.Run(reference_configuration)
 
 

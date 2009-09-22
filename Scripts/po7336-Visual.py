@@ -31,6 +31,7 @@ if __name__ == "__main__":
         x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visual7\\include")
 
         reference_configuration = "visual7-static-release-itk-internal-fltk-internal"
+        reference_configuration2 = "visual7-static-debug-itk-internal-fltk-external"
 
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
@@ -87,4 +88,5 @@ if __name__ == "__main__":
                 x.DisableTeTesting() 
                 x.DisableCTest()
 #                x.ForceExecution()
-                x.Run("visual7-static-debug-itk-internal-fltk-internal")
+                x.Run(reference_configuration)
+#                x.Run("visual7-static-debug-itk-internal-fltk-internal")
