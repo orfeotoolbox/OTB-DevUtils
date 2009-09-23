@@ -96,6 +96,7 @@ class TestProcessing:
     __disableTestMonteverdiWithInstallOTB___ = True
     __disableGlUseAccel__ = True
     __disableUseCurl__ = True
+    __disableUseCpack__ = False
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
     __prefix_build_name__ = ""
@@ -471,9 +472,13 @@ class TestProcessing:
                         self.CallCommand("CTest execution",ctest_call_command,True)
                         # make install
                         if self.GetTestConfigurationDir().find("visual") != -1:
-                                self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL",True)
+                                self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL",False)
                         else:
-                                self.CallCommand("Make Install", "make install",True)
+                                self.CallCommand("Make Install", "make install",False)
+                        if self.__disableUseCpack__ == False:
+                                self.CallCommand("CPack execution","cpack",True)
+                        else:
+                                self.PrintWarning("CPACK execution DISABLE")
                         if self.__makeCleanAfterCTest__ == True:
                                 if self.GetTestConfigurationDir().find("visual") != -1:
                                         self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD",True)
@@ -916,6 +921,11 @@ class TestProcessing:
                 
 
 
+    def EnableUseCpack(self):
+        self.__disableUseCpack__ = False
+    def DisableUseCpack(self):
+        self.__disableUseCpack__ = True
+    
     def EnableUseCurl(self):
         self.__disableUseCurl__ = False
     def DisableUseCurl(self):
@@ -1433,9 +1443,12 @@ class TestProcessing:
         command_line.append(' -D "BUILDNAME:STRING='+build_name+'" ' )
         if self.GetSite() != "":
                 command_line.append(' -D "SITE:STRING='+self.GetSite()+'" ' )
-        command_line.append(' -D "OTB_USE_CPACK:BOOL=ON" ')
-        
 
+
+        if self.__disableUseCpack__ == True:
+                command_line.append(' -D "OTB_USE_CPACK:BOOL=OFF" ')
+        else:
+                command_line.append(' -D "OTB_USE_CPACK:BOOL=ON" ')
 
 
         # Add sources dir
