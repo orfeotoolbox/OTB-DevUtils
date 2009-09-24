@@ -1344,7 +1344,7 @@ class TestProcessing:
 
                 command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_standard+'"  ')
 
-                command_line.append(' -D "GDAL_INCLUDE_DIRS:PATH='+gdal_include_dir+'"  ')
+                command_line.append(' -D "GDAL_INCLUDE_DIR:PATH='+gdal_include_dir+'"  ')
                 if self.GetGdalLibrary() != "" :
                         command_line.append(' -D "GDAL_LIBRARY:FILEPATH='+self.GetGdalLibrary()+'" ')
                 else:
