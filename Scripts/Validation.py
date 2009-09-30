@@ -308,20 +308,19 @@ class TestProcessing:
                 self.CallCreateDirectory("Install OTB-Applications-with-INSTALL-OTB",binary_home_dir+"/install/OTB-Applications-with-INSTALLED-OTB")
                 self.CallCreateDirectory("Install Monteverdi-with-INSTALL-OTB",binary_home_dir+"/install/Monteverdi-with-INSTALL-OTB")
         
-# THOMAS provisoire                
-#            else:
+            else:
                 # ---  Clean the Install directory   ----------------------------------
-#                self.CallRemoveDirectory("Install standard",binary_home_dir+"/install/OTB")
-#                self.CallRemoveDirectory("Install OTB-Applications",binary_home_dir+"/install/OTB-Applications")
-#                self.CallRemoveDirectory("Install Monteverdi",binary_home_dir+"/install/Monteverdi")
-#                self.CallRemoveDirectory("Install OTB-Applications-with-INSTALL-OTB",binary_home_dir+"/install/OTB-Applications-with-INSTALLED-OTB")
-#                self.CallRemoveDirectory("Install Monteverdi-with-INSTALL-OTB",binary_home_dir+"/install/Monteverdi-with-INSTALL-OTB")
+                self.CallRemoveDirectory("Install standard",binary_home_dir+"/install/OTB")
+                self.CallRemoveDirectory("Install OTB-Applications",binary_home_dir+"/install/OTB-Applications")
+                self.CallRemoveDirectory("Install Monteverdi",binary_home_dir+"/install/Monteverdi")
+                self.CallRemoveDirectory("Install OTB-Applications-with-INSTALL-OTB",binary_home_dir+"/install/OTB-Applications-with-INSTALLED-OTB")
+                self.CallRemoveDirectory("Install Monteverdi-with-INSTALL-OTB",binary_home_dir+"/install/Monteverdi-with-INSTALL-OTB")
                 
-#                self.CallCreateDirectory("Install standard",binary_home_dir+"/install/OTB")
-#                self.CallCreateDirectory("Install OTB-Applications",binary_home_dir+"/install/OTB-Applications")
-#                self.CallCreateDirectory("Install Monteverdi",binary_home_dir+"/install/Monteverdi")
-#                self.CallCreateDirectory("Install OTB-Applications-with-INSTALL-OTB",binary_home_dir+"/install/OTB-Applications-with-INSTALLED-OTB")
-#                self.CallCreateDirectory("Install Monteverdi-with-INSTALL-OTB",binary_home_dir+"/install/Monteverdi-with-INSTALLED-OTB")
+                self.CallCreateDirectory("Install standard",binary_home_dir+"/install/OTB")
+                self.CallCreateDirectory("Install OTB-Applications",binary_home_dir+"/install/OTB-Applications")
+                self.CallCreateDirectory("Install Monteverdi",binary_home_dir+"/install/Monteverdi")
+                self.CallCreateDirectory("Install OTB-Applications-with-INSTALL-OTB",binary_home_dir+"/install/OTB-Applications-with-INSTALLED-OTB")
+                self.CallCreateDirectory("Install Monteverdi-with-INSTALL-OTB",binary_home_dir+"/install/Monteverdi-with-INSTALLED-OTB")
 
             if self.__cleanItkSourceDir__ == True:
                 self.CallRemoveDirectory(" ******************  ATTENTION *******************  =>  OTB/Utilities/ITK (to suppress error svn because ITK version had been updated",os.path.normpath(self.GetOtbSourceDir()+'/OTB/Utilities/ITK'))
@@ -367,8 +366,7 @@ class TestProcessing:
                 is_up_to_date = False
             elif initial_version_otb_source_dir != current_version_otb_source_dir:
                 is_up_to_date = False
-#THOMAS provisoire
-#            self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
+            self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
 
 
             # ------------------------------------------------------------------------
@@ -465,8 +463,7 @@ class TestProcessing:
                 is_up_to_date = False
             elif initial_version_otb_source_dir != current_version_otb_source_dir:
                 is_up_to_date = False
-# THOMAS provisoire
-#            self.RunProcessTestingOTBInstalled("binaries-testing-install/OTB","install/OTB/lib/otb",is_up_to_date)
+            self.RunProcessTestingOTBInstalled("binaries-testing-install/OTB","install/OTB/lib/otb",is_up_to_date)
 
             # ------------------------------------------------------------------------
             # Testing OTB package ------------------------------
@@ -567,9 +564,7 @@ class TestProcessing:
             self.PrintWarning("Select 'Experimental' testing")
         else:
             self.PrintError("CTest Uknown testing !!!!!!!!!!!!!")
-# THOMAS provisoire
-#        selection_testing_line = '-R "^(..Tu|...Tu|....Tu)"'
-        selection_testing_line = '-I 1,1'
+        selection_testing_line = '-R "^(..Tu|...Tu|....Tu)"'
         ctest_call_command = command + selection_testing_line
         
         if is_up_to_date == False or self.IsDisableCTest() == True:
@@ -578,9 +573,7 @@ class TestProcessing:
                 self.CallCreateDirectory(current_binary_module,current_binary_dir)
                 self.CallChangeDirectory(current_binary_module,current_binary_dir )
 
-#                if self.GetGenerateMakefiles() == True:
-# THOMAS provisoire
-                if True == True:
+                if self.GetGenerateMakefiles() == True:
                         try:
                                 self.GenerateMakefilesOTBInstalled(current_binary_module,installed_otb_dir)
                         except:
@@ -761,8 +754,6 @@ class TestProcessing:
         selection_testing_line = selection_testing_line+ ")"
         selection_testing_line = '-R "' + selection_testing_line + '"'
         command = command + selection_testing_line
-#THOMAS provisoire :
-        command = "ctest  -D Experimental -I 1,1" 
         self.RunSubProcessTesting(current_module,current_name_module,command,is_up_to_date)
     
     # =====================================================================================================================================
@@ -2630,48 +2621,5 @@ class TestProcessing:
         crtfile2.write(chaine2+"  =>  "+line+"\n")
         crtfile2.close()
         
-
-###################################################################################################################""
-
-# 1. Parameters for HOST PLATFORM:             otb.py "visual-static-release-itk-internal_fltk-internal" (len(sys.argv) = 2)
-# 2. Parameters for SYSTEM PLATFORM TESTED:    otb.py "visual-static-release-itk-internal_fltk-internal" "Experimental" "True/False (MakeClean)" "True/False (GenerateMakefiles)" "True/False (DisableCTest)" "True/False (UpdateSources)" (len(sys.argv) = 7)
-
-#### 2. Parameters for SYSTEM PLATFORM TESTED:    otb.py "visual-static-release-itk-internal_fltk-internal" "local_system" (len(sys.argv) = 3)
-if __name__ == "__main__":
-
-        print "otbhg.py Main function called ..."
-
-        #=============================================================================================
-        # Processing configuration level 2.
-        if len(sys.argv) == 7:
-                print "Run for ", sys.argv[1]
-                x=TestProcessing()
-                testConfigurationDir = sys.argv[1]
-                
-#                if sys.argv[2] == "Experimental":
-#                        x.SetExperimental()
-#                if sys.argv[2] == "Nightly":
-#                        x.SetNightly()
-#                if sys.argv[2] == "Continuous":
-#                        x.SetContinuous()
-
-                if sys.argv[3] == "True":
-                        x.EnableMakeClean()
-                else:
-                        x.DisableMakeClean()
-                if sys.argv[4] == "True":
-                        x.EnableGenerateMakefiles()
-                else:
-                        x.DisableGenerateMakefiles()
-                if sys.argv[5] == "True":
-                        x.DisableCTest()
-                else:
-                        x.EnableCTest()
-                if sys.argv[6] == "True":
-                        x.EnableUpdateSources()
-                else:
-                        x.DisableUpdateSources()
-
-                x.Run(testConfigurationDir)
 
 
