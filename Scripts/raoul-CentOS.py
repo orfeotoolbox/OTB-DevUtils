@@ -57,6 +57,8 @@ if __name__ == "__main__":
  
         # =========    WEEK    ============ 
         elif sys.argv[1] == "WEEK":
+                x.EnableMakeCleanAfterCTest()
+                
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetNightlyTesting()
@@ -70,11 +72,13 @@ if __name__ == "__main__":
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
                 x.Run(reference_configuration2)
-                x.DisableTvTesting() 
-                x.Run(reference_configuration3)
+#                x.DisableTvTesting() 
+#                x.Run(reference_configuration3)
 
         # =========    WEEKEND    ============ 
         elif sys.argv[1] == "WEEKEND":
+                x.EnableMakeCleanAfterCTest()
+                
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetNightlyTesting()
@@ -82,7 +86,6 @@ if __name__ == "__main__":
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
                 x.EnableTeTesting() 
-
                 x.EnableCompileWithFullWarning()
                 x.Run(reference_configuration)
                 
@@ -102,13 +105,18 @@ if __name__ == "__main__":
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
-                x.EnableUpdateCurrentSources()
-                x.EnableGenerateMakefiles()
+#                x.EnableUpdateCurrentSources()
+                x.DisableTestOTBApplicationsWithInstallOTB()
+                x.DisableBuildExamples()
+                x.DisableUpdateCurrentSources()
+                
+                x.DisableGenerateMakefiles()
+                x.EnableUseCpack()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
                 x.DisableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
-                x.DisableCTest()
-#                x.ForceExecution()
-                x.Run("monteverdi-centOS-linux-64bits-static-release-itk-internal-fltk-internal")
+#                x.DisableCTest()
+                x.ForceExecution()
+                x.Run("package-testing-centOS-linux-64bits-static-release-itk-internal-fltk-internal")

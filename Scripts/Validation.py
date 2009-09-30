@@ -50,6 +50,7 @@ class TestProcessing:
     __python_mingw_command__ = "/c/Python25/python "
     __python_cygwin_command__ = "/cygdrive/c/Python25/python "
     __python_msdos_command__ = "c:\Python25\python.exe "
+    __windows_unzip_command__ = "C:\Program Files\7-Zip\7z.exe x "
     
     __svn_mingw_command__ = "/c/Python25/python "
     
@@ -172,6 +173,8 @@ class TestProcessing:
     __wrap_itk_dims__ = "2"
     
     __cableswigVersion__ = "3.14.0"
+    
+ #   __list_unpackage_extentions__ []
    
     def __init__(self):
 
@@ -187,6 +190,9 @@ class TestProcessing:
         self.__list_otb_name_components__.append("Monteverdi")
         self.__list_otb_name_components__.append("OTB-Applications")
         self.__list_otb_name_components__.append("OTB-Applications")
+        
+#        extention = { "TGZ" : ".tar.gz" }
+#        self.__list_unpackage_extentions__.append(extention)
 	
 	# Default value
 #	self.SetExperimental()
@@ -215,7 +221,7 @@ class TestProcessing:
             self.PrintTitle("Run Host Platform process for "+self.GetTestConfigurationDir()+" testing !")
 
             # ------------------------------------------------------------
-            self.PrintTitle("1/6  :  Check directories  ... ")
+            self.PrintTitle("1/11  :  Check directories  ... ")
             # ------------------------------------------------------------
             # Set and Check directories
             if self.__homeBaseRunDir__ == "local":
@@ -271,7 +277,7 @@ class TestProcessing:
 
 
             # ------------------------------------------------------------
-            self.PrintTitle("2/6  :  Update sources  ... ")
+            self.PrintTitle("2/11  :  Update sources  ... ")
             # ------------------------------------------------------------
 #        self.CallChangeDirectory("otb source",self.GetHomeDir() )
             if self.GetUpdateNightlySources() == True:
@@ -284,24 +290,38 @@ class TestProcessing:
             self.CallChangeDirectory("otb source",self.GetHomeDir() )
 
             # ------------------------------------------------------------
-            self.PrintTitle("3/6  :  Cleans/Creates operations  ... ")
+            self.PrintTitle("3/11  :  Cleans/Creates operations  ... ")
             # ------------------------------------------------------------
             if self.GetGenerateMakefiles() == True:
                 self.CallRemoveDirectory("Main test",binary_home_dir)
-                self.CallCreateDirectory(self.__list_binary_components__[0]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[0])
-                self.CallCreateDirectory(self.__list_binary_components__[1]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[1])
-                self.CallCreateDirectory(self.__list_binary_components__[2]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[2])
-                self.CallCreateDirectory(self.__list_binary_components__[3]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[3])
-                self.CallCreateDirectory(self.__list_binary_components__[4]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[4])
-                self.CallCreateDirectory("Install standard",binary_home_dir+"/install-standard")
-                self.CallCreateDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
+                cpt = 0
+                while cpt < len(self.__list_binary_components__):
+                    self.CallCreateDirectory(self.__list_binary_components__[cpt]+" binary",binary_home_dir+"/binaries/"+self.__list_binary_components__[cpt])
+                    self.CallCreateDirectory(self.__list_binary_components__[cpt]+" binary testing install",binary_home_dir+"/binaries-testing-install/"+self.__list_binary_components__[cpt])
+                    cpt = cpt + 1
+                
+                
+                
+                self.CallCreateDirectory("Install standard",binary_home_dir+"/install/OTB")
+                self.CallCreateDirectory("Install OTB-Applications",binary_home_dir+"/install/OTB-Applications")
+                self.CallCreateDirectory("Install Monteverdi",binary_home_dir+"/install/Monteverdi")
+                self.CallCreateDirectory("Install OTB-Applications-with-INSTALL-OTB",binary_home_dir+"/install/OTB-Applications-with-INSTALLED-OTB")
+                self.CallCreateDirectory("Install Monteverdi-with-INSTALL-OTB",binary_home_dir+"/install/Monteverdi-with-INSTALL-OTB")
         
-            else:
+# THOMAS provisoire                
+#            else:
                 # ---  Clean the Install directory   ----------------------------------
-                self.CallRemoveDirectory("Install standard",binary_home_dir+"/install-standard")
-                self.CallRemoveDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
-                self.CallCreateDirectory("Install standard",binary_home_dir+"/install-standard")
-                self.CallCreateDirectory("Install with install OTB",binary_home_dir+"/install-with-install-OTB")
+#                self.CallRemoveDirectory("Install standard",binary_home_dir+"/install/OTB")
+#                self.CallRemoveDirectory("Install OTB-Applications",binary_home_dir+"/install/OTB-Applications")
+#                self.CallRemoveDirectory("Install Monteverdi",binary_home_dir+"/install/Monteverdi")
+#                self.CallRemoveDirectory("Install OTB-Applications-with-INSTALL-OTB",binary_home_dir+"/install/OTB-Applications-with-INSTALLED-OTB")
+#                self.CallRemoveDirectory("Install Monteverdi-with-INSTALL-OTB",binary_home_dir+"/install/Monteverdi-with-INSTALL-OTB")
+                
+#                self.CallCreateDirectory("Install standard",binary_home_dir+"/install/OTB")
+#                self.CallCreateDirectory("Install OTB-Applications",binary_home_dir+"/install/OTB-Applications")
+#                self.CallCreateDirectory("Install Monteverdi",binary_home_dir+"/install/Monteverdi")
+#                self.CallCreateDirectory("Install OTB-Applications-with-INSTALL-OTB",binary_home_dir+"/install/OTB-Applications-with-INSTALLED-OTB")
+#                self.CallCreateDirectory("Install Monteverdi-with-INSTALL-OTB",binary_home_dir+"/install/Monteverdi-with-INSTALLED-OTB")
 
             if self.__cleanItkSourceDir__ == True:
                 self.CallRemoveDirectory(" ******************  ATTENTION *******************  =>  OTB/Utilities/ITK (to suppress error svn because ITK version had been updated",os.path.normpath(self.GetOtbSourceDir()+'/OTB/Utilities/ITK'))
@@ -332,9 +352,11 @@ class TestProcessing:
                 current_version_otb_wrapping_source_dir = self.CallGetVersion(self.GetOtbWrappingSourceDir())
                 self.PrintMsg("OTB-Wrapping Version before " + initial_version_otb_wrapping_source_dir + " and current " +current_version_otb_wrapping_source_dir+".")
 
+            # ------------------------------------------------------------------------
             # OTB testing ------------------------------
+            # ------------------------------------------------------------------------
             component_cpt=0
-            self.PrintTitle(str(component_cpt+4)+"/9  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/11  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             is_up_to_date = True
             if self.__forceExecution__ == True:
                 is_up_to_date = False
@@ -345,11 +367,15 @@ class TestProcessing:
                 is_up_to_date = False
             elif initial_version_otb_source_dir != current_version_otb_source_dir:
                 is_up_to_date = False
-            self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
+#THOMAS provisoire
+#            self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
 
+
+            # ------------------------------------------------------------------------
             # Monteverdi testing ------------------------------
+            # ------------------------------------------------------------------------
             component_cpt = component_cpt + 1
-            self.PrintTitle(str(component_cpt+4)+"/9  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/11  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             is_up_to_date = True
             if self.__forceExecution__ == True:
                 is_up_to_date = False
@@ -362,17 +388,21 @@ class TestProcessing:
                 is_up_to_date = False
             self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
             
+            # ------------------------------------------------------------------------
             # Monteverdi With Install OTB testing ------------------------------
+            # ------------------------------------------------------------------------
             component_cpt = component_cpt + 1
-            self.PrintTitle(str(component_cpt+4)+"/9  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/11  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             if self.__disableTestMonteverdiWithInstallOTB___ == False:
                 self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
             else:
                 self.PrintMsg("Testing Monteverdi with install OTB dir is DISABLE")
             
+            # ------------------------------------------------------------------------
             # OTB-Applications testing ------------------------------
+            # ------------------------------------------------------------------------
             component_cpt = component_cpt + 1
-            self.PrintTitle(str(component_cpt+4)+"/9  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/11  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             is_up_to_date = True
             if self.__forceExecution__ == True:
                 is_up_to_date = False
@@ -384,18 +414,21 @@ class TestProcessing:
             elif initial_version_otb_applications_source_dir != current_version_otb_applications_source_dir:
                 is_up_to_date = False
             self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
-            
+            # ------------------------------------------------------------------------
             # OTB-Applications With Install OTB testing ------------------------------
+            # ------------------------------------------------------------------------
             component_cpt = component_cpt + 1
-            self.PrintTitle(str(component_cpt+4)+"/9  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/11  :  "+self.__list_binary_components__[component_cpt]+" processing  ... ")
             if self.__disableTestOTBApplicationsWithInstallOTB___ == False:
                 self.RunProcessTesting(self.__list_binary_components__[component_cpt],self.__list_otb_name_components__[component_cpt],is_up_to_date)
             else:
                 self.PrintMsg("Testing OTB-Applications with install OTB dir is DISABLE")
 
+            # ------------------------------------------------------------------------
             # OTB-Wrapping testing ------------------------------
+            # ------------------------------------------------------------------------
             component_cpt = component_cpt + 1
-            self.PrintTitle(str(component_cpt+4)+"/9  :  OTB-Wrapping processing  ... ")
+            self.PrintTitle(str(component_cpt+4)+"/11  :  OTB-Wrapping processing  ... ")
             if self.__enableOTBWrapping__ == True:
                 is_up_to_date = True
                 if self.__forceExecution__ == True:
@@ -417,6 +450,35 @@ class TestProcessing:
             else:
                 self.PrintMsg("Testing OTB-Wrapping is DISABLE")
 
+            # ------------------------------------------------------------------------
+            # Testing OTB Installed ------------------------------
+            # ------------------------------------------------------------------------
+            component_cpt = component_cpt + 1
+            self.PrintTitle(str(component_cpt+4)+"/11  :  Testing OTB installed to 'install/OTB dir' processing  ... ")
+            is_up_to_date = True
+            if self.__forceExecution__ == True:
+                is_up_to_date = False
+            # Force execution for Nightly validation
+            elif self.__configurationRunTesting__ == self.__nightly_testing__:
+                is_up_to_date = False
+            elif initial_version_otb_data_source_dir != current_version_otb_data_source_dir:
+                is_up_to_date = False
+            elif initial_version_otb_source_dir != current_version_otb_source_dir:
+                is_up_to_date = False
+# THOMAS provisoire
+#            self.RunProcessTestingOTBInstalled("binaries-testing-install/OTB","install/OTB/lib/otb",is_up_to_date)
+
+            # ------------------------------------------------------------------------
+            # Testing OTB package ------------------------------
+            # ------------------------------------------------------------------------
+            component_cpt = component_cpt + 1
+            self.PrintTitle(str(component_cpt+4)+"/11  :  Testing OTB unpackage processing  ... ")
+            if self.__disableUseCpack__ == False:
+                self.PrintMsg("Call RunProcessTestingOTBUnpackage ....")
+                self.RunProcessTestingOTBUnpackage("TGZ",".tar.gz",is_up_to_date)
+            else:
+                self.PrintMsg("Testing PACKAGES is DISABLE")
+            
             self.CallChangeDirectory("Home",self.GetHomeDir())
         # try End Run
         except:
@@ -447,6 +509,113 @@ class TestProcessing:
     # =====================================================================================================================================
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
+    
+    
+    
+    def RunProcessTestingOTBUnpackage(self,unpackage_extention,file_extention,is_up_to_date):
+        # CPACK generation
+        binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
+        reference_binary_dir=binary_home_dir + "/binaries/OTB"
+        current_binary_name = "binaries-testing-unpackage-"+unpackage_extention+"/OTB"
+        current_binary_dir=binary_home_dir + "/"+current_binary_name 
+        unpackage_name="unpackage/OTB-"+unpackage_extention
+        unpackage_dir=binary_home_dir + "/"+unpackage_name
+        package_file_name = ""
+        package_module_name = ""
+        self.CallChangeDirectory("OTB binaries",reference_binary_dir )
+        self.CallCommand("CPack execution","cpack -G "+unpackage_extention,True)
+        # Find the package file name
+        for root, dirs, files in os.walk(reference_binary_dir, topdown=False):
+          for name in files:
+            try:
+              if name.find(file_extention) != -1:
+                package_module_name = name.replace(file_extention,"")
+                package_file_name = os.path.join(root,name)
+            except:
+                self.PrintMsg("Error while finding the package file!!")
+        self.PrintMsg("Package "+unpackage_extention+" file name found: "+package_file_name+".")
+        self.PrintMsg("Package name: '"+package_module_name+"'.")
+        self.CallCheckFileExit("Package filename",package_file_name)
+        # UNPACK
+        self.CallCreateDirectory("OTB unpackage",unpackage_dir )
+        self.CallChangeDirectory("OTB unpackage",unpackage_dir )
+        if self.GetTestConfigurationDir().find("visual") != -1:
+          if unpackage_extention == "TGZ" :
+            self.CallCommand("Extraction "+package_module_name+".tar.gz file...",self.__windows_unzip_command__ +" "+ package_file_name) 
+            self.CallCommand("Extraction "+package_module_name+".tar file...",self.__windows_unzip_command__ +" "+ unpackage_dir+"/"+package_module_name+".tar") 
+        else:
+          if unpackage_extention == "TGZ" :
+            self.CallCommand("Extraction "+package_file_name+" file...","tar xzf "+package_file_name) 
+                
+        unpackage_file=unpackage_dir + "/"+package_module_name
+        unpackage_name = unpackage_name + "/"+package_module_name+"/lib/otb"
+        installed_otb_dir = unpackage_dir + "/"+package_module_name+"/lib/otb"
+        self.CallCheckFileExit("OTB Config.cmake presence",installed_otb_dir+"/OTBConfig.cmake")
+        self.RunProcessTestingOTBInstalled(current_binary_name,unpackage_name,is_up_to_date)
+    
+    
+    
+    def RunProcessTestingOTBInstalled(self,current_binary_module,installed_otb_dir,is_up_to_date):
+        command = "ctest  -D Experimental "
+        if self.__configurationRunTesting__ == self.__continuous_testing__:
+            self.PrintWarning("Select 'Continuous' testing")
+            command = command + " --track Continuous " 
+        elif self.__configurationRunTesting__ == self.__nightly_testing__:
+            self.PrintWarning("Select 'Nightly' testing")
+            command = command + " --track Nightly " 
+        elif self.__configurationRunTesting__ == self.__experimental_testing__:
+            self.PrintWarning("Select 'Experimental' testing")
+        else:
+            self.PrintError("CTest Uknown testing !!!!!!!!!!!!!")
+# THOMAS provisoire
+#        selection_testing_line = '-R "^(..Tu|...Tu|....Tu)"'
+        selection_testing_line = '-I 1,1'
+        ctest_call_command = command + selection_testing_line
+        
+        if is_up_to_date == False or self.IsDisableCTest() == True:
+                binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
+                current_binary_dir=binary_home_dir + "/"+current_binary_module
+                self.CallCreateDirectory(current_binary_module,current_binary_dir)
+                self.CallChangeDirectory(current_binary_module,current_binary_dir )
+
+#                if self.GetGenerateMakefiles() == True:
+# THOMAS provisoire
+                if True == True:
+                        try:
+                                self.GenerateMakefilesOTBInstalled(current_binary_module,installed_otb_dir)
+                        except:
+                                self.PrintMsg("Error while executing GenerateMakefilesOTBInstalled method for OTB module !!")
+                else:
+                        self.CallRemoveDirectory("Testing/Temporary",current_binary_dir + "/Testing/Temporary")
+                        if self.GetMakeClean() == True:
+                                if self.GetTestConfigurationDir().find("visual") != -1:
+                                        self.CallCommand("Make Clean", self.GetVisualCommand() + " OTBTesting.sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD")
+                                else:
+                                        self.CallCommand("Make Clean", "make clean")
+                                self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
+ 
+                # ctest ...
+                if self.IsDisableCTest() == False:
+                        self.CallCommand("CTest execution",ctest_call_command,True)
+                        
+                        if self.__makeCleanAfterCTest__ == True:
+                                if self.GetTestConfigurationDir().find("visual") != -1:
+                                        self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " OTBTesting.sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD",True)
+                                else:
+                                        self.CallCommand("Make Clean (After CTest)", "make clean",True)
+                                self.CallRemoveDirectory("/bin",current_binary_dir + "/bin")
+                        if self.__cleanTestingResultsAfterCTest__ == True:
+                                self.CallRemoveDirectory("Testing/Temporary (After CTest)",current_binary_dir + "/Testing/Temporary")
+
+        if self.IsDisableCTest() == True:
+                self.PrintMsg("CTest execution DISABLE")
+        if is_up_to_date == True:
+                self.PrintMsg("CTest execution disable: the source code was UP TO DATE !")
+    
+    # =====================================================================================================================================
+    # ===  Run Process Testing for a component
+    # =====================================================================================================================================
+    
     def RunSubProcessTesting(self,current_module,current_name_module,ctest_call_command,is_up_to_date):
         if is_up_to_date == False or self.IsDisableCTest() == True:
                 binary_home_dir=os.path.normpath(self.GetHomeDir()+"/"+self.GetTestConfigurationDir())
@@ -475,10 +644,10 @@ class TestProcessing:
                                 self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL",False)
                         else:
                                 self.CallCommand("Make Install", "make install",False)
-                        if self.__disableUseCpack__ == False:
-                                self.CallCommand("CPack execution","cpack",True)
-                        else:
-                                self.PrintWarning("CPACK execution DISABLE")
+#                        if self.__disableUseCpack__ == False:
+#                                self.CallCommand("CPack execution","cpack -G "+self.__list_unpackage_extentions__,True)
+#                        else:
+#                                self.PrintWarning("CPACK execution DISABLE")
                         if self.__makeCleanAfterCTest__ == True:
                                 if self.GetTestConfigurationDir().find("visual") != -1:
                                         self.CallCommand("Make Clean (After CTest)", self.GetVisualCommand() + " " + current_name_module+".sln /clean "+self.GetCmakeBuildType() +" /project ALL_BUILD",True)
@@ -492,6 +661,7 @@ class TestProcessing:
                 self.PrintMsg("CTest execution DISABLE")
         if is_up_to_date == True:
                 self.PrintMsg("CTest execution disable: the source code was UP TO DATE !")
+    
     
     # =====================================================================================================================================
     # ===  Run Process Testing for a component
@@ -551,9 +721,6 @@ class TestProcessing:
                 self.PrintMsg("CTest execution DISABLE")
         if is_up_to_date == True:
                 self.PrintMsg("CTest execution disable: the source code was UP TO DATE !")
-     
-    
-    
     
     # =====================================================================================================================================
     # ===  Run Process Testing for a component
@@ -594,6 +761,8 @@ class TestProcessing:
         selection_testing_line = selection_testing_line+ ")"
         selection_testing_line = '-R "' + selection_testing_line + '"'
         command = command + selection_testing_line
+#THOMAS provisoire :
+        command = "ctest  -D Experimental -I 1,1" 
         self.RunSubProcessTesting(current_module,current_name_module,command,is_up_to_date)
     
     # =====================================================================================================================================
@@ -1245,6 +1414,102 @@ class TestProcessing:
     # =====================================================================================================================================
     # ===  Generation of OTB makefiles (cmake process): BinComponent=OTB, OTB-Application or OTB-Applications-with-install-OTB
     # =====================================================================================================================================
+
+    def GenerateMakefilesOTBInstalled(self,BinComponentDir,InstalledOTBDir):
+        self.PrintMsg(" GenerateMakefilesOTBInstalled ...")
+        HomeDir = self.GetHomeDir()
+        HomeDirOutils=self.GetHomeDirOutils()
+        mode = ""
+        mode = self.GetMode()        
+        build_type=self.GetBuildType()
+        
+        if self.GetTestConfigurationDir().find("shared") != -1:
+                build_mode="shared"
+        else:
+                build_mode="static"
+
+
+        otb_install_OTB=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/'+InstalledOTBDir)
+
+        # For Visual, set CMAKE_CONFIGURATION_TYPES parameter        
+        command_line = []
+        command_line.append('cmake ')
+        command_line.append('-Wno-dev')
+        command_line.append( self.GetCmakePlatform())
+        
+        command_line.append(' -D "OTB_DIR:PATH='+otb_install_OTB+'"  ')
+        
+        if self.GetTestConfigurationDir().find("visual") != -1:
+                command_line.append(' -D "CMAKE_CONFIGURATION_TYPES:STRING='+self.GetCmakeBuildType()+'"  ')
+
+        command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
+
+        build_name=self.GetBuildName()
+        
+        if self.GetTestConfigurationDir().find("macosx") != -1:
+                self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
+                command_line.append(' -D "CMAKE_OSX_ARCHITECTURES:STRING=i386;" ')
+        
+        if self.GetTestConfigurationDir().find("visual") == -1:
+                command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
+                # Add -Wall only if no Full warning
+                if self.__enable_compile_with_full_warning__ == False:
+                      command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
+                      command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
+                      command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+                      command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
+                
+
+
+                if self.__disableGlUseAccel__ == True:
+                        command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=OFF" ')
+                else:
+                        command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=ON" ')
+                        
+
+        if self.__enable_compile_with_full_warning__ == True:
+                command_line.append(' -D "OTB_COMPILE_WITH_FULL_WARNING:BOOL=ON" ')
+
+
+        if self.GetTestConfigurationDir().find("visual") != -1:
+                command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' OTBTesting.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
+        elif self.GetTestConfigurationDir().find("macosx") != -1:
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -j 4"')
+        else:
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/gmake -i -j 4"')
+
+        command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
+        if self.GetUseOtbDataLargeInput() == False:
+                command_line.append(' -D "OTB_DATA_USE_LARGEINPUT:BOOL=OFF" ')
+        else:
+                command_line.append(' -D "OTB_DATA_USE_LARGEINPUT:BOOL=ON" ')
+                command_line.append(' -D "OTB_DATA_LARGEINPUT_ROOT:PATH='+self.GetOtbDataLargeInputSourceDir()+'" ')
+
+        if self.__enable_compile_with_full_warning__ == True:
+                build_name=build_name+'-FULL_WARNING'
+        build_name=build_name+'-Testing-OTB-INSTALLED-'+InstalledOTBDir
+        command_line.append(' -D "BUILDNAME:STRING='+build_name+'" ' )
+        if self.GetSite() != "":
+                command_line.append(' -D "SITE:STRING='+self.GetSite()+'" ' )
+
+        command_line.append(self.GetOtbSourceDir()+'/Testing')
+        
+        cpt = 0
+        self.PrintMsg("cmake configuration:")
+        while cpt < len(command_line):
+                self.PrintMsg(command_line[cpt])
+                cpt = cpt + 1
+        cmake_command_line=""
+        cpt = 0
+        while cpt < len(command_line):
+                cmake_command_line = cmake_command_line + " " + command_line[cpt]
+                cpt = cpt + 1
+#        self.CallCommand(cpt,nb_commands,"Makefiles generation... (cmake)",cmake_command_line)
+        self.CallChangeDirectory(BinComponentDir,HomeDir+'/'+self.GetTestConfigurationDir()+'/'+BinComponentDir)
+        self.CallCommand(BinComponentDir +" generation",cmake_command_line,True)
+
+    
+    
     def GenerateMakefiles(self,BinComponent,NameComponent):
         HomeDir = self.GetHomeDir()
         HomeDirOutils=self.GetHomeDirOutils()
@@ -1275,11 +1540,14 @@ class TestProcessing:
         itk_dir = self.__itk_dir__
         vtk_dir = self.__vtk_dir__
  
-
-        otb_install_standard=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install-standard')
-        otb_install_with_install_OTB=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install-with-install-OTB')
+        otb_install_OTB=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install/OTB')
+        otb_install_OTB_Applications=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install/OTB-Applications')
+        otb_install_Monteverdi=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install/Monteverdi')
+        
+        otb_install_OTB_Applications_with_install_OTB=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install/OTB-Applications-with-INSTALLED-OTB')
+        otb_install_Monteverdi_with_install_OTB=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install/Monteverdi-with-INSTALLED-OTB')
         otb_binary_dir=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/binaries/OTB')
-        otb_lib_install_standard=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install-standard/lib/otb')
+        otb_lib_install_standard=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install/OTB/lib/otb')
         
 
         self.CallCheckDirectoryExit("GDAL include",gdal_include_dir)
@@ -1342,7 +1610,7 @@ class TestProcessing:
                 else:
                         command_line.append(' -D "BUILD_SHARED_LIBS:BOOL=OFF" ')
 
-                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_standard+'"  ')
+                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_OTB+'"  ')
 
                 command_line.append(' -D "GDAL_INCLUDE_DIR:PATH='+gdal_include_dir+'"  ')
                 if self.GetGdalLibrary() != "" :
@@ -1399,21 +1667,21 @@ class TestProcessing:
 
         if BinComponent == "Monteverdi":
                 command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
-                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_standard+'"  ')
+                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_Monteverdi+'"  ')
 
         if BinComponent == "Monteverdi-with-install-OTB":
-                command_line.append(' -D "OTB_DIR:PATH='+otb_lib_install_standard+'"  ')
-                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_with_install_OTB+'"  ')
+                command_line.append(' -D "OTB_DIR:PATH='+otb_lib_install_OTB+'"  ')
+                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_Monteverdi_with_install_OTB+'"  ')
                 build_name=build_name+'-WithInstallOTB'
 
         if BinComponent == "OTB-Applications":
                 command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
-                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_standard+'"  ')
+                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_OTB_Applications+'"  ')
                 build_name='zApps-'+build_name
 
         if BinComponent == "OTB-Applications-with-install-OTB":
-                command_line.append(' -D "OTB_DIR:PATH='+otb_lib_install_standard+'"  ')
-                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_with_install_OTB+'"  ')
+                command_line.append(' -D "OTB_DIR:PATH='+otb_lib_install_OTB+'"  ')
+                command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_OTB_Applications_with_install_OTB+'"  ')
                 build_name='zApps-'+build_name+'-WithInstallOTB'
 
         # Add VTK parameters
@@ -1430,6 +1698,10 @@ class TestProcessing:
 
         if self.GetTestConfigurationDir().find("visual") != -1:
                 command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' '+NameComponent+'.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
+        elif self.GetTestConfigurationDir().find("macosx") != -1:
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -j 4"')
+        else:
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/gmake -i -j 4"')
 
         command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
         if self.GetUseOtbDataLargeInput() == False:
