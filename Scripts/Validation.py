@@ -11,6 +11,42 @@ import urllib
 import string
 
 
+# centOS-linux-64bits-static-release-itk-internal-fltk-internal/
+#     /binaries/                          OTB
+#                                         OTB-Applications
+#                                         OTB-Applications-with-install-OTB
+#                                         Monteverdi
+#                                         Monteverdi-with-install-OTB
+
+#     /install/                           OTB
+#                                         OTB-Applications
+#                                         OTB-Applications-with-install-OTB
+#                                         Monteverdi
+#                                         Monteverdi-with-install-OTB
+
+#     /binaries-testing-install/          OTB
+#                                         OTB-Applications
+#                                         OTB-Applications-with-install-OTB
+#                                         Monteverdi
+#                                         Monteverdi-with-install-OTB
+
+#     /binaries-testing-install/          OTB
+#                                         OTB-Applications
+#                                         OTB-Applications-with-install-OTB
+#                                         Monteverdi
+#                                         Monteverdi-with-install-OTB
+
+#     /unpackage/OTB-TGZ/                 OTB-3.0.0-Linux  
+#                                         OTB-Applications-3.0.0-Linux
+#                                         Monteverdi-3.0.0-Linux
+
+
+#     /binaries-testing-unpackage-TGZ/    OTB
+#                                         OTB-Applications
+#                                         Monteverdi
+
+
+
 # RESTA A FAIRE : 
 # note du 15 jin 2008
 # - Cywin et MinGW OK
@@ -463,7 +499,7 @@ class TestProcessing:
                 is_up_to_date = False
             elif initial_version_otb_source_dir != current_version_otb_source_dir:
                 is_up_to_date = False
-            self.RunProcessTestingOTBInstalled("binaries-testing-install/OTB","install/OTB/lib/otb",is_up_to_date)
+            self.RunProcessTestingOTBInstalled("binaries-testing-install/OTB","install/OTB/lib/otb","OTB-INSTALL",is_up_to_date)
 
             # ------------------------------------------------------------------------
             # Testing OTB package ------------------------------
@@ -548,11 +584,12 @@ class TestProcessing:
         unpackage_name = unpackage_name + "/"+package_module_name+"/lib/otb"
         installed_otb_dir = unpackage_dir + "/"+package_module_name+"/lib/otb"
         self.CallCheckFileExit("OTB Config.cmake presence",installed_otb_dir+"/OTBConfig.cmake")
-        self.RunProcessTestingOTBInstalled(current_binary_name,unpackage_name,is_up_to_date)
+        postfixbuilname = "OTB-UNPACKAGE-"+unpackage_extention
+        self.RunProcessTestingOTBInstalled(current_binary_name,unpackage_name,postfixbuilname,is_up_to_date)
     
     
     
-    def RunProcessTestingOTBInstalled(self,current_binary_module,installed_otb_dir,is_up_to_date):
+    def RunProcessTestingOTBInstalled(self,current_binary_module,installed_otb_dir,postfixbuilname,is_up_to_date):
         command = "ctest  -D Experimental "
         if self.__configurationRunTesting__ == self.__continuous_testing__:
             self.PrintWarning("Select 'Continuous' testing")
@@ -575,9 +612,9 @@ class TestProcessing:
 
                 if self.GetGenerateMakefiles() == True:
                         try:
-                                self.GenerateMakefilesOTBInstalled(current_binary_module,installed_otb_dir)
+                                self.GenerateMakefilesOTBInstalled(current_binary_module,installed_otb_dir,postfixbuilname)
                         except:
-                                self.PrintMsg("Error while executing GenerateMakefilesOTBInstalled method for OTB module !!")
+                                self.PrintError("while executing GenerateMakefilesOTBInstalled method for OTB module !!")
                 else:
                         self.CallRemoveDirectory("Testing/Temporary",current_binary_dir + "/Testing/Temporary")
                         if self.GetMakeClean() == True:
@@ -636,7 +673,7 @@ class TestProcessing:
                         if self.GetTestConfigurationDir().find("visual") != -1:
                                 self.CallCommand("Make Install", self.GetVisualCommand() + " " + current_name_module+".sln /build "+self.GetCmakeBuildType() +"   /project INSTALL",False)
                         else:
-                                self.CallCommand("Make Install", "make install",False)
+                                self.CallCommand("Make Install", "make install",True)
 #                        if self.__disableUseCpack__ == False:
 #                                self.CallCommand("CPack execution","cpack -G "+self.__list_unpackage_extentions__,True)
 #                        else:
@@ -1406,8 +1443,8 @@ class TestProcessing:
     # ===  Generation of OTB makefiles (cmake process): BinComponent=OTB, OTB-Application or OTB-Applications-with-install-OTB
     # =====================================================================================================================================
 
-    def GenerateMakefilesOTBInstalled(self,BinComponentDir,InstalledOTBDir):
-        self.PrintMsg(" GenerateMakefilesOTBInstalled ...")
+    def GenerateMakefilesOTBInstalled(self,BinComponentDir,InstalledOTBDir,postfixbuildname):
+        self.PrintMsg("GenerateMakefilesOTBInstalled ...")
         HomeDir = self.GetHomeDir()
         HomeDirOutils=self.GetHomeDirOutils()
         mode = ""
@@ -1421,6 +1458,7 @@ class TestProcessing:
 
 
         otb_install_OTB=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/'+InstalledOTBDir)
+        self.CallCheckDirectoryExit("OTB installed",otb_install_OTB)
 
         # For Visual, set CMAKE_CONFIGURATION_TYPES parameter        
         command_line = []
@@ -1478,7 +1516,7 @@ class TestProcessing:
 
         if self.__enable_compile_with_full_warning__ == True:
                 build_name=build_name+'-FULL_WARNING'
-        build_name=build_name+'-Testing-OTB-INSTALLED-'+InstalledOTBDir
+        build_name=build_name+'-Testing-'+postfixbuildname
         command_line.append(' -D "BUILDNAME:STRING='+build_name+'" ' )
         if self.GetSite() != "":
                 command_line.append(' -D "SITE:STRING='+self.GetSite()+'" ' )
@@ -1538,7 +1576,7 @@ class TestProcessing:
         otb_install_OTB_Applications_with_install_OTB=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install/OTB-Applications-with-INSTALLED-OTB')
         otb_install_Monteverdi_with_install_OTB=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install/Monteverdi-with-INSTALLED-OTB')
         otb_binary_dir=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/binaries/OTB')
-        otb_lib_install_standard=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/install/OTB/lib/otb')
+        otb_lib_install_standard=otb_install_OTB+'/lib/otb'
         
 
         self.CallCheckDirectoryExit("GDAL include",gdal_include_dir)

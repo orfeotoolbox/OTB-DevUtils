@@ -57,7 +57,7 @@ if __name__ == "__main__":
  
         # =========    WEEK    ============ 
         elif sys.argv[1] == "WEEK":
-                x.EnableMakeCleanAfterCTest()
+#                x.EnableMakeCleanAfterCTest()
                 
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
@@ -117,6 +117,6 @@ if __name__ == "__main__":
                 x.DisableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
-#                x.DisableCTest()
-                x.ForceExecution()
-                x.Run("package-testing-centOS-linux-64bits-static-release-itk-internal-fltk-internal")
+                x.DisableCTest()
+#                x.ForceExecution()
+                x.Run("cpack-testing-centOS-linux-64bits-static-release-itk-internal-fltk-internal")
