@@ -1607,6 +1607,8 @@ class TestProcessing:
         if self.GetTestConfigurationDir().find("macosx") != -1:
                 self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
                 command_line.append(' -D "CMAKE_OSX_ARCHITECTURES:STRING=i386;" ')
+        if self.GetTestConfigurationDir().find("visual") == -1:
+                command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
         
         if BinComponent == "OTB":
                 # Mac gcc optimization systems : add -pipe 
@@ -1618,8 +1620,6 @@ class TestProcessing:
 #                        command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall -pipe" ')
 #                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
 #                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
-                if self.GetTestConfigurationDir().find("visual") == -1:
-                        command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
                         # Add -Wall only if no Full warning
                         if self.__enable_compile_with_full_warning__ == False:
                                 command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
