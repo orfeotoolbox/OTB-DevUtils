@@ -1621,7 +1621,7 @@ class TestProcessing:
 #                        command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
 #                        command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
                         # Add -Wall only if no Full warning
-                if self.GetTestConfigurationDir().find("visual") != -1:
+                if self.GetTestConfigurationDir().find("visual") == -1:
                         if self.__enable_compile_with_full_warning__ == False:
                                 command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
                                 command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
