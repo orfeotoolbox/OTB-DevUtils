@@ -105,18 +105,19 @@ if __name__ == "__main__":
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
-#                x.EnableUpdateCurrentSources()
+                x.EnableUpdateCurrentSources()
                 x.DisableTestOTBApplicationsWithInstallOTB()
                 x.DisableBuildExamples()
                 x.DisableUpdateCurrentSources()
                 
-                x.DisableGenerateMakefiles()
+                x.EnableGenerateMakefiles()
                 x.EnableUseCpack()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
                 x.DisableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
-                x.DisableCTest()
-#                x.ForceExecution()
-                x.Run("cpack-testing-centOS-linux-64bits-static-release-itk-internal-fltk-internal")
+#                x.DisableCTest()
+                x.ForceExecution()
+                x.Run(reference_configuration)
+#                x.Run("cpack-testing-centOS-linux-64bits-static-release-itk-internal-fltk-internal")

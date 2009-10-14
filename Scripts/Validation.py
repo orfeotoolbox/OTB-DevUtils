@@ -1456,6 +1456,8 @@ class TestProcessing:
         else:
                 build_mode="static"
 
+        gdal_include_dir = self.__gdal_include_dir__ 
+        self.CallCheckDirectoryExit("GDAL include",gdal_include_dir)
 
         otb_install_OTB=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/'+InstalledOTBDir)
         self.CallCheckDirectoryExit("OTB installed",otb_install_OTB)
@@ -1499,6 +1501,7 @@ class TestProcessing:
         if self.__enable_compile_with_full_warning__ == True:
                 command_line.append(' -D "OTB_COMPILE_WITH_FULL_WARNING:BOOL=ON" ')
 
+        command_line.append(' -D "GDAL_INCLUDE_DIR:PATH='+gdal_include_dir+'"  ')
 
         if self.GetTestConfigurationDir().find("visual") != -1:
                 command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' OTBTesting.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
@@ -1642,12 +1645,6 @@ class TestProcessing:
 
                 command_line.append(' -D "CMAKE_INSTALL_PREFIX:PATH='+otb_install_OTB+'"  ')
 
-                command_line.append(' -D "GDAL_INCLUDE_DIR:PATH='+gdal_include_dir+'"  ')
-                if self.GetGdalLibrary() != "" :
-                        command_line.append(' -D "GDAL_LIBRARY:FILEPATH='+self.GetGdalLibrary()+'" ')
-                else:
-                        command_line.append(' -D "GDAL_LIBRARY:FILEPATH='+gdal_lib+'" ')
-                
                 if self.GetTestConfigurationDir().find("fltk-ext") != -1:
                         command_line.append(' -D "OTB_USE_EXTERNAL_FLTK:BOOL=ON" ')
                         command_line.append(' -D "FLTK_DIR:PATH='+fltk_dir+'" ')
@@ -1683,6 +1680,14 @@ class TestProcessing:
                         command_line.append(' -D "UUID_INCLUDE_DIR:PATH=" ')
                         command_line.append(' -D "UUID_LIBRARY:FILEPATH=" ')
                         
+
+        command_line.append(' -D "GDAL_INCLUDE_DIR:PATH='+gdal_include_dir+'"  ')
+        if self.GetGdalLibrary() != "" :
+                command_line.append(' -D "GDAL_LIBRARY:FILEPATH='+self.GetGdalLibrary()+'" ')
+        else:
+                command_line.append(' -D "GDAL_LIBRARY:FILEPATH='+gdal_lib+'" ')
+        
+        if BinComponent == "OTB":
                 if self.GetTiffIncludeDirs() != "" :
                         command_line.append(' -D "TIFF_INCLUDE_DIRS:PATH='+self.GetTiffIncludeDirs()+'" ')
                 if self.GetJpegIncludeDirs() != "" :
@@ -1795,6 +1800,9 @@ class TestProcessing:
                 build_mode="shared"
         else:
                 build_mode="static"
+        
+        gdal_include_dir = self.__gdal_include_dir__ 
+        self.CallCheckDirectoryExit("GDAL include",gdal_include_dir)
 
         #Init paths for externals lib
         if mode == "":
@@ -1868,6 +1876,7 @@ class TestProcessing:
                 command_line.append(' -D "CMAKE_OSX_ARCHITECTURES:STRING=i386" ')
                 
         command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
+        command_line.append(' -D "GDAL_INCLUDE_DIR:PATH='+gdal_include_dir+'"  ')
 
 
         if self.GetTestConfigurationDir().find("visual") != -1:
