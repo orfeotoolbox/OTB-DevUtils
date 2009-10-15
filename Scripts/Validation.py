@@ -767,30 +767,32 @@ class TestProcessing:
             self.PrintWarning("Select 'Experimental' testing")
         else:
             self.PrintError("CTest Uknown testing !!!!!!!!!!!!!")
-        
-        selection_testing = []
-        if self.__enableTuTesting__ == True:
-            selection_testing.append("..Tu|...Tu|....Tu") 
-            self.PrintWarning("Select Tu testing")
-        if self.__enableTvTesting__ == True:
-            selection_testing.append("..Tv|...Tv|....Tv") 
-            self.PrintWarning("Select Tv testing")
-        if self.__enableTlTesting__ == True:
-            selection_testing.append("..Tl|...Tl|....Tl") 
-            self.PrintWarning("Select Tl testing")
-        if self.__enableTeTesting__ == True:
-            selection_testing.append("..Te|...Te|....Te") 
-            self.PrintWarning("Select Te testing")
-        if len(selection_testing) == 0:
-            selection_testing.append("..Tu|...Tu|....Tu")
-        selection_testing_line="^("+selection_testing[0]
-        cpt = 1
-        while cpt < len(selection_testing):
+        # If NO Monteverdi, add tests selection
+        if current_name_module != "Monteverdi":
+          selection_testing = []
+          if self.__enableTuTesting__ == True:
+              selection_testing.append("..Tu|...Tu|....Tu") 
+              self.PrintWarning("Select Tu testing")
+          if self.__enableTvTesting__ == True:
+              selection_testing.append("..Tv|...Tv|....Tv") 
+              self.PrintWarning("Select Tv testing")
+          if self.__enableTlTesting__ == True:
+              selection_testing.append("..Tl|...Tl|....Tl") 
+              self.PrintWarning("Select Tl testing")
+          if self.__enableTeTesting__ == True:
+              selection_testing.append("..Te|...Te|....Te") 
+              self.PrintWarning("Select Te testing")
+          if len(selection_testing) == 0:
+              selection_testing.append("..Tu|...Tu|....Tu")
+          selection_testing_line="^("+selection_testing[0]
+          cpt = 1
+          while cpt < len(selection_testing):
                 selection_testing_line = selection_testing_line+ "|"+selection_testing[cpt]
                 cpt = cpt + 1
-        selection_testing_line = selection_testing_line+ ")"
-        selection_testing_line = '-R "' + selection_testing_line + '"'
-        command = command + selection_testing_line
+          selection_testing_line = selection_testing_line+ ")"
+          selection_testing_line = '-R "' + selection_testing_line + '"'
+          command = command + selection_testing_line
+          
         self.RunSubProcessTesting(current_module,current_name_module,command,is_up_to_date)
     
     # =====================================================================================================================================
