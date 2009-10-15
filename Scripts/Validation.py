@@ -1507,12 +1507,10 @@ class TestProcessing:
 
         if self.GetTestConfigurationDir().find("visual") != -1:
                 command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' OTBTesting.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
-        elif self.GetTestConfigurationDir().find("macosx") != -1:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -j 4"')
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -j 2"')
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k "')
         else:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/gmake -i -j 4"')
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j 4"')
 
         command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
         if self.GetUseOtbDataLargeInput() == False:
@@ -1737,12 +1735,10 @@ class TestProcessing:
 
         if self.GetTestConfigurationDir().find("visual") != -1:
                 command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' '+NameComponent+'.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
-        elif self.GetTestConfigurationDir().find("macosx") != -1:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -j 4"')
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -j 2"')
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k"')
         else:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/gmake -i -j 4"')
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/gmake -i -k -j 4"')
 
         command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
         if self.GetUseOtbDataLargeInput() == False:
