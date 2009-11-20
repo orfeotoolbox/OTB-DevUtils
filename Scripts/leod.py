@@ -35,7 +35,7 @@ if __name__ == "__main__":
         x.SetTiffIncludeDirs("/Users/otbval/OTB-OUTILS/gdal/gdal-1.6.1/frmts/gtiff/libtiff")
         x.SetJpegIncludeDirs("/Users/otbval/OTB-OUTILS/gdal/gdal-1.6.1/frmts/jpeg/libjpeg")
 
-        reference_configuration = "macosx-static-release-itk-internal-fltk-external"
+        reference_configuration = "macosx-shared-release-itk-internal-fltk-external"
 
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
@@ -45,7 +45,7 @@ if __name__ == "__main__":
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.DisableTlTesting() 
-                x.DisableTeTesting() 
+                x.DisableTeTesting()
                 x.Run(reference_configuration)
  
         # =========    DAY COMPILATION   ============ 
@@ -67,7 +67,10 @@ if __name__ == "__main__":
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
-                x.DisableTeTesting() 
+                x.DisableTeTesting()
+		x.EnableOTBWrapping() 
+		x.DisableWrapPython()
+		x.EnableWrapJava()
                 x.Run(reference_configuration)
 
         # =========    WEEKEND    ============ 
@@ -83,13 +86,16 @@ if __name__ == "__main__":
 
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
-                x.DisableUpdateCurrentSources()
+                x.EnableUpdateCurrentSources()
                 x.EnableGenerateMakefiles()
-                x.SetContinuousTesting()
+                x.SetExperimentalTesting()
                 x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.EnableTlTesting() 
+                #x.EnableTvTesting() 
+                #x.EnableTlTesting() 
                 x.DisableTeTesting() 
-                #x.ForceExecution()
-                x.DisableCTest()
-                x.Run("macosx-static-release-itk-internal-fltk-external")
+                x.ForceExecution()
+                #x.DisableCTest()
+		x.EnableOTBWrapping()
+		x.DisableWrapPython()
+		x.EnableWrapJava()
+                x.Run(reference_configuration)
