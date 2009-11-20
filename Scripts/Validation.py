@@ -208,7 +208,7 @@ class TestProcessing:
     __wrap_java_jvm_base_dir__ = "/usr/lib/jvm/java-6-sun"
     __wrap_itk_dims__ = "2"
     
-    __cableswigVersion__ = "3.14.0"
+    __cableswigVersion__ = "3.16.0"
     
  #   __list_unpackage_extentions__ []
    
@@ -590,7 +590,7 @@ class TestProcessing:
     
     
     def RunProcessTestingOTBInstalled(self,current_binary_module,installed_otb_dir,postfixbuilname,is_up_to_date):
-        command = "ctest  -D Experimental "
+        command = "ctest  -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit "
         if self.__configurationRunTesting__ == self.__continuous_testing__:
             self.PrintWarning("Select 'Continuous' testing")
             command = command + " --track Continuous " 
@@ -721,7 +721,7 @@ class TestProcessing:
  
                 # ctest ...
                 if self.IsDisableCTest() == False:
-                        ctest_call_command = "ctest  -D Experimental "
+                        ctest_call_command = "ctest  -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit "
                         if self.__configurationRunTesting__ == self.__continuous_testing__:
                                 self.PrintWarning("Select 'Continuous' testing")
                                 ctest_call_command = ctest_call_command + " --track Continuous " 
@@ -756,7 +756,7 @@ class TestProcessing:
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
     def RunProcessTesting(self,current_module,current_name_module,is_up_to_date):
-        command = "ctest  -D Experimental "
+        command = "ctest  -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit  "
         if self.__configurationRunTesting__ == self.__continuous_testing__:
             self.PrintWarning("Select 'Continuous' testing")
             command = command + " --track Continuous " 
@@ -1510,7 +1510,7 @@ class TestProcessing:
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
                 command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k "')
         else:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j 4"')
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j 8"')
 
         command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
         if self.GetUseOtbDataLargeInput() == False:
@@ -1738,7 +1738,7 @@ class TestProcessing:
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
                 command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k"')
         else:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/gmake -i -k -j 4"')
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j 8"')
 
         command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
         if self.GetUseOtbDataLargeInput() == False:
@@ -1806,16 +1806,19 @@ class TestProcessing:
         gdal_include_dir = self.__gdal_include_dir__ 
         self.CallCheckDirectoryExit("GDAL include",gdal_include_dir)
 
+
         #Init paths for externals lib
         if mode == "":
                 cableswig_binary_dir=os.path.normpath(HomeDirOutils + "/cableswig/binaries-"+ build_type + "-cableswig-"+ self.GetCableSwigVersion())
+                swig_binary_dir=os.path.normpath(HomeDirOutils + "/swig/install")
         else:
                 cableswig_binary_dir=os.path.normpath(HomeDirOutils + "/cableswig/binaries-" + mode +"-" + build_type + "-cableswig-"+ self.GetCableSwigVersion())
-
+                swig_binary_dir=os.path.normpath(HomeDirOutils + "/swig/install-"+mode)
         otb_binary_dir=os.path.normpath(HomeDir+'/'+self.GetTestConfigurationDir()+'/binaries/OTB')
 
 
         self.CallCheckDirectoryExit("CableSwig binary",cableswig_binary_dir)
+        self.CallCheckDirectoryExit("Swig binary",swig_binary_dir)
         self.CallCheckDirectoryExit("OTB binary",otb_binary_dir)
 
         # For Visual, set CMAKE_CONFIGURATION_TYPES parameter        
@@ -1830,6 +1833,8 @@ class TestProcessing:
         command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
         command_line.append(' -D "WRAP_ITK_DIMS:STRING='+self.__wrap_itk_dims__+'" ')
         command_line.append(' -D "CableSwig_DIR:PATH='+cableswig_binary_dir+'" ')
+        command_line.append(' -D "SWIG_DIR:PATH='+swig_binary_dir+'"')
+        command_line.append(' -D "SWIG_EXECUTABLE:FILEPATH='+swig_binary_dir+'/bin/swig"')
 
         build_name=self.GetBuildName()
         
@@ -1840,7 +1845,7 @@ class TestProcessing:
                         command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
                         command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
                         command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
-                
+			command_line.append(' -D "ITK_TEST_DRIVER:FILEPATH='+otb_binary_dir+'/bin/itkTestDriver"')
 
 
         if langage == "Python":

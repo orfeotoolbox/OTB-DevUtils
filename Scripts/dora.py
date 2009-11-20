@@ -99,17 +99,19 @@ if __name__ == "__main__":
         
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":
-#                x.EnableUpdateCurrentSources()
-                x.DisableGenerateMakefiles()
-                x.EnableOTBWrapping()
-#                x.EnableWrapPython()
-                x.EnableWrapJava()
-#                x.EnableCompileWithFullWarning()
-                x.SetContinuousTesting()
-                x.ForceExecution()
+                x.EnableUpdateCurrentSources()
+                x.EnableGenerateMakefiles()
                 x.EnableTuTesting() 
                 x.DisableTvTesting() 
                 x.DisableTlTesting() 
                 x.DisableTeTesting() 
+
+                x.EnableOTBWrapping()
+#                x.EnableWrapPython()
+                x.EnableWrapJava()
+                x.EnableCompileWithFullWarning()
+                x.SetExperimentalTesting()
+                x.ForceExecution()
+
                 
-                x.Run(reference_configuration) #"test-wrappinf_java-linux-static-release-itk-internal-fltk-internal")
+                x.Run("TEST-SCRIPT-linux-shared-release-itk-internal-fltk-internal")
