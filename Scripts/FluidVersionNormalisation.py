@@ -5,7 +5,7 @@ from os.path import join
 
 ####### PARAMETERS #################
 versionTranslationTable = {
-'version 1.0109' : 'version 1.0107'
+'version 1.0110' : 'version 1.0107'
 }
 ####### FUNCTIONS ###################
 def RecursiveDirectoriesListing(top="."):
@@ -39,7 +39,7 @@ def ProcessFluidFile(filename):
 	#for each line in file
 	for line in lines:
 		# replace the version
-		newline = line.replace('version 1.0109',versionTranslationTable['version 1.0109'])
+		newline = line.replace('version 1.0110',versionTranslationTable['version 1.0110'])
 		if(shouldRemoveValue):
 			newline = newline.replace('value 1','')
 		newfile.append(newline)

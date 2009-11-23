@@ -1451,6 +1451,23 @@ class TestProcessing:
     # ===  Generation of OTB makefiles (cmake process): BinComponent=OTB, OTB-Application or OTB-Applications-with-install-OTB
     # =====================================================================================================================================
 
+    def RestrictOsxArchitectures(self,cacheFilePath,architectures="i386"):
+	self.PrintWarning("MACOS X Architecture: modifying "+cacheFilePath+" to handle only "+architecture+" architectures")
+	cacheFile = open(cacheFilePath,'r')
+	out_cached_lines = []
+	for line in cacheFile:
+	    nextline = ""
+	    if line.startswith("CMAKE_OSX_ARCHITECTURES"):
+		nextline="CMAKE_OSX_ARCHITECTURES:STRING="+architectures
+	    else:
+		nextline = line
+	    out_cached_lines.append(nextline)
+	cacheFile.close()
+	outCacheFile = open(cacheFilePath,'w')
+	outCacheFile.writelines(out_cached_lines)
+	outCacheFile.close()
+	
+
     def GenerateMakefilesOTBInstalled(self,BinComponentDir,InstalledOTBDir,postfixbuildname):
         self.PrintMsg("GenerateMakefilesOTBInstalled ...")
         HomeDir = self.GetHomeDir()
@@ -1484,11 +1501,7 @@ class TestProcessing:
         command_line.append(' -D "BUILD_TESTING:BOOL=ON" ')
 
         build_name=self.GetBuildName()
-        
-        if self.GetTestConfigurationDir().find("macosx") != -1:
-                self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
-                command_line.append(' -D "CMAKE_OSX_ARCHITECTURES:STRING=i386;" ')
-        
+                
         if self.GetTestConfigurationDir().find("visual") == -1:
                 command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
                 # Add -Wall only if no Full warning
@@ -1549,9 +1562,7 @@ class TestProcessing:
         self.CallCommand(BinComponentDir +" generation",cmake_command_line,True)
 	# Macosx case
 	if self.GetTestConfigurationDir().find("macosx") != -1:
-	    self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
-	    osx_arch_command_line = "cmake -Wno-dev -DCMAKE_OSX_ARCHTECTURES:STRING=i386 "+self.GetOtbSourceDir()+"/Testing"
-	    self.CallCommand(BinComponentDir +" setting osx architectures",osx_arch_command_line,True)
+	    self.RestrictOsxArchitectures("CMakeCache.txt")
     
     
     def GenerateMakefiles(self,BinComponent,NameComponent):
@@ -1619,9 +1630,6 @@ class TestProcessing:
 
         build_name=self.GetBuildName()
         
-        if self.GetTestConfigurationDir().find("macosx") != -1:
-                self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
-                command_line.append(' -D "CMAKE_OSX_ARCHITECTURES:STRING=i386;" ')
         if self.GetTestConfigurationDir().find("visual") == -1:
                 command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
         
@@ -1797,9 +1805,7 @@ class TestProcessing:
         self.CallCommand(BinComponent +" generation",cmake_command_line,True)
 	# Macosx case
 	if self.GetTestConfigurationDir().find("macosx") != -1:
-	    self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
-	    osx_arch_command_line = "cmake -Wno-dev -DCMAKE_OSX_ARCHTECTURES:STRING=i386 "+self.GetOtbSourceDir()
-	    self.CallCommand(BinComponent +" setting osx architectures",osx_arch_command_line,True)
+	    self.RestrictOsxArchitectures("CMakeCache.txt")
 
 
     # =====================================================================================================================================
@@ -1892,10 +1898,6 @@ class TestProcessing:
             command_line.append(' -D "BUILD_SHARED_LIBS:BOOL=ON" ')
         else:
             command_line.append(' -D "BUILD_SHARED_LIBS:BOOL=OFF" ')
-
-        if self.GetTestConfigurationDir().find("macosx") != -1:
-                self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
-                command_line.append(' -D "CMAKE_OSX_ARCHITECTURES:STRING=i386" ')
                 
         command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
         command_line.append(' -D "GDAL_INCLUDE_DIR:PATH='+gdal_include_dir+'"  ')
@@ -1926,9 +1928,7 @@ class TestProcessing:
         self.CallCommand("OTB-Wrapping generation",cmake_command_line,True)
 	# Macosx case
 	if self.GetTestConfigurationDir().find("macosx") != -1:
-	    self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
-	    osx_arch_command_line = "cmake -Wno-dev -DCMAKE_OSX_ARCHTECTURES:STRING=i386 "+self.GetOtbWrappingSourceDir()
-	    self.CallCommand("Setting osx architectures",osx_arch_command_line,True)
+	    self.RestrictOsxArchitectures("CMakeCache.txt")
 
     # =====================================================================================================================================
     # ===  Get mode (use for find and configure tools libraries): visual7, .., macosx, unix, linux or "empty"
