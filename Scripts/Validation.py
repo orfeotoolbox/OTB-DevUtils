@@ -1744,7 +1744,7 @@ class TestProcessing:
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
                 command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k"')
         else:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j'+str(self.__number_of_cores__)+'"')
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j '+str(self.__number_of_cores__)+'"')
 
         command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
         if self.GetUseOtbDataLargeInput() == False:
