@@ -23,9 +23,8 @@ if __name__ == "__main__":
         x.SetOtbDataLargeInputDir("/Users/data/OTB-LargeInput")
         x.DisableUseOtbDataLargeInput()
         x.SetSourcesDir("/Users/otbval/")
-
         x.SetSite("leod")
-	x.SetNumberOfCores(4)
+	x.SetNumberOfCores(8)
         
         #x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
@@ -37,11 +36,12 @@ if __name__ == "__main__":
         x.SetJpegIncludeDirs("/Users/otbval/OTB-OUTILS/gdal/gdal-1.6.1/frmts/jpeg/libjpeg")
 
         reference_configuration = "macosx-shared-release-itk-internal-fltk-external"
+	test_configuration = "TEST-macosx-shared-release-itk-internal-fltk-external"
 
         # =========    DAY TESTING   ============ 
         if sys.argv[1] == "DAY_TESTING":
                 x.EnableUpdateCurrentSources()
-                x.DisableGenerateMakefiles()
+                x.EnableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         # =========    DAY COMPILATION   ============ 
         if sys.argv[1] == "DAY_COMPILATION":
                 x.EnableUpdateCurrentSources()
-                x.DisableGenerateMakefiles()
+                x.EnableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
                 x.DisableTvTesting() 
@@ -63,8 +63,8 @@ if __name__ == "__main__":
         # =========    WEEK    ============ 
         if sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
-                x.DisableGenerateMakefiles()
-                x.SetNightlyTesting()
+                x.EnableGenerateMakefiles()
+		x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
         # =========    WEEKEND    ============ 
         if sys.argv[1] == "WEEKEND":
                 x.EnableUpdateNightlySources()
-                x.DisableGenerateMakefiles()
+                x.EnableGenerateMakefiles()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
@@ -99,4 +99,4 @@ if __name__ == "__main__":
 		x.EnableOTBWrapping()
 		x.DisableWrapPython()
 		x.EnableWrapJava()
-                x.Run(reference_configuration)
+                x.Run(test_configuration)

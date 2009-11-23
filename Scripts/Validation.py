@@ -1452,12 +1452,12 @@ class TestProcessing:
     # =====================================================================================================================================
 
     def RestrictOsxArchitectures(self,cacheFilePath,architectures="i386"):
-	self.PrintWarning("MACOS X Architecture: modifying "+cacheFilePath+" to handle only "+architecture+" architectures")
 	cacheFile = open(cacheFilePath,'r')
+	in_cached_lines = cacheFile.readlines()
 	out_cached_lines = []
-	for line in cacheFile:
+	for line in in_cached_lines:
 	    nextline = ""
-	    if line.startswith("CMAKE_OSX_ARCHITECTURES"):
+	    if line.startswith('CMAKE_OSX_ARCHITECTURES:STRING='):
 		nextline="CMAKE_OSX_ARCHITECTURES:STRING="+architectures
 	    else:
 		nextline = line
@@ -1562,7 +1562,7 @@ class TestProcessing:
         self.CallCommand(BinComponentDir +" generation",cmake_command_line,True)
 	# Macosx case
 	if self.GetTestConfigurationDir().find("macosx") != -1:
-	    self.RestrictOsxArchitectures("CMakeCache.txt")
+	    self.RestrictOsxArchitectures(HomeDir+'/'+self.GetTestConfigurationDir()+'/'+BinComponentDir+"/CMakeCache.txt")
     
     
     def GenerateMakefiles(self,BinComponent,NameComponent):
@@ -1805,7 +1805,7 @@ class TestProcessing:
         self.CallCommand(BinComponent +" generation",cmake_command_line,True)
 	# Macosx case
 	if self.GetTestConfigurationDir().find("macosx") != -1:
-	    self.RestrictOsxArchitectures("CMakeCache.txt")
+	    self.RestrictOsxArchitectures(HomeDir+'/'+self.GetTestConfigurationDir()+"/binaries/"+BinComponent+"/CMakeCache.txt")
 
 
     # =====================================================================================================================================
@@ -1928,7 +1928,7 @@ class TestProcessing:
         self.CallCommand("OTB-Wrapping generation",cmake_command_line,True)
 	# Macosx case
 	if self.GetTestConfigurationDir().find("macosx") != -1:
-	    self.RestrictOsxArchitectures("CMakeCache.txt")
+	    self.RestrictOsxArchitectures(HomeDir+'/'+self.GetTestConfigurationDir()+"/binaries/OTB-Wrapping-"+langage+"/CMakeCache.txt")
 
     # =====================================================================================================================================
     # ===  Get mode (use for find and configure tools libraries): visual7, .., macosx, unix, linux or "empty"
