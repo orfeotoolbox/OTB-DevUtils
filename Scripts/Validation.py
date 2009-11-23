@@ -1547,7 +1547,11 @@ class TestProcessing:
 #        self.CallCommand(cpt,nb_commands,"Makefiles generation... (cmake)",cmake_command_line)
         self.CallChangeDirectory(BinComponentDir,HomeDir+'/'+self.GetTestConfigurationDir()+'/'+BinComponentDir)
         self.CallCommand(BinComponentDir +" generation",cmake_command_line,True)
-
+	# Macosx case
+	if self.GetTestConfigurationDir().find("macosx") != -1:
+	    self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
+	    osx_arch_command_line = "cmake -Wno-dev -DCMAKE_OSX_ARCHTECTURES:STRING=i386 "+self.GetOtbSourceDir()+"/Testing"
+	    self.CallCommand(BinComponentDir +" setting osx architectures",osx_arch_command_line,True)
     
     
     def GenerateMakefiles(self,BinComponent,NameComponent):
@@ -1791,6 +1795,11 @@ class TestProcessing:
 #        self.CallCommand(cpt,nb_commands,"Makefiles generation... (cmake)",cmake_command_line)
         self.CallChangeDirectory(BinComponent,HomeDir+'/'+self.GetTestConfigurationDir()+"/binaries/"+BinComponent)
         self.CallCommand(BinComponent +" generation",cmake_command_line,True)
+	# Macosx case
+	if self.GetTestConfigurationDir().find("macosx") != -1:
+	    self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
+	    osx_arch_command_line = "cmake -Wno-dev -DCMAKE_OSX_ARCHTECTURES:STRING=i386 "+self.GetOtbSourceDir()
+	    self.CallCommand(BinComponent +" setting osx architectures",osx_arch_command_line,True)
 
 
     # =====================================================================================================================================
@@ -1915,7 +1924,11 @@ class TestProcessing:
                 cpt = cpt + 1
         self.CallChangeDirectory("OTB-Wrapping",HomeDir+'/'+self.GetTestConfigurationDir()+"/binaries/OTB-Wrapping-"+langage)
         self.CallCommand("OTB-Wrapping generation",cmake_command_line,True)
-
+	# Macosx case
+	if self.GetTestConfigurationDir().find("macosx") != -1:
+	    self.PrintWarning("MACOS X Architecture: CMAKE_OSX_ARCHITECTURES is force to i386")
+	    osx_arch_command_line = "cmake -Wno-dev -DCMAKE_OSX_ARCHTECTURES:STRING=i386 "+self.GetOtbWrappingSourceDir()
+	    self.CallCommand("Setting osx architectures",osx_arch_command_line,True)
 
     # =====================================================================================================================================
     # ===  Get mode (use for find and configure tools libraries): visual7, .., macosx, unix, linux or "empty"
