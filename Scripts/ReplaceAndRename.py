@@ -7,15 +7,19 @@ from os.path import join
 def RecursiveDirectoriesListing(top="."):
 	""" List directories recursively"""
 	names = os.listdir(top)
+	files = []
 	for name in names:
 		try:
 			st = os.lstat(join(top,name))
 		except os.error:
 			continue
 		if stat.S_ISDIR(st.st_mode):
-			for(newtop,children) in RecursiveDirectoriesListing(join(top,name)):
-				yield newtop,children
-	yield top,names
+		    for(newtop,children) in RecursiveDirectoriesListing(join(top,name)):
+			yield newtop,children
+		else:
+		    files.append(name)
+			
+	yield top,files
 	
 
 # Process the fuild file
@@ -47,12 +51,15 @@ for (dir,files) in RecursiveDirectoriesListing(path):
 		src = join(dir,file)
 		# First process file content
 		nbReplaces=ProcessFile(src,sKey,dKey)
-		print "File "+src+" Processed, ", nbReplaces, " occurences replaced."
-		# Then, eventually rename
-		if src.count(sKey):
-			dest = src.replace(sKey,dKey)
-			shutil.move(src,dest)
-			print 'Renaming file: '+src+' to '+dest 
+		if nbReplaces > 0:
+		    print "File "+src+" Processed, ", nbReplaces, " occurences replaced."
+for (dir,files) in RecursiveDirectoriesListing(path):
+	for file in files:		    
+	    # Then, eventually rename
+	    if file.count(sKey):
+		newfile = file.replace(sKey,dKey)
+		shutil.move(join(dir,file),join(dir,newfile))
+		print 'Renaming file: '+file+' to '+newfile 
 			
 	
 	
