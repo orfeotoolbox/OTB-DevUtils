@@ -20,6 +20,7 @@ if __name__ == "__main__":
         x.SetSourcesDir("/ORFEO/otbval")
         x.SetOutilsDir("/ORFEO/otbval")
         x.SetRunDir("/ORFEO/otbval")
+	x.SetNumberOfCores(8)
 
 
         # -> Active generation makefiles

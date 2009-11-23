@@ -162,6 +162,7 @@ class TestProcessing:
     __homeOtbDataLargeInputSourceDir__ = ""
     __enableUseOtbDataLargeInput__ = True
     __visual_command__ = ""
+    __number_of_cores__ = 1
     
     __svn_username__ = "thomas"
     __svn_password__ = "0thomas9"
@@ -900,7 +901,6 @@ class TestProcessing:
         self.__itkVersion__ = itkVersion
     def GetItkVersion(self):
         return self.__itkVersion__
-
     # ---  Set/Get Username/Pasword for svn base methods   -----------------------------------
     def SetSvnUsernamePassword(self,username, password):
         self.__svn_username__ = username
@@ -921,7 +921,13 @@ class TestProcessing:
         self.__vtkVersion__ = vtkVersion
     def GetVtkVersion(self):
         return self.__vtkVersion__
-       
+
+    # --- Set/Get the number of cores for compilation (unix like systems only) ----------
+    def SetNumberOfCores(self,nbCores):
+	self.__number_of_cores__=nbCores
+    def GetNumberOfCores(self):
+	return self.__number_of_cores__
+	
     # ---  Disable/Enable OTBApplicationsWithInstallOTB methods   -----------------------------------
     def DisableTestOTBApplicationsWithInstallOTB(self):
         self.__disableTestOTBApplicationsWithInstallOTB___ = True
@@ -1510,7 +1516,7 @@ class TestProcessing:
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
                 command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k "')
         else:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j 8"')
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j '+str(self.__number_of_cores__)+'"')
 
         command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
         if self.GetUseOtbDataLargeInput() == False:
@@ -1738,7 +1744,7 @@ class TestProcessing:
         elif self.GetTestConfigurationDir().find("cygwin") != -1:
                 command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k"')
         else:
-                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j 8"')
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j'+str(self.__number_of_cores__)+'"')
 
         command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
         if self.GetUseOtbDataLargeInput() == False:

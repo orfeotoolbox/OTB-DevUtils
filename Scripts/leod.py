@@ -25,6 +25,7 @@ if __name__ == "__main__":
         x.SetSourcesDir("/Users/otbval/")
 
         x.SetSite("leod")
+	x.SetNumberOfCores(4)
         
         #x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
