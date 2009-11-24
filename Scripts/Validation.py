@@ -206,7 +206,6 @@ class TestProcessing:
     __wrap_enable_python__ = True
     __wrap_enable_java__ = True
     
-    __wrap_java_jvm_base_dir__ = "/usr/lib/jvm/java-6-sun"
     __wrap_itk_dims__ = "2"
     
     __cableswigVersion__ = "3.16.0"
@@ -1344,8 +1343,6 @@ class TestProcessing:
         self.__wrap_enable_java__ = True
     def DisableWrapJava(self):
         self.__wrap_enable_java__ = False
-    def SetJavaJvmBaseDir(self,java_jvm_dir):
-        self.__wrap_java_jvm_base_dir__ = java_jvm_dir
     def SetWrapItkDims(self,wrap_itk_dims):
         self.__wrap_itk_dims__ = wrap_itk_dims
 
@@ -1879,11 +1876,6 @@ class TestProcessing:
         if langage == "Java":
             command_line.append(' -D "WRAP_ITK_JAVA:BOOL=ON" ')
             build_name = build_name + "-JavaON"
-            command_line.append(' -D "JAVA_AWT_INCLUDE_PATH:PATH='+self.__wrap_java_jvm_base_dir__+'/include" ')
-            command_line.append(' -D "JAVA_AWT_LIBRARY:FILEPATH='+self.__wrap_java_jvm_base_dir__+'/jre/lib/amd64" ')
-            command_line.append(' -D "JAVA_INCLUDE_PATH:PATH='+self.__wrap_java_jvm_base_dir__+'/include" ')
-            command_line.append(' -D "JAVA_INCLUDE_PATH2:PATH='+self.__wrap_java_jvm_base_dir__+'/include/linux" ')
-            command_line.append(' -D "JAVA_JVM_LIBRARY:FILEPATH='+self.__wrap_java_jvm_base_dir__+'/jre/lib/amd64/server" ')
         else:
             command_line.append(' -D "WRAP_ITK_JAVA:BOOL=OFF" ')
             build_name = build_name + "-JavaOFF"
