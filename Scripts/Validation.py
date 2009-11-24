@@ -1879,24 +1879,17 @@ class TestProcessing:
         else:
             command_line.append(' -D "WRAP_ITK_JAVA:BOOL=OFF" ')
             build_name = build_name + "-JavaOFF"
-
-        command_line.append(' -D "WRAP_ChangeDetection:BOOL=OFF" ')
-        command_line.append(' -D "WRAP_LevelSet:BOOL=OFF" ')
-        command_line.append(' -D "WRAP_Morphology:BOOL=OFF" ')
-
-        self.PrintWarning("Disable WRAP_ChangeDetection, WRAP_LevelSet and WRAP_Morphology wrapping !!")
-
-        if self.GetTestConfigurationDir().find("shared") != -1:
-            command_line.append(' -D "BUILD_SHARED_LIBS:BOOL=ON" ')
-        else:
-            command_line.append(' -D "BUILD_SHARED_LIBS:BOOL=OFF" ')
-                
+               
         command_line.append(' -D "OTB_DIR:PATH='+otb_binary_dir+'"  ')
         command_line.append(' -D "GDAL_INCLUDE_DIR:PATH='+gdal_include_dir+'"  ')
 
 
         if self.GetTestConfigurationDir().find("visual") != -1:
                 command_line.append(' -D "MAKECOMMAND:STRING='+self.GetVisualCommand() + ' WrapITK.sln /build '+self.GetCmakeBuildType() +' /project ALL_BUILD"')
+	elif self.GetTestConfigurationDir().find("cygwin") != -1:
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k "')
+        else:
+                command_line.append(' -D "MAKECOMMAND:STRING=/usr/bin/make -i -k -j '+str(self.__number_of_cores__)+'"')
 
         command_line.append(' -D "OTB_DATA_ROOT:PATH='+self.GetOtbDataSourceDir()+'" ')
 
