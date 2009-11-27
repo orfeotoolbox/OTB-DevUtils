@@ -47,13 +47,15 @@ sKey = sys.argv[2]
 dKey = sys.argv[3]
 
 for (dir,files) in RecursiveDirectoriesListing(path):
+    if not dir.startswith("./.hg"):
 	for file in files:
-		src = join(dir,file)
-		# First process file content
-		nbReplaces=ProcessFile(src,sKey,dKey)
-		if nbReplaces > 0:
-		    print "File "+src+" Processed, ", nbReplaces, " occurences replaced."
+	    src = join(dir,file)
+	    # First process file content
+	    nbReplaces=ProcessFile(src,sKey,dKey)
+	    if nbReplaces > 0:
+		print "File "+src+" Processed, ", nbReplaces, " occurences replaced."
 for (dir,files) in RecursiveDirectoriesListing(path):
+    if not dir.startswith("./.hg"):
 	for file in files:		    
 	    # Then, eventually rename
 	    if file.count(sKey):
