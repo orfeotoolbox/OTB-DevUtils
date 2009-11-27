@@ -34,7 +34,6 @@ if __name__ == "__main__":
         x.SetJpegIncludeDirs("/ORFEO/otbval/OTB-OUTILS/gdal/gdal-1.6.0/frmts/jpeg/libjpeg")
         x.SetDistribName("UBU-8.04") 
         # Wrap configurations
-        x.SetJavaJvmBaseDir("/usr/lib/jvm/java-6-sun")
         x.SetWrapItkDims("2")
 
         reference_configuration  = "linux-shared-release-itk-internal-fltk-internal"
