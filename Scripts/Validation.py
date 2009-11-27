@@ -1865,6 +1865,9 @@ class TestProcessing:
                         command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
 			command_line.append(' -D "ITK_TEST_DRIVER:FILEPATH='+otb_binary_dir+'/bin/itkTestDriver"')
 
+	# Wrap documentation
+	command_line.append('-D "WRAP_ITK_DOC:BOOL=ON" ')
+	command_line.append('-D "WRAP_ITK_DOC_MAN:BOOL=ON" ')
 
         if langage == "Python":
             command_line.append(' -D "WRAP_ITK_PYTHON:BOOL=ON" ')
