@@ -31,6 +31,10 @@ if __name__ == "__main__":
         x.SetGeotiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visualExpress2008\\include")
         x.SetTiffIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visualExpress2008\\include")
         x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visualExpress2008\\include")
+        # Wrap configurations
+        x.SetWrapItkDims("2")
+	x.SetDoxygenPath("D:\OTB-OUTILS\doxygen\bin\doxygen.exe")
+	x.SetDotPath("D:\OTB-OUTILS\doxygen\bin\doxytag.exe")
 
         reference_configuration = "visualExpress2008-static-release-itk-internal-fltk-internal"
 
@@ -59,11 +63,14 @@ if __name__ == "__main__":
         # =========    WEEK    ============ 
         if sys.argv[1] == "WEEK":
                 x.EnableUpdateNightlySources()
-                x.DisableGenerateMakefiles()
+#                x.DisableGenerateMakefiles()
+                x.EnableGenerateMakefiles()
                 x.SetNightlyTesting()
                 x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.EnableTlTesting() 
+#                x.EnableTvTesting() 
+#                x.EnableTlTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
                 x.DisableTeTesting() 
                 x.Run(reference_configuration)
 
@@ -84,10 +91,18 @@ if __name__ == "__main__":
                 x.EnableGenerateMakefiles()
                 x.SetContinuousTesting()
                 x.EnableTuTesting() 
-                x.EnableTvTesting() 
-                x.EnableTlTesting() 
+                x.DisableTvTesting() 
+                x.DisableTlTesting() 
                 x.DisableTeTesting() 
-                x.ForceExecution()
-#                x.DisableCTest()
-                x.Run(reference_configuration)
+#               x.ForceExecution()
+                x.DisableCTest()
+                
+                x.EnableOTBWrapping()
+#               x.EnableWrapPython()
+                x.EnableWrapJava()
+                x.EnableCompileWithFullWarning()
+                x.SetExperimentalTesting()
+   
+                
+                x.Run("MONTEVERDI-visualExpress2008-static-release-itk-internal-fltk-internal")
 
