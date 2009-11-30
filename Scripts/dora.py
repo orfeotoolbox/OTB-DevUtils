@@ -35,6 +35,8 @@ if __name__ == "__main__":
         x.SetDistribName("UBU-8.04") 
         # Wrap configurations
         x.SetWrapItkDims("2")
+	x.SetDoxygenPath("/usr/bin/doxygen")
+	x.SetDotPath("/usr/bin/dot")
 
         reference_configuration  = "linux-shared-release-itk-internal-fltk-internal"
         reference_configuration2 = "linux-static-debug-itk-external-fltk-external"

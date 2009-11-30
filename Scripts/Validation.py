@@ -209,6 +209,8 @@ class TestProcessing:
     __wrap_itk_dims__ = "2"
     
     __cableswigVersion__ = "3.16.0"
+    __doxygen_path__ = ""
+    __dot_path__=""
     
  #   __list_unpackage_extentions__ []
    
@@ -926,6 +928,19 @@ class TestProcessing:
 	self.__number_of_cores__=nbCores
     def GetNumberOfCores(self):
 	return self.__number_of_cores__
+
+    # --- Set/Get the path to the doxygen executable ----------
+    def SetDoxygenPath(self,path):
+	self.__doxygen_path__=path
+    def GetDoxygenPath(self):
+	return self.__doxygen_path__
+
+    # --- Set/Get the path to the dot executable ----------
+    def SetDotPath(self,path):
+	self.__dot_path__=path
+    def GetDotPath(self):
+	return self.__dot_path__
+
 	
     # ---  Disable/Enable OTBApplicationsWithInstallOTB methods   -----------------------------------
     def DisableTestOTBApplicationsWithInstallOTB(self):
@@ -1868,6 +1883,9 @@ class TestProcessing:
 	# Wrap documentation
 	command_line.append('-D "WRAP_ITK_DOC:BOOL=ON" ')
 	command_line.append('-D "WRAP_ITK_DOC_MAN:BOOL=ON" ')
+	command_line.appen('-D "DOXYGEN_DOT_EXECUTABLE:FILEPATH='+self.__dot_path__+'" ')
+	command_line.appen('-D "DOXYGEN_EXECUTABLE:FILEPATH='+self.__doxygen_path__+'" ')
+
 
         if langage == "Python":
             command_line.append(' -D "WRAP_ITK_PYTHON:BOOL=ON" ')
