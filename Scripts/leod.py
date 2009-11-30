@@ -21,10 +21,12 @@ if __name__ == "__main__":
         x.SetOutilsDir("/Users/otbval/")
         x.SetRunDir("/Users/otbval/")
         x.SetOtbDataLargeInputDir("/Users/data/OTB-LargeInput")
-        x.DisableUseOtbDataLargeInput()
+        x.EnableUseOtbDataLargeInput()
         x.SetSourcesDir("/Users/otbval/")
         x.SetSite("leod")
 	x.SetNumberOfCores(8)
+	x.SetDoxygenPath("/Users/otbval/OTB-OUTILS/Doxygen/binaries/bin/doxygen")
+	x.SetDotPath("/Users/otbval/OTB-OUTILS/Doxygen/binaries/bin/doxytag")
         
         #x.DisableTestOTBApplicationsWithInstallOTB()
         x.DisableUseVtk()
