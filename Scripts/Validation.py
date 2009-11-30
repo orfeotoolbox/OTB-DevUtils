@@ -1890,8 +1890,9 @@ class TestProcessing:
 	# Wrap documentation
 	command_line.append('-D "WRAP_ITK_DOC:BOOL=ON" ')
 	command_line.append('-D "WRAP_ITK_DOC_MAN:BOOL=ON" ')
-	command_line.appen('-D "DOXYGEN_DOT_EXECUTABLE:FILEPATH='+self.__dot_path__+'" ')
-	command_line.appen('-D "DOXYGEN_EXECUTABLE:FILEPATH='+self.__doxygen_path__+'" ')
+	command_line.append('-D "DOXYGEN_DOT_EXECUTABLE:FILEPATH='+self.__dot_path__+'" ')
+	command_line.append('-D "DOXYGEN_EXECUTABLE:FILEPATH='+self.__doxygen_path__+'" ')
+	
 
 
         if langage == "Python":
