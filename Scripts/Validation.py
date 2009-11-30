@@ -1879,15 +1879,15 @@ class TestProcessing:
         build_name=self.GetBuildName()
         
         # These options are automatically report in the OTB-Applications CMakeLists
-        if self.GetTestConfigurationDir().find("visual") == -1:
-            command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
-            command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
-            command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
-            command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
-            command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
-            command_line.append(' -D "ITK_TEST_DRIVER:FILEPATH='+otb_binary_dir+'/bin/itkTestDriver"')
-        else:
-            command_line.append(' -D "ITK_TEST_DRIVER:FILEPATH='+otb_binary_dir+'/bin/'+build_type+'/itkTestDriver"')
+	if self.GetTestConfigurationDir().find("visual") == -1:
+		command_line.append(' -D "CMAKE_BUILD_TYPE:STRING='+self.GetCmakeBuildType()+'"  ')
+		command_line.append(' -D "CMAKE_C_FLAGS:STRING=-Wall" ')
+		command_line.append(' -D "CMAKE_CXX_FLAGS:STRING=-Wall" ')
+		command_line.append(' -D "CMAKE_MODULE_LINKER_FLAGS:STRING=-Wall" ')
+		command_line.append(' -D "CMAKE_EXE_LINKER_FLAGS:STRING=-Wall" ')
+		command_line.append(' -D "ITK_TEST_DRIVER:FILEPATH='+otb_binary_dir+'/bin/itkTestDriver"')
+	else:
+		command_line.append(' -D "ITK_TEST_DRIVER:FILEPATH='+otb_binary_dir+'/bin/'+build_type+'/itkTestDriver"')
             
 
 	# Wrap documentation
