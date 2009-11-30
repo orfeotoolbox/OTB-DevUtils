@@ -1868,7 +1868,14 @@ class TestProcessing:
         command_line.append(' -D "CableSwig_DIR:PATH='+cableswig_binary_dir+'" ')
         command_line.append(' -D "SWIG_DIR:PATH='+swig_binary_dir+'"')
         command_line.append(' -D "SWIG_EXECUTABLE:FILEPATH='+swig_binary_dir+'/bin/swig"')
+        
+        if self.GetUseOtbDataLargeInput() == False:
+            command_line.append(' -D "OTB_DATA_USE_LARGEINPUT:BOOL=OFF" ')
+        else:
+            command_line.append(' -D "OTB_DATA_USE_LARGEINPUT:BOOL=ON" ')
+            command_line.append(' -D "OTB_DATA_LARGEINPUT_ROOT:PATH='+self.GetOtbDataLargeInputSourceDir()+'" ')
 
+        
         build_name=self.GetBuildName()
         
         # These options are automatically report in the OTB-Applications CMakeLists
