@@ -33,8 +33,8 @@ if __name__ == "__main__":
         x.SetJpegIncludeDirs("D:\\OTB-OUTILS\\gdal\\install-visualExpress2008\\include")
         # Wrap configurations
         x.SetWrapItkDims("2")
-	x.SetDoxygenPath("D:\OTB-OUTILS\doxygen\bin\doxygen.exe")
-	x.SetDotPath("D:\OTB-OUTILS\doxygen\bin\doxytag.exe")
+	x.SetDoxygenPath("D:\\OTB-OUTILS\\doxygen\\bin\\doxygen.exe")
+	x.SetDotPath("D:\O\TB-OUTILS\doxygen\\bin\\doxytag.exe")
 
         reference_configuration = "visualExpress2008-static-release-itk-internal-fltk-internal"
 
@@ -71,7 +71,14 @@ if __name__ == "__main__":
 #                x.EnableTlTesting() 
                 x.DisableTvTesting() 
                 x.DisableTlTesting() 
-                x.DisableTeTesting() 
+                x.DisableTeTesting()
+		
+		x.EnableOTBWrapping()
+#               x.EnableWrapPython()
+                x.EnableWrapJava()
+                x.EnableCompileWithFullWarning()
+                x.SetExperimentalTesting()
+
                 x.Run(reference_configuration)
 
         # =========    WEEKEND    ============ 
@@ -97,11 +104,7 @@ if __name__ == "__main__":
 #               x.ForceExecution()
                 x.DisableCTest()
                 
-                x.EnableOTBWrapping()
-#               x.EnableWrapPython()
-                x.EnableWrapJava()
-                x.EnableCompileWithFullWarning()
-                x.SetExperimentalTesting()
+
    
                 
                 x.Run("MONTEVERDI-visualExpress2008-static-release-itk-internal-fltk-internal")
