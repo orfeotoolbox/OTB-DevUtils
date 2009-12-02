@@ -4,3 +4,4 @@ SET( CableSwig_DIR "/home/christop/opensource/CableSwig-Binary" CACHE STRING "de
 SET( WRAP_LevelSet "OFF" CACHE STRING "debianRelease" FORCE )
 SET( WRAP_Morphology "OFF" CACHE STRING "debianRelease" FORCE )
 SET( WRAP_ITK_DIMS "2" CACHE STRING "debianRelease" FORCE )
+SET( WRAP_ITK_PYTHON ON CACHE BOOL "debianRelease" FORCE )
