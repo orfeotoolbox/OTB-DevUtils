@@ -1,5 +1,5 @@
 SET( CMAKE_BUILD_TYPE "Release" CACHE STRING "ubuntuRelease" FORCE )
-SET( OTB_DIR "/home/otbtesting/OTB/OTB-Binary-Nightly" CACHE STRING "ubuntuRelease" FORCE )
+SET( OTB_DIR "/mnt/sdb1/OTB/OTB-Binary-Nightly" CACHE STRING "ubuntuRelease" FORCE )
 SET( CableSwig_DIR "/usr/lib/CableSwig" CACHE STRING "ubuntuRelease" FORCE )
 SET( WRAP_LevelSet OFF CACHE BOOL "ubuntuRelease" FORCE )
 SET( WRAP_Morphology OFF CACHE BOOL "ubuntuRelease" FORCE )
