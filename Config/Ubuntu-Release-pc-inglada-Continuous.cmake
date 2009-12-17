@@ -1,3 +1,4 @@
+SET( SITE "pc-grizonnetm" CACHE STRING "ubuntuDebug" FORCE )
 SET( CMAKE_BUILD_TYPE "Release" CACHE STRING "ubuntuRelease" FORCE )
 SET( BUILD_TESTING ON CACHE BOOL "ubuntuRelease" FORCE )
 SET( BUILD_EXAMPLES OFF CACHE BOOL "ubuntuRelease" FORCE )

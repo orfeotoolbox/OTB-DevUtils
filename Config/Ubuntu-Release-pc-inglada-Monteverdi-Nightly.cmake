@@ -1,3 +1,4 @@
+SET( SITE "pc-grizonnetm" CACHE STRING "ubuntuDebug" FORCE )
 SET( CMAKE_BUILD_TYPE "Release" CACHE STRING "ubuntuRelease" FORCE )
 SET( OTB_DIR "/mnt/sdb1/OTB/OTB-Binary-Nightly" CACHE STRING "ubuntuRelease" FORCE )
 SET( OTB_DATA_ROOT "/mnt/sdb1/OTB/trunk/OTB-Data" CACHE STRING "ubuntuRelease" FORCE )
