@@ -1,17 +1,26 @@
+#!/usr/bin/python
 import otbTestDriver
+
+driverName  = "TestDriver"
+logFilePath = "/ORFEO/julien/TEMP/TestDriver/"
+srcPath     = "/ORFEO/julien/ORFEO-TOOLBOX/otb-hg/Monteverdi"
+buildPath   = "/ORFEO/julien/TEMP/TestDriver-Build/"
+confPath    = "/ORFEO/julien/TEMP/test.cmake"
+ctestArgs   = "-D ExperimentalBuild -DExperimentalTest"
 
 myDriver = otbTestDriver.otbTestDriver()
 
-myDriver.SetDriverName("TestDriver")
-myDriver.SetBuildPath("/home/julien/Local/bin/TestScriptMonteverdi")
-myDriver.SetSourcePath("/home/julien/Local/src/Monteverdi")
-myDriver.SetConfigurationFile("/home/julien/Local/config.cmake")
-myDriver.SetLogFilesPath("/home/julien/Local/")
+myDriver.SetDriverName(driverName)
 
-myDriver.UpdateSources()
-myDriver.CleanBuild()
-myDriver.Configure()
-myDriver.Test("-D ExperimentalBuild -DExperimentalTest")
+myDriver.SetLogFilesPath(logFilePath)
+
+myDriver.HgPullUpdate(srcPath)
+
+myDriver.CleanDirectory(buildPath)
+
+myDriver.CMake(srcPath,buildPath,confPath)
+
+myDriver.CTest(buildPath,ctestArgs)
 
 
 

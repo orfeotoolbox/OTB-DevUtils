@@ -4,16 +4,6 @@ from datetime import *
 class otbTestDriver:
     # Driver name
     DriverName="Default"
-    # Build Path
-    BuildPath=""
-    # True if a cmake configuration file is needed
-    UseConfigurationFile=True
-    # Path to the cmake configuration file
-    ConfigurationFilePath=""
-    # Path to the source code
-    SourcePath=""
-    # Build from scratch
-    BuildFromScratch=True
     # True if logging is enabled
     UseLogFile=True
     # Log files directory
@@ -25,18 +15,6 @@ class otbTestDriver:
 
     def SetDriverName(self,name):
         self.DriverName = name
-
-    def SetBuildPath(self,path):
-        self.BuildPath=path
-
-    def SetUseConfigurationFile(self,flag):
-        self.UseConfigurationFile = flag
-
-    def SetConfigurationFile(self,path):
-        self.ConfigurationFile=path
-
-    def SetSourcePath(self,path):
-        self.SourcePath = path
 
     def SetUseLogFile(self,flag):
         self.UseLogFile = flag
@@ -51,6 +29,7 @@ class otbTestDriver:
             date = date.replace(".","-")
             date = date.replace(":","-")
             date = date.replace(" ","-")
+	    date = date[:-7]
             self.LogFile=self.LogFilesPath+"/"+self.DriverName+"-"+date+".log"
             self.LogFileCreated = True
     
@@ -60,20 +39,25 @@ class otbTestDriver:
             self.CreateLogFile()
             logFile = open(self.LogFile,'a')
             date = datetime.now().isoformat("-").__str__()
+	    date = date[:-7]
             logFile.write(date+" "+type+": "+message+"\n")
             logFile.close()
 
     # Change to some directory
     def ChangeDirectory(self,directory):
         try:
-            os.chdir(self.SourcePath)
-            self.Log("INFO ","Changed to directory "+directory)
+            os.chdir(directory)
+            self.Log("INFO","Changing to directory "+directory)
         except:
             self.Log("ERROR","Failed to change to directory "+directory)
 
     # Clean up a directory
     def CleanDirectory(self,directory):
         self.Log("INFO","Cleaning up directory "+directory)
+
+	if not os.path.exists(directory):
+	    self.Log("WARNING","Directory "+directory+" does not exist")
+	    return
         for root, dirs, files in os.walk(directory, topdown=False):
                 for name in files:
                     path = os.path.join(root,name)
@@ -91,7 +75,7 @@ class otbTestDriver:
     # Call a given command
     def Command(self,command,comment=""):
         if comment != "":
-            self.Log("INFO ",comment)
+            self.Log("INFO",comment)
         self.Log("INFO","Executing command "+command)
         logfile = None
         if self.UseLogFile:
@@ -103,26 +87,23 @@ class otbTestDriver:
             self.Log("ERROR","Command failed.")
 
     # Update sources
-    def UpdateSources(self):
-        self.Log("INFO ","Updating sources")
-        self.ChangeDirectory(self.SourcePath)
+    def HgPullUpdate(self,directory):
+        self.Log("INFO ","Mercurial update")
+        self.ChangeDirectory(directory)
         self.Command("hg pull","Mercurial pull")
         self.Command("hg update","Mercurial update")
 
-    # Clean up build directory
-    def CleanBuild(self):
-        self.Log("INFO ","Cleaning any previous build")
-        self.CleanDirectory(self.BuildPath)
-
     # Run cmake configuration
-    def Configure(self):
+    def CMake(self,srcDir,buildDir,configFile=""):
+	self.ChangeDirectory(buildDir)
         configureCommand="cmake"
-        if self.UseConfigurationFile:
-            configureCommand = configureCommand +" -C "+self.ConfigurationFile
-        configureCommand = configureCommand +" "+self.SourcePath 
+        if configFile != "":
+            configureCommand = configureCommand +" -C "+configFile
+        configureCommand = configureCommand +" "+srcDir 
         self.Command(configureCommand,"CMake configuration")
 
     # Run ctest
-    def Test(self,args=""):
-        self.Command("ctest "+args)
+    def CTest(self,buildDir,args=""):
+	self.ChangeDirectory(buildDir)
+        self.Command("ctest -A CMakeCache.txt -A "+self.LogFile+" "+args)
 
