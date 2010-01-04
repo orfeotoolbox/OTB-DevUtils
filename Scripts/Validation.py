@@ -592,7 +592,7 @@ class TestProcessing:
     
     
     def RunProcessTestingOTBInstalled(self,current_binary_module,installed_otb_dir,postfixbuilname,is_up_to_date):
-        command = "ctest  -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit "
+        command = "ctest -A CMakeCache.txt -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit "
         if self.__configurationRunTesting__ == self.__continuous_testing__:
             self.PrintWarning("Select 'Continuous' testing")
             command = command + " --track Continuous " 
@@ -723,7 +723,7 @@ class TestProcessing:
  
                 # ctest ...
                 if self.IsDisableCTest() == False:
-                        ctest_call_command = "ctest  -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit "
+                        ctest_call_command = "ctest -A CMakeCache.txt -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit "
                         if self.__configurationRunTesting__ == self.__continuous_testing__:
                                 self.PrintWarning("Select 'Continuous' testing")
                                 ctest_call_command = ctest_call_command + " --track Continuous " 
@@ -758,7 +758,7 @@ class TestProcessing:
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
     def RunProcessTesting(self,current_module,current_name_module,is_up_to_date):
-        command = "ctest  -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit  "
+        command = "ctest -A CMakeCache.txt -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit  "
         if self.__configurationRunTesting__ == self.__continuous_testing__:
             self.PrintWarning("Select 'Continuous' testing")
             command = command + " --track Continuous " 
