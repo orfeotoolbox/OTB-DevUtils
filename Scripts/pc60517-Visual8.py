@@ -1,35 +1,86 @@
-import sys
-import os
-import platform
-import socket
+import otbTestDriver
 
-if __name__ == "__main__":
-        sys.path.append(os.getcwd()+"/OTB-DevUtils/Scripts")
-        try:
-                import Validation
-        except:
-                print 'Impossible to find Validation module (import Validation abort!!)'
-                exit(1)
-        if len(sys.argv) != 2:
-                print "Error  -->   Usage: ", sys.argv[0], " WEEK/WEEKEND"
-                exit(1)
+driverName  = 'PC60517-VS8.0-TestDriver'
+logFilePath = 'E:/Validation-OTB/LOGS'
 
-        x=Validation.TestProcessing()
+cmakeExe    = 'C:/Program Files/CMake 2.6/bin/cmake.exe'
+cmakeArgs   = '-G "Visual Studio 8 2005"'
+ctestExe    = 'C:/ProgramFiles/CMake 2.6/bin/ctest.exe'
+ctestArgs   = '--track Nightly'
+cpackExe    = 'C:/Program Files/CMake 2.6/bin/cpack.exe'
 
-        x.SetOutilsDir("E:\\Validation-OTB")
-        x.SetRunDir("E:\\Validation-OTB")
-        x.SetOtbDataLargeInputDir("E:\\Validation-OTB\OTB-Data-LargeInput")
-        x.SetSourcesDir("E:\\Validation-OTB")
-	x.SetHomeSourcesName("HG")
-        x.EnableUpdateSources()
-        x.DisableBuildExamples()
-        x.DisableGlUseAccel()
-        x.DisableUseVtk()
-        x.EnableGenerateMakefiles()
-	x.EnableMakeClean()
+otbSrcPath     = 'E:/Validation-OTB/HG/OTB'
+otbBuildPath   = 'E:/Validation-OTB/BIN/OTB'
+otbConfPath    = 'E:/Validation-OTB/HG/OTB-DevUtils/Config/PC60517-OTB-Nightly.cmake'
 
-        # List of platform must been tested
-	x.Run("visual8-static-relwithdebinfo-itk-internal-fltk-external")
-        if sys.argv[1] == "WEEKEND":
-		x.Run("visual8-static-relwithdebinfo-itk-internal-fltk-external")
+appSrcPath     = 'E:/Validation-OTB/HG/OTB-Applications'
+appBuildPath   = 'E:/Validation-OTB/BIN/OTB-Applications'
+appConfPath    = 'E:/Validation-OTB/HG/OTB-DevUtils/Config/PC60517-OTB-Applications-Nightly.cmake'
 
+montSrcPath    = 'E:/Validation-OTB/HG/Monteverdi'
+montBuildPath  = 'E:/Validation-OTB/BIN/Monteverdi'
+montConfPath   = 'E:/Validation-OTB/HG/OTB-DevUtils/Config/PC60517-Monteverdi-Nightly.cmake'
+
+dataPath       = 'E:/Validation-OTB/HG/OTB-Data'
+
+# Create the driver
+myDriver = otbTestDriver.otbTestDriver()
+
+# Set the driver name
+myDriver.SetDriverName(driverName)
+
+# Set the path to the log files
+myDriver.SetLogFilesPath(logFilePath)
+
+# Set path to a specific version of cmake
+myDriver.SetCMakeExecutable(cmakeExe)
+myDriver.SetCTestExecutable(ctestExe)
+myDriver.SetCPackExecutable(cpackExe)
+
+# Retrieve the nightly revisions
+nightlyRevisions = myDriver.GetNightlyRevisions()
+ 
+# Update data
+myDriver.HgPullUpdate(dataPath)
+
+#==== OTB ====
+
+# Update
+myDriver.HgPullUpdate(otbSrcPath,nightlyRevisions['OTB'])
+
+# Clean the build directory
+myDriver.CleanDirectory(otbBuildPath)
+
+# Cmake configure
+myDriver.CMake(otbSrcPath,otbBuildPath,otbConfPath,cmakeArgs)
+
+# CTest
+myDriver.CTest(otbBuildPath,ctestArgs)
+
+#==== OTB-Applications ====
+
+# Update
+myDriver.HgPullUpdate(appSrcPath,nightlyRevisions['OTB-Applications'])
+
+# Clean the build directory
+myDriver.CleanDirectory(appBuildPath)
+
+# Cmake configure
+myDriver.CMake(appSrcPath,appBuildPath,appConfPath,cmakeArgs)
+
+# CTest
+myDriver.CTest(appBuildPath,ctestArgs)
+
+#==== Monteverdi ====
+
+# Update
+myDriver.HgPullUpdate(montSrcPath,nightlyRevisions['Monteverdi'])
+
+# Clean the build directory
+myDriver.CleanDirectory(montBuildPath)
+
+# Cmake configure
+myDriver.CMake(montSrcPath,montBuildPath,montConfPath,cmakeArgs)
+
+# CTest
+myDriver.CTest(montBuildPath,ctestArgs)
