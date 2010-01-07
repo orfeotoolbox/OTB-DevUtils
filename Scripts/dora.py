@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 x.EnableTeTesting() 
                
                 x.EnableOTBWrapping()
-                x.DisableWrapPython()
+                x.EnableWrapPython()
                 x.EnableWrapJava()
                 x.Run(reference_configuration)
 #                x.Run(reference_configuration2)
@@ -109,8 +109,8 @@ if __name__ == "__main__":
                 x.DisableTeTesting() 
 
                 x.EnableOTBWrapping()
-#                x.EnableWrapPython()
-                x.EnableWrapJava()
+		x.EnableWrapJava()
+                x.EnableWrapPython()
                 x.EnableCompileWithFullWarning()
                 x.SetExperimentalTesting()
                 x.ForceExecution()
