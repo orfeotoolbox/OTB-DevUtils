@@ -133,6 +133,7 @@ class TestProcessing:
     __disableTestMonteverdiWithInstallOTB___ = True
     __disableGlUseAccel__ = True
     __disableUseCurl__ = True
+    __disableUseGettext__ = False
     __disableUseCpack__ = False
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
@@ -592,7 +593,7 @@ class TestProcessing:
     
     
     def RunProcessTestingOTBInstalled(self,current_binary_module,installed_otb_dir,postfixbuilname,is_up_to_date):
-        command = "ctest  -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit "
+        command = "ctest -A CMakeCache.txt -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit "
         if self.__configurationRunTesting__ == self.__continuous_testing__:
             self.PrintWarning("Select 'Continuous' testing")
             command = command + " --track Continuous " 
@@ -723,7 +724,7 @@ class TestProcessing:
  
                 # ctest ...
                 if self.IsDisableCTest() == False:
-                        ctest_call_command = "ctest  -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit "
+                        ctest_call_command = "ctest -A CMakeCache.txt -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit "
                         if self.__configurationRunTesting__ == self.__continuous_testing__:
                                 self.PrintWarning("Select 'Continuous' testing")
                                 ctest_call_command = ctest_call_command + " --track Continuous " 
@@ -758,7 +759,7 @@ class TestProcessing:
     # ===  Run Process Testing for a component
     # =====================================================================================================================================
     def RunProcessTesting(self,current_module,current_name_module,is_up_to_date):
-        command = "ctest  -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit  "
+        command = "ctest -A CMakeCache.txt -D ExperimentalStart -D ExperimentalConfigure -D ExperimentalBuild -D ExperimentalTest -D ExperimentalSubmit  "
         if self.__configurationRunTesting__ == self.__continuous_testing__:
             self.PrintWarning("Select 'Continuous' testing")
             command = command + " --track Continuous " 
@@ -1149,6 +1150,11 @@ class TestProcessing:
         self.__disableUseCurl__ = False
     def DisableUseCurl(self):
         self.__disableUseCurl__ = True
+
+    def EnableUseGettext(self):
+        self.__disableUseGettext__ = False
+    def DisableUseGettext(self):
+        self.__disableUseGettext__ = True
 
     def EnableGlUseAccel(self):
         self.__disableGlUseAccel__ = False
@@ -1700,6 +1706,12 @@ class TestProcessing:
                         command_line.append(' -D "OTB_USE_CURL:BOOL=OFF" ')
                 else:
                         command_line.append(' -D "OTB_USE_CURL:BOOL=ON" ')
+
+                if self.__disableUseGettext__ == True:
+                        command_line.append(' -D "OTB_USE_GETTEXT:BOOL=OFF" ')
+                else:
+                        command_line.append(' -D "OTB_USE_GETTEXT:BOOL=ON" ')
+                
 
                 if self.__disableGlUseAccel__ == True:
                         command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=OFF" ')
