@@ -22,6 +22,7 @@ if __name__ == "__main__":
         x.SetRunDir("/Users/otbval/")
         x.SetOtbDataLargeInputDir("/Users/data/OTB-LargeInput")
         x.EnableUseOtbDataLargeInput()
+	x.DisableUseGettext()
         x.SetSourcesDir("/Users/otbval/")
         x.SetSite("leod")
 	x.SetNumberOfCores(8)
@@ -72,7 +73,7 @@ if __name__ == "__main__":
                 x.EnableTlTesting() 
                 x.DisableTeTesting()
 		x.EnableOTBWrapping() 
-		x.DisableWrapPython()
+		x.EnableWrapPython()
 		x.EnableWrapJava()
                 x.Run(reference_configuration)
 

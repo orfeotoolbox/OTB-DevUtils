@@ -133,6 +133,7 @@ class TestProcessing:
     __disableTestMonteverdiWithInstallOTB___ = True
     __disableGlUseAccel__ = True
     __disableUseCurl__ = True
+    __disableUseGettext__ = False
     __disableUseCpack__ = False
     __genMakefiles__ = False
     __testConfigurationDir__ = "Undefined"
@@ -1150,6 +1151,11 @@ class TestProcessing:
     def DisableUseCurl(self):
         self.__disableUseCurl__ = True
 
+    def EnableUseGettext(self):
+        self.__disableUseGettext__ = False
+    def DisableUseGettext(self):
+        self.__disableUseGettext__ = True
+
     def EnableGlUseAccel(self):
         self.__disableGlUseAccel__ = False
     def DisableGlUseAccel(self):
@@ -1700,6 +1706,12 @@ class TestProcessing:
                         command_line.append(' -D "OTB_USE_CURL:BOOL=OFF" ')
                 else:
                         command_line.append(' -D "OTB_USE_CURL:BOOL=ON" ')
+
+                if self.__disableUseGettext__ == True:
+                        command_line.append(' -D "OTB_USE_GETTEXT:BOOL=OFF" ')
+                else:
+                        command_line.append(' -D "OTB_USE_GETTEXT:BOOL=ON" ')
+                
 
                 if self.__disableGlUseAccel__ == True:
                         command_line.append(' -D "OTB_GL_USE_ACCEL:BOOL=OFF" ')
