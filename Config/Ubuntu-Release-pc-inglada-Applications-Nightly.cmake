@@ -1,4 +1,4 @@
-SET( SITE "pc-grizonnetm" CACHE STRING "ubuntuDebug" FORCE )
+SET( SITE "pc-grizonnetm" CACHE STRING "ubuntuRelease" FORCE )
 SET( CMAKE_BUILD_TYPE "Release" CACHE STRING "ubuntuRelease" FORCE )
 SET( OTB_DIR "/mnt/sdb1/OTB/OTB-Binary-Nightly" CACHE STRING "ubuntuRelease" FORCE )
 SET( OTB_DATA_ROOT "/mnt/sdb1/OTB/trunk/OTB-Data" CACHE STRING "ubuntuRelease" FORCE )
@@ -9,6 +9,8 @@ SET( CMAKE_C_FLAGS " -Wall  -Wno-uninitialized -Wno-unused-variable" CACHE STRIN
 SET( CMAKE_CXX_FLAGS " -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable" CACHE STRING "ubuntuRelease" FORCE )
 SET( CMAKE_EXE_LINKER " " CACHE STRING "ubuntuRelease" FORCE )
 SET( MAKECOMMAND "/usr/bin/make -i -k -j 8" CACHE STRING "ubuntuRelease" FORCE )
+SET( OTB_DATA_USE_LARGEINPUT ON CACHE BOOL "ubuntuRelease" FORCE )
+SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/OTB-Data/LargeInput" CACHE STRING "ubuntuRelease" FORCE )
 
 SET( CMAKE_INSTALL_PREFIX "/mnt/sdb1/OTB/tmp" CACHE STRING "Used for package generation" FORCE )
 SET( OTB_USE_CPACK ON CACHE BOOL "Use CPack" FORCE )

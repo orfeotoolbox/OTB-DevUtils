@@ -1,3 +1,4 @@
+SET( SITE "pc-grizonnetm" CACHE STRING "ubuntuRelease" FORCE )
 SET( CMAKE_BUILD_TYPE "Release" CACHE STRING "ubuntuRelease" FORCE )
 SET( OTB_DIR "/mnt/sdb1/OTB/OTB-Binary-Nightly" CACHE STRING "ubuntuRelease" FORCE )
 SET( CableSwig_DIR "/usr/lib/CableSwig" CACHE STRING "ubuntuRelease" FORCE )
@@ -11,3 +12,5 @@ SET( JAVA_AWT_LIBRARY  "/usr/lib/jvm/java-6-sun/jre/lib/amd64" CACHE STRING "ubu
 SET( JAVA_INCLUDE_PATH "/usr/lib/jvm/java-6-sun/include" CACHE STRING "ubuntuRelease" FORCE )
 SET( JAVA_INCLUDE_PATH2 "/usr/lib/jvm/java-6-sun/include/linux" CACHE STRING "ubuntuRelease" FORCE )
 SET( JAVA_JVM_LIBRARY "/usr/lib/jvm/java-6-sun/jre/lib/amd64/server"  CACHE STRING "ubuntuRelease" FORCE )
+SET( OTB_DATA_USE_LARGEINPUT ON CACHE BOOL "ubuntuRelease" FORCE )
+SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/OTB-Data/LargeInput" CACHE STRING "ubuntuRelease" FORCE )
