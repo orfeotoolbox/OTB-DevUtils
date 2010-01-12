@@ -73,7 +73,7 @@ if __name__ == "__main__":
                 x.EnableTlTesting() 
                 x.DisableTeTesting()
 		x.EnableOTBWrapping() 
-		x.DisableWrapPython()
+		x.EnableWrapPython()
 		x.EnableWrapJava()
                 x.Run(reference_configuration)
 
