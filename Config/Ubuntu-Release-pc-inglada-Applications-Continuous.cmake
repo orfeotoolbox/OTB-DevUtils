@@ -10,4 +10,4 @@ SET( CMAKE_CXX_FLAGS " -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-vari
 SET( CMAKE_EXE_LINKER " " CACHE STRING "ubuntuRelease" FORCE )
 SET( MAKECOMMAND "/usr/bin/make -i -k -j 8 -k" CACHE STRING "ubuntuRelease" FORCE )
 SET( OTB_DATA_USE_LARGEINPUT ON CACHE BOOL "ubuntuRelease" FORCE )
-SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/OTB-Data/LargeInput" CACHE STRING "ubuntuRelease" FORCE )
+SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/LargeInput" CACHE STRING "ubuntuRelease" FORCE )
