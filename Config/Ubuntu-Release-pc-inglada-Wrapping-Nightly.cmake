@@ -4,6 +4,8 @@ SET( OTB_DIR "/mnt/sdb1/OTB/OTB-Binary-Nightly" CACHE STRING "ubuntuRelease" FOR
 SET( CableSwig_DIR "/usr/lib/CableSwig" CACHE STRING "ubuntuRelease" FORCE )
 SET( WRAP_JAVA ON CACHE BOOL "ubuntuRelease" FORCE )
 SET( WRAP_PYTHON OFF CACHE BOOL "ubuntuRelease" FORCE )
+SET( WRAP_ITK_PYTHON OFF CACHE BOOL "ubuntuRelease" FORCE )
+SET( WRAP_ITK_JAVA ON CACHE BOOL "ubuntuRelease" FORCE )
 SET( WRAP_LevelSet OFF CACHE BOOL "ubuntuRelease" FORCE )
 SET( WRAP_Morphology OFF CACHE BOOL "ubuntuRelease" FORCE )
 SET( WRAP_ChangeDetection OFF CACHE BOOL "ubuntuRelease" FORCE )
