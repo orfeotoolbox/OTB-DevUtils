@@ -11,3 +11,5 @@ SET( JAVA_AWT_LIBRARY  "/usr/lib/jvm/java-6-sun-1.6.0.12/jre/lib/amd64" CACHE ST
 SET( JAVA_INCLUDE_PATH "/usr/lib/jvm/java-6-sun-1.6.0.12/include" CACHE STRING "debianRelease" FORCE )
 SET( JAVA_INCLUDE_PATH2 "/usr/lib/jvm/java-6-sun-1.6.0.12/include/linux" CACHE STRING "debianRelease" FORCE )
 SET( JAVA_JVM_LIBRARY "/usr/lib/jvm/java-6-sun-1.6.0.12/jre/lib/amd64/server"  CACHE STRING "debianRelease" FORCE )
+SET(WRAP_ITK_PYTHON ON CACHE BOOL "debianRelease" FORCE )
+
