@@ -18,3 +18,4 @@ SET( JAVA_INCLUDE_PATH2 "/usr/lib/jvm/java-6-sun/include/linux" CACHE STRING "ub
 SET( JAVA_JVM_LIBRARY "/usr/lib/jvm/java-6-sun/jre/lib/amd64/server"  CACHE STRING "ubuntuRelease" FORCE )
 SET( OTB_DATA_USE_LARGEINPUT ON CACHE BOOL "ubuntuRelease" FORCE )
 SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/LargeInput" CACHE STRING "ubuntuRelease" FORCE )
+SET( MAKECOMMAND "/usr/bin/make -i -k -j 8" CACHE STRING "ubuntuRelease" FORCE )
