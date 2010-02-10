@@ -11,7 +11,7 @@ SET( USE_FFTWD ON CACHE BOOL "ubuntuRelease" FORCE )
 SET( USE_FFTWF ON CACHE BOOL "ubuntuRelease" FORCE )
 SET( OTB_DATA_ROOT "/mnt/sdb1/OTB/trunk/OTB-Data" CACHE STRING "ubuntuRelease" FORCE )
 SET( OTB_DATA_USE_LARGEINPUT ON CACHE BOOL "ubuntuDebug" FORCE )
-SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/LargeInput" CACHE STRING "ubuntuDebug" FORCE )
+SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/LargeInput" CACHE STRING "ubuntuRelease" FORCE )
 SET( CMAKE_C_FLAGS " -Wall -Wno-uninitialized -Wno-unused-variable" CACHE STRING "ubuntuRelease" FORCE )
 SET( CMAKE_CXX_FLAGS " -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable" CACHE STRING "ubuntuRelease" FORCE )
 SET( CMAKE_EXE_LINKER " " CACHE STRING "ubuntuRelease" FORCE )
@@ -29,3 +29,9 @@ SET( CMAKE_INSTALL_PREFIX "/mnt/sdb1/OTB/tmp" CACHE STRING "Used for package gen
 SET( CPACK_BINARY_DEB ON CACHE BOOL "Generate ubuntu package" FORCE )
 SET( CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64" CACHE STRING "debian Architecture" FORCE)
 
+#gdal configuration pb with gdal-bin with ubuntu package
+
+SET (GDAL_CONFIG "/home/grizonnetm/Local/gdal-1.6.3-build/bin/gdal-config" CACHE STRING "ubuntuRelease" FORCE)
+SET (GDAL_INCLUDE_DIR "/home/grizonnetm/Local/gdal-1.6.3-build/include" CACHE STRING "ubuntuRelease" FORCE)
+SET (GDAL_LIBRARY "/home/grizonnetm/Local/gdal-1.6.3-build/lib/libgdal.so" CACHE STRING "ubuntuRelease" FORCE)
+SET (OGR_INCLUDE_DIRS "/home/grizonnetm/Local/gdal-1.6.3-build/include" CACHE STRING "ubuntuRelease" FORCE)
