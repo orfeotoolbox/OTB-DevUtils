@@ -1,0 +1,51 @@
+This package was debianized by grizonnetm <manuel.grizonnet@cnes.fr> on
+Mon, 04 Jan 2010 13:44:34 +0100.
+
+It was downloaded from http://www.orfeo-toolbox.org/downloads
+
+Upstream Author(s): Centre National d'Etudes Spatiales
+OTB web site:       http://www.orfeo-toolbox.org/
+
+Copyright:
+
+    Copyright (c) Centre National d'Etudes Spatiales
+    All rights reserved.
+
+License:
+
+    The ORFEO Toolbox (OTB) is developed by the French Centre
+National d'Etudes Spatiales, CNES. OTB is partially derived from ITK,
+GDAL, VTK, VXL and LibSVM, hence some code is copyrighted accordingly (see
+ITKCopyright.txt, GDALCopyright.txt, VTKCopyright.txt, VXLCopyright.txt 
+and LibSVMCopyright.txt).
+
+The OTB copyright is as follows:
+
+Copyright (c) Centre National d'Etudes Spatiales
+All rights reserved.
+
+The OTB is distributed under the CeCILL licence version 2. See
+Licence_CeCILL_V2-en.txt or
+http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt for more details.
+
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
+
+The Debian packaging is:
+
+    Copyright (C) 2010 grizonnetm <manuel.grizonnet@cnes.fr>
+
+and is licensed under the GPL version 3, 
+see `/usr/share/common-licenses/GPL-3'.
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.

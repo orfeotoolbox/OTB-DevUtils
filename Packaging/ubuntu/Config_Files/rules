@@ -1,0 +1,57 @@
+#!/usr/bin/make -f
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/makefile.mk
+include /usr/share/cdbs/1/rules/simple-patchsys.mk
+
+DEB_BUILDDIR = $(CURDIR)/Build
+DEB_DESTDIR = $(CURDIR)/debian/tmp
+
+DEB_SHLIBDEPS_LIBRARY_python-orfeotoolbox = liborfeotoolbox3.2.1
+DEB_SHLIBDEPS_INCLUDE_python-orfeotoolbox = debian/liborfeotoolbox3.2.1/usr/lib
+
+#For some reason, python can't read gzipped .3 man files for the
+#docstring. So I need to leave them uncompressed, against debian
+#convention.
+DEB_COMPRESS_EXCLUDE := .3
+
+DEB_MAKE_INSTALL_TARGET = install DESTDIR=$(DEB_DESTDIR)
+
+clean::
+	rm -rf $(DEB_BUILDDIR)
+
+common-configure-arch::
+	cp debian/CMakeCache.txt.debian $(DEB_BUILDDIR)/CMakeCache.txt
+	cd $(DEB_BUILDDIR) && cmake ..
+
+#build/orfeotoolbox-doc::
+#	mkdir -p $(DEB_DESTDIR)/usr/share/man
+#	cd $(DEB_BUILDDIR)/Wrapping/WrapITK/Python && \
+#	    PYTHONPATH=$(DEB_BUILDDIR)/bin LD_LIBRARY_PATH=$(DEB_BUILDDIR)/bin \
+#	    python make_doxygen_config.py $(DEB_DESTDIR)/usr/share/man  && \
+#	    doxygen doxygen.config
+
+#install/orfeotoolbox-doc::
+#	dh_installman -porfeotoolbox-doc debian/orfeotoolbox.1
+#	dh_installdocs -porfeotoolbox-doc Documentation/*
+#	dh_installman -porfeotoolbox-doc debian/tmp/usr/share/man/man3/*
+
+install/liborfeotoolbox3.2.1::
+	dh_install -pliborfeotoolbox3.2.1 debian/tmp/usr/lib/otb/lib*.so.* usr/lib
+
+install/liborfeotoolbox-dev::
+	dh_install -pliborfeotoolbox-dev debian/tmp/usr/lib/otb/lib*.so usr/lib
+	dh_install -pliborfeotoolbox-dev --autodest debian/tmp/usr/include/otb/*
+	dh_install -pliborfeotoolbox-dev --autodest debian/tmp/usr/lib/otb/*.cmake 
+
+#install/orfeotoolbox-examples::
+#	dh_installexamples -porfeotoolbox-examples Examples/*
+#	find debian/orfeotoolbox-examples/usr/share/doc/orfeotoolbox-examples/examples \
+#	    -type f -print0 | xargs -0 chmod 644
+	    
+#install/python-orfeotoolbox::
+#	dh_install -ppython-orfeotoolbox --autodest debian/tmp/usr/lib/WrapITK/*
+#	dh_install -ppython-orfeotoolbox --autodest debian/tmp/usr/lib/python2.6/dist-packages/*.pth 
+#	dh_install -ppython-orfeotoolbox --autodest debian/tmp/usr/share/cmake-2.6/Modules/*.cmake 
+#	dh_install -ppython-orfeotoolbox debian/python-itk.conf /etc/ld.so.conf.d
+
