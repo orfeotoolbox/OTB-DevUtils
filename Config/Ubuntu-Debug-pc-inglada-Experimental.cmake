@@ -15,7 +15,7 @@ SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/LargeInput" CACHE STRING "ubu
 SET( CMAKE_C_FLAGS " -Wall -fprofile-arcs -ftest-coverage" CACHE STRING "ubuntuDebug" FORCE )
 SET( CMAKE_CXX_FLAGS " -Wall -Wno-deprecated -fprofile-arcs -ftest-coverage" CACHE STRING "ubuntuDebug" FORCE )
 SET( CMAKE_EXE_LINKER "-Wno-deprecated -fprofile-arcs -ftest-coverage" CACHE STRING "ubuntuDebug" FORCE )
-SET( MAKECOMMAND "/usr/bin/make -i -k -j 8" CACHE STRING "ubuntuDebug" FORCE )
+SET( MAKECOMMAND "/usr/bin/make -i -k -j 4" CACHE STRING "ubuntuDebug" FORCE )
 SET( OTB_GL_USE_ACCEL ON CACHE BOOL "ubuntuDebug" FORCE )
 SET( ITK_USE_REVIEW ON CACHE BOOL "ubuntuDebug" FORCE )
 SET( ITK_USE_OPTIMIZED_REGISTRATION_METHODS ON CACHE BOOL "Multithreaded registration" FORCE )

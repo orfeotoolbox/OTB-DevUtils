@@ -19,3 +19,7 @@ SET( JAVA_JVM_LIBRARY "/usr/lib/jvm/java-6-sun/jre/lib/amd64/server"  CACHE STRI
 SET( OTB_DATA_USE_LARGEINPUT ON CACHE BOOL "ubuntuRelease" FORCE )
 SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/LargeInput" CACHE STRING "ubuntuRelease" FORCE )
 SET( MAKECOMMAND "/usr/bin/make -i -k -j 8" CACHE STRING "ubuntuRelease" FORCE )
+
+SET( SWIG_DIR "/home/otbtesting/local/swig-1.3.40-build/share/swig/1.3.40" CACHE STRING "ubuntuRelease" FORCE )
+SET( SWIG_EXECUTABLE "/home/otbtesting/local/swig-1.3.40-build/bin/swig" CACHE STRING "ubuntuRelease" FORCE )
+SET( SWIG_VERSION "1.3.40" CACHE STRING "ubuntuRelease" FORCE )
