@@ -36,6 +36,9 @@ class otbTestDriver:
     def SetCTestExecutable(self,name):
 	self.CTestExecutable=name
     
+    def SetCPackExecutable(self,name):
+	self.CPackExecutable=name
+
     def SetMercurialExecutable(self,name):
 	self.MercurialExecutable=name
     
