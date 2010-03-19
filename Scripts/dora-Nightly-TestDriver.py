@@ -1,6 +1,6 @@
 import otbTestDriver
 
-driverName  = 'dora-GE-Monteverdi-TestDriver'
+driverName  = 'dora-Nightly-TestDriver'
 logFilePath = '/ORFEO/otbval/OTB-NIGHTLY-VALIDATION/crt'
 
 cmakeExe    = '/usr/bin/cmake'
@@ -8,6 +8,7 @@ cmakeArgs   = ''
 ctestExe    = '/usr/bin/ctest'
 ctestArgs   = '--track Nightly'
 cpackExe    = '/usr/bin/cpack'
+hgExe       = '/usr/bin/hg'
 
 binRootPath = "/ORFEO/otbval/OTB-NIGHTLY-VALIDATION/testDriver-linux-shared-release-itk-internal-fltk-internal/binaries/"
 srcRootPath = "/ORFEO/otbval/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/"
@@ -55,6 +56,7 @@ print 'step 4'
 myDriver.SetCMakeExecutable(cmakeExe)
 myDriver.SetCTestExecutable(ctestExe)
 myDriver.SetCPackExecutable(cpackExe)
+myDriver.SetMercurialExecutable(hgExe)
 
 print 'step 5'
 
