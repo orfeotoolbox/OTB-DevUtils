@@ -99,7 +99,8 @@ class otbTestDriver:
 	commandWithLogs=command
         self.Log("INFO","Executing command "+command)
 	logFile = open(self.LogFile,'a')
-	process = subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=1)
+	#process = subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=1)
+        process  = subprocess.call(command, stdout=logFile, shell=True)
 	outputs = process.communicate()
 	coutlines = outputs[0].split("\n")
 	cerrlines = outputs[1].split("\n")

@@ -35,30 +35,20 @@ GEmontConfPath   = '/ORFEO/otbval/OTB-NIGHTLY-VALIDATION/OTB-DevUtils/Config/dor
 
 dataPath    = srcRootPath+'OTB-Data'
 
-print 'step 1'
-
 # Create the driver
 myDriver = otbTestDriver.otbTestDriver()
-
-print 'step 2'
 
 # Set the driver name
 myDriver.SetDriverName(driverName)
 
-print 'step 3'
-
 # Set the path to the log files
 myDriver.SetLogFilesPath(logFilePath)
-
-print 'step 4'
 
 # Set path to a specific version of cmake
 myDriver.SetCMakeExecutable(cmakeExe)
 myDriver.SetCTestExecutable(ctestExe)
 myDriver.SetCPackExecutable(cpackExe)
 myDriver.SetMercurialExecutable(hgExe)
-
-print 'step 5'
 
 # Retrieve the nightly revisions
 nightlyRevisions = myDriver.GetNightlyRevisions()
