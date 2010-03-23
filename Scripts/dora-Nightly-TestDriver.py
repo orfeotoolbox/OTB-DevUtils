@@ -6,7 +6,7 @@ logFilePath = '/ORFEO/otbval/OTB-NIGHTLY-VALIDATION/crt'
 cmakeExe    = '/usr/bin/cmake'
 cmakeArgs   = ''
 ctestExe    = '/usr/bin/ctest'
-ctestArgs   = '--track Nightly'
+ctestArgs   = '-D Nightly'
 cpackExe    = '/usr/bin/cpack'
 hgExe       = '/usr/bin/hg'
 
@@ -52,11 +52,9 @@ myDriver.SetMercurialExecutable(hgExe)
 
 # Retrieve the nightly revisions
 nightlyRevisions = myDriver.GetNightlyRevisions()
-print 'step 6'
+
 # Update data
 myDriver.HgPullUpdate(dataPath)
-
-print 'step 7'
 
 #==== OTB ====
 

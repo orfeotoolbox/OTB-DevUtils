@@ -1,4 +1,4 @@
-import os, subprocess, urllib2
+import os, subprocess, urllib2, sys
 from datetime import *
 
 class otbTestDriver:
@@ -99,18 +99,22 @@ class otbTestDriver:
 	commandWithLogs=command
         self.Log("INFO","Executing command "+command)
 	logFile = open(self.LogFile,'a')
-	#process = subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=1)
-        process  = subprocess.call(command, stdout=logFile, shell=True)
-	outputs = process.communicate()
-	coutlines = outputs[0].split("\n")
-	cerrlines = outputs[1].split("\n")
-	retcode = process.returncode
-	for line in coutlines:
-	    self.Log("COUT",line)
-	for line in cerrlines:
-	    self.Log("CERR",line)
-	if retcode < 0:
-            self.Log("ERROR","Command failed.")
+
+	# Use Popen or call subprocess method following the python version
+	if sys.version < '2.6':
+	    process  = subprocess.call(command, stdout=logFile, shell=True)
+	else:
+	    process = subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=1)
+	    outputs = process.communicate()
+	    coutlines = outputs[0].split("\n")
+	    cerrlines = outputs[1].split("\n")
+	    retcode = process.returncode
+	    for line in coutlines:
+		self.Log("COUT",line)
+	    for line in cerrlines:
+		self.Log("CERR",line)
+	    if retcode < 0:
+		self.Log("ERROR","Command failed.")
 
     # Update sources
     def HgPullUpdate(self,directory,revision = ''):
