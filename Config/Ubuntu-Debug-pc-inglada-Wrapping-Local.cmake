@@ -16,7 +16,7 @@ SET( JAVA_INCLUDE_PATH "/usr/lib/jvm/java-6-sun/include" CACHE STRING "ubuntuDeb
 SET( JAVA_INCLUDE_PATH2 "/usr/lib/jvm/java-6-sun/include/linux" CACHE STRING "ubuntuDebug" FORCE )
 SET( JAVA_JVM_LIBRARY "/usr/lib/jvm/java-6-sun/jre/lib/amd64/server"  CACHE STRING "ubuntuDebug" FORCE )
 SET( OTB_DATA_USE_LARGEINPUT ON CACHE BOOL "ubuntuDebug" FORCE )
-SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/LargeInput" CACHE STRING "ubuntuDebug" FORCE )
+SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/dd-2/OTB/trunk/LargeInput" CACHE STRING "ubuntuDebug" FORCE )
 
 SET( SWIG_DIR "/home/grizonnetm/Local/swig-1.3.40-binary/share/swig/1.3.40" CACHE STRING "ubuntuRelease" FORCE )
 SET( SWIG_EXECUTABLE "/home/grizonnetm/Local/swig-1.3.40-binary/bin/swig" CACHE STRING "ubuntuRelease" FORCE )
