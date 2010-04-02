@@ -1,6 +1,6 @@
 SET( SITE "pc-grizonnetm" CACHE STRING "ubuntuRelease" FORCE )
 SET( CMAKE_BUILD_TYPE "Release" CACHE STRING "ubuntuRelease" FORCE )
-SET( MONTEVERDI_DIR "/mnt/dd-2/OTB/Monteverdi-Binary-Nightly" CACHE STRING "ubuntuDebug" FORCE )
+SET( Monteverdi_DIR "/mnt/dd-2/OTB/Monteverdi-Binary-Nightly" CACHE STRING "ubuntuDebug" FORCE )
 SET( OTB_DATA_ROOT "/mnt/dd-2/OTB/trunk/OTB-Data" CACHE STRING "ubuntuRelease" FORCE )
 SET( OTB_DATA_USE_LARGEINPUT ON CACHE BOOL "ubuntuRelease" FORCE )
 SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/dd-2/OTB/trunk/LargeInput" CACHE STRING "ubuntuRelease" FORCE )
@@ -12,6 +12,5 @@ SET( CMAKE_EXE_LINKER " " CACHE STRING "ubuntuRelease" FORCE )
 SET( MAKECOMMAND "/usr/bin/make -i -k -j 8" CACHE STRING "ubuntuRelease" FORCE )
 
 SET( CMAKE_INSTALL_PREFIX "/mnt/dd-2/OTB/tmp" CACHE STRING "Used for package generation" FORCE )
-SET( OTB_USE_CPACK ON CACHE BOOL "Use CPack" FORCE )
-SET( CPACK_BINARY_DEB ON CACHE BOOL "Generate ubuntu package" FORCE )
-SET( CPACK_ubuntu_PACKAGE_ARCHITECTURE "EM64T" CACHE STRING "ubuntu Architecture" FORCE)
+
+SET( OTB_USE_CPACK "OFF" CACHE STRING "ubuntuRelease" FORCE )
