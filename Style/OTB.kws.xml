@@ -10,6 +10,7 @@
 <Spaces>3</Spaces>
 <Comments>/**, *, */,true</Comments>
 <Header>/home/christop/synchro/kwstyle-hook/OTBHeader.h,false,true</Header>
+<Indent>SPACE,2,true,true</Indent>
 <Namespace>otb</Namespace>
 <NameOfClass>[NameOfClass],otb</NameOfClass>
 <IfNDefDefine>__[NameOfClass]_[Extension]</IfNDefDefine>
