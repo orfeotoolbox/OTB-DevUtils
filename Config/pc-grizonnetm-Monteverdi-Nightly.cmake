@@ -1,11 +1,10 @@
-
-SET (CTEST_SOURCE_DIRECTORY "/mnt/dd-2/OTB/trunk/OTB-Nightly/")
-SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/OTB-Binary-Nightly/")
+SET (CTEST_SOURCE_DIRECTORY "/mnt/dd-2/OTB/trunk/Monteverdi-Nightly/")
+SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/Monteverdi-Nightly/")
 
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j6 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-OTB-Nightly.cmake -V"
+  "ctest -j6 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-Monteverdi-Nightly.cmake -V"
   )
 
 # what cmake command to use for configuring this dashboard
@@ -32,20 +31,8 @@ CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 //Set up the build options
 CMAKE_BUILD_TYPE:STRING=Release
+OTB_DIR:STRING=/mnt/dd-2/OTB/OTB-Binary-Nightly
 BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=ON
-OTB_USE_CURL:BOOL=ON
-OTB_USE_PQXX:BOOL=ON
-OTB_USE_EXTERNAL_BOOST:BOOL=ON
-OTB_USE_EXTERNAL_EXPAT:BOOL=ON
-USE_FFTWD:BOOL=ON
-USE_FFTWF:BOOL=ON
-OTB_GL_USE_ACCEL:BOOL=ON 
-ITK_USE_REVIEW:BOOL=ON 
-ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
-OTB_USE_MAPNIK:BOOL=ON 
-MAPNIK_INCLUDE_DIR:STRING=/usr/include
-MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
 //CPack configuration
 OTB_USE_CPACK:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=/home/otbtesting/OTB/tmp
