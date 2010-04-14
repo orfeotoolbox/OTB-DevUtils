@@ -1,5 +1,5 @@
 SET (CTEST_SOURCE_DIRECTORY "/mnt/dd-2/OTB/trunk/GE-Monteverdi-Nightly/")
-SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/GE-Monteverdi-Nightly/")
+SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/GE-Monteverdi-Binary-Nightly/")
 
 
 # which ctest command to use for running the dashboard
