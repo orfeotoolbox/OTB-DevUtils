@@ -4,7 +4,7 @@ SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/OTB-Binary-Wrapping-Nightly/")
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j6 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/iron-OTB-Wrapping-Nightly.cmake -V"
+  "ctest -j6 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-OTB-Wrapping-Nightly.cmake -V"
   )
 
 # what cmake command to use for configuring this dashboard
@@ -21,9 +21,9 @@ SET (CTEST_INITIAL_CACHE "
 //Command used to build entire project from the command line.
 MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
 //Name of the build
-BUILDNAME:STRING=zApps-Deb51-64bits-Release
+BUILDNAME:STRING=zApps-Ubuntu9.10-64bits-Release
 //Name of the computer/site where compile is being run
-SITE:STRING=iron
+SITE:STRING=pc-grizonnetm
 //Data root
 OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
 //Compilation options
