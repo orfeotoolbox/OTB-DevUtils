@@ -19,18 +19,20 @@ BUILD_TESTING:BOOL=ON
 //Use an outside build of FLTK.
 OTB_USE_EXTERNAL_FLTK:BOOL=OFF
 
-//Path to a file.
+//Gdal configuration
+//required to put the directory of the libgdal.dll in the path
+GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/gdal-16/include
+GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/apps/gdal-16/lib/gdal_i.lib
 
-GDAL_INCLUDE_DIR:PATH=C:/OTB/gdal-1.7.1/gcore;C:/OTB/gdal-1.7.1/port
-GEOTIFF_INCLUDE_DIRS:PATH=C:/OTB/gdal-1.7.1/frmts/gtiff/libgeotiff
-JPEG_INCLUDE_DIRS:PATH=C:/OTB/gdal-1.7.1/frmts/jpeg/libjpeg
-OGR_INCLUDE_DIRS:PATH=C:/OTB/gdal-1.7.1/ogr;C:/OTB/gdal-1.7.1/ogr/ogrsf_frmts
-TIFF_INCLUDE_DIRS:PATH=C:/OTB/gdal-1.7.1/frmts/gtiff/libtiff
+GEOTIFF_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
+GEOTIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/geotiff_i.lib
 
-//Path to a library.
-GDAL_LIBRARY:FILEPATH=C:/OTB/gdal-1.7.1/gdal.lib;odbc32.lib;odbccp32.lib;user32.lib
-GEOTIFF_LIBRARY:FILEPATH=C:/OTB/gdal-1.7.1/gdal.lib
-TIFF_LIBRARY:FILEPATH=C:/OTB/gdal-1.7.1/gdal.lib
+TIFF_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
+TIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libtiff_i.lib
+
+JPEG_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
+JPEG_LIBRARY:FILEPATH=C:/OSGeo4W/lib/jpeg_i.lib
+
 
 //
 OTB_DATA_ROOT:PATH=C:/OTB/trunk/OTB-Data
