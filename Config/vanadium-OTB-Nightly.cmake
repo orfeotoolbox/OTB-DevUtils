@@ -33,6 +33,10 @@ TIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libtiff_i.lib
 JPEG_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
 JPEG_LIBRARY:FILEPATH=C:/OSGeo4W/lib/jpeg_i.lib
 
+//Curl configuration
+OTB_USE_CURL:BOOL=ON
+CURL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+CURL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libcurl_imp.lib
 
 //
 OTB_DATA_ROOT:PATH=C:/OTB/trunk/OTB-Data
