@@ -21,7 +21,7 @@ SET (CTEST_INITIAL_CACHE "
 //Command used to build entire project from the command line.
 MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
 //Name of the build
-BUILDNAME:STRING=zApps-Deb51-64bits-Release
+BUILDNAME:STRING=Deb51-64bits-Release
 //Name of the computer/site where compile is being run
 SITE:STRING=iron
 //Data root
