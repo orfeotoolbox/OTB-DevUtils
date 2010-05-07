@@ -44,8 +44,6 @@ OTB_GL_USE_ACCEL:BOOL=ON
 ITK_USE_REVIEW:BOOL=ON 
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
 OTB_USE_MAPNIK:BOOL=ON 
-MAPNIK_INCLUDE_DIR:STRING=/home/christop/slash/include
-MAPNIK_LIBRARY:STRING=/home/christop/slash/lib64/libmapnik.so
 ")
 
 # set any extra envionment varibles here
