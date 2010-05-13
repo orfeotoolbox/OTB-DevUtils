@@ -48,9 +48,4 @@ OTB_DATA_ROOT:PATH=C:/OTB/trunk/OTB-Data
 //GETTEXT_LIBRARY:FILEPATH=C:/Program Files/GnuWin32/lib/libgettextlib.lib
 //GETTEXT_INTL_LIBRARY:FILEPATH=C:/Program Files/GnuWin32/lib/libintl.lib
 
-//Using curl
-//OTB_USE_CURL:BOOL=ON
-//CURL_INCLUDE_DIR:PATH=C:/OTB/libcurl-7.19.3-win32-ssl-msvc/include
-//CURL_LIBRARY:FILEPATH=C:/OTB/libcurl-7.19.3-win32-ssl-msvc/lib/Release/curllib.lib
-
 ")

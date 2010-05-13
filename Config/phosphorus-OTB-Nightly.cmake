@@ -19,11 +19,24 @@ BUILD_TESTING:BOOL=ON
 //Use an outside build of FLTK.
 OTB_USE_EXTERNAL_FLTK:BOOL=OFF
 
-//Path to a file.
-GDAL_INCLUDE_DIR:PATH=E:/crsec/gdal-1.6.0-win32-vc90-debug/include
+//Gdal configuration
+//required to put the directory of the libgdal.dll in the path
+GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/gdal-16/include
+GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/apps/gdal-16/lib/gdal_i.lib
 
-//Path to a library.
-GDAL_LIBRARY:FILEPATH=E:/crsec/gdal-1.6.0-win32-vc90-debug/lib/gdal.lib
+GEOTIFF_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
+GEOTIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/geotiff_i.lib
+
+TIFF_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
+TIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libtiff_i.lib
+
+JPEG_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
+JPEG_LIBRARY:FILEPATH=C:/OSGeo4W/lib/jpeg_i.lib
+
+//Curl configuration
+OTB_USE_CURL:BOOL=ON
+CURL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+CURL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libcurl_imp.lib
 
 //
 OTB_DATA_ROOT:PATH=E:/crsec/trunk/OTB-Data
@@ -34,10 +47,5 @@ GETTEXT_MSGMERGE_EXECUTABLE:FILEPATH=C:/Program Files/GnuWin32/bin/msgmerge.exe
 GETTEXT_INCLUDE_DIR:PATH=C:/Program Files/GnuWin32/include
 GETTEXT_LIBRARY:FILEPATH=C:/Program Files/GnuWin32/lib/libgettextlib.lib
 GETTEXT_INTL_LIBRARY:FILEPATH=C:/Program Files/GnuWin32/lib/libintl.lib
-
-//Using curl
-//OTB_USE_CURL:BOOL=ON
-//CURL_INCLUDE_DIR:PATH=E:/crsec/libcurl-7.19.3-win32-ssl-msvc/include
-//CURL_LIBRARY:FILEPATH=E:/crsec/libcurl-7.19.3-win32-ssl-msvc/lib/Release/curllib.lib
 
 ")

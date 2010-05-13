@@ -17,6 +17,5 @@ SITE:STRING=phosphorus
 BUILD_TESTING:BOOL=ON
 
 //Path to a file.
-GDAL_INCLUDE_DIR:PATH=E:/crsec/gdal-1.6.0-win32-vc90-debug/include
-
+GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/gdal-16/include
 ")
