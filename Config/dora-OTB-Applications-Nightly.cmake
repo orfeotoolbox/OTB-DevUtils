@@ -1,4 +1,4 @@
-SET(BUILDNAME "zApps-dora-testDriver-Release-FLTK_INTERNAL" CACHE STRING "" FORCE)
+SET(BUILDNAME "zApps-dora-testDriver-Release-FLTK_INTERNAL-ITK-INTERNAL" CACHE STRING "" FORCE)
 SET( CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
 SET( OTB_DIR "/ORFEO/otbval/OTB-NIGHTLY-VALIDATION/testDriver-linux-shared-release-itk-internal-fltk-internal/binaries/OTB" CACHE STRING "debianRelease" FORCE )
 SET( OTB_DATA_ROOT "/ORFEO/otbval/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-Data" CACHE STRING "" FORCE )
