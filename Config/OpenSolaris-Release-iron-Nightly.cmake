@@ -6,5 +6,5 @@ SET( OTB_DATA_ROOT "/export/home/christop/OTB/trunk/OTB-Data" CACHE STRING "open
 
 SET( MAKECOMMAND "/usr/gnu/bin/make -i -k" CACHE STRING "openSolaris" FORCE )
 SET( OTB_USE_EXTERNAL_FLTK OFF CACHE BOOL "openSolaris" FORCE )
-SET( OTB_USE_LIBLAS ON CACHE BOOL "openSolaris" FORCE )
+SET( OTB_USE_LIBLAS OFF CACHE BOOL "openSolaris" FORCE )
 
