@@ -25,13 +25,13 @@ BUILDNAME:STRING=Fedora12-64bits-Release
 //Name of the computer/site where compile is being run
 SITE:STRING=pc-ingladaj
 //Data root
-OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
+OTB_DATA_ROOT:STRING=/home/inglada/OTB/OTB-Data
 //Compilation options
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 //Set up the build options
 CMAKE_BUILD_TYPE:STRING=Release
-OTB_DIR:STRING=/home/inglada/OTB/builds/OTB
+OTB_DIR:STRING=/home/inglada/OTB/builds/OTB-Nightly
 BUILD_TESTING:BOOL=ON
 //CPack configuration
 OTB_USE_CPACK:BOOL=ON
