@@ -367,12 +367,13 @@ class TestProcessing:
 
             self.InitExternalLibrariesDir()
             
-            # Init LD_LIBRARY_PATH (or PATH for Window) var env for Wrapping execution
+            # Init LD_LIBRARY_PATH (or PATH for Window, or DYLD_LIBRARY_PATH for MacOSX) var env for Wrapping execution
             if self.GetTestConfigurationDir().find("visual") != -1:
                 os.environ["PATH"] =  os.environ["PATH"] + ";" + binary_home_dir+"/binaries/"+self.__list_binary_components__[0]+"/bin/"+self.GetBuildType()+";"+self.__gdal_lib_dir__
                 self.PrintWarning("Set PATH: " + os.environ["PATH"])
             else:            
                 os.environ["LD_LIBRARY_PATH"] =  binary_home_dir+"/binaries/"+self.__list_binary_components__[0]+"/bin:"+self.__gdal_lib_dir__
+                os.environ["DYLD_LIBRARY_PATH"] =  binary_home_dir+"/binaries/"+self.__list_binary_components__[0]+"/bin:"+self.__gdal_lib_dir__
                 self.PrintWarning("Set LD_LIBRARY_PATH: " + os.environ["LD_LIBRARY_PATH"])
 
 	# ---  Processing test for alls modules   ----------------------------------
