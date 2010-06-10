@@ -27,8 +27,8 @@ SITE:STRING=iron
 //Data root
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 //Compilation options
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING= -Wall
+CMAKE_CXX_FLAGS:STRING= -Wall
 //Set up the build options
 CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=/home/otbtesting/OTB/OTB-Binary-Nightly
