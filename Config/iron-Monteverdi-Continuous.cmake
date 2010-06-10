@@ -1,10 +1,10 @@
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/OTB/trunk/Monteverdi-Nightly/")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB/Monteverdi-Nightly/")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/OTB/trunk/Monteverdi-Continuous/")
+SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB/Monteverdi-Binary-Continuous/")
 
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j6 -D Nightly -A $ENV{HOME}/OTB/trunk/OTB-DevUtils/Config/iron-Monteverdi-Nightly.cmake -V"
+  "ctest -j6 -D Continuous -A $ENV{HOME}/OTB/trunk/OTB-DevUtils/Config/iron-Monteverdi-Continuous.cmake -V"
   )
 
 # what cmake command to use for configuring this dashboard
@@ -31,7 +31,7 @@ CMAKE_C_FLAGS:STRING= -Wall
 CMAKE_CXX_FLAGS:STRING= -Wall
 //Set up the build options
 CMAKE_BUILD_TYPE:STRING=Release
-OTB_DIR:STRING=/home/otbtesting/OTB/OTB-Binary-Nightly
+OTB_DIR:STRING=/home/otbtesting/OTB/OTB-Binary-Continuous
 BUILD_TESTING:BOOL=ON
 //CPack configuration
 OTB_USE_CPACK:BOOL=ON
