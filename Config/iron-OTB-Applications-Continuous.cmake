@@ -5,7 +5,7 @@ SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB/OTB-Binary-Applications-Continuous/"
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j6 -D Nightly -A $ENV{HOME}/OTB/trunk/OTB-DevUtils/Config/iron-OTB-Applications-Continuous.cmake -V"
+  "ctest -j6 -D Nightly -A ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt -V"
   )
 
 # what cmake command to use for configuring this dashboard

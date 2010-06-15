@@ -4,7 +4,7 @@ SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB/Monteverdi-Binary-Continuous/")
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j6 -D Continuous -A $ENV{HOME}/OTB/trunk/OTB-DevUtils/Config/iron-Monteverdi-Continuous.cmake -V"
+  "ctest -j6 -D Continuous -A ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt -V"
   )
 
 # what cmake command to use for configuring this dashboard
