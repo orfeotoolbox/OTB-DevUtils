@@ -25,9 +25,9 @@ montConfPath   = 'D:\Developpement\OTB-hg\OTB-DevUtils\Config\PC7450-Monteverdi-
 #GEmontBuildPath  = binRootPath+'GE-Monteverdi'
 #GEmontConfPath   = '/ORFEO/otbval/OTB-NIGHTLY-VALIDATION/OTB-DevUtils/Config/dora-GE-Monteverdi-Nightly.cmake'
 
-#wrappingSrcPath    = srcRootPath+'OTB-Wrapping'
-#wrappingBuildPath  = binRootPath+'OTB-Wrapping'
-#wrappingConfPath   = '/ORFEO/otbval/OTB-NIGHTLY-VALIDATION/OTB-DevUtils/Config/dora-OTB-Wrapping-Nightly.cmake'
+wrappingSrcPath    = srcRootPath+'OTB-Wrapping'
+wrappingBuildPath  = binRootPath+'OTB-Wrapping'
+wrappingConfPath   = 'D:\Developpement\OTB-hg\OTB-DevUtils\Config\PC7450-OTB-Wrapping-Nightly.cmake'
 
 dataPath    = srcRootPath+'OTB-Data'
 
@@ -100,14 +100,14 @@ myDriver.CTest(montBuildPath,ctestArgs)
 
 #==== GE-Monteverdi ====
 # Update
-#myDriver.HgPullUpdate(GEmontSrcPath,'')
+myDriver.HgPullUpdate(wrappingSrcPath,'')
 
 # Clean the build directory
-#myDriver.CleanDirectory(GEmontBuildPath)
+myDriver.CleanDirectory(wrappingBuildPath)
 
 # Cmake configure
-#myDriver.CMake(GEmontSrcPath,GEmontBuildPath,GEmontConfPath,cmakeArgs)
+myDriver.CMake(wrappingSrcPath,wrappingBuildPath,wrappingConfPath,cmakeArgs)
 
 # CTest
-#myDriver.CTest(GEmontBuildPath,ctestArgs)
+myDriver.CTest(wrappingBuildPath,ctestArgs)
 
