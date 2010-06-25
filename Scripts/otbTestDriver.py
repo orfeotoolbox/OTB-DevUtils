@@ -80,7 +80,7 @@ class otbTestDriver:
 	    return
 
 	shutil.rmtree(directory)
-
+	os.makedirs(directory)
 #        for root, dirs, files in os.walk(directory, topdown=False):
 #                for name in files:
 #                    path = os.path.join(root,name)
