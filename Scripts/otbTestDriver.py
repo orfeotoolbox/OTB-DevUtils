@@ -1,4 +1,4 @@
-import os, subprocess, urllib2, sys
+import os, subprocess, urllib2, sys, shutil
 from datetime import *
 
 class otbTestDriver:
@@ -78,19 +78,22 @@ class otbTestDriver:
 	if not os.path.exists(directory):
 	    self.Log("WARNING","Directory "+directory+" does not exist")
 	    return
-        for root, dirs, files in os.walk(directory, topdown=False):
-                for name in files:
-                    path = os.path.join(root,name)
-                    try:
-                        os.remove(path)
-                    except:
-                        self.Log("ERROR","Failed to remove file "+path)
-                for name in dirs:
-                    path = os.path.join(root,name)
-                    try:
-                        os.rmdir(os.path.join(root,name))
-                    except:
-                        self.Log("ERROR","Failed to remove directory "+path)
+
+	shutil.rmtree(directory)
+
+#        for root, dirs, files in os.walk(directory, topdown=False):
+#                for name in files:
+#                    path = os.path.join(root,name)
+#                    try:
+#                        os.remove(path)
+#                    except:
+#                        self.Log("ERROR","Failed to remove file "+path)
+#                for name in dirs:
+#                    path = os.path.join(root,name)
+#                    try:
+#                        os.rmdir(os.path.join(root,name))
+#                    except:
+#                        self.Log("ERROR","Failed to remove directory "+path)
 
     # Call a given command
     def Command(self,command,comment=""):
