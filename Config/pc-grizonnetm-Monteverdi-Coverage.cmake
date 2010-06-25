@@ -26,8 +26,9 @@ BUILDNAME:STRING=Ubuntu9.10-64bits-Debug
 SITE:STRING=pc-grizonnetm
 //Data root
 OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
+//LargeInput
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data/LargeInput 
+OTB_DATA_LARGEINPUT_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data/LargeInput
 //Compilation options
 CMAKE_C_FLAGS:STRING= -Wall -fprofile-arcs -ftest-coverage
 CMAKE_CXX_FLAGS:STRING= -Wall -fprofile-arcs -ftest-coverage

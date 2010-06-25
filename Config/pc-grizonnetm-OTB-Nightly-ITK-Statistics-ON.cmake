@@ -25,6 +25,8 @@ MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
 BUILDNAME:STRING=Ubuntu9.10-64bits-Release-ITK-Statistics-ON
 //Name of the computer/site where compile is being run
 SITE:STRING=pc-grizonnetm
+OTB_DATA_USE_LARGEINPUT:BOOL=ON
+OTB_DATA_LARGEINPUT_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data/LargeInput
 //Data root
 OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
 //Compilation options
