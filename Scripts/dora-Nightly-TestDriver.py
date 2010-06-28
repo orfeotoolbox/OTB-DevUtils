@@ -3,11 +3,11 @@ import otbTestDriver
 driverName  = 'dora-Nightly-TestDriver'
 logFilePath = '/ORFEO/otbval/OTB-NIGHTLY-VALIDATION/crt'
 
-cmakeExe    = '/usr/bin/cmake'
+cmakeExe    = '/ORFEO/otbval/OTB-OUTILS/cmake/2.8.1/install/bin/cmake'
 cmakeArgs   = ''
-ctestExe    = '/usr/bin/ctest'
+ctestExe    = '/ORFEO/otbval/OTB-OUTILS/cmake/2.8.1/install/bin/ctest'
 ctestArgs   = '-D Nightly'
-cpackExe    = '/usr/bin/cpack'
+cpackExe    = '/ORFEO/otbval/OTB-OUTILS/cmake/2.8.1/install/bin/cpack'
 hgExe       = '/usr/bin/hg'
 
 binRootPath = "/ORFEO/otbval/OTB-NIGHTLY-VALIDATION/testDriver-linux-shared-release-itk-internal-fltk-internal/binaries/"
