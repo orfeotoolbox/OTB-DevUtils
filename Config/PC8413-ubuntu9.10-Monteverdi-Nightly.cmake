@@ -1,7 +1,6 @@
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/src/OTB")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/binaries/release/OTB")
-
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/src/Monteverdi")
+SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/binaries/release/Monteverdi")
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
@@ -31,29 +30,16 @@ CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
 CMAKE_BUILD_TYPE:STRING=Release
-BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=ON
 
-OTB_USE_CURL:BOOL=ON
-OTB_USE_PQXX:BOOL=OFF
-OTB_USE_EXTERNAL_BOOST:BOOL=ON
-OTB_USE_EXTERNAL_EXPAT:BOOL=ON
-USE_FFTWD:BOOL=OFF
-USE_FFTWF:BOOL=OFF
-OTB_GL_USE_ACCEL:BOOL=OFF
-ITK_USE_REVIEW:BOOL=ON 
-ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
-OTB_USE_MAPNIK:BOOL=OFF
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Projets/otb/nightly/install/OTB
+OTB_DIR:STRING=$ENV{HOME}/Projets/otb/nightly/binaries/release/OTB
+BUILD_TESTING:BOOL=ON
+
+CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Projets/otb/nightly/install/Monteverdi
 
 GDALCONFIG_EXECUTABLE:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
-GDAL_CONFIG:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
+GDAL_CONFIG:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/include
-GDAL_LIBRARY:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/lib/libgdal.so
-OGR_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/include
-GEOTIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libgeotiff
-TIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libtiff
-JPEG_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
+GDAL_LIBRARY:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/lib/libgdal.so
 
 ")
 
@@ -61,5 +47,4 @@ JPEG_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
 SET (CTEST_ENVIRONMENT
  "DISPLAY=:0"
 )
-
 
