@@ -23,7 +23,7 @@ BUILDNAME:STRING=ubuntu9.10-gcc441-dbg
 SITE:STRING=PC8413-ubuntu9.10
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Projets/otb/src/OTB-Data-LargeInput
+OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Projets/otb/src/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Projets/otb/src/OTB-Data
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable

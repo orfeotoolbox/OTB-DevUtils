@@ -23,7 +23,7 @@ BUILDNAME:STRING=ubuntu9.10-gcc441-dbg
 SITE:STRING=PC8413-ubuntu9.10
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/home/jmalik/Projets/otb/src/OTB-Data-LargeInput
+OTB_DATA_LARGEINPUT_ROOT:STRING=/home/jmalik/Projets/otb/src/OTB-LargeInput
 OTB_DATA_ROOT:STRING=/home/jmalik/Projets/otb/src/OTB-Data
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
@@ -31,7 +31,7 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 
 CMAKE_BUILD_TYPE:STRING=Debug
 BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=ON
+BUILD_EXAMPLES:BOOL=OFF
 
 OTB_USE_CURL:BOOL=ON
 OTB_USE_PQXX:BOOL=OFF
