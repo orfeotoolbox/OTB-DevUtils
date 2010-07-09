@@ -45,14 +45,15 @@ ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON
 OTB_USE_MAPNIK:BOOL=OFF
 CMAKE_INSTALL_PREFIX:STRING=/home/jmalik/Projets/otb/install/OTB-debug
 
-GDALCONFIG_EXECUTABLE:FILEPATH=/home/jmalik/Utils/bin/gdal-1.7.2/bin/gdal-config
-GDAL_CONFIG:FILEPATH=/home/jmalik/Utils/bin/gdal-1.7.2/bin/gdal-config
-GDAL_INCLUDE_DIR:STRING=/home/jmalik/Utils/bin/gdal-1.7.2/include
-GDAL_LIBRARY:FILEPATH=/home/jmalik/Utils/bin/gdal-1.7.2/lib/libgdal.so
-OGR_INCLUDE_DIRS:PATH=/home/jmalik/Utils/bin/gdal-1.7.2/include
-GEOTIFF_INCLUDE_DIRS:PATH=/home/jmalik/Utils/src/gdal-1.7.2/frmts/gtiff/libgeotiff
-TIFF_INCLUDE_DIRS:PATH=/home/jmalik/Utils/src/gdal-1.7.2/frmts/gtiff/libtiff
-JPEG_INCLUDE_DIRS:PATH=/home/jmalik/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
+GDALCONFIG_EXECUTABLE:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
+GDAL_CONFIG:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
+GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/include
+GDAL_LIBRARY:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/lib/libgdal.so
+OGR_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/include
+GEOTIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libgeotiff
+TIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libtiff
+JPEG_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
+JPEG_INCLUDE_DIR:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
 
 ")
 

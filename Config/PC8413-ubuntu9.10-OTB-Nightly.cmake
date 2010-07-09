@@ -13,13 +13,22 @@ SET (CTEST_CMAKE_COMMAND
   "cmake"
   )
 
+# what cmake command to use for configuring this dashboard
+SET (CTEST_BUILD_COMMAND 
+  "make"
+  )
+
+# what cmake command to use for configuring this dashboard
+SET (CTEST_BUILD_FLAGS
+  "-j2 -i -k"
+  )
+
 # should ctest wipe the binary tree before running
 SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
 
 # this is the initial cache to use for the binary tree, be careful to escape
 # any quotes inside of this string if you use it
 SET (CTEST_INITIAL_CACHE "
-MAKECOMMAND:STRING=/usr/bin/make -j2 -i -k
 BUILDNAME:STRING=ubuntu9.10-gcc441-rel
 SITE:STRING=PC8413-ubuntu9.10
 
@@ -51,9 +60,11 @@ GDAL_CONFIG:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/include
 GDAL_LIBRARY:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/lib/libgdal.so
 OGR_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/include
+
 GEOTIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libgeotiff
 TIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libtiff
 JPEG_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
+JPEG_INCLUDE_DIR:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
 
 ")
 

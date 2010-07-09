@@ -807,7 +807,7 @@ class TestProcessing:
         self.PrintMsg("Update Nightly Sources ...")
         
 	# ---  HG update OTB  ----------------------------------
-        revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/libNightlyNumber').read()
+        revisionValue=urllib.urlopen('http://host2.orfeo-toolbox.org/nightly/libNightlyNumber').read()
         self.PrintMsg("OTB revision: "+revisionValue)
         self.CallChangeDirectory("OTB",self.GetOtbSourceDir())
         self.CallCommand("Purge OTB ...","hg purge")
@@ -815,7 +815,7 @@ class TestProcessing:
         self.CallCommand("Update OTB ...","hg update -r "+revisionValue),True
 
         # ---  HG update OTB-Applications   ----------------------------------
-        revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
+        revisionValue=urllib.urlopen('http://host2.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
         self.PrintMsg("OTB-Application revision: "+revisionValue)
 
         self.CallChangeDirectory("OTB-Applications",self.GetOtbApplicationsSourceDir())
@@ -823,7 +823,7 @@ class TestProcessing:
         self.CallCommand("Update OTB-Applications ...","hg update -r "+revisionValue,True)
         
         # ---  HG update Monteverdi   ----------------------------------
-        revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/MonteverdiNightlyNumber').read()
+        revisionValue=urllib.urlopen('http://host2.orfeo-toolbox.org/nightly/MonteverdiNightlyNumber').read()
         self.PrintMsg("Monteverdi revision: "+revisionValue)
 
         self.CallChangeDirectory("Monteverdi",self.GetMonteverdiSourceDir())
@@ -832,8 +832,6 @@ class TestProcessing:
         
         # ---  HG update OTB-Wrapping   ----------------------------------
         if self.__enableOTBWrapping__ == True:
-            #revisionValue=urllib.urlopen('http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
-            #self.PrintMsg("OTB-Wrapping revision: "+revisionValue)
 
             self.CallChangeDirectory("OTB-Wrapping",self.GetOtbWrappingSourceDir())
             self.CallCommand("Pull OTB-Wrapping ...","hg pull",True)
