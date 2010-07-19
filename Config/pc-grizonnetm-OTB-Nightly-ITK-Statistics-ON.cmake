@@ -1,5 +1,5 @@
 
-SET (CTEST_SOURCE_DIRECTORY "/mnt/dd-2/OTB/trunk/OTB-Nightly/")
+SET (CTEST_SOURCE_DIRECTORY "/mnt/dd-2/OTB/trunk/OTB-SandBox/")
 SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/OTB-Binary-Nightly-ITK-Statistics/")
 
 
