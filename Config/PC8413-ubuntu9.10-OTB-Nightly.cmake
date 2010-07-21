@@ -1,12 +1,12 @@
-
+cmake_minimum_required(VERSION 2.8)
 SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/src/OTB")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/binaries/release/OTB")
 
 
 # which ctest command to use for running the dashboard
-SET (CTEST_COMMAND 
-  "ctest -j2 -D Nightly -A ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt -V"
-  )
+#SET (CTEST_COMMAND 
+#  "ctest -j2 -D Nightly -A ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt -V"
+#  )
 
 # what cmake command to use for configuring this dashboard
 SET (CTEST_CMAKE_COMMAND 
@@ -15,12 +15,12 @@ SET (CTEST_CMAKE_COMMAND
 
 # what cmake command to use for configuring this dashboard
 SET (CTEST_BUILD_COMMAND 
-  "make"
+  "make -j4 -i -k"
   )
 
 # what cmake command to use for configuring this dashboard
 SET (CTEST_BUILD_FLAGS
-  "-j2 -i -k"
+  "-j4 -i -k"
   )
 
 # should ctest wipe the binary tree before running
@@ -72,5 +72,15 @@ JPEG_INCLUDE_DIR:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
 SET (CTEST_ENVIRONMENT
  "DISPLAY=:0"
 )
+
+
+
+ctest_start(Nightly)
+ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
+ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_build(BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_test(BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 2)
+ctest_submit()
+
 
 
