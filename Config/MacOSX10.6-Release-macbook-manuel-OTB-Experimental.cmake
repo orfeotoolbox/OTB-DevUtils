@@ -1,36 +1,33 @@
 SET( CMAKE_BUILD_TYPE "Release" CACHE STRING "macSLRelease" FORCE )
-SET( BUILD_TESTING ON CACHE BOOL "macSLRelease" FORCE )
-SET( BUILD_SHARED_LIBS ON CACHE BOOL "macSLRelease" FORCE )
-SET( BUILD_EXAMPLES ON CACHE BOOL "macSLRelease" FORCE )
-SET( OTB_USE_CURL ON CACHE BOOL "macSLRelease" FORCE )
-SET( OTB_USE_PQXX OFF CACHE BOOL "macSLRelease" FORCE)
-SET( OTB_USE_EXTERNAL_BOOST OFF CACHE BOOL "debianRelease" FORCE )
-SET( OTB_USE_EXTERNAL_EXPAT ON CACHE BOOL "debianRelease" FORCE )
-SET( USE_FFTWD OFF CACHE BOOL "macSLRelease" FORCE )
-SET( USE_FFTWF OFF CACHE BOOL "macSLRelease" FORCE )
-SET( OTB_DATA_ROOT "/Users/manuel/Documents/OTB/Src/OTB-Data" CACHE STRING "macSLRelease" FORCE )
-SET( OTB_DATA_USE_LARGEINPUT OFF CACHE BOOL "macSLRelease" FORCE )
-#SET( OTB_DATA_LARGEINPUT_ROOT "/mnt/sdb1/OTB/trunk/OTB-Data/LargeInput" CACHE STRING "macSLRelease" FORCE )
-SET( CMAKE_C_FLAGS " -Wall -fprofile-arcs -ftest-coverage" CACHE STRING "macSLRelease" FORCE )
-SET( CMAKE_CXX_FLAGS " -Wall -Wno-deprecated -fprofile-arcs -ftest-coverage" CACHE STRING "macSLRelease" FORCE )
-SET( CMAKE_EXE_LINKER "-Wno-deprecated -fprofile-arcs -ftest-coverage" CACHE STRING "macSLRelease" FORCE )
-SET( MAKECOMMAND "/usr/bin/make -i -k -j 6" CACHE STRING "macSLRelease" FORCE )
-SET( OTB_GL_USE_ACCEL ON CACHE BOOL "macSLRelease" FORCE )
-SET( OTB_COMPILE_WITH_FULL_WARNING ON CACHE BOOL "macSLRelease" FORCE )
-SET( ITK_USE_REVIEW ON CACHE BOOL "macSLRelease" FORCE )
-SET( ITK_USE_OPTIMIZED_REGISTRATION_METHODS ON CACHE BOOL "Multithreaded registration" FORCE )
-SET( OTB_USE_VISU_GUI OFF CACHE BOOL "macSLRelease" FORCE )
 
-#SET( FLTK_BASE_LIBRARY "/usr/local/lib/libfltk.a" CACHE STRING #"macSLRelease" FORCE )
-#SET( FLTK_CONFIG_SCRIPT "/usr/local/bin/fltk-config" CACHE #STRING "macSLRelease" FORCE )
-#SET( FLTK_FLUID_EXECUTABLE "/usr/local/bin/fluid" CACHE STRING #"macSLRelease" FORCE )
-#SET( FLTK_DIR "/usr/local" CACHE STRING "macSLRelease" FORCE )
-#SET( FLTK_FORMS_LIBRARY "/usr/local/lib/libfltk_forms.a" CACHE #STRING "macSLRelease" FORCE )
-#SET( FLTK_GL_LIBRARY "/usr/local/lib/libfltk_gl.a" CACHE STRING #"macSLRelease" FORCE )
-#SET( FLTK_IMAGES_LIBRARY "/usr/local/lib/libfltk_images.a" #CACHE STRING "macSLRelease" FORCE )
-#SET( FLTK_INCLUDE_LIBRARY "/usr/local/include" CACHE STRING #"macSLRelease" FORCE )
+SET( OTB_USE_EXTERNAL_FLTK OFF CACHE BOOL "debianRelease" FORCE )
 
-SET( ITK_FLTK_RESOURCE mac.H "${FLTK_DIR}/include/FL" CACHE STRING "macSLRelease" FORCE ) 
-#SET( OTB_USE_MAPNIK ON CACHE BOOL "Using mapnik" FORCE)
-#SET( MAPNIK_INCLUDE_DIR "/home/christop/slash/include" CACHE STRING "mapnik include" FORCE)
-#SET( MAPNIK_LIBRARY "/home/christop/slash/lib64/libmapnik.so" CACHE STRING "mapnik lib" FORCE)
+#Need to compile gdal from source (as a 32b library)
+#The compilation process of the gdfal library 
+# export CFLAGS="-O2 -W -arch i386 "
+# export CXXFLAGS="-O2 -W  -arch i386 "
+# export LDFLAGS="-arch i386"
+# 
+# ./configure \
+# --prefix=$GDAL_INSTALL_DIR \
+# --with-png=internal \
+# --with-libtiff=internal \
+# --with-geotiff=internal
+# 
+# make
+# make install
+
+SET( GDAL_CONFIG "/Users/manuel/local/gdal-1.7.2-build/bin/gdal-config"  CACHE STRING "macSLRelease" FORCE )
+SET( GDAL_INCLUDE_DIR "/Users/manuel/local/gdal-1.7.2-build/include"  CACHE STRING "macSLRelease" FORCE )
+SET( GDAL_LIBRARY "/Users/manuel/local/gdal-1.7.2-build/lib/libgdal.dylib" CACHE STRING "macSLRelease" FORCE )
+SET( OGR_INCLUDE_DIRS "/Users/manuel/local/gdal-1.7.2-build/include"  CACHE STRING "macSLRelease" FORCE )
+
+SET( TIFF_INCLUDE_DIRS "/Users/manuel/local/gdal-1.7.2/frmts/gtiff/libtiff"  CACHE STRING "macSLRelease" FORCE )
+SET( GEOTIFF_INCLUDE_DIRS "/Users/manuel/local/gdal-1.7.2/frmts/gtiff/libgeotiff"  CACHE STRING "macSLRelease" FORCE )
+SET( JPEG_INCLUDE_DIR "/Users/manuel/local/gdal-1.7.2/frmts/jpeg/libjpeg"  CACHE STRING "macSLRelease" FORCE )
+SET( JPEG_INCLUDE_DIRS "/Users/manuel/local/gdal-1.7.2/frmts/jpeg/libjpeg" CACHE STRING "macSLRelease" FORCE )
+
+OPTION(OTB_USE_LIBLAS OFF CACHE BOOL "macSLRelease" FORCE )
+
+SET( CMAKE_OSX_ARCHITECTURES "i386"  CACHE STRING "macSLRelease" FORCE )
+ 
