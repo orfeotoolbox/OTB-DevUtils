@@ -1,26 +1,26 @@
+SET (PROJECT_NAME Monteverdi)
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/src/Monteverdi")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/binaries/release/Monteverdi")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/src/${PROJECT_NAME}")
+SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/binaries/release/${PROJECT_NAME}")
 
-# which ctest command to use for running the dashboard
-SET (CTEST_COMMAND 
-  "ctest -j2 -D Nightly -A ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt -V"
-  )
+set( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 
-# what cmake command to use for configuring this dashboard
-SET (CTEST_CMAKE_COMMAND 
-  "cmake"
-  )
+SET (CTEST_CMAKE_COMMAND "cmake" )
 
-# should ctest wipe the binary tree before running
-SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4  -i -k install" )
 
-# this is the initial cache to use for the binary tree, be careful to escape
-# any quotes inside of this string if you use it
+SET (CTEST_SITE "PC8413-ubuntu9.10")
+
+SET (CTEST_BUILD_NAME "Ubuntu9.10-32bits-Release")
+
+SET (CTEST_BUILD_CONFIGURATION "Release")
+
+SET (CTEST_HG_COMMAND "/usr/bin/hg")
+SET (CTEST_HG_UPDATE_OPTIONS "-C")
+
 SET (CTEST_INITIAL_CACHE "
-MAKECOMMAND:STRING=/usr/bin/make -j2 -i -k
-BUILDNAME:STRING=ubuntu9.10-gcc441-rel
-SITE:STRING=PC8413-ubuntu9.10
+BUILDNAME:STRING=${CTEST_BUILD_NAME}
+SITE:STRING=${CTEST_SITE}
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Projets/otb/src/OTB-LargeInput
@@ -34,22 +34,45 @@ CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=$ENV{HOME}/Projets/otb/nightly/binaries/release/OTB
 BUILD_TESTING:BOOL=ON
 
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Projets/otb/nightly/install/Monteverdi
+CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Projets/otb/nightly/install/${PROJECT_NAME}
 
 GDALCONFIG_EXECUTABLE:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
 GDAL_CONFIG:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/include
 GDAL_LIBRARY:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/lib/libgdal.so
 
-GEOTIFF_INCLUDE_DIRS:PATH=/home/jmalik/Utils/src/gdal-1.7.2/frmts/gtiff/libgeotiff
-JPEG_INCLUDE_DIRS:PATH=/home/jmalik/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
-JPEG_INCLUDE_DIR:PATH=/home/jmalik/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
-TIFF_INCLUDE_DIRS:PATH=/home/jmalik/Utils/src/gdal-1.7.2/frmts/gtiff/libtiff
-
+GEOTIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libgeotiff
+JPEG_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
+JPEG_INCLUDE_DIR:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
+TIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libtiff
 ")
 
-# set any extra envionment varibles here
+
 SET (CTEST_ENVIRONMENT
  "DISPLAY=:0"
 )
+
+SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
+
+SET (CTEST_NOTES_FILES
+${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
+${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
+${PULL_RESULT_FILE}
+)
+
+ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
+
+execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/${PROJECT_NAME}-Nightly
+                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
+                 OUTPUT_VARIABLE   PULL_RESULT
+                 ERROR_VARIABLE    PULL_RESULT )
+file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
+
+ctest_start(Nightly)
+ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
+file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
+ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 2)
+ctest_submit ()
 
