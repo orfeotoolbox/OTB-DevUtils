@@ -1,6 +1,6 @@
 SET (PROJECT_NAME OTB-Applications)
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/src/${PROJECT_NAME}")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/src/${PROJECT_NAME}")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/binaries/release/${PROJECT_NAME}")
 
 set( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
@@ -11,7 +11,7 @@ SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4  -i -k install" )
 
 SET (CTEST_SITE "PC8413-ubuntu9.10")
 
-SET (CTEST_BUILD_NAME "Ubuntu9.10-32bits-Release")
+SET (CTEST_BUILD_NAME "zApps-Ubuntu9.10-32bits-Release")
 
 SET (CTEST_BUILD_CONFIGURATION "Release")
 
@@ -68,7 +68,7 @@ execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/${
                  ERROR_VARIABLE    PULL_RESULT )
 file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
 
-ctest_start(Nightly)
+ctest_start(Nightly TRACK Nightly Applications)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")

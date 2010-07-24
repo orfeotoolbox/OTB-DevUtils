@@ -1,6 +1,6 @@
 SET (PROJECT_NAME OTB-Wrapping)
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/src/${PROJECT_NAME}")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/src/${PROJECT_NAME}")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/binaries/release/${PROJECT_NAME}")
 
 set( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
