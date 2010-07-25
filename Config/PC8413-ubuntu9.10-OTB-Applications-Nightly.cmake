@@ -7,7 +7,7 @@ set( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 
 SET (CTEST_CMAKE_COMMAND "cmake" )
 
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4  -i -k install" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 
 SET (CTEST_SITE "PC8413-ubuntu9.10")
 
@@ -55,9 +55,9 @@ SET (CTEST_ENVIRONMENT
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
 
 SET (CTEST_NOTES_FILES
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
 ${PULL_RESULT_FILE}
+${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
@@ -68,7 +68,7 @@ execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/${
                  ERROR_VARIABLE    PULL_RESULT )
 file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
 
-ctest_start(Nightly TRACK Nightly Applications)
+ctest_start(Nightly TRACK "Nightly Applications")
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
