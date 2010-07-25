@@ -34,7 +34,7 @@ CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=$ENV{HOME}/Projets/otb/nightly/binaries/release/OTB
 BUILD_TESTING:BOOL=ON
 
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Projets/otb/nightly/install/${PROJECT_NAME}
+CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Projets/otb/nightly/install
 
 GDALCONFIG_EXECUTABLE:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
 GDAL_CONFIG:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
