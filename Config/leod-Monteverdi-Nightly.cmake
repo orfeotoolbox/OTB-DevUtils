@@ -7,7 +7,7 @@ SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
 SET (CTEST_SITE "leod.c-s.fr")
 SET (CTEST_BUILD_NAME "MacOSX10.5-g++4.0.1-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_HG_COMMAND "/usr/bin/hg")
+SET (CTEST_HG_COMMAND "/usr/local/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
 
 SET (CTEST_INITIAL_CACHE "
@@ -66,6 +66,6 @@ ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 2)
+ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()
 
