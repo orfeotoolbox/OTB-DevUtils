@@ -23,10 +23,10 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 CMAKE_OSX_ARCHITECTURES:STRING=i386
 CMAKE_BUILD_TYPE:STRING=Release
 
-OTB_DIR:STRING=$ENV{HOME}/Projets/otb/nightly/binaries/release/OTB
+OTB_DIR:STRING=OTB_DIR:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/OTB
 BUILD_TESTING:BOOL=ON
 
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Projets/otb/nightly/install/OTB-Wrapping
+CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/OTB-Wrapping
 
 GDALCONFIG_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/bin/gdal-config
 GDAL_CONFIG:FILEPATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx2/bin/gdal-config
@@ -42,7 +42,7 @@ SWIG_DIR:PATH=$ENV{HOME}/OTB-OUTILS/swig/install-macosx
 SWIG_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/swig/install-macosx/bin/swig
 CableSwig_DIR:PATH=$ENV{HOME}/OTB-OUTILS/cableswig/binaries-macosx-release-cableswig-3.16.0
 WRAP_ITK_PYTHON:BOOL=ON
-WRAP_ITK_JAVA:BOOL=OFF
+WRAP_ITK_JAVA:BOOL=ON
 
 ")
 
