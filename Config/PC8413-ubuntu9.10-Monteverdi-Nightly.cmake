@@ -3,20 +3,16 @@ SET (PROJECT_NAME Monteverdi)
 SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/src/${PROJECT_NAME}")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/binaries/release/${PROJECT_NAME}")
 
-set( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
-
+SET (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
-
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4  -i -k install" )
-
 SET (CTEST_SITE "PC8413-ubuntu9.10")
-
 SET (CTEST_BUILD_NAME "Ubuntu9.10-32bits-Release")
-
 SET (CTEST_BUILD_CONFIGURATION "Release")
-
 SET (CTEST_HG_COMMAND "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
+
+SET (ENV{DISPLAY} ":0.0")
 
 SET (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
@@ -47,10 +43,6 @@ JPEG_INCLUDE_DIR:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
 TIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libtiff
 ")
 
-
-SET (CTEST_ENVIRONMENT
- "DISPLAY=:0"
-)
 
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
 
