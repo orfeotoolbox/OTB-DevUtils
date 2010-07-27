@@ -1,16 +1,16 @@
-SET (PROJECT_NAME Monteverdi)
-
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/src/${PROJECT_NAME}")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/nightly/binaries/release/${PROJECT_NAME}")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{WORKSPACE}/src/Monteverdi")
+SET (CTEST_BINARY_DIRECTORY "$ENV{WORKSPACE}/binaries/release/Monteverdi")
 
 SET (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4  -i -k install" )
-SET (CTEST_SITE "PC8413-ubuntu9.10")
+SET (CTEST_SITE "pc-jmalik.c-s.fr")
 SET (CTEST_BUILD_NAME "Ubuntu9.10-32bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
+
+SET(OTB_GDAL_INSTALL_DIR "$ENV{WORKSPACE}/utils/gdal-1.7.2")
 
 SET (ENV{DISPLAY} ":0.0")
 
@@ -19,28 +19,28 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Projets/otb/src/OTB-LargeInput
-OTB_DATA_ROOT:STRING=$ENV{HOME}/Projets/otb/src/OTB-Data
+OTB_DATA_LARGEINPUT_ROOT:STRING=/home/jmalik/Projets/otb/src/OTB-LargeInput
+OTB_DATA_ROOT:STRING=$ENV{WORKSPACE}/src/OTB-Data
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
 CMAKE_BUILD_TYPE:STRING=Release
 
-OTB_DIR:STRING=$ENV{HOME}/Projets/otb/nightly/binaries/release/OTB
+OTB_DIR:STRING=$ENV{WORKSPACE}/binaries/release/OTB
 BUILD_TESTING:BOOL=ON
 
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Projets/otb/nightly/install/${PROJECT_NAME}
+CMAKE_INSTALL_PREFIX:STRING=$ENV{WORKSPACE}/install/Monteverdi
 
-GDALCONFIG_EXECUTABLE:FILEPATH=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
-GDAL_CONFIG:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/bin/gdal-config
-GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/include
-GDAL_LIBRARY:STRING=$ENV{HOME}/Utils/bin/gdal-1.7.2/lib/libgdal.so
-
-GEOTIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libgeotiff
-JPEG_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
-JPEG_INCLUDE_DIR:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/jpeg/libjpeg
-TIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/Utils/src/gdal-1.7.2/frmts/gtiff/libtiff
+GDALCONFIG_EXECUTABLE:FILEPATH=${OTB_GDAL_INSTALL_DIR}/bin/gdal-config
+GDAL_CONFIG:FILEPATH=${OTB_GDAL_INSTALL_DIR}/bin/gdal-config
+GDAL_INCLUDE_DIR:STRING=${OTB_GDAL_INSTALL_DIR}/include
+GDAL_LIBRARY:FILEPATH=${OTB_GDAL_INSTALL_DIR}/lib/libgdal.so
+OGR_INCLUDE_DIRS:PATH=${OTB_GDAL_INSTALL_DIR}/include
+GEOTIFF_INCLUDE_DIRS:PATH=${OTB_GDAL_INSTALL_DIR}/include
+TIFF_INCLUDE_DIRS:PATH=${OTB_GDAL_INSTALL_DIR}/include
+JPEG_INCLUDE_DIRS:PATH=${OTB_GDAL_INSTALL_DIR}/include
+JPEG_INCLUDE_DIR:PATH=${OTB_GDAL_INSTALL_DIR}/include
 ")
 
 
@@ -54,7 +54,7 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/${PROJECT_NAME}-Nightly
+execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi-Nightly
                  WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
                  OUTPUT_VARIABLE   PULL_RESULT
                  ERROR_VARIABLE    PULL_RESULT )
