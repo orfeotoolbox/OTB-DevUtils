@@ -56,7 +56,7 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/${PROJECT_NAME}
+execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Wrapping
                  WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
                  OUTPUT_VARIABLE   PULL_RESULT
                  ERROR_VARIABLE    PULL_RESULT )
