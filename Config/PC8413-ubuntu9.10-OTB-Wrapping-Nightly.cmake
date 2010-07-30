@@ -45,7 +45,13 @@ SWIG_DIR:PATH=$ENV{WORKSPACE}/utils/swig-1.3.40/share/swig/1.3.40
 SWIG_EXECUTABLE:FILEPATH=$ENV{WORKSPACE}/utils/swig-1.3.40/bin/swig
 CableSwig_DIR:PATH=$ENV{WORKSPACE}/utils/cableswig-dev/lib/CableSwig
 WRAP_ITK_PYTHON:BOOL=ON
-WRAP_ITK_JAVA:BOOL=OFF
+WRAP_ITK_JAVA:BOOL=ON
+
+# We need the following to be compatible with cmake 2.8.2
+JAVA_ARCHIVE:FILEPATH=/usr/bin/jar
+JAVA_COMPILE:FILEPATH=/usr/bin/javac
+JAVA_RUNTIME:FILEPATH=/usr/bin/java
+
 
 ")
 

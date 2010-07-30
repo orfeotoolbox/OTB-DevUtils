@@ -46,6 +46,11 @@ CableSwig_DIR:PATH=$ENV{HOME}/OTB-OUTILS/cableswig/binaries-linux-release-cables
 WRAP_ITK_PYTHON:BOOL=ON
 WRAP_ITK_JAVA:BOOL=ON
 
+# We need the following to be compatible with cmake 2.8.2
+JAVA_ARCHIVE:FILEPATH=/usr/bin/jar
+JAVA_COMPILE:FILEPATH=/usr/bin/javac
+JAVA_RUNTIME:FILEPATH=/usr/bin/java
+
 ")
 
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
