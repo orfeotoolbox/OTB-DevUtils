@@ -46,4 +46,4 @@ for e in doc.childNodes[0].childNodes[1].childNodes:
 diff =  set(otbList).difference(set(coveredList))
 diff = sorted(list(diff))
 for d in diff:
-    print d
+    print '* '+d
