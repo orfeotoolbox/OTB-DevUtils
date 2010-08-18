@@ -35,6 +35,7 @@ CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=/home/otbtesting/OTB/OTB-Binary-Nightly
 BUILD_TESTING:BOOL=ON
 OTB_USE_VTK:BOOL=ON
+VTK_DIR:STRING=/usr/lib/vtk-5.4
 //CPack configuration
 OTB_USE_CPACK:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=/home/otbtesting/OTB/tmp
