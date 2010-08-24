@@ -34,8 +34,6 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=/home/otbtesting/OTB/OTB-Binary-Continuous
 BUILD_TESTING:BOOL=ON
-OTB_USE_VTK:BOOL=ON
-VTK_DIR:STRING=/usr/lib/vtk-5.4
 ")
 
 # set any extra envionment varibles here
