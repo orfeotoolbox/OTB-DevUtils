@@ -7,7 +7,7 @@
 # - the coverage xml file generated during the coverage
 
 otbRoot = "/home/otbtesting/OTB/trunk/OTB-Nightly"
-coverageFilename =  "/home/otbtesting/OTB/OTB-Binary-Coverage/Testing/20100815-1800/Coverage.xml"
+coverageFilename =  "/home/otbtesting/OTB/OTB-Binary-Coverage/Testing/20100823-1800/Coverage.xml"
 
 import os, xml.dom.minidom, fnmatch
 
@@ -46,4 +46,5 @@ for e in doc.childNodes[0].childNodes[1].childNodes:
 diff =  set(otbList).difference(set(coveredList))
 diff = sorted(list(diff))
 for d in diff:
-    print '* '+d
+    if (not d.endswith('foo.cxx')) and (d.find('Utilities') == -1):
+      print '* '+d
