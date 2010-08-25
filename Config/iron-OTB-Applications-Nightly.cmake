@@ -34,7 +34,6 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=/home/otbtesting/OTB/OTB-Binary-Nightly
 BUILD_TESTING:BOOL=ON
-OTB_USE_VTK:BOOL=ON
 //CPack configuration
 OTB_USE_CPACK:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=/home/otbtesting/OTB/tmp
