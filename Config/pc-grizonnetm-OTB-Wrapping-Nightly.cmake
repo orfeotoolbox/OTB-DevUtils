@@ -46,11 +46,11 @@ WRAP_Morphology:BOOL=OFF
 WRAP_ChangeDetection:BOOL=OFF
 WRAP_ITK_DIMS:STRING=2
 WRAP_ITK_JAVA:BOOL=ON 
-JAVA_AWT_INCLUDE_PATH:STRING=/usr/lib/jvm/java-6-sun/include
-JAVA_AWT_LIBRARY:STRING=/usr/lib/jvm/java-6-sun/jre/lib/amd64
-JAVA_INCLUDE_PATH:STRING=/usr/lib/jvm/java-6-sun/include
-JAVA_INCLUDE_PATH2:STRING=/usr/lib/jvm/java-6-sun/include/linux
-JAVA_JVM_LIBRARY:STRING=/usr/lib/jvm/java-6-sun/jre/lib/amd64/server
+#JAVA_AWT_INCLUDE_PATH:STRING=/usr/lib/jvm/java-6-sun/include
+#JAVA_AWT_LIBRARY:STRING=/usr/lib/jvm/java-6-sun/jre/lib/amd64
+#JAVA_INCLUDE_PATH:STRING=/usr/lib/jvm/java-6-sun/include
+#JAVA_INCLUDE_PATH2:STRING=/usr/lib/jvm/java-6-sun/include/linux
+#JAVA_JVM_LIBRARY:STRING=/usr/lib/jvm/java-6-sun/jre/lib/amd64/server
 WRAP_ITK_PYTHON:BOOL=ON 
 //CPack configuration
 OTB_USE_CPACK:BOOL=ON
