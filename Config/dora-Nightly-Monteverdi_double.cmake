@@ -28,6 +28,8 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 CMAKE_BUILD_TYPE:STRING=Release
 
 OTB_DIR:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/OTB
+FLTK_DIR:PATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.9
+
 BUILD_TESTING:BOOL=ON
 Monteverdi_FLOATING_TYPE:STRING=double
 
