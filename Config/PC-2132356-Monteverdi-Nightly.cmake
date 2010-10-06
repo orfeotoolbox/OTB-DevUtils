@@ -17,7 +17,7 @@ SITE:STRING=PC-2132356
 BUILD_TESTING:BOOL=ON
 
 //Path to a file.
-GDAL_INCLUDE_DIR:PATH=D:/DONNEES/Softwares/OSGeo4W/apps/gdal-17/include
+GDAL_INCLUDE_DIR:PATH=D:/DONNEES/Softwares/OSGeo4W/apps/gdal-16/include
 
 //OTB Dir
 OTB_DIR:PATH=D:/DONNEES/Nightly-OTB/bin/OTB

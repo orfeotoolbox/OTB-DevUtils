@@ -8,7 +8,7 @@ SET (CTEST_INITIAL_CACHE "
 CMAKE_GENERATOR:INTERNAL=Visual Studio 10
 
 //Name of the build
-BUILDNAME:STRING=Win32-VC10Express
+BUILDNAME:STRING=zApps-Win32-VC10Express
 
 //Name of the computer/site where compile is being run
 SITE:STRING=PC-2132356
@@ -20,7 +20,7 @@ BUILD_TESTING:BOOL=ON
 OTB_DIR:PATH=D:/DONNEES/Nightly-OTB/bin/OTB
 
 // GDAL include directory
-GDAL_INCLUDE_DIR:PATH=D:/DONNEES/Softwares/OSGeo4W/apps/gdal-17/include
+GDAL_INCLUDE_DIR:PATH=D:/DONNEES/Softwares/OSGeo4W/apps/gdal-16/include
 
 CMAKE_CONFIGURATION_TYPES:STRING=Release
 ")

@@ -24,8 +24,8 @@ OTB_USE_EXTERNAL_FLTK:BOOL=OFF
 
 //Gdal configuration
 //required to put the directory of the libgdal.dll in the path
-GDAL_INCLUDE_DIR:PATH=D:/DONNEES/Softwares/OSGeo4W/apps/gdal-17/include
-GDAL_LIBRARY:FILEPATH=D:/DONNEES/Softwares/OSGeo4W/apps/gdal-17/lib/gdal_i.lib
+GDAL_INCLUDE_DIR:PATH=D:/DONNEES/Softwares/OSGeo4W/apps/gdal-16/include
+GDAL_LIBRARY:FILEPATH=D:/DONNEES/Softwares/OSGeo4W/apps/gdal-16/lib/gdal_i.lib
 
 GEOTIFF_INCLUDE_DIRS:PATH=D:/DONNEES/Softwares/OSGeo4W/include
 GEOTIFF_LIBRARY:FILEPATH=D:/DONNEES/Softwares/OSGeo4W/lib/geotiff_i.lib
