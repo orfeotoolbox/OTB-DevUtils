@@ -52,10 +52,10 @@ GDAL_CONFIG:FILEPATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/include
 GDAL_LIBRARY:FILEPATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/lib/libgdal.dylib
 OGR_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/include
-GEOTIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/gtiff/libgeotiff
-TIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/gtiff/libtiff
-JPEG_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/jpeg/libjpeg
-JPEG_INCLUDE_DIR:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/jpeg/libjpeg
+GEOTIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.7.2/frmts/gtiff/libgeotiff
+TIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.7.2/frmts/gtiff/libtiff
+JPEG_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.7.2/frmts/jpeg/libjpeg
+JPEG_INCLUDE_DIR:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.7.2/frmts/jpeg/libjpeg
 ")
 
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
