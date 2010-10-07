@@ -36,6 +36,9 @@ TIFF_LIBRARY:FILEPATH=D:/DONNEES/Softwares/OSGeo4W/lib/libtiff_i.lib
 JPEG_INCLUDE_DIRS:PATH=D:/DONNEES/Softwares/OSGeo4W/include
 JPEG_LIBRARY:FILEPATH=D:/DONNEES/Softwares/OSGeo4W/lib/jpeg_i.lib
 
+// Disabling LIBLAS
+OTB_USE_LIBLAS:BOOL=OFF
+
 //Curl configuration
 OTB_USE_CURL:BOOL=ON
 CURL_INCLUDE_DIR:PATH=D:/DONNEES/Softwares/OSGeo4W/include
