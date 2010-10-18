@@ -4,7 +4,7 @@ SET (CTEST_INSTALL_DIRECTORY "$ENV{HOME}/Projets/otb/install/Monteverdi-debug")
 
 SET( CTEST_CMAKE_GENERATOR  "Eclipse CDT4 - Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j3 -i -k install" )
 SET (CTEST_SITE "PC8413.c-s.fr" )
 SET (CTEST_BUILD_NAME "Ubuntu10.10-32bits-gcc4.5-Debug-Static")
 SET (CTEST_BUILD_CONFIGURATION "Debug")
