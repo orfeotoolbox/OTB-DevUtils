@@ -58,6 +58,7 @@ ${OTB_PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
+ctest_empty_binary_directory ($ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/Monteverdi_double)
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi-Nightly

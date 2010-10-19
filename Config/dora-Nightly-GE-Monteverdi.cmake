@@ -42,6 +42,7 @@ ${OTB_PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
+ctest_empty_binary_directory ($ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/GE-Monteverdi)
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://otmane:Crabgejtov8@www.orfeo-toolbox.org/SandBox/GE-Monteverdi
