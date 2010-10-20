@@ -4,7 +4,7 @@ SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/Monteverdi_
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
 SET (CTEST_SITE "dora.c-s.fr" )
 SET (CTEST_BUILD_NAME "Ubuntu8.04-64bits-Release-double")
 SET (CTEST_BUILD_CONFIGURATION "Release")
@@ -33,8 +33,6 @@ FLTK_DIR:PATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.
 BUILD_TESTING:BOOL=ON
 Monteverdi_FLOATING_TYPE:STRING=double
 
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/Monteverdi_double
-
 MAPNIK_INCLUDE_DIR:PATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/include
 MAPNIK_LIBRARY:FILEPATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/lib/libmapnik.so
 
@@ -58,7 +56,6 @@ ${OTB_PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
-ctest_empty_binary_directory ($ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/Monteverdi_double)
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi-Nightly

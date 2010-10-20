@@ -20,6 +20,7 @@ SET (ENV{LD_LIBRARY_PATH} "$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-rele
 
 
 SET(OTB_GDAL_INSTALL_DIR "$ENV{HOME}/OTB-OUTILS/gdal/install-linux-gdal-1.7.2")
+SET(OTB_INSTALL_PREFIX $ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/Monteverdi_InstallOTB)
 
 SET (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
@@ -39,7 +40,7 @@ FLTK_DIR:PATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.
 
 BUILD_TESTING:BOOL=ON
 
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/Monteverdi_InstallOTB
+CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
 
 MAPNIK_INCLUDE_DIR:PATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/include
 MAPNIK_LIBRARY:FILEPATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/lib/libmapnik.so
@@ -64,7 +65,8 @@ ${OTB_PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
-ctest_empty_binary_directory ($ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/Monteverdi_InstallOTB)
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 execute_process( COMMAND ${CTEST_HG_COMMAND} pull -u http://hg.orfeo-toolbox.org/Monteverdi-Nightly
