@@ -17,17 +17,21 @@ SET( OTB_USE_EXTERNAL_FLTK OFF CACHE BOOL "debianRelease" FORCE )
 # make
 # make install
 
-SET( GDAL_CONFIG "/Users/manuel/local/gdal-1.7.2-build/bin/gdal-config"  CACHE STRING "macSLRelease" FORCE )
-SET( GDAL_INCLUDE_DIR "/Users/manuel/local/gdal-1.7.2-build/include"  CACHE STRING "macSLRelease" FORCE )
-SET( GDAL_LIBRARY "/Users/manuel/local/gdal-1.7.2-build/lib/libgdal.dylib" CACHE STRING "macSLRelease" FORCE )
-SET( OGR_INCLUDE_DIRS "/Users/manuel/local/gdal-1.7.2-build/include"  CACHE STRING "macSLRelease" FORCE )
+SET( GDAL_CONFIG "/Users/manuel/local/gdal-trunk/bin/gdal-config"  CACHE STRING "macSLRelease" FORCE )
+SET( GDAL_INCLUDE_DIR "/Users/manuel/local/gdal-trunk/include"  CACHE STRING "macSLRelease" FORCE )
+SET( GDAL_LIBRARY "/Users/manuel/local/gdal-trunk/lib/libgdal.dylib" CACHE STRING "macSLRelease" FORCE )
+SET( OGR_INCLUDE_DIRS "/Users/manuel/local/gdal-trunk/include"  CACHE STRING "macSLRelease" FORCE )
 
-SET( TIFF_INCLUDE_DIRS "/Users/manuel/local/gdal-1.7.2/frmts/gtiff/libtiff"  CACHE STRING "macSLRelease" FORCE )
-SET( GEOTIFF_INCLUDE_DIRS "/Users/manuel/local/gdal-1.7.2/frmts/gtiff/libgeotiff"  CACHE STRING "macSLRelease" FORCE )
-SET( JPEG_INCLUDE_DIR "/Users/manuel/local/gdal-1.7.2/frmts/jpeg/libjpeg"  CACHE STRING "macSLRelease" FORCE )
-SET( JPEG_INCLUDE_DIRS "/Users/manuel/local/gdal-1.7.2/frmts/jpeg/libjpeg" CACHE STRING "macSLRelease" FORCE )
+SET( TIFF_INCLUDE_DIRS "/Users/manuel/local/gdal-trunk/frmts/gtiff/libtiff"  CACHE STRING "macSLRelease" FORCE )
+SET( GEOTIFF_INCLUDE_DIRS "/Users/manuel/local/gdal-trunk/frmts/gtiff/libgeotiff"  CACHE STRING "macSLRelease" FORCE )
+SET( JPEG_INCLUDE_DIR "/Users/manuel/local/gdal-trunk/frmts/jpeg/libjpeg"  CACHE STRING "macSLRelease" FORCE )
+SET( JPEG_INCLUDE_DIRS "/Users/manuel/local/gdal-trunk/frmts/jpeg/libjpeg" CACHE STRING "macSLRelease" FORCE )
 
-OPTION(OTB_USE_LIBLAS OFF CACHE BOOL "macSLRelease" FORCE )
+OPTION(OTB_USE_LIBLAS ON CACHE BOOL "macSLRelease" FORCE )
 
 SET( CMAKE_OSX_ARCHITECTURES "i386"  CACHE STRING "macSLRelease" FORCE )
- 
+
+OPTION(BUILD_TESTING ON CACHE BOOL "macSLRelease" FORCE )
+OPTION(BUILD_SHARED_LIBS ON CACHE BOOL "macSLRelease" FORCE )
+OPTION(BUILD_EXAMPLES ON CACHE BOOL "macSLRelease" FORCE )
+OPTION(OTB_USE_EXTERNAL_FLTK OFF CACHE BOOL "macSLRelease" FORCE )
