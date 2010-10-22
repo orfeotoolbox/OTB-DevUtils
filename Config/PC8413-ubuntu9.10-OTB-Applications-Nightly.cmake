@@ -1,11 +1,11 @@
-SET (CTEST_SOURCE_DIRECTORY "$ENV{WORKSPACE}/src/Monteverdi")
-SET (CTEST_BINARY_DIRECTORY "$ENV{WORKSPACE}/binaries/release/Monteverdi")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{WORKSPACE}/src/OTB-Applications")
+SET (CTEST_BINARY_DIRECTORY "$ENV{WORKSPACE}/binaries/release/OTB-Applications")
 
-SET (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
+SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4  -i -k install" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 SET (CTEST_SITE "pc-jmalik.c-s.fr")
-SET (CTEST_BUILD_NAME "Ubuntu9.10-32bits-Release")
+SET (CTEST_BUILD_NAME "zApps-Ubuntu9.10-32bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
@@ -30,7 +30,7 @@ CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=$ENV{WORKSPACE}/binaries/release/OTB
 BUILD_TESTING:BOOL=ON
 
-CMAKE_INSTALL_PREFIX:STRING=$ENV{WORKSPACE}/install/Monteverdi
+CMAKE_INSTALL_PREFIX:STRING=$ENV{WORKSPACE}/install/OTB-Applications
 
 GDALCONFIG_EXECUTABLE:FILEPATH=${OTB_GDAL_INSTALL_DIR}/bin/gdal-config
 GDAL_CONFIG:FILEPATH=${OTB_GDAL_INSTALL_DIR}/bin/gdal-config
@@ -43,7 +43,6 @@ JPEG_INCLUDE_DIRS:PATH=${OTB_GDAL_INSTALL_DIR}/include
 JPEG_INCLUDE_DIR:PATH=${OTB_GDAL_INSTALL_DIR}/include
 ")
 
-
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
 
 SET (CTEST_NOTES_FILES
@@ -54,13 +53,13 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi-Nightly
+execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Applications
                  WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
                  OUTPUT_VARIABLE   PULL_RESULT
                  ERROR_VARIABLE    PULL_RESULT )
 file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
 
-ctest_start(Nightly)
+ctest_start(Nightly TRACK "Nightly Applications")
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")

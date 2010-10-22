@@ -69,11 +69,11 @@ if __name__ == "__main__":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetNightlyTesting()
+                x.EnableCompileWithFullWarning()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
                 x.EnableTeTesting() 
-               
                 x.EnableOTBWrapping()
                 x.EnableWrapPython()
                 x.EnableWrapJava()
@@ -85,19 +85,15 @@ if __name__ == "__main__":
                 x.EnableUpdateNightlySources()
                 x.EnableGenerateMakefiles()
                 x.SetNightlyTesting()
+                x.EnableCompileWithFullWarning()
                 x.EnableTuTesting() 
                 x.EnableTvTesting() 
                 x.EnableTlTesting() 
                 x.EnableTeTesting() 
-
                 x.EnableOTBWrapping()
                 x.EnableWrapPython()
                 x.EnableWrapJava()
-
                 x.Run(reference_configuration)
-                
-                x.DisableOTBWrapping()
-                x.Run(reference_configuration2)
         
         # =========    LOCAL TESTING   ============ 
         elif sys.argv[1] == "LOCAL_TESTING":

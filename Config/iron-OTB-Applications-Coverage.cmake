@@ -37,7 +37,6 @@ CMAKE_EXE_LINKER:STRING= -fprofile-arcs -ftest-coverage
 CMAKE_BUILD_TYPE:STRING=Debug
 OTB_DIR:STRING=/home/otbtesting/OTB/OTB-Binary-Coverage
 BUILD_TESTING:BOOL=ON
-OTB_USE_VTK:BOOL=ON
 ")
 
 # set any extra envionment varibles here
