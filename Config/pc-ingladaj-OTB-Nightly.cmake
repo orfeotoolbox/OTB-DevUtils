@@ -1,11 +1,11 @@
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/OTB/OTB-Nightly/")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB/builds/OTB-Nightly/")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/OTB/trunk/OTB-Nightly/")
+SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB/OTB-Binary-Nightly/")
 
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j6 -D Nightly -A $ENV{HOME}/OTB/trunk/OTB-DevUtils/Config/pc-ingladaj-OTB-Nightly.cmake -V"
+  "ctest -j4 -D Nightly -A ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt -V"
   )
 
 # what cmake command to use for configuring this dashboard
@@ -20,43 +20,15 @@ SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
 # any quotes inside of this string if you use it
 SET (CTEST_INITIAL_CACHE "
 //Command used to build entire project from the command line.
-MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
+MAKECOMMAND:STRING=/usr/bin/make -i -k -j4
 //Name of the build
-BUILDNAME:STRING=Fedora12-64bits-Release
+BUILDNAME:STRING=ArchLinux-Release
 //Name of the computer/site where compile is being run
-SITE:STRING=pc-ingladaj
+SITE:STRING=$ENV{HOSTNAME}
 //Data root
-OTB_DATA_ROOT:STRING=/home/inglada/OTB/OTB-Data
-//Compilation options
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+OTB_DATA_ROOT:STRING=$ENV{HOME}/OTB/trunk/OTB-Data
 //Set up the build options
 CMAKE_BUILD_TYPE:STRING=Release
 BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=ON
-OTB_USE_CURL:BOOL=ON
-OTB_USE_PQXX:BOOL=ON
-OTB_USE_EXTERNAL_BOOST:BOOL=OFF
-OTB_USE_EXTERNAL_EXPAT:BOOL=OFF
-OTB_USE_EXTERNAL_FLTK:BOOL=OFF
-OTB_USE_EXTERNAL_ITK:BOOL=OFF
-USE_FFTWD:BOOL=ON
-USE_FFTWF:BOOL=ON
-OTB_GL_USE_ACCEL:BOOL=ON 
-ITK_USE_REVIEW:BOOL=ON 
-ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
-OTB_USE_MAPNIK:BOOL=OFF
-GEOTIFF_INCLUDE_DIRS:PATH=/usr/include/libgeotiff
-FLTK_BINARY_DIR:STATIC=/home/inglada/OTB/builds/OTB-Nightly/Utilities/FLTK
-//CPack configuration
-OTB_USE_CPACK:BOOL=OFF
-CMAKE_INSTALL_PREFIX:STRING=/home/inglada/OTB/tmp
-CPACK_BINARY_DEB:BOOL=OFF
-CPACK_DEBIAN_PACKAGE_ARCHITECTURE:STRING=amd64
 ")
-
-# set any extra envionment varibles here
-SET (CTEST_ENVIRONMENT
- "DISPLAY=:0"
-)
 
