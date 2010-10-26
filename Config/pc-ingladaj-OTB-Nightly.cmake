@@ -5,7 +5,7 @@ SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB/OTB-Binary-Nightly/")
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j4 -D Nightly -A ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt -V"
+  "ctest -j6 -D Nightly -A ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt -V"
   )
 
 # what cmake command to use for configuring this dashboard
@@ -20,11 +20,11 @@ SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
 # any quotes inside of this string if you use it
 SET (CTEST_INITIAL_CACHE "
 //Command used to build entire project from the command line.
-MAKECOMMAND:STRING=/usr/bin/make -i -k -j4
+MAKECOMMAND:STRING=/usr/bin/make -i -k -j6
 //Name of the build
 BUILDNAME:STRING=ArchLinux-Release
 //Name of the computer/site where compile is being run
-SITE:STRING=$ENV{HOSTNAME}
+SITE:STRING=pc-ingladaj
 //Data root
 OTB_DATA_ROOT:STRING=$ENV{HOME}/OTB/trunk/OTB-Data
 //Set up the build options
