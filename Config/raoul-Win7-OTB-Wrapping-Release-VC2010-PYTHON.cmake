@@ -1,10 +1,10 @@
 SET (CTEST_SOURCE_DIRECTORY "C:/Users/jmalik/Dashboard/src/OTB-Wrapping")
-SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-Wrapping-Release-VC2010")
+SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-Wrapping-Release-VC2010-Python")
 
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE "raoul.c-s.fr" )
-SET (CTEST_BUILD_NAME "Win7-Visual2010-Release-Static")
+SET (CTEST_BUILD_NAME "Win7-Visual2010-Release-Static-Java-OFF-Python-ON")
 
 SET (CTEST_BUILD_CONFIGURATION "Release")
 
@@ -65,7 +65,7 @@ PYTHON_LIBRARY:FILEPATH=C:/OSGeo4W/apps/python25/lib/python25.lib
 PYTHON_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/python25/include
 
 # Select Languages to Wrap
-WRAP_ITK_JAVA:BOOL=ON
+WRAP_ITK_JAVA:BOOL=OFF
 WRAP_ITK_PYTHON:BOOL=ON
 
 ")
