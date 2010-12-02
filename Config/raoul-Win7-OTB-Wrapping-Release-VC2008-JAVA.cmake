@@ -36,7 +36,7 @@ LIBLAS_LIBRARY:FILEPATH=C:/OSGeo4W/lib/liblas_c.lib
 # Utilitites for Wrapping
 SWIG_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/Source/Swig
 SWIG_EXECUTABLE:FILEPATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/swig.exe
-CableSwig_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/CableSwig-3.20
+CableSwig_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/CableSwig-3.20-VC9
 
 # OTB Test driver to launch the tests
 OTB_TEST_DRIVER:FILEPATH=C:/Users/jmalik/Dashboard/build/OTB-Release-VC2008/bin/Release/otbTestDriver.exe
