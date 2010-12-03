@@ -58,11 +58,11 @@ Java_JAVA_EXECUTABLE:FILEPATH=C:/Program Files/Java/jdk1.6.0_22/bin/java.exe
 JAVADOC_EXECUTABLE:FILEPATH=C:/Program Files/Java/jdk1.6.0_22/bin/javadoc.exe
 
 #PYTHON_EXECUTABLE
-PYTHON_EXECUTABLE:FILEPATH=C:/OSGeo4W/bin/python.exe
-PYTHON_LIBRARIES:PATH=C:/OSGeo4W/apps/python25/libs
-PYTHON_INCLUDE_DIRS:PATH=C:/OSGeo4W/apps/python25/include
-PYTHON_LIBRARY:FILEPATH=C:/OSGeo4W/apps/python25/lib/python25.lib
-PYTHON_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/python25/include
+PYTHON_EXECUTABLE:FILEPATH=C:/Python26/python.exe
+PYTHON_LIBRARIES:PATH=C:/Python26/Lib
+PYTHON_INCLUDE_DIRS:PATH=C:/Python26/include
+PYTHON_LIBRARY:FILEPATH=C:/Python26/libs/python26.lib
+#PYTHON_INCLUDE_DIR:PATH=C:/Python26/python26/include
 
 # Select Languages to Wrap
 WRAP_ITK_JAVA:BOOL=OFF

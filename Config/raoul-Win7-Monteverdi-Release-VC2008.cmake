@@ -1,5 +1,5 @@
 SET (CTEST_SOURCE_DIRECTORY "C:/Users/jmalik/Dashboard/src/Monteverdi")
-SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/Monteverdi-Release-VC2010")
+SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/Monteverdi-Release-VC2008")
 
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 9 2008" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
