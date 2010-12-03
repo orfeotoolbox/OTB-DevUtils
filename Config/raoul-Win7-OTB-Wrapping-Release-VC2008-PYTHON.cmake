@@ -42,20 +42,20 @@ CableSwig_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/CableSwig-3.20-VC9
 OTB_TEST_DRIVER:FILEPATH=C:/Users/jmalik/Dashboard/build/OTB-Release-VC2008/bin/Release/otbTestDriver.exe
 
 # Java Stuffs
-JAVA_JVM_LIBRARY:FILEPATH=C:/Program Files/Java/jdk1.6.0_22/lib/jvm.lib
-JAVA_INCLUDE_PATH:PATH=C:/Program Files/Java/jdk1.6.0_22/include
-JAVA_INCLUDE_PATH2:PATH=C:/Program Files/Java/jdk1.6.0_22/include/win32
-JAVA_AWT_INCLUDE:PATH=C:/Program Files/Java/jdk1.6.0_22/include
-JAVA_RUNTIME:FILEPATH=C:/Program Files/Java/jdk1.6.0_22/bin/java.exe
-JAVA_COMPILE:FILEPATH=C:/Program Files/Java/jdk1.6.0_22/bin/javac.exe
-JAVA_ARCHIVE:FILEPATH=C:/Program Files/Java/jdk1.6.0_22/bin/jar.exe
+JAVA_JVM_LIBRARY:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/lib/jvm.lib
+JAVA_INCLUDE_PATH:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include
+JAVA_INCLUDE_PATH2:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include/win32
+JAVA_AWT_INCLUDE:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include
+JAVA_RUNTIME:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
+JAVA_COMPILE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
+JAVA_ARCHIVE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
 JAVA_MAXIMUM_HEAP_SIZE:PATH=1G
 
-Java_JAR_EXECUTABLE:FILEPATH=C:/Program Files/Java/jdk1.6.0_22/bin/jar.exe
-Java_JAVAC_EXECUTABLE:FILEPATH=C:/Program Files/Java/jdk1.6.0_22/bin/javac.exe
-Java_JAVA_EXECUTABLE:FILEPATH=C:/Program Files/Java/jdk1.6.0_22/bin/java.exe
+Java_JAR_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
+Java_JAVAC_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
+Java_JAVA_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
 
-JAVADOC_EXECUTABLE:FILEPATH=C:/Program Files/Java/jdk1.6.0_22/bin/javadoc.exe
+JAVADOC_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javadoc.exe
 
 #PYTHON_EXECUTABLE
 PYTHON_EXECUTABLE:FILEPATH=C:/Python26/python.exe
