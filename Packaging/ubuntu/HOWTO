@@ -1,0 +1,76 @@
+NOTES ABOUT UBUNTU PACKAGING
+
+Related information on the web:
+
+  * https://wiki.ubuntu.com/PackagingGuide
+  * http://debathena.mit.edu/packaging/
+
+
+Stages:
+
+0. Setting up your system
+
+  See https://wiki.ubuntu.com/PackagingGuide/GettingStarted
+
+
+1. Extract the sources from the repository
+
+  ----------------------------------------------------------------------------
+  $ cd <SRCDIR>
+  $ hg clone http://hg.orfeo-toolbox.org/OTB
+  $ hg clone http://hg.orfeo-toolbox.org/OTB-DevUtils
+  $ cd OTB
+  $ hg archive -r <VERSION> -t tgz <PKGDIR>/otb-<VERSION>.tar.gz
+  ----------------------------------------------------------------------------
+
+
+2. Prepare the environment (GnuPG key needed):
+
+  ----------------------------------------------------------------------------
+  $ cd <PKGDIR>
+  $ tar xzf otb-<VERSION>.tar.gz
+  $ mv otb-<VERSION>.tar.gz otb_<VERSION>.orig.tar.gz
+  $ cd otb-<VERSION>
+  $ cp -a <SRCDIR>/OTB-DevUtils/Packaging/ubuntu/debian .
+  ----------------------------------------------------------------------------
+
+
+3. Generate the source package:
+
+  ----------------------------------------------------------------------------
+  $ debuild -k0x46047121 -S -sa --lintian-opts -i
+  [...]
+  $ cd ..
+  $ ls -1sh
+  4.0K otb-<VERSION>
+   12K otb_<VERSION>-1.debian.tar.gz
+  4.0K otb_<VERSION>-1.dsc
+  8.0K otb_<VERSION>-1_source.build
+  4.0K otb_<VERSION>-1_source.changes
+   20M otb_<VERSION>.orig.tar.gz
+  ----------------------------------------------------------------------------
+
+
+4. Generate the binary packages:
+
+  ----------------------------------------------------------------------------
+  $ sudo su -
+  # pbuilder --build <PKGDIR>/*.dsc
+  [...]
+  # ls -1sh /var/cache/pbuilder/result
+  8.0K libotb_<VERSION>-1_all.deb
+   12M libotb3.6_<VERSION>-1_i386.deb
+  7.4M libotb3-dev_<VERSION>-1_i386.deb
+   12K otb_<VERSION>-1.debian.tar.gz
+  4.0K otb_<VERSION>-1.dsc
+  4.0K otb_<VERSION>-1_i386.changes
+   20M otb_<VERSION>.orig.tar.gz
+  ----------------------------------------------------------------------------
+
+
+5. Install the binary packages:
+
+  ----------------------------------------------------------------------------
+  # cd /var/cache/pbuilder/result
+  # dpkg -i libotb*.deb
+  ----------------------------------------------------------------------------
