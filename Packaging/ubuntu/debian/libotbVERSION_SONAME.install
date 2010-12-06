@@ -1,0 +1,19 @@
+# ITK libraries  (binaries and symlinks)
+usr/lib/otb/libitk*.so.*
+usr/lib/otb/libITK*.so.*
+
+# OTB libraries  (binaries and symlinks)
+usr/lib/otb/libotb*.so.*
+usr/lib/otb/libOTB*.so.*
+
+# Other third parties libraries
+usr/lib/otb/libdxf.so.*
+usr/lib/otb/libInsightJournal.so.*
+usr/lib/otb/libotbopenjpeg.so.*
+usr/lib/otb/libsiftfast.so.*
+usr/lib/otb/libtinyXML.so.*
+# No versioned library for OSSIM
+usr/lib/otb/libotbossim.so
+
+# Executables
+usr/bin/otbTestDriver

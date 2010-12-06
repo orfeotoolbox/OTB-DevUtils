@@ -13,4 +13,6 @@ EOF
     ldconfig
 fi
 
+#DEBHELPER#
+
 exit 0

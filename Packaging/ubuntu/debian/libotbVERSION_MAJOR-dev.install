@@ -1,0 +1,31 @@
+# ITK libraries (symlinks)
+usr/lib/otb/libitk*.so
+usr/lib/otb/libITK*.so
+
+# OTB libraries (symlinks)
+# usr/lib/otb/libotb*.so not used because we must skip libotbossim.so (which is not a symbolic link)
+usr/lib/otb/libOTB*.so
+
+# Other third parties libraries
+# No symbolic link libotbopenjpeg.so
+# usr/lib/otb/libotbopenjpeg.so
+# usr/lib/otb/libotb*.so not used because we must skip libotbossim.so (which is not a symbolic link)
+usr/lib/otb/libotb6S.so
+usr/lib/otb/libotbconfigfile.so
+usr/lib/otb/libotbedison.so
+usr/lib/otb/libotbkml.so
+usr/lib/otb/libotbliblas.so
+usr/lib/otb/libotbmuparser.so
+usr/lib/otb/libotbopenjpeg.so
+usr/lib/otb/libotbossimplugins.so
+usr/lib/otb/libotbsvm.so
+usr/lib/otb/libdxf.so
+usr/lib/otb/libInsightJournal.so
+usr/lib/otb/libsiftfast.so
+usr/lib/otb/libtinyXML.so
+
+# OTB headers
+usr/include/otb
+
+# CMake helper scripts
+usr/lib/otb/*.cmake
