@@ -240,6 +240,6 @@ for target in maverick lucid karmic ; do
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     cp -f "$DEBDIR/changelog" debian
     dch --force-distribution --distribution "$target" \
-        -v "${version_full}-ppa~${target}" "Automated update for $ubuntu_codename ($ubuntu_version)."
+        -v "${version_full}-0ppa~${target}" "Automated update for $ubuntu_codename ($ubuntu_version)."
     debuild -k0x46047121 -S -sa --lintian-opts -i
 done
