@@ -2,7 +2,7 @@
 # Script to automate the Orfeo Toolbox library packaging for Ubuntu.
 #
 # Copyright (C) 2010 CNES - Centre National d'Etudes Spatiales
-# Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
+# by Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
 # The OTB is distributed under the CeCILL license version 2. See files
 # Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
@@ -39,7 +39,7 @@ display_help ()
     cat <<EOF
 
 This script is used to automate the Orfeo Toolbox library packaging for
-Ubuntu.
+Ubuntu. Source packages are created in ${TMPDIR} directory.
 
 Usage:
   ./make_ubuntu_packages.sh [options]
@@ -52,6 +52,15 @@ Options:
   -d directory  Top directory of the local repository clone
 
   -r tag        Revision to extract.
+
+  -m major      Major version value (a number)
+
+  -n minor      Minor version value (a number)
+
+  -p patch      Patch version value (a number or "RC" followed by a number)
+
+Example:
+  ./make_ubuntu_packages.sh -d ~/otb/src/OTB -r 9244 -m 3 -n 8 -p RC1
 
 EOF
 }
@@ -158,7 +167,6 @@ set_ubuntu_code_name ()
 }
 
 
-echo "Command line checking..."
 while getopts ":r:d:m:n:p:hv" option
 do
     case $option in
@@ -190,6 +198,7 @@ if [ "$OPTIND" -eq 1 ] ; then
     exit 1
 fi
 
+echo "Command line checking..."
 check_src_top_dir
 check_src_revision
 check_otb_version
