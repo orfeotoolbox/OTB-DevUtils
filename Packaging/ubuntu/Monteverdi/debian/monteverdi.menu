@@ -1,0 +1,7 @@
+?package(monteverdi):\
+        needs="X11"\
+        section="Applications/see-menu-manual"\
+        title="Monteverdi"\
+        longtitle="Monteverdi, image processing workshop based on OTB"\
+        icon="/usr/share/pixmaps/monteverdi.xpm"\
+        command="/usr/bin/monteverdi"

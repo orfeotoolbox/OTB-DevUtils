@@ -1,0 +1,7 @@
+# Binaries
+usr/bin/monteverdi
+
+# Shared libraries
+usr/lib/otb/libflu.so
+usr/lib/otb/libOTBMonteverdiCommon.so
+usr/lib/otb/libotb*.so
