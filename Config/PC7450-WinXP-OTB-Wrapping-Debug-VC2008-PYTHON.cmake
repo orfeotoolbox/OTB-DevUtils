@@ -1,5 +1,5 @@
 SET (CTEST_SOURCE_DIRECTORY "D:/Developpement/OTB-hg/OTB-Wrapping")
-SET (CTEST_BINARY_DIRECTORY "D:/Developpement/OTB-NIGHTLY-VALIDATION/OSGEO-Release/binaries/OTB-Wrapping-Python")
+SET (CTEST_BINARY_DIRECTORY "D:/Developpement/OTB-NIGHTLY-VALIDATION/OSGEO-Release/binaries/OTB-Wrapping-Python-Debug")
 
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 9 2008" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files/CMake 2.8/bin/cmake.exe")
