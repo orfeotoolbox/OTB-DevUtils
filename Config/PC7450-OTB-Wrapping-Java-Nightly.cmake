@@ -4,11 +4,16 @@ SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
 SET(CMAKE_CONFIGURATION_TYPES  "Release" CACHE PATH "" FORCE)
 SET(MAKECOMMAND "C:\PROGRA~1\MICROS~1.0\Common7\IDE\VCExpress.exe OTB-Wrapping.sln /build Release /project ALL_BUILD" CACHE STRING "" FORCE)
 SET(BUILD_TESTING ON CACHE BOOL "" FORCE)
-SET(OTB_DIR "D:/Developpement/OTB-NIGHTLY-VALIDATION/OSGEO-Release/binaries/OTB" CACHE PATH "" FORCE)
+SET(OTB_DIR "D:/Developpement/OTB-NIGHTLY-VALIDATION/OSGEO-Release/binaries/OTB-Release" CACHE PATH "" FORCE)
 SET(OTB_DATA_ROOT "D:/Developpement/OTB-hg/OTB-Data" CACHE STRING "" FORCE)
 SET(GDAL_INCLUDE_DIR "C:/OSGeo4W/apps/gdal-16/include" CACHE PATH "" FORCE)
-SET(CMAKE_INSTALL_PREFIX "D:/Developpement/OTB-NIGHTLY-VALIDATION/OSGEO-Release/binaries/install/Monteverdi" CACHE PATH "" FORCE)
+SET(CMAKE_INSTALL_PREFIX "D:/Developpement/OTB-NIGHTLY-VALIDATION/OSGEO-Release/binaries/install/OTB-Wrapping-Java" CACHE PATH "" FORCE)
 SET(CPACK_PACKAGE_NAME "Wrapping-Nightly" CACHE STRING "" FORCE)
+
+SET(LIBLAS_INCLUDE_DIR "C:/OSGeo4W/include" CACHE PATH "" FORCE)
+SET(LIBLAS_LIBRARY "C:/OSGeo4W/lib/liblas_c.lib" CACHE PATH "" FORCE)
+SET(EXPAT_INCLUDE_DIR "C:/OSGeo4W/include" CACHE PATH "" FORCE)
+SET(EXPAT_LIBRARY "C:/OSGeo4W/lib/libexpat.lib" CACHE PATH "" FORCE)
 
 # Utilitites for Wrapping
 SET(SWIG_DIR "D:/Developpement/OTB-OUTILS/swig/swigwin-1.3.40/Source/Swig" CACHE PATH "" FORCE)
@@ -17,7 +22,7 @@ SET(CableSwig_DIR   "D:/Developpement/OTB-OUTILS/cable_siwg/Cable-Swig-Bin" CACH
 
 
 # OTB Test driver to launch the tests
-SET(OTB_TEST_DRIVER "D:/Developpement/OTB-NIGHTLY-VALIDATION/OSGEO-Release/binaries/OTB/bin/Release/otbTestDriver.exe"  CACHE PATH "" FORCE)
+SET(OTB_TEST_DRIVER "D:/Developpement/OTB-NIGHTLY-VALIDATION/OSGEO-Release/binaries/OTB-Release/bin/Release/otbTestDriver.exe"  CACHE PATH "" FORCE)
 
 # Select Languages to Wrap
 SET(WRAP_ITK_JAVA ON CACHE BOOL "" FORCE)
