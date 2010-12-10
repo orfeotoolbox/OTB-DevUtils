@@ -1,4 +1,4 @@
-SET (CTEST_SOURCE_DIRECTORY "D:/Developpement/OTB-hg/Monteverdi")
+SET (CTEST_SOURCE_DIRECTORY "D:/Developpement/OTB-hg/OTB-Applications")
 SET (CTEST_BINARY_DIRECTORY "D:/Developpement/OTB-NIGHTLY-VALIDATION/OSGEO-Release/binaries/OTB-Applications-Debug")
 
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 9 2008" )
