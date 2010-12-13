@@ -21,7 +21,7 @@ SET (CTEST_INITIAL_CACHE "
 //Command used to build entire project from the command line.
 MAKECOMMAND:STRING=/usr/bin/make -i -k -j6
 //Name of the build
-BUILDNAME:STRING=Ubuntu9.10-64bits-Debug
+BUILDNAME:STRING=Ubuntu10.4-64bits-Debug
 //Name of the computer/site where compile is being run
 SITE:STRING=pc-grizonnetm
 //Data root
