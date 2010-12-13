@@ -4,7 +4,7 @@
 # Copyright (C) 2010 CNES - Centre National d'Etudes Spatiales
 # Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
-# The OTB is distributed under the CeCILL license version 2. See files
+# Monteverdi is distributed under the CeCILL license version 2. See files
 # Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
 # (french version) in 'Copyright' directory for details. This licenses are
 # also available online:
@@ -15,21 +15,21 @@ export DH_VERBOSE=1
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/cmake.mk
 
-# VERSION_MAJOR  = @VERSION_MAJOR@
-# VERSION_MINOR  = @VERSION_MINOR@
-# VERSION_PATCH  = @VERSION_PATCH@
-# VERSION_SONAME = @VERSION_SONAME@
-# VERSION_FULL   = @VERSION_FULL@
-VERSION_MAJOR  = 1
-VERSION_MINOR  = 6
-VERSION_PATCH  = RC1
-VERSION_SONAME = 1.6
-VERSION_FULL   = 1.6-RC1
+OTB_VERSION_MAJOR  = @OTB_VERSION_MAJOR@
+OTB_VERSION_SONAME = @OTB_VERSION_SONAME@
+OTB_VERSION_FULL = @OTB_VERSION_FULL@
+
+MONTEVERDI_VERSION_MAJOR  = @MONTEVERDI_VERSION_MAJOR@
+MONTEVERDI_VERSION_MINOR  = @MONTEVERDI_VERSION_MINOR@
+MONTEVERDI_VERSION_PATCH  = @MONTEVERDI_VERSION_PATCH@
+MONTEVERDI_VERSION_FULL   = @MONTEVERDI_VERSION_FULL@
 
 PKG = monteverdi
 
 DEB_BUILD_PARALLEL = true
 DEB_PARALLEL_JOBS  = 5
+
+DEB_DESTDIR = $(CURDIR)/debian/tmp
 
 DEB_CMAKE_INSTALL_PREFIX = /usr
 DEB_CMAKE_EXTRA_FLAGS = \
@@ -37,9 +37,6 @@ DEB_CMAKE_EXTRA_FLAGS = \
 	-DCMAKE_BUILD_TYPE:STRING=Release \
 	-DBUILD_SHARED_LIBS:BOOL=ON \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
-	-DOTB_USE_EXTERNAL_FLTK:BOOL=ON \
-	-DOTB_USE_GETTEXT:BOOL=OFF \
-	-DBUILD_EXAMPLES:BOOL=OFF \
 	-DBUILD_TESTING:BOOL=OFF
 
-DEB_SHLIBDEPS_INCLUDE_$(PKG) = $(DEB_DESTDIR)/usr/lib/otb
+DEB_SHLIBDEPS_INCLUDE_$(PKG) = /usr/lib/otb

@@ -2,15 +2,16 @@ Source: monteverdi
 Priority: extra
 Maintainer: OTB Team <contact@orfeo-toolbox.org>
 Build-Depends: cdbs, debhelper (>= 7), cmake, libc6-dev, libgcc1 (>= 1:4.1),
- libstdc++6 (>= 4.4), libotb3-dev (>= 3.8-RC1), libgdal1-dev, libfltk1.1-dev,
- fluid
+ libstdc++6 (>= 4.4), libotb@OTB_VERSION_MAJOR@-dev (>= @OTB_VERSION_FULL@),
+ libgdal1-dev, libfltk1.1-dev, fluid
 Standards-Version: 3.8.3
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/otb/monteverdi.html
 
 Package: monteverdi
 Architecture: any
-Depends: libotb3.8 (>= 3.8-RC1), ()${shlibs:Depends}, ${misc:Depends}
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@),
+ ${shlibs:Depends}, ${misc:Depends}
 Section: contrib/science
 Description: Image processing workshop based on the OTB library
  Monteverdi is an image processing workshop based on the OTB library. It takes
