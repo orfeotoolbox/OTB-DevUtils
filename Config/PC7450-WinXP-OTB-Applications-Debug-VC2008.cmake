@@ -30,10 +30,10 @@ EXPAT_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libexpat.lib
 LIBLAS_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 LIBLAS_LIBRARY:FILEPATH=C:/OSGeo4W/lib/liblas_c.lib
 
-#OTB_USE_QT:BOOL=ON
-#OTB_USE_QGIS:BOOL=ON
-#QGIS_INCLUDE_DIRS:PATH=C:/OSGeo4W/apps/qgis/include
-#QGIS_LIBRARY:FILEPATH=C:/OSGeo4W/apps/qgis/lib/qgis_core.lib
+OTB_USE_QT:BOOL=ON
+OTB_USE_QGIS:BOOL=ON
+QGIS_INCLUDE_DIRS:PATH=C:/OSGeo4W/apps/qgis/include
+QGIS_LIBRARY:FILEPATH=C:/OSGeo4W/apps/qgis/lib/qgis_core.lib
 
 ")
 
