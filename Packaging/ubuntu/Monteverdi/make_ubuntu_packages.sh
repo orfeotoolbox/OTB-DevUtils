@@ -238,8 +238,7 @@ done
 
 echo "Source package generation..."
 cd "$TMPDIR/monteverdi-$monteverdi_version_full"
-# for target in maverick lucid karmic ; do
-for target in lucid ; do
+for target in maverick lucid karmic ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     cp -f "$DEBDIR/changelog" debian
