@@ -53,14 +53,14 @@ Options:
 
   -r tag        Revision to extract.
 
-  -m major      Major version value (a number)
+  -o version    External version of the OTB library (ex. 3.8.0)
 
-  -n minor      Minor version value (a number)
+  -p version    Version of the package (ex. 2)
 
-  -p patch      Patch version value (a number or "RC" followed by a number)
+  -c message    Changelog message
 
 Example:
-  ./make_ubuntu_packages.sh -d ~/otb/src/OTB -r 9244 -m 3 -n 8 -p RC1
+  ./make_ubuntu_packages.sh -d ~/otb/src/OTB -r 9244 -o 3.8-RC1 -p 2
 
 EOF
 }
@@ -106,33 +106,22 @@ check_src_revision ()
 }
 
 
-check_otb_version ()
+check_external_version ()
 {
-    if [ -z "$version_major" ] ; then
-        echo "*** ERROR: missing major version number of OTB (option -m)"
+    if [ -z "$otb_version_full" ] ; then
+        echo "*** ERROR: missing version number of OTB (option -o)"
         echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
         exit 3
     fi
-    if [ -z "$version_minor" ] ; then
-        echo "*** ERROR: missing minor version number of OTB (option -n)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
+    if [ "`echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
+        echo "*** ERROR: Monteverdi version ($otb_version_full) has an unexpected format"
         exit 3
     fi
-    if [ -z "$version_patch" ] ; then
-        echo "*** ERROR: missing patch version number of OTB (option -p)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
-    fi
-    version_soname="${version_major}.${version_minor}"
-    if [ "`echo $version_patch | sed -e 's/^RC.*$/RC/'`" == "RC" ] ; then
-        version_full="${version_major}.${version_minor}-${version_patch}"
-    else
-        version_full="${version_major}.${version_minor}.${version_patch}"
-    fi
-    if [ "`echo $version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
-        echo "*** ERROR: OTB full version ($version_full) has an unexpected format"
-        exit 3
-    fi
+
+    otb_version_major=`echo $otb_version_full | sed -e 's/^\([0-9]\+\)\..*$/\1/'`
+    otb_version_minor=`echo $otb_version_full | sed -e 's/^[^\.]\+\.\([0-9]\+\)[\.-].*$/\1/'`
+    otb_version_patch=`echo $otb_version_full | sed -e 's/^.*[\.-]\(\(RC\)\?[0-9]\+\)$/\1/'`
+    otb_version_soname="${otb_version_major}.${otb_version_minor}"
 }
 
 
@@ -167,18 +156,18 @@ set_ubuntu_code_name ()
 }
 
 
-while getopts ":r:d:m:n:p:hv" option
+while getopts ":r:d:o:p:c:hv" option
 do
     case $option in
         d ) topdir=$OPTARG
             ;;
         r ) revision=$OPTARG
             ;;
-        m ) version_major=$OPTARG
+        o ) otb_version_full=$OPTARG
             ;;
-        n ) version_minor=$OPTARG
+        p ) pkg_version=$OPTARG
             ;;
-        p ) version_patch=$OPTARG
+        c ) changelog_message=$OPTARG
             ;;
         v ) display_version
             exit 0
@@ -201,55 +190,59 @@ fi
 echo "Command line checking..."
 check_src_top_dir
 check_src_revision
-check_otb_version
+check_external_version
 
 # echo "Debian templates directory: $DEBDIR"
 # echo "Working copy directory:     $topdir"
-# echo "Major version number:  $version_major"
-# echo "Minor version number:  $version_minor"
-# echo "Patch version number:  $version_patch"
-# echo "Soname version number: $version_soname"
-# echo "Full version number:   $version_full"
+# echo "OTB version:  $otb_version_full"
+# echo "- Soname version number: $otb_version_soname"
+# echo "- Major version number:  $otb_version_major"
+# echo "- Minor version number:  $otb_version_minor"
+# echo "- Patch version number:  $otb_version_patch"
 
 echo "Archive export..."
 cd "$topdir"
-hg archive -r "$revision" -t tgz "$TMPDIR/otb-$version_full.tar.gz"
+hg archive -r "$revision" -t tgz "$TMPDIR/otb-$otb_version_full.tar.gz"
 
 echo "Archive extraction..."
 cd "$TMPDIR"
-tar xzf "otb-$version_full.tar.gz"
-mv "otb-$version_full.tar.gz" "otb_$version_full.orig.tar.gz"
+tar xzf "otb-$otb_version_full.tar.gz"
+mv "otb-$otb_version_full.tar.gz" "otb_$otb_version_full.orig.tar.gz"
 
 echo "Debian scripts import..."
-cd "$TMPDIR/otb-$version_full"
+cd "$TMPDIR/otb-$otb_version_full"
 cp -a "$DEBDIR" .
 cd debian
 for f in control rules ; do
-    sed -e "s/@VERSION_MAJOR@/$version_major/g" \
-        -e "s/@VERSION_MINOR@/$version_minor/g" \
-        -e "s/@VERSION_PATCH@/$version_parch/g" \
-        -e "s/@VERSION_SONAME@/$version_soname/g" \
-        -e "s/@VERSION_FULL@/$version_full/g" \
+    sed -e "s/@VERSION_MAJOR@/$otb_version_major/g" \
+        -e "s/@VERSION_MINOR@/$otb_version_minor/g" \
+        -e "s/@VERSION_PATCH@/$otb_version_parch/g" \
+        -e "s/@VERSION_SONAME@/$otb_version_soname/g" \
+        -e "s/@VERSION_FULL@/$otb_version_full/g" \
         < "$f.in" > "$f"
     rm -f "$f.in"
 done
 for f in *VERSION_MAJOR* ; do
-    g=`echo $f | sed -e "s/VERSION_MAJOR/$version_major/g"`
+    g=`echo $f | sed -e "s/VERSION_MAJOR/$otb_version_major/g"`
     mv "$f" "$g"
 done
 for f in *VERSION_SONAME* ; do
-    g=`echo $f | sed -e "s/VERSION_SONAME/$version_soname/g"`
+    g=`echo $f | sed -e "s/VERSION_SONAME/$otb_version_soname/g"`
     mv "$f" "$g"
 done
 
 echo "Source package generation..."
-cd "$TMPDIR/otb-$version_full"
-# for target in maverick lucid karmic ; do
-for target in lucid ; do
+cd "$TMPDIR/otb-$otb_version_full"
+for target in karmic maverick lucid ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     cp -f "$DEBDIR/changelog" debian
+    if [ -n "$changelog_message" ] ; then
+        dch_message="$changelog_message"
+    else
+        dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
+    fi
     dch --force-distribution --distribution "$target" \
-        -v "${version_full}-0ppa~${target}" "Automated update for $ubuntu_codename ($ubuntu_version)."
+        -v "${otb_version_full}-0ppa~${target}${pkg_version}" $dch_message
     debuild -k0x46047121 -S -sa --lintian-opts -i
 done
