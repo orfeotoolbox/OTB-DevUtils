@@ -37,6 +37,10 @@ OTB_USE_QGIS:BOOL=ON
 QGIS_INCLUDE_DIRS:PATH=C:/OSGeo4W/apps/qgis/include
 QGIS_LIBRARY:FILEPATH=C:/OSGeo4W/apps/qgis/lib/qgis_core.lib
 
+# OTB Test driver to launch the tests
+OTB_TEST_DRIVER:FILEPATH=C:/Users/jmalik/Dashboard/build/OTB-Release-VC2008/bin/Release/otbTestDriver.exe
+
+")
 ")
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})

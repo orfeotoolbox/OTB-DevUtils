@@ -39,6 +39,10 @@ EXPAT_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libexpat.lib
 LIBLAS_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 LIBLAS_LIBRARY:FILEPATH=C:/OSGeo4W/lib/liblas_c.lib
 
+# OTB Test driver to launch the tests
+OTB_TEST_DRIVER:FILEPATH=C:/Users/jmalik/Dashboard/build/OTB-Release-VC2008/bin/Release/otbTestDriver.exe
+
+
 ")
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
