@@ -7,8 +7,7 @@ LDCONFIG_FILE=/etc/ld.so.conf.d/otb.conf
 if [ "$1" = "configure" ] ; then
     cat > "$LDCONFIG_FILE" <<EOF
 # Orfeo Toolbox related search paths
-/opt/otb/lib
-/opt/otb/lib/otb
+/usr/lib/otb
 EOF
     ldconfig
 fi
