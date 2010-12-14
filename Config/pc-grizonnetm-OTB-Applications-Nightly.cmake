@@ -22,7 +22,7 @@ SET (CTEST_INITIAL_CACHE "
 //Command used to build entire project from the command line.
 MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
 //Name of the build
-BUILDNAME:STRING=zApps-Ubuntu10.4-64bits-Release
+BUILDNAME:STRING=zApps-Ubuntu9.10-64bits-Release
 //Name of the computer/site where compile is being run
 SITE:STRING=pc-grizonnetm
 //Data root
@@ -37,8 +37,6 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=/mnt/dd-2/OTB/OTB-Binary-Nightly
 BUILD_TESTING:BOOL=ON
-//object detection performance testing
-OTB_OBJECT_DETECTION_PERFORMANCES_TESTING:BOOL=ON
 OTB_USE_VTK:BOOL=ON
 //CPack configuration
 OTB_USE_CPACK:BOOL=ON
@@ -51,4 +49,3 @@ CPACK_DEBIAN_PACKAGE_ARCHITECTURE:STRING=amd64
 SET (CTEST_ENVIRONMENT
  "DISPLAY=:0"
 )
-
