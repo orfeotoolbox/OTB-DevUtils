@@ -1,0 +1,124 @@
+                         NOTES ABOUT UBUNTU PACKAGING
+
+
+0. SUMMARY
+==========
+
+1. BINARY PACKAGES
+2. SOURCE PACKAGES
+
+
+1. BINARY PACKAGES
+==================
+
+Two set of binary packages are built on the fly on Launchpad:
+
+* Testing packages
+
+  See https://launchpad.net/~julien-malik/+archive/orfeotoolbox-testing
+
+  To add this repository on your system, you must add the following line in
+  /etc/apt/sources.list (or in a separate file in /etc/apt/sources.list.d/):
+
+  deb http://ppa.launchpad.net/julien-malik/orfeotoolbox-testing/ubuntu <codename> main
+
+  where <codename> is karmic, lucid or meverick.
+
+* Unstable packages
+
+  See https://launchpad.net/~julien-malik/+archive/orfeotoolbox-testing-ubuntugis-unstable
+
+  This version needs Ubuntu GIS packages:
+
+  https://launchpad.net/~ubuntugis/+archive/ubuntugis-unstable
+
+  To add these repositories on your system, you must add the following lines in
+  /etc/apt/sources.list (or in a separate file in /etc/apt/sources.list.d/):
+
+  deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu lucid main
+  deb http://ppa.launchpad.net/julien-malik/orfeotoolbox-testing-ubuntugis-unstable/ubuntu lucid main
+
+Packages list:
+
+* 3 binary packages related to OTB:
+
+  - libotb      : virtual package
+  - libotbX.Y   : OTB shared libraries
+  - libotbX-dev : OTB headers ans configuration scripts
+
+* 1 binary package related to Monteverdi:
+
+  - monteverdi  : Monteverdi workshop binary
+
+* 8 binary packages related to OTB-Applications
+
+  - otbapp-legacy         : legacy applications
+  - otbapp-processing     : Processing chain library
+  - otbapp-processing-dev : Processing chain headers
+  - otbapp-commons        : Common libraries
+  - otbapp-cli            : Command line interface applications
+  - otbapp-fltk           : FLTK based GUI applications
+  - otbapp-qt             : Qt based GUI applications
+  - otbapp-qgis           : QGis plugins
+
+
+2. SOURCE PACKAGES
+==================
+
+Related informations on the web:
+
+* https://wiki.ubuntu.com/PackagingGuide
+* http://debathena.mit.edu/packaging/
+
+Helper scripts (make_ubuntu_package.sh) were developed to automate the
+preparation of the source packages. They are available in sub-directories OTB,
+Monteverdi, OTB-Applications, etc.
+
+Syntax:
+
+  ./make_ubuntu_package.sh -h
+  ./make_ubuntu_package.sh -v
+  ./make_ubuntu_package.sh -d directory -r revision -p version -c comment [specific options]
+
+  -h
+      Display the help message
+
+  -v
+      Display the version and copyright of the script
+
+  -d directory
+      Top level directory of the local Mercurial repository
+
+  -r revision
+      Revision to be extracted
+
+  -p version
+      Version of the package
+
+  -c comment
+      Comment to be added to the Debian changelog (debian/changelog file).
+      Default message is:
+      "Automated update for <ubuntu codename> (<ubuntu version>)."
+
+  Specific options:
+
+  * OTB script:
+
+    -o version
+        External version of OTB (for example: 3.8.0)
+
+  * Monteverdi script:
+
+    -o version
+        External version of OTB (for example: 3.8.0)
+
+    -m version
+        External version of Monteverdi (for example: 1.6.0)
+
+  * OTB-Applications script:
+
+    -o version
+        External version of OTB (for example: 3.8.0)
+
+
+Once the script completed, source packages are available in "/tmp" directory.
