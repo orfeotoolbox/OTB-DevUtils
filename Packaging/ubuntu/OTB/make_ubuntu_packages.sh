@@ -114,7 +114,7 @@ check_external_version ()
         exit 3
     fi
     if [ "`echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
-        echo "*** ERROR: Monteverdi version ($otb_version_full) has an unexpected format"
+        echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
         exit 3
     fi
 
