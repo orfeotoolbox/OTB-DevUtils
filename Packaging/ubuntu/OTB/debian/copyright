@@ -11,7 +11,7 @@ main one, developed by the CNES (Centre National d'Etudes Spatiales), is
 Orfeo-Toolbox (OTB). Other works include ITK, VTK, VXL, FLTK, GDAL, OSSIM,
 LibSVM, BGL, TinyXML, OpenJPEG, OpenThreads, muParser, LibKML, LibSIFT,
 libLAS, kNN Segmentation Library, GAlib, Expat, ConfigFile, Insight Journal
-Publications, dxflib.
+Publications.
 
 * ITK (http://www.itk.org/),
   distributed under the revised BSD license
@@ -93,10 +93,6 @@ Publications, dxflib.
 * Insight Journal Publications (http://www.insight-journal.org/browse/publications),
   distributed under the revised BSD license
   (see Copyright/ITKCopyright.txt)
-
-* dxflib (http://www.qcad.org/dxflib.html),
-  distributed under the GNU GPL V2 license
-  (see /usr/share/common-licenses/GPL-2)
 
 
 Upstream Author(s):
