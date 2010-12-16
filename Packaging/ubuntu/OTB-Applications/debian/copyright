@@ -1,0 +1,47 @@
+This work was packaged for Debian by:
+
+    OTB Team <contact@orfeo-toolbox.org> on Tue, 07 Dec 2010 13:51:52 +0100
+
+It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
+
+    hg clone -r <version> http://hg.orfeo-toolbox.org/OTB-Applications
+
+
+Upstream Author(s):
+
+    Julien Michel (CS then CNES) <julien.michel@orfeo-toolbox.org>
+    Cyrille Valladeau (CS) <cyrille.valladeau@c-s.fr>
+    Emmanuel Christophe (CNES then CRISP) <emmanuel.christophe@orfeo-toolbox.org>
+    Guillaume Borrut (CS) <guillaume.borrut@c-s.fr>
+    Otmane Lahlou (CS) <otmane.lahlou@c-s.fr>
+    Thomas Feuvrier (CS) <thomas.feuvrier@c-s.fr>
+    Jordi Inglada (CNES) <jordi.inglada@orfeo-toolbox.org>
+    Julien Malik (CS) <julien.malik@orfeo-toolbox.org>
+    Patrick Imbo (CS) <patrick.imbo@c-s.fr>
+    Aurélien Bricier (CS) <aurelien.bricier@c-s.fr>
+    Grégoire Mercier (Telecom Bretagne) <gregoire.mercier@telecom-bretagne.eu>
+    Romain Garrigues (CS) <romain.garrigues@c-s.fr>
+    Manuel Grizonnet (CNES) <manuel.grizonnet@cnes.fr>
+
+Copyright:
+
+    Copyright (c) Centre National d'Etudes Spatiales and others, see files in
+    'Copyright' directory for third parties copyrights.
+
+
+License:
+
+    OTB Applications are distributed under the CeCILL license version 2. See
+    files Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
+    (french version) in 'Copyright' directory for details. This licenses are
+    also available online:
+
+    http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+    http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt
+
+
+The Debian packaging is:
+
+    Copyright (C) 2010 OTB Team <contact@orfeo-toolbox.org>
+
+    This package is distributed under the CeCILL license version 2.

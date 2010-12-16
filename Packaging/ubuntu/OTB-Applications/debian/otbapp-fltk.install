@@ -1,0 +1,18 @@
+# OTB Application shared libraries
+usr/lib/otb/libOTBFLTKGuiGenerator.so
+
+# OTB Application executables
+usr/bin/otbBandMath-flgui
+usr/bin/otbBundleToPerfectSensor-flgui
+usr/bin/otbCompareImages-flgui
+usr/bin/otbConvert-flgui
+usr/bin/otbEvaluateObjectDetectorResponse-flgui
+usr/bin/otbExtractROIApplication-flgui
+usr/bin/otbFineRegistration-flgui
+usr/bin/otbKmzExport-flgui
+usr/bin/otbObjectDetector-flgui
+usr/bin/otbOrthoRectification-flgui
+usr/bin/otbQuicklook-flgui
+usr/bin/otbReadImageInfo-flgui
+usr/bin/otbSplitImage-flgui
+usr/bin/otbVectorDataSetField-flgui

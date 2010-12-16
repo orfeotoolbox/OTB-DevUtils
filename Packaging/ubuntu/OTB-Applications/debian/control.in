@@ -1,0 +1,123 @@
+Source: otbapp
+Priority: extra
+Maintainer: OTB Team <contact@orfeo-toolbox.org>
+Build-Depends: cdbs, debhelper (>= 7), cmake, libc6-dev (>= 2.4), libgcc1 (>= 1:4.1),
+ libstdc++6 (>= 4.4), libotb@OTB_VERSION_MAJOR@-dev (>= @OTB_VERSION_FULL@),
+ libgdal1-dev, libfltk1.1-dev, fluid, libqt4-dev, libqtcore4, libqtgui4, libqt4-xml
+Standards-Version: 3.8.4
+Section: contrib/science
+Homepage: http://www.orfeo-toolbox.org/
+
+Package: otbapp
+Section: contrib/science
+Architecture: all
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@), otbapp-legacy,
+ otbapp-common, otbapp-cli, otbapp-fltk, otbapp-qt, ${misc:Depends}
+Description: Meta-package for ORFEO Toolbox (OTB) Applications
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
+ .
+ OTB Applications are a set of various command line interface (CLI) and
+ graphical interface (GUI) applications developped around the OTB library.
+ .
+ This package is a meta-package. It depends on all CLI an GUI applications and
+ libraries provided by OTB Applications.
+
+Package: otbapp-legacy
+Section: contrib/science
+Architecture: any
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@), ${shlibs:Depends},
+ ${misc:Depends}
+Description: ORFEO Toolbox (OTB) Applications - legacy applications
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
+ .
+ OTB Applications are a set of various command line interface (cli) and
+ graphical interface (gui) applications developped around the OTB library.
+ .
+ This package contains the CLI and GUI legacy applications and libraries
+ provided by OTB Applications.
+
+Package: otbapp-common
+Section: contrib/libs
+Architecture: any
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@), ${shlibs:Depends},
+ ${misc:Depends}
+Description: ORFEO Toolbox (OTB) Applications - common libraries
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
+ .
+ OTB Applications are a set of various command line interface (cli) and
+ graphical interface (gui) applications developped around the OTB library.
+ .
+ This package contains common libraries required by CLI, FLTK and QT OTB
+ Applications.
+
+Package: otbapp-cli
+Section: contrib/libs
+Architecture: any
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@), otbapp-common,
+ ${shlibs:Depends}, ${misc:Depends}
+Description: ORFEO Toolbox (OTB) Applications - CLI applications
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
+ .
+ OTB Applications are a set of various command line interface (cli) and
+ graphical interface (gui) applications developped around the OTB library.
+ .
+ This package contains CLI applications ans related libraries provided by OTB
+ Applications.
+
+Package: otbapp-fltk
+Section: contrib/libs
+Architecture: any
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@), otbapp-common,
+ ${shlibs:Depends}, ${misc:Depends}
+Description: ORFEO Toolbox (OTB) Applications - FLTK based GUI applications
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
+ .
+ OTB Applications are a set of various command line interface (cli) and
+ graphical interface (gui) applications developped around the OTB library.
+ .
+ This package contains FLTK based GUI applications ans related libraries
+ provided by OTB Applications.
+
+Package: otbapp-qt
+Section: contrib/libs
+Architecture: any
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@), otbapp-common,
+ libqtcore4, libqtgui4, libqt4-xml, ${shlibs:Depends}, ${misc:Depends}
+Description: ORFEO Toolbox (OTB) Applications - QT based GUI applications
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
+ .
+ OTB Applications are a set of various command line interface (cli) and
+ graphical interface (gui) applications developped around the OTB library.
+ .
+ This package contains QT based GUI applications ans related libraries
+ provided by OTB Applications.

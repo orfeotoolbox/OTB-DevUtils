@@ -1,0 +1,18 @@
+# OTB Application shared libraries
+usr/lib/otb/libOTBApplicationQtWidget.so
+
+# OTB Application executables
+usr/bin/otbBandMath-qtgui
+usr/bin/otbBundleToPerfectSensor-qtgui
+usr/bin/otbCompareImages-qtgui
+usr/bin/otbConvert-qtgui
+usr/bin/otbEvaluateObjectDetectorResponse-qtgui
+usr/bin/otbExtractROIApplication-qtgui
+usr/bin/otbFineRegistration-qtgui
+usr/bin/otbKmzExport-qtgui
+usr/bin/otbObjectDetector-qtgui
+usr/bin/otbOrthoRectification-qtgui
+usr/bin/otbQuicklook-qtgui
+usr/bin/otbReadImageInfo-qtgui
+usr/bin/otbSplitImage-qtgui
+usr/bin/otbVectorDataSetField-qtgui

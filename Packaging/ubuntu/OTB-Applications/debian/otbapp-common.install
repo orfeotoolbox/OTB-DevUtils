@@ -1,0 +1,20 @@
+# OTB Application shared libraries
+usr/lib/otb/libOTBBandMath.so
+usr/lib/otb/libOTBBundleToPerfectSensor.so
+usr/lib/otb/libOTBCompareImages.so
+usr/lib/otb/libOTBConcatenateImages.so
+usr/lib/otb/libOTBConvert.so
+usr/lib/otb/libOTBEstimateFeaturesStatistics.so
+usr/lib/otb/libOTBEvaluateObjectDetectorResponse.so
+usr/lib/otb/libOTBExtractROIApplication.so
+usr/lib/otb/libOTBFineRegistration.so
+usr/lib/otb/libOTBOrthoRectification.so
+usr/lib/otb/libOTBVectorDataSetField.so
+usr/lib/otb/libOTBKmzExport.so
+usr/lib/otb/libOTBTrainDeepSVMObjectDetector.so
+usr/lib/otb/libOTBTrainObjectDetector.so
+usr/lib/otb/libOTBObjectDetector.so
+usr/lib/otb/libOTBProcessingChain.so
+usr/lib/otb/libOTBQuicklook.so
+usr/lib/otb/libOTBReadImageInfo.so
+usr/lib/otb/libOTBSplitImage.so
