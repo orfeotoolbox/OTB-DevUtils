@@ -237,7 +237,7 @@ cd debian
 for f in control rules ; do
     sed -e "s/@SRC_VERSION_MAJOR@/$src_version_major/g" \
         -e "s/@SRC_VERSION_MINOR@/$src_version_minor/g" \
-        -e "s/@SRC_VERSION_PATCH@/$src_version_parch/g" \
+        -e "s/@SRC_VERSION_PATCH@/$src_version_patch/g" \
         -e "s/@SRC_VERSION_FULL@/$src_version_full/g" \
         -e "s/@OTB_VERSION_MAJOR@/$otb_version_major/g" \
         -e "s/@OTB_VERSION_SONAME@/$otb_version_soname/g" \

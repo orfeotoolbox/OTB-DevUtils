@@ -216,7 +216,7 @@ cd debian
 for f in control rules ; do
     sed -e "s/@VERSION_MAJOR@/$otb_version_major/g" \
         -e "s/@VERSION_MINOR@/$otb_version_minor/g" \
-        -e "s/@VERSION_PATCH@/$otb_version_parch/g" \
+        -e "s/@VERSION_PATCH@/$otb_version_patch/g" \
         -e "s/@VERSION_SONAME@/$otb_version_soname/g" \
         -e "s/@VERSION_FULL@/$otb_version_full/g" \
         < "$f.in" > "$f"
