@@ -44,8 +44,8 @@ cd ../temp
 make install DESTDIR=%{buildroot}
 %if "%{_lib}" == "lib64"  
 mkdir %{buildroot}/usr/%{_lib}
-mv %{buildroot}/usr/lib/otb/lib*.so %{buildroot}/usr/%{_lib}/
-%endif  
+%endif
+mv %{buildroot}/usr/lib/otb/lib*.so %{buildroot}/usr/%{_lib}/  
 %fdupes %{buildroot}
 
 %clean
