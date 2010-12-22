@@ -1,5 +1,5 @@
 SET (CTEST_SOURCE_DIRECTORY "C:/ORFEO/OTB-Applications")
-SET (CTEST_BINARY_DIRECTORY "C:/ORFEO/otb-build/OTB-Applications")
+SET (CTEST_BINARY_DIRECTORY "C:/ORFEO/otb-build/OTB-Applications/release")
 
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files/CMake 2.8/bin/cmake.exe")
@@ -24,7 +24,7 @@ OTB_DATA_LARGEINPUT_ROOT:PATH=C:/PartageVM/OTB-LargeInput
 GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/gdal-17/include
 GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/apps/gdal-17/lib/gdal_i.lib
 
-OTB_DIR:PATH=C:/ORFEO/otb-build/OTB
+OTB_DIR:PATH=C:/ORFEO/otb-build/OTB/release
 OTB_USE_CPACK:BOOL=ON
 
 EXPAT_INCLUDE_DIR:PATH=C:/OSGeo4W/include
