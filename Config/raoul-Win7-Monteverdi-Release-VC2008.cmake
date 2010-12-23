@@ -32,6 +32,13 @@ EXPAT_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libexpat.lib
 LIBLAS_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 LIBLAS_LIBRARY:FILEPATH=C:/OSGeo4W/lib/liblas_c.lib
 
+MAPNIK_INCLUDE_DIR:PATH=C:/OSGeo4W/include/mapnik
+MAPNIK_LIBRARY:FILEPATH=C:/OSGeo4W/lib/mapnik.lib
+FREETYPE2_INCLUDE_DIR:PATH=C:/OSGeo4W/include/freetype
+ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
+ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
+LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
+LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
 ")
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})

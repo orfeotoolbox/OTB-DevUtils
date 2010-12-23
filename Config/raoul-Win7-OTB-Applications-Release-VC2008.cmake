@@ -40,6 +40,13 @@ QGIS_LIBRARY:FILEPATH=C:/OSGeo4W/apps/qgis/lib/qgis_core.lib
 # OTB Test driver to launch the tests
 OTB_TEST_DRIVER:FILEPATH=C:/Users/jmalik/Dashboard/build/OTB-Release-VC2008/bin/Release/otbTestDriver.exe
 
+MAPNIK_INCLUDE_DIR:PATH=C:/OSGeo4W/include/mapnik
+MAPNIK_LIBRARY:FILEPATH=C:/OSGeo4W/lib/mapnik.lib
+FREETYPE2_INCLUDE_DIR:PATH=C:/OSGeo4W/include/freetype
+ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
+ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
+LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
+LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
 ")
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})

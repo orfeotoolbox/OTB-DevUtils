@@ -33,6 +33,14 @@ EXPAT_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libexpat.lib
 LIBLAS_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 LIBLAS_LIBRARY:FILEPATH=C:/OSGeo4W/lib/liblas_c.lib
 
+MAPNIK_INCLUDE_DIR:PATH=C:/OSGeo4W/include/mapnik
+MAPNIK_LIBRARY:FILEPATH=C:/OSGeo4W/lib/mapnik.lib
+FREETYPE2_INCLUDE_DIR:PATH=C:/OSGeo4W/include/freetype
+ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
+ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
+LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
+LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
+
 # Utilitites for Wrapping
 SWIG_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/Source/Swig
 SWIG_EXECUTABLE:FILEPATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/swig.exe
