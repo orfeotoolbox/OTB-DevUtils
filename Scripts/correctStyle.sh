@@ -44,9 +44,9 @@ find  ./Code/  -name "*.h" -o -name "*.cxx" -o -name "*.txx" | xargs grep -l " ;
 find  ./Examples/  -name "*.h" -o -name "*.cxx" -o -name "*.txx" | xargs grep -l " ;" | xargs sed -i 's/ ;/;/g'
 find ./Testing/ -name "*.cxx" -a -not -path "*/Utilities/*"  | xargs grep -l " ;" | xargs sed -i 's/ ;/;/g'
 #replace tabulation by space
-find  ./Code/  -name "*.h" -o -name "*.cxx" -o -name "*.txx" | xargs sed -i 's/\t/  /g'
-find  ./Examples/  -name "*.h" -o -name "*.cxx" -o -name "*.txx" | xargs sed -i 's/\t/  /g'
-find ./Testing/ -name "*.cxx" -a -not -path "*/Utilities/*"  | xargs sed -i 's/\t/  /g'
+find  ./Code/  -name "*.h" -o -name "*.cxx" -o -name "*.txx" | xargs sed -i 's/\t/       /g'
+find  ./Examples/  -name "*.h" -o -name "*.cxx" -o -name "*.txx" | xargs sed -i 's/\t/       /g'
+find ./Testing/ -name "*.cxx" -a -not -path "*/Utilities/*"  | xargs sed -i 's/\t/       /g'
 #no empty lines around the code in the software guide
 grep -lR 'BeginCodeSnippet' Examples/* | xargs perl -p0777i -e 's/Software Guide : BeginCodeSnippet\n\n/Software Guide : BeginCodeSnippet\n/mg'
 grep -lR 'EndCodeSnippet' Examples/* | xargs perl -p0777i -e 's/\n\n  \/\/ Software Guide : EndCodeSnippet/\n  \/\/ Software Guide : EndCodeSnippet/mg'
@@ -55,7 +55,7 @@ grep -lR 'EndCodeSnippet' Examples/* | xargs perl -p0777i -e 's/\n\n\/\/ Softwar
 find  ./Code/  -name "*.h" -o -name "*.cxx" -o -name "*.txx" | xargs xargs perl -p0777i -e 's/\n\n\n\n/\n\n\n/mg'
 find  ./Examples/  -name "*.h" -o -name "*.cxx" -o -name "*.txx" | xargs xargs perl -p0777i -e 's/\n\n\n\n/\n\n\n/mg'
 
-hg st 
+hg st
 hg commit -m "STYLE"
 hg push
 
@@ -63,4 +63,3 @@ cd $TMP_DIR
 rm -r $CLONE_NAME
 
 exit 0
-
