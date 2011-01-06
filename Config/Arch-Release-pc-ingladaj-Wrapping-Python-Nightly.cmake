@@ -1,4 +1,4 @@
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/OTB/trunk/OTB-Wrapping-Nightly/")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/OTB/trunk/OTB-Wrapping/")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB/OTB-Binary-Wrapping-Nightly/")
 
 
