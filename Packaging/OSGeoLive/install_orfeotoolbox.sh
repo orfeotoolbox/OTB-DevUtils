@@ -21,11 +21,11 @@
 # sudo ./install_orfeotoolbox.sh
 
 # Install orfeo toolbox
-sudo aptitude install add-apt-repository  
+sudo aptitude -y install add-apt-repository  
 sudo add-apt-repository ppa:otb/orfeotoolbox-stable
 
-sudo aptitude update  
-sudo aptitude install otb otbapp monteverdi
+sudo aptitude -y update  
+sudo aptitude install -y otb otbapp monteverdi
 
 # live disc's username is "user"
 DATA_DIR=$USER_HOME/gisvm/app-data/orfeotoolbox
