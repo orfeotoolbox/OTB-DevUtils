@@ -11,7 +11,7 @@ SET (CTEST_SITE "dora.c-s.fr" )
 SET (CTEST_BUILD_NAME "Ubuntu8.04-64bits-Release-NewStatistics")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/usr/bin/hg")
-SET (CTEST_HG_UPDATE_OPTIONS "-C NewStatistics") 
+SET (CTEST_HG_UPDATE_OPTIONS "-C tip") 
 
 SET(OTB_INSTALL_PREFIX $ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/OTB-NewStatistics)
 
