@@ -45,3 +45,7 @@ SET (CTEST_ENVIRONMENT
  "DISPLAY=:0"
 )
 
+# set any extra envionment varibles here
+SET (CTEST_ENVIRONMENT
+ "DISPLAY=:101"
+)
