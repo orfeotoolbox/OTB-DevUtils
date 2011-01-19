@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script to automate the Orfeo Toolbox library packaging for Ubuntu.
 #
-# Copyright (C) 2010 CNES - Centre National d'Etudes Spatiales
+# Copyright (C) 2010, 2011 CNES - Centre National d'Etudes Spatiales
 # by Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
 # The OTB is distributed under the CeCILL license version 2. See files
@@ -27,7 +27,7 @@ display_version ()
     cat <<EOF
 
 make_ubuntu_packages.sh, version ${SCRIPT_VERSION}
-Copyright (C) 2010 CNES (Centre National d'Etudes Spatiales)
+Copyright (C) 2010, 2011 CNES (Centre National d'Etudes Spatiales)
 by Sebastien DINOT <sebastien.dinot@c-s.fr>
 
 EOF
