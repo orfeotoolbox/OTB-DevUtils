@@ -1,5 +1,5 @@
-otbapp (3.6.0-1) lucid; urgency=low
+otbapp (3.8.0-1) lucid; urgency=low
 
-  * Version 3.6.0 released (first public package)
+  * Version 3.8.0 released (first public package)
 
- -- OTB Team <contact@orfeo-toolbox.org>  Thu, 30 Nov 2010 12:22:17 +0200
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 16 Dec 2010 16:00:36 +0100
