@@ -3,3 +3,9 @@ usr/bin/monteverdi
 
 # Shared libraries
 usr/lib/otb/lib*.so
+
+# External resources
+usr/share/pixmaps/monteverdi.*
+
+# FreeDeskop entry file
+usr/share/applications/monteverdi.desktop
