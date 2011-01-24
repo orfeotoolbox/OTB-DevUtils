@@ -2,10 +2,26 @@
 # spec file for package OrfeoToolbox
 #
 
+%if %{?pyver:0}%{!?pyver:1}
+    %if 0%{?suse_version} > 1130
+    %define pyver 2.7
+    %endif
+    %if 0%{?suse_version} == 1110 || 0%{?suse_version} == 1120 || 0%{?suse_version} == 1130
+    %define pyver 2.6
+    %endif
+%endif
+
+# we have multilib triage
+%if "%{_lib}" == "lib"
+%define cpuarch 32
+%else
+%define cpuarch 64
+%endif
+
 # norootforbuild
 
 Name:           OrfeoToolbox-python
-Version:        3.6.0
+Version:        3.8.0
 Release:        1
 Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:          Development/Libraries
@@ -16,14 +32,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 # BuildArch:      noarch
 
 BuildRequires:  cmake libgdal-devel libgeotiff-devel gettext-runtime gettext-tools freeglut-devel libpng-devel
-%if %suse_version >= 1130
-BuildRequires:	gcc43-c++ gcc43 libgcc43 libstdc++43-devel
-%else
-BuildRequires:	gcc-c++ gcc libgcc
-%endif
-#Requires:       libgdal1 libgeotiff freeglut libpng14
-BuildRequires:  fdupes libOpenThreads-devel boost-devel fltk fltk-devel python-devel CableSwig CableSwig-devel swig 
+BuildRequires:	gcc-c++ gcc
+BuildRequires:  fdupes libOpenThreads-devel boost-devel fltk fltk-devel CableSwig CableSwig-devel swig 
 BuildRequires:  OrfeoToolbox-devel OrfeoToolbox
+BuildRequires:	python-devel >= %{pyver}
 
 %description
 Python bindings for the OrfeoToolbox library
@@ -33,12 +45,6 @@ Python bindings for the OrfeoToolbox library
 
 
 %build
-%if %suse_version >= 1130
-export CC=gcc-4.3
-export CXX=g++-4.3
-export CXXFLAGS="%{optflags}"
-export CFLAGS="$CXXFLAGS"
-%endif
 cd ..
 mkdir temp
 cd temp
@@ -46,14 +52,20 @@ cmake  -DBUILD_TESTING:BOOL=OFF \
        -DOTB_DIR:PATH=/usr/%{_lib} \
        -DWRAP_ITK_PYTHON:BOOL=On \
        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+       -DPYTHON_INCLUDE_DIR:PATH=%{py_incdir} \
+       -DPYTHON_LIBRARY:PATH=%{py_libdir} \
        -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
 
-make VERBOSE=1 %{?_smp_mflags}
+make VERBOSE=1 
 
 
 %install
 cd ../temp
 make install DESTDIR=%{buildroot}
+%if "%{_lib}" == "lib64"  
+mkdir %{buildroot}/usr/%{_lib}
+mv %{buildroot}/usr/lib/otb-wrapping %{buildroot}/usr/%{_lib}/
+%endif
 %fdupes %{buildroot}
 
 
@@ -66,7 +78,6 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
+%{_libdir}/otb-wrapping/
 
 %changelog
-* Thu Dec 11 2010 Angelos Tzotsos <tzotsos@gmail.com> - 3.6.0-1
-- Initial build
