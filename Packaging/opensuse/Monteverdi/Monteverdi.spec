@@ -35,7 +35,7 @@ cmake  -DBUILD_TESTING:BOOL=OFF \
        -DOTB_DIR:PATH=%{_libdir} \
        -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
 
-make VERBOSE=1 %{?_smp_mflags}
+make VERBOSE=1 
 
 
 %install

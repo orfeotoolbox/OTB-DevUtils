@@ -30,6 +30,9 @@ CMAKE_BUILD_TYPE:STRING=Release
 
 Monteverdi_DIR:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/Monteverdi
 
+FLTK_DIR:PATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.9
+FLTK_FLUID_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.9/bin/fluid
+
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
 ")
