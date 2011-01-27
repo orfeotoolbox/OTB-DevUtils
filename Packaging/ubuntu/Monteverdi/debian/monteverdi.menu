@@ -1,6 +1,6 @@
 ?package(monteverdi):\
         needs="X11"\
-        section="Applications/Sciences"\
+        section="Applications/Science"\
         title="Monteverdi"\
         longtitle="Monteverdi, image processing workshop based on OTB"\
         icon="/usr/share/pixmaps/monteverdi.xpm"\
