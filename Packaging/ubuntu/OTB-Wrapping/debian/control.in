@@ -27,7 +27,7 @@ Description: Files shared by all bindings for ORFEO Toolbox library
 Package: otb-wrapping-python
 Section: contrib/libs
 Architecture: any
-Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@),
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@), otb-wrapping-common,
  ${shlibs:Depends}, ${misc:Depends}, python (>= 2.6), python-central (>= 0.6.11)
 Description: Python bindings for ORFEO Toolbox library
  ORFEO Toolbox (OTB) is distributed as an open source library of image
@@ -42,7 +42,7 @@ Description: Python bindings for ORFEO Toolbox library
 Package: otb-wrapping-java
 Section: contrib/libs
 Architecture: any
-Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@),
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@), otb-wrapping-common,
  ${shlibs:Depends}, ${misc:Depends}, default-jre | java5-runtime
 Description: Java bindings for ORFEO Toolbox library
  ORFEO Toolbox (OTB) is distributed as an open source library of image
