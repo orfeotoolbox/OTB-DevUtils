@@ -1,6 +1,6 @@
 This work was packaged for Debian by:
 
-    OTB Team <contact@orfeo-toolbox.org> on Tue, 07 Dec 2010 13:51:52 +0100
+    OTB Team <contact@orfeo-toolbox.org> on Fri, 28 Jan 2011 15:24:29 +0100
 
 It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
 
@@ -33,8 +33,8 @@ Copyright:
 
 License:
 
-    The OTB is distributed under the CeCILL license version 2. See files
-    Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
+    OTB and Monteverdi are distributed under the CeCILL license version 2. See
+    files Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
     (french version) in 'Copyright' directory for details. This licenses are
     also available online:
     http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
@@ -43,6 +43,6 @@ License:
 
 The Debian packaging is:
 
-    Copyright (C) 2010 OTB Team <contact@orfeo-toolbox.org>
+    Copyright (C) 2010, 2011 OTB Team <contact@orfeo-toolbox.org>
 
     This package is distributed under the CeCILL license version 2.

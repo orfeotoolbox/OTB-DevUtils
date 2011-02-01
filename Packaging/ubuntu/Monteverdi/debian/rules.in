@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 #
-# Copyright (C) 2010 CNES - Centre National d'Etudes Spatiales
+# Copyright (C) 2010, 2011 CNES - Centre National d'Etudes Spatiales
 # Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
 # Monteverdi is distributed under the CeCILL license version 2. See files
