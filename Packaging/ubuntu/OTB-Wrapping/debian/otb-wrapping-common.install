@@ -5,7 +5,6 @@ usr/lib/otb-wrapping/Configuration/Languages/CMakeLists.txt
 usr/lib/otb-wrapping/Configuration/Languages/GccXML
 usr/lib/otb-wrapping/Configuration/Languages/itk.i
 usr/lib/otb-wrapping/Configuration/Languages/SwigInterface
-usr/lib/otb-wrapping/Configuration/Typedefs/ITKPy*
 usr/lib/otb-wrapping/Configuration/Typedefs/itk*
 usr/lib/otb-wrapping/Configuration/Typedefs/otb*
 usr/lib/otb-wrapping/Configuration/Typedefs/wrap_ITK*
