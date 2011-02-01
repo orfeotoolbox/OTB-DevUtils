@@ -1,0 +1,52 @@
+This work was packaged for Debian by:
+
+    OTB Team <contact@orfeo-toolbox.org> on Fri, 28 Jan 2011 17:06:38 +0100
+
+It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
+
+    hg clone -r <version> http://hg.orfeo-toolbox.org/OTB-Wrapping
+
+The source tarball is an aggregate of several different works in which the
+main one, developed by the CNES (Centre National d'Etudes Spatiales), is
+Orfeo-Toolbox (OTB) wrappings. Other works include PyGCCXML.
+
+* PyGCCXML (http://www.language-binding.net/pygccxml/pygccxml.html),
+  distributed under the Boost Software License 1.0
+  (revised BSD-like, see Copyright/PyGCCXMLCopyright.txt)
+
+
+Upstream Author(s):
+
+    Otmane Lahlou (CS) <otmane.lahlou@c-s.fr>
+    Jordi Inglada (CNES) <jordi.inglada@orfeo-toolbox.org>
+    Julien Michel (CS then CNES) <julien.michel@orfeo-toolbox.org>
+    Julien Malik (CS) <julien.malik@orfeo-toolbox.org>
+    Emmanuel Christophe (CNES then CRISP) <emmanuel.christophe@orfeo-toolbox.org>
+    Manuel Grizonnet (CNES) <manuel.grizonnet@cnes.fr>
+    Romain Garrigues (CS) <romain.garrigues@c-s.fr>
+    Cyrille Valladeau (CS) <cyrille.valladeau@c-s.fr>
+    Thomas Feuvrier (CS) <thomas.feuvrier@c-s.fr>
+
+
+Copyright:
+
+    Copyright (c) Centre National d'Etudes Spatiales and others, see files in
+    'Copyright' directory for third parties copyrights.
+
+
+License:
+
+    OTB and OTB bindings are distributed under the CeCILL license version 2. See
+    files Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
+    (french version) in 'Copyright' directory for details. This licenses are
+    also available online:
+
+    http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+    http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt
+
+
+The Debian packaging is:
+
+    Copyright (C) 2010, 2011 OTB Team <contact@orfeo-toolbox.org>
+
+    This package is distributed under the CeCILL license version 2.

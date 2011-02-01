@@ -1,0 +1,55 @@
+Source: otb-wrapping
+Priority: extra
+Maintainer: OTB Team <contact@orfeo-toolbox.org>
+Build-Depends: debhelper (>= 7), cdbs, cmake (>= 2.6), libc6-dev (>= 2.4), swig, cableswig,
+ libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libotb@OTB_VERSION_MAJOR@-dev (>= @OTB_VERSION_FULL@),
+ libgdal1-dev, python2.6, python2.6-dev, python-central (>= 0.6.11),
+ default-jdk-builddep | java5-jdk
+Standards-Version: 3.8.4
+Section: contrib/science
+Homepage: http://www.orfeo-toolbox.org/
+
+Package: otb-wrapping-common
+Section: contrib/libs
+Architecture: any
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@),
+ ${shlibs:Depends}, ${misc:Depends}
+Description: Files shared by all bindings for ORFEO Toolbox library
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
+ .
+ This packages contains the shared files by all bindings for OTB API.
+
+Package: otb-wrapping-python
+Section: contrib/libs
+Architecture: any
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@),
+ ${shlibs:Depends}, ${misc:Depends}, python (>= 2.6), python-central (>= 0.6.11)
+Description: Python bindings for ORFEO Toolbox library
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
+ .
+ This packages contains the Python bindings for OTB API.
+
+Package: otb-wrapping-java
+Section: contrib/libs
+Architecture: any
+Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@),
+ ${shlibs:Depends}, ${misc:Depends}, default-jre | java5-runtime
+Description: Java bindings for ORFEO Toolbox library
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
+ .
+ This packages contains the Java bindings for OTB API.

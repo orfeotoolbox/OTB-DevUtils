@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+LDCONFIG_FILE=/etc/ld.so.conf.d/otb-wrapping-python.conf
+
+if [ "$1" = "configure" ] ; then
+    cat > "$LDCONFIG_FILE" <<EOF
+# Orfeo Toolbox Python bindings related search paths
+/usr/lib/otb-wrapping/lib
+EOF
+    ldconfig
+fi
+
+#DEBHELPER#
+
+exit 0

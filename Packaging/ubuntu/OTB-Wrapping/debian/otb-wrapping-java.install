@@ -1,0 +1,7 @@
+# OTB Wrapping libraries (Java bindings)
+usr/lib/otb-wrapping/lib/*.jar
+usr/lib/otb-wrapping/lib/*Java.so
+usr/lib/otb-wrapping/Configuration/Languages/Java
+usr/lib/otb-wrapping/Configuration/Typedefs/java
+usr/lib/otb-wrapping/Configuration/Typedefs/ITKJava*
+usr/lib/otb-wrapping/Configuration/Typedefs/wrap_java*

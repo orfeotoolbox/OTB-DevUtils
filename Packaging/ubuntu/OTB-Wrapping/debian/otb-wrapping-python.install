@@ -1,0 +1,10 @@
+# OTB Wrapping libraries (Python bindings)
+usr/lib/otb-wrapping/Python
+usr/lib/otb-wrapping/lib/*.py
+usr/lib/otb-wrapping/lib/*Python.so
+usr/lib/otb-wrapping/Configuration/Languages/Python
+usr/lib/otb-wrapping/Configuration/Typedefs/python
+usr/lib/otb-wrapping/Configuration/Typedefs/ITKPy*
+usr/lib/otb-wrapping/Configuration/Typedefs/wrap_itkPy*
+usr/lib/otb-wrapping/Configuration/Typedefs/wrap_py*
+usr/lib/otb-wrapping/Configuration/Typedefs/wrap_Py*
