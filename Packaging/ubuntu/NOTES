@@ -13,20 +13,21 @@
 
 Two set of binary packages are built on the fly on Launchpad:
 
-* Testing packages
+* Packages using standard Ubuntu/Debian GIS packages
 
-  See https://launchpad.net/~julien-malik/+archive/orfeotoolbox-testing
+  See https://launchpad.net/~otb/+archive/orfeotoolbox-stable
 
   To add this repository on your system, you must add the following line in
   /etc/apt/sources.list (or in a separate file in /etc/apt/sources.list.d/):
 
-  deb http://ppa.launchpad.net/julien-malik/orfeotoolbox-testing/ubuntu <codename> main
+  deb http://ppa.launchpad.net/otb/orfeotoolbox-stable/ubuntu <codename> main
 
-  where <codename> is karmic, lucid or meverick.
+  where <codename> is karmic, lucid or maverick.
 
-* Unstable packages
+* Packages using Ubuntu GIS packages (with, in particular, a more recent gdal
+  library)
 
-  See https://launchpad.net/~julien-malik/+archive/orfeotoolbox-testing-ubuntugis-unstable
+  See https://launchpad.net/~otb/+archive/orfeotoolbox-stable-ubuntugis
 
   This version needs Ubuntu GIS packages:
 
@@ -35,8 +36,10 @@ Two set of binary packages are built on the fly on Launchpad:
   To add these repositories on your system, you must add the following lines in
   /etc/apt/sources.list (or in a separate file in /etc/apt/sources.list.d/):
 
-  deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu lucid main
-  deb http://ppa.launchpad.net/julien-malik/orfeotoolbox-testing-ubuntugis-unstable/ubuntu lucid main
+  deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu <codename> main
+  deb http://ppa.launchpad.net/otb/orfeotoolbox-stable-ubuntugis/ubuntu <codename> main
+
+  where <codename> is karmic, lucid or maverick.
 
 Packages list:
 
@@ -48,7 +51,7 @@ Packages list:
 
 * 1 binary package related to Monteverdi:
 
-  - monteverdi  : Monteverdi workshop binary
+  - monteverdi : Monteverdi workshop binary
 
 * 8 binary packages related to OTB-Applications
 
@@ -60,6 +63,12 @@ Packages list:
   - otbapp-fltk           : FLTK based GUI applications
   - otbapp-qt             : Qt based GUI applications
   - otbapp-qgis           : QGis plugins
+
+* 3 binary packages related to OTB-Wrapping
+
+  - otb-wrapping-common : Common files
+  - otb-wrapping-python : Python bindings
+  - otb-wrapping-java   : Java bindings
 
 
 2. SOURCE PACKAGES
@@ -92,6 +101,9 @@ Syntax:
   -r revision
       Revision to be extracted
 
+  -o version
+      External version of OTB (for example: 3.8.0)
+
   -p version
       Version of the package
 
@@ -104,21 +116,20 @@ Syntax:
 
   * OTB script:
 
-    -o version
-        External version of OTB (for example: 3.8.0)
+    <any specific option>
 
   * Monteverdi script:
-
-    -o version
-        External version of OTB (for example: 3.8.0)
 
     -m version
         External version of Monteverdi (for example: 1.6.0)
 
   * OTB-Applications script:
 
-    -o version
-        External version of OTB (for example: 3.8.0)
+    <any specific option: OTB-Application version = OTB version>
 
+  * OTB-Applications script:
+
+    -m version
+        External version of OTB-Applications (for example: 1.4.0)
 
 Once the script completed, source packages are available in "/tmp" directory.
