@@ -1,0 +1,4 @@
+Configuration file for the miniature version of the "dinstall" program which
+installs packages in the Debian archive.
+
+Copy mini-dinstall.conf as /root/.mini-dinstall.conf

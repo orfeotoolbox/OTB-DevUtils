@@ -1,0 +1,99 @@
+# this is your configuration file for pbuilder.
+# the file in /usr/share/pbuilder/pbuilderrc is the default template.
+# /etc/pbuilderrc is the one meant for overwritting defaults in
+# the default template
+#
+# read pbuilderrc.5 document for notes on specific options.
+
+#==========================
+# Codenames for Debian suites according to their alias. Update these when
+# needed.
+UNSTABLE_CODENAME="sid"
+TESTING_CODENAME="squeeze"
+STABLE_CODENAME="lenny"
+STABLE_BACKPORTS_SUITE="$STABLE_CODENAME-backports"
+
+# List of Debian suites.
+DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME
+    "unstable" "testing" "stable")
+
+# List of Ubuntu suites. Update these when needed.
+UBUNTU_SUITES=("natty" "maverick" "lucid" "karmic" "jaunty" "intrepid" "hardy")
+
+# Mirrors to use. Update these to your preferred mirror.
+DEBIAN_MIRROR="ftp.fr.debian.org"
+UBUNTU_MIRROR="mirrors.kernel.org"
+
+# Optionally use the changelog of a package to determine the suite to use if
+# none set.
+if [ -z "${DIST}" ] && [ -r "debian/changelog" ]; then
+    DIST=$(dpkg-parsechangelog | awk '/^Distribution: / {print $2}')
+    # Use the unstable suite for certain suite values.
+    if $(echo "experimental UNRELEASED" | grep -q $DIST); then
+        DIST="$UNSTABLE_CODENAME"
+    fi
+    # Use the stable suite for stable-backports.
+    if $(echo "$STABLE_BACKPORTS_SUITE" | grep -q $DIST); then
+        DIST="$STABLE"
+    fi
+fi
+
+# Optionally set a default distribution if none is used. Note that you can set
+# your own default (i.e. ${DIST:="unstable"}).
+: ${DIST:="$(lsb_release --short --codename)"}
+
+# Optionally change Debian release states in $DIST to their names.
+case "$DIST" in
+    unstable)
+        DIST="$UNSTABLE_CODENAME"
+        ;;
+    testing)
+        DIST="$TESTING_CODENAME"
+        ;;
+    stable)
+        DIST="$STABLE_CODENAME"
+        ;;
+esac
+
+# Optionally set the architecture to the host architecture if none set. Note
+# that you can set your own default (i.e. ${ARCH:="i386"}).
+: ${ARCH:="$(dpkg --print-architecture)"}
+
+NAME="$DIST"
+if [ -n "${ARCH}" ]; then
+    NAME="$NAME-$ARCH"
+    DEBOOTSTRAPOPTS=("--arch" "$ARCH" "${DEBOOTSTRAPOPTS[@]}")
+fi
+TOPDIR="/var/cache/pbuilder/otb-local"
+BASETGZ="$TOPDIR/$NAME-base.tgz"
+# Optionally, set BASEPATH (and not BASETGZ) if using cowbuilder
+# BASEPATH="$TOPDIR/$NAME/base.cow/"
+DISTRIBUTION="$DIST"
+BUILDRESULT="$TOPDIR/$NAME/result/"
+APTCACHE="$TOPDIR/$NAME/aptcache/"
+BUILDPLACE="$TOPDIR/build/"
+BINDMOUNTS="/var/cache/archive"
+
+if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
+    # Debian configuration
+    MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
+    COMPONENTS="main contrib non-free"
+    DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/debian-archive-keyring.gpg")
+    # This is for enabling backports for the Debian stable suite.
+    if $(echo "$STABLE_CODENAME stable" | grep -q $DIST); then
+        EXTRAPACKAGES="$EXTRAPACKAGES debian-backports-keyring"
+        OTHERMIRROR="deb http://www.backports.org/debian $STABLE_BACKPORTS_SUITE $COMPONENTS"
+    fi
+elif $(echo ${UBUNTU_SUITES[@]} | grep -q $DIST); then
+    # Ubuntu configuration
+    MIRRORSITE="http://$UBUNTU_MIRROR/ubuntu/"
+    COMPONENTS="main restricted universe multiverse"
+    DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg")
+else
+    echo "Unknown distribution: $DIST"
+    exit 1
+fi
+
+OTHERMIRROR="$OTHERMIRROR | \
+             deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu ${DIST} main | \
+             deb file:///var/cache/archive $DIST/"

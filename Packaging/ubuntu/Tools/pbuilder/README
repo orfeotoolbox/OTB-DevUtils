@@ -1,0 +1,37 @@
+PBuilder configuration files used fot OTB packages.
+
+* pbuilderrc.ppa
+
+  This configuration file must be used to build applications (like Monteverdi,
+  OTB-Applications, OTB-Wrapping, ...) with an official OTB library package,
+  downloaded from the public OTB Launchpad PPA.
+
+  Examples:
+
+  # builder create \
+      --configfile /root/pbuilderrc.ppa
+
+  # pbuilder login --save-after-login \
+      --configfile /root/pbuilderrc.ppa
+
+  # pbuilder update \
+      --configfile /root/pbuilderrc.ppa
+
+  # pbuilder build \
+      --configfile /root/pbuilderrc.ppa \
+      /tmp/monteverdi_1.6.0-0ppa~lucid4.dsc
+
+* pbuilderrc.local
+
+  This configuration file must be used to build applications (like Monteverdi,
+  OTB-Applications, OTB-Wrapping, ...) with an experimental OTB library
+  package, downloaded from a local Debian repository.
+
+Both configurations could be used to build an OTB library package (because no
+other OTB package is needed).
+
+The BINDMOUNTS variable defined in these files lists directories from the
+native system that pbuilder must "bind mount", with the same path, in the
+chroot environment. This feature is more particularly useful to:
+- give access from the chroot environment to the local Debian repository,
+- share local files needed by the chroot environment (like GPG public keys).

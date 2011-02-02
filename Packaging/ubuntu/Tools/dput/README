@@ -1,0 +1,3 @@
+Debian package upload tool configuration file used for local repository.
+
+Copy dput.cf as /root/.dput.cf
