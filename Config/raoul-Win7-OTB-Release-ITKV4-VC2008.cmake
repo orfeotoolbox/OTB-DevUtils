@@ -1,13 +1,13 @@
 SET (CTEST_SOURCE_DIRECTORY "C:/Users/jmalik/Dashboard/src/OTB-SandBox")
-SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-Release-NewStatistics-VC2008")
+SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-Release-ITKV4-VC2008")
 
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 9 2008" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE "raoul.c-s.fr" )
-SET (CTEST_BUILD_NAME "Win7-Visual2008-NewStatistics-Release-Static")
+SET (CTEST_BUILD_NAME "Win7-Visual2008-ITKV4-Release-Static")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
-SET (CTEST_HG_UPDATE_OPTIONS "-r NewStatistics")
+SET (CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4")
 
 SET (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
