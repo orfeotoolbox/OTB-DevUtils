@@ -29,7 +29,7 @@ PKG_PYTHON = otb-wrapping-python
 PKG_JAVA   = otb-wrapping-java
 
 DEB_BUILD_PARALLEL = true
-DEB_PARALLEL_JOBS  = 5
+DEB_PARALLEL_JOBS  = 2
 
 DEB_CMAKE_INSTALL_PREFIX = /usr
 DEB_CMAKE_EXTRA_FLAGS = \
