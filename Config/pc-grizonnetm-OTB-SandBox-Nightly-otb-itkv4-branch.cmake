@@ -5,7 +5,7 @@ SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/OTB-Binary-Nightly-ITK-Statistics/")
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j6 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-OTB-Nightly-ITK-Statistics-ON.cmake -V"
+  "ctest -j6 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-OTB-SandBox-Nightly-otb-itkv4-branch.cmake -V"
   )
 
 # what cmake command to use for configuring this dashboard
