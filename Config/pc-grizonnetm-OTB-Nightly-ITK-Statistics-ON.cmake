@@ -22,7 +22,7 @@ SET (CTEST_INITIAL_CACHE "
 //Command used to build entire project from the command line.
 MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
 //Name of the build
-BUILDNAME:STRING=Ubuntu10.4-64bits-Release-ITK-Statistics-ON
+BUILDNAME:STRING=Ubuntu10.4-64bits-Release-OTB-SandBox-branch-otb-itkv4
 //Name of the computer/site where compile is being run
 SITE:STRING=pc-grizonnetm
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
