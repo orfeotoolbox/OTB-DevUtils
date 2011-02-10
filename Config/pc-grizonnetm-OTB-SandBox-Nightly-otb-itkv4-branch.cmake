@@ -1,11 +1,11 @@
 
 SET (CTEST_SOURCE_DIRECTORY "/mnt/dd-2/OTB/trunk/OTB-SandBox/")
-SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/OTB-Binary-Nightly-ITK-Statistics/")
+SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/OTB-Binary-Nightly-ITK4-patched/")
 
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j6 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-OTB-Nightly-ITK-Statistics-ON.cmake -V"
+  "ctest -j6 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-OTB-SandBox-Nightly-otb-itkv4-branch.cmake -V"
   )
 
 # what cmake command to use for configuring this dashboard
@@ -22,7 +22,7 @@ SET (CTEST_INITIAL_CACHE "
 //Command used to build entire project from the command line.
 MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
 //Name of the build
-BUILDNAME:STRING=Ubuntu10.4-64bits-Release-ITK-Statistics-ON
+BUILDNAME:STRING=Ubuntu10.4-64bits-Release-OTB-SandBox-otb-itkv4-branch-External-ITK4-patched
 //Name of the computer/site where compile is being run
 SITE:STRING=pc-grizonnetm
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
@@ -38,20 +38,17 @@ BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 OTB_USE_CURL:BOOL=ON
 OTB_USE_PQXX:BOOL=OFF
-OTB_USE_EXTERNAL_BOOST:BOOL=ON
+//OTB_USE_EXTERNAL_BOOST:BOOL=ON
 OTB_USE_EXTERNAL_EXPAT:BOOL=ON
 USE_FFTWD:BOOL=ON
 USE_FFTWF:BOOL=ON
 OTB_GL_USE_ACCEL:BOOL=ON 
-ITK_USE_REVIEW:BOOL=ON 
-
-#ITK statisctics framework
-ITK_USE_REVIEW_STATISTICS:BOOL=ON
-
-ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
-OTB_USE_MAPNIK:BOOL=ON 
-MAPNIK_INCLUDE_DIR:STRING=/usr/include
-MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
+#External ITK 4
+OTB_USE_EXTERNAL_ITK:BOOL=ON
+ITK_DIR:STRING=/home/otbtesting/Dashboards/My\ Tests/ITK-build/
+//OTB_USE_MAPNIK:BOOL=ON 
+//MAPNIK_INCLUDE_DIR:STRING=/usr/include
+//MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
 //CPack configuration
 OTB_USE_CPACK:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=/home/otbtesting/OTB/tmp
