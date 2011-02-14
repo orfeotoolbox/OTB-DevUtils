@@ -61,7 +61,9 @@ Options:
 
   -r tag        Revision to extract.
 
-  -o version    External version of the OTB library an applications (ex. 3.8.0)
+  -m version    External version of the OTB applications (ex. 3.8.0)
+
+  -o version    External version of the OTB library (ex. 3.8.0)
 
   -p version    Version of the package (ex. 2)
 
@@ -70,7 +72,7 @@ Options:
   -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
 
 Example:
-  ./make_ubuntu_packages.sh -d ~/otb/src/OTB-Applications -r 1891 -o 3.8-RC1 -p 2
+  ./make_ubuntu_packages.sh -d ~/otb/src/OTB-Applications -r 1891 -o 3.8-RC1 -m 3.8-RC1 -p 2
 
 EOF
 }
@@ -179,12 +181,14 @@ set_ubuntu_code_name ()
 }
 
 
-while getopts ":r:d:o:p:c:g:hv" option
+while getopts ":r:d:m:o:p:c:g:hv" option
 do
     case $option in
         d ) topdir=$OPTARG
             ;;
         r ) revision=$OPTARG
+            ;;
+        m ) src_version_full=$OPTARG
             ;;
         o ) otb_version_full=$OPTARG
             ;;
