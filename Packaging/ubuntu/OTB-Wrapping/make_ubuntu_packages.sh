@@ -4,7 +4,7 @@
 # Copyright (C) 2010, 2011 CNES - Centre National d'Etudes Spatiales
 # by Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
-# OTB bindings distributed under the CeCILL license version 2. See files
+# The OTB is distributed under the CeCILL license version 2. See files
 # Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
 # (french version) in 'Copyright' directory for details. This licenses are
 # also available online:
@@ -18,8 +18,16 @@ export DEBFULLNAME="OTB Team"
 export DEBEMAIL="contact@orfeo-toolbox.org"
 
 TMPDIR="/tmp"
-CMDDIR=`pwd`/`dirname $0`
-DEBDIR=`echo $CMDDIR | sed -e 's,^\./,,;s,/\.\?$,,;s,/\./,/,g'`/debian
+DIRNAME=`dirname $0`
+if [ "${DIRNAME:0:1}" == "/" ] ; then
+    CMDDIR=$DIRNAME
+elif [ "${DIRNAME:0:1}" == "." ] ; then
+    CMDDIR=`pwd`/${DIRNAME:2}
+else
+    CMDDIR=`pwd`/$DIRNAME
+fi
+DEBDIR=$CMDDIR/debian
+DEFAULT_GPGKEYID=0xAEB3D22F
 
 
 display_version ()
@@ -27,7 +35,7 @@ display_version ()
     cat <<EOF
 
 make_ubuntu_packages.sh, version ${SCRIPT_VERSION}
-Copyright (C) 2010 CNES (Centre National d'Etudes Spatiales)
+Copyright (C) 2010, 2011 CNES (Centre National d'Etudes Spatiales)
 by Sebastien DINOT <sebastien.dinot@c-s.fr>
 
 EOF
@@ -60,6 +68,8 @@ Options:
   -p version    Version of the package (ex. 2)
 
   -c message    Changelog message
+
+  -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
 
 Example:
   ./make_ubuntu_packages.sh -d ~/otb/src/OTB-Wrapping -r 1551 -o 3.8-RC1 -m 1.6-RC1 -p 2
@@ -140,6 +150,19 @@ check_external_version ()
 }
 
 
+check_gpgkeyid ()
+{
+    if [ -z "$gpgkeyid" ] ; then
+        gpgkeyid=$DEFAULT_GPGKEYID
+    fi
+    gpg --list-secret-keys $gpgkeyid &>/dev/null
+    if [ "$?" -ne 0 ] ; then
+        echo "*** ERROR: Secret part of the GnuPG key $gpgkeyid is unavailable, packages can't be signed"
+        exit 4
+    fi
+}
+
+
 set_ubuntu_code_name ()
 {
     case "$1" in
@@ -171,7 +194,7 @@ set_ubuntu_code_name ()
 }
 
 
-while getopts ":r:d:m:o:p:c:hv" option
+while getopts ":r:d:m:o:p:c:g:hv" option
 do
     case $option in
         d ) topdir=$OPTARG
@@ -185,6 +208,8 @@ do
         p ) pkg_version=$OPTARG
             ;;
         c ) changelog_message=$OPTARG
+            ;;
+        g ) gpgkeyid=$OPTARG
             ;;
         v ) display_version
             exit 0
@@ -208,18 +233,7 @@ echo "Command line checking..."
 check_src_top_dir
 check_src_revision
 check_external_version
-
-# echo "Debian templates directory: $DEBDIR"
-# echo "Working copy directory:     $topdir"
-# echo "OTB bindings version:  $src_version_full"
-# echo "- Major version number:  $src_version_major"
-# echo "- Minor version number:  $src_version_minor"
-# echo "- Patch version number:  $src_version_patch"
-# echo "OTB version:  $otb_version_full"
-# echo "- Soname version number: $otb_version_soname"
-# echo "- Major version number:  $otb_version_major"
-# echo "- Minor version number:  $otb_version_minor"
-# echo "- Patch version number:  $otb_version_patch"
+check_gpgkeyid
 
 echo "Archive export..."
 cd "$topdir"
@@ -259,5 +273,5 @@ for target in karmic maverick lucid ; do
     fi
     dch --force-distribution --distribution "$target" \
         -v "${src_version_full}-0ppa~${target}${pkg_version}" $dch_message
-    debuild -k0x46047121 -S -sa --lintian-opts -i
+    debuild -k$gpgkeyid -S -sa --lintian-opts -i
 done
