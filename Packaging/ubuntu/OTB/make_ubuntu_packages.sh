@@ -260,6 +260,6 @@ for target in karmic lucid maverick ; do
         dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
     fi
     dch --force-distribution --distribution "$target" \
-        -v "${otb_version_full}-0ppa~${target}${pkg_version}" $dch_message
+        -v "${otb_version_full}-0ppa~${target}${pkg_version}" "$dch_message"
     debuild -k$gpgkeyid -S -sa --lintian-opts -i
 done
