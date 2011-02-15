@@ -28,6 +28,8 @@ export TSOCKS_CONF_FILE=$HOME/.tsocks.conf
 SRCDIR=$HOME/otb/src
 CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 
+TSOCKS=$(which tsocks)
+
 # Clean previous builds
 rm -rf /tmp/otb* /tmp/monteverdi*
 
@@ -36,7 +38,7 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
 
     # Update working copy
     cd $SRCDIR/$project
-    hg pull -u
+    $TSOCKS hg pull -u
 
     # Extract last tagged version identifier
     full_version=$(hg tags | head -n 2 | tail -n 1 | cut -d ' ' -f 1)
@@ -81,7 +83,6 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
     esac
 
     # Push source packages on Launchpad (through tsocks proxy if necessary)
-    TSOCKS=$(which tsocks)
     $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
 
 done
