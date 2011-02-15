@@ -33,8 +33,13 @@ rm -rf /tmp/otb* /tmp/monteverdi*
 
 # For each project ("OTB" must be the first one)
 for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
+
+    # Update working copy
+    cd $SRCDIR/$project
+    hg pull -u
+
     # Extract last tagged version identifier
-    full_version=$(cd $SRCDIR/$project ; hg tags | head -n 2 | tail -n 1 | cut -d ' ' -f 1)
+    full_version=$(hg tags | head -n 2 | tail -n 1 | cut -d ' ' -f 1)
     major_version=$(echo $full_version | cut -d '.' -f 1)
     minor_version=$(echo $full_version | sed -e 's/^[0-9]\+\.\([0-9]\+\)[.-].*$/\1/')
     patch_version=$(echo $full_version | sed -e 's/^.*[.-]\(.*\)$/\1/')
@@ -49,15 +54,15 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
 
     # Set package number
     current_date=$(date +%Y%m%d)
-    last_changeset=$(cd $SRCDIR/$project ; hg identify | cut -d ' ' -f 1)
+    last_changeset=$(hg identify | cut -d ' ' -f 1)
     pkg_version="${current_date}+${last_changeset}"
 
     # Build source packages
     if [ "$project" == "OTB" ] ; then
-        $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $next_version -p $pkg_version -c "Nightly build"
         otb_version=$next_version
+        $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -p $pkg_version -c "Nightly build"
     else
-        $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -m $next_version -p $pkg_version -c "Nightly build"
+        $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -p $pkg_version -c "Nightly build" -m $next_version
     fi
 
     case $project in
