@@ -1,35 +1,35 @@
 SET (ENV{DISPLAY} ":0.0")
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/src/Monteverdi")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/Monteverdi")
+SET (CTEST_SOURCE_DIRECTORY  "$ENV{HOME}/Dashboard/src/Monteverdi")
+SET (CTEST_BINARY_DIRECTORY  "$ENV{HOME}/Dashboard/build/Monteverdi")
+SET (CTEST_INSTALL_DIRECTORY "$ENV{HOME}/Dashboard/install/Monteverdi")
 
-SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
-SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
-SET (CTEST_SITE "hulk.c-s.fr" )
-SET (CTEST_BUILD_NAME "Ubuntu10.04-64bits-Release")
+SET( CTEST_CMAKE_GENERATOR     "Unix Makefiles" )
+SET (CTEST_CMAKE_COMMAND       "cmake" )
+SET (CTEST_BUILD_COMMAND       "/usr/bin/make -j10 -i -k install" )
+SET (CTEST_SITE                "hulk.c-s.fr" )
+SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_HG_COMMAND "/usr/bin/hg")
-SET (CTEST_HG_UPDATE_OPTIONS "-C")
-
-SET(OTB_INSTALL_PREFIX $ENV{HOME}/dev/install/Monteverdi)
+SET (CTEST_HG_COMMAND          "/usr/bin/hg")
+SET (CTEST_HG_UPDATE_OPTIONS   "-C")
 
 SET (OTB_INITIAL_CACHE "
+
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 
-OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-OTB_DATA_LARGEINPUT_ROOT:STRING=/DATA/OTB-Data-LargeInput
-OTB_DATA_ROOT:STRING=$ENV{HOME}/dev/src/OTB-Data
+CMAKE_INSTALL_PREFIX:STRING=${CTEST_INSTALL_DIRECTORY}
+CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+BUILD_TESTING:BOOL=ON
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
-CMAKE_BUILD_TYPE:STRING=Release
+OTB_DATA_USE_LARGEINPUT:BOOL=OFF
+OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data-LargeInput
+OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
-BUILD_TESTING:BOOL=ON
-
-CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB
 
 ")
 
@@ -41,8 +41,8 @@ ${OTB_PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi-Nightly
@@ -51,7 +51,8 @@ execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Mo
                  ERROR_VARIABLE    OTB_PULL_RESULT )
 file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
 
-ctest_start(Nightly)
+#ctest_start(Nightly)
+ctest_start(Experimental)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
