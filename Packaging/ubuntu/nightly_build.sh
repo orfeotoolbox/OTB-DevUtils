@@ -29,6 +29,7 @@ SRCDIR=$HOME/otb/src
 CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 
 TSOCKS=$(which tsocks)
+DATEYJH=$(date +%y%j%H)
 
 # Clean previous builds
 rm -rf /tmp/otb* /tmp/monteverdi*
@@ -52,7 +53,7 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
     if [ "$(echo $patch_version | sed -e 's/^[0-9]\+$/NOTRC/')" == 'NOTRC' ] ; then
         minor_version=$(($minor_version + 1))
     fi
-    patch_version=$(date +%y%j%H)
+    patch_version=$DATEYJH
     next_version="${major_version}.${minor_version}.${patch_version}"
 
     # Set package number
@@ -62,6 +63,7 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
     # Build source packages
     if [ "$project" == "OTB" ] ; then
         otb_version=$next_version
+        otb_pkg_version=$pkg_version
         $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -p $pkg_version -c "Nightly build"
     else
         $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -p $pkg_version -c "Nightly build" -m $next_version
@@ -81,6 +83,21 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
             pkg_name=otb-wrapping
             ;;
     esac
+
+    # Unless for OTB, wait OTB packages availability
+    if [ "$project" != "OTB" ] ; then
+        otb_pkg_avail=0
+        ppa_url="http://ppa.launchpad.net/otb/orfeotoolbox-nightly/ubuntu/pool/main/o/otb"
+        while [ $otb_pkg_avail -eq 0 ] ; do
+            n=$($TSOCKS GET $ppa_url | sed -ne "s/^.* href=\"\(libotb_${otb_version}-0ppa~.*${otb_pkg_version}_all\.deb\)\".*$/\1/p" | wc -l)
+            if [ $n -eq 3 ] ; then
+                otb_pkg_avail=1
+            else
+                echo $(date '+%F %T: ') "Waiting for OTB package availability. Next check in 10 minutes."
+                sleep 600
+            fi
+        done
+    fi
 
     # Push source packages on Launchpad (through tsocks proxy if necessary)
     $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
