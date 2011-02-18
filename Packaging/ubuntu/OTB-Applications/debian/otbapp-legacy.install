@@ -26,7 +26,7 @@ usr/bin/otbObjectCountingApplication
 usr/bin/otbLandCoverMapApplication
 usr/bin/otbLandCoverMapGenerateFeatures
 usr/bin/otbImageViewer
-usr/bin/otbImageToDBRegistrationApplication
+# usr/bin/otbImageToDBRegistrationApplication
 usr/bin/otbKMeansClassification
 usr/bin/otbRgbRelabeling
 usr/bin/otbSOMClassification
