@@ -31,7 +31,7 @@ SRCDIR=$HOME/Dashboard/src
 CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 
 TSOCKS=$(which tsocks)
-DATEYJH=$(date +%y%j%H)
+TODAY=$(date +%Y%m%d)
 
 # Clean previous builds
 rm -rf /tmp/otb* /tmp/monteverdi*
@@ -55,7 +55,7 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
     if [ "$(echo $patch_version | sed -e 's/^[0-9]\+$/NOTRC/')" == 'NOTRC' ] ; then
         minor_version=$(($minor_version + 1))
     fi
-    patch_version=$DATEYJH
+    patch_version=$TODAY
     next_version="${major_version}.${minor_version}.${patch_version}"
 
     # Set package number
