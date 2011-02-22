@@ -3,7 +3,7 @@ SET (CTEST_BINARY_DIRECTORY  "$ENV{HOME}/Dashboard/build/OTB-Documents/SoftwareG
 
 SET( CTEST_CMAKE_GENERATOR     "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND       "cmake" )
-SET (CTEST_BUILD_COMMAND       "/usr/bin/make -j10 -i -k" )
+SET (CTEST_BUILD_COMMAND       "/usr/bin/make -i -k" )
 SET (CTEST_SITE                "hulk.c-s.fr" )
 SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
@@ -19,7 +19,7 @@ SITE:STRING=${CTEST_SITE}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 GENERATE_WRAPPING_DOC:BOOL=ON
 
-OTB-Wrapping_SOURCE_DIR:STRING=$ENV{HOME}/Dashboard/src/OTB-Wrapping
+OTB-Wrapping_SOURCE_DIR:PATH=$ENV{HOME}/Dashboard/src/OTB-Wrapping
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
@@ -39,7 +39,9 @@ ${OTB_PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_BINARY_DIRECTORY})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_BINARY_DIRECTORY})
+
 execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Documents
                  WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
                  OUTPUT_VARIABLE   OTB_PULL_RESULT
