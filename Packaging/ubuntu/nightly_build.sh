@@ -21,11 +21,11 @@
 set -e
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
-export USER=otbuser
-export HOME=/home/otbuser
+export USER=otbval
+export HOME=/home/$USER
 export TSOCKS_CONF_FILE=$HOME/.tsocks.conf
 
-SRCDIR=$HOME/otb/src
+SRCDIR=$HOME/Dashboard/src
 CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 
 TSOCKS=$(which tsocks)
