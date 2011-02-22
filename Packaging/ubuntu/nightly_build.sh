@@ -8,6 +8,8 @@
 #
 # 2. Adapt environment variables defined below (USER, HOME, SRCDIR)
 #
+# 3. Create and fill in ~/.tsocks.conf and ~/.dput.cf configuration files.
+#
 # Copyright (C) 2011 CNES - Centre National d'Etudes Spatiales
 # by Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
