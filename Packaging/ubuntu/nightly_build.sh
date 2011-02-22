@@ -95,8 +95,8 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
             if [ $n -eq 3 ] ; then
                 otb_pkg_avail=1
             else
-                echo $(date '+%F %T: ') "Waiting for OTB package availability. Next check in 10 minutes."
-                sleep 600
+                echo $(date '+%F %T: ') "Waiting for OTB package availability. Next check in 5 minutes."
+                sleep 300
             fi
         done
     fi
