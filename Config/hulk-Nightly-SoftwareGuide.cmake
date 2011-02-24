@@ -1,15 +1,17 @@
 SET (CTEST_SOURCE_DIRECTORY  "$ENV{HOME}/Dashboard/src/OTB-Documents/SoftwareGuide")
 SET (CTEST_BINARY_DIRECTORY  "$ENV{HOME}/Dashboard/build/OTB-Documents/SoftwareGuide")
 
-SET( CTEST_CMAKE_GENERATOR     "Unix Makefiles" )
-SET (CTEST_CMAKE_COMMAND       "cmake" )
-SET (CTEST_BUILD_COMMAND       "/usr/bin/make -i -k" )
+SET (CTEST_CMAKE_GENERATOR     "Unix Makefiles")
+SET (CTEST_CMAKE_COMMAND       "cmake")
+SET (CTEST_BUILD_COMMAND       "/usr/bin/make -i -k")
 SET (CTEST_SITE                "hulk.c-s.fr" )
 SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND          "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS   "-C")
 
+#Needed to allow nightly build
+SET (CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
 
 SET (OTB_INITIAL_CACHE "
 
