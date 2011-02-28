@@ -27,8 +27,8 @@ OTB_USE_QGIS:BOOL=ON
 QGIS_INCLUDE_DIRS:PATH=C:/OSGeo4W/apps/qgis/include
 QGIS_LIBRARY:FILEPATH=C:/OSGeo4W/apps/qgis/lib/qgis_core.lib
 
-GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/gdal-17/include
-GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/apps/gdal-17/lib/gdal_i.lib
+GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
 
 OTB_DIR:PATH=C:/Users/jmalik/Dashboard/build/OTB-Release-jom-VC2010
 OTB_USE_CPACK:BOOL=ON

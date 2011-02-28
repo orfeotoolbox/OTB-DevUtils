@@ -24,9 +24,8 @@ OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
 
-GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/gdal-17/include
-OGR_INCLUDE_DIRS:PATH=C:/OSGeo4W/apps/gdal-17/include
-GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/apps/gdal-17/lib/gdal_i.lib
+GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
 
 GEOTIFF_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
 GEOTIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/geotiff_i.lib

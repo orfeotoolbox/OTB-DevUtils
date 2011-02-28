@@ -20,8 +20,8 @@ OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
 
-GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/gdal-17/include
-GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/apps/gdal-17/lib/gdal_i.lib
+GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
 
 OTB_DIR:PATH=C:/Users/jmalik/Dashboard/build/OTB-Debug-VC2008
 OTB_USE_CPACK:BOOL=ON
