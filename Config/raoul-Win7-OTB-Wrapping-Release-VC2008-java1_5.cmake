@@ -67,7 +67,7 @@ Java_JAVA_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.e
 
 # Cross Compilation option 
 JAVAC_TARGET:STRING=1.5
-JAVAC_TARGET_JDK_PATH:FILEPATH=C:/Program Files (x86)/Java/jdk1.5.0_22/jre/lib/rt.jar
+JAVAC_TARGET_JDK_PATH:FILEPATH=C:/Program Files (x86)/Java/jre1.5.0_22/lib/rt.jar
 
 JAVADOC_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javadoc.exe
 
