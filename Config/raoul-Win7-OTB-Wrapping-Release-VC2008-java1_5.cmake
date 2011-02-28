@@ -65,6 +65,10 @@ Java_JAR_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
 Java_JAVAC_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
 Java_JAVA_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
 
+# Cross Compilation option 
+JAVAC_TARGET:STRING=1.5
+JAVAC_TARGET_JDK_PATH:FILEPATH=C:/Program Files (x86)/Java/jdk1.5.0_22/jre/lib/rt.jar
+
 JAVADOC_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javadoc.exe
 
 #PYTHON_EXECUTABLE
