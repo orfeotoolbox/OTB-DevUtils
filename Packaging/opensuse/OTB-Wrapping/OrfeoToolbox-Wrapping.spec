@@ -20,7 +20,7 @@
 
 # norootforbuild
 
-Name:           OrfeoToolbox-python
+Name:           OrfeoToolbox-Wrapping
 Version:        3.8.0
 Release:        1
 Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
@@ -40,9 +40,16 @@ BuildRequires:	python-devel >= %{pyver}
 %description
 Python bindings for the OrfeoToolbox library
 
+%package -n OrfeoToolbox-python
+Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
+Group:          Development/Libraries
+License:        Cecill
+
+%description -n OrfeoToolbox-python
+Python bindings for the OrfeoToolbox library
+
 %prep
 %setup -q
-
 
 %build
 cd ..
@@ -72,11 +79,11 @@ mv %{buildroot}/usr/lib/otb-wrapping %{buildroot}/usr/%{_lib}/
 %clean
 rm -rf %{buildroot}
 
-%post -p /sbin/ldconfig
+%post -n OrfeoToolbox-python -p /sbin/ldconfig
 
-%postun -p /sbin/ldconfig
+%postun -n OrfeoToolbox-python -p /sbin/ldconfig
 
-%files
+%files -n OrfeoToolbox-python
 %defattr(-,root,root,-)
 %{_libdir}/otb-wrapping/
 
