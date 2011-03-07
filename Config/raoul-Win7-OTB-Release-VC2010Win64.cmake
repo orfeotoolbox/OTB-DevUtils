@@ -1,11 +1,11 @@
 SET (CTEST_SOURCE_DIRECTORY "C:/Users/jmalik/Dashboard/src/OTB")
-SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-Debug-VC2010Win64")
+SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-Release-VC2010Win64")
 
 SET( CTEST_CMAKE_GENERATOR  "Visual Studio 10 Win64" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE "raoul.c-s.fr" )
-SET (CTEST_BUILD_NAME "Win7-Visual2010Win64-Debug-Static")
-SET (CTEST_BUILD_CONFIGURATION "Debug")
+SET (CTEST_BUILD_NAME "Win7-Visual2010Win64-Release-Static")
+SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
 
