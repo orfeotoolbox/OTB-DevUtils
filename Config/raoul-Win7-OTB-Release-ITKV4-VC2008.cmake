@@ -18,7 +18,7 @@ BUILD_EXAMPLES:BOOL=ON
 OTB_USE_CPACK:BOOL=ON
 
 OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/itk-v4
+ITK_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/ITK-V4
 
 OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
