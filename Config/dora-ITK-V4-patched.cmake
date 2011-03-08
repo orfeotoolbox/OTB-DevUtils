@@ -37,9 +37,17 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
+
 ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ITK_INITIAL_CACHE})
+
+# clean the directory : remove the non tracked files if any
+execute_process( COMMAND ${CTEST_GIT_COMMAND} clean -f
+                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
+                 OUTPUT_VARIABLE   CLEAN_STATUS
+                 ERROR_VARIABLE    CLEAN_STATUS
+                 )
 
 # Apply the patch after updating the repository
 # print the changes added with the patch
@@ -55,7 +63,7 @@ execute_process( COMMAND ${CTEST_GIT_COMMAND} apply  ${OTB_PATCH_PATH}
                  OUTPUT_VARIABLE   APPLY_PATCH_STATUS
                  ERROR_VARIABLE    APPLY_PATCH_STATUS
                  )
-file(WRITE ${ITK_RESULT_FILE} ${PATCH_STATUS} ${APPLY_PATCH_STATUS} )
+file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS} ${PATCH_STATUS} ${APPLY_PATCH_STATUS} )
 
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
