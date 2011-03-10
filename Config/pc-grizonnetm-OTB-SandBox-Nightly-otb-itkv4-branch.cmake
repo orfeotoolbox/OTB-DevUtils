@@ -45,7 +45,7 @@ USE_FFTWF:BOOL=ON
 OTB_GL_USE_ACCEL:BOOL=ON 
 #External ITK 4
 OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:STRING=/home/otbtesting/Dashboards/My\ Tests/ITK-build/
+ITK_DIR:STRING=/home/otbtesting/Dashboards/My\ Tests/ITK-patched-build/
 //OTB_USE_MAPNIK:BOOL=ON 
 //MAPNIK_INCLUDE_DIR:STRING=/usr/include
 //MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so

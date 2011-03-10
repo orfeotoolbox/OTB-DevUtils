@@ -1,7 +1,7 @@
 SET (ENV{DISPLAY} ":0.0")
  
 SET (CTEST_SOURCE_DIRECTORY "/home/otbtesting/Dashboards/My\ Tests/ITK") 
-SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/Dashboards/My\ Tests/ITK-build")
+SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/Dashboards/My\ Tests/ITK-patched-build")
 
 # path to the OTB-NewStatistics patch (otb-itkv4 branch)
 # be sure that the script launching this configuration file 
@@ -9,8 +9,8 @@ SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/Dashboards/My\ Tests/ITK-build")
 SET(OTB_PATCH_PATH "/mnt/dd-2/OTB/trunk/OTB-SandBox/Patch/itkv4_patch.diff")
 
 # cmake and git commands
-SET (CTEST_CMAKE_COMMAND "/usr/local/bin/cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j6" )
+SET (CTEST_CMAKE_COMMAND "cmake" )
+SET (CTEST_BUILD_COMMAND "make -j6" )
 SET (CTEST_GIT_COMMAND "/usr/bin/git")
 
 # Project variables
