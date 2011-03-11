@@ -36,7 +36,7 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 ctest_start(Nightly)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
+#ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ITK_INITIAL_CACHE})
 
 # clean the directory : remove the non tracked files if any
