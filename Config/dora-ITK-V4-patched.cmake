@@ -49,6 +49,13 @@ execute_process( COMMAND ${CTEST_GIT_COMMAND} clean -f
                  ERROR_VARIABLE    CLEAN_STATUS
                  )
 
+# update to tag  v4.0a05 : Modularization is not completely operational...
+execute_process( COMMAND ${CTEST_GIT_COMMAND} checkout a65ced9240312bd1117abff330139247fc7c94eb
+                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
+                 OUTPUT_VARIABLE   CHECKOUT_STATUS
+                 ERROR_VARIABLE    CHECKOUT_STATUS
+                 )
+
 # Apply the patch after updating the repository
 # print the changes added with the patch
 execute_process( COMMAND ${CTEST_GIT_COMMAND} apply --stat ${OTB_PATCH_PATH}
@@ -63,7 +70,7 @@ execute_process( COMMAND ${CTEST_GIT_COMMAND} apply  ${OTB_PATCH_PATH}
                  OUTPUT_VARIABLE   APPLY_PATCH_STATUS
                  ERROR_VARIABLE    APPLY_PATCH_STATUS
                  )
-file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS} ${PATCH_STATUS} ${APPLY_PATCH_STATUS} )
+file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS} ${CHECKOUT_STATUS} ${PATCH_STATUS} ${APPLY_PATCH_STATUS} )
 
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
