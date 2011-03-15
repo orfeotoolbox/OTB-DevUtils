@@ -6,7 +6,7 @@ SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/tools/build/ITK-V4")
 # path to the OTB-NewStatistics patch (otb-itkv4 branch)
 # be sure that the script launching this configuration file 
 # update OTB-SandBox directory first to work with the last patch
-SET(OTB_PATCH_PATH "C:/Users/jmalik/Dashboard/src/OTB-SandBox/Patch/itkv4_patch.diff")
+SET(OTB_PATCH_PATH "C:/Users/jmalik/Dashboard/src/OTB-SandBox/Patch/itkv4_modular_patch.diff")
 
 # cmake and git commands
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe" )
@@ -23,7 +23,31 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 CMAKE_BUILD_TYPE:STRING=Release
 BUILD_TESTING:BOOL=OFF
 BUILD_EXAMPLES:BOOL=OFF
-ITK_USE_REVIEW:BOOL=ON 
+ITK_BUILD_ALL_MODULES:BOOL=OFF
+
+ITKGroup_Core:BOOL=OFF
+ITKGroup_Bridge:BOOL=ON
+ITKGroup_Filtering:BOOL=ON
+ITKGroup_Numerics:BOOL=ON
+ITKGroup_Registration:BOOL=ON
+ITKGroup_Segmentation:BOOL=ON
+
+Module_ITK-Common:BOOL=ON
+Module_ITK-FiniteDifference:BOOL=ON
+Module_ITK-ImageAdaptors:BOOL=ON
+Module_ITK-ImageFunction:BOOL=ON
+Module_ITK-Mesh:BOOL=ON
+Module_ITK-QuadEdgeMesh:BOOL=ON
+Module_ITK-Transform:BOOL=ON
+
+Module_ITK-SpatialObjects:BOOL=ON
+Module_ITK-IO-Base:BOOL=ON
+Module_ITK-IO-VTK:BOOL=ON
+Module_ITK-IO-Spatialobjects:BOOL=ON
+Module_ITK-OpenJPEG:BOOL=ON
+
+Module_ITK-Review:BOOL=ON
+ITK_USE_REVIEW:BOOL=ON
 ")
 
 SET( ITK_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
@@ -45,7 +69,8 @@ execute_process( COMMAND ${CTEST_GIT_COMMAND} clean -f
                  OUTPUT_VARIABLE   CLEAN_STATUS
                  ERROR_VARIABLE    CLEAN_STATUS
                  )
-execute_process( COMMAND ${CTEST_GIT_COMMAND} checkout a65ced9240312bd1117abff330139247fc7c94eb
+
+execute_process( COMMAND ${CTEST_GIT_COMMAND} checkout 
                  WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
                  OUTPUT_VARIABLE   CHECKOUT_STATUS
                  ERROR_VARIABLE    CHECKOUT_STATUS
