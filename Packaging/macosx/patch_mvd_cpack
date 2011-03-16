@@ -1,0 +1,102 @@
+diff -r 12b54ca018dc CMakeLists.txt
+--- a/CMakeLists.txt	Tue Mar 15 10:37:34 2011 +0100
++++ b/CMakeLists.txt	Wed Mar 16 16:59:39 2011 +0100
+@@ -441,6 +441,21 @@
+ 
+ ENDIF(WIN32 AND NOT UNIX)
+ 
++IF(APPLE)
++
++#INCLUDE(BundleUtilities)
++SET(CPACK_GENERATOR "Bundle")
++SET(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/Monteverdi.icns")
++SET(CPACK_BUNDLE_NAME "Monteverdi-${Monteverdi_VERSION_MAJOR}.${Monteverdi_VERSION_MINOR}")
++SET(CPACK_BUNDLE_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist")
++SET(CPACK_BUNDLE_STARTUP_COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/StartupCommand")
++
++INSTALL(DIRECTORY $ENV{GDAL_DATA}
++              DESTINATION share
++              COMPONENT Resources)
++
++ENDIF(APPLE)
++
+ INCLUDE(InstallRequiredSystemLibraries)
+ INCLUDE(CPack)
+ 
+diff -r 12b54ca018dc Code/Application/CMakeLists.txt
+--- a/Code/Application/CMakeLists.txt	Tue Mar 15 10:37:34 2011 +0100
++++ b/Code/Application/CMakeLists.txt	Wed Mar 16 16:59:39 2011 +0100
+@@ -57,3 +57,34 @@
+     LIBRARY DESTINATION ${Monteverdi_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
+     ARCHIVE DESTINATION ${Monteverdi_INSTALL_LIB_DIR_CM24} COMPONENT Development)
+ ENDIF(NOT OTB_INSTALL_NO_LIBRARIES)
++
++
++IF(APPLE)
++
++GET_FILENAME_COMPONENT( GDAL_LIBRARY_REALPATH ${GDAL_LIBRARY} REALPATH)
++GET_FILENAME_COMPONENT( GDAL_LIBRARY_REALFILENAME ${GDAL_LIBRARY_REALPATH} NAME)
++
++INSTALL(FILES ${GDAL_LIBRARY}  ${GDAL_LIBRARY_REALPATH}
++        DESTINATION lib
++        PERMISSIONS OWNER_WRITE OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ
++        COMPONENT Runtime)
++
++install( CODE
++"EXECUTE_PROCESS(COMMAND \"/usr/bin/install_name_tool\"
++                -change ${GDAL_LIBRARY_REALPATH}
++		        ${GDAL_LIBRARY_REALFILENAME}
++                \"\${CMAKE_INSTALL_PREFIX}/bin/monteverdi\" )
++"
++)
++
++install( CODE
++"EXECUTE_PROCESS(COMMAND \"/usr/bin/install_name_tool\"
++-id ${GDAL_LIBRARY_REALFILENAME}
++-change ${GDAL_LIBRARY_REALPATH}
++		        ${GDAL_LIBRARY_REALFILENAME}
++                \"\${CMAKE_INSTALL_PREFIX}/lib/libgdal.1.dylib\" )
++"
++)
++
++ENDIF(APPLE)
++
+diff -r 12b54ca018dc Info.plist
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/Info.plist	Wed Mar 16 16:59:39 2011 +0100
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++	<dict>
++		<key>CFBundleExecutable</key>
++		<string>Monteverdi-1.6</string>
++		<key>CFBundleIconFile</key>
++		<string>Monteverdi-1.6.icns</string>
++		<key>CFBundleInfoDictionaryVersion</key>
++		<string>6.0</string>
++		<key>CFBundlePackageType</key>
++		<string>APPL</string>
++	</dict>
++</plist>
+diff -r 12b54ca018dc Monteverdi.icns
+Binary file Monteverdi.icns has changed
+diff -r 12b54ca018dc StartupCommand
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/StartupCommand	Wed Mar 16 16:59:39 2011 +0100
+@@ -0,0 +1,15 @@
++#!/bin/sh
++
++BUNDLE="`echo "$0" | sed -e 's/\/Contents\/MacOS\/.*//'`"
++RESOURCES="$BUNDLE/Contents/Resources"
++
++echo "BUNDLE: $BUNDLE"
++echo "RESOURCES: $RESOURCES"
++
++export DYLD_LIBRARY_PATH=$RESOURCES/lib
++export GDAL_DATA=$RESOURCES/share/gdal
++
++cd $HOME
++
++exec "$RESOURCES/bin/monteverdi"
++
