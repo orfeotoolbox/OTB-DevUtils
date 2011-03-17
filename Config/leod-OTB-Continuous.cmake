@@ -66,7 +66,7 @@ ${PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Nightly
+execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB
                  WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
                  OUTPUT_VARIABLE   PULL_RESULT
                  ERROR_VARIABLE    PULL_RESULT )

@@ -1,7 +1,7 @@
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-Applications")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/OTB-Applications")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/Monteverdi")
+SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/Monteverdi")
 
-SET (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
+SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
 SET (CTEST_SITE "leod.c-s.fr")
@@ -9,7 +9,6 @@ SET (CTEST_BUILD_NAME "MacOSX10.5-g++4.0.1-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/usr/local/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
-
 SET (ENV{DISPLAY} ":0")
 
 SET (CTEST_INITIAL_CACHE "
@@ -30,18 +29,9 @@ OTB_DIR:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/OTB
 FLTK_DIR:PATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-macosx-shared-release-fltk-1.1.9
 
 BUILD_TESTING:BOOL=ON
+CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/Monteverdi
 
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/OTB-Applications
-
-GDALCONFIG_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/bin/gdal-config
-GDAL_CONFIG:FILEPATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx2/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/include
-GDAL_LIBRARY:FILEPATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/lib/libgdal.dylib
-OGR_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/include
-GEOTIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/gtiff/libgeotiff
-TIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/gtiff/libtiff
-JPEG_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/jpeg/libjpeg
-JPEG_INCLUDE_DIR:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/jpeg/libjpeg
 ")
 
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
@@ -54,13 +44,13 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Applications
+execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi
                  WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
                  OUTPUT_VARIABLE   PULL_RESULT
                  ERROR_VARIABLE    PULL_RESULT )
 file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
 
-ctest_start(Nightly TRACK "Nightly Applications")
+ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
