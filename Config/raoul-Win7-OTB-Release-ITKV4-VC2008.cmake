@@ -86,7 +86,7 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 ${OTB_PULL_RESULT_FILE}
 )
 
-ctest_start(Nightly)
+ctest_start(Experimental)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
