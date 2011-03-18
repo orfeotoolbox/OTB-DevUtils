@@ -50,7 +50,7 @@ execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Mo
                  ERROR_VARIABLE    PULL_RESULT )
 file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
 
-ctest_start(Nightly)
+ctest_start(Continuous)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
