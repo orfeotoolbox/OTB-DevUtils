@@ -84,7 +84,7 @@ execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OT
                  ERROR_VARIABLE    OTB_PULL_RESULT )
 file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
 
-ctest_start(Nightly)
+ctest_start(Experimental)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
