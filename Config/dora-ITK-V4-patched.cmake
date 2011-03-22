@@ -8,6 +8,8 @@ SET (CTEST_BINARY_DIRECTORY "/home2/otbval/OTB-OUTILS/itk-v4/build/ITK")
 # update OTB-SandBox directory first to work with the last patch
 SET(OTB_PATCH_PATH "/ORFEO/otbval/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-NewStatistics/Patch/itkv4_modular_patch.diff")
 
+
+
 # cmake and git commands
 SET (CTEST_CMAKE_COMMAND "/ORFEO/otbval/OTB-OUTILS/cmake/2.8.2/install/bin/cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j6" )
@@ -25,29 +27,7 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 CMAKE_BUILD_TYPE:STRING=Release
 BUILD_TESTING:BOOL=OFF
 BUILD_EXAMPLES:BOOL=OFF
-ITK_BUILD_ALL_MODULES:BOOL=OFF
-
-ITKGroup_Core:BOOL=OFF
-ITKGroup_Bridge:BOOL=ON
-ITKGroup_Filtering:BOOL=ON
-ITKGroup_Numerics:BOOL=ON
-ITKGroup_Registration:BOOL=ON
-ITKGroup_Segmentation:BOOL=ON
-
-Module_ITK-Common:BOOL=ON
-Module_ITK-FiniteDifference:BOOL=ON
-Module_ITK-ImageAdaptors:BOOL=ON
-Module_ITK-ImageFunction:BOOL=ON
-Module_ITK-Mesh:BOOL=ON
-Module_ITK-QuadEdgeMesh:BOOL=ON
-Module_ITK-Transform:BOOL=ON
-
-Module_ITK-SpatialObjects:BOOL=ON
-Module_ITK-IO-Base:BOOL=ON
-Module_ITK-IO-VTK:BOOL=ON
-Module_ITK-IO-Spatialobjects:BOOL=ON
-Module_ITK-OpenJPEG:BOOL=ON
-
+ITK_BUILD_ALL_MODULES:BOOL=ON
 Module_ITK-Review:BOOL=ON
 ITK_USE_REVIEW:BOOL=ON
 ")
@@ -59,26 +39,16 @@ ${ITK_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-
-ctest_start(Nightly)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ITK_INITIAL_CACHE})
-
-# clean the directory : remove the non tracked files if any
-execute_process( COMMAND ${CTEST_GIT_COMMAND} clean -f
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
-                 OUTPUT_VARIABLE   CLEAN_STATUS
-                 ERROR_VARIABLE    CLEAN_STATUS
-                 )
+# remove the src directory
+execute_process( COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_SOURCE_DIRECTORY}
+                 WORKING_DIRECTORY "" 
+                 OUTPUT_VARIABLE   CHECKOUT_STATUS
+                 ERROR_VARIABLE    CHECKOUT_STATUS )
 
 # update to current tag : Modulurization is almost complete
-execute_process( COMMAND ${CTEST_GIT_COMMAND} checkout 
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
-                 OUTPUT_VARIABLE   CHECKOUT_STATUS
-                 ERROR_VARIABLE    CHECKOUT_STATUS
-                 )
+execute_process( COMMAND ${CTEST_GIT_COMMAND} clone http://itk.org/ITK.git  ${CTEST_SOURCE_DIRECTORY}
+                 OUTPUT_VARIABLE CLEAN_STATUS
+                 ERROR_VARIABLE  CLEAN_STATUS )
 
 # Apply the patch after updating the repository
 # print the changes added with the patch
@@ -96,6 +66,9 @@ execute_process( COMMAND ${CTEST_GIT_COMMAND} apply  ${OTB_PATCH_PATH}
                  )
 file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS} ${CHECKOUT_STATUS} ${PATCH_STATUS} ${APPLY_PATCH_STATUS} )
 
+ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
+ctest_start(Experimental)
+file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ITK_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 
