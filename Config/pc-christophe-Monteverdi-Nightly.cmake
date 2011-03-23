@@ -28,7 +28,7 @@ SITE:STRING=pc-christophe
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk/OTB/trunk/OTB-Data/LargeInput
 //Data root
-OTB_DATA_ROOT:STRING=/media/TeraDisk/OTB/trunk/OTB-Data/LargeInput
+OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 //Compilation options
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
