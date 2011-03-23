@@ -12,7 +12,7 @@ SET(OTB_PATCH_PATH "/ORFEO/otbval/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-NewStatis
 
 # cmake and git commands
 SET (CTEST_CMAKE_COMMAND "/ORFEO/otbval/OTB-OUTILS/cmake/2.8.2/install/bin/cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j6" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j3" )
 SET (CTEST_GIT_COMMAND "/usr/bin/git")
 
 # Project variables
