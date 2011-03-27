@@ -44,7 +44,7 @@ execute_process( COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_SOUR
 file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS})
 
 # fresh git clone
-execute_process( COMMAND ${CTEST_GIT_COMMAND} clone -n -- git://github.com/julienmalik/ITK.git  ${CTEST_SOURCE_DIRECTORY}
+execute_process( COMMAND ${CTEST_GIT_COMMAND} clone -n -- https://github.com/julienmalik/ITK.git ${CTEST_SOURCE_DIRECTORY}
                  OUTPUT_VARIABLE CLONE_STATUS
                  ERROR_VARIABLE  CLONE_STATUS )
 file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
