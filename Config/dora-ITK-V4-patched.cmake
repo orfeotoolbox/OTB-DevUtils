@@ -3,16 +3,9 @@ SET (ENV{DISPLAY} ":0.0")
 SET (CTEST_SOURCE_DIRECTORY "/home2/otbval/OTB-OUTILS/itk-v4/src/ITK/") 
 SET (CTEST_BINARY_DIRECTORY "/home2/otbval/OTB-OUTILS/itk-v4/build/ITK")
 
-# path to the OTB-NewStatistics patch (otb-itkv4 branch)
-# be sure that the script launching this configuration file 
-# update OTB-SandBox directory first to work with the last patch
-SET(OTB_PATCH_PATH "/ORFEO/otbval/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-NewStatistics/Patch/itkv4_modular_patch.diff")
-
-
-
 # cmake and git commands
 SET (CTEST_CMAKE_COMMAND "/ORFEO/otbval/OTB-OUTILS/cmake/2.8.2/install/bin/cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j3" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
 SET (CTEST_GIT_COMMAND "/usr/bin/git")
 
 # Project variables
@@ -25,14 +18,19 @@ SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (ITK_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 CMAKE_BUILD_TYPE:STRING=Release
-BUILD_TESTING:BOOL=OFF
-BUILD_EXAMPLES:BOOL=OFF
+BUILD_SHARED_LIBS:BOOL=ON
+BUILD_TESTING:BOOL=ON
+BUILD_EXAMPLES:BOOL=ON
+ITK_USE_CONCEPT_CHECKING:BOOL=ON
 ITK_BUILD_ALL_MODULES:BOOL=ON
 Module_ITK-Review:BOOL=ON
 ITK_USE_REVIEW:BOOL=ON
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
+CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
 ")
 
-SET( ITK_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
+SET( ITK_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/log.txt" )
+
 SET (CTEST_NOTES_FILES
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
 ${ITK_RESULT_FILE}
@@ -41,34 +39,39 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 
 # remove the src directory
 execute_process( COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_SOURCE_DIRECTORY}
-                 WORKING_DIRECTORY "" 
-                 OUTPUT_VARIABLE   CHECKOUT_STATUS
-                 ERROR_VARIABLE    CHECKOUT_STATUS )
+                 OUTPUT_VARIABLE   CLEAN_STATUS
+                 ERROR_VARIABLE    CLEAN_STATUS )
+file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS})
 
-# update to current tag : Modulurization is almost complete
-execute_process( COMMAND ${CTEST_GIT_COMMAND} clone http://itk.org/ITK.git  ${CTEST_SOURCE_DIRECTORY}
-                 OUTPUT_VARIABLE CLEAN_STATUS
-                 ERROR_VARIABLE  CLEAN_STATUS )
+# fresh git clone
+execute_process( COMMAND ${CTEST_GIT_COMMAND} clone -n -- git://github.com/julienmalik/ITK.git  ${CTEST_SOURCE_DIRECTORY}
+                 OUTPUT_VARIABLE CLONE_STATUS
+                 ERROR_VARIABLE  CLONE_STATUS )
+file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
 
-# Apply the patch after updating the repository
-# print the changes added with the patch
-execute_process( COMMAND ${CTEST_GIT_COMMAND} apply --stat ${OTB_PATCH_PATH}
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
-                 OUTPUT_VARIABLE   PATCH_STATUS
-                 ERROR_VARIABLE    PATCH_STATUS
-                 )
+execute_process( COMMAND ${CTEST_GIT_COMMAND} checkout -b WarpImageFilterForVectorImage origin/WarpImageFilterForVectorImage
+                 WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+                 OUTPUT_VARIABLE CLONE_STATUS
+                 ERROR_VARIABLE  CLONE_STATUS )
+file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
 
-# apply the patch
-execute_process( COMMAND ${CTEST_GIT_COMMAND} apply  ${OTB_PATCH_PATH}
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
-                 OUTPUT_VARIABLE   APPLY_PATCH_STATUS
-                 ERROR_VARIABLE    APPLY_PATCH_STATUS
-                 )
-file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS} ${CHECKOUT_STATUS} ${PATCH_STATUS} ${APPLY_PATCH_STATUS} )
+execute_process( COMMAND ${CTEST_GIT_COMMAND} submodule init
+                 WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+                 OUTPUT_VARIABLE CLONE_STATUS
+                 ERROR_VARIABLE  CLONE_STATUS )
+file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
+
+execute_process( COMMAND ${CTEST_GIT_COMMAND} submodule update --
+                 WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+                 OUTPUT_VARIABLE CLONE_STATUS
+                 ERROR_VARIABLE  CLONE_STATUS )
+file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 ctest_start(Experimental)
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ITK_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
+ctest_submit()
 
