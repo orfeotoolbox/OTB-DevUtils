@@ -205,6 +205,10 @@ if(EXISTS \"${CTEST_SOURCE_DIRECTORY}/.git\")
     WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
     )
   execute_process(
+    COMMAND \"${CTEST_GIT_COMMAND}\" config submodule.Testing/Data.url http://itk.org/ITKData.git
+    WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
+    )
+  execute_process(
     COMMAND \"${CTEST_GIT_COMMAND}\" submodule init
     WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
     )
