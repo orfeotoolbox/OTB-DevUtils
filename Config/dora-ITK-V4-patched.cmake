@@ -1,5 +1,6 @@
-SET (ENV{DISPLAY} ":0.0")
- 
+SET(ENV{DISPLAY} ":0.0")
+SET(ENV{TSOCKS_CONF_FILE} "/home2/otbval/.tsocks.conf")
+
 SET (CTEST_SOURCE_DIRECTORY "/home2/otbval/OTB-OUTILS/itk-v4/src/ITK/") 
 SET (CTEST_BINARY_DIRECTORY "/home2/otbval/OTB-OUTILS/itk-v4/build/ITK")
 
@@ -7,6 +8,8 @@ SET (CTEST_BINARY_DIRECTORY "/home2/otbval/OTB-OUTILS/itk-v4/build/ITK")
 SET (CTEST_CMAKE_COMMAND "/ORFEO/otbval/OTB-OUTILS/cmake/2.8.2/install/bin/cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
 SET (CTEST_GIT_COMMAND "/usr/bin/git")
+
+find_program(CTEST_TSOCKS_COMMAND NAMES tsocks)
 
 # Project variables
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
@@ -29,6 +32,9 @@ CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
 ")
 
+
+ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
+
 SET( ITK_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/log.txt" )
 
 SET (CTEST_NOTES_FILES
@@ -44,13 +50,7 @@ execute_process( COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_SOUR
 file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS})
 
 # fresh git clone
-execute_process( COMMAND ${CTEST_GIT_COMMAND} clone -n -- https://github.com/julienmalik/ITK.git ${CTEST_SOURCE_DIRECTORY}
-                 OUTPUT_VARIABLE CLONE_STATUS
-                 ERROR_VARIABLE  CLONE_STATUS )
-file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
-
-execute_process( COMMAND ${CTEST_GIT_COMMAND} checkout -b WarpImageFilterForVectorImage origin/WarpImageFilterForVectorImage
-                 WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+execute_process( COMMAND ${CTEST_TSOCKS_COMMAND} ${CTEST_GIT_COMMAND} clone -b WarpImageFilterForVectorImage git://github.com/julienmalik/ITK.git ${CTEST_SOURCE_DIRECTORY}
                  OUTPUT_VARIABLE CLONE_STATUS
                  ERROR_VARIABLE  CLONE_STATUS )
 file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
@@ -67,7 +67,6 @@ execute_process( COMMAND ${CTEST_GIT_COMMAND} submodule update --
                  ERROR_VARIABLE  CLONE_STATUS )
 file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
 
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 ctest_start(Experimental)
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ITK_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
