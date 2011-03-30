@@ -1,14 +1,13 @@
 # Client maintainer: julien.malik@c-s.fr
 
 SET(ENV{DISPLAY} ":0.0")
-SET(ENV{TSOCKS_CONF_FILE} "/home2/otbval/.tsocks.conf")
 
 set(dashboard_model Experimental)
 set(CTEST_CMAKE_COMMAND "/ORFEO/otbval/OTB-OUTILS/cmake/2.8.2/install/bin/cmake" )
 set(CTEST_DASHBOARD_ROOT "/ORFEO/otbval/OTB-NIGHTLY-VALIDATION")
-set(CTEST_SITE "pc8413.c-s.fr")
+set(CTEST_SITE "dora.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Ubuntu10.10-32bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "Ubuntu8.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
