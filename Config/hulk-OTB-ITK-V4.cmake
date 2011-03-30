@@ -1,9 +1,9 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
-set(CTEST_SITE "pc8413.c-s.fr")
-set(CTEST_BUILD_NAME "Ubuntu10.10-32bits-Debug")
+set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
+set(CTEST_BUILD_NAME "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
@@ -14,7 +14,7 @@ set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB-ITKv4")
-set(dashboard_binary_name "bin/OTB-ITKv4-Debug")
+set(dashboard_binary_name "build/OTB-ITKv4-Debug")
 
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-SandBox")
 set(dashboard_hg_branch "otb-itkv4")
@@ -33,7 +33,7 @@ BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 
 OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/bin/ITKv4-Debug
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/ITKv4-Debug
 
 OTB_USE_CURL:BOOL=ON
 OTB_USE_PQXX:BOOL=OFF
