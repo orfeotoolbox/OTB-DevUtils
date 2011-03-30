@@ -1,6 +1,7 @@
 # Client maintainer: julien.malik@c-s.fr
 
 SET(ENV{DISPLAY} ":0.0")
+SET(ENV{TSOCKS_CONF_FILE} "/ORFEO/otbval/.tsocks.conf")
 
 set(dashboard_model Experimental)
 set(CTEST_CMAKE_COMMAND "/ORFEO/otbval/OTB-OUTILS/cmake/2.8.2/install/bin/cmake" )
@@ -12,12 +13,12 @@ set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
-set(CTEST_GIT_COMMAND "/usr/bin/git")
+set(CTEST_GIT_COMMAND "$ENV{HOME}/bin/gittsocks.sh")
 
 set(dashboard_source_name "src/ITKv4")
 set(dashboard_binary_name "build/ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_git_url "https://github.com/julienmalik/ITK.git")
+set(dashboard_git_url "git://github.com/julienmalik/ITK.git")
 set(dashboard_git_branch "WarpImageFilterForVectorImage")
 
 macro(dashboard_hook_init)

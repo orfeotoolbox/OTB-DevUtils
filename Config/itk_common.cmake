@@ -189,6 +189,10 @@ if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}"
   endif()
 
     # Generate an initial checkout script.
+    if (NOT DEFINED ${dashboard_TestingData_url})
+      set(dashboard_TestingData_url http://itk.org/ITKData.git)
+    endif()
+
     set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
     file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
 execute_process(
@@ -205,7 +209,7 @@ if(EXISTS \"${CTEST_SOURCE_DIRECTORY}/.git\")
     WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
     )
   execute_process(
-    COMMAND \"${CTEST_GIT_COMMAND}\" config submodule.Testing/Data.url http://itk.org/ITKData.git
+    COMMAND \"${CTEST_GIT_COMMAND}\" config submodule.Testing/Data.url ${dashboard_TestingData_url}
     WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
     )
   execute_process(
