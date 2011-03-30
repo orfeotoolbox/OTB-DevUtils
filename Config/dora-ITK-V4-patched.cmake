@@ -1,76 +1,40 @@
+# Client maintainer: julien.malik@c-s.fr
+
 SET(ENV{DISPLAY} ":0.0")
 SET(ENV{TSOCKS_CONF_FILE} "/home2/otbval/.tsocks.conf")
 
-SET (CTEST_SOURCE_DIRECTORY "/home2/otbval/OTB-OUTILS/itk-v4/src/ITK/") 
-SET (CTEST_BINARY_DIRECTORY "/home2/otbval/OTB-OUTILS/itk-v4/build/ITK")
+set(dashboard_model Experimental)
+set(CTEST_CMAKE_COMMAND "/ORFEO/otbval/OTB-OUTILS/cmake/2.8.2/install/bin/cmake" )
+set(CTEST_DASHBOARD_ROOT "/ORFEO/otbval/OTB-NIGHTLY-VALIDATION")
+set(CTEST_SITE "pc8413.c-s.fr")
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "Ubuntu10.10-32bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+set(CTEST_TEST_TIMEOUT 500)
+set(CTEST_GIT_COMMAND "/usr/bin/git")
 
-# cmake and git commands
-SET (CTEST_CMAKE_COMMAND "/ORFEO/otbval/OTB-OUTILS/cmake/2.8.2/install/bin/cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
-SET (CTEST_GIT_COMMAND "/usr/bin/git")
+set(dashboard_source_name "src/ITKv4")
+set(dashboard_binary_name "build/ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
-find_program(CTEST_TSOCKS_COMMAND NAMES tsocks)
+set(dashboard_git_url "https://github.com/julienmalik/ITK.git")
+set(dashboard_git_branch "WarpImageFilterForVectorImage")
 
-# Project variables
-SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
-SET (CTEST_SITE "dora.c-s.fr" )
-SET (CTEST_BUILD_NAME "ITKV4-patched")
-SET (CTEST_BUILD_CONFIGURATION "Release")
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
+    BUILD_SHARED_LIBS:BOOL=ON
+    BUILD_TESTING:BOOL=ON
+    BUILD_EXAMPLES:BOOL=ON
+    ITK_BUILD_ALL_MODULES:BOOL=ON
+    ITK_LEGACY_SILENT:BOOL=ON
+    ITK_USE_REVIEW:BOOL=ON
+    ITK_USE_CONCEPT_CHECKING:BOOL=ON
+    ITK_COMPUTER_MEMORY_SIZE:STRING=16
+    CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
+    CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
+    ")
+endmacro()
 
-
-SET (ITK_INITIAL_CACHE "
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-CMAKE_BUILD_TYPE:STRING=Release
-BUILD_SHARED_LIBS:BOOL=ON
-BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=ON
-ITK_USE_CONCEPT_CHECKING:BOOL=ON
-ITK_BUILD_ALL_MODULES:BOOL=ON
-Module_ITK-Review:BOOL=ON
-ITK_USE_REVIEW:BOOL=ON
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
-CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
-")
-
-
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-SET( ITK_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/log.txt" )
-
-SET (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${ITK_RESULT_FILE}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
-
-# remove the src directory
-execute_process( COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_SOURCE_DIRECTORY}
-                 OUTPUT_VARIABLE   CLEAN_STATUS
-                 ERROR_VARIABLE    CLEAN_STATUS )
-file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS})
-
-# fresh git clone
-execute_process( COMMAND ${CTEST_TSOCKS_COMMAND} ${CTEST_GIT_COMMAND} clone -b WarpImageFilterForVectorImage git://github.com/julienmalik/ITK.git ${CTEST_SOURCE_DIRECTORY}
-                 OUTPUT_VARIABLE CLONE_STATUS
-                 ERROR_VARIABLE  CLONE_STATUS )
-file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
-
-execute_process( COMMAND ${CTEST_GIT_COMMAND} submodule init
-                 WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
-                 OUTPUT_VARIABLE CLONE_STATUS
-                 ERROR_VARIABLE  CLONE_STATUS )
-file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
-
-execute_process( COMMAND ${CTEST_GIT_COMMAND} submodule update --
-                 WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
-                 OUTPUT_VARIABLE CLONE_STATUS
-                 ERROR_VARIABLE  CLONE_STATUS )
-file(APPEND ${ITK_RESULT_FILE} ${CLONE_STATUS})
-
-ctest_start(Experimental)
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ITK_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
-ctest_submit()
+include(${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake)
 
