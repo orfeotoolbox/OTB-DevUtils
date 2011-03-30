@@ -1,19 +1,21 @@
 # Client maintainer: julien.malik@c-s.fr
+SET(ENV{DISPLAY} ":0.0")
+
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "pc8413.c-s.fr")
-set(CTEST_BUILD_NAME "Ubuntu10.10-32bits-Debug")
 set(CTEST_BUILD_CONFIGURATION Debug)
+set(CTEST_BUILD_NAME "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
 set(CTEST_TEST_TIMEOUT 500)
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/ITKv4")
-set(dashboard_binary_name "build/ITKv4-Debug")
+set(dashboard_binary_name "build/ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_git_url "git://github.com/julienmalik/ITK.git")
+set(dashboard_git_url "https://github.com/julienmalik/ITK.git")
 set(dashboard_git_branch "WarpImageFilterForVectorImage")
 
 macro(dashboard_hook_init)

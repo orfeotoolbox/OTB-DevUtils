@@ -18,7 +18,6 @@ set(dashboard_binary_name "bin/OTB-ITKv4-Debug")
 
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-SandBox")
 set(dashboard_hg_branch "otb-itkv4")
-set(dashboard_no_submit TRUE)
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
