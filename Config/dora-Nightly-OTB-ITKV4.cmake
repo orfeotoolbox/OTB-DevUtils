@@ -1,19 +1,30 @@
+# Client maintainer: julien.malik@c-s.fr
+set(dashboard_model Experimental)
+set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/OTB-NIGHTLY-VALIDATION")
+set(CTEST_SITE "dora.c-s.fr")
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_COMMAND "/ORFEO/otbval/OTB-OUTILS/cmake/2.8.2/install/bin/cmake" )
+set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+set(CTEST_TEST_TIMEOUT 500)
+
+set(CTEST_HG_COMMAND "/usr/bin/hg")
+set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4") 
+
+set(dashboard_root_name "tests")
+set(dashboard_source_name "src/OTB-ITKv4")
+set(dashboard_binary_name "build/OTB-ITKv4-${CTEST_BUILD_CONFIGURATION}")
+
+set(dashboard_fresh_source_checkout TRUE)
+set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-SandBox")
+set(dashboard_hg_branch "otb-itkv4")
+
 SET(OTB_GDAL_INSTALL_DIR "$ENV{HOME}/OTB-OUTILS/gdal/install-linux-gdal-1.7.2")
-SET (ENV{DISPLAY} ":0.0")
- 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-NewStatistics")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/OTB-ITKV4")
 
-SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
-SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
-SET (CTEST_SITE "dora.c-s.fr" )
-SET (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_BUILD_NAME "Ubuntu8.04-64bits-${CTEST_BUILD_CONFIGURATION}-ITKV4")
-SET (CTEST_HG_COMMAND "/usr/bin/hg")
-SET (CTEST_HG_UPDATE_OPTIONS "-C otb-itkv4") 
-
-SET (OTB_INITIAL_CACHE "
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 
@@ -44,8 +55,6 @@ FLTK_DIR:PATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.
 USE_FFTWD:BOOL=OFF
 USE_FFTWF:BOOL=OFF
 OTB_GL_USE_ACCEL:BOOL=OFF
-#ITK_USE_REVIEW:BOOL=ON 
-#ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
 OTB_USE_MAPNIK:BOOL=ON
 MAPNIK_INCLUDE_DIR:PATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/include
 MAPNIK_LIBRARY:FILEPATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/lib/libmapnik.so
@@ -60,29 +69,8 @@ TIFF_INCLUDE_DIRS:PATH=${OTB_GDAL_INSTALL_DIR}/include
 JPEG_INCLUDE_DIRS:PATH=${OTB_GDAL_INSTALL_DIR}/include
 JPEG_INCLUDE_DIR:PATH=${OTB_GDAL_INSTALL_DIR}/include
 
-")
+    ")
+endmacro()
 
-SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-
-SET (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${OTB_PULL_RESULT_FILE}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
-
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-SandBox
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   OTB_PULL_RESULT
-                 ERROR_VARIABLE    OTB_PULL_RESULT )
-file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
-
-ctest_start(Experimental)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
-ctest_submit ()
+include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
 

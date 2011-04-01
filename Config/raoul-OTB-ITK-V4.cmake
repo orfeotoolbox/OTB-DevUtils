@@ -9,11 +9,12 @@ set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
 set(CTEST_TEST_TIMEOUT 500)
 
 set(CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
-set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4") 
+set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4")
 
 set(dashboard_source_name "src/OTB-ITKv4")
 set(dashboard_binary_name "bin/OTB-ITKv4-Debug")
 
+set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-SandBox")
 set(dashboard_hg_branch "otb-itkv4")
 

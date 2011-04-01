@@ -7,7 +7,7 @@ set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_NAME "OrfeoToolbox-Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 6)
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
 
@@ -15,6 +15,7 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "src/ITKv4")
 set(dashboard_binary_name "build/ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
+set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "https://github.com/julienmalik/ITK.git")
 set(dashboard_git_branch "WarpImageFilterForVectorImage")
 
