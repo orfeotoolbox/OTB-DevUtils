@@ -19,6 +19,8 @@ SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
 # this is the initial cache to use for the binary tree, be careful to escape
 # any quotes inside of this string if you use it
 SET (CTEST_INITIAL_CACHE "
+// Use Launchers for CDash reporting
+CTEST_USE_LAUNCHERS:BOOL=1
 //Command used to build entire project from the command line.
 MAKECOMMAND:STRING=/usr/bin/make -i -k -j6
 //Name of the build

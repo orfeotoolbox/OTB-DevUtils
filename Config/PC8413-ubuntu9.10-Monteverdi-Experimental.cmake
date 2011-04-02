@@ -1,17 +1,15 @@
 SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Projets/otb/src/Monteverdi")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/build/debug/Monteverdi")
+SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Projets/otb/build/Monteverdi")
 SET (CTEST_INSTALL_DIRECTORY "$ENV{HOME}/Projets/otb/install/Monteverdi-debug")
 
 SET( CTEST_CMAKE_GENERATOR  "Eclipse CDT4 - Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j3 -i -k install" )
 SET (CTEST_SITE "PC8413.c-s.fr" )
-SET (CTEST_BUILD_NAME "Ubuntu10.10-32bits-gcc4.5-Debug-Static")
+SET (CTEST_BUILD_NAME "Ubuntu10.10-32bits-gcc4.5-Debug")
 SET (CTEST_BUILD_CONFIGURATION "Debug")
 SET (CTEST_HG_COMMAND "/usr/bin/hg")
 #SET (CTEST_HG_UPDATE_OPTIONS "-C")
-
-SET(OTB_GDAL_INSTALL_DIR "$ENV{HOME}/Utils/bin/gdal-1.7.2")
 
 SET (CTEST_INITIAL_CACHE "
 
