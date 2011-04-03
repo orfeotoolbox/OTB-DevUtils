@@ -20,7 +20,7 @@ set(dashboard_binary_name "build/ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
 set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "git://github.com/julienmalik/ITK.git")
-set(dashboard_git_branch "WarpImageFilterForVectorImage")
+set(dashboard_git_branch "OTB_ITKv4")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}

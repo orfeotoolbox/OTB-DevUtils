@@ -42,29 +42,19 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 # remove the src directory
 execute_process( COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_SOURCE_DIRECTORY}
                  WORKING_DIRECTORY "" 
+                 OUTPUT_VARIABLE   CLEAN_STATUS
+                 ERROR_VARIABLE    CLEAN_STATUS )
+
+execute_process( COMMAND ${CTEST_GIT_COMMAND} clone -n -b OTB_ITKv4 -- "https://github.com/julienmalik/ITK.git"  ${CTEST_SOURCE_DIRECTORY}
+                 OUTPUT_VARIABLE CLONE_STATUS
+                 ERROR_VARIABLE  CLONE_STATUS )
+
+execute_process( COMMAND ${CTEST_GIT_COMMAND} checkout
+                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
                  OUTPUT_VARIABLE   CHECKOUT_STATUS
                  ERROR_VARIABLE    CHECKOUT_STATUS )
 
-# update to current tag : Modulurization is almost complete
-execute_process( COMMAND ${CTEST_GIT_COMMAND} clone http://itk.org/ITK.git  ${CTEST_SOURCE_DIRECTORY}
-                 OUTPUT_VARIABLE CLEAN_STATUS
-                 ERROR_VARIABLE  CLEAN_STATUS )
-
-# Apply the patch after updating the repository
-# print the changes added with the patch
-execute_process( COMMAND ${CTEST_GIT_COMMAND} apply --stat ${OTB_PATCH_PATH}
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
-                 OUTPUT_VARIABLE   PATCH_STATUS
-                 ERROR_VARIABLE    PATCH_STATUS
-                 )
-
-# apply the patch
-execute_process( COMMAND ${CTEST_GIT_COMMAND} apply  ${OTB_PATCH_PATH}
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
-                 OUTPUT_VARIABLE   APPLY_PATCH_STATUS
-                 ERROR_VARIABLE    APPLY_PATCH_STATUS
-                 )
-file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS} ${CHECKOUT_STATUS} ${PATCH_STATUS} ${APPLY_PATCH_STATUS} )
+file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS} ${CLONE_STATUS} ${CHECKOUT_STATUS} )
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 ctest_start(Experimental)
