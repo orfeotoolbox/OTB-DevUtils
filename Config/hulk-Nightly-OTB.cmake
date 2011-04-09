@@ -9,7 +9,7 @@ SET (CTEST_CMAKE_COMMAND       "cmake" )
 SET (CTEST_BUILD_COMMAND       "/usr/bin/make -j10 -i -k install" )
 SET (CTEST_SITE                "hulk.c-s.fr" )
 SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-Release")
-SET (CTEST_BUILD_CONFIGURATION "Release")
+SET (CTEST_BUILD_CONFIGURATION "Debug")
 SET (CTEST_HG_COMMAND          "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS   "-C")
 
@@ -24,8 +24,9 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -fprofile-arcs -ftest-coverage
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -fprofile-arcs -ftest-coverage
+CMAKE_EXE_LINKER:STRING= -fprofile-arcs -ftest-coverage
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
@@ -71,5 +72,7 @@ file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
+ctest_submit ()
+ctest_coverage()
 ctest_submit ()
 
