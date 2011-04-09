@@ -2,24 +2,7 @@
 usr/lib/otb/libOTBCommandLineGenerator.so
 
 # OTB Application executables
-usr/bin/otbBandMath-cli
-usr/bin/otbBundleToPerfectSensor-cli
-usr/bin/otbCompareImages-cli
-usr/bin/otbConcatenateImages-cli
-usr/bin/otbConvert-cli
-usr/bin/otbEstimateFeaturesStatistics-cli
-usr/bin/otbEvaluateObjectDetectorResponse-cli
-usr/bin/otbExtractROIApplication-cli
-usr/bin/otbFineRegistration-cli
-usr/bin/otbKmzExport-cli
-usr/bin/otbObjectDetector-cli
-usr/bin/otbOrthoRectification-cli
-usr/bin/otbQuicklook-cli
-usr/bin/otbReadImageInfo-cli
-usr/bin/otbSplitImage-cli
-usr/bin/otbTrainDeepSVMObjectDetector-cli
-usr/bin/otbTrainObjectDetector-cli
-usr/bin/otbVectorDataSetField-cli
+usr/bin/otb*-cli
 usr/bin/otbConvertCartoToGeoPoint
 usr/bin/otbConvertGeoToCartoPoint
 usr/bin/otbConvertSensorToGeoPoint
