@@ -1,25 +1,29 @@
-SET (ENV{DISPLAY} ":0.0")
+# Client maintainer: julien.malik@c-s.fr
+set(dashboard_model Nightly)
+set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
+set(CTEST_SITE "hulk.c-s.fr")
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+set(CTEST_TEST_TIMEOUT 1500)
+set(CTEST_HG_COMMAND "/usr/bin/hg")
 
-SET (CTEST_SOURCE_DIRECTORY  "$ENV{HOME}/Dashboard/src/OTB")
-SET (CTEST_BINARY_DIRECTORY  "$ENV{HOME}/Dashboard/build/OTB")
-SET (CTEST_INSTALL_DIRECTORY "$ENV{HOME}/Dashboard/install/OTB")
+set(dashboard_root_name "tests")
+set(dashboard_source_name "src/OTB")
+set(dashboard_binary_name "build/OTB-${CTEST_BUILD_CONFIGURATION}")
 
-SET (CTEST_CMAKE_GENERATOR     "Unix Makefiles" )
-SET (CTEST_CMAKE_COMMAND       "cmake" )
-SET (CTEST_BUILD_COMMAND       "/usr/bin/make -j10 -i -k install" )
-SET (CTEST_SITE                "hulk.c-s.fr" )
-SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-Release")
-SET (CTEST_BUILD_CONFIGURATION "Debug")
-SET (CTEST_HG_COMMAND          "/usr/bin/hg")
-SET (CTEST_HG_UPDATE_OPTIONS   "-C")
+#set(dashboard_fresh_source_checkout TRUE)
+set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
+set(dashboard_hg_branch "default")
 
-SET (OTB_INITIAL_CACHE "
+set(ENV{DISPLAY} ":0.0")
 
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-SITE:STRING=${CTEST_SITE}
-CTEST_USE_LAUNCHERS:BOOL=1
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
 
-CMAKE_INSTALL_PREFIX:STRING=${CTEST_INSTALL_DIRECTORY}
+#CMAKE_INSTALL_PREFIX:STRING=${CTEST_INSTALL_DIRECTORY}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
@@ -46,33 +50,8 @@ USE_FFTWF:BOOL=ON
 OTB_GL_USE_ACCEL:BOOL=ON
 OTB_USE_MAPNIK:BOOL=ON
 
-")
+    ")
+endmacro()
 
-SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-
-SET (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${OTB_PULL_RESULT_FILE}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
-
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Nightly
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   OTB_PULL_RESULT
-                 ERROR_VARIABLE    OTB_PULL_RESULT )
-file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
-
-ctest_start(Nightly)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
-ctest_submit ()
-ctest_coverage()
-ctest_submit ()
+include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
 
