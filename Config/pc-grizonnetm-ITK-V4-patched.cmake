@@ -1,4 +1,4 @@
-SET (ENV{DISPLAY} ":0.0")
+SET (ENV{DISPLAY} ":101")
  
 SET (CTEST_SOURCE_DIRECTORY "/home/otbtesting/Dashboards/My\ Tests/ITK") 
 SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/Dashboards/My\ Tests/ITK-patched-build")

@@ -65,6 +65,7 @@ OGR_INCLUDE_DIRS:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include
 
 # set any extra envionment varibles here
 SET (CTEST_ENVIRONMENT
- "DISPLAY=:0"
+ "DISPLAY=:101"
 )
+
 
