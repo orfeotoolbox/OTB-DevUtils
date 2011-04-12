@@ -1,63 +1,39 @@
-SET (ENV{DISPLAY} ":101")
- 
-SET (CTEST_SOURCE_DIRECTORY "/home/otbtesting/Dashboards/My\ Tests/ITK") 
-SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/Dashboards/My\ Tests/ITK-patched-build")
+# Client maintainer: manuel.grizonnet@cnes.fr
+SET(ENV{DISPLAY} ":101")
 
-# path to the OTB-NewStatistics patch (otb-itkv4 branch)
-# be sure that the script launching this configuration file 
-# update OTB-SandBox directory first to work with the last patch
-SET(OTB_PATCH_PATH "/mnt/dd-2/OTB/trunk/OTB-SandBox/Patch/itkv4_modular_patch.diff")
+set(dashboard_model Experimental)
+set(CTEST_DASHBOARD_ROOT "/home/otbtesting/Dashboards")
+set(CTEST_SITE "pc-grizonnetm")
+set(CTEST_BUILD_CONFIGURATION Debug)
+set(CTEST_BUILD_NAME "OrfeoToolbox-cnes-Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+set(CTEST_TEST_TIMEOUT 500)
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
 
+set(dashboard_root_name "My\ Tests")
+set(dashboard_source_name "My\ Tests/ITK")
+set(dashboard_binary_name "My\ Tests/bin/ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
+set(dashboard_fresh_source_checkout TRUE)
+set(dashboard_git_url "https://github.com/julienmalik/ITK.git")
+set(dashboard_git_branch "OTB_ITKv4")
 
-# cmake and git commands
-SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "make -j6" )
-SET (CTEST_GIT_COMMAND "/usr/bin/git")
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
+    BUILD_SHARED_LIBS:BOOL=ON
+    BUILD_TESTING:BOOL=ON
+    BUILD_EXAMPLES:BOOL=OFF
+    ITK_BUILD_ALL_MODULES:BOOL=ON
+    ITK_LEGACY_SILENT:BOOL=ON
+    ITK_USE_REVIEW:BOOL=ON
+    ITK_USE_CONCEPT_CHECKING:BOOL=ON
+    ITKV3_COMPATIBILITY:BOOL=OFF
+    ITK_USE_64BITS_IDS:BOOL=OFF
+    ITK_COMPUTER_MEMORY_SIZE:STRING=16
+    CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
+    CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
+    ")
+endmacro()
 
-# Project variables
-SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
-SET (CTEST_SITE "pc-grizonnetm" )
-SET (CTEST_BUILD_NAME "ITKV4-patched")
-SET (CTEST_BUILD_CONFIGURATION "Release")
-
-
-SET (ITK_INITIAL_CACHE "
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-CMAKE_BUILD_TYPE:STRING=Release
-BUILD_TESTING:BOOL=OFF
-BUILD_EXAMPLES:BOOL=OFF
-ITK_BUILD_ALL_MODULES:BOOL=ON
-Module_ITK-Review:BOOL=ON
-ITK_USE_REVIEW:BOOL=ON
-")
-
-SET( ITK_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-SET (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${ITK_RESULT_FILE}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
-
-# remove the src directory
-execute_process( COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_SOURCE_DIRECTORY}
-                 WORKING_DIRECTORY "" 
-                 OUTPUT_VARIABLE   CLEAN_STATUS
-                 ERROR_VARIABLE    CLEAN_STATUS )
-
-execute_process( COMMAND ${CTEST_GIT_COMMAND} clone -n -b OTB_ITKv4 -- "https://github.com/julienmalik/ITK.git"  ${CTEST_SOURCE_DIRECTORY}
-                 OUTPUT_VARIABLE CLONE_STATUS
-                 ERROR_VARIABLE  CLONE_STATUS )
-
-execute_process( COMMAND ${CTEST_GIT_COMMAND} checkout
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}" 
-                 OUTPUT_VARIABLE   CHECKOUT_STATUS
-                 ERROR_VARIABLE    CHECKOUT_STATUS )
-
-file(WRITE ${ITK_RESULT_FILE} ${CLEAN_STATUS} ${CLONE_STATUS} ${CHECKOUT_STATUS} )
-
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-ctest_start(Experimental)
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ITK_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+include(${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake)
