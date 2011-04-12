@@ -1,60 +1,74 @@
-
 SET (CTEST_SOURCE_DIRECTORY "/mnt/dd-2/OTB/trunk/OTB-Continuous/")
 SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/OTB-Binary-Continuous/")
 
+SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
+SET (CTEST_CMAKE_COMMAND "cmake" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
+SET (CTEST_SITE "pc-grizonnetm")
+SET (CTEST_BUILD_NAME "Ubuntu10.4-64bits-Release")
+SET (CTEST_BUILD_CONFIGURATION "Release")
+SET (CTEST_HG_COMMAND "/usr/bin/hg")
+SET (CTEST_HG_UPDATE_OPTIONS "-C")
 
-# which ctest command to use for running the dashboard
-SET (CTEST_COMMAND 
-  "ctest -j6 -D Continuous -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-OTB-Continuous.cmake -V"
-  )
+SET (ENV{DISPLAY} ":101")
 
-# what cmake command to use for configuring this dashboard
-SET (CTEST_CMAKE_COMMAND 
-  "cmake"
-  )
-
-# should ctest wipe the binary tree before running
-SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
-
-# this is the initial cache to use for the binary tree, be careful to escape
-# any quotes inside of this string if you use it
 SET (CTEST_INITIAL_CACHE "
-//Command used to build entire project from the command line.
-MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
-//Name of the build
-BUILDNAME:STRING=Ubuntu10.4-64bits-Release
-//Name of the computer/site where compile is being run
-SITE:STRING=pc-grizonnetm
-//Data root
+BUILDNAME:STRING=${CTEST_BUILD_NAME}
+SITE:STRING=${CTEST_SITE}
+
+OTB_DATA_USE_LARGEINPUT:BOOL=OFF
+OTB_DATA_LARGEINPUT_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data/LargeInput
 OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
-//Compilation options
-CMAKE_C_FLAGS:STRING= -Wall
-CMAKE_CXX_FLAGS:STRING= -Wall
-//Set up the build options
+
+CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+
 CMAKE_BUILD_TYPE:STRING=Release
 BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=OFF
+BUILD_EXAMPLES:BOOL=ON
+
 OTB_USE_CURL:BOOL=ON
 OTB_USE_PQXX:BOOL=ON
-//OTB_USE_EXTERNAL_BOOST:BOOL=ON
-OTB_USE_EXTERNAL_EXPAT:BOOL=ON
 ITK_USE_PATENTED:BOOL=ON
 OTB_USE_PATENTED:BOOL=ON
+OTB_USE_EXTERNAL_BOOST:BOOL=ON
+OTB_USE_EXTERNAL_EXPAT:BOOL=ON
 USE_FFTWD:BOOL=ON
 USE_FFTWF:BOOL=ON
-OTB_GL_USE_ACCEL:BOOL=ON 
+OTB_GL_USE_ACCEL:BOOL=ON
 ITK_USE_REVIEW:BOOL=ON 
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
-//Set GDAL options
+OTB_USE_MAPNIK:BOOL=OFF
+OTB_USE_MAPNIK:BOOL=ON 
+
+MAPNIK_INCLUDE_DIR:STRING=/usr/include
+MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
+
 GDAL_CONFIG:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include
 GDAL_LIBRARY:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/lib/libgdal.so
 OGR_INCLUDE_DIRS:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include
 ")
 
-# set any extra envionment varibles here
-SET (CTEST_ENVIRONMENT
- "DISPLAY=:101"
+SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
+
+SET (CTEST_NOTES_FILES
+${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
+${PULL_RESULT_FILE}
+${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
+execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB
+                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
+                 OUTPUT_VARIABLE   PULL_RESULT
+                 ERROR_VARIABLE    PULL_RESULT )
+file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
+
+ctest_start(Continuous)
+ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
+file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
+ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
+ctest_submit ()
 
