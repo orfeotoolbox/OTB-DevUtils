@@ -23,14 +23,11 @@ set(ENV{DISPLAY} ":0.0")
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-#CMAKE_INSTALL_PREFIX:STRING=${CTEST_INSTALL_DIRECTORY}
-CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -fprofile-arcs -ftest-coverage
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -fprofile-arcs -ftest-coverage
-CMAKE_EXE_LINKER:STRING= -fprofile-arcs -ftest-coverage
+CMAKE_C_FLAGS:STRING= -Wall -Wextra -Wno-uninitialized -Wno-unused-variable
+CMAKE_CXX_FLAGS:STRING= -Wall -Wextra -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
