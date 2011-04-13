@@ -26,8 +26,8 @@ macro(dashboard_hook_init)
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 
-CMAKE_C_FLAGS:STRING= -Wall -Wextra -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wextra -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
