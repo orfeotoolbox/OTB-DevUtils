@@ -50,6 +50,6 @@ CPACK_DEBIAN_PACKAGE_ARCHITECTURE:STRING=amd64
 
 # set any extra envionment varibles here
 SET (CTEST_ENVIRONMENT
- "DISPLAY=:101"
+ "DISPLAY=pc-inglada:101"
 )
 

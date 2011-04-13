@@ -41,7 +41,6 @@ BUILD_TESTING:BOOL=ON
 
 # set any extra envionment varibles here
 SET (CTEST_ENVIRONMENT
- "DISPLAY=:101"
+ "DISPLAY=pc-inglada:101"
 )
-
 
