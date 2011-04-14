@@ -53,7 +53,7 @@ JAVA_COMPILE:FILEPATH=/usr/bin/javac
 JAVA_RUNTIME:FILEPATH=/usr/bin/java
 
 #Python Excecutable
-PYTHON_EXCECUTABLE:FILEPATH=/usr/bin/python
+PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 ")
 
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
