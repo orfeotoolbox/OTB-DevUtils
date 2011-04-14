@@ -21,9 +21,9 @@ OTB_DATA_ROOT:STRING=C:/ORFEO/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=C:/PartageVM/OTB-LargeInput
 
-GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/gdal-17/include
-OGR_INCLUDE_DIRS:PATH=C:/OSGeo4W/apps/gdal-17/include
-GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/apps/gdal-17/lib/gdal_i.lib
+GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+OGR_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
+GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
 
 GEOTIFF_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
 GEOTIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/geotiff_i.lib
@@ -51,7 +51,7 @@ LIBLAS_LIBRARY:FILEPATH=C:/OSGeo4W/lib/liblas_c.lib
 ZLIB_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 ZLIB_LIBRARY:FILEPATH=C:/OSGeo4W/lib/zlib.lib
 
-PNG_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+PNG_PNG_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 PNG_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libpng13.lib
 
 OTB_USE_GETTEXT:BOOL=OFF
@@ -81,6 +81,6 @@ ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_submit (PARTS Start Update Configure)
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_submit (PARTS Build)
+ctest_submit (PARTS Start Update Configure Build)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()

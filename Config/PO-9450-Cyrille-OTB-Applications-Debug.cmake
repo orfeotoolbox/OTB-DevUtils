@@ -9,7 +9,6 @@ SET (CTEST_BUILD_CONFIGURATION "Debug")
 SET (CTEST_HG_COMMAND "C:/Program Files/TortoiseHg/hg.exe")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
 
-
 SET (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
@@ -21,8 +20,8 @@ OTB_DATA_ROOT:STRING=C:/ORFEO/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=C:/PartageVM/OTB-LargeInput
 
-GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/gdal-17/include
-GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/apps/gdal-17/lib/gdal_i.lib
+GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
 
 OTB_DIR:PATH=C:/ORFEO/otb-build/OTB/debug
 OTB_USE_CPACK:BOOL=ON
@@ -66,6 +65,6 @@ ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_submit (PARTS Start Update Configure)
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_submit (PARTS Build)
+ctest_submit (PARTS Start Update Configure Build)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()
