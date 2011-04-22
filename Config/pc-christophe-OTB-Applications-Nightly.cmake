@@ -5,7 +5,7 @@ SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/OTB/bin/OTB-Applications-Nightly/"
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j3 -D Nightly -A /home/otbtesting/OTB/trunk/OTB-DevUtils/Config/pc-christophe-OTB-Applications-Nightly.cmake -V"
+  "ctest -j3 -D Nightly --track "Nightly Applications" -A /home/otbtesting/OTB/trunk/OTB-DevUtils/Config/pc-christophe-OTB-Applications-Nightly.cmake -V"
   )
 
 # what cmake command to use for configuring this dashboard
