@@ -6,7 +6,7 @@ usr/lib/otb/libOTBBandMath.so
 usr/lib/otb/libOTBBundleToPerfectSensor.so
 usr/lib/otb/libOTBCompareImages.so
 usr/lib/otb/libOTBConcatenateImages.so
-usr/lib/otb/libOTBConnectedComponentSegmentation.so:
+usr/lib/otb/libOTBConnectedComponentSegmentation.so
 usr/lib/otb/libOTBConvert.so
 usr/lib/otb/libOTBDEMConvert.so
 usr/lib/otb/libOTBEstimateFeaturesStatistics.so
