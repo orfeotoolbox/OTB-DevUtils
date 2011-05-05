@@ -2,7 +2,7 @@
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "C:/Users/jmalik/Dashboard")
 set(CTEST_SITE "raoul.c-s.fr" )
-set(CTEST_BUILD_NAME "Win7-Visual2008-ITKV4-Release-Static")
+set(CTEST_BUILD_NAME "ITKv4-Win7-Visual2008-Release-Static")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_CMAKE_GENERATOR  "Visual Studio 9 2008" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
