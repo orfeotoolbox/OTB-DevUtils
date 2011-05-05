@@ -15,6 +15,7 @@ SITE:STRING=${CTEST_SITE}
 
 BUILD_TESTING:BOOL=ON
 OTB_USE_CPACK:BOOL=ON
+CMAKE_CONFIGURATION_TYPES:STRING=Debug
 
 OTB_DATA_ROOT:STRING=C:/ORFEO/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
@@ -37,19 +38,16 @@ OTB_USE_QGIS:BOOL=ON
 QGIS_INCLUDE_DIRS:PATH=C:/OSGeo4W/apps/qgis/include
 QGIS_LIBRARY:FILEPATH=C:/OSGeo4W/apps/qgis/lib/qgis_core.lib
 
-# OTB Test driver to launch the tests
-OTB_TEST_DRIVER:FILEPATH=C:/ORFEO/otb-build/OTB/bin/Debug/otbTestDriver.exe
-
 ")
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
-SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Applications-Nightly
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   OTB_PULL_RESULT
-                 ERROR_VARIABLE    OTB_PULL_RESULT )
-file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
+#SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
+#execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Applications-Nightly
+#                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
+#                 OUTPUT_VARIABLE   OTB_PULL_RESULT
+#                 ERROR_VARIABLE    OTB_PULL_RESULT )
+#file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
 
 SET (CTEST_NOTES_FILES
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
