@@ -20,7 +20,7 @@ SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
 # any quotes inside of this string if you use it
 SET (CTEST_INITIAL_CACHE "
 // Use Launchers for CDash reporting
-CTEST_USE_LAUNCHERS:BOOL=1
+CTEST_USE_LAUNCHERS:BOOL=ON
 //Command used to build entire project from the command line.
 MAKECOMMAND:STRING=/usr/bin/make -i -k -j6
 //Name of the build

@@ -100,10 +100,10 @@ endif()
 # Choose CTest reporting mode.
 if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make")
   # Launchers work only with Makefile generators.
-  set(CTEST_USE_LAUNCHERS 0)
+  set(CTEST_USE_LAUNCHERS OFF)
 elseif(NOT DEFINED CTEST_USE_LAUNCHERS)
   # The setting is ignored by CTest < 2.8 so we need no version test.
-  set(CTEST_USE_LAUNCHERS 1)
+  set(CTEST_USE_LAUNCHERS ON)
 endif()
 
 # Configure testing.
