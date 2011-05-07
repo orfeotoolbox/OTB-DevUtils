@@ -166,6 +166,10 @@ check_gpgkeyid ()
 set_ubuntu_code_name ()
 {
     case "$1" in
+        "oneiric" )
+            ubuntu_codename="Oneiric Ocelot"
+            ubuntu_version="11.10"
+            ;;
         "natty" )
             ubuntu_codename="Natty Narwhal"
             ubuntu_version="11.04"
@@ -262,7 +266,7 @@ done
 
 echo "Source package generation..."
 cd "$TMPDIR/monteverdi-$src_version_full"
-for target in karmic lucid maverick ; do
+for target in karmic lucid maverick natty ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     cp -f "$DEBDIR/changelog" debian
