@@ -9,15 +9,18 @@ usr/lib/otb/libOTBConcatenateImages.so
 usr/lib/otb/libOTBConnectedComponentSegmentation.so
 usr/lib/otb/libOTBConvert.so
 usr/lib/otb/libOTBDEMConvert.so
+usr/lib/otb/libOTBDSFuzzyModelEstimation.so
 usr/lib/otb/libOTBEstimateFeaturesStatistics.so
 usr/lib/otb/libOTBEstimateImagesStatistics.so
 usr/lib/otb/libOTBEvaluateHOGObjectDetectorResponse.so
 usr/lib/otb/libOTBEvaluateObjectDetectorResponse.so
+usr/lib/otb/libOTBExtractRoadDescription.so
 usr/lib/otb/libOTBExtractROIApplication.so
 usr/lib/otb/libOTBFineRegistration.so
 usr/lib/otb/libOTBHOGObjectDetector.so
 usr/lib/otb/libOTBImageSVMClassifier.so
 usr/lib/otb/libOTBKmzExport.so
+usr/lib/otb/libOTBLineSegmentDetection.so
 usr/lib/otb/libOTBMaskGenerator.so
 usr/lib/otb/libOTBMeanShiftModesDetection.so
 usr/lib/otb/libOTBObjectDetector.so
@@ -33,6 +36,7 @@ usr/lib/otb/libOTBTrainHOGObjectDetector.so
 usr/lib/otb/libOTBTrainImagesClassifier.so
 usr/lib/otb/libOTBTrainObjectDetector.so
 usr/lib/otb/libOTBValidateImagesClassifier.so
+usr/lib/otb/libOTBVectorDataDSValidation.so
 usr/lib/otb/libOTBVectorDataExtractROIApplication.so
 usr/lib/otb/libOTBVectorDataSetField.so
 
