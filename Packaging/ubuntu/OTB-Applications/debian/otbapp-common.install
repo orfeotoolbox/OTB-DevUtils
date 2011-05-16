@@ -39,4 +39,6 @@ usr/lib/otb/libOTBValidateImagesClassifier.so
 usr/lib/otb/libOTBVectorDataDSValidation.so
 usr/lib/otb/libOTBVectorDataExtractROIApplication.so
 usr/lib/otb/libOTBVectorDataSetField.so
+usr/lib/otb/libOTBVectorDataTransformFilterApplication.so
+
 
