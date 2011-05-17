@@ -28,15 +28,17 @@ else
 fi
 DEBDIR=$CMDDIR/debian
 DEFAULT_GPGKEYID=0xAEB3D22F
+#DEFAULT_GPGKEYID=0x46047121
+#DEFAULT_GPGKEYID=0x597C0E63
 
 display_version ()
 {
     cat <<EOF
 
-make_ubuntu_packages.sh, version ${SCRIPT_VERSION}
+make_ubuntu_gdal_packages.sh, version ${SCRIPT_VERSION}
 Copyright (C) 2010, 2011 CNES (Centre National d'Etudes Spatiales)
 by Sebastien DINOT <sebastien.dinot@c-s.fr>
-
+Adaptation for GDAL by Julien Malik <julien.malik@c-s.fr>
 EOF
 }
 
@@ -86,14 +88,14 @@ check_src_top_dir ()
         echo "*** ERRROR: directory '$topdir' doesn't exist"
         exit 2
     fi
-    if [ ! -d "$topdir/.hg" ] ; then
-        echo "*** ERRROR: No Mercurial working copy found in '$topdir' directory"
-        exit 2
-    fi
-    if [ "`hg identify $topdir`" == "000000000000 tip" ] ; then
-        echo "*** ERROR: Mercurial failed to identify a valid repository in '$topdir'"
-        exit 2
-    fi
+#    if [ ! -d "$topdir/.hg" ] ; then
+#        echo "*** ERRROR: No Mercurial working copy found in '$topdir' directory"
+#        exit 2
+#    fi
+#    if [ "`hg identify $topdir`" == "000000000000 tip" ] ; then
+#        echo "*** ERROR: Mercurial failed to identify a valid repository in '$topdir'"
+#        exit 2
+#    fi
     topdir=`( cd $topdir ; pwd )`
 }
 
@@ -182,88 +184,102 @@ set_ubuntu_code_name ()
 }
 
 
-while getopts ":r:d:o:p:c:g:hv" option
-do
-    case $option in
-        d ) topdir=$OPTARG
-            ;;
-        r ) revision=$OPTARG
-            ;;
-        o ) otb_version_full=$OPTARG
-            ;;
-        p ) pkg_version=$OPTARG
-            ;;
-        c ) changelog_message=$OPTARG
-            ;;
-        g ) gpgkeyid=$OPTARG
-            ;;
-        v ) display_version
-            exit 0
-            ;;
-        h ) display_help
-            exit 0
-            ;;
-        * ) echo "*** ERROR: Unknown option -$OPTARG (arg #"$(($OPTIND - 1))")"
-            display_help
-            exit 0
-            ;;
-    esac
-done
+#while getopts ":r:d:o:p:c:g:hv" option
+#do
+#    case $option in
+#        d ) topdir=$OPTARG
+#            ;;
+#        r ) revision=$OPTARG
+#            ;;
+#        o ) otb_version_full=$OPTARG
+#            ;;
+#        p ) pkg_version=$OPTARG
+#            ;;
+#        c ) changelog_message=$OPTARG
+#            ;;
+#        g ) gpgkeyid=$OPTARG
+#            ;;
+#        v ) display_version
+#            exit 0
+#            ;;
+#        h ) display_help
+#            exit 0
+#            ;;
+#        * ) echo "*** ERROR: Unknown option -$OPTARG (arg #"$(($OPTIND - 1))")"
+#            display_help
+#            exit 0
+#            ;;
+#    esac
+#done
 
-if [ "$OPTIND" -eq 1 ] ; then
-    display_help
-    exit 1
-fi
+#if [ "$OPTIND" -eq 1 ] ; then
+#    display_help
+#    exit 1
+#fi
 
 echo "Command line checking..."
-check_src_top_dir
-check_src_revision
-check_external_version
+#check_src_top_dir
+#check_src_revision
+#check_external_version
 check_gpgkeyid
 
-echo "Archive export..."
-cd "$topdir"
-hg archive -r "$revision" -t tgz "$TMPDIR/otb-$otb_version_full.tar.gz"
+#echo "Archive export..."
+#cd "$topdir"
+#hg archive -r "$revision" -t tgz "$TMPDIR/otb-$otb_version_full.tar.gz"
 
-echo "Archive extraction..."
-cd "$TMPDIR"
-tar xzf "otb-$otb_version_full.tar.gz"
-mv "otb-$otb_version_full.tar.gz" "otb_$otb_version_full.orig.tar.gz"
+#echo "Archive extraction..."
+#cd "$TMPDIR"
+#tar xzf "otb-$otb_version_full.tar.gz"
+#mv "otb-$otb_version_full.tar.gz" "otb_$otb_version_full.orig.tar.gz"
 
-echo "Debian scripts import..."
-cd "$TMPDIR/otb-$otb_version_full"
-cp -a "$DEBDIR" .
-cd debian
-for f in control rules ; do
-    sed -e "s/@VERSION_MAJOR@/$otb_version_major/g" \
-        -e "s/@VERSION_MINOR@/$otb_version_minor/g" \
-        -e "s/@VERSION_PATCH@/$otb_version_patch/g" \
-        -e "s/@VERSION_SONAME@/$otb_version_soname/g" \
-        -e "s/@VERSION_FULL@/$otb_version_full/g" \
-        < "$f.in" > "$f"
-    rm -f "$f.in"
-done
-for f in *VERSION_MAJOR* ; do
-    g=`echo $f | sed -e "s/VERSION_MAJOR/$otb_version_major/g"`
-    mv "$f" "$g"
-done
-for f in *VERSION_SONAME* ; do
-    g=`echo $f | sed -e "s/VERSION_SONAME/$otb_version_soname/g"`
-    mv "$f" "$g"
-done
+#echo "Debian scripts import..."
+#cd "$TMPDIR/otb-$otb_version_full"
+#cp -a "$DEBDIR" .
+#cd debian
+#for f in control rules ; do
+#    sed -e "s/@VERSION_MAJOR@/$otb_version_major/g" \
+#        -e "s/@VERSION_MINOR@/$otb_version_minor/g" \
+#        -e "s/@VERSION_PATCH@/$otb_version_patch/g" \
+#        -e "s/@VERSION_SONAME@/$otb_version_soname/g" \
+#        -e "s/@VERSION_FULL@/$otb_version_full/g" \
+#        < "$f.in" > "$f"
+#    rm -f "$f.in"
+#done
+#for f in *VERSION_MAJOR* ; do
+#    g=`echo $f | sed -e "s/VERSION_MAJOR/$otb_version_major/g"`
+#    mv "$f" "$g"
+#done
+#for f in *VERSION_SONAME* ; do
+#    g=`echo $f | sed -e "s/VERSION_SONAME/$otb_version_soname/g"`
+#    mv "$f" "$g"
+#done
+
+
+
+#gdal_version_full=1.8.0-2~lucid1
+otb_patch_version=1
+
 
 echo "Source package generation..."
-cd "$TMPDIR/otb-$otb_version_full"
-for target in karmic lucid maverick natty ; do
+
+cd "$TMPDIR"
+cp -ar /home/otbval/Dashboard/src/gdalpackage_lucid .
+cd gdalpackage_lucid/gdal-1.8.0
+
+#for target in karmic lucid maverick natty ; do
+for target in lucid ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
-    cp -f "$DEBDIR/changelog" debian
+#    cp -f "$DEBDIR/changelog" debian
     if [ -n "$changelog_message" ] ; then
         dch_message="$changelog_message"
     else
         dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
     fi
     dch --force-distribution --distribution "$target" \
-        -v "${otb_version_full}-0ppa~${target}${pkg_version}" "$dch_message"
+        -v "1.8.0-2~${target}1+otb${otb_patch_version}" "Apply patch for OTB (don't disable the GTiff driver on libtiff version mismatch)"
     debuild -k$gpgkeyid -S -sa --lintian-opts -i
 done
+
+
+

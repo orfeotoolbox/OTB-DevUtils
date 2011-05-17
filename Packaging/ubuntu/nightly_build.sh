@@ -38,7 +38,7 @@ rm -rf /tmp/otb* /tmp/monteverdi*
 
 # For each project ("OTB" must be the first one)
 # for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
-for project in OTB Monteverdi OTB-Applications ; do
+for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
 
     # Update working copy
     cd $SRCDIR/$project
@@ -93,7 +93,7 @@ for project in OTB Monteverdi OTB-Applications ; do
         ppa_url="http://ppa.launchpad.net/otb/orfeotoolbox-nightly/ubuntu/pool/main/o/otb"
         while [ $otb_pkg_avail -eq 0 ] ; do
             n=$($TSOCKS GET $ppa_url | sed -ne "s/^.* href=\"\(libotb_${otb_version}-0ppa~.*${otb_pkg_version}_all\.deb\)\".*$/\1/p" | wc -l)
-            if [ $n -eq 3 ] ; then
+            if [ $n -eq 4 ] ; then
                 otb_pkg_avail=1
             else
                 echo $(date '+%F %T: ') "Waiting for OTB package availability. Next check in 5 minutes."

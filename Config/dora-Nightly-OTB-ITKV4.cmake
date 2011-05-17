@@ -3,7 +3,7 @@ set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/OTB-NIGHTLY-VALIDATION")
 set(CTEST_SITE "dora.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "ITKv4-Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_COMMAND "/ORFEO/otbval/OTB-OUTILS/cmake/2.8.2/install/bin/cmake" )
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
@@ -27,7 +27,7 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
-CTEST_USE_LAUNCHERS:BOOL=1
+CTEST_USE_LAUNCHERS:BOOL=ON
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/DATA/OTB-Data-LargeInput

@@ -5,7 +5,7 @@ SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/OTB/bin/OTB-Applications-Nightly/"
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j3 -D Nightly -A /home/otbtesting/OTB/trunk/OTB-DevUtils/Config/pc-christophe-OTB-Applications-Nightly.cmake -V"
+  "ctest -j3 -D Nightly --track "Nightly Applications" -A /home/otbtesting/OTB/trunk/OTB-DevUtils/Config/pc-christophe-OTB-Applications-Nightly.cmake -V"
   )
 
 # what cmake command to use for configuring this dashboard
@@ -20,7 +20,7 @@ SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
 # any quotes inside of this string if you use it
 SET (CTEST_INITIAL_CACHE "
 // Use Launchers for CDash reporting
-CTEST_USE_LAUNCHERS:BOOL=1
+CTEST_USE_LAUNCHERS:BOOL=ON
 //Command used to build entire project from the command line.
 MAKECOMMAND:STRING=/usr/bin/make -i -k -j4
 //Name of the build
