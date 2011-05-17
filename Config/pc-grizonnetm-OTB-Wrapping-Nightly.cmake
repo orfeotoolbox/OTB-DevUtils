@@ -54,11 +54,6 @@ WRAP_ITK_JAVA:BOOL=ON
 #JAVA_INCLUDE_PATH2:STRING=/usr/lib/jvm/java-6-sun/include/linux
 #JAVA_JVM_LIBRARY:STRING=/usr/lib/jvm/java-6-sun/jre/lib/amd64/server
 WRAP_ITK_PYTHON:BOOL=ON 
-//CPack configuration
-OTB_USE_CPACK:BOOL=ON
-CMAKE_INSTALL_PREFIX:STRING=/home/otbtesting/OTB/tmp
-CPACK_BINARY_DEB:BOOL=ON
-CPACK_DEBIAN_PACKAGE_ARCHITECTURE:STRING=amd64
 ")
 
 # set any extra envionment varibles here
