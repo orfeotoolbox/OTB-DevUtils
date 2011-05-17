@@ -20,6 +20,7 @@ usr/lib/otb/libOTBFineRegistration.so
 usr/lib/otb/libOTBHOGObjectDetector.so
 usr/lib/otb/libOTBImageSVMClassifier.so
 usr/lib/otb/libOTBKmzExport.so
+usr/lib/otb/libOTBLabeledImageColorMapping.so
 usr/lib/otb/libOTBLineSegmentDetection.so
 usr/lib/otb/libOTBMaskGenerator.so
 usr/lib/otb/libOTBMeanShiftModesDetection.so
