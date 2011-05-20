@@ -1,0 +1,174 @@
+1. Configure your system to pass through your HTTP(S) proxy:
+
+1.1. Configure yum
+
+   Add lines below in the yum configuration file /etc/yum.conf:
+
+   ---------------------------------------------------------------------------
+   proxy=http://proxy.example.com:8080
+   proxy_username=user
+   proxy_password=xxxxxxxx
+   ---------------------------------------------------------------------------
+
+1.2. Configure command line tools
+
+   Add lines below in /root/.bash_profile:
+
+   ---------------------------------------------------------------------------
+   http_proxy='http://user:xxxxxxxx@proxy.example.com:8080'
+   https_proxy=$http_proxy
+   no_proxy='localhost,127.0.0.1,.example.com'
+   export http_proxy https_proxy no_proxy
+   ---------------------------------------------------------------------------
+
+   Eval /root/.bash_profile content:
+
+   ---------------------------------------------------------------------------
+   root@host:~# . /root/.bash_profile
+   ---------------------------------------------------------------------------
+
+
+2. Add required extra repositories:
+
+2.1. EPEL (http://fedoraproject.org/wiki/EPEL)
+
+   Get and import the GnuPG public key used to verify the packages:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget https://fedoraproject.org/static/217521F6.txt
+   root@host:~# rpm --import 217521F6.txt
+   ---------------------------------------------------------------------------
+
+   Get and install EPEL repository configuration package:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+   root@host:~# rpm -ivh epel-release-5-4.noarch.rpm
+   ---------------------------------------------------------------------------
+
+   Update yum local database:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum update
+   ---------------------------------------------------------------------------
+
+2.2. ELGIS (http://elgis.argeo.org)
+
+   Get and import the GnuPG public key used to verify the packages:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://elgis.argeo.org/RPM-GPG-KEY-ELGIS
+   root@host:~# rpm --import RPM-GPG-KEY-ELGIS
+   ---------------------------------------------------------------------------
+
+   Get and install ELGIS repository configuration package:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://elgis.argeo.org/repos/5/elgis-release-5-5_0.noarch.rpm
+   root@host:~# rpm -ivh elgis-release-5-5_0.noarch.rpm
+   ---------------------------------------------------------------------------
+
+   Update yum local database:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum update
+   ---------------------------------------------------------------------------
+
+
+3. Install required Orfeo Toolbox dependencies
+
+3.1. Standard RPM packages:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum install gdal fltk python26
+   ---------------------------------------------------------------------------
+
+   If you expect to install OrfeoToolbox-devel package (not required for
+   Java), you must install some extra packages:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum install cmake boost-devel freeglut-devel libpng-devel \
+                            fltk-devel fltk-fluid gdal-devel libgeotiff-devel
+   ---------------------------------------------------------------------------
+
+3.2. Sun JDK 1.5 package:
+
+   Go to http://www.oracle.com/technetwork/java/javase/downloads/index.html
+   and get the last Sun JDK 1.5 (the GNU/Linux 32 bits version 1.5.0-22 was
+   used to build the OTB bindings for Java) and install it on your system:
+
+   ---------------------------------------------------------------------------
+   root@host:~# cd <download_directory>
+   root@host:~# chmod 755 jdk-1_5_0_22-linux-i586-rpm.bin
+   root@host:~# ./jdk-1_5_0_22-linux-i586-rpm.bin
+   ---------------------------------------------------------------------------
+
+3.3. (Optional) Sun JDK 1.6 package:
+
+   Go to http://www.oracle.com/technetwork/java/javase/downloads/index.html
+   and get the last Sun JDK 1.5 (the GNU/Linux 32 bits version 1.6.0-25 was
+   used to build the OTB bindings for Java) and install it on your system:
+
+   ---------------------------------------------------------------------------
+   root@host:~# cd <download_directory>
+   root@host:~# chmod 755 jdk-6u25-linux-i586-rpm.bin
+   root@host:~# ./jdk-6u25-linux-i586-rpm.bin
+   ---------------------------------------------------------------------------
+
+
+4. Install Orfeo Toolbox packages
+
+   Get and install OrfeoToolbox libraries package:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-3.8.0-2.i386.rpm
+   root@host:~# rpm -ivh OrfeoToolbox-3.8.0-2.i386.rpm
+   ---------------------------------------------------------------------------
+
+   Optionally (because this package is not required for Java), get and install
+   OrfeoToolbox header files package:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-devel-3.8.0-2.i386.rpm
+   root@host:~# rpm -ivh OrfeoToolbox-devel-3.8.0-2.i386.rpm
+   ---------------------------------------------------------------------------
+
+   Get and install OrfeoToolbox wrappers packages built with Sun JDK 1.5:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-1.4.0-4+java5.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-java-1.4.0-4+java5.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-python-1.4.0-4+java5.i386.rpm
+   root@host:~# rpm -ivh OrfeoToolbox-Wrapping-*.rpm
+   ---------------------------------------------------------------------------
+
+   Alternatively and according to the installed JDK, get and install
+   OrfeoToolbox wrappers packages built with Sun JDK 1.6:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-1.4.0-4+java6.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-java-1.4.0-4+java6.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-python-1.4.0-4+java6.i386.rpm
+   root@host:~# rpm -ivh OrfeoToolbox-Wrapping-*.rpm
+   ---------------------------------------------------------------------------
+
+
+5. (Optional) Test
+
+   Get the archive, build and launch tests:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/TestJavaWrapping.tar.gz
+   root@host:~# tar xzf TestJavaWrapping.tar.gz
+   root@host:~# cd TestJavaWrapping
+   root@host:~# make build
+   root@host:~# make test
+   ---------------------------------------------------------------------------
+
+   NB: To drive tests with Sun JDK 1.6, you must replace the path to java and
+   javac binaries in the Makefile:
+
+   /usr/java/jdk1.5.0_22/bin/java   =>  /usr/java/jdk1.6.0_25/bin/java
+   /usr/java/jdk1.5.0_22/bin/javac  =>  /usr/java/jdk1.6.0_25/bin/javac
+
+   The results (images and SVM model) are stored in "out" sub directory.
