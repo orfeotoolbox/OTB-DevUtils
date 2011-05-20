@@ -33,6 +33,8 @@ CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 TSOCKS=$(which tsocks)
 TODAY=$(date +%Y%m%d)
 
+EXPECTED_OTB_PACKAGES=3
+
 # Clean previous builds
 rm -rf /tmp/otb* /tmp/monteverdi*
 
@@ -93,7 +95,8 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
         ppa_url="http://ppa.launchpad.net/otb/orfeotoolbox-nightly/ubuntu/pool/main/o/otb"
         while [ $otb_pkg_avail -eq 0 ] ; do
             n=$($TSOCKS GET $ppa_url | sed -ne "s/^.* href=\"\(libotb_${otb_version}-0ppa~.*${otb_pkg_version}_all\.deb\)\".*$/\1/p" | wc -l)
-            if [ $n -eq 4 ] ; then
+            if [ $n -eq "$EXPECTED_OTB_PACKAGES" ] ; then
+                echo $(date '+%F %T: ') "OTB packages are now availables for all versions."
                 otb_pkg_avail=1
             else
                 echo $(date '+%F %T: ') "Waiting for OTB package availability. Next check in 5 minutes."
