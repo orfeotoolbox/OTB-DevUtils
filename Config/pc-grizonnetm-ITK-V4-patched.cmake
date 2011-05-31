@@ -1,5 +1,5 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
-SET(ENV{DISPLAY} "pc-inglada:101")
+SET(ENV{DISPLAY} ":0")
 
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/Dashboards")

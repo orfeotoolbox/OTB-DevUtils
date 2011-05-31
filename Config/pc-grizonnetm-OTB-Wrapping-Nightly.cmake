@@ -58,7 +58,7 @@ WRAP_ITK_PYTHON:BOOL=ON
 
 # set any extra envionment varibles here
 SET (CTEST_ENVIRONMENT
- "DISPLAY=pc-inglada:101"
+ "DISPLAY=:0"
 )
 
 
