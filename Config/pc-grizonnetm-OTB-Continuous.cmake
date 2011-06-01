@@ -46,6 +46,7 @@ MAPNIK_INCLUDE_DIR:STRING=/usr/include
 MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
 
 GDAL_CONFIG:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/bin/gdal-config
+GDALCONFIG_EXECUTABLE:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include
 GDAL_LIBRARY:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/lib/libgdal.so
 OGR_INCLUDE_DIRS:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include

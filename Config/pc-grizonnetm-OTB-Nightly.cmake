@@ -63,6 +63,7 @@ CPACK_BINARY_DEB:BOOL=ON
 CPACK_DEBIAN_PACKAGE_ARCHITECTURE:STRING=amd64
 //Set GDAL options
 GDAL_CONFIG:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/bin/gdal-config
+GDALCONFIG_EXECUTABLE:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include
 GDAL_LIBRARY:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/lib/libgdal.so
 OGR_INCLUDE_DIRS:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include
