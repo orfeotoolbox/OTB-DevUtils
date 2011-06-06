@@ -64,7 +64,7 @@ OTB_USE_DEPRECATED:BOOL=ON
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Nightly
+execute_process( COMMAND ${CTEST_HG_COMMAND} pull
                  WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
                  OUTPUT_VARIABLE   OTB_PULL_RESULT
                  ERROR_VARIABLE    OTB_PULL_RESULT )
