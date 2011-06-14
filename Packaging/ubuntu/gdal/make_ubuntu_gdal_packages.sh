@@ -262,12 +262,12 @@ otb_patch_version=1
 
 echo "Source package generation..."
 
-cd "$TMPDIR"
-cp -ar /home/otbval/Dashboard/src/gdalpackage_natty .
-cd gdalpackage_natty/gdal-1.8.0
-
+#cd "$TMPDIR"
+#cp -ar /home/otbval/Dashboard/src/gdalpackage_lucid .
+#cd gdalpackage_lucid/gdal-1.8.0
 #for target in karmic lucid maverick natty ; do
-for target in natty ; do
+for target in lucid maverick natty ; do
+    cd /home/otbval/Dashboard/src/gdal-1.8.0-2~lucid2/$target/gdal-1.8.0
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
 #    cp -f "$DEBDIR/changelog" debian
@@ -277,7 +277,7 @@ for target in natty ; do
         dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
     fi
     dch --force-distribution --distribution "$target" \
-        -v "1.8.0-2~${target}1+otb${otb_patch_version}" "Apply patch for OTB (don't disable the GTiff driver on libtiff version mismatch)"
+        -v "1.8.0-2~${target}2+otb${otb_patch_version}" "Apply patch for OTB (don't disable the GTiff driver on libtiff version mismatch)"
     debuild -k$gpgkeyid -S -sa --lintian-opts -i
 done
 

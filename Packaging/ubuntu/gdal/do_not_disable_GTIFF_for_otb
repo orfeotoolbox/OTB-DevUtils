@@ -1,0 +1,49 @@
+Description: Upstream changes introduced in version 1.8.0-2~maverick1+otb1
+ This patch has been created by dpkg-source during the package build.
+ Here's the last changelog entry, hopefully it gives details on why
+ those changes were made:
+ .
+ gdal (1.8.0-2~maverick1+otb1) maverick; urgency=low
+ .
+   * Apply patch for OTB (don't disable the GTiff driver on libtiff
+     version mismatch)
+ .
+ The person named in the Author field signed this changelog entry.
+Author: OTB Team <contact@orfeo-toolbox.org>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- gdal-1.8.0.orig/frmts/gtiff/geotiff.cpp
++++ gdal-1.8.0/frmts/gtiff/geotiff.cpp
+@@ -8594,13 +8594,21 @@ int GTiffOneTimeInit()
+         {
+             CPLError(CE_Failure, CPLE_AppDefined,
+                      "WARNING ! libtiff version mismatch : You're linking against libtiff 3.X but GDAL has been compiled against libtiff >= 4.0.0");
++
++#if 0 /* OTB patch : don't disable the TIFF driver in case of libtiff link conflict */
++
+             bInitIsOk = FALSE;
+             return FALSE;
++
++#endif
++
+         }
+     }
+ #endif
+ #endif
+ 
++
++
+     _ParentExtender = TIFFSetTagExtender(GTiffTagExtender);
+ 
+     TIFFSetWarningHandler( GTiffWarningHandler );
