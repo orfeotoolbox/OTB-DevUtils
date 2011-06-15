@@ -1,0 +1,30 @@
+This files allow for generation of gdal packages.
+
+Since gdal 1.8, the GTiff driver is disabled when gdal detects a TIFF conflict (internal >= 4 version, but program linked with TIFF 3).
+This happens with otb as ossim is linked to libtiff.
+This directory contains a patch to gdal preventing the deregistration of the GTiff driver.
+
+Procedure for the generation of the packages :
+
+DEVUTILS = /your/path/to/OTB-DevUtils/Packaging/ubuntu/gdal
+
+>> Create a working dir
+WORKDIR = /tmp/gdal
+
+>> Download the source package for different distrib
+
+for each distrib in {lucid, maverick, natty}
+ > edit /etc/apt/sources.list.d/ubuntugis-ubuntugis-unstable-{yourdistrib}.list
+ > edit the "src" section and use $distrib
+ > cd $WORKDIR/$distrib
+ > apt-get source gdal
+ > cp $DEVUTILS/do_not_disable_GTIFF_for_otb $WORKDIR/$distrib/gdal-1.8.0/debian/patches
+ > echo "do_not_disable_GTIFF_for_otb" >> $WORKDIR/$distrib/gdal-1.8.0/debian/patches/series
+
+>> Source packages can now be generated
+ > edit $DEVUTILS/make_ubuntu_gdal_packages.sh and put the correct paths at the end
+ > launch $DEVUTILS/make_ubuntu_gdal_packages.sh
+
+>> Upload to launchpad
+ > dput -P ppa-otb-nightly *.changes
+
