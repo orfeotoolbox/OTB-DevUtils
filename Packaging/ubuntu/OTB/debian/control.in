@@ -42,8 +42,7 @@ Description: Free library of image processing algorithms - runtime
 Package: libotb@VERSION_MAJOR@-dev
 Section: contrib/devel
 Architecture: any
-Conflicts: libotb (<< @VERSION_SONAME@),
- libotb3-dev (<< @VERSION_SONAME@)
+Conflicts: libotb3-dev (<< @VERSION_SONAME@)
 Depends: libotb@VERSION_SONAME@ (= ${binary:Version}), cmake (>= 2.6),
  libc6-dev (>= 2.4), libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libexpat1-dev,
  libfltk1.1-dev, fluid, libgdal1-dev, libopenthreads-dev, libx11-dev,
