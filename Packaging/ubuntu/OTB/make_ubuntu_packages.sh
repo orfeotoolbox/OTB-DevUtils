@@ -18,13 +18,13 @@ export DEBFULLNAME="OTB Team"
 export DEBEMAIL="contact@orfeo-toolbox.org"
 
 TMPDIR="/tmp"
-DIRNAME=`dirname $0`
+DIRNAME=$(dirname $0)
 if [ "${DIRNAME:0:1}" == "/" ] ; then
     CMDDIR=$DIRNAME
 elif [ "${DIRNAME:0:1}" == "." ] ; then
-    CMDDIR=`pwd`/${DIRNAME:2}
+    CMDDIR=$(pwd)/${DIRNAME:2}
 else
-    CMDDIR=`pwd`/$DIRNAME
+    CMDDIR=$(pwd)/$DIRNAME
 fi
 DEBDIR=$CMDDIR/debian
 DEFAULT_GPGKEYID=0xAEB3D22F
@@ -74,7 +74,6 @@ Example:
 EOF
 }
 
-
 check_src_top_dir ()
 {
     if [ -z "$topdir" ] ; then
@@ -90,11 +89,11 @@ check_src_top_dir ()
         echo "*** ERRROR: No Mercurial working copy found in '$topdir' directory"
         exit 2
     fi
-    if [ "`hg identify $topdir`" == "000000000000 tip" ] ; then
+    if [ "$(hg identify $topdir)" == "000000000000 tip" ] ; then
         echo "*** ERROR: Mercurial failed to identify a valid repository in '$topdir'"
         exit 2
     fi
-    topdir=`( cd $topdir ; pwd )`
+    topdir=$( cd $topdir ; pwd )
 }
 
 
@@ -105,7 +104,7 @@ check_src_revision ()
         echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
         exit 3
     fi
-    olddir=`pwd`
+    olddir=$(pwd)
     cd "$topdir"
     if ! hg log -r "$revision" &>/dev/null ; then
         echo "*** ERROR: Revision $revision unknown"
@@ -117,19 +116,26 @@ check_src_revision ()
 
 check_external_version ()
 {
-    if [ -z "$otb_version_full" ] ; then
-        echo "*** ERROR: missing version number of OTB (option -o)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
+    # If OTB version is not given on command line, this script parse the top
+    # level CMakeLists.txt file to find it.
+    if [ -n "$otb_version_full" ] ; then
+        if [ "$(echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/')" != "OK" ] ; then
+            echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
+            exit 3
+        fi
+        otb_version_major=$(echo $otb_version_full | sed -e 's/^\([0-9]\+\)\..*$/\1/')
+        otb_version_minor=$(echo $otb_version_full | sed -e 's/^[^\.]\+\.\([0-9]\+\)[\.-].*$/\1/')
+        otb_version_patch=$(echo $otb_version_full | sed -e 's/^.*[\.-]\(\(RC\)\?[0-9]\+\)$/\1/')
+    else
+        otb_version_major=$(sed -n -e 's/SET(OTB_VERSION_MAJOR "\([0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
+        otb_version_minor=$(sed -n -e 's/SET(OTB_VERSION_MINOR "\([0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
+        otb_version_patch=$(sed -n -e 's/SET(OTB_VERSION_PATCH "\(\(RC\)\?[0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
+        if [ "${otb_version_patch:0:2}" == "RC" ] ; then
+            otb_version_full=${otb_version_major}.${otb_version_minor}-${otb_version_patch}
+        else
+            otb_version_full=${otb_version_major}.${otb_version_minor}.${otb_version_patch}
+        fi
     fi
-    if [ "`echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
-        echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
-        exit 3
-    fi
-
-    otb_version_major=`echo $otb_version_full | sed -e 's/^\([0-9]\+\)\..*$/\1/'`
-    otb_version_minor=`echo $otb_version_full | sed -e 's/^[^\.]\+\.\([0-9]\+\)[\.-].*$/\1/'`
-    otb_version_patch=`echo $otb_version_full | sed -e 's/^.*[\.-]\(\(RC\)\?[0-9]\+\)$/\1/'`
     otb_version_soname="${otb_version_major}.${otb_version_minor}"
 }
 
@@ -219,7 +225,12 @@ echo "Command line checking..."
 check_src_top_dir
 check_src_revision
 check_external_version
+echo "OTB full version:  $otb_version_full"
+echo "OTB major version: $otb_version_major"
+echo "OTB minor version: $otb_version_minor"
+echo "OTB patch version: $otb_version_patch"
 check_gpgkeyid
+exit 1
 
 echo "Archive export..."
 cd "$topdir"
@@ -244,11 +255,11 @@ for f in control rules ; do
     rm -f "$f.in"
 done
 for f in *VERSION_MAJOR* ; do
-    g=`echo $f | sed -e "s/VERSION_MAJOR/$otb_version_major/g"`
+    g=$(echo $f | sed -e "s/VERSION_MAJOR/$otb_version_major/g")
     mv "$f" "$g"
 done
 for f in *VERSION_SONAME* ; do
-    g=`echo $f | sed -e "s/VERSION_SONAME/$otb_version_soname/g"`
+    g=$(echo $f | sed -e "s/VERSION_SONAME/$otb_version_soname/g")
     mv "$f" "$g"
 done
 
