@@ -13,6 +13,7 @@ Homepage: http://www.orfeo-toolbox.org/
 Package: libotb
 Section: contrib/science
 Architecture: all
+Conflicts: libotb (<< @VERSION_SONAME@)
 Depends: libotb@VERSION_SONAME@
 Suggests: libotb@VERSION_MAJOR@-dev
 Description: Free library of image processing algorithms
@@ -26,8 +27,8 @@ Description: Free library of image processing algorithms
 Package: libotb@VERSION_SONAME@
 Section: contrib/libs
 Architecture: any
+Conflicts: libotb3.4, libotb3.5, libotb3.6, libotb3.7, ibotb3.8
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Conflicts: libotb (<< @VERSION_SONAME@)
 Description: Free library of image processing algorithms - runtime
  ORFEO Toolbox (OTB) is distributed as an open source library of image
  processing algorithms. OTB is based on the medical image processing library
