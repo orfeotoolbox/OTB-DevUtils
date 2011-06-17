@@ -225,12 +225,7 @@ echo "Command line checking..."
 check_src_top_dir
 check_src_revision
 check_external_version
-echo "OTB full version:  $otb_version_full"
-echo "OTB major version: $otb_version_major"
-echo "OTB minor version: $otb_version_minor"
-echo "OTB patch version: $otb_version_patch"
 check_gpgkeyid
-exit 1
 
 echo "Archive export..."
 cd "$topdir"
