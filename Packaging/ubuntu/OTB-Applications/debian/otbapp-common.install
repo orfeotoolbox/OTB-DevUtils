@@ -5,6 +5,7 @@ usr/lib/otb/libOTBProcessingChain.so
 usr/lib/otb/libOTBBandMath.so
 usr/lib/otb/libOTBBundleToPerfectSensor.so
 usr/lib/otb/libOTBCompareImages.so
+usr/lib/otb/libOTBComputePolylineFeatureFromImage.so
 usr/lib/otb/libOTBConcatenateImages.so
 usr/lib/otb/libOTBConnectedComponentSegmentation.so
 usr/lib/otb/libOTBConvert.so
@@ -14,7 +15,6 @@ usr/lib/otb/libOTBEstimateFeaturesStatistics.so
 usr/lib/otb/libOTBEstimateImagesStatistics.so
 usr/lib/otb/libOTBEvaluateHOGObjectDetectorResponse.so
 usr/lib/otb/libOTBEvaluateObjectDetectorResponse.so
-usr/lib/otb/libOTBExtractRoadDescription.so
 usr/lib/otb/libOTBExtractROIApplication.so
 usr/lib/otb/libOTBFineRegistration.so
 usr/lib/otb/libOTBHOGObjectDetector.so
@@ -27,6 +27,7 @@ usr/lib/otb/libOTBMeanShiftModesDetection.so
 usr/lib/otb/libOTBObjectDetector.so
 usr/lib/otb/libOTBOpticalCalibration.so
 usr/lib/otb/libOTBOrthoRectification.so
+usr/lib/otb/libOTBOSMDownloader.so
 usr/lib/otb/libOTBQuicklook.so
 usr/lib/otb/libOTBReadImageInfo.so
 usr/lib/otb/libOTBRigidTransformResample.so
