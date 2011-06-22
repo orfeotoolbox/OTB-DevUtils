@@ -33,6 +33,10 @@ CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 TSOCKS=$(which tsocks)
 TODAY=$(date +%Y%m%d)
 
+# Maximum wait time (in seconds 18000 s = 5 h) for OTB binary packages availability
+MAX_WAIT_TIME=18000
+# Sleep time between two scans of OTB PPA
+SLEEP_TIME=300
 EXPECTED_OTB_PACKAGES=3
 
 # Clean previous builds
@@ -93,16 +97,24 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
     if [ "$project" != "OTB" ] ; then
         otb_pkg_avail=0
         ppa_url="http://ppa.launchpad.net/otb/orfeotoolbox-nightly/ubuntu/pool/main/o/otb"
-        while [ $otb_pkg_avail -eq 0 ] ; do
+        start_time=$(date +%s)
+        elapsed_time=0
+        while [ $otb_pkg_avail -eq 0 -a $elapsed_time -le $MAX_WAIT_TIME ] ; do
             n=$($TSOCKS GET $ppa_url | sed -ne "s/^.* href=\"\(libotb_${otb_version}-0ppa~.*${otb_pkg_version}_all\.deb\)\".*$/\1/p" | wc -l)
             if [ $n -eq "$EXPECTED_OTB_PACKAGES" ] ; then
                 echo $(date '+%F %T: ') "OTB packages are now availables for all versions."
                 otb_pkg_avail=1
             else
-                echo $(date '+%F %T: ') "Waiting for OTB package availability. Next check in 5 minutes."
-                sleep 300
+                echo $(date '+%F %T: ') "Waiting for OTB package availability. Next check in $SLEEP_TIME s."
+                sleep $SLEEP_TIME
+                elapsed_time=$(($(date +%s) - $start_time))
             fi
         done
+        # If OTB binary packages are not availables after expected time, cancel remaining submissions
+        if [ $otb_pkg_avail -eq 0 ] ; then
+            echo "Max wait time ($MAX_WAIT_TIME s) for OTB binary packages reached. Remaining submissions cancelled."
+            exit 1
+        fi
     fi
 
     # Push source packages on Launchpad (through tsocks proxy if necessary)
