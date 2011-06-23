@@ -73,6 +73,8 @@ Options:
                 launched by another which can be launched itself a couple of
                 hours before). The default value is the current date.
 
+  -s            Simulate submission.
+
 Example:
   ./nightly_build.sh -t 20110621
 
@@ -81,10 +83,13 @@ EOF
 
 
 timestamp=$(date +%Y%m%d)
+simulate=0
 while getopts ":t:shv" option
 do
     case $option in
         t ) timestamp=$OPTARG
+            ;;
+        s ) simulate=1
             ;;
         v ) display_version
             exit 0
@@ -154,7 +159,11 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
 
     # Unless for OTB, wait OTB packages availability
     if [ "$project" != "OTB" ] ; then
-        otb_pkg_avail=0
+        if [ "$simulate" -eq 0 ] ; then
+            otb_pkg_avail=0
+        else
+            otb_pkg_avail=1
+        fi
         ppa_url="http://ppa.launchpad.net/otb/orfeotoolbox-nightly/ubuntu/pool/main/o/otb"
         start_time=$(date +%s)
         elapsed_time=0
@@ -177,6 +186,10 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
     fi
 
     # Push source packages on Launchpad (through tsocks proxy if necessary)
-    $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
+    if [ "$simulate" -eq 0 ] ; then
+        $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
+    else
+        echo "COMMAND: $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes"
+    fi
 
 done
