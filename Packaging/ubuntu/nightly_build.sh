@@ -31,7 +31,6 @@ SRCDIR=$HOME/Dashboard/src
 CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 
 TSOCKS=$(which tsocks)
-TODAY=$(date +%Y%m%d)
 
 # Maximum wait time (in seconds 18000 s = 5 h) for OTB binary packages availability
 MAX_WAIT_TIME=18000
@@ -39,11 +38,71 @@ MAX_WAIT_TIME=18000
 SLEEP_TIME=300
 EXPECTED_OTB_PACKAGES=3
 
+SCRIPT_VERSION="2.0"
+TMPDIR="/tmp"
+
+
+display_version ()
+{
+    cat <<EOF
+
+nightly_build.sh, version ${SCRIPT_VERSION}
+Copyright (C) 2011 CNES (Centre National d'Etudes Spatiales)
+by Sebastien DINOT <sebastien.dinot@c-s.fr>
+
+EOF
+}
+
+
+display_help ()
+{
+    cat <<EOF
+
+This script is used to automate the nightly submission to Launchpad of OTB
+sources packages for Ubuntu.
+
+Usage:
+  ./nightly_build.sh [options]
+
+Options:
+  -h            Display this short help message.
+
+  -v            Display version and copyright informations.
+
+  -t date       Initialize the launching date (because this script is usually
+                launched by another which can be launched itself a couple of
+                hours before). The default value is the current date.
+
+Example:
+  ./nightly_build.sh -t 20110621
+
+EOF
+}
+
+
+timestamp=$(date +%Y%m%d)
+while getopts ":t:shv" option
+do
+    case $option in
+        t ) timestamp=$OPTARG
+            ;;
+        v ) display_version
+            exit 0
+            ;;
+        h ) display_help
+            exit 0
+            ;;
+        * ) echo "*** ERROR: Unknown option -$OPTARG (arg #"$(($OPTIND - 1))")"
+            display_help
+            exit 0
+            ;;
+    esac
+done
+
 # Clean previous builds
 rm -rf /tmp/otb* /tmp/monteverdi*
 
 # For each project ("OTB" must be the first one)
-# for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
 for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
 
     # Update working copy
@@ -62,7 +121,7 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
     if [ "$(echo $patch_version | sed -e 's/^[0-9]\+$/NOTRC/')" == 'NOTRC' ] ; then
         minor_version=$(($minor_version + 1))
     fi
-    patch_version=$TODAY
+    patch_version=$timestamp
     next_version="${major_version}.${minor_version}.${patch_version}"
 
     # Set package number
