@@ -6,7 +6,7 @@ Name:           Monteverdi
 Version:        1.6.1
 Release:        1
 Summary:        Application based on OrfeoToolbox for remote sensing image processing
-Group:          Development/Libraries
+Group:          Applications/Image
 License:        Cecill
 URL:            http://www.orfeo-toolbox.org
 Source0:        %{name}-%{version}.tar.gz
