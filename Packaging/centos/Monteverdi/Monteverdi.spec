@@ -13,7 +13,7 @@ Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libpng-devel
-BuildRequires: boost-devel fltk-devel fltk-fluid
+BuildRequires: boost-devel fltk-devel fltk-fluid gettext-devel
 BuildRequires: OrfeoToolbox-devel OrfeoToolbox
 
 
@@ -77,7 +77,7 @@ rm -rf ../temp
 
 
 %changelog
-* Mon Jun 24 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.6.1-1
+* Fri Jun 24 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.6.1-1
 - 1.6.1 = 1.6.0 + pixmaps and desktop entry files
 - Initial build
 - Packaging for CentOS 5.5
