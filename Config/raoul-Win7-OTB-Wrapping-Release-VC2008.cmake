@@ -73,6 +73,11 @@ PYTHON_INCLUDE_DIR:PATH=C:/Python27/include
 PYTHON_INCLUDE_DIRS:PATH=C:/Python27/include
 PYTHON_LIBRARY:FILEPATH=C:/Python27/libs/python27.lib
 
+#Javadoc 
+WRAP_ITK_DOC:BOOL=ON
+WRAP_ITK_JAVADOC:BOOL=ON
+LATEXLET_JAR:FILEPATH=C:/Users/jmalik/Dashboard/tools/build/LaTeXlet-bin-1.1/LaTeXlet-1.1.jar
+
 # Select Languages to Wrap
 WRAP_ITK_JAVA:BOOL=ON
 WRAP_ITK_PYTHON:BOOL=ON
