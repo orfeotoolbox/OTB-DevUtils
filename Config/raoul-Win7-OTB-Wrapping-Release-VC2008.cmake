@@ -58,7 +58,8 @@ JAVA_AWT_INCLUDE:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include
 JAVA_RUNTIME:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
 JAVA_COMPILE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
 JAVA_ARCHIVE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
-JAVA_MAXIMUM_HEAP_SIZE:PATH=1G
+JAVA_MAXIMUM_HEAP_SIZE:STRING=1G
+JAVA_INITIAL_HEAP_SIZE:STRING=256m
 
 Java_JAR_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
 Java_JAVAC_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
