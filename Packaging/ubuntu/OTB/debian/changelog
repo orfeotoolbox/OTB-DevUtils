@@ -1,3 +1,9 @@
+otb (3.10.0-1) lucid; urgency=low
+
+  * Version 3.10.0 released
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 30 Jun 2011 08:59:14 +0200
+
 otb (3.8.0-7) lucid; urgency=low
 
   * Version 3.8.0 released
