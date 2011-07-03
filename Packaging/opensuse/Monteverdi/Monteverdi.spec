@@ -5,7 +5,7 @@
 # norootforbuild
 
 Name:           Monteverdi
-Version:        1.6.0
+Version:        1.8.0
 Release:        1
 Summary:        Application based on OrfeoToolbox for remote sensing image processing
 Group:          Development/Libraries
@@ -60,6 +60,8 @@ rm -rf %{buildroot}
 %{_libdir}/libotb*.so
 %{_libdir}/libOTB*.so
 %{_libdir}/libflu.so
+%{_datadir}/applications/*.desktop
+%{_datadir}/pixmaps/monteverdi.*
 
 %changelog
 

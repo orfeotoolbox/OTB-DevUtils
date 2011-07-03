@@ -5,7 +5,7 @@
 # norootforbuild
 
 Name:           OrfeoToolbox
-Version:        3.8.0
+Version:        3.10.0
 Release:        1
 Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:          Development/Libraries

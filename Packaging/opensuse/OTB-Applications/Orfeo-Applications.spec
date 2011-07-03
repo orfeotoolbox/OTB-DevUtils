@@ -5,7 +5,7 @@
 # norootforbuild
 
 Name:           Orfeo-Applications
-Version:        3.8.0
+Version:        3.10.0
 Release:        1
 Summary:        Applications based on OrfeoToolbox for remote sensing image processing
 Group:          Development/Libraries
