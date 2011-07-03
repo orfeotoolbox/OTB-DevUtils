@@ -58,7 +58,8 @@ JAVA_AWT_INCLUDE:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include
 JAVA_RUNTIME:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
 JAVA_COMPILE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
 JAVA_ARCHIVE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
-JAVA_MAXIMUM_HEAP_SIZE:PATH=1G
+JAVA_MAXIMUM_HEAP_SIZE:STRING=1G
+JAVA_INITIAL_HEAP_SIZE:STRING=256m
 
 Java_JAR_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
 Java_JAVAC_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
@@ -72,6 +73,11 @@ PYTHON_LIBRARIES:PATH=C:/Python27/libs
 PYTHON_INCLUDE_DIR:PATH=C:/Python27/include
 PYTHON_INCLUDE_DIRS:PATH=C:/Python27/include
 PYTHON_LIBRARY:FILEPATH=C:/Python27/libs/python27.lib
+
+#Javadoc 
+#WRAP_ITK_DOC:BOOL=ON
+#WRAP_ITK_JAVADOC:BOOL=ON
+#LATEXLET_JAR:FILEPATH=C:/Users/jmalik/Dashboard/tools/build/LaTeXlet-bin-1.1/LaTeXlet-1.1.jar
 
 # Select Languages to Wrap
 WRAP_ITK_JAVA:BOOL=ON
