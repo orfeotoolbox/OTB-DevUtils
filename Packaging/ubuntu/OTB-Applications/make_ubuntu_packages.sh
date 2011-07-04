@@ -18,13 +18,13 @@ export DEBFULLNAME="OTB Team"
 export DEBEMAIL="contact@orfeo-toolbox.org"
 
 TMPDIR="/tmp"
-DIRNAME=`dirname $0`
+DIRNAME=$(dirname $0)
 if [ "${DIRNAME:0:1}" == "/" ] ; then
     CMDDIR=$DIRNAME
 elif [ "${DIRNAME:0:1}" == "." ] ; then
-    CMDDIR=`pwd`/${DIRNAME:2}
+    CMDDIR=$(pwd)/${DIRNAME:2}
 else
-    CMDDIR=`pwd`/$DIRNAME
+    CMDDIR=$(pwd)/$DIRNAME
 fi
 DEBDIR=$CMDDIR/debian
 DEFAULT_GPGKEYID=0xAEB3D22F
@@ -93,11 +93,11 @@ check_src_top_dir ()
         echo "*** ERRROR: No Mercurial working copy found in '$topdir' directory"
         exit 2
     fi
-    if [ "`hg identify $topdir`" == "000000000000 tip" ] ; then
+    if [ "$(hg identify $topdir)" == "000000000000 tip" ] ; then
         echo "*** ERROR: Mercurial failed to identify a valid repository in '$topdir'"
         exit 2
     fi
-    topdir=`( cd $topdir ; pwd )`
+    topdir=$( cd $topdir ; pwd )
 }
 
 
@@ -108,7 +108,7 @@ check_src_revision ()
         echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
         exit 3
     fi
-    olddir=`pwd`
+    olddir=$(pwd)
     cd "$topdir"
     if ! hg log -r "$revision" &>/dev/null ; then
         echo "*** ERROR: Revision $revision unknown"

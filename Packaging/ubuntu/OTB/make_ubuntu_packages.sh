@@ -29,6 +29,7 @@ fi
 DEBDIR=$CMDDIR/debian
 DEFAULT_GPGKEYID=0xAEB3D22F
 
+
 display_version ()
 {
     cat <<EOF
@@ -73,6 +74,7 @@ Example:
 
 EOF
 }
+
 
 check_src_top_dir ()
 {
