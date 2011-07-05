@@ -1,5 +1,11 @@
+otb-wrapping (1.6.0-1) lucid; urgency=low
+
+  * Version 1.6.0 released
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 30 Jun 2011 09:07:27 +0200
+
 otb-wrapping (1.4.0-0lucid0) lucid; urgency=low
 
   * Version 1.4.0 released (first public package)
 
- -- Sebastien Dinot <sebastien.dinot@c-s.fr>  Fri, 28 Jan 2011 15:24:29 +0100
+ -- OTB Team <contact@orfeo-toolbox.org>  Fri, 28 Jan 2011 15:24:29 +0100
