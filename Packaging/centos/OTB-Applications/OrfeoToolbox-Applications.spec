@@ -3,8 +3,8 @@
 # norootforbuild
 
 Name:           OrfeoToolbox-Applications
-Version:        3.8.0
-Release:        1
+Version:        3.10.0
+Release:        0
 Summary:        Applications based on OrfeoToolbox for remote sensing image processing
 Group:          Applications/Image
 License:        Cecill
@@ -16,7 +16,7 @@ BuildRequires: cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libp
 BuildRequires: boost-devel fltk-devel fltk-fluid qt4-devel
 BuildRequires: OrfeoToolbox-devel OrfeoToolbox
 
-Requires:      OrfeoToolbox = 3.8.0
+Requires:      OrfeoToolbox = 3.10.0
 
 
 %description
@@ -39,7 +39,7 @@ libraries provided by OTB Applications.
 Summary:        Legacy applications based on OrfeoToolbox library
 Group:          Applications/Image
 License:        Cecill
-Requires:       fltk OrfeoToolbox = 3.8.0 OrfeoToolbox-Applications = 3.8.0
+Requires:       fltk OrfeoToolbox = 3.10.0 OrfeoToolbox-Applications = 3.10.0
 
 
 %description legacy
@@ -51,7 +51,7 @@ OTB Applications.
 Summary:        Command line applications based on OrfeoToolbox library
 Group:          Applications/Image
 License:        Cecill
-Requires:       OrfeoToolbox = 3.8.0 OrfeoToolbox-Applications = 3.8.0
+Requires:       OrfeoToolbox = 3.10.0 OrfeoToolbox-Applications = 3.10.0
 
 
 %description cli
@@ -63,7 +63,7 @@ libraries provided by OTB Applications.
 Summary:        FLTK applications based on OrfeoToolbox library
 Group:          Applications/Image
 License:        Cecill
-Requires:       fltk OrfeoToolbox = 3.8.0 OrfeoToolbox-Applications = 3.8.0
+Requires:       fltk OrfeoToolbox = 3.10.0 OrfeoToolbox-Applications = 3.10.0
 
 
 %description fltk
@@ -75,7 +75,7 @@ libraries provided by OTB Applications.
 Summary:        Qt applications based on OrfeoToolbox library
 Group:          Applications/Image
 License:        Cecill
-Requires:       qt4 OrfeoToolbox = 3.8.0 OrfeoToolbox-Applications = 3.8.0
+Requires:       qt4 OrfeoToolbox = 3.10.0 OrfeoToolbox-Applications = 3.10.0
 
 
 %description qt
@@ -241,6 +241,9 @@ rm -rf ../temp
 
 
 %changelog
+* Tue Jul 05 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.10.0-0
+- Packaging OTB-Applications 3.10 for CentOS 5.5
+
 * Fri Jun 24 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.8.0-1
 - Initial build
 - Packaging for CentOS 5.5
