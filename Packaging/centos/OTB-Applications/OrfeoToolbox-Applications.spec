@@ -179,13 +179,35 @@ rm -rf ../temp
 %{_libdir}/otb/libOTBTrainDeepSVMObjectDetector.so
 %{_libdir}/otb/libOTBTrainObjectDetector.so
 %{_libdir}/otb/libOTBVectorDataSetField.so
+%{_libdir}/otb/libOTBComputePolylineFeatureFromImage.so
+%{_libdir}/otb/libOTBConcatenateVectorData.so
+%{_libdir}/otb/libOTBConnectedComponentSegmentation.so
+%{_libdir}/otb/libOTBDEMConvert.so
+%{_libdir}/otb/libOTBDSFuzzyModelEstimation.so
+%{_libdir}/otb/libOTBEstimateImagesStatistics.so
+%{_libdir}/otb/libOTBEvaluateHOGObjectDetectorResponse.so
+%{_libdir}/otb/libOTBHOGObjectDetector.so
+%{_libdir}/otb/libOTBImageSVMClassifier.so
+%{_libdir}/otb/libOTBLabeledImageColorMapping.so
+%{_libdir}/otb/libOTBLineSegmentDetection.so
+%{_libdir}/otb/libOTBMaskGenerator.so
+%{_libdir}/otb/libOTBMeanShiftModesDetection.so
+%{_libdir}/otb/libOTBOSMDownloader.so
+%{_libdir}/otb/libOTBOpticalCalibration.so
+%{_libdir}/otb/libOTBRigidTransformResample.so
+%{_libdir}/otb/libOTBSuperimpose.so
+%{_libdir}/otb/libOTBTrainHOGObjectDetector.so
+%{_libdir}/otb/libOTBTrainImagesClassifier.so
+%{_libdir}/otb/libOTBValidateImagesClassifier.so
+%{_libdir}/otb/libOTBVectorDataDSValidation.so
+%{_libdir}/otb/libOTBVectorDataExtractROIApplication.so
+%{_libdir}/otb/libOTBVectorDataTransformFilterApplication.so
 
 
 %files legacy
 %defattr(-,root,root,-)
 %{_bindir}/otbActiveLearning
 %{_bindir}/otbFineRegistrationApplication
-%{_bindir}/otbImageToDBRegistrationApplication
 %{_bindir}/otbImageViewer
 %{_bindir}/otbImageViewerManager
 %{_bindir}/otbImageViewerManagerOld
@@ -205,7 +227,6 @@ rm -rf ../temp
 %{_bindir}/otbUrbanAreaExtractionApplication
 %{_libdir}/otb/libOTBApplicationsCommon.so
 %{_libdir}/otb/libotbMVCFineRegistration.so
-%{_libdir}/otb/libotbMVCImageToDBRegistration.so
 %{_libdir}/otb/libotbMVCImageViewerManager.so
 %{_libdir}/otb/libotbMVCLandCoverMap.so
 %{_libdir}/otb/libotbMVCObjectCounting.so
