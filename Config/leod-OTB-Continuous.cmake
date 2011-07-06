@@ -76,7 +76,7 @@ ctest_start(Continuous)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}" RETURN_VALUE count)
 message("Found ${count} changed files")
 
-if (count GREATER 0)
+if (count GREATER 0 OR NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
   file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
   ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
