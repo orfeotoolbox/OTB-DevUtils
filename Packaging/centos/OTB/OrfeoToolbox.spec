@@ -16,6 +16,8 @@ BuildRequires:  cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel lib
 BuildRequires:  boost-devel fltk-devel fltk-fluid uuid-devel proj-devel expat-devel
 BuildRequires:  mapnik-devel libicu-devel libtool libtool-ltdl-devel
 
+Requires:       mapnik
+
 
 %description
 The %{name} is a library of image processing algorithms developed by
@@ -27,7 +29,7 @@ Summary:        Development files for %{name}
 Group:          Development/Libraries
 Requires:       %{name} = %{version}
 Requires:       cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libpng-devel
-Requires:       boost-devel fltk-devel fltk-fluid
+Requires:       boost-devel fltk-devel fltk-fluid mapnik-devel
 
 
 %description    devel

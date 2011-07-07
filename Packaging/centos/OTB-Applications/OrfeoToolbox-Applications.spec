@@ -12,11 +12,11 @@ URL:            http://www.orfeo-toolbox.org
 Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
-BuildRequires: cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libpng-devel
-BuildRequires: boost-devel fltk-devel fltk-fluid qt4-devel
-BuildRequires: OrfeoToolbox-devel OrfeoToolbox
+BuildRequires:  cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libpng-devel
+BuildRequires:  boost-devel fltk-devel fltk-fluid qt4-devel
+BuildRequires:  OrfeoToolbox-devel OrfeoToolbox
 
-Requires:      OrfeoToolbox = 3.10.0
+Requires:       OrfeoToolbox = 3.10.0
 
 
 %description
@@ -75,7 +75,7 @@ libraries provided by OTB Applications.
 Summary:        Qt applications based on OrfeoToolbox library
 Group:          Applications/Image
 License:        Cecill
-Requires:       qt4 OrfeoToolbox = 3.10.0 OrfeoToolbox-Applications = 3.10.0
+Requires:       qt4 qt4-x11 OrfeoToolbox = 3.10.0 OrfeoToolbox-Applications = 3.10.0
 
 
 %description qt
