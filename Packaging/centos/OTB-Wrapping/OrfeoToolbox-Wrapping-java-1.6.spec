@@ -3,8 +3,8 @@
 # norootforbuild
 
 Name:           OrfeoToolbox-Wrapping
-Version:        1.4.0
-Release:        4+java6
+Version:        1.6.0
+Release:        0+java6
 Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:          Development/Libraries
 License:        Cecill
@@ -29,7 +29,7 @@ The %{name} is a library of image processing algorithms developed by CNES in the
 Summary:        Java bindings for The Orfeo Toolbox library
 Group:          Development/Libraries
 License:        Cecill
-Requires:       jdk >= 1.6.0 OrfeoToolbox = 3.8.0
+Requires:       jdk >= 1.6.0 OrfeoToolbox = 3.10.0
 
 
 %description java
@@ -40,7 +40,7 @@ Java bindings for the Orfeo Toolbox library
 Summary:        Python bindings for The Orfeo Toolbox library
 Group:          Development/Libraries
 License:        Cecill
-Requires:       python OrfeoToolbox = 3.8.0
+Requires:       python OrfeoToolbox = 3.10.0
 
 
 %description python
@@ -192,6 +192,9 @@ fi
 
 
 %changelog
+* Wed Jul 06 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.6.0-0+java6
+- Packaging OTB Wrapping 1.6 for CentOS 5.5
+
 * Mon May 06 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.4.0-4-java6
 - CentOS package build against Sun JDK 1.6.0-25
 
