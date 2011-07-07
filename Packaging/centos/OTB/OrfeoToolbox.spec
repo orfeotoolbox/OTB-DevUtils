@@ -4,7 +4,7 @@
 
 Name:           OrfeoToolbox
 Version:        3.10.0
-Release:        2
+Release:        3
 Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:          Development/Libraries
 License:        Cecill
@@ -110,6 +110,9 @@ fi
 
 
 %changelog
+* Thu Jul 07 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.10.0-3
+- Dependencies improved
+
 * Tue Jul 05 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.10.0-2
 - Packaging OTB 3.10 for CentOS 5.5
 

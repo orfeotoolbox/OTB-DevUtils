@@ -4,7 +4,7 @@
 
 Name:           OrfeoToolbox-Applications
 Version:        3.10.0
-Release:        0
+Release:        1
 Summary:        Applications based on OrfeoToolbox for remote sensing image processing
 Group:          Applications/Image
 License:        Cecill
@@ -262,6 +262,9 @@ rm -rf ../temp
 
 
 %changelog
+* Thu Jul 07 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.10.0-1
+- Dependencies improved
+
 * Tue Jul 05 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.10.0-0
 - Packaging OTB-Applications 3.10 for CentOS 5.5
 
