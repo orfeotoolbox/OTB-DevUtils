@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
-# Nihtly script for OPenJPEG trunk with hulk paltform
+# Nightly script for OpenJPEG trunk with hulk paltform
 # This will retrieve/compile/run tests/upload to cdash OpenJPEG
 # Results will be available at: http://my.cdash.org/index.php?project=OPENJPEG
-# ctest -S hulk_openJPEG_trunk_Nightly.cmake -V
+# ctest -S hulk_openJPEG_trunk_nightly.cmake -V
 # Author: mickael.savinaud@c-s.fr
 # Date: 2011-07-12
 # -----------------------------------------------------------------------------
@@ -39,7 +39,7 @@ LCMS2_LIBRARY:PATH=/home/mickael/dev/libMS/libLCMS2/thirdparty/lib/liblcms2.a
 " )
 
 # Update method 
-# repository: http://openjpeg.googlecode.com/svn/branches/openjpeg-1.5 (openjpeg-read-only)
+# repository: http://openjpeg.googlecode.com/svn/trunk (openjpeg-read-only)
 # need to use https for CS machine
 SET( CTEST_SVN_COMMAND      "/usr/bin/svn")
 
@@ -50,7 +50,7 @@ SET( CTEST_SVN_COMMAND      "/usr/bin/svn")
 ctest_empty_binary_directory( "${CTEST_BINARY_DIRECTORY}" )
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" "${CACHE_CONTENTS}")
 
-# Perform the Experimental build
+# Perform the Nightly build
 ctest_start(Nightly TRACK Nightly-trunk)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}")

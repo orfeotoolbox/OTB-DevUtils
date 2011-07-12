@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
-# Nihtly script for OPenJPEG v2 with hulk paltform
+# Nightly script for OpenJPEG v2 with hulk paltform
 # This will retrieve/compile/run tests/upload to cdash OpenJPEG
 # Results will be available at: http://my.cdash.org/index.php?project=OPENJPEG
-# ctest -S hulk_openJPEG_v2_Nightly.cmake -V
+# ctest -S hulk_openJPEG_v2_nightly.cmake -V
 # Author: mickael.savinaud@c-s.fr
 # Date: 2011-07-12
 # -----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ SET (ENV{DISPLAY} ":0.0")
 
 # Set where to find srr and test data and where to build binaries.
 SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/Dashboard/src/OpenJPEG/v2")
-SET (CTEST_BINARY_DIRECTORY       "$ENV{HOME}/Dashboard/src/OpenJPEG/OpenJPEG_v2")
+SET (CTEST_BINARY_DIRECTORY       "$ENV{HOME}/Dashboard/build/OpenJPEG_v2")
 SET (CTEST_SOURCE_DATA_DIRECTORY  "$ENV{HOME}/Dashboard/src/OpenJPEG/opj-data")
 
 # User inputs:
@@ -36,7 +36,7 @@ JPEG2000_CONFORMANCE_DATA_ROOT:PATH=${CTEST_SOURCE_DATA_DIRECTORY}
 " )
 
 # Update method 
-# repository: http://openjpeg.googlecode.com/svn/branches/openjpeg-1.5 (openjpeg-read-only)
+# repository: http://openjpeg.googlecode.com/svn/branches/v2 (openjpeg-read-only)
 # need to use https for CS machine
 SET( CTEST_SVN_COMMAND      "/usr/bin/svn")
 
@@ -47,7 +47,7 @@ SET( CTEST_SVN_COMMAND      "/usr/bin/svn")
 ctest_empty_binary_directory( "${CTEST_BINARY_DIRECTORY}" )
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" "${CACHE_CONTENTS}")
 
-# Perform the Experimental build
+# Perform the Nightly build
 ctest_start(Nightly TRACK Nightly-v2)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}")
