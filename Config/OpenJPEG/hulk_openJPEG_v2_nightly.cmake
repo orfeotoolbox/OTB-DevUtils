@@ -2,7 +2,7 @@
 # Nihtly script for OPenJPEG v2 with hulk paltform
 # This will retrieve/compile/run tests/upload to cdash OpenJPEG
 # Results will be available at: http://my.cdash.org/index.php?project=OPENJPEG
-# ctest -S hulk_openJPEG_trunk_Nightly.cmake -V
+# ctest -S hulk_openJPEG_v2_Nightly.cmake -V
 # Author: mickael.savinaud@c-s.fr
 # Date: 2011-07-12
 # -----------------------------------------------------------------------------
@@ -11,9 +11,9 @@ cmake_minimum_required(VERSION 2.8)
 SET (ENV{DISPLAY} ":0.0")
 
 # Set where to find srr and test data and where to build binaries.
-SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/dev/src/OpenJPEG/v2")
-SET (CTEST_BINARY_DIRECTORY       "$ENV{HOME}/dev/build/OpenJPEG_v2")
-SET (CTEST_SOURCE_DATA_DIRECTORY  "$ENV{HOME}/dev/src/OpenJPEG/opj-data")
+SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/Dashboard/src/OpenJPEG/v2")
+SET (CTEST_BINARY_DIRECTORY       "$ENV{HOME}/Dashboard/src/OpenJPEG/OpenJPEG_v2")
+SET (CTEST_SOURCE_DATA_DIRECTORY  "$ENV{HOME}/Dashboard/src/OpenJPEG/opj-data")
 
 # User inputs:
 SET( CTEST_CMAKE_GENERATOR      "Unix Makefiles" )    # What is your compilation apps ? (Eclipse CDT4 - Unix Makefiles)
