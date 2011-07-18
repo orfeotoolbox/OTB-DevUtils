@@ -2,7 +2,7 @@
 # Nightly script for OpenJPEG trunk with hulk paltform
 # This will retrieve/compile/run tests/upload to cdash OpenJPEG
 # Results will be available at: http://my.cdash.org/index.php?project=OPENJPEG
-# ctest -S hulk_openJPEG_trunk_nightly.cmake -V
+# ctest -S hulk_openJPEG_trunk_nightly-release.cmake -V
 # Author: mickael.savinaud@c-s.fr
 # Date: 2011-07-12
 # -----------------------------------------------------------------------------
@@ -24,7 +24,6 @@ SET( CTEST_BUILD_CONFIGURATION  Release)                # What type of build do 
 SET( CTEST_BUILD_NAME           "Ubuntu10.04-64bits-trunk-${CTEST_BUILD_CONFIGURATION}") # Build Name
 SET( ENV{CFLAGS} "-Wall" )                            # All warnings ...
 
-# FIXME: For the moment, I need to build my own version of liblcms2
 set( CACHE_CONTENTS "
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 

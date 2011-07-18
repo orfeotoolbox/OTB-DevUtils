@@ -24,7 +24,6 @@ SET( CTEST_BUILD_CONFIGURATION  Debug)                # What type of build do yo
 SET( CTEST_BUILD_NAME           "Ubuntu10.04-64bits-trunk-${CTEST_BUILD_CONFIGURATION}") # Build Name
 SET( ENV{CFLAGS} "-Wall" )                            # All warnings ...
 
-# FIXME: For the moment, I need to build my own version of liblcms2
 set( CACHE_CONTENTS "
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
