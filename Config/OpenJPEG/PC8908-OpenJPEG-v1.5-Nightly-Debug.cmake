@@ -60,7 +60,7 @@ ctest_empty_binary_directory( "${CTEST_BINARY_DIRECTORY}" )
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" "${CACHE_CONTENTS}")
 
 # Perform the Nightly build
-ctest_start(Experimental)#Nightly TRACK Nightly-v1.5)
+ctest_start(Nightly TRACK Nightly-v1.5)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_build(BUILD "${CTEST_BINARY_DIRECTORY}")
