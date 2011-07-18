@@ -20,7 +20,7 @@ SET( CTEST_CMAKE_GENERATOR      "Unix Makefiles" )    # What is your compilation
 SET( CTEST_CMAKE_COMMAND        "cmake" )
 SET( CTEST_BUILD_COMMAND        "/usr/bin/make -j6" )
 SET( CTEST_SITE                 "leod.c-s.fr" )       # Generally the output of hostname
-SET( CTEST_BUILD_CONFIGURATION  Debug)                # What type of build do you want ?
+SET( CTEST_BUILD_CONFIGURATION  Release)                # What type of build do you want ?
 SET( CTEST_BUILD_NAME           "MacOSX10.5-32bits-trunk-${CTEST_BUILD_CONFIGURATION}") # Build Name
 SET( ENV{CFLAGS} "-Wall" )                            # All warnings ...
 

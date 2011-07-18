@@ -20,9 +20,10 @@ SET( CTEST_CMAKE_GENERATOR      "Visual Studio 9 2008" )      # What is your com
 SET( CTEST_CMAKE_COMMAND        "C:/Program Files/CMake 2.8/bin/cmake.exe" )
 SET( CTEST_SITE                 "PC8908.c-s.fr" )             # Generally the output of hostname
 SET( CTEST_BUILD_CONFIGURATION  Debug)                        # What type of build do you want ?
-SET( CTEST_BUILD_NAME           "WinXP-VS2008-32bits-trunk-${CTEST_BUILD_CONFIGURATION}") # Build Name
+SET( CTEST_BUILD_NAME           "WinXP-VS2008-32bits-trunk-${CTEST_BUILD_CONFIGURATION}-OSGeo4Wand3rdP") # Build Name
 SET( ENV{CFLAGS} "-Wall" )                                    # All warnings ...
 
+# Here we used the OSGeo4W environement for tiff and png, lcms2 is builded from provided sources
 set( CACHE_CONTENTS "
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
@@ -31,6 +32,16 @@ BUILD_EXAMPLES:BOOL=TRUE
 
 JPEG2000_CONFORMANCE_DATA_ROOT:PATH=${CTEST_SOURCE_DATA_DIRECTORY}
 
+BUILD_THIRDPARTY:BOOL=ON
+
+TIFF_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+TIFF_LIBRARY:PATH=C:/OSGeo4W/lib/libtiff_i.lib
+
+PNG_PNG_INCLUDE_DIR:PATH=C:/OSGeo4W/include/libpng12
+PNG_LIBRARY:PATH=C:/OSGeo4W/lib/libpng13.lib
+
+ZLIB_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+ZLIB_LIBRARY:PATH=C:/OSGeo4W/lib/zlib.lib
 " )
 
 # Update method 
