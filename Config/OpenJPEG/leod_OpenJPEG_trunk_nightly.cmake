@@ -8,7 +8,6 @@
 # -----------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 2.8)
-SET (ENV{DISPLAY} ":0.0")
 
 # Set where to find srr and test data and where to build binaries.
 SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/OpenJPEG/src/trunk")
@@ -31,8 +30,6 @@ BUILD_TESTING:BOOL=TRUE
 BUILD_EXAMPLES:BOOL=TRUE
 
 JPEG2000_CONFORMANCE_DATA_ROOT:PATH=${CTEST_SOURCE_DATA_DIRECTORY}
-
-BUILD_THIRDPARTY:BOOL=ON
 
 " )
 

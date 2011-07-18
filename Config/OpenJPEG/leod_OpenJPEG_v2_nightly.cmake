@@ -8,7 +8,6 @@
 # -----------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 2.8)
-SET (ENV{DISPLAY} ":0.0")
 
 # Set where to find src and test data and where to build binaries.
 SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/OpenJPEG/src/v2")
@@ -33,17 +32,13 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=TRUE
 BUILD_EXAMPLES:BOOL=TRUE
 
-FREEIMAGE_FOUND:BOOL=ON                                                                                                                 
-FREEIMAGE_INCLUDE_PATH:PATH=
-FREEIMAGE_LIBRARY:PATH=
-
 JPEG2000_CONFORMANCE_DATA_ROOT:PATH=${CTEST_SOURCE_DATA_DIRECTORY}
 " )
 
 # Update method 
 # repository: http://openjpeg.googlecode.com/svn/trunk/ (openjpeg-read-only)
 # need to use https for CS machine 
-set( CTEST_UPDATE_COMMAND   "usr/bin/svn")
+set( CTEST_UPDATE_COMMAND   "/usr/bin/svn")
 
 # 3. cmake specific:
 #set( CTEST_NOTES_FILES      "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}")

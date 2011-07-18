@@ -8,7 +8,6 @@
 # -----------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 2.8)
-SET (ENV{DISPLAY} ":0.0")
 
 # Set where to find srr and test data and where to build binaries.
 SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/Dashboard/src/OpenJPEG/trunk")
