@@ -10,8 +10,8 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Set where to find srr and test data and where to build binaries.
-SET (CTEST_SOURCE_DIRECTORY "C:/OpenJPEG/v2")
-SET (CTEST_BINARY_DIRECTORY "C:/OpenJPEG/build/OpenJPEG_v2")
+SET (CTEST_SOURCE_DIRECTORY "C:/OpenJPEG/nightly/opj-v2")
+SET (CTEST_BINARY_DIRECTORY "C:/OpenJPEG/nightly/build/OpenJPEG_v2")
 SET (CTEST_SOURCE_DATA_DIRECTORY  "C:/OpenJPEG/opj-data")
 
 # User inputs:
@@ -30,8 +30,8 @@ BUILD_TESTING:BOOL=TRUE
 BUILD_EXAMPLES:BOOL=TRUE
 
 FREEIMAGE_FOUND:BOOL=ON                                                                                                                 
-FREEIMAGE_INCLUDE_PATH:PATH=C:/OpenJPEG/v2/libs/FreeImage
-FREEIMAGE_LIBRARY:PATH=C:/OpenJPEG/v2/libs/FreeImage/freeimage.s.lib
+FREEIMAGE_INCLUDE_PATH:PATH=${CTEST_SOURCE_DIRECTORY}/libs/FreeImage
+FREEIMAGE_LIBRARY:PATH=${CTEST_SOURCE_DIRECTORY}/libs/FreeImage/freeimage.s.lib
 
 PNG_PNG_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 PNG_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libpng13.lib
@@ -42,8 +42,8 @@ TIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libtiff_i.lib
 ZLIB_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 ZLIB_LIBRARY:FILEPATH=C:/OSGeo4W/lib/zlib.lib
 
-JPEG2000_CONFORMANCE_DATA_ROOT:PATH=${CTEST_SOURCE_DATA_DIRECTORY}
-" )
+OPJ_DATA_ROOT=${CTEST_SOURCE_DATA_DIRECTORY}
+")
 
 # Update method 
 # repository: http://openjpeg.googlecode.com/svn/branches/v2 (openjpeg-read-only)

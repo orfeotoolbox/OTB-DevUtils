@@ -10,8 +10,8 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Set where to find srr and test data and where to build binaries.
-SET (CTEST_SOURCE_DIRECTORY       "C:/OpenJPEG/openjpeg-1.5")
-SET (CTEST_BINARY_DIRECTORY       "C:/OpenJPEG/build/OpenJPEG_v1.5")
+SET (CTEST_SOURCE_DIRECTORY       "C:/OpenJPEG/nightly/opj-1.5")
+SET (CTEST_BINARY_DIRECTORY       "C:/OpenJPEG/nightly/build/OpenJPEG_v1.5")
 SET (CTEST_SOURCE_DATA_DIRECTORY  "C:/OpenJPEG/opj-data")
 
 # User inputs:
