@@ -10,7 +10,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Set where to find src and test data and where to build binaries.
-SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/OpenJPEG/src/v2")
+SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/OpenJPEG/src/opj-v2")
 SET (CTEST_BINARY_DIRECTORY       "$ENV{HOME}/OpenJPEG/build/OpenJPEG_v2")
 SET (CTEST_SOURCE_DATA_DIRECTORY  "$ENV{HOME}/OpenJPEG/src/opj-data")
 
