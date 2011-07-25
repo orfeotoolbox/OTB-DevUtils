@@ -38,7 +38,7 @@ BUILD_THIRDPARTY=ON
 # Update method 
 # repository: http://openjpeg.googlecode.com/branches/v2
 # need to use https for CS machine
-set( CTEST_UPDATE_COMMAND   "/usr/bin/svn")
+set( CTEST_UPDATE_COMMAND   "svn")
 
 # 3. cmake specific:
 #set( CTEST_NOTES_FILES      "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}")

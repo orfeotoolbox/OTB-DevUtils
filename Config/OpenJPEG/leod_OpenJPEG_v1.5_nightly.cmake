@@ -37,7 +37,7 @@ JPEG2000_CONFORMANCE_DATA_ROOT:PATH=${CTEST_SOURCE_DATA_DIRECTORY}
 # Update method 
 # repository: http://openjpeg.googlecode.com/svn/branches/openjpeg-1.5 
 # need to use https for CS machine
-set( CTEST_UPDATE_COMMAND   "/usr/bin/svn")
+set( CTEST_UPDATE_COMMAND   "svn")
 
 # 3. cmake specific:
 #set( CTEST_NOTES_FILES      "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}")
