@@ -21,6 +21,57 @@ SET( CTEST_SITE                 "PC8908.c-s.fr" )             # Generally the ou
 SET( CTEST_BUILD_CONFIGURATION  Debug)                        # What type of build do you want ?
 SET( CTEST_BUILD_NAME           "WinXP-VS2008-32bits-trunk-${CTEST_BUILD_CONFIGURATION}-OSGeo4W") # Build Name
 
+SET(CTEST_CUSTOM_WARNING_EXCEPTION  
+    ${CTEST_CUSTOM_WARNING_EXCEPTION}
+    ".*windef.h.*warning C4255.*"
+    ".*stdio.h.*warning C4255.*"
+    ".*stdlib.h.*warning C4255.*"
+    ".*shellapi.h.*warning C4255.*"
+    ".*rpcndr.h.*warning C4255.*"
+    ".*winbase.h.*warning C4255.*"
+    
+    ".*basetsd.h.*warning C4668.*"
+    ".*winnt.h.*warning C4668.*"
+    ".*winuser.h.*warning C4668.*"
+    ".*winperf.h.*warning C4668.*"
+    ".*objbase.h.*warning C4668.*"
+    ".*winioctl.h.*warning C4668.*"
+    ".*wincrypt.h.*warning C4668.*"
+    ".*objidl.h.*warning C4668.*"
+    ".*rpcasync.h.*warning C4668.*"
+    ".*shellapi.h.*warning C4668.*"
+    ".*rpcdce.h.*warning C4668.*"
+    ".*rpcdcep.h.*warning C4668.*"
+
+    ".*winnt.h.*warning C4820.*"
+    ".*winioctl.h.*warning C4820.*"
+    ".*wtypes.h.*warning C4820.*"
+    ".*winbase.h.*warning C4820.*"
+    ".*winspool.h.*warning C4820.*"
+    ".*winnls.h.*warning C4820.*"
+    ".*winuser.h.*warning C4820.*"
+    ".*wincon.h.*warning C4820.*"
+    ".*mcx.h.*warning C4820.*"
+    ".*winnetwk.h.*warning C4820.*"
+    ".*wingdi.h.*warning C4820.*"
+    ".*winperf.h.*warning C4820.*"
+    ".*ktmtypes.h.*warning C4820.*"
+    ".*dde.h.*warning C4820.*"
+    ".*ddeml.h.*warning C4820.*"
+    ".*rpcdce.h.*warning C4820.*"
+    ".*rpcasync.h.*warning C4820.*"
+    ".*shellapi.h.*warning C4820.*"
+    ".*winsock.h.*warning C4820.*"
+    ".*winsmcrd.h.*warning C4820.*"
+    ".*objidl.h.*warning C4820.*"
+    ".*oaidl.h.*warning C4820.*"
+    ".*propidl.h.*warning C4820.*"
+    ".*oleauto.h.*warning C4820.*"
+
+#   ".*warning C4668.*"
+#   ".*warning C4820.*"
+)
+
 # Here we used the OSGeo4W environement for tiff and png
 set( CACHE_CONTENTS "
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
@@ -57,6 +108,7 @@ file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" "${CACHE_CONTENTS}")
 ctest_start(Nightly TRACK Nightly-trunk)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build(BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_test(BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_submit()
