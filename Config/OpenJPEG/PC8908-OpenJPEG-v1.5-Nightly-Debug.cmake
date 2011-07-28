@@ -20,12 +20,13 @@ SET( CTEST_CMAKE_COMMAND        "C:/Program Files/CMake 2.8/bin/cmake.exe" )
 SET( CTEST_SITE                 "PC8908.c-s.fr" )             # Generally the output of hostname
 SET( CTEST_BUILD_CONFIGURATION  Debug)                        # What type of build do you want ?
 SET( CTEST_BUILD_NAME           "WinXP-VS2008-32bits-v1.5-${CTEST_BUILD_CONFIGURATION}") # Build Name
-SET( ENV{CFLAGS} "-Wall" )                                    # All warnings ...
 
 # FIXME: For the moment we used the OSGeo4W environement and personal build of liblcms
 # altough opj lib provided internal src for this lib
 set( CACHE_CONTENTS "
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+
+CMAKE_C_FLAGS:STRING= -Wall 
 
 BUILD_TESTING:BOOL=TRUE
 BUILD_EXAMPLES:BOOL=TRUE

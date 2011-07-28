@@ -21,11 +21,12 @@ SET( CTEST_BUILD_COMMAND        "/usr/bin/make -j6" )
 SET( CTEST_SITE                 "leod.c-s.fr" )       # Generally the output of hostname
 SET( CTEST_BUILD_CONFIGURATION  Debug)                # What type of build do you want ?
 SET( CTEST_BUILD_NAME           "MacOSX10.5-32bits-v1.5-${CTEST_BUILD_CONFIGURATION}") # Build Name
-SET( ENV{CFLAGS} "-Wall" )                            # All warnings ...
 
 # FIXME: For the moment, I need to build my own version of liblcms2 (not done here)
 set( CACHE_CONTENTS "
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+
+CMAKE_C_FLAGS:STRING= -Wall 
 
 BUILD_TESTING:BOOL=TRUE
 BUILD_EXAMPLES:BOOL=TRUE

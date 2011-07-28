@@ -20,11 +20,12 @@ SET (CTEST_CMAKE_COMMAND        "C:/Program Files/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE                 "PC8908.c-s.fr" )              # generally the output of hostname
 set( CTEST_BUILD_CONFIGURATION  "Debug")                       # What type of build do you want ?
 SET (CTEST_BUILD_NAME           "WinXP-VS2008-32bits-v2-${CTEST_BUILD_CONFIGURATION}") # Add by MS
-SET( ENV{CFLAGS} "-Wall" )                                     # All warnings ...
 
 # For the moment we need the OSGeo4W environement and use the lib freeimage compiled by opj 
 set( CACHE_CONTENTS "
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+
+CMAKE_C_FLAGS:STRING= -Wall 
 
 BUILD_TESTING:BOOL=TRUE
 BUILD_EXAMPLES:BOOL=TRUE

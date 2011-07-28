@@ -21,13 +21,14 @@ SET( CTEST_BUILD_COMMAND        "/usr/bin/make -j6" )
 SET( CTEST_SITE                 "leod.c-s.fr" )         # generally the output of hostname
 SET( CTEST_BUILD_CONFIGURATION  Debug)                  # What type of build do you want ?
 SET( CTEST_BUILD_NAME           "MacOSX10.5-32bits-v2-${CTEST_BUILD_CONFIGURATION}") # Build Name
-SET( ENV{CFLAGS} "-Wall" )                              # All warnings ...
 
 # For the moment, we need to build our own version of freeimage because lib provided
 #  by openJPEG are not compatible
 
 set( CACHE_CONTENTS "
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+
+CMAKE_C_FLAGS:STRING= -Wall 
 
 BUILD_TESTING:BOOL=TRUE
 BUILD_EXAMPLES:BOOL=TRUE

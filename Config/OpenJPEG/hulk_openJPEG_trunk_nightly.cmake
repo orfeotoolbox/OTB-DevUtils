@@ -21,10 +21,11 @@ SET( CTEST_BUILD_COMMAND        "/usr/bin/make " )
 SET( CTEST_SITE                 "hulk.c-s.fr" )       # Generally the output of hostname
 SET( CTEST_BUILD_CONFIGURATION  Debug)                # What type of build do you want ?
 SET( CTEST_BUILD_NAME           "Ubuntu10.04-64bits-trunk-${CTEST_BUILD_CONFIGURATION}") # Build Name
-SET( ENV{CFLAGS} "-Wall" )                            # All warnings ...
 
 set( CACHE_CONTENTS "
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+
+CMAKE_C_FLAGS:STRING= -Wall 
 
 BUILD_TESTING:BOOL=TRUE
 BUILD_EXAMPLES:BOOL=TRUE
