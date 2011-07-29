@@ -67,6 +67,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
     ".*oaidl.h.*warning C4820.*"
     ".*propidl.h.*warning C4820.*"
     ".*oleauto.h.*warning C4820.*"
+    ".*\\io.h.*warning C4820.*"
 
 #   ".*warning C4668.*"
 #   ".*warning C4820.*"

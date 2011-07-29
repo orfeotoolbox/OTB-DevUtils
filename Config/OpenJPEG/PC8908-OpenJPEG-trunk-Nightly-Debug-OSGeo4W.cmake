@@ -70,6 +70,8 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
 
 #   ".*warning C4668.*"
 #   ".*warning C4820.*"
+
+    ".*OSGeo4W.*"
 )
 
 # Here we used the OSGeo4W environement for tiff and png
