@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 2.8)
 
 # Set where to find srr and test data and where to build binaries.
 SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/OpenJPEG/src/opj-1.5")
-SET (CTEST_BINARY_DIRECTORY       "$ENV{HOME}/OpenJPEG/build/OpenJPEG_v1.5")
+SET (CTEST_BINARY_DIRECTORY       "$ENV{HOME}/OpenJPEG/build/OpenJPEG_v1.5-3rdP")
 SET (CTEST_SOURCE_DATA_DIRECTORY  "$ENV{HOME}/OpenJPEG/src/opj-data")
 
 # User inputs:
@@ -20,7 +20,7 @@ SET( CTEST_CMAKE_COMMAND        "cmake" )
 SET( CTEST_BUILD_COMMAND        "/usr/bin/make -j6" )
 SET( CTEST_SITE                 "leod.c-s.fr" )       # Generally the output of hostname
 SET( CTEST_BUILD_CONFIGURATION  Debug)                # What type of build do you want ?
-SET( CTEST_BUILD_NAME           "MacOSX10.5-32bits-v1.5-${CTEST_BUILD_CONFIGURATION}-") # Build Name
+SET( CTEST_BUILD_NAME           "MacOSX10.5-32bits-v1.5-${CTEST_BUILD_CONFIGURATION}-3rdP") # Build Name
 
 # User options: 
 set( CACHE_CONTENTS "
@@ -31,6 +31,8 @@ CMAKE_C_FLAGS:STRING= -Wall
 BUILD_TESTING:BOOL=TRUE
 
 OPJ_DATA_ROOT:PATH=${CTEST_SOURCE_DATA_DIRECTORY}
+
+BUILD_THIRDPARTY=ON
 
 " )
 
