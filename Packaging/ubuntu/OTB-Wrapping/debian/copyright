@@ -18,9 +18,9 @@ Orfeo-Toolbox (OTB) wrappings. Other works include PyGCCXML.
 Upstream Author(s):
 
     Otmane Lahlou (CS) <otmane.lahlou@c-s.fr>
-    Jordi Inglada (CNES) <jordi.inglada@orfeo-toolbox.org>
-    Julien Michel (CS then CNES) <julien.michel@orfeo-toolbox.org>
     Julien Malik (CS) <julien.malik@orfeo-toolbox.org>
+    Julien Michel (CS then CNES) <julien.michel@orfeo-toolbox.org>
+    Jordi Inglada (CNES) <jordi.inglada@orfeo-toolbox.org>
     Emmanuel Christophe (CNES then CRISP) <emmanuel.christophe@orfeo-toolbox.org>
     Manuel Grizonnet (CNES) <manuel.grizonnet@cnes.fr>
     Romain Garrigues (CS) <romain.garrigues@c-s.fr>

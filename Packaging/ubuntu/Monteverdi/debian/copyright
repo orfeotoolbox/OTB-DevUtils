@@ -23,6 +23,8 @@ Upstream Author(s):
     Aurélien Bricier (CS) <aurelien.bricier@c-s.fr>
     Sébastien Dinot (CS) <sebastien.dinot@c-s.fr>
     Arnaud Jaen (CS) <arnaud.jaen@c-s.fr>
+    Mickael Savinaud (CS) <mickael.savinaud@c-s.fr>
+    Jonathan Guinet (CS) <jonathan.guinet@c-s.fr>
 
 
 Copyright:
@@ -43,6 +45,6 @@ License:
 
 The Debian packaging is:
 
-    Copyright (C) 2010, 2011 OTB Team <contact@orfeo-toolbox.org>
+    Copyright (C) 2010,2011 OTB Team <contact@orfeo-toolbox.org>
 
     This package is distributed under the CeCILL license version 2.
