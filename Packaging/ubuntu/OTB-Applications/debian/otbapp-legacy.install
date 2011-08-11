@@ -1,7 +1,6 @@
 # OTB Application shared libraries
 usr/lib/otb/libOTBApplicationsCommon.so
 usr/lib/otb/libotbMVCFineRegistration.so
-# usr/lib/otb/libotbMVCImageToDBRegistration.so
 usr/lib/otb/libotbMVCImageViewerManager.so
 usr/lib/otb/libotbMVCLandCoverMap.so
 usr/lib/otb/libotbMVCObjectCounting.so
@@ -26,7 +25,6 @@ usr/bin/otbObjectCountingApplication
 usr/bin/otbLandCoverMapApplication
 usr/bin/otbLandCoverMapGenerateFeatures
 usr/bin/otbImageViewer
-# usr/bin/otbImageToDBRegistrationApplication
 usr/bin/otbKMeansClassification
 usr/bin/otbRgbRelabeling
 usr/bin/otbSOMClassification

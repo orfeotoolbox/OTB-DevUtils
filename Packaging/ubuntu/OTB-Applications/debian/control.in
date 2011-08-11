@@ -81,7 +81,7 @@ Description: ORFEO Toolbox (OTB) Applications - CLI applications
  OTB Applications are a set of various command line interface (cli) and
  graphical interface (gui) applications developped around the OTB library.
  .
- This package contains CLI applications ans related libraries provided by OTB
+ This package contains CLI applications and related libraries provided by OTB
  Applications.
 
 Package: otbapp-fltk
@@ -100,7 +100,7 @@ Description: ORFEO Toolbox (OTB) Applications - FLTK based GUI applications
  OTB Applications are a set of various command line interface (cli) and
  graphical interface (gui) applications developped around the OTB library.
  .
- This package contains FLTK based GUI applications ans related libraries
+ This package contains FLTK based GUI applications and related libraries
  provided by OTB Applications.
 
 Package: otbapp-qt
@@ -119,5 +119,5 @@ Description: ORFEO Toolbox (OTB) Applications - QT based GUI applications
  OTB Applications are a set of various command line interface (cli) and
  graphical interface (gui) applications developped around the OTB library.
  .
- This package contains QT based GUI applications ans related libraries
+ This package contains QT based GUI applications and related libraries
  provided by OTB Applications.

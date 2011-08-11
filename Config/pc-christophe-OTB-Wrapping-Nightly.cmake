@@ -1,4 +1,4 @@
-SET (CTEST_SOURCE_DIRECTORY "/home/otbtesting/OTB/trunk/OTB-Wrapping-Nightly/")
+SET (CTEST_SOURCE_DIRECTORY "/home/otbtesting/OTB/trunk/OTB-Wrapping/")
 SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/OTB/bin/OTB-Binary-Wrapping-Nightly/")
 
 
@@ -38,7 +38,7 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=/home/otbtesting/OTB/bin/OTB-Nightly/
 BUILD_TESTING:BOOL=ON
-CableSwig_DIR:STRING=/usr/lib/CableSwig
+CableSwig_DIR:STRING=/usr/local/lib/CableSwig
 //Set up SWIG options
 //SWIG_DIR:STRING=/home/otbtesting/local/swig-1.3.40-build/share/swig/1.3.40
 //SWIG_EXECUTABLE:STRING=/usr/bin/swig
@@ -48,11 +48,11 @@ WRAP_Morphology:BOOL=OFF
 WRAP_ChangeDetection:BOOL=OFF
 WRAP_ITK_DIMS:STRING=2
 WRAP_ITK_JAVA:BOOL=ON 
-#JAVA_AWT_INCLUDE_PATH:STRING=/usr/lib/jvm/java-6-sun/include
-#JAVA_AWT_LIBRARY:STRING=/usr/lib/jvm/java-6-sun/jre/lib/amd64
-#JAVA_INCLUDE_PATH:STRING=/usr/lib/jvm/java-6-sun/include
-#JAVA_INCLUDE_PATH2:STRING=/usr/lib/jvm/java-6-sun/include/linux
-#JAVA_JVM_LIBRARY:STRING=/usr/lib/jvm/java-6-sun/jre/lib/amd64/server
+JAVA_AWT_INCLUDE_PATH:STRING=/opt/java/include/linux/
+JAVA_AWT_LIBRARY:STRING=/opt/java/jre/lib/amd64/
+JAVA_INCLUDE_PATH:STRING=/opt/java/include/
+JAVA_INCLUDE_PATH2:STRING=/opt/java/include/linux/
+JAVA_JVM_LIBRARY:STRING=/opt/java/jre/lib/amd64/server/	
 WRAP_ITK_PYTHON:BOOL=ON 
 ")
 

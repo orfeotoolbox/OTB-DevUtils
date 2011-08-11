@@ -803,7 +803,6 @@ class TestProcessing:
     # ===  Update Nightly sources method
     # =====================================================================================================================================
     def UpdateNightlySources(self):
-#        os.environ['http_proxy'] = 'http://proxycs-toulouse.si.c-s.fr:8080'
         self.PrintMsg("Update Nightly Sources ...")
         
 	# ---  HG update OTB  ----------------------------------
@@ -2574,7 +2573,6 @@ class TestProcessing:
 #                crtfile = open(self.GetCrtFile(),"a")
 
                 retcode = subprocess.call(command, stdout=None, stderr=None, bufsize=1, shell=True)
-		#, env="http_proxy=http://feuvriert:montdor25-@proxy-HTTP1.cnes.fr:8050")
 #                retcode = subprocess.call(command, shell=True, stdout=crtfile, stderr=crtfile)
 #                retcode = subprocess.check_call(command, shell=True)
 #                crtfile.close()
