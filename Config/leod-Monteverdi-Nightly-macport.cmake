@@ -8,7 +8,7 @@ SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/Monteverdi-
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k install" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
 SET (CTEST_SITE "leod.c-s.fr")
 SET (CTEST_BUILD_NAME "MacOSX10.5-Release-macport")
 SET (CTEST_BUILD_CONFIGURATION "Release")
