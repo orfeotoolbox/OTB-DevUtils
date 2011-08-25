@@ -25,12 +25,12 @@ set -e
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export USER=otbval
 export HOME=/home/$USER
-export TSOCKS_CONF_FILE=$HOME/.tsocks.conf
+# export TSOCKS_CONF_FILE=$HOME/.tsocks.conf
 
 SRCDIR=$HOME/Dashboard/src
 CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 
-TSOCKS=$(which tsocks)
+# TSOCKS=$(which tsocks)
 
 # Maximum wait time (in seconds 18000 s = 5 h) for OTB binary packages availability
 MAX_WAIT_TIME=18000
@@ -108,11 +108,13 @@ done
 rm -rf /tmp/otb* /tmp/monteverdi*
 
 # For each project ("OTB" must be the first one)
-for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
+#for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
+for project in OTB Monteverdi OTB-Applications ; do
 
     # Update working copy
     cd $SRCDIR/$project
-    $TSOCKS hg pull -u
+    # $TSOCKS hg pull -u
+    hg pull -u
 
     # Extract last tagged version identifier
     full_version=$(hg tags | head -n 2 | tail -n 1 | cut -d ' ' -f 1)
@@ -168,7 +170,8 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
         start_time=$(date +%s)
         elapsed_time=0
         while [ $otb_pkg_avail -eq 0 -a $elapsed_time -le $MAX_WAIT_TIME ] ; do
-            n=$($TSOCKS GET $ppa_url | sed -ne "s/^.* href=\"\(libotb_${otb_version}-0ppa~.*${otb_pkg_version}_all\.deb\)\".*$/\1/p" | wc -l)
+            # n=$($TSOCKS GET $ppa_url | sed -ne "s/^.* href=\"\(libotb_${otb_version}-0ppa~.*${otb_pkg_version}_all\.deb\)\".*$/\1/p" | wc -l)
+            n=$(GET $ppa_url | sed -ne "s/^.* href=\"\(libotb_${otb_version}-0ppa~.*${otb_pkg_version}_all\.deb\)\".*$/\1/p" | wc -l)
             if [ $n -eq "$EXPECTED_OTB_PACKAGES" ] ; then
                 echo $(date '+%F %T: ') "OTB packages are now availables for all versions."
                 otb_pkg_avail=1
@@ -187,9 +190,11 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
 
     # Push source packages on Launchpad (through tsocks proxy if necessary)
     if [ "$simulate" -eq 0 ] ; then
-        $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
+        # $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
+        dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
     else
-        echo "COMMAND: $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes"
+        # echo "COMMAND: $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes"
+        echo "COMMAND: dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes"
     fi
 
 done
