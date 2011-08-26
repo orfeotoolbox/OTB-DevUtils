@@ -1,5 +1,4 @@
 SET (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_TEST_CONFIGURATION "Release")
 
 SET (CTEST_SOURCE_DIRECTORY "C:/Users/jmalik/Dashboard/src/OTB-Wrapper")
 SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-Wrapper-${CTEST_BUILD_CONFIGURATION}-VC2008")
@@ -51,21 +50,18 @@ WRAP_QT:BOOL=ON
 WRAP_PYQT:BOOL=ON
 ")
 
-#ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
+ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 SET (CTEST_NOTES_FILES
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
-
 ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-#ctest_submit (PARTS Start Update Configure)
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-#ctest_submit (PARTS Build)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()
