@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 2.8)
 # Set where to find srr and test data and where to build binaries.
 SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/OpenJPEG/trunk/opj-trunk")
 SET (CTEST_BINARY_DIRECTORY       "$ENV{HOME}/OpenJPEG/bin/OpenJPEG_trunk")
-SET (CTEST_SOURCE_DATA_DIRECTORY  "$ENV{HOME}/OpenJPEG/trunk/J2KP4files")
+SET (CTEST_SOURCE_DATA_DIRECTORY  "$ENV{HOME}/OpenJPEG/trunk/opj-data")
 
 # User inputs:
 SET( CTEST_CMAKE_GENERATOR      "Unix Makefiles" )    # What is your compilation apps ? (Eclipse CDT4 - Unix Makefiles)
