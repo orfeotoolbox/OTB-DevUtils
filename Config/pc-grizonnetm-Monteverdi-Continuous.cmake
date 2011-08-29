@@ -1,11 +1,11 @@
-SET (CTEST_SOURCE_DIRECTORY "/mnt/dd-2/OTB/trunk/Continuous/OTB-Applications/")
-SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/Continuous/OTB-Applications/")
+SET (CTEST_SOURCE_DIRECTORY "/mnt/dd-2/OTB/trunk/Continuous/Monteverdi/")
+SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/Continuous/Monteverdi/")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 SET (CTEST_SITE "pc-grizonnetm")
-SET (CTEST_BUILD_NAME "zApps-Ubuntu10.4-64bits-Release")
+SET (CTEST_BUILD_NAME "Monteverdi-Ubuntu10.4-64bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
@@ -24,7 +24,6 @@ CMAKE_OSX_ARCHITECTURES:STRING=i386
 CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=/mnt/dd-2/OTB/Continuous/OTB
 BUILD_TESTING:BOOL=ON
-OTB_USE_VTK:BOOL=ON
 ")
 
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
@@ -37,13 +36,13 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Applications
+execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi
                  WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
                  OUTPUT_VARIABLE   PULL_RESULT
                  ERROR_VARIABLE    PULL_RESULT )
 file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
 
-ctest_start(Continuous TRACK "Continuous Applications")
+ctest_start(Continuous TRACK "Continuous Monteverdi")
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
