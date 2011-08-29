@@ -21,8 +21,8 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-Data
 
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -fPIC
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -fPIC
 
 CMAKE_OSX_ARCHITECTURES:STRING=i386
 OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON

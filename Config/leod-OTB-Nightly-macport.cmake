@@ -25,8 +25,8 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-Data
 
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -fPIC
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -fPIC
 
 CMAKE_OSX_ARCHITECTURES:STRING=i386
 OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON
@@ -34,6 +34,10 @@ OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON
 CMAKE_BUILD_TYPE:STRING=Release
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
+
+
+# Enabling jpeg 2000 creates conflict with macport openjpeg
+OTB_USE_JPEG2000:BOOL=OFF
 
 OTB_USE_CURL:BOOL=ON
 OTB_USE_PQXX:BOOL=OFF
