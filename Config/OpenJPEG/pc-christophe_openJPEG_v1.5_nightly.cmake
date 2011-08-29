@@ -22,7 +22,6 @@ SET( CTEST_SITE                 "pc-christophe.cst.cnes.fr" )       # Generally 
 SET( CTEST_BUILD_CONFIGURATION  Debug)                # What type of build do you want ?
 SET( CTEST_BUILD_NAME           "ArchLinux-64bits-v1.5-${CTEST_BUILD_CONFIGURATION}") # Build Name
 
-# FIXME: For the moment, I need to build my own version of liblcms2
 set( CACHE_CONTENTS "
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
@@ -31,10 +30,7 @@ CMAKE_C_FLAGS:STRING= -Wall
 BUILD_TESTING:BOOL=TRUE
 BUILD_EXAMPLES:BOOL=TRUE
 
-JPEG2000_CONFORMANCE_DATA_ROOT:PATH=${CTEST_SOURCE_DATA_DIRECTORY}
-
-#LCMS2_INCLUDE_DIR:PATH=/home/mickael/dev/src/OpenJPEG/trunk/thirdparty/liblcms2/include
-#LCMS2_LIBRARY:PATH=/home/mickael/dev/libMS/libLCMS2/thirdparty/lib/liblcms2.a
+OPJ_DATA_ROOT:PATH=${CTEST_SOURCE_DATA_DIRECTORY}
 
 " )
 
