@@ -4,6 +4,8 @@ import os
 import sys
 import subprocess
 
+# !!! NEED python >= 2.7 !!!!
+
 SRC_ROOT = '/Users/otbval/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/Continuous'
 OTB_NIGHTLY_DIR = os.path.join( os.environ['HOME'], 'OTB-NIGHTLY-VALIDATION' )
 LOCKFILE = os.path.join( OTB_NIGHTLY_DIR, 'continuous.lock' )
