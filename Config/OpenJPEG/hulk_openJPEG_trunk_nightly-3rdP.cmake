@@ -9,7 +9,7 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-# Set where to find srr and test data and where to build binaries.
+# Set where to find src and test data and where to build binaries.
 SET (CTEST_SOURCE_DIRECTORY       "$ENV{HOME}/Dashboard/src/OpenJPEG/opj-trunk")
 SET (CTEST_BINARY_DIRECTORY       "$ENV{HOME}/Dashboard/build/OpenJPEG_trunk-3rdP")
 SET (CTEST_SOURCE_DATA_DIRECTORY  "$ENV{HOME}/Dashboard/src/OpenJPEG/opj-data")
@@ -31,6 +31,8 @@ BUILD_TESTING:BOOL=TRUE
 BUILD_EXAMPLES:BOOL=TRUE
 
 OPJ_DATA_ROOT:PATH=${CTEST_SOURCE_DATA_DIRECTORY}
+
+REF_DECODER_BIN_PATH:PATH=$ENV{HOME}/Dashboard/src/OpenJPEG/kakadu
 
 BUILD_THIRDPARTY=ON
 

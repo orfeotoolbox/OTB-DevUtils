@@ -44,6 +44,9 @@ ZLIB_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 ZLIB_LIBRARY:FILEPATH=C:/OSGeo4W/lib/zlib.lib
 
 OPJ_DATA_ROOT=${CTEST_SOURCE_DATA_DIRECTORY}
+
+REF_DECODER_BIN_PATH:PATH=C:/Program Files/Kakadu
+
 ")
 
 # Update method 
