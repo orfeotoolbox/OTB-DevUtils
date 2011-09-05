@@ -29,8 +29,8 @@ BUILD_EXAMPLES:BOOL=ON
 CMAKE_C_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang
 CMAKE_CXX_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang++
 
-CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-c++0x-static-nonintegral-init
 
 #OTB_DATA_USE_LARGEINPUT:BOOL=ON
 #OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
@@ -49,6 +49,8 @@ USE_FFTWD:BOOL=ON
 USE_FFTWF:BOOL=ON
 OTB_GL_USE_ACCEL:BOOL=OFF
 OTB_USE_MAPNIK:BOOL=ON
+
+BOOST_ROOT:PATH=$ENV{HOME}/tools/install/boost-1.47
 
     ")
 endmacro()
