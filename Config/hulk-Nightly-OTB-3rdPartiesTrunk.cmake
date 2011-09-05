@@ -56,5 +56,10 @@ GDAL_LIBRARY:FILEPATH=/home/otbval/Dashboard/install/gdal-trunk/lib/libgdal.so
     ")
 endmacro()
 
+
+SET(CTEST_NOTES_FILES 
+    "$HOME/Dashboard/nightly/logs/build_gdal_trunk.log"
+    "$HOME/Dashboard/nightly/logs/build_ossim_trunk.log")
+
 include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
 
