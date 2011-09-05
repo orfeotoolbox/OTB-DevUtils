@@ -2,7 +2,7 @@
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "hulk.c-s.fr")
-set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_NAME "Ubuntu10.04-64bits-clang-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
@@ -32,8 +32,8 @@ CMAKE_CXX_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang++
 CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
-OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
+#OTB_DATA_USE_LARGEINPUT:BOOL=ON
+#OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 ITK_USE_PATENTED:BOOL=ON
