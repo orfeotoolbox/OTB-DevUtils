@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Requirements :
 # - get the last boost tar.gz and unzip it
 # - run the bootstrap script (it creates an executable called b2, the boost build tool)
