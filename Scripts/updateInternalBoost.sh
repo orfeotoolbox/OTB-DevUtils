@@ -16,16 +16,16 @@ BOOST_SUBPARTROOT=/tmp/boost_subparts
 mkdir $BOOST_SUBPARTROOT
 
 echo 'Extract what we need from Code'
-grep -r "#include <boost/" $OTB_ROOT/Code | cut -d ' ' -f 2 | sed 's/<boost/boost/' | sed 's/.hpp>/.hpp/' > $TMP1
+grep -r "#include <boost/" $OTB_ROOT/Code | cut -d ' ' -f 2 | sed 's/<\(.*\)>/\1/' > $TMP1
 
 echo 'Extract what we need from Utilities/otbliblas'
-grep -r "#include <boost/" $OTB_ROOT/Utilities/otbliblas | cut -d ' ' -f 2 | sed 's/<boost/boost/' | sed 's/.hpp>/.hpp/' >> $TMP1
+grep -r "#include <boost/" $OTB_ROOT/Utilities/otbliblas | cut -d ' ' -f 2 | sed 's/<\(.*\)>/\1/' >> $TMP1
 
 echo 'Extract what we need from Utilities/otbkml'
-grep -r "#include \"boost/" $OTB_ROOT/Utilities/otbkml | cut -d ' ' -f 2 | sed 's/\"//'  | sed 's/\"//' >> $TMP1
+grep -r "#include \"boost/" $OTB_ROOT/Utilities/otbkml | cut -d ' ' -f 2 | sed 's/\"\(.*\)\"/\1/' >> $TMP1
 
 echo 'Extract what we need for Monteverdi'
-grep -r "#include <boost/" $MVD_ROOT/Code | cut -d ' ' -f 2 | sed 's/<boost/boost/' | sed 's/.hpp>/.hpp/' >> $TMP1
+grep -r "#include <boost/" $MVD_ROOT/Code | cut -d ' ' -f 2 | sed 's/<\(.*\)>/\1/' >> $TMP1
 
 echo 'Remove duplicates'
 awk ' { arr[$1]=$0 } END { for ( key in arr ) { print arr[key] } } ' $TMP1 > $TMP2
