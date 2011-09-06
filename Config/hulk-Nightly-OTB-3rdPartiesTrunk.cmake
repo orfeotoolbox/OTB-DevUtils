@@ -48,18 +48,18 @@ OTB_GL_USE_ACCEL:BOOL=OFF
 OTB_USE_MAPNIK:BOOL=ON
 
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
-OSSIM_INCLUDE_DIR:PATH=/home/otbval/Dashboard/install/ossim-trunk/include
-OSSIM_LIBRARY:FILEPATH=/home/otbval/Dashboard/install/ossim-trunk/lib/libossim.so
+OSSIM_INCLUDE_DIR:PATH=$ENV{HOME}/Dashboard/install/ossim-trunk/include
+OSSIM_LIBRARY:FILEPATH=$ENV{HOME}/Dashboard/install/ossim-trunk/lib/libossim.so
 
-GDAL_INCLUDE_DIR:STRING=/home/otbval/Dashboard/install/gdal-trunk/include
-GDAL_LIBRARY:FILEPATH=/home/otbval/Dashboard/install/gdal-trunk/lib/libgdal.so
+GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/Dashboard/install/gdal-trunk/include
+GDAL_LIBRARY:FILEPATH=$ENV{HOME}/Dashboard/install/gdal-trunk/lib/libgdal.so
     ")
 endmacro()
 
 
 SET(CTEST_NOTES_FILES 
-    "$HOME/Dashboard/nightly/logs/build_gdal_trunk.log"
-    "$HOME/Dashboard/nightly/logs/build_ossim_trunk.log")
+    "$ENV{HOME}/Dashboard/nightly/logs/build_gdal_trunk.log"
+    "$ENV{HOME}/Dashboard/nightly/logs/build_ossim_trunk.log")
 
 include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
 
