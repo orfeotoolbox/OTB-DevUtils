@@ -15,9 +15,6 @@ BOOST_SUBPARTROOT=/tmp/boost_subparts
 
 mkdir $BOOST_SUBPARTROOT
 
-echo 'Saving CMakeLists'
-cp $OTB_ROOT/Utilities/BGL/boost/CMakeLists.txt  $BOOST_SUBPARTROOT
-
 echo 'Extract what we need from Code'
 grep -r "#include <boost/" $OTB_ROOT/Code | cut -d ' ' -f 2 | sed 's/<boost/boost/' | sed 's/.hpp>/.hpp/' > $TMP1
 
