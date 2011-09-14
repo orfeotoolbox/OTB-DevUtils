@@ -25,6 +25,8 @@ macro(dashboard_hook_init)
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
+BUILD_APPLICATIONS:BOOL=ON
+
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
