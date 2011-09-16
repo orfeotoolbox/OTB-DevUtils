@@ -16,7 +16,7 @@
 APPLI_FILE=Simulation/otbImageSimulator.cxx
 
 # Some necessary paths to give (should not change much)
-OTB_APP_SOURCES=$HOME/Projets/otb/src/OTB-Applications
+OTB_APP_SOURCES=$HOME/dev/src/OTB-Applications
 OUTPUT_REPO_ROOT=/tmp/convertOTBapp
 
 
@@ -29,6 +29,12 @@ OUTPUT_REPO_ROOT=/tmp/convertOTBapp
 
 # Exit as soon as there is an error
 set -e
+
+# Create the root dir if it does not exists
+if [ ! -d $OUTPUT_REPO_ROOT ]
+then
+  mkdir $OUTPUT_REPO_ROOT
+fi
 
 # Be sure the OTB-Applications repository is up-to-date
 cd $OTB_APP_SOURCES
@@ -65,6 +71,28 @@ hg update -r tip
 # rename to its final location
 hg rename $APPLI_FILE Applications/$APPLI_FILE
 hg commit -m "ENH: move $APPLI_NAME to proper location before merge"
+
+# create a CMakeLists to test the app externally
+cat > CMakeLists.txt << EOF
+cmake_minimum_required(VERSION 2.8)
+
+if(COMMAND CMAKE_POLICY)
+  cmake_policy(SET CMP0003 NEW)
+endif(COMMAND CMAKE_POLICY)
+
+project( $APPLI_NAME )
+
+find_package(OTB REQUIRED)
+include(${OTB_USE_FILE})
+
+OTB_CREATE_APPLICATION(NAME           $APPLI_NAME
+                       SOURCES        otb$APPLI_NAME.cxx
+                       LINK_LIBRARIES OTBBasicFilters)
+
+EOF
+
+
+
 
 # check ! check ! check !
 hg view
