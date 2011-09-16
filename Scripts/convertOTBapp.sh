@@ -100,7 +100,9 @@ hg view
 
 echo
 echo 'Converted repository for '$APPLI_NAME' is in '$OUTPUT_REPO
-echo 'If you are happy with it, then cd into your OTB sources and run "hg pull -f '$OUTPUT_REPO'" and merge'
+echo ''
+echo 'A CmakeLists.txt has been created but not committed, so the application can be converted to the new framework before merging to OTB'
+echo 'When you are happy with it, "cd" into your OTB sources and run "hg pull -f '$OUTPUT_REPO'", then " hg merge"'
 
 
 
