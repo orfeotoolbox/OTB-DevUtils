@@ -12,13 +12,12 @@
 #############################
 
 # This is the 'main' parameter: the file containing the application
-#APPLI_FILE=Projections/otbBundleToPerfectSensor.cxx
-APPLI_FILE=Simulation/otbImageSimulator.cxx
+APPLI_FILE=Projections/otbBundleToPerfectSensor.cxx
+#APPLI_FILE=Simulation/otbImageSimulator.cxx
 
 # Some necessary paths to give (should not change much)
 OTB_APP_SOURCES=$HOME/dev/src/OTB-Applications
 OUTPUT_REPO_ROOT=/tmp/convertOTBapp
-
 
 
 
@@ -46,6 +45,7 @@ hg update -r tip -C
 # "Projections/otbBundleToPerfectSensor.cxx" will give "BundleToPerfectSensor"
 #
 APPLI_NAME=`echo $APPLI_FILE | sed 's/[a-zA-Z]*\/otb\([a-zA-Z]*\).cxx/\1/'`
+APPLI_SUBDIR=`echo $APPLI_FILE | sed 's/\([a-zA-Z]*\)\/otb[a-zA-Z]*.cxx/\1/'`
 echo include $APPLI_FILE > $OUTPUT_REPO_ROOT/$APPLI_NAME.filemap
 
 OUTPUT_REPO=$OUTPUT_REPO_ROOT/$APPLI_NAME
@@ -73,7 +73,7 @@ hg rename $APPLI_FILE Applications/$APPLI_FILE
 hg commit -m "ENH: move $APPLI_NAME to proper location before merge"
 
 # create a CMakeLists to test the app externally
-cat > CMakeLists.txt << EOF
+cat > Applications/$APPLI_SUBDIR/CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 2.8)
 
 if(COMMAND CMAKE_POLICY)
@@ -83,7 +83,7 @@ endif(COMMAND CMAKE_POLICY)
 project( $APPLI_NAME )
 
 find_package(OTB REQUIRED)
-include(${OTB_USE_FILE})
+include(\${OTB_USE_FILE})
 
 OTB_CREATE_APPLICATION(NAME           $APPLI_NAME
                        SOURCES        otb$APPLI_NAME.cxx
