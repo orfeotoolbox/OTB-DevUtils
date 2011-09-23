@@ -10,6 +10,12 @@
    proxy_password=xxxxxxxx
    ---------------------------------------------------------------------------
 
+   Where:
+   - "proxy.example.com" is the DNS name of your proxy server
+   - "8080" is the listen port of your proxy server
+   - "user" is your account on the proxy server
+   - "xxxxxxxx" is your password on the proxy server
+
 1.2. Configure command line tools
 
    Add lines below in /root/.bash_profile:
@@ -21,7 +27,8 @@
    export http_proxy https_proxy no_proxy
    ---------------------------------------------------------------------------
 
-   Eval /root/.bash_profile content:
+   Close your current interactive session and open a new one or eval
+   /root/.bash_profile content:
 
    ---------------------------------------------------------------------------
    root@host:~# . /root/.bash_profile
@@ -46,6 +53,9 @@
    root@host:~# rpm -ivh epel-release-5-4.noarch.rpm
    ---------------------------------------------------------------------------
 
+   Edit /etc/yum.repos.d/epel-testing.repo file and activate the epel-testing
+   repository (set "enabled" field to 1 in "epel-testing" section).
+
    Update yum local database:
 
    ---------------------------------------------------------------------------
@@ -61,12 +71,19 @@
    root@host:~# rpm --import RPM-GPG-KEY-ELGIS
    ---------------------------------------------------------------------------
 
-   Get and install ELGIS repository configuration package:
+   Get and install ELGIS repositories configuration package:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://elgis.argeo.org/repos/5/elgis-release-5-5_0.noarch.rpm
+   root@host:~# wget http://elgis.argeo.org/repos/testing/5/elgis-release-5-5_0.noarch.rpm
    root@host:~# rpm -ivh elgis-release-5-5_0.noarch.rpm
    ---------------------------------------------------------------------------
+
+   Edit /etc/yum.repos.d/elgis.repo file and activate the elgis-plus
+   repository (set "enabled" field to 1 in "elgis-plus" section).
+
+   Edit /etc/yum.repos.d/elgis-testing.repo file and activate the
+   elgis-testing and elgis-plus-testing repositories (set "enabled" field to 1
+   in both "elgis-testing" and "elgis-plus-testing" sections).
 
    Update yum local database:
 
@@ -88,7 +105,15 @@
 
    ---------------------------------------------------------------------------
    root@host:~# yum install cmake boost-devel freeglut-devel libpng-devel \
-                            fltk-devel fltk-fluid gdal-devel libgeotiff-devel
+                            fltk-devel fltk-fluid gdal-devel mapnik-devel \
+                            libgeotiff-devel
+   ---------------------------------------------------------------------------
+
+   If you expect to install OrfeoToolbox-Applications packages (not required
+   for Java), you must install some extra packages:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum install qt4 qt4-x11
    ---------------------------------------------------------------------------
 
 3.2. Sun JDK 1.5 package:
@@ -121,24 +146,44 @@
    Get and install OrfeoToolbox libraries package:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-3.8.0-2.i386.rpm
-   root@host:~# rpm -ivh OrfeoToolbox-3.8.0-2.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-3.10.0-3.i386.rpm
+   root@host:~# rpm -ivh OrfeoToolbox-3.10.0-3.i386.rpm
    ---------------------------------------------------------------------------
 
    Optionally (because this package is not required for Java), get and install
    OrfeoToolbox header files package:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-devel-3.8.0-2.i386.rpm
-   root@host:~# rpm -ivh OrfeoToolbox-devel-3.8.0-2.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-devel-3.10.0-3.i386.rpm
+   root@host:~# rpm -ivh OrfeoToolbox-devel-3.10.0-3.i386.rpm
+   ---------------------------------------------------------------------------
+
+   Optionally (because this package is not required for Java), get and install
+   Monteverdi workshop package:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/Monteverdi-1.8.0-0.i386.rpm
+   root@host:~# rpm -ivh Monteverdi-1.8.0-0.i386.rpm
+   ---------------------------------------------------------------------------
+
+   Optionally (because these packages are not required for Java), get and
+   install OrfeoToolbox Applications packages:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Applications-3.10.0-1.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Applications-cli-3.10.0-1.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Applications-fltk-3.10.0-1.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Applications-qt-3.10.0-1.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Applications-legacy-3.10.0-1.i386.rpm
+   root@host:~# rpm -ivh OrfeoToolbox-Applications-*3.10.0-1.i386.rpm
    ---------------------------------------------------------------------------
 
    Get and install OrfeoToolbox wrappers packages built with Sun JDK 1.5:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-1.4.0-4+java5.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-java-1.4.0-4+java5.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-python-1.4.0-4+java5.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-1.6.0-0+java5.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-java-1.6.0-0+java5.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-python-1.6.0-0+java5.i386.rpm
    root@host:~# rpm -ivh OrfeoToolbox-Wrapping-*.rpm
    ---------------------------------------------------------------------------
 
@@ -146,19 +191,19 @@
    OrfeoToolbox wrappers packages built with Sun JDK 1.6:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-1.4.0-4+java6.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-java-1.4.0-4+java6.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/OrfeoToolbox-Wrapping-python-1.4.0-4+java6.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-1.6.0-0+java6.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-java-1.6.0-0+java6.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-python-1.6.0-0+java6.i386.rpm
    root@host:~# rpm -ivh OrfeoToolbox-Wrapping-*.rpm
    ---------------------------------------------------------------------------
 
 
-5. (Optional) Test
+5. (Optional) Test Java bindings
 
    Get the archive, build and launch tests:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/TestJavaWrapping.tar.gz
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/TestJavaWrapping.tar.gz
    root@host:~# tar xzf TestJavaWrapping.tar.gz
    root@host:~# cd TestJavaWrapping
    root@host:~# make build
