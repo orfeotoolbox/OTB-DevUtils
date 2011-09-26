@@ -36,6 +36,8 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data/LargeInput
 OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
+//build applications
+BUILD_APPLICATIONS:BOOL=ON
 ")
 
 # set any extra envionment varibles here
