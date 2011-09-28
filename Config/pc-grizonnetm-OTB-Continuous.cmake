@@ -45,6 +45,9 @@ GDAL_INCLUDE_DIR:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include
 GDAL_LIBRARY:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/lib/libgdal.so
 OGR_INCLUDE_DIRS:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include
 BUILD_APPLICATIONS:BOOL=ON
+WRAP_PYTHON:BOOL=ON
+WRAP_QT:BOOL=ON
+WRAP_PYQT:BOOL=ON
 ")
 
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )

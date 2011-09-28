@@ -38,6 +38,9 @@ BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 //build applications
 BUILD_APPLICATIONS:BOOL=ON
+WRAP_PYTHON:BOOL=ON
+WRAP_QT:BOOL=ON
+WRAP_PYQT:BOOL=ON
 ")
 
 # set any extra envionment varibles here
