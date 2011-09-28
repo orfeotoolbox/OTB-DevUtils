@@ -12,12 +12,11 @@
 #############################
 
 # This is the 'main' parameter: the file containing the application
-APPLI_FILE=Projections/otbBundleToPerfectSensor.cxx
-#APPLI_FILE=Simulation/otbImageSimulator.cxx
+APPLI_FILE=Classification/otbTrainImagesClassifier.cxx
 
 # Some necessary paths to give (should not change much)
 OTB_APP_SOURCES=$HOME/dev/src/OTB-Applications
-OUTPUT_REPO_ROOT=/tmp/convertOTBapp
+OUTPUT_REPO_ROOT=/tmp/jmalik/convertOTBapp
 
 
 
@@ -32,7 +31,7 @@ set -e
 # Create the root dir if it does not exists
 if [ ! -d $OUTPUT_REPO_ROOT ]
 then
-  mkdir $OUTPUT_REPO_ROOT
+  mkdir -p $OUTPUT_REPO_ROOT
 fi
 
 # Be sure the OTB-Applications repository is up-to-date
@@ -48,10 +47,16 @@ APPLI_NAME=`echo $APPLI_FILE | sed 's/[a-zA-Z]*\/otb\([a-zA-Z]*\).cxx/\1/'`
 APPLI_SUBDIR=`echo $APPLI_FILE | sed 's/\([a-zA-Z]*\)\/otb[a-zA-Z]*.cxx/\1/'`
 echo include $APPLI_FILE > $OUTPUT_REPO_ROOT/$APPLI_NAME.filemap
 
+echo VisualizationRefactoring default > $OUTPUT_REPO_ROOT/$APPLI_NAME.branchmap
+echo object_detection default >> $OUTPUT_REPO_ROOT/$APPLI_NAME.branchmap
+echo i18n default >> $OUTPUT_REPO_ROOT/$APPLI_NAME.branchmap
+echo postrelease default  >> $OUTPUT_REPO_ROOT/$APPLI_NAME.branchmap
+echo OTB-Applications default >> $OUTPUT_REPO_ROOT/$APPLI_NAME.branchmap
+
 OUTPUT_REPO=$OUTPUT_REPO_ROOT/$APPLI_NAME
 
 # launch the conversion
-hg convert --filemap $OUTPUT_REPO_ROOT/$APPLI_NAME.filemap $OTB_APP_SOURCES $OUTPUT_REPO
+hg convert --filemap $OUTPUT_REPO_ROOT/$APPLI_NAME.filemap --branchmap $OUTPUT_REPO_ROOT/$APPLI_NAME.branchmap $OTB_APP_SOURCES $OUTPUT_REPO
 
 cd $OUTPUT_REPO
 
