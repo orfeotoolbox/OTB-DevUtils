@@ -38,8 +38,8 @@ CMAKE_INSTALL_PREFIX:STRING=/home/otbtesting/local/bin/otb-install/
 ")
 
 # set any extra envionment varibles here
-SET (CTEST_ENVIRONMENT
- "DISPLAY=:0"
-)
+#SET (CTEST_ENVIRONMENT
+# "DISPLAY=:0"
+#)
 
 

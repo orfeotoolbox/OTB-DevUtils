@@ -69,8 +69,8 @@ WRAP_PYQT:BOOL=ON
 ")
 
 # set any extra envionment varibles here
-SET (CTEST_ENVIRONMENT
- "DISPLAY=:0"
-)
+#SET (CTEST_ENVIRONMENT
+# "DISPLAY=:0"
+#)
 
 
