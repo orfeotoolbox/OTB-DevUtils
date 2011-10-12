@@ -4,7 +4,7 @@ SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/OTB-Binary-Wrapping-Nightly/")
 
 # which ctest command to use for running the dashboard
 SET (CTEST_COMMAND 
-  "ctest -j6 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-OTB-Wrapping-Nightly.cmake -V"
+  "ctest -j8 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-OTB-Wrapping-Nightly.cmake -V"
   )
 
 # what cmake command to use for configuring this dashboard
@@ -21,7 +21,7 @@ SET (CTEST_INITIAL_CACHE "
 // Use Launchers for CDash reporting
 CTEST_USE_LAUNCHERS:BOOL=ON
 //Command used to build entire project from the command line.
-MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
+MAKECOMMAND:STRING=/usr/bin/make -i -k -j 8
 //Name of the build
 BUILDNAME:STRING=Ubuntu10.4-64bits-Release
 //Name of the computer/site where compile is being run
