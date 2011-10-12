@@ -11,7 +11,7 @@ SET (CTEST_COMMAND
 SET (CTEST_CMAKE_COMMAND 
   "cmake"
   )
-
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k")
 # should ctest wipe the binary tree before running
 SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
 
