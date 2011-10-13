@@ -1,42 +1,36 @@
+# Client maintainer: manuel.grizonnet@cnes.fr
+set(dashboard_model Nightly)
+set(CTEST_DASHBOARD_ROOT "/mnt/dd-2/OTB")
+SET (CTEST_SITE "pc-grizonnetm.cst.cnes.fr")
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+set(CTEST_TEST_TIMEOUT 1500)
+set(CTEST_HG_COMMAND "/usr/bin/hg")
 
-SET (CTEST_SOURCE_DIRECTORY "/mnt/dd-2/OTB/trunk/OTB-Nightly/")
-SET (CTEST_BINARY_DIRECTORY "/mnt/dd-2/OTB/OTB-Binary-Nightly/")
+set(dashboard_root_name "tests")
+set(dashboard_source_name "trunk/OTB-Nightly")
+set(dashboard_binary_name "OTB-Binary-Nightly")
 
+#set(dashboard_fresh_source_checkout TRUE)
+set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
+set(dashboard_hg_branch "default")
 
-# which ctest command to use for running the dashboard
-SET (CTEST_COMMAND 
-  "ctest -j6 -D Nightly -A /mnt/dd-2/OTB/trunk/OTB-DevUtils/Config/pc-grizonnetm-OTB-Nightly.cmake -V"
-  )
+#set(ENV{DISPLAY} ":0.0")
 
-# what cmake command to use for configuring this dashboard
-SET (CTEST_CMAKE_COMMAND 
-  "cmake"
-  )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k")
-# should ctest wipe the binary tree before running
-SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
 
-# this is the initial cache to use for the binary tree, be careful to escape
-# any quotes inside of this string if you use it
-SET (CTEST_INITIAL_CACHE "
-// Use Launchers for CDash reporting
-CTEST_USE_LAUNCHERS:BOOL=ON
-//Command used to build entire project from the command line.
-MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
-//Name of the build
-BUILDNAME:STRING=Ubuntu10.4-64bits-Release
-//Name of the computer/site where compile is being run
-SITE:STRING=pc-grizonnetm
-//LargeInput
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data/LargeInput
-//Data root
+
 OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
-//Compilation options
+
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-//Set up the build options
-CMAKE_BUILD_TYPE:STRING=Release
+
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 OTB_USE_CURL:BOOL=ON
@@ -53,15 +47,10 @@ OTB_USE_VISU_GUI:BOOL=OFF
 ITK_USE_REVIEW:BOOL=ON 
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
 OTB_USE_MAPNIK:BOOL=ON 
-// Mapnik configuration
+
 MAPNIK_INCLUDE_DIR:STRING=/usr/include
 MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
-//CPack configuration
-OTB_USE_CPACK:BOOL=ON
-CMAKE_INSTALL_PREFIX:STRING=/home/otbtesting/OTB/tmp
-CPACK_BINARY_DEB:BOOL=ON
-CPACK_DEBIAN_PACKAGE_ARCHITECTURE:STRING=amd64
-//Set GDAL options
+
 GDAL_CONFIG:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/bin/gdal-config
 GDALCONFIG_EXECUTABLE:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include
@@ -71,11 +60,8 @@ BUILD_APPLICATIONS:BOOL=ON
 WRAP_PYTHON:BOOL=ON
 WRAP_QT:BOOL=ON
 WRAP_PYQT:BOOL=ON
-")
 
-# set any extra envionment varibles here
-#SET (CTEST_ENVIRONMENT
-# "DISPLAY=:0"
-#)
+    ")
+endmacro()
 
-
+include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)

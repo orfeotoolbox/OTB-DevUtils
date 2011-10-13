@@ -20,8 +20,6 @@ SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
 SET (CTEST_INITIAL_CACHE "
 // Use Launchers for CDash reporting
 CTEST_USE_LAUNCHERS:BOOL=1
-//Command used to build entire project from the command line.
-MAKECOMMAND:STRING=/usr/bin/make -i -k -j4
 //Name of the build
 BUILDNAME:STRING=ArchLinux2010.5-64bits-Release
 //Name of the computer/site where compile is being run

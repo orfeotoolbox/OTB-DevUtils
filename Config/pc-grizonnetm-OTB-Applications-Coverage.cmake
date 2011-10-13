@@ -19,8 +19,6 @@ SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
 # this is the initial cache to use for the binary tree, be careful to escape
 # any quotes inside of this string if you use it
 SET (CTEST_INITIAL_CACHE "
-//Command used to build entire project from the command line.
-MAKECOMMAND:STRING=/usr/bin/make -i -k -j6
 //Name of the build
 BUILDNAME:STRING=zApps-Ubuntu10.4-64bits-Debug
 //Name of the computer/site where compile is being run

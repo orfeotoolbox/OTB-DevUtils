@@ -21,8 +21,6 @@ SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
 SET (CTEST_INITIAL_CACHE "
 // Use Launchers for CDash reporting
 CTEST_USE_LAUNCHERS:BOOL=ON
-//Command used to build entire project from the command line.
-MAKECOMMAND:STRING=/usr/bin/make -i -k -j8
 //Name of the build
 BUILDNAME:STRING=Ubuntu10.4-64bits-Release-OTB-SandBox-otb-itkv4-branch-External-ITK4-patched
 //Name of the computer/site where compile is being run

@@ -1,42 +1,35 @@
+# Client maintainer: manuel.grizonnet@cnes.fr
+set(dashboard_model Nightly)
+set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
+SET (CTEST_SITE "pc-grizonnetm.cst.cnes.fr")
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "ArchLinux2010.5-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+set(CTEST_TEST_TIMEOUT 1500)
+set(CTEST_HG_COMMAND "/usr/bin/hg")
 
-SET (CTEST_SOURCE_DIRECTORY "/home/otbtesting/OTB/trunk/OTB/")
-SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/OTB/bin/OTB-Nightly/")
+set(dashboard_root_name "tests")
+set(dashboard_source_name "trunk/OTB")
+set(dashboard_binary_name "bin/OTB-Nightly")
 
+#set(dashboard_fresh_source_checkout TRUE)
+set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
+set(dashboard_hg_branch "default")
 
-# which ctest command to use for running the dashboard
-SET (CTEST_COMMAND 
-  "ctest -j3 -D Nightly -A /home/otbtesting/OTB/trunk/OTB-DevUtils/Config/pc-christophe-OTB-Nightly.cmake -V"
-  )
+#set(ENV{DISPLAY} ":0.0")
 
-# what cmake command to use for configuring this dashboard
-SET (CTEST_CMAKE_COMMAND 
-  "cmake"
-  )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k")
-# should ctest wipe the binary tree before running
-SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
+macro(dashboard_hook_init)
 
-# this is the initial cache to use for the binary tree, be careful to escape
-# any quotes inside of this string if you use it
-SET (CTEST_INITIAL_CACHE "
-// Use Launchers for CDash reporting
-CTEST_USE_LAUNCHERS:BOOL=ON
-//Command used to build entire project from the command line.
-MAKECOMMAND:STRING=/usr/bin/make -i -k -j4
-//Name of the build
-BUILDNAME:STRING=ArchLinux2010.5-64bits-Release
-//Name of the computer/site where compile is being run
-SITE:STRING=pc-christophe
-//LargeInput
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk/OTB/trunk/OTB-Data/LargeInput
-//Data root
+
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
-//Compilation options
+
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-//Set up the build options
-CMAKE_BUILD_TYPE:STRING=Release
+
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON
@@ -45,10 +38,8 @@ BUILD_APPLICATIONS:BOOL=ON
 WRAP_PYTHON:BOOL=ON
 WRAP_QT:BOOL=ON
 WRAP_PYQT:BOOL=ON
-")
 
-# set any extra envionment varibles here
-SET (CTEST_ENVIRONMENT
- "DISPLAY=:0"
-)
+    ")
+endmacro()
 
+include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
