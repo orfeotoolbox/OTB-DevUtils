@@ -1,0 +1,4 @@
+sdesc: "Orfeo Toolbox application modules"
+ldesc: "Orfeo Toolbox application modules"
+category: Libs
+requires: msvcrt curl gdal expat libtiff libjpeg libgeotiff
