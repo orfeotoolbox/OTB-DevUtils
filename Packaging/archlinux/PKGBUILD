@@ -7,18 +7,12 @@ pkgdesc='Free library of image processing algorithms'
 url='http://www.orfeo-toolbox.org/'
 license=('GPL')
 arch=('i686' 'x86_64')
-debhelper (>= 7), cdbs, cmake (>= 2.6), libc6-dev (>= 2.4),
- libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libtiff4-dev, libgeotiff-dev,
- libpng12-dev, libx11-dev, libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev,
- libgdal1-dev, proj, uuid-dev, libfltk1.1-dev, fluid, libexpat1-dev,
- libcurl4-gnutls-dev, automake, autoconf, libtool, libopenthreads-dev,
- libboost-graph-dev, libmapnik-dev
-depends=('proj' 'fluid' 'libgl1-mesa-dri' 'libtool' 'curl' 'gdal' 'libtiff' 'libgeotiff' 'libpng' 'libx11' 'libgl1-mesa' 'libgl1-mesa-dri' 'fltk' 'expat' 'openthreads' 'boost' 'mapnik' )
+depends=('proj' 'libtool' 'curl' 'gdal' 'libtiff' 'libgeotiff' 'libpng' 'libx11' 'libgl' 'mesa' 'fltk' 'expat' 'openthreads' 'boost' 'mapnik' )
 makedepends=('cmake' 'automake' 'autoconf')
 optdepends=('qt: qt plugins'
             'python: python plugins')
 options=('!makeflags')
-source=("http://www.orfeo-toolbox.org/packages/OrfeoToolbox-${pkgver}.tgz)
+source=("http://www.orfeo-toolbox.org/packages/OrfeoToolbox-${pkgver}.tgz")
 md5sums=('91bd6b92d37273e3665cb09a15653fd1')
 
 build() {
@@ -27,8 +21,7 @@ build() {
   cd build
 
   cmake ../OrfeoToolbox-${pkgver} \
-
-        -DCMAKE_INSTALL_PREFIX=/usr \
+	-DCMAKE_INSTALL_PREFIX=/usr \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DBUILD_SHARED_LIBS=ON \
 	-DCMAKE_SKIP_RPATH=ON \
