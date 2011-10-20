@@ -43,9 +43,11 @@ hg update -r tip -C
 # Extract the name of the app
 # "Projections/otbBundleToPerfectSensor.cxx" will give "BundleToPerfectSensor"
 #
-APPLI_NAME=`echo $APPLI_FILE | sed 's/[a-zA-Z]*\/otb\([a-zA-Z]*\).cxx/\1/'`
-APPLI_SUBDIR=`echo $APPLI_FILE | sed 's/\([a-zA-Z]*\)\/otb[a-zA-Z]*.cxx/\1/'`
+APPLI_NAME=`python -c "import sys;print sys.argv[1].split('/')[-1].split('.')[0][3:]" $APPLI_FILE`
+APPLI_SUBDIR=`python -c "import sys;print sys.argv[1].split('/otb')[0]" $APPLI_FILE`
 echo include $APPLI_FILE > $OUTPUT_REPO_ROOT/$APPLI_NAME.filemap
+
+
 
 echo VisualizationRefactoring default > $OUTPUT_REPO_ROOT/$APPLI_NAME.branchmap
 echo object_detection default >> $OUTPUT_REPO_ROOT/$APPLI_NAME.branchmap
