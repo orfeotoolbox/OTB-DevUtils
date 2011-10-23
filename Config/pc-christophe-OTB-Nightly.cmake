@@ -1,9 +1,9 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
-SET (CTEST_SITE "pc-grizonnetm.cst.cnes.fr")
+SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "ArchLinux2010.5-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "ArchLinux-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
