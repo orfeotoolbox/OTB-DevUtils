@@ -21,9 +21,9 @@ set(dashboard_hg_branch "default")
 #set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
-
+set(dashboard_cache "${dashboard_cache}
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk/OTB/trunk/OTB-Data/LargeInput
+OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbtesting/remote/teradisk2/LargeInput
 
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 
