@@ -12,7 +12,7 @@ set(CTEST_HG_COMMAND "/usr/bin/hg")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")
-set(dashboard_binary_name "build/OTB-clang")
+set(dashboard_binary_name "build/OTB-clang-${CTEST_BUILD_CONFIGURATION}")
 
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
