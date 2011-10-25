@@ -11,7 +11,8 @@ main one, developed by the CNES (Centre National d'Etudes Spatiales), is
 Orfeo-Toolbox (OTB). Other works include ITK, VTK, VXL, FLTK, GDAL, OSSIM,
 LibSVM, BGL, TinyXML, OpenJPEG, OpenThreads, muParser, LibKML, LibSIFT,
 libLAS, kNN Segmentation Library, GAlib, Expat, ConfigFile, Insight Journal
-Publications.
+Publications, ISO C9x compliant inttypes.h and stdint.h for Microsoft Visual
+Studio.
 
 * ITK (http://www.itk.org/),
   distributed under the revised BSD license
@@ -22,12 +23,12 @@ Publications.
   (see Copyright/VTKCopyright.txt)
 
 * VXL (http://vxl.sourceforge.net/),
-  distributed under specific license
-  (revised BSD-like, see Copyright/VXLCopyright.txt)
+  distributed under a specific license (simplified BSD-like)
+  (see Copyright/VXLCopyright.txt)
 
 * FLTK (http://www.fltk.org/),
-  distributed under the LGPL 2.0 license
-  (see Utilities/FLTK/COPYING)
+  distributed under the FLTK License (LGPL 2.0 license with exeptions)
+  (see Copyright/FLTKCopyright.txt)
 
 * GDAL (http://www.gdal.org/),
   distributed under the X/MIT license
@@ -46,7 +47,7 @@ Publications.
   (revised BSD-like, see Copyright/LibBOOSTCopyright.txt)
 
 * TinyXML (http://www.sourceforge.net/projects/tinyxml/),
-  distributed under the zlib license
+  distributed under the zlib/libpng license
   (see Copyright/TinyXMLCopyright.txt)
 
 * OpenJPEG (http://www.openjpeg.org/),
@@ -54,8 +55,9 @@ Publications.
   (see Copyright/OpenJPEGCopyright.txt)
 
 * OpenThreads (http://openthreads.sourceforge.net/),
-  distributed under the OpenSceneGraph Public License (OSGPL) 0.0
-  (see Utilities/otbopenthreads/OpenThreads/COPYING.txt)
+  distributed under the OpenSceneGraph Public License (OSGPL) 0.0, i.e.
+  wxWindows Library License
+  (see Copyright/OpenThreadsCopyright.txt)
 
 * muParser (http://muparser.sourceforge.net/),
   distributed under the MIT license
@@ -93,6 +95,12 @@ Publications.
 * Insight Journal Publications (http://www.insight-journal.org/browse/publications),
   distributed under the revised BSD license
   (see Copyright/ITKCopyright.txt)
+
+* ISO C9x compliant inttypes.h and stdint.h for Microsoft Visual Studio
+  Utilities/otbmsinttypes/inttypes.h
+  Utilities/otbmsinttypes/stdint.h
+  distributed under the revised BSD license
+  (see header of above files)
 
 
 Upstream Author(s):
