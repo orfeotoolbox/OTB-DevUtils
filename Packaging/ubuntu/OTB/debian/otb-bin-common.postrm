@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+LDCONFIG_FILE=/etc/ld.so.conf.d/otb-bin.conf
+
+if [ "$1" = "remove" ] ; then
+    if [ -f "$LDCONFIG_FILE" ] ; then
+        rm -f "$LDCONFIG_FILE"
+        ldconfig
+    fi
+fi
+
+#DEBHELPER#
+
+exit 0
