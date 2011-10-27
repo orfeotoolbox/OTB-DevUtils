@@ -29,7 +29,7 @@ SITE:STRING=pc-grizonnetm
 OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
 //LargeInput
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data/LargeInput
+OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 OTB_DIR:STRING=/mnt/dd-2/OTB/OTB-Basic-Binary-Nightly
 BUILD_TESTING:BOOL=ON
 ")

@@ -24,7 +24,7 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 //LargeInput
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data/LargeInput
+OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 //Data root
 OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
 BUILD_TESTING:BOOL=ON
