@@ -67,7 +67,7 @@ Section: contrib/science
 Architecture: any
 Depends: libotb@VERSION_SONAME@ (= ${binary:Version}), ${shlibs:Depends},
  ${misc:Depends}
-Description: Free library of image processing algorithms - tools common libraries
+Description: Plugins for ORFEO Toolbox applications
  ORFEO Toolbox (OTB) is distributed as an open source library of image
  processing algorithms. OTB is based on the medical image processing library
  ITK and offers particular functionalities for remote sensing image processing
@@ -75,22 +75,7 @@ Description: Free library of image processing algorithms - tools common librarie
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This package contains several command line tools illustrating OTB features:
-
-Package: otb-bin
-Section: contrib/science
-Architecture: any
-Depends: otb-bin-common, ${shlibs:Depends}, ${misc:Depends}
-Description: Free library of image processing algorithms - command line tools
- ORFEO Toolbox (OTB) is distributed as an open source library of image
- processing algorithms. OTB is based on the medical image processing library
- ITK and offers particular functionalities for remote sensing image processing
- in general and for high spatial resolution images in particular. OTB is
- distributed under a free software license CeCILL (similar to GNU GPL) to
- encourage contribution from users and to promote reproducible research.
- .
- This package contains several command line tools illustrating OTB features:
- .
+ This package contains several plugins illustrating OTB features:
  * Feature extraction:
    - LineSegmentDetection
  * Segmentation:
@@ -122,13 +107,28 @@ Description: Free library of image processing algorithms - command line tools
    - Rescale
    - Smoothing
    - SplitImage
+
+Package: otb-bin
+Section: contrib/science
+Architecture: any
+Depends: otb-bin-common, ${shlibs:Depends}, ${misc:Depends}
+Description: ORFEO Toolbox command line applications
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
+ .
+ This package contains several command line tools illustrating OTB features
+ (using plugins provided by otb-bin-common package).
 
 Package: otb-bin-qt
 Section: contrib/science
 Architecture: any
 Depends: otb-bin-common, ${shlibs:Depends}, ${misc:Depends}, libqtcore4,
  libqtgui4, libqt4-xml
-Description: Free library of image processing algorithms - GUI tools
+Description: ORFEO Toolbox graphical user interface applications
  ORFEO Toolbox (OTB) is distributed as an open source library of image
  processing algorithms. OTB is based on the medical image processing library
  ITK and offers particular functionalities for remote sensing image processing
@@ -136,36 +136,21 @@ Description: Free library of image processing algorithms - GUI tools
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This package contains several GUI tools illustrating OTB features:
+ This package contains several GUI tools illustrating OTB features (using
+ plugins provided by otb-bin-common package).
+
+Package: python-otb
+Section: contrib/libs
+Architecture: any
+Depends: libotb@VERSION_SONAME@ (= ${binary:Version}), ${shlibs:Depends},
+ ${misc:Depends}, otb-bin-common, python (>= 2.6), python-central (>= 0.6.11)
+Description: ORFEO Toolbox Python API for applications
+ ORFEO Toolbox (OTB) is distributed as an open source library of image
+ processing algorithms. OTB is based on the medical image processing library
+ ITK and offers particular functionalities for remote sensing image processing
+ in general and for high spatial resolution images in particular. OTB is
+ distributed under a free software license CeCILL (similar to GNU GPL) to
+ encourage contribution from users and to promote reproducible research.
  .
- * Feature extraction:
-   - LineSegmentDetection
- * Segmentation:
-   - MeanShiftSegmentation
- * Classification:
-   - EstimateImagesStatistics
-   - ImageSVMClassifier
-   - KMeansClassification
-   - LabeledImageColorMapping
-   - TrainSVMImagesClassifier
-   - ValidateSVMImagesClassifier
- * Change detection:
-   - MultivariateAlterationDetector
- * Hyperspectral:
-   - HyperspectralUnmixing
- * Projection:
-   - BundleToPerfectSensor
-   - OrthoRectification
- * Radiometry:
-   - OpticalCalibration
-   - SarRadiometricCalibration
- * Various utilities:
-   - BandMath
-   - ConcatenateImages
-   - Convert
-   - ExtractROI
-   - MultiResolutionPyramid
-   - ReadImageInfo
-   - Rescale
-   - Smoothing
-   - SplitImage
+ This packages contains the Python API for applications provided by the
+ otb-bin-common package.
