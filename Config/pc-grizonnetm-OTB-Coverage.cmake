@@ -1,11 +1,12 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
 set(dashboard_model Nightly)
-set(dashboard_do_coverage ON)
+set(dashboard_do_coverage true)
 set(CTEST_DASHBOARD_ROOT "/mnt/dd-2/OTB")
 SET (CTEST_SITE "pc-grizonnetm.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_NAME "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov-4.4")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
@@ -27,9 +28,8 @@ macro(dashboard_hook_init)
 OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 
-CMAKE_C_FLAGS:STRING= -Wall -fprofile-arcs -ftest-coverage
-CMAKE_CXX_FLAGS:STRING= -Wall -fprofile-arcs -ftest-coverage
-CMAKE_EXE_LINKER:STRING= -fprofile-arcs -ftest-coverage
+CMAKE_C_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wshadow -Wno-uninitialized -Wextra
+CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wshadow -Wno-uninitialized -Wextra
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON

@@ -23,7 +23,7 @@ set(dashboard_hg_branch "default")
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbtesting/remote/teradisk2/LargeInput
+OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 
