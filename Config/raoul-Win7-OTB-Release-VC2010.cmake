@@ -59,7 +59,7 @@ PNG_PNG_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 PNG_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libpng13.lib
 
 OTB_USE_GETTEXT:BOOL=OFF
-OTB_USE_JPEG2000:BOOL=OFF
+OTB_USE_JPEG2000:BOOL=ON
 
 SWIG_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/Source/Swig
 SWIG_EXECUTABLE:FILEPATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/swig.exe
