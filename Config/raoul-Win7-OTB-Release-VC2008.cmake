@@ -43,6 +43,7 @@ OTB_USE_GETTEXT:BOOL=OFF
 OTB_USE_JPEG2000:BOOL=ON
 
 WRAP_PYTHON:BOOL=ON
+WRAP_JAVA:BOOL=ON
 WRAP_QT:BOOL=ON
 WRAP_PYQT:BOOL=ON
 
@@ -52,6 +53,23 @@ SWIG_EXECUTABLE:FILEPATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/sw
 PYTHON_EXECUTABLE:FILEPATH=C:/OSGeo4W/bin/python.exe
 PYTHON_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/python25/include
 PYTHON_LIBRARY:FILEPATH=C:/OSGeo4W/apps/python25/libs/python25.lib
+
+
+# Java Stuffs
+JAVA_JVM_LIBRARY:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/lib/jvm.lib
+JAVA_INCLUDE_PATH:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include
+JAVA_INCLUDE_PATH2:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include/win32
+JAVA_AWT_INCLUDE:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include
+JAVA_RUNTIME:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
+JAVA_COMPILE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
+JAVA_ARCHIVE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
+JAVA_MAXIMUM_HEAP_SIZE:STRING=1G
+JAVA_INITIAL_HEAP_SIZE:STRING=256m
+
+Java_JAR_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
+Java_JAVAC_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
+Java_JAVA_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
+
 
 ")
 
