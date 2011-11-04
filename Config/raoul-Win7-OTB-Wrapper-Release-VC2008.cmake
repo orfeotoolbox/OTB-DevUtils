@@ -35,7 +35,7 @@ LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
 
 OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
+OTB_DATA_LARGEINPUT_ROOT:PATH=Z:/otb/OTB-LargeInput
 
 SWIG_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/Source/Swig
 SWIG_EXECUTABLE:FILEPATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/swig.exe
