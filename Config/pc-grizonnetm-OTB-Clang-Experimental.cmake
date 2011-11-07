@@ -1,5 +1,5 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
-set(dashboard_model Nightly)
+set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/mnt/dd-2/OTB")
 SET (CTEST_SITE "pc-grizonnetm.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
