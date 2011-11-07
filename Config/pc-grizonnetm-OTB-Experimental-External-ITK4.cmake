@@ -63,7 +63,7 @@ OGR_INCLUDE_DIRS:STRING=/home/grizonnetm/Local/gdal-1.7.1-build/include
 BUILD_APPLICATIONS:BOOL=ON
 WRAP_PYTHON:BOOL=ON
 WRAP_QT:BOOL=ON
-WRAP_PYQT:BOOL=ON
+#WRAP_PYQT:BOOL=ON
 ")
 
 # set any extra envionment varibles here

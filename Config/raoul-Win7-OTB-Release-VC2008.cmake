@@ -45,7 +45,7 @@ OTB_USE_JPEG2000:BOOL=ON
 WRAP_PYTHON:BOOL=ON
 WRAP_JAVA:BOOL=ON
 WRAP_QT:BOOL=ON
-WRAP_PYQT:BOOL=ON
+#WRAP_PYQT:BOOL=ON
 
 SWIG_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/Source/Swig
 SWIG_EXECUTABLE:FILEPATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/swig.exe
