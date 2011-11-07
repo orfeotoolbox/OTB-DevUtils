@@ -31,11 +31,10 @@ WRAP_JAVA:BOOL=ON
 WRAP_QT:BOOL=ON
 WRAP_PYQT:BOOL=ON
 
-CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++-4.5
-CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc-4.5
-
-CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+#CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++-4.5
+#CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc-4.5
+CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
