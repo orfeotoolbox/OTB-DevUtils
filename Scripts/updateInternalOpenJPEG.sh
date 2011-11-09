@@ -8,7 +8,7 @@
 # patches that failed.
 
 # Parameters
-OPJ_SOURCES=~/dev/src/openjpeg-trunk
+OPJ_SOURCES=~/dev/src/OpenJPEG/svn-ref-src/opj-trunk
 OTB_SOURCES=~/dev/src/OTB
 
 # Find out previous openjpeg sync svn rev number
@@ -31,13 +31,13 @@ svn update -r$PREVIOUS_OPJ_SYNC
 # TODO: use relative patch to fix the -pN argument of the patch command below.
 diff -urw $OPJ_SOURCES $OTB_SOURCES/Utilities/otbopenjpeg > $OPJ_PATCH
 
-# Update ossim to the latest revision.
+# Update openjpeg to the latest revision.
 cd $OPJ_SOURCES
 svn update
 NEW_OPJ_SYNC=`svn info | grep '^Revision:' | sed -e 's/^Revision: //'`
 echo "We are going to sync on r$NEW_OPJ_SYNC"
 
-# Replace ossim in OTB.
+# Replace openjpeg in OTB.
 cd $OTB_SOURCES
 rm -rf Utilities/otbopenjpeg/*
 
@@ -56,6 +56,10 @@ rm Utilities/otbopenjpeg/libopenjpeg1.pc.in
 # Add new files in mercurial, remove the old one.
 hg status Utilities/otbopenjpeg
 
+# Should be remove when openjpeg add the support for mangling in the opj-trunk
+hg revert Utilities/otbopenjpeg/openjpeg_mangle.h.cmake.in
+hg revert Utilities/otbopenjpeg/openjpeg_mangle_private.h.cmake.in
+
 hg status Utilities/otbopenjpeg | grep '^! ' | sed -e 's/^! //' | xargs hg rm
 hg status Utilities/otbopenjpeg | grep '^? ' | sed -e 's/^? //' | xargs hg add
 
@@ -72,14 +76,15 @@ patch -p6 < $OPJ_PATCH
 # Here you have to fix the conflict manually. Find out what they are:
 find . -name '*.rej'
 # Check them all, it can be:
-# 1. change in OTB that have been integrated in ossim => nothing to do
-# 2. change in ossim that we patched in OTB => nothing to do
-# 3. too much ossim change around an OTB fix => reapply manually
+# 1. change in OTB that have been integrated in openjpeg => nothing to do
+# 2. change in openjpeg that we patched in OTB => nothing to do
+# 3. too much openjpeg change around an OTB fix => reapply manually
 # If we sync often enough, most of these problem will not appear.
 
-# Once fixed, update ossim version number and commit.
+# Once fixed, update openjpeg version number and commit.
 sed -i "s/$PREVIOUS_OPJ_SYNC/$NEW_OPJ_SYNC/g" Utilities/otbopenjpeg/CMakeLists.txt
 hg commit -m "UTIL: apply otb patch"
 
 # Rebuild OTB and check that all is well, then push.
 # It is advised to rm bin/* in the OTB build dir since the .so libraries will change
+# Don't forget to update the mangling files !
