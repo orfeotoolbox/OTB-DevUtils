@@ -3,7 +3,7 @@ SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/OTB/bin/Continuous/OTB/")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j2 -i -k" )
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 SET (CTEST_BUILD_NAME "ArchLinux-64bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
