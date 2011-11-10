@@ -39,7 +39,18 @@ WRAP_PYTHON:BOOL=ON
 PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2.7
 WRAP_QT:BOOL=ON
 WRAP_JAVA:BOOL=ON
-
+JAVACOMMAND:FILEPATH=/opt/java/bin/java
+JAVA_AWT_INCLUDE_PATH:FILEPATH=/opt/java/include
+JAVA_AWT_LIBRARY:FILEPATH=/opt/java/jre/lib/amd64/libjawt.so
+JAVA_INCLUDE_PATH:FILEPATH=/opt/java/include
+JAVA_INCLUDE_PATH2:FILEPATH=/opt/java/include/linux
+JAVA_JVM_LIBRARY:FILEPATH=/opt/java/jre/lib/amd64/server/libjvm.so
+JPEG_INCLUDE_DIRS:FILEPATH=/usr/include                   
+Java_JAR_EXECUTABLE:FILEPATH=/opt/java/bin/jar
+Java_JAVAC_EXECUTABLE:FILEPATH=/opt/java/bin/javac
+Java_JAVADOC_EXECUTABLE:FILEPATH=/opt/java/bin/javadoc 
+Java_JAVAH_EXECUTABLE:FILEPATH=/opt/java/bin/javah
+Java_JAVA_EXECUTABLE:FILEPATH=/opt/java/bin/java  
     ")
 endmacro()
 
