@@ -40,7 +40,7 @@ def main(argv):
           print ("Generating " + app + " ...")
           filename = outDir + app + ".html"
           commandLine = docExe + " " + app + " " + otbbin + "/bin " + filename;
-          #os.system(commandLine)
+          os.system(commandLine)
 
           outLine = "<a href=\"" + filename + "\">" + app + "</a><br />"
           fout.write(outLine)
