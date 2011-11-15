@@ -25,8 +25,8 @@ def main(argv):
   f = open(cmakeFile, 'r')
   fout = open(outDir+"index.html", 'w')
   fout.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd\"><html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\"></style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">")
-  fout.write("<h1>Aplication main documentation</h1>")
-  fout.write("Available applications:<br /><br />")
+  fout.write("<h1>The following applications are distributed with OTB.</h1>")
+  #fout.write("List of available applications:<br /><br />")
   for line in f:
     if line.find(appliKey) != -1 :
       # supress white space if any
