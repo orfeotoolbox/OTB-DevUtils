@@ -46,12 +46,18 @@ WRAP_Morphology:BOOL=OFF
 WRAP_ChangeDetection:BOOL=OFF
 WRAP_ITK_DIMS:STRING=2
 WRAP_ITK_JAVA:BOOL=ON 
+WRAP_ITK_PYTHON:BOOL=ON 
+// We need the following to be compatible with cmake 2.8.2
+JAVA_ARCHIVE:FILEPATH=/opt/java/bin/jar
+JAVA_COMPILE:FILEPATH=/opt/java/bin/javac
+JAVA_RUNTIME:FILEPATH=/opt/java/bin/java
+// Python Excecutable
+PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2
 JAVA_AWT_INCLUDE_PATH:STRING=/opt/java/include/linux/
 JAVA_AWT_LIBRARY:STRING=/opt/java/jre/lib/amd64/
 JAVA_INCLUDE_PATH:STRING=/opt/java/include/
 JAVA_INCLUDE_PATH2:STRING=/opt/java/include/linux/
 JAVA_JVM_LIBRARY:STRING=/opt/java/jre/lib/amd64/server/	
-WRAP_ITK_PYTHON:BOOL=ON 
 ")
 
 # set any extra envionment varibles here
