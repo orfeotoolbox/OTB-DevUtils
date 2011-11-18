@@ -22,7 +22,7 @@ ITK_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/ITK-V4
 
 OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:PATH=Z:/otb/OTB-LargeInput
+OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
 
 GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
