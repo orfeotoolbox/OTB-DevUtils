@@ -35,7 +35,9 @@ def main(argv):
       line = line.strip(" \n")
       print line
       appList = line.split("=")[1]
-      for app in appList.split(";") :
+      appSorted = appList.split(";")
+      appSorted.sort()
+      for app in appSorted :
         if app != "TestApplication" :
           print ("Generating " + app + " ...")
           filename = outDir + app + ".html"
