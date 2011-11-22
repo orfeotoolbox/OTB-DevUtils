@@ -18,38 +18,91 @@ def main(argv):
   otbbin = argv[1]
   outDir = argv[2] + "/" 
   docExe = otbbin + "/bin/otbWrapperTests otbWrapperApplicationHtmlDocGeneratorTest1 "
-  cmakeFile = otbbin + "/CMakeCache.txt"
-  
-  appliKey = "OTB_APPLICATIONS_NAME_LIST"
-  
+  cmakeFile = otbbin + "/CMakeCache.txt"  
+
+  ## open CMakeCache.txt
   f = open(cmakeFile, 'r')
-  fout = open(outDir+"index.html", 'w')
-  fout.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd\"><html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\"></style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">")
-  fout.write("<h1>The following applications are distributed with OTB.</h1>")
-  #fout.write("List of available applications:<br /><br />")
+  # Extract the list of modules from CMakeCache.txt
+  appliKey = "OTB_APPLICATIONS_NAME_LIST"
+  appSorted = []
   for line in f:
     if line.find(appliKey) != -1 :
       # supress white space if any
       line2 = line.strip()
       # supress line return
       line = line.strip(" \n")
-      print line
       appList = line.split("=")[1]
-      appSorted = appList.split(";")
-      appSorted.sort()
-      for app in appSorted :
+      appSortedTmp = appList.split(";")
+      appSortedTmp.sort()
+      for app in appSortedTmp :
         if app != "TestApplication" :
-          print ("Generating " + app + " ...")
-          filename = outDir + app + ".html"
-          filename_without_path = app + ".html"
-          commandLine = docExe + " " + app + " " + otbbin + "/bin " + filename;
-          os.system(commandLine)
-
-          outLine = "<a href=\"" + filename_without_path + "\">" + app + "</a><br />"
-          fout.write(outLine)
+          appSorted.append(app)
       break
-    
+  #print "Found applications:"
+  #print appSorted
+
+
+  ## close CMakeCache.txt
+  f.close() 
+  
+  # Extract the OTB_DIR_SOURCE path form CMakeCache.txt
+  ## open CMakeCache.txt
+  f = open(cmakeFile, 'r')
+  for line in f:
+    if line.find("OTB_SOURCE_DIR") != -1 :
+      # supress white space if any
+      otbDir = line.strip()
+      # supress line return
+      otbDir = line.strip(" \n")
+      otbDir = otbDir.split("=")[1]
+      break
+  #print "OTB_SOURCE_DIR:" + otbDir
+  
+  ## close CMakeCache.txt
   f.close()
+ 
+
+  ## Find the list of subdir Application to sort them
+  appDir =  otbDir + "/Applications/"
+  fileList = os.listdir(appDir)
+  dirList = []
+  for fname in fileList:
+    if os.path.isdir(appDir+fname):
+      if fname != "Test":
+        dirList.append(fname)
+  #print "Subdir in Application:"
+  #print dirList 
+
+  
+  fout = open(outDir+"index.html", 'w')
+  fout.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd\"><html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\"></style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">")
+  fout.write("<h1>The following applications are distributed with OTB.</h1>")
+  fout.write("List of available applications:<br /><br />")
+
+  count = 0
+  for dirName in dirList:
+    fout.write("<h2>"+dirName+"</h2>")
+    fList = os.listdir(appDir+dirName)
+    for app in appSorted :
+       for fname in fList:
+         # We assume that the class source file nane is otb#app#.cxx
+         if fname.find("otb"+app+".cxx") != -1:
+           print ("Generating " + app + " ...")
+           filename = outDir + app + ".html"
+           filename_without_path = app + ".html"
+           commandLine = docExe + " " + app + " " + otbbin + "/bin " + filename
+           os.system(commandLine)
+    
+           outLine = "<a href=\"" + filename_without_path + "\">" + app + "</a><br />"
+           fout.write(outLine)
+           count = count+1
+           break
+
+  if count != len(appSorted):
+    print "Some application doc may haven't been generated:"
+    print "Waited for " + str(len(appSorted)) + " doc, only " + str(count) + " generated..."
+  else:
+     print str(count) + " application documentations have been generated..."
 
   fout.write("</body")
   fout.write("</html>") 
