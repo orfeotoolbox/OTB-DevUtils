@@ -3,4 +3,4 @@ usr/lib/otb/libOTBWrapperCommandLine.so*
 
 # Executables
 usr/bin/otbApplicationLauncherCommandLine
-usr/bin/otbcli_*.sh
+usr/bin/otbcli_*
