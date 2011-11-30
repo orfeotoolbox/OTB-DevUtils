@@ -90,7 +90,7 @@ def main(argv):
            print ("Generating " + app + " ...")
            filename = outDir + app + ".html"
            filename_without_path = app + ".html"
-           commandLine = docExe + " " + app + " " + otbbin + "/bin " + filename
+           commandLine = docExe + " " + app + " " + otbbin + "/bin " + filename + " 1"
            os.system(commandLine)
     
            outLine = "<a href=\"" + filename_without_path + "\">" + app + "</a><br />"
