@@ -26,7 +26,7 @@ GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
 
 
-OTB_DIR:PATH=C:/Users/jmalik/Dashboard/build/OTB-Release-VC2008
+OTB_DIR:PATH=C:/Users/jmalik/Dashboard/build/OTB-Release-VC2008-ExternalOssim
 OTB_USE_CPACK:BOOL=ON
 
 EXPAT_INCLUDE_DIR:PATH=C:/OSGeo4W/include
