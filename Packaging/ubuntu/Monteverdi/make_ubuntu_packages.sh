@@ -266,7 +266,9 @@ done
 
 echo "Source package generation..."
 cd "$TMPDIR/monteverdi-$src_version_full"
-for target in lucid natty oneiric ; do
+# No oneiric because of unsupported fluid1.3
+#for target in lucid natty oneiric ; do
+for target in lucid natty ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     cp -f "$DEBDIR/changelog" debian
