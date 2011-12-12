@@ -17,14 +17,14 @@ set(dashboard_source_name "src/OTB-ITKv4")
 set(dashboard_binary_name "build/OTB-ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
 set(dashboard_fresh_source_checkout TRUE)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-SandBox")
+set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
 set(dashboard_hg_branch "otb-itkv4")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
+OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable

@@ -35,7 +35,7 @@ CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -fPIC
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -fPIC
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
+OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 ITK_USE_PATENTED:BOOL=ON

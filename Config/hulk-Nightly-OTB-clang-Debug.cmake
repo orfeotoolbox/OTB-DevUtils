@@ -33,8 +33,8 @@ CMAKE_CXX_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang++
 CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-c++0x-static-nonintegral-init
 
-#OTB_DATA_USE_LARGEINPUT:BOOL=ON
-#OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
+OTB_DATA_USE_LARGEINPUT:BOOL=ON
+OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 ITK_USE_PATENTED:BOOL=ON
