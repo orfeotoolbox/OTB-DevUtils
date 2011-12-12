@@ -10,28 +10,33 @@ set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
 set(CTEST_HG_COMMAND "/usr/bin/hg")
-set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4") 
+#set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4") 
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB-ITKv4")
 set(dashboard_binary_name "build/OTB-ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout TRUE)
+set(dashboard_fresh_source_checkout OFF)
 set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
-set(dashboard_hg_branch "otb-itkv4")
+set(dashboard_hg_branch "default")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-
-OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
-OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
 BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=ON
+BUILD_EXAMPLES:BOOL=OFF
+BUILD_APPLICATIONS:BOOL=ON
+
+WRAP_PYTHON:BOOL=ON
+WRAP_JAVA:BOOL=ON
+WRAP_QT:BOOL=ON
+
+OTB_DATA_USE_LARGEINPUT:BOOL=OFF
+OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
+OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 OTB_USE_EXTERNAL_ITK:BOOL=ON
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/ITKv4-Debug
@@ -42,10 +47,10 @@ OTB_USE_PATENTED:BOOL=OFF
 OTB_USE_EXTERNAL_BOOST:BOOL=ON
 OTB_USE_EXTERNAL_EXPAT:BOOL=ON
 OTB_USE_EXTERNAL_FLTK:BOOL=ON
-USE_FFTWD:BOOL=OFF
-USE_FFTWF:BOOL=OFF
+#USE_FFTWD:BOOL=OFF
+#USE_FFTWF:BOOL=OFF
 OTB_GL_USE_ACCEL:BOOL=OFF
-OTB_USE_MAPNIK:BOOL=ON
+OTB_USE_MAPNIK:BOOL=OFF
 
     ")
 endmacro()
