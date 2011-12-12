@@ -15,24 +15,35 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "src/ITKv4")
 set(dashboard_binary_name "build/ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout TRUE)
+set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://github.com/julienmalik/ITK.git")
 set(dashboard_git_branch "OTB_ITKv4")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-    BUILD_SHARED_LIBS:BOOL=ON
-    BUILD_TESTING:BOOL=ON
-    BUILD_EXAMPLES:BOOL=OFF
-    ITK_BUILD_ALL_MODULES:BOOL=ON
-    ITK_LEGACY_SILENT:BOOL=ON
-    ITK_USE_REVIEW:BOOL=ON
-    ITK_USE_CONCEPT_CHECKING:BOOL=ON
-    ITKV3_COMPATIBILITY:BOOL=OFF
-    ITK_USE_64BITS_IDS:BOOL=OFF
-    ITK_COMPUTER_MEMORY_SIZE:STRING=16
-    CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
-    CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
+BUILD_SHARED_LIBS:BOOL=ON
+BUILD_TESTING:BOOL=ON
+BUILD_EXAMPLES:BOOL=OFF
+ITKV3_COMPATIBILITY:BOOL=OFF
+ITK_BUILD_ALL_MODULES:BOOL=ON
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra
+CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
+ExternalData_OBJECT_STORES:PATH=/home/otbval/Dashboard/src/ITKv4-ExternalObjectStores
+
+# as much external libraries as possible
+# libtiff on ubuntu does not support BigTIFF and is incompatible with ITK
+ITK_USE_SYSTEM_HDF5:BOOL=ON
+ITK_USE_SYSTEM_GDCM:BOOL=OFF
+ITK_USE_SYSTEM_JPEG:BOOL=ON
+ITK_USE_SYSTEM_PNG:BOOL=ON
+ITK_USE_SYSTEM_TIFF:BOOL=OFF
+ITK_USE_SYSTEM_ZLIB:BOOL=ON
+
+# OTB depends on this
+USE_FFTWF:BOOL=ON
+USE_FFTWD:BOOL=ON
+USE_SYSTEM_FFTW:BOOL=ON
+
     ")
 endmacro()
 
