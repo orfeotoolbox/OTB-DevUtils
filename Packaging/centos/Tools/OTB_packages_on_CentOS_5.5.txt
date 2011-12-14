@@ -97,24 +97,27 @@
 3.1. Standard RPM packages:
 
    ---------------------------------------------------------------------------
-   root@host:~# yum install gdal fltk python26
+   root@host:~# yum install fltk python26
    ---------------------------------------------------------------------------
 
    If you expect to install OrfeoToolbox-devel package (not required for
    Java), you must install some extra packages:
 
    ---------------------------------------------------------------------------
-   root@host:~# yum install cmake boost-devel freeglut-devel libpng-devel \
-                            fltk-devel fltk-fluid gdal-devel mapnik-devel \
-                            libgeotiff-devel
+   root@host:~# yum install boost-devel freeglut-devel libpng-devel \
+                            fltk-devel fltk-fluid  mapnik-devel \
+                            libgeotiff-devel qt4 qt4-x11
    ---------------------------------------------------------------------------
 
-   If you expect to install OrfeoToolbox-Applications packages (not required
-   for Java), you must install some extra packages:
+   Install GDAL.
+   The GDAL package from the elgis repository can't be installed since CentOS 5.5
+   is now unsupported.
+   A package is available from the OTB website :
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/gdal-1.8.0-5.i386.rpm
+   root@host:~# rpm -ivh gdal-1.8.0-5.i386.rpm
+   ---------------------------------------------------------------------------
 
-   ---------------------------------------------------------------------------
-   root@host:~# yum install qt4 qt4-x11
-   ---------------------------------------------------------------------------
 
 3.2. Sun JDK 1.5 package:
 
@@ -146,44 +149,24 @@
    Get and install OrfeoToolbox libraries package:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-3.10.0-3.i386.rpm
-   root@host:~# rpm -ivh OrfeoToolbox-3.10.0-3.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-3.11.0-1.i386.rpm
+   root@host:~# rpm -ivh OrfeoToolbox-3.11.0-1.i386.rpm
    ---------------------------------------------------------------------------
 
    Optionally (because this package is not required for Java), get and install
    OrfeoToolbox header files package:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-devel-3.10.0-3.i386.rpm
-   root@host:~# rpm -ivh OrfeoToolbox-devel-3.10.0-3.i386.rpm
-   ---------------------------------------------------------------------------
-
-   Optionally (because this package is not required for Java), get and install
-   Monteverdi workshop package:
-
-   ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/Monteverdi-1.8.0-0.i386.rpm
-   root@host:~# rpm -ivh Monteverdi-1.8.0-0.i386.rpm
-   ---------------------------------------------------------------------------
-
-   Optionally (because these packages are not required for Java), get and
-   install OrfeoToolbox Applications packages:
-
-   ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Applications-3.10.0-1.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Applications-cli-3.10.0-1.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Applications-fltk-3.10.0-1.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Applications-qt-3.10.0-1.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Applications-legacy-3.10.0-1.i386.rpm
-   root@host:~# rpm -ivh OrfeoToolbox-Applications-*3.10.0-1.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-devel-3.11.0-1.i386.rpm
+   root@host:~# rpm -ivh OrfeoToolbox-devel-3.11.0-1.i386.rpm
    ---------------------------------------------------------------------------
 
    Get and install OrfeoToolbox wrappers packages built with Sun JDK 1.5:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-1.6.0-0+java5.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-java-1.6.0-0+java5.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-python-1.6.0-0+java5.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-1.7.0-0+java5.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-java-1.7.0-0+java5.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-python-1.7.0-0+java5.i386.rpm
    root@host:~# rpm -ivh OrfeoToolbox-Wrapping-*.rpm
    ---------------------------------------------------------------------------
 
@@ -191,9 +174,9 @@
    OrfeoToolbox wrappers packages built with Sun JDK 1.6:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-1.6.0-0+java6.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-java-1.6.0-0+java6.i386.rpm
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/OrfeoToolbox-Wrapping-python-1.6.0-0+java6.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-1.7.0-0+java6.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-java-1.7.0-0+java6.i386.rpm
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-python-1.7.0-0+java6.i386.rpm
    root@host:~# rpm -ivh OrfeoToolbox-Wrapping-*.rpm
    ---------------------------------------------------------------------------
 
@@ -203,7 +186,7 @@
    Get the archive, build and launch tests:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.10.0/TestJavaWrapping.tar.gz
+   root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/TestJavaWrapping.tar.gz
    root@host:~# tar xzf TestJavaWrapping.tar.gz
    root@host:~# cd TestJavaWrapping
    root@host:~# make build
