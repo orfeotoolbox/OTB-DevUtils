@@ -30,8 +30,8 @@ BUILD_APPLICATIONS:BOOL=ON
 CMAKE_C_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang
 CMAKE_CXX_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang++
 
-CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-c++0x-static-nonintegral-init
+CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -fno-color-diagnostics
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-c++0x-static-nonintegral-init -fno-color-diagnostics
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
