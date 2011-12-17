@@ -34,7 +34,7 @@ diff -urw $OPJ_SOURCES $OTB_SOURCES/Utilities/otbopenjpeg > $OPJ_PATCH
 # Update openjpeg to the latest revision.
 cd $OPJ_SOURCES
 svn update
-NEW_OPJ_SYNC=`svn info | grep '^Revision:' | sed -e 's/^Revision: //'`
+NEW_OPJ_SYNC=`LC_ALL=C svn info | grep '^Revision:' | sed -e 's/^Revision: //'`
 echo "We are going to sync on r$NEW_OPJ_SYNC"
 
 # Replace openjpeg in OTB.
