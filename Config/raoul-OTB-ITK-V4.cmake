@@ -14,9 +14,9 @@ set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4")
 set(dashboard_source_name "src/OTB-ITKv4")
 set(dashboard_binary_name "build/OTB-ITKv4-Release-VC2008")
 
-set(dashboard_fresh_source_checkout TRUE)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-SandBox")
-set(dashboard_hg_branch "otb-itkv4")
+set(dashboard_fresh_source_checkout ON)
+set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
+set(dashboard_hg_branch "default")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}

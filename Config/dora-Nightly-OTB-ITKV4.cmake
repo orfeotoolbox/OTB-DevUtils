@@ -17,9 +17,9 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB-ITKv4")
 set(dashboard_binary_name "build/OTB-ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout TRUE)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-SandBox")
-set(dashboard_hg_branch "otb-itkv4")
+set(dashboard_fresh_source_checkout ON)
+set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
+set(dashboard_hg_branch "default")
 
 SET(OTB_GDAL_INSTALL_DIR "$ENV{HOME}/OTB-OUTILS/gdal/install-linux-gdal-1.7.2")
 

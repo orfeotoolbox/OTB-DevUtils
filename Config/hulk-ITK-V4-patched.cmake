@@ -15,7 +15,7 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "src/ITKv4")
 set(dashboard_binary_name "build/ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout OFF)
+set(dashboard_fresh_source_checkout ON)
 set(dashboard_git_url "https://github.com/julienmalik/ITK.git")
 set(dashboard_git_branch "OTB_ITKv4")
 
