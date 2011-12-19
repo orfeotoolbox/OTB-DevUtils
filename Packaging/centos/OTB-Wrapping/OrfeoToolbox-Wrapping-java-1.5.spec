@@ -17,6 +17,8 @@ BuildRequires: libpng-devel boost-devel fltk-devel fltk-fluid CableSwig-devel
 BuildRequires: swig >= 1.3.40 python26 python26-devel jdk >= 1.5.0
 BuildRequires: OrfeoToolbox-devel OrfeoToolbox
 
+Requires:      OrfeoToolbox = 3.11.0
+
 
 %description
 Java and Python bindings for the OrfeoToolbox library
