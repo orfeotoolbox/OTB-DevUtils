@@ -2,34 +2,34 @@
 
 # norootforbuild
 
-Name:           OrfeoToolbox-Wrapping
-Version:        1.6.0
-Release:        0+java6
-Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
-Group:          Development/Libraries
-License:        Cecill
-URL:            http://www.orfeo-toolbox.org
-Source0:        %{name}-%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+Name:          OrfeoToolbox-Wrapping
+Version:       1.7.0
+Release:       1+java6
+Summary:       The Orfeo Toolbox is a C++ library for remote sensing image processing
+Group:         Development/Libraries
+License:       Cecill
+URL:           http://www.orfeo-toolbox.org
+Source0:       %{name}-%{version}.tar.gz
+BuildRoot:     %{_tmppath}/%{name}-%{version}-build
 
-BuildRequires: cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libpng-devel
-BuildRequires: boost-devel fltk-devel fltk-fluid CableSwig-devel swig
+BuildRequires: cmake >= 2.8.6 gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel
+BuildRequires: libpng-devel boost-devel fltk-devel fltk-fluid CableSwig-devel
+BuildRequires: swig >= 1.3.40 python26 python26-devel jdk >= 1.6.0
 BuildRequires: OrfeoToolbox-devel OrfeoToolbox
-BuildRequires: python-devel
-BuildRequires: jdk >= 1.6.0
 
 
 %description
 Java and Python bindings for the OrfeoToolbox library
 
-The %{name} is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program
+The %{name} is a library of image processing algorithms developed by
+CNES in the frame of the ORFEO Accompaniment Program
 
 
 %package java
 Summary:        Java bindings for The Orfeo Toolbox library
 Group:          Development/Libraries
 License:        Cecill
-Requires:       jdk >= 1.6.0 OrfeoToolbox = 3.10.0
+Requires:       jdk >= 1.6.0 OrfeoToolbox = 3.11.0
 
 
 %description java
@@ -40,7 +40,7 @@ Java bindings for the Orfeo Toolbox library
 Summary:        Python bindings for The Orfeo Toolbox library
 Group:          Development/Libraries
 License:        Cecill
-Requires:       python OrfeoToolbox = 3.10.0
+Requires:       python26 OrfeoToolbox = 3.11.0
 
 
 %description python
@@ -63,11 +63,11 @@ cmake -DBUILD_TESTING:BOOL=OFF \
       -DOTB_DIR:PATH=/usr/lib/otb \
       -DCMAKE_INSTALL_PREFIX:PATH=/usr \
       -DWRAP_ITK_JAVA:BOOL=ON \
-      -DJAVA_ARCHIVE:FILEPATH=/usr/java/jdk1.6.0_25/bin/jar \
-      -DJAVA_COMPILE:FILEPATH=/usr/java/jdk1.6.0_25/bin/javac \
-      -DJAVA_RUNTIME:FILEPATH=/usr/java/jdk1.6.0_25/bin/java \
-      -DJAVA_INCLUDE_PATH:PATH=/usr/java/jdk1.6.0_25/include \
-      -DJAVA_INCLUDE_PATH2:PATH=/usr/java/jdk1.6.0_25/include/linux \
+      -DJava_JAR_EXECUTABLE:FILEPATH=/usr/java/jdk1.6.0_25/bin/jar \
+      -DJava_JAVAC_EXECUTABLE:FILEPATH=/usr/java/jdk1.6.0_25/bin/javac \
+      -DJava_JAVA_EXECUTABLE:FILEPATH=/usr/java/jdk1.6.0_25/bin/java \
+      -DJava_JAVAH_EXECUTABLE:FILEPATH=/usr/java/jdk1.6.0_25/bin/javah \
+      -DJava_JAVADOC_EXECUTABLE:FILEPATH=/usr/java/jdk1.6.0_25/bin/javadoc \
       -DWRAP_ITK_PYTHON:BOOL=ON \
       -DCMAKE_SKIP_RPATH:BOOL=ON \
       -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
@@ -192,6 +192,9 @@ fi
 
 
 %changelog
+* Fri Dec 09 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.7.0-0+java6
+- Packaging OTB Wrapping 1.7 for CentOS 5.5
+
 * Wed Jul 06 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.6.0-0+java6
 - Packaging OTB Wrapping 1.6 for CentOS 5.5
 
