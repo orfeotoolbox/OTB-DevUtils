@@ -9,3 +9,4 @@ usr/lib/otb/libtinyXML.so.*
 
 # Executables
 usr/bin/otbTestDriver
+usr/bin/otbViewer
