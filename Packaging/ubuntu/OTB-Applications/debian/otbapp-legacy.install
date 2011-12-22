@@ -11,7 +11,6 @@ usr/lib/otb/libotbMVCStereoscopic.so
 usr/lib/otb/libotbMVCUrbanArea.so
 
 # OTB Application executables
-usr/bin/otbImageViewerManagerOld
 usr/bin/otbActiveLearning
 usr/bin/otbRoadExtractionApplication
 usr/bin/otbUrbanAreaExtractionApplication
@@ -20,13 +19,9 @@ usr/bin/otbPolarimetricSynthesisCommandLine
 usr/bin/otbStereoscopicApplication
 usr/bin/otbSegmentationApplication
 usr/bin/otbFineRegistrationApplication
-usr/bin/otbImageViewerManager
 usr/bin/otbObjectCountingApplication
 usr/bin/otbLandCoverMapApplication
 usr/bin/otbLandCoverMapGenerateFeatures
 usr/bin/otbImageViewer
-usr/bin/otbKMeansClassification
 usr/bin/otbRgbRelabeling
-usr/bin/otbSOMClassification
-usr/bin/otbSVMClassification
 usr/bin/otbUnsignedShortRelabeling
