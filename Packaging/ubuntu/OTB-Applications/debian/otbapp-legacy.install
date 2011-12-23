@@ -1,7 +1,6 @@
 # OTB Application shared libraries
 usr/lib/otb/libOTBApplicationsCommon.so
 usr/lib/otb/libotbMVCFineRegistration.so
-usr/lib/otb/libotbMVCImageViewerManager.so
 usr/lib/otb/libotbMVCLandCoverMap.so
 usr/lib/otb/libotbMVCObjectCounting.so
 usr/lib/otb/libotbMVCPolarimetricSynthesis.so
