@@ -1,0 +1,172 @@
+                               CENTOS (RPM) PACKAGING
+
+
+1. REQUIRED REPOSITORIES
+========================
+
+Required extra repositories are:
+
+* EPEL (http://fedoraproject.org/wiki/EPEL)
+* ELGIS (http://elgis.argeo.org)
+
+Optional extra repository:
+
+* RPMFORGE (http://wiki.centos.org/AdditionalResources/Repositories/RPMForge)
+
+1.1. EPEL
+---------
+
+   Get and import the GnuPG public key used to verify the packages:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget https://fedoraproject.org/static/217521F6.txt
+   root@host:~# rpm --import 217521F6.txt
+   ---------------------------------------------------------------------------
+
+   Get and install EPEL repository configuration package:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+   root@host:~# rpm -ivh epel-release-5-4.noarch.rpm
+   ---------------------------------------------------------------------------
+
+   Edit /etc/yum.repos.d/epel-testing.repo file and activate the epel-testing
+   repository (set "enabled" field to 1 in "epel-testing" section).
+
+   Update yum local database:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum update
+   ---------------------------------------------------------------------------
+
+1.2. ELGIS
+----------
+
+   Get and import the GnuPG public key used to verify the packages:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://elgis.argeo.org/RPM-GPG-KEY-ELGIS
+   root@host:~# rpm --import RPM-GPG-KEY-ELGIS
+   ---------------------------------------------------------------------------
+
+   Get and install ELGIS repositories configuration package:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://elgis.argeo.org/repos/testing/5/elgis-release-5-5_0.noarch.rpm
+   root@host:~# rpm -ivh elgis-release-5-5_0.noarch.rpm
+   ---------------------------------------------------------------------------
+
+   Edit /etc/yum.repos.d/elgis.repo file and activate the elgis-plus
+   repository (set "enabled" field to 1 in "elgis-plus" section).
+
+   Edit /etc/yum.repos.d/elgis-testing.repo file and activate the
+   elgis-testing and elgis-plus-testing repositories (set "enabled" field to 1
+   in both "elgis-testing" and "elgis-plus-testing" sections).
+
+   Update yum local database:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum update
+   ---------------------------------------------------------------------------
+
+1.3. RPMFORGE
+-------------
+
+   Get and import the GnuPG public key used to verify the packages:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://apt.sw.be/RPM-GPG-KEY.dag.txt
+   root@host:~# rpm --import RPM-GPG-KEY.dag.txt
+   ---------------------------------------------------------------------------
+
+   Get and install RPMFORGE repository configuration package:
+
+   ---------------------------------------------------------------------------
+   root@host:~# wget http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.i386.rpm
+   root@host:~# rpm -ivh rpmforge-release-0.5.2-2.el5.rf.i386.rpm
+   ---------------------------------------------------------------------------
+
+   Update yum local database:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum update
+   ---------------------------------------------------------------------------
+
+   WARNING: RPMFORGE packages can be in conflict with those the other
+            repositories. In that case, you must temporarily deactivate this
+            repository with the following command line:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum --disablerepo=rpmforge upgrade
+   ---------------------------------------------------------------------------
+
+
+2. PACKAGES BUILDING
+====================
+
+2.1. Useful links
+-----------------
+
+http://wiki.centos.org/HowTos/SetupRpmBuildEnvironment
+http://www.owlriver.com/tips/non-root/
+http://fedoraproject.org/wiki/How_to_create_an_RPM_package
+http://www.gurulabs.com/goodies/guru-guides/
+http://www.lamolabs.org/blog/164/centos-rpm-tutorial-1/
+http://rpmbuildtut.wordpress.com/
+
+2.2. Initialize environment
+---------------------------
+
+Install required build tools:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum install rpm-build
+   ---------------------------------------------------------------------------
+
+Initialize RPM build environment:
+
+   ---------------------------------------------------------------------------
+   user@host:~$ mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+   user@host:~$ echo '%_topdir %(echo $HOME)/rpmbuild' >> ~/.rpmmacros
+   ---------------------------------------------------------------------------
+
+Get OTB library sources and packaging scripts:
+
+   ---------------------------------------------------------------------------
+   user@host:~$ mkdir -p ~/otb/src
+   user@host:~$ cd ~/otb/src
+   user@host:~$ hg clone http://hg.orfeo-toolbox.org/OTB
+   user@host:~$ hg clone http://hg.orfeo-toolbox.org/OTB-DevUtils
+   ---------------------------------------------------------------------------
+
+2.3. Build RPM
+--------------
+
+Create a versioned OTB archive:
+
+   ---------------------------------------------------------------------------
+   user@host:~$ cd ~/otb/src/OTB
+   user@host:~$ hg archive -r tip -t tgz ~/rpmbuild/SOURCES/OrfeoToolbox-<OTB_VERSION>.tar.gz
+   ---------------------------------------------------------------------------
+
+Create a link to OTB spec file in ~/rpmbuild/SPECS:
+
+   ---------------------------------------------------------------------------
+   user@host:~$ cd ~/rpmbuild/SPECS
+   user@host:~$ ln -s ~/otb/src/OTB-DevUtils/Packaging/centos/OTB/OrfeoToolbox.spec
+   ---------------------------------------------------------------------------
+
+Build the source and binary packages:
+
+   ---------------------------------------------------------------------------
+   user@host:~$ rpmbuild -ba SPECS/OrfeoToolbox.spec 2>&1 | tee rpmbuild-OrfeoToolbox.log
+   ---------------------------------------------------------------------------
+
+Source package is available in ~/rpmbuild/SRPMS
+
+  => OrfeoToolbox-<OTB_VERSION>-<PKG_VERSION>.src.rpm
+
+Binary packages are available in ~/rpmbuild/RPMS/i386 (or athlon)
+
+  => OrfeoToolbox-<OTB_VERSION>-<PKG_VERSION>.i386.rpm
+  => OrfeoToolbox-devel-<OTB_VERSION>-<PKG_VERSION>.i386.rpm
