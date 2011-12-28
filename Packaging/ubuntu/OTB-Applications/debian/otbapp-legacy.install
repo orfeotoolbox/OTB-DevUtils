@@ -22,5 +22,4 @@ usr/bin/otbObjectCountingApplication
 usr/bin/otbLandCoverMapApplication
 usr/bin/otbLandCoverMapGenerateFeatures
 usr/bin/otbImageViewer
-usr/bin/otbRgbRelabeling
-usr/bin/otbUnsignedShortRelabeling
+
