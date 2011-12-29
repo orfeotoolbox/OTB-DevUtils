@@ -253,7 +253,7 @@ echo "Source package generation..."
 cd "$TMPDIR/otbapp-$otb_version_full"
 # No oneiric because of unsupported fluid1.3
 #for target in lucid natty oneiric ; do
-for target in lucid natty ; do
+for target in lucid maverick natty ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     cp -f "$DEBDIR/changelog" debian
