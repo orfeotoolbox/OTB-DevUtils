@@ -28,7 +28,7 @@ else
 fi
 DEBDIR=$CMDDIR/debian
 DEFAULT_GPGKEYID=0xAEB3D22F
-#DEFAULT_GPGKEYID=0x46047121
+DEFAULT_GPGKEYID=0x46047121
 #DEFAULT_GPGKEYID=0x597C0E63
 
 display_version ()
@@ -256,19 +256,15 @@ check_gpgkeyid
 
 
 
-#gdal_version_full=1.8.0-2~lucid1
-otb_patch_version=1
-
-
 echo "Source package generation..."
 
 #cd "$TMPDIR"
 #cp -ar /home/otbval/Dashboard/src/gdalpackage_lucid .
 #cd gdalpackage_lucid/gdal-1.8.0
 #for target in karmic lucid maverick natty ; do
-for target in lucid maverick natty ; do
-    cd /home/otbval/Dashboard/src/gdal-1.8.0-2~lucid2/$target/gdal-1.8.0
-    set_ubuntu_code_name "$target"
+for target in maverick ; do
+    cd /tmp/gdal/maverick/gdal-1.8.0
+    set_ubuntu_code_name $target
     echo "Package for $ubuntu_codename ($ubuntu_version)"
 #    cp -f "$DEBDIR/changelog" debian
     if [ -n "$changelog_message" ] ; then
@@ -277,7 +273,7 @@ for target in lucid maverick natty ; do
         dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
     fi
     dch --force-distribution --distribution "$target" \
-        -v "1.8.0-2~${target}2+otb${otb_patch_version}" "Apply patch for OTB (don't disable the GTiff driver on libtiff version mismatch)"
+        -v "1.8.0-2~maverick2+otb3" "Don't disable the GTiff driver on libtiff version mismatch"
     debuild -k$gpgkeyid -S -sa --lintian-opts -i
 done
 
