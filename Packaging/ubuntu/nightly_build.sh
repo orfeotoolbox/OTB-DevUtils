@@ -33,7 +33,7 @@ CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 # TSOCKS=$(which tsocks)
 
 # Maximum wait time (in seconds 18000 s = 5 h) for OTB binary packages availability
-MAX_WAIT_TIME=18000
+MAX_WAIT_TIME=36000
 # Sleep time between two scans of OTB PPA
 SLEEP_TIME=300
 EXPECTED_OTB_PACKAGES=4
