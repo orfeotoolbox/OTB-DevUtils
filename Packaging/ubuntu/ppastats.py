@@ -28,6 +28,10 @@ def printDLCount(ppaname, distarch):
 print "Package\tVersion\tDownloads" #"\tDaily DLs"
 print
 
+printDLCount("orfeotoolbox-stable", "oneiric/i386")
+printDLCount("orfeotoolbox-stable", "oneiric/amd64")
+printDLCount("orfeotoolbox-stable", "natty/i386")
+printDLCount("orfeotoolbox-stable", "natty/amd64")
 printDLCount("orfeotoolbox-stable", "maverick/i386")
 printDLCount("orfeotoolbox-stable", "maverick/amd64")
 printDLCount("orfeotoolbox-stable", "lucid/i386")
@@ -37,6 +41,10 @@ printDLCount("orfeotoolbox-stable", "karmic/amd64")
 printDLCount("orfeotoolbox-stable", "karmic/lpia")
 
 
+printDLCount("orfeotoolbox-stable-ubuntugis", "oneiric/i386")
+printDLCount("orfeotoolbox-stable-ubuntugis", "oneiric/amd64")
+printDLCount("orfeotoolbox-stable-ubuntugis", "natty/i386")
+printDLCount("orfeotoolbox-stable-ubuntugis", "natty/amd64")
 printDLCount("orfeotoolbox-stable-ubuntugis", "maverick/i386")
 printDLCount("orfeotoolbox-stable-ubuntugis", "maverick/amd64")
 printDLCount("orfeotoolbox-stable-ubuntugis", "lucid/i386")
