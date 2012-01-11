@@ -4,3 +4,4 @@ usr/lib/otb/libOTBWrapperQtWidget.so*
 # Executables
 usr/bin/otbApplicationLauncherQt
 usr/bin/otbgui_*
+usr/bin/otbgui
