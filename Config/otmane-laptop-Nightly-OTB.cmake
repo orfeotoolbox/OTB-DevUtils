@@ -1,7 +1,7 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otmane/Dashboard")
-set(CTEST_SITE "otmane-laptop.c-s.fr")
+set(CTEST_SITE "otmane-laptop@si.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Ubuntu11.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
