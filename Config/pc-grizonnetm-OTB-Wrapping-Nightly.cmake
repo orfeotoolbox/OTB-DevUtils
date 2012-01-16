@@ -31,8 +31,10 @@ OTB_DIR:STRING=/mnt/dd-2/OTB/OTB-Binary-Nightly
 BUILD_TESTING:BOOL=ON
 
 CableSwig_DIR:STRING=/usr/lib/CableSwig
-SWIG_DIR:STRING=/home/otbtesting/local/swig-1.3.40-build/share/swig/1.3.40
-SWIG_EXECUTABLE:STRING=/home/otbtesting/local/swig-1.3.40-build/bin/swig
+#SWIG_DIR:STRING=/home/otbtesting/local/swig-1.3.40-build/share/swig/1.3.40
+SWIG_DIR:STRING=/usr/share/swig1.3/
+#SWIG_EXECUTABLE:STRING=/home/otbtesting/local/swig-1.3.40-build/bin/swig
+SWIG_EXECUTABLE:STRING=/usr/bin/swig
 SWIG_VERSION:STRING=1.3.40
 WRAP_ITK_DIMS:STRING=2
 WRAP_ITK_JAVA:BOOL=ON 
