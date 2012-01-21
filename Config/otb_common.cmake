@@ -313,10 +313,6 @@ while(NOT dashboard_done)
     endif()
     ctest_build()
     
-    # do it a second time since SWIG wrappers do not get generated the first time
-    # TODO: find a real fix for this !
-    ctest_build()
-
     if(COMMAND dashboard_hook_test)
       dashboard_hook_test()
     endif()
