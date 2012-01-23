@@ -45,9 +45,9 @@ GDAL_INCLUDE_DIR:STRING=/home/otbtesting/local/bin/gdal_trunk/include
 GDAL_LIBRARY:STRING=/home/otbtesting/local/bin/gdal_trunk/lib/libgdal.so
 OGR_INCLUDE_DIRS:STRING=/home/otbtesting/local/bin/gdal_trunk/include
 BUILD_APPLICATIONS:BOOL=ON
-WRAP_PYTHON:BOOL=ON
-WRAP_QT:BOOL=ON
-#WRAP_PYQT:BOOL=ON
+OTB_WRAP_PYTHON:BOOL=ON
+OTB_WRAP_QT:BOOL=ON
+#OTB_WRAP_PYQT:BOOL=ON
 ")
 
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )

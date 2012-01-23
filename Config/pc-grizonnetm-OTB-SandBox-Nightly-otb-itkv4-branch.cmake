@@ -65,9 +65,9 @@ GDAL_INCLUDE_DIR:STRING=/home/otbtesting/local/bin/gdal/include
 GDAL_LIBRARY:STRING=/home/otbtesting/local/bin/gdal/lib/libgdal.so
 OGR_INCLUDE_DIRS:STRING=/home/otbtesting/local/bin/gdal/include
 BUILD_APPLICATIONS:BOOL=ON
-WRAP_PYTHON:BOOL=ON
-WRAP_QT:BOOL=ON
-#WRAP_PYQT:BOOL=ON
+OTB_WRAP_PYTHON:BOOL=ON
+OTB_WRAP_QT:BOOL=ON
+#OTB_WRAP_PYQT:BOOL=ON
 ")
 
 # set any extra envionment varibles here
