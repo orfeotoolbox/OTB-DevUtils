@@ -5,7 +5,7 @@ SET (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
 SET (CTEST_SITE "leod.c-s.fr")
-SET (CTEST_BUILD_NAME "MacOSX10.5-g++4.0.1-Release")
+SET (CTEST_BUILD_NAME "MacOSX10.5-Release-macport")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/usr/local/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
@@ -30,22 +30,26 @@ CMAKE_OSX_ARCHITECTURES:STRING=i386
 
 CMAKE_BUILD_TYPE:STRING=Release
 
-OTB_DIR:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/OTB
-FLTK_DIR:PATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-macosx-shared-release-fltk-1.1.9
-
 BUILD_TESTING:BOOL=ON
 
 CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/OTB-Applications
+OTB_DIR:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/OTB-macport
 
-GDALCONFIG_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/bin/gdal-config
-GDAL_CONFIG:FILEPATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx2/bin/gdal-config
-GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/include
-GDAL_LIBRARY:FILEPATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/lib/libgdal.dylib
-OGR_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/install-macosx/include
-GEOTIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/gtiff/libgeotiff
-TIFF_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/gtiff/libtiff
-JPEG_INCLUDE_DIRS:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/jpeg/libjpeg
-JPEG_INCLUDE_DIR:PATH=$ENV{HOME}/OTB-OUTILS/gdal/gdal-1.6.1/frmts/jpeg/libjpeg
+GDALCONFIG_EXECUTABLE:FILEPATH=/opt/local/bin/gdal-config
+GDAL_CONFIG:FILEPATH=/opt/local/bin/gdal-config
+GDAL_INCLUDE_DIR:STRING=/opt/local/include
+GDAL_LIBRARY:FILEPATH=/opt/local/lib/libgdal.dylib
+
+GEOTIFF_INCLUDE_DIRS:PATH=/opt/local/include
+GEOTIFF_LIBRARY:FILEPATH=/opt/local/lib/libgeotiff.dylib
+
+TIFF_INCLUDE_DIRS:PATH=/opt/local/include
+TIFF_LIBRARY:FILEPATH=/opt/local/lib/libtiff.dylib
+
+JPEG_INCLUDE_DIRS:PATH=/opt/local/include
+JPEG_INCLUDE_DIR:PATH=/opt/local/include
+JPEG_LIBRARY:FILEPATH=/opt/local/lib/libjpeg.dylib
+
 ")
 
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )

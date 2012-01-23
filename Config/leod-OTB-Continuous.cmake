@@ -3,7 +3,7 @@ SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/Continuous/
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j5 -i -k install" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
 SET (CTEST_SITE "leod.c-s.fr")
 SET (CTEST_BUILD_NAME "MacOSX10.5-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")

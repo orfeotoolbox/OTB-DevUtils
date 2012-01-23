@@ -40,13 +40,12 @@ CMAKE_OSX_ARCHITECTURES:STRING=i386
 
 OTB_DIR:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/OTB-macport
 
-GDAL_INCLUDE_DIR:STRING=/opt/local/include
-
 #MAPNIK_INCLUDE_DIR:PATH=/opt/local/include
 #MAPNIK_LIBRARY:FILEPATH=/opt/local/lib/libmapnik.dylib
 #FREETYPE2_INCLUDE_DIR:PATH=/opt/local/include/freetype2
 
 OTB_USE_CPACK:BOOL=ON
+GDAL_INCLUDE_DIR:STRING=/opt/local/include
 
 ")
 
