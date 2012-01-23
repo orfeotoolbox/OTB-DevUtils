@@ -75,31 +75,20 @@ JPEG_LIBRARY:FILEPATH=/opt/local/lib/libjpeg.dylib
 
 ")
 
-SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-
 SET (CTEST_NOTES_FILES
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
-
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   PULL_RESULT
-                 ERROR_VARIABLE    PULL_RESULT )
-file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
 
 ctest_start(Continuous)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}" RETURN_VALUE count)
 message("Found ${count} changed files")
 
-#if (count GREATER 0)
-  file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
-  ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-  ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-  ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-  ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
-  ctest_submit ()
-#endif()
+file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
+ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
+ctest_submit ()
 
 
