@@ -107,26 +107,13 @@
 
 3.1. Standard RPM packages:
 
-   ---------------------------------------------------------------------------
-   root@host:~# yum install fltk python26
-   ---------------------------------------------------------------------------
-
-   If you expect to install OrfeoToolbox-devel package (not required for
-   Java), you must install some extra packages:
-
-   ---------------------------------------------------------------------------
-   root@host:~# yum install boost-devel freeglut-devel libpng-devel \
-                            fltk-devel fltk-fluid  mapnik-devel \
-                            libgeotiff-devel qt4 qt4-x11
-   ---------------------------------------------------------------------------
-
    Install GDAL.
    The GDAL package from the elgis repository can't be installed since CentOS 5.5
    is now unsupported.
    A package is available from the OTB website :
    ---------------------------------------------------------------------------
    root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/gdal-1.8.0-5.i386.rpm
-   root@host:~# rpm -ivh gdal-1.8.0-5.i386.rpm
+   root@host:~# yum --nogpgcheck install gdal-1.8.0-5.i386.rpm
    ---------------------------------------------------------------------------
 
 
@@ -161,7 +148,7 @@
 
    ---------------------------------------------------------------------------
    root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-3.11.0-1.i386.rpm
-   root@host:~# rpm -ivh OrfeoToolbox-3.11.0-1.i386.rpm
+   root@host:~# yum --nogpgcheck install OrfeoToolbox-3.11.0-1.i386.rpm
    ---------------------------------------------------------------------------
 
    Optionally (because this package is not required for Java), get and install
@@ -178,7 +165,7 @@
    root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-1.7.0-0+java5.i386.rpm
    root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-java-1.7.0-0+java5.i386.rpm
    root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-python-1.7.0-0+java5.i386.rpm
-   root@host:~# rpm -ivh OrfeoToolbox-Wrapping-*.rpm
+   root@host:~# yum --nogpgcheck install OrfeoToolbox-Wrapping-*.rpm
    ---------------------------------------------------------------------------
 
    Alternatively and according to the installed JDK, get and install
@@ -188,7 +175,7 @@
    root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-1.7.0-0+java6.i386.rpm
    root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-java-1.7.0-0+java6.i386.rpm
    root@host:~# wget http://www.orfeo-toolbox.org/packages/centos/5.5/i386/3.11.0/OrfeoToolbox-Wrapping-python-1.7.0-0+java6.i386.rpm
-   root@host:~# rpm -ivh OrfeoToolbox-Wrapping-*.rpm
+   root@host:~# yum --nogpgcheck install OrfeoToolbox-Wrapping-*.rpm
    ---------------------------------------------------------------------------
 
 
