@@ -91,6 +91,17 @@
    root@host:~# yum update
    ---------------------------------------------------------------------------
 
+2.3. centosplus
+
+   Edit /etc/yum.repos.d/CentOS-Base.repo file and activate the centosplus
+   repository
+
+   Update yum local database:
+
+   ---------------------------------------------------------------------------
+   root@host:~# yum update
+   ---------------------------------------------------------------------------
+
 
 3. Install required Orfeo Toolbox dependencies
 
