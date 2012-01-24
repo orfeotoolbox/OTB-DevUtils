@@ -48,12 +48,12 @@ OTB_WRAP_JAVA:BOOL=ON
 OTB_WRAP_QT:BOOL=ON
 #OTB_WRAP_PYQT:BOOL=ON
 
-SWIG_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/Source/Swig
-SWIG_EXECUTABLE:FILEPATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/swig.exe
+#SWIG_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/swigwin-1.3.40/Source/Swig
+SWIG_EXECUTABLE:FILEPATH=C:/OSGeo4W/apps/swigwin/swig.exe
 
 PYTHON_EXECUTABLE:FILEPATH=C:/OSGeo4W/bin/python.exe
-PYTHON_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/python25/include
-PYTHON_LIBRARY:FILEPATH=C:/OSGeo4W/apps/python25/libs/python25.lib
+PYTHON_INCLUDE_DIR:PATH=C:/OSGeo4W/apps/Python27/include
+PYTHON_LIBRARY:FILEPATH=C:/OSGeo4W/apps/Python27/libs/python27.lib
 
 
 # Java Stuffs
