@@ -12,6 +12,7 @@ SET (CTEST_HG_UPDATE_OPTIONS "-C")
 SET (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
+CMAKE_INSTALL_PREFIX:PATH=C:/Users/jmalik/Dashboard/install/Monteverdi-Release-VC2008
 
 BUILD_TESTING:BOOL=ON
 OTB_USE_CPACK:BOOL=ON
@@ -41,19 +42,16 @@ LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
 LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
 ")
 
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
+#Remove install dir
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory C:/Users/jmalik/Dashboard/install/Monteverdi-Release-VC2008)
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory C:/Users/jmalik/Dashboard/install/Monteverdi-Release-VC2008)
 
-SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi-Nightly
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   OTB_PULL_RESULT
-                 ERROR_VARIABLE    OTB_PULL_RESULT )
-file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
+#Remove build dir
+ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 SET (CTEST_NOTES_FILES
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-${OTB_PULL_RESULT_FILE}
 )
 
 ctest_start(Nightly)
@@ -62,7 +60,8 @@ file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_submit (PARTS Start Update Configure)
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}"
+             TARGET INSTALL)
 ctest_submit (PARTS Start Update Configure Build)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()
