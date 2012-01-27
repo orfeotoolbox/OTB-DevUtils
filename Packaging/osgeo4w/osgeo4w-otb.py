@@ -3,6 +3,8 @@ import os, sys, shutil, datetime, subprocess
 
 OTB_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\OTB-Release-VC2008-ExternalOssim"
 MONTEVERDI_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\Monteverdi-Release-VC2008"
+OTB_WRAPPING_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\OTB-Wrapping-Release-VC2008"
+
 OSSIM_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\ossim-trunk"
 OSGEO4W_STAGING="C:\\Users\\jmalik\\Dashboard\\osgeo4w"
 OSGEO4W_TEMPLATE="C:\\Users\\jmalik\\Dashboard\\src\\OTB-DevUtils\\Packaging\\osgeo4w"
@@ -11,6 +13,7 @@ TAREXE="C:\\OSGeo4W\\apps\\msys\\bin\\tar.exe"
 # TODO extract this automatically
 OTB_VERSION="3.11.0"
 MONTEVERDI_VERSION="1.9.0"
+OTB_WRAPPING_VERSION="1.7.0"
 
 
 todayiso = datetime.date.today().isoformat().replace('-','')
@@ -96,6 +99,18 @@ def make_monteverdi():
    
     make_tarbz2(package_versioned_name)
 
-make_otb_bin()
-make_otb_python()
-make_monteverdi()
+def make_otb_wrapping():
+    package_name = "otb-wrapping"
+    package_versioned_name = initialize_package(package_name, OTB_WRAPPING_VERSION, yesterdayiso, OSGEO4W_STAGING)
+    
+    inputdir = os.path.join(OTB_WRAPPING_INSTALL, "lib", "otb-wrapping")
+    outputdir = os.path.join(OSGEO4W_STAGING, package_versioned_name, "apps", "orfeotoolbox", "wrapping")
+    if os.path.exists(outputdir):
+        shutil.rmtree(outputdir) # or copytree fails...
+    shutil.copytree( inputdir, outputdir )
+    make_tarbz2(package_versioned_name)
+
+#make_otb_bin()
+#make_otb_python()
+#make_monteverdi()
+make_otb_wrapping()
