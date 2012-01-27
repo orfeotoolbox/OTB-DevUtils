@@ -18,7 +18,11 @@ BUILD_EXAMPLES:BOOL=OFF
 BUILD_APPLICATIONS:BOOL=ON
 
 OTB_WRAP_QT:BOOL=ON
-OTB_WRAP_PYTHON:BOOL=ON
+
+# On windows, we need python27_d.lib, dragged by python.h
+# and it is not available with OSGeo4W python
+# OTB_WRAP_PYTHON:BOOL=ON
+
 OTB_WRAP_JAVA:BOOL=ON
 
 OTB_USE_CPACK:BOOL=OFF
