@@ -110,7 +110,7 @@ def make_otb_wrapping():
     shutil.copytree( inputdir, outputdir )
     make_tarbz2(package_versioned_name)
 
-#make_otb_bin()
-#make_otb_python()
-#make_monteverdi()
+make_otb_bin()
+make_otb_python()
+make_monteverdi()
 make_otb_wrapping()
