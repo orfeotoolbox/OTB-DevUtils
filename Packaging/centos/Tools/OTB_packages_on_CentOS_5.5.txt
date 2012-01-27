@@ -132,7 +132,7 @@
 3.3. (Optional) Sun JDK 1.6 package:
 
    Go to http://www.oracle.com/technetwork/java/javase/downloads/index.html
-   and get the last Sun JDK 1.5 (the GNU/Linux 32 bits version 1.6.0-25 was
+   and get the last Sun JDK 1.6 (the GNU/Linux 32 bits version 1.6.0-25 was
    used to build the OTB bindings for Java) and install it on your system:
 
    ---------------------------------------------------------------------------
