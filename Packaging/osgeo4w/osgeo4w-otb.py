@@ -52,7 +52,21 @@ def make_otb_bin():
       shutil.copy( os.path.join(inputdir, fic), \
                    os.path.join(OSGEO4W_STAGING, package_versioned_name, "apps", "orfeotoolbox", "applications" ) )
 
+    # copy the .bat launcher in bin
+    inputdir = os.path.join(OTB_INSTALL, "bin")
+    outputbindir = os.path.join(OSGEO4W_STAGING, package_versioned_name, "bin" )
+    for fic in os.listdir( inputdir ) :
+      if fic.startswith("otbcli") or fic.startswith("otbgui"):
+        shutil.copy( os.path.join(inputdir, fic), \
+                     outputbindir )
+
+    shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbApplicationLauncherCommandLine.exe"), outputbindir )
+    shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbApplicationLauncherQt.exe"), outputbindir )
+    shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbViewer.exe"), outputbindir )
+    
+
     # copy ossim and ossimplugin dll in the otbbin package for now
+    # we need an ossim package !!!
     shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbossimplugins.dll"),
                  os.path.join(OSGEO4W_STAGING, package_versioned_name, "bin" ) )
     shutil.copy( os.path.join(OSSIM_INSTALL, "bin", "ossim.dll"),
