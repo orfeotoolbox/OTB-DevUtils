@@ -75,6 +75,12 @@ JPEG_LIBRARY:FILEPATH=/opt/local/lib/libjpeg.dylib
 #MAPNIK_LIBRARY:FILEPATH=/opt/local/lib/libmapnik.dylib
 #FREETYPE2_INCLUDE_DIR:PATH=/opt/local/include/freetype2
 
+EXPAT_INCLUDE_DIR:PATH=/opt/local/include
+EXPAT_LIBRARY:FILEPATH=/opt/local/lib/libexpat.dylib
+
+CURL_INCLUDE_DIR:PATH=/opt/local/include
+CURL_LIBRARY:FILEPATH=/opt/local/lib/libcurl.dylib
+
 ")
 
 SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
