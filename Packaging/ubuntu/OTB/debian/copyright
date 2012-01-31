@@ -1,6 +1,6 @@
 This work was packaged for Debian by:
 
-    OTB Team <contact@orfeo-toolbox.org> on Tue, 18 Jan 2011 17:49:31 +0200
+    OTB Team <contact@orfeo-toolbox.org> on Tue, 31 Jan 2012 13:16:20 +0100
 
 It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
 
@@ -8,11 +8,10 @@ It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
 
 The source tarball is an aggregate of several different works in which the
 main one, developed by the CNES (Centre National d'Etudes Spatiales), is
-Orfeo-Toolbox (OTB). Other works include ITK, VTK, VXL, FLTK, GDAL, OSSIM,
-LibSVM, BGL, TinyXML, OpenJPEG, OpenThreads, muParser, LibKML, LibSIFT,
-libLAS, kNN Segmentation Library, GAlib, Expat, ConfigFile, Insight Journal
-Publications, ISO C9x compliant inttypes.h and stdint.h for Microsoft Visual
-Studio.
+Orfeo-Toolbox (OTB).
+
+
+Internal dependencies (included third-party works):
 
 * ITK (http://www.itk.org/),
   distributed under the revised BSD license
@@ -27,15 +26,11 @@ Studio.
   (see Copyright/VXLCopyright.txt)
 
 * FLTK (http://www.fltk.org/),
-  distributed under the FLTK License (LGPL 2.0 license with exeptions)
-  (see Copyright/FLTKCopyright.txt)
-
-* GDAL (http://www.gdal.org/),
-  distributed under the X/MIT license
-  (see Copyright/GDALCopyright.txt)
+  distributed under the FLTK License (GNU LGPL 2.0 license with exeptions)
+  (see Copyright/FLTKLicense.txt)
 
 * OSSIM (http://www.ossim.org/),
-  distributed under the LGPL 2.1 license
+  distributed under the GNU LGPL 2.1 license
   (see Copyright/OSSIMCopyright.txt)
 
 * LibSVM (http://www.csie.ntu.edu.tw/~cjlin/libsvm/),
@@ -46,7 +41,7 @@ Studio.
   distributed under the Boost Software License 1.0
   (revised BSD-like, see Copyright/LibBOOSTCopyright.txt)
 
-* TinyXML (http://www.sourceforge.net/projects/tinyxml/),
+* TinyXML (http://www.grinninglizard.com/tinyxml/),
   distributed under the zlib/libpng license
   (see Copyright/TinyXMLCopyright.txt)
 
@@ -54,7 +49,7 @@ Studio.
   distributed under the revised BSD license
   (see Copyright/OpenJPEGCopyright.txt)
 
-* OpenThreads (http://openthreads.sourceforge.net/),
+* OpenThreads (http://www.openscenegraph.org/),
   distributed under the OpenSceneGraph Public License (OSGPL) 0.0, i.e.
   wxWindows Library License
   (see Copyright/OpenThreadsCopyright.txt)
@@ -67,13 +62,12 @@ Studio.
   distributed under the revised BSD license
   (see Copyright/KMLCopyright.txt)
 
-* LibSIFT (http://libsift.sourceforge.net/),
-  distributed under the LGPL 3.0 license
+* SiftFast (http://libsift.sourceforge.net/),
+  distributed under the GNU LGPL 3.0 license
   (see Utilities/otbsiftfast/LICENSE)
 
 * libLAS (http://liblas.org/),
-  Some source files are distributed under the Boost Software License 1.0 and
-  other are distributed under the revised BSD license
+  distributed under the revised BSD license
   (see Copyright/LibLASCopyright.txt)
 
 * kNN Segmentation Library (http://insight-journal.org/browse/publication/94),
@@ -101,6 +95,52 @@ Studio.
   Utilities/otbmsinttypes/stdint.h
   distributed under the revised BSD license
   (see header of above files)
+
+* 6S (http://6s.ltdri.org/)
+  No license information available on the website but the authors gave CNES
+  the permission to use Edison code inside OTB and to release it under CeCILL
+  v2 license. FIXME: add a link to the authorization.
+
+* Edison (http://coewww.rutgers.edu/riul/research/robust.html)
+  No license information available on the website but the authors gave CNES
+  the permission to use Edison code inside OTB and to release it under CeCILL
+  v2 license. FIXME: add a link to the authorization.
+
+
+External dependencies (not included third-party works):
+
+* GDAL (http://www.gdal.org/),
+  distributed under the X/MIT license
+
+* Curl (http://www.curl.haxx.se/)
+  distributed under the MIT-like license
+
+* FFTW (http://www.fftw.org/)
+  distributed under the GNU GPL 2 license
+
+* zlib (http://www.zlib.net/)
+  distributed under the zlib/libpng license
+
+* libpng (http://www.libpng.org/)
+  distributed under the zlib/libpng license
+
+* libtiff (http://www.libtiff.org/)
+  distributed under BSD license
+
+* libgeotiff (http://trac.osgeo.org/geotiff/)
+  distributed under the MIT-like license
+
+* libjpeg (http://www.ijg.org/)
+  distributed under a specific license (simplified BSD-like)
+
+* Boost (http://www.boost.org/)
+  distributed under the Boost Software License 1.0
+
+* gettext (http://www.gnu.org/s/gettext/)
+  distributed under the GNU GPL 3 license
+
+* Mapnik (http://www.mapnik.org/)
+  distributed under the GNU LGPL 2.1 license
 
 
 Upstream Author(s):
@@ -149,6 +189,7 @@ Upstream Author(s):
     Jonathan Guinet (CS) <jonathan.guinet@c-s.fr>
     Yin Tiangang <crsyt@nus.edu.sg>
     Rosario Ruiloba (CS) <rosario.ruiloba@c-s.fr>
+    Guillaume Pasero (CS) <guillaume.pasero@c-s.fr>
 
 
 Copyright:
