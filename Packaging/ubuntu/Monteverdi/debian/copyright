@@ -1,6 +1,6 @@
 This work was packaged for Debian by:
 
-    OTB Team <contact@orfeo-toolbox.org> on Fri, 28 Jan 2011 15:24:29 +0100
+    OTB Team <contact@orfeo-toolbox.org> on Fri, 03 Feb 2021 18:32:34 +0100
 
 It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
 
@@ -25,6 +25,7 @@ Upstream Author(s):
     Arnaud Jaen (CS) <arnaud.jaen@c-s.fr>
     Mickael Savinaud (CS) <mickael.savinaud@c-s.fr>
     Jonathan Guinet (CS) <jonathan.guinet@c-s.fr>
+    Guillaume Pasero <guillaume.pasero@c-s.fr>
 
 
 Copyright:
@@ -45,6 +46,6 @@ License:
 
 The Debian packaging is:
 
-    Copyright (C) 2010,2011 OTB Team <contact@orfeo-toolbox.org>
+    Copyright (C) 2010,2011,2012 OTB Team <contact@orfeo-toolbox.org>
 
     This package is distributed under the CeCILL license version 2.
