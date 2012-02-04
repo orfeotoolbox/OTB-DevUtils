@@ -5,7 +5,7 @@
 # norootforbuild
 
 Name:           Orfeo-Applications
-Version:        3.10.0
+Version:        3.12.0
 Release:        1
 Summary:        Applications based on OrfeoToolbox for remote sensing image processing
 Group:          Development/Libraries
@@ -15,7 +15,7 @@ Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 # BuildArch:      noarch
 
-BuildRequires:  cmake libgdal-devel libgeotiff-devel gcc-c++ gcc gettext-runtime gettext-tools freeglut-devel libpng-devel
+BuildRequires:  cmake libgdal-devel libgeotiff-devel gcc-c++ gcc gettext-runtime gettext-tools freeglut-devel libpng-devel libqt4-devel
 BuildRequires:  fdupes libOpenThreads-devel boost-devel OrfeoToolbox-devel fltk fltk-devel
 #Requires:       libgdal1 libgeotiff freeglut libpng
 
@@ -33,7 +33,11 @@ mkdir temp
 cd temp
 cmake  -DBUILD_TESTING:BOOL=OFF \
        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-       -DOTB_DIR:PATH=%{_libdir} \
+       -DBUILD_SHARED_LIBS:BOOL=ON \
+       -DCMAKE_SKIP_RPATH:BOOL=ON \
+       -DOTB_USE_QGIS:BOOL=OFF \
+       -DOTB_USE_QT:BOOL=ON \
+       -DOTB_DIR:PATH=%{_libdir}/otb \
        -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
 
 make VERBOSE=1
@@ -44,8 +48,8 @@ cd ../temp
 make install DESTDIR=%{buildroot}
 %if "%{_lib}" == "lib64"  
 mkdir %{buildroot}/usr/%{_lib}
+mv %{buildroot}/usr/lib/otb %{buildroot}/usr/%{_lib}/  
 %endif
-mv %{buildroot}/usr/lib/otb/lib*.so %{buildroot}/usr/%{_lib}/  
 %fdupes %{buildroot}
 
 %clean
@@ -58,7 +62,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{_bindir}/*
-%{_libdir}/lib*.so
+%{_libdir}/otb/*
 
 
 %changelog

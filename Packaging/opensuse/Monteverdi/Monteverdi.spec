@@ -5,7 +5,7 @@
 # norootforbuild
 
 Name:           Monteverdi
-Version:        1.8.0
+Version:        1.10.0
 Release:        1
 Summary:        Application based on OrfeoToolbox for remote sensing image processing
 Group:          Development/Libraries
@@ -18,6 +18,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildRequires:  cmake libgdal-devel libgeotiff-devel gcc-c++ gcc gettext-runtime gettext-tools freeglut-devel libpng-devel
 BuildRequires:  fdupes OrfeoToolbox-devel libOpenThreads-devel boost-devel fltk-devel
 #Requires:       libgdal1 libgeotiff freeglut libpng14
+BuildRequires:	fltk-devel
 
 %description
 %{name} is a image processing application developed by CNES in the frame of the ORFEO Accompaniment Program
@@ -32,7 +33,9 @@ mkdir temp
 cd temp
 cmake  -DBUILD_TESTING:BOOL=OFF \
        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-       -DOTB_DIR:PATH=%{_libdir} \
+       -DBUILD_SHARED_LIBS:BOOL=ON \
+       -DCMAKE_SKIP_RPATH:BOOL=ON \
+       -DOTB_DIR:PATH=%{_libdir}/otb \
        -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
 
 make VERBOSE=1 
@@ -43,8 +46,8 @@ cd ../temp
 make install DESTDIR=%{buildroot}
 %if "%{_lib}" == "lib64"  
 mkdir %{buildroot}/usr/%{_lib}
+mv %{buildroot}/usr/lib/otb %{buildroot}/usr/%{_lib}/
 %endif
-mv %{buildroot}/usr/lib/otb/*.so %{buildroot}/usr/%{_lib}/
 %fdupes %{buildroot}
 
 %clean
@@ -57,9 +60,8 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{_bindir}/*
-%{_libdir}/libotb*.so
-%{_libdir}/libOTB*.so
-%{_libdir}/libflu.so
+%{_libdir}/otb/
+#%{_libdir}/otb/lib*
 %{_datadir}/applications/*.desktop
 %{_datadir}/pixmaps/monteverdi.*
 
