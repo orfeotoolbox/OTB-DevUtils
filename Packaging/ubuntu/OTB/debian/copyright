@@ -70,14 +70,6 @@ Internal dependencies (included third-party works):
   distributed under the revised BSD license
   (see Copyright/LibLASCopyright.txt)
 
-* kNN Segmentation Library (http://insight-journal.org/browse/publication/94),
-  distributed under the Creative Commons Atribution 2.5 License
-  (see http://creativecommons.org/licenses/by/2.5)
-
-* GAlib (http://lancet.mit.edu/ga),
-  distributed under the revised BSD license
-  (see Utilities/otbgalib/COPYRIGHT)
-
 * Expat (http://expat.sourceforge.net/),
   distributed under the MIT license
   (see Copyright/EXPATCopyright.txt)

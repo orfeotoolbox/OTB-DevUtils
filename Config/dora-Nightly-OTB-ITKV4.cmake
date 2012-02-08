@@ -21,7 +21,7 @@ set(dashboard_fresh_source_checkout ON)
 set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
 set(dashboard_hg_branch "default")
 
-SET(OTB_GDAL_INSTALL_DIR "$ENV{HOME}/OTB-OUTILS/gdal/install-linux-gdal-1.7.2")
+SET(OTB_GDAL_INSTALL_DIR "$ENV{HOME}/OTB-OUTILS/gdal/install-linux-gdal-1.9.0")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -64,11 +64,6 @@ GDALCONFIG_EXECUTABLE:FILEPATH=${OTB_GDAL_INSTALL_DIR}/bin/gdal-config
 GDAL_CONFIG:FILEPATH=${OTB_GDAL_INSTALL_DIR}/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=${OTB_GDAL_INSTALL_DIR}/include
 GDAL_LIBRARY:FILEPATH=${OTB_GDAL_INSTALL_DIR}/lib/libgdal.so
-OGR_INCLUDE_DIRS:STRING=${OTB_GDAL_INSTALL_DIR}/include
-GEOTIFF_INCLUDE_DIRS:PATH=${OTB_GDAL_INSTALL_DIR}/include
-TIFF_INCLUDE_DIRS:PATH=${OTB_GDAL_INSTALL_DIR}/include
-JPEG_INCLUDE_DIRS:PATH=${OTB_GDAL_INSTALL_DIR}/include
-JPEG_INCLUDE_DIR:PATH=${OTB_GDAL_INSTALL_DIR}/include
 
     ")
 endmacro()
