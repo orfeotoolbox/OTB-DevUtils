@@ -50,11 +50,12 @@ OTB_USE_MAPNIK:BOOL=ON
 MAPNIK_INCLUDE_DIR:STRING=/usr/include
 MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
 
-GDAL_CONFIG:STRING=/home/otbtesting/local/bin/gdal/bin/gdal-config
-GDALCONFIG_EXECUTABLE:STRING=/home/otbtesting/local/bin/gdal/bin/gdal-config
-GDAL_INCLUDE_DIR:STRING=/home/otbtesting/local/bin/gdal/include
-GDAL_LIBRARY:STRING=/home/otbtesting/local/bin/gdal/lib/libgdal.so
-OGR_INCLUDE_DIRS:STRING=/home/otbtesting/local/bin/gdal/include
+GDAL_CONFIG:STRING=/home/otbtesting/local/bin/gdal_trunk/bin/gdal-config
+GDALCONFIG_EXECUTABLE:STRING=/home/otbtesting/local/bin/gdal_trunk/bin/gdal-config
+GDAL_INCLUDE_DIR:STRING=/home/otbtesting/local/bin/gdal_trunk/include
+GDAL_LIBRARY:STRING=/home/otbtesting/local/bin/gdal_trunk/lib/libgdal.so
+OGR_INCLUDE_DIRS:STRING=/home/otbtesting/local/bin/gdal_trunk/include
+
 BUILD_APPLICATIONS:BOOL=ON
 OTB_WRAP_PYTHON:BOOL=ON
 OTB_WRAP_QT:BOOL=ON
