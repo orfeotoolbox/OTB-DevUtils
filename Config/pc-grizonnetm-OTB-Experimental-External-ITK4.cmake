@@ -55,11 +55,11 @@ CMAKE_INSTALL_PREFIX:STRING=/home/otbtesting/OTB/tmp
 CPACK_BINARY_DEB:BOOL=ON
 CPACK_DEBIAN_PACKAGE_ARCHITECTURE:STRING=amd64
 //Set GDAL options
-GDAL_CONFIG:STRING=/home/otbtesting/local/bin/gdal/bin/gdal-config
-GDALCONFIG_EXECUTABLE:STRING=/home/otbtesting/local/bin/gdal/bin/gdal-config
-GDAL_INCLUDE_DIR:STRING=/home/otbtesting/local/bin/gdal/include
-GDAL_LIBRARY:STRING=/home/otbtesting/local/bin/gdal/lib/libgdal.so
-OGR_INCLUDE_DIRS:STRING=/home/otbtesting/local/bin/gdal/include
+GDAL_CONFIG:STRING=/home/otbtesting/local/bin/gdal_trunk/bin/gdal-config
+GDALCONFIG_EXECUTABLE:STRING=/home/otbtesting/local/bin/gdal_trunk/bin/gdal-config
+GDAL_INCLUDE_DIR:STRING=/home/otbtesting/local/bin/gdal_trunk/include
+GDAL_LIBRARY:STRING=/home/otbtesting/local/bin/gdal_trunk/lib/libgdal.so
+OGR_INCLUDE_DIRS:STRING=/home/otbtesting/local/bin/gdal_trunk/include
 BUILD_APPLICATIONS:BOOL=ON
 OTB_WRAP_PYTHON:BOOL=ON
 OTB_WRAP_QT:BOOL=ON
