@@ -27,7 +27,7 @@ CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variabl
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
 BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=OFF
+BUILD_EXAMPLES:BOOL=ON
 BUILD_APPLICATIONS:BOOL=ON
 
 OTB_WRAP_PYTHON:BOOL=ON

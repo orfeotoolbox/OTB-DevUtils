@@ -23,7 +23,7 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
     BUILD_SHARED_LIBS:BOOL=ON
     BUILD_TESTING:BOOL=ON
-    BUILD_EXAMPLES:BOOL=OFF
+    BUILD_EXAMPLES:BOOL=ON
     ITK_BUILD_ALL_MODULES:BOOL=ON
     ITK_LEGACY_SILENT:BOOL=ON
     ITK_USE_REVIEW:BOOL=ON
