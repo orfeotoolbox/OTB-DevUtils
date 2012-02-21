@@ -1,0 +1,207 @@
+This work was packaged for Debian by:
+
+    OTB Team <contact@orfeo-toolbox.org> on Tue, 31 Jan 2012 13:16:20 +0100
+
+It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
+
+    hg clone -r <version> http://hg.orfeo-toolbox.org/OTB
+
+The source tarball is an aggregate of several different works in which the
+main one, developed by the CNES (Centre National d'Etudes Spatiales), is
+Orfeo-Toolbox (OTB).
+
+
+Internal dependencies (included third-party works):
+
+* ITK (http://www.itk.org/),
+  distributed under the revised BSD license
+  (see Copyright/ITKCopyright.txt)
+
+* VTK (http://www.vtk.org/),
+  distributed under the revised BSD license
+  (see Copyright/VTKCopyright.txt)
+
+* VXL (http://vxl.sourceforge.net/),
+  distributed under a specific license (simplified BSD-like)
+  (see Copyright/VXLCopyright.txt)
+
+* FLTK (http://www.fltk.org/),
+  distributed under the FLTK License (GNU LGPL 2.0 license with exeptions)
+  (see Copyright/FLTKLicense.txt)
+
+* OSSIM (http://www.ossim.org/),
+  distributed under the GNU LGPL 2.1 license
+  (see Copyright/OSSIMCopyright.txt)
+
+* LibSVM (http://www.csie.ntu.edu.tw/~cjlin/libsvm/),
+  distributed under the revised BSD license
+  (see Copyright/LibSVMCopyright.txt)
+
+* Boost Graph Library (BGL, http://www.boost.org/),
+  distributed under the Boost Software License 1.0
+  (revised BSD-like, see Copyright/LibBOOSTCopyright.txt)
+
+* TinyXML (http://www.grinninglizard.com/tinyxml/),
+  distributed under the zlib/libpng license
+  (see Copyright/TinyXMLCopyright.txt)
+
+* OpenJPEG (http://www.openjpeg.org/),
+  distributed under the revised BSD license
+  (see Copyright/OpenJPEGCopyright.txt)
+
+* OpenThreads (http://www.openscenegraph.org/),
+  distributed under the OpenSceneGraph Public License (OSGPL) 0.0, i.e.
+  wxWindows Library License
+  (see Copyright/OpenThreadsCopyright.txt)
+
+* muParser (http://muparser.sourceforge.net/),
+  distributed under the MIT license
+  (see Copyright/MuParserCopyright.txt)
+
+* LibKML (http://code.google.com/p/libkml/),
+  distributed under the revised BSD license
+  (see Copyright/KMLCopyright.txt)
+
+* SiftFast (http://libsift.sourceforge.net/),
+  distributed under the GNU LGPL 3.0 license
+  (see Utilities/otbsiftfast/LICENSE)
+
+* libLAS (http://liblas.org/),
+  distributed under the revised BSD license
+  (see Copyright/LibLASCopyright.txt)
+
+* Expat (http://expat.sourceforge.net/),
+  distributed under the MIT license
+  (see Copyright/EXPATCopyright.txt)
+
+* ConfigFile (http://www-personal.umich.edu/~wagnerr/ConfigFile.html),
+  distributed under the MIT license
+  (see Copyright/ConfigFileCopyright.txt)
+
+* Insight Journal Publications (http://www.insight-journal.org/browse/publications),
+  distributed under the revised BSD license
+  (see Copyright/ITKCopyright.txt)
+
+* ISO C9x compliant inttypes.h and stdint.h for Microsoft Visual Studio
+  Utilities/otbmsinttypes/inttypes.h
+  Utilities/otbmsinttypes/stdint.h
+  distributed under the revised BSD license
+  (see header of above files)
+
+* 6S (http://6s.ltdri.org/)
+  No license information available on the website but the authors gave CNES
+  the permission to use Edison code inside OTB and to release it under CeCILL
+  v2 license. FIXME: add a link to the authorization.
+
+* Edison (http://coewww.rutgers.edu/riul/research/robust.html)
+  No license information available on the website but the authors gave CNES
+  the permission to use Edison code inside OTB and to release it under CeCILL
+  v2 license. FIXME: add a link to the authorization.
+
+
+External dependencies (not included third-party works):
+
+* GDAL (http://www.gdal.org/),
+  distributed under the X/MIT license
+
+* Curl (http://www.curl.haxx.se/)
+  distributed under the MIT-like license
+
+* FFTW (http://www.fftw.org/)
+  distributed under the GNU GPL 2 license
+
+* zlib (http://www.zlib.net/)
+  distributed under the zlib/libpng license
+
+* libpng (http://www.libpng.org/)
+  distributed under the zlib/libpng license
+
+* libtiff (http://www.libtiff.org/)
+  distributed under BSD license
+
+* libgeotiff (http://trac.osgeo.org/geotiff/)
+  distributed under the MIT-like license
+
+* libjpeg (http://www.ijg.org/)
+  distributed under a specific license (simplified BSD-like)
+
+* Boost (http://www.boost.org/)
+  distributed under the Boost Software License 1.0
+
+* gettext (http://www.gnu.org/s/gettext/)
+  distributed under the GNU GPL 3 license
+
+* Mapnik (http://www.mapnik.org/)
+  distributed under the GNU LGPL 2.1 license
+
+
+Upstream Author(s):
+
+    Jordi Inglada (CNES) <jordi.inglada@orfeo-toolbox.org>
+    Thomas Feuvrier (CS) <thomas.feuvrier@c-s.fr>
+    Julien Michel (CS then CNES) <julien.michel@orfeo-toolbox.org>
+    Romain Garrigues (CS) <romain.garrigues@c-s.fr>
+    Emmanuel Christophe (CNES then CRISP) <emmanuel.christophe@orfeo-toolbox.org>
+    Cyrille Valladeau (CS) <cyrille.valladeau@c-s.fr>
+    Julien Radoux (UCL)
+    Grégoire Mercier (Telecom Bretagne) <gregoire.mercier@telecom-bretagne.eu>
+    Vincent Poulain (CNES) <vincent.poulain@cnes.fr>
+    Patrick Imbo (CS) <patrick.imbo@c-s.fr>
+    Caroline Ruffel (CS) <caroline.ruffel@c-s.fr>
+    Miarintsoa Ramanantsimiavona
+    Eric Bughin (CMLA)
+    Guillaume Borrut (CS) <guillaume.borrut@c-s.fr>
+    Mathieu Deltorre (CS) <mathieu.deltorre@c-s.fr>
+    Vincent Schut (Sarvision)
+    David Dubois <david.dubois.1@ens.etsmtl.ca>
+    Jan Wegner
+    Otmane Lahlou (CS) <otmane.lahlou@c-s.fr>
+    Michael Seymour (EADS)
+    Julien Osman
+    Christophe Lay
+    Yannick Reynard
+    Gwendoline Blanchet (CNES) <gwendoline.blanchet@cnes.fr>
+    Adamo Ferro
+    Rik Bellens
+    Jean-Guilhem Cailton (Arkémie)
+    Etienne Bougoin (CS) <etienne.bougoin@c-s.fr>
+    Tishampati Dhar
+    Massimo Di Stefano <massimodisasha@gmail.com>
+    Aik Song Chia (CRISP) <crscas@nus.edu.sg>
+    Manuel Grizonnet (CNES) <manuel.grizonnet@cnes.fr>
+    Stephane May (CNES) <stephane.may@cnes.fr>
+    Conrad Bielski (JRC) <conrad_bielski@yahoo.com>
+    Antonio Valentino
+    Aurélien Bricier (CS) <aurelien.bricier@c-s.fr>
+    Sébastien Dinot (CS) <sebastien.dinot@c-s.fr>
+    Julien Malik (CS) <julien.malik@c-s.fr>
+    Amit Kulkarni <amitkulz@gmail.com>
+    Arnaud Jaen (CS) <arnaud.jaen@c-s.fr>
+    Mickael Savinaud (CS) <mickael.savinaud@c-s.fr>
+    Jonathan Guinet (CS) <jonathan.guinet@c-s.fr>
+    Yin Tiangang <crsyt@nus.edu.sg>
+    Rosario Ruiloba (CS) <rosario.ruiloba@c-s.fr>
+    Guillaume Pasero (CS) <guillaume.pasero@c-s.fr>
+
+
+Copyright:
+
+    Copyright (c) Centre National d'Etudes Spatiales and others, see files in
+    'Copyright' directory for third parties copyrights.
+
+
+License:
+
+    The OTB is distributed under the CeCILL license version 2. See files
+    Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
+    (french version) in 'Copyright' directory for details. This licenses are
+    also available online:
+    http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+    http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt
+
+
+The Debian packaging is:
+
+    Copyright (C) 2010,2011 OTB Team <contact@orfeo-toolbox.org>
+
+    This package is distributed under the CeCILL license version 2.

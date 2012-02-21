@@ -1,0 +1,5 @@
+otb (3.12.0-0) unstable; urgency=low
+
+  * Version 3.12.0 released, first Debian package
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Mon, 06 Feb 2012 17:50:50 +0100
