@@ -286,4 +286,5 @@ cp -f "$DEBDIR/changelog" debian
 #
 # debuild -k$gpgkeyid -S -sa --lintian-opts -i
 
+export DEB_BUILD_OPTIONS="parallel=3"
 debuild -k$gpgkeyid --lintian-opts -i
