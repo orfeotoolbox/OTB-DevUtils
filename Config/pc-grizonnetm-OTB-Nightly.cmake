@@ -46,11 +46,9 @@ OTB_GL_USE_ACCEL:BOOL=ON
 OTB_USE_VISU_GUI:BOOL=OFF
 ITK_USE_REVIEW:BOOL=ON 
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
-OTB_USE_MAPNIK:BOOL=ON 
-
-MAPNIK_INCLUDE_DIR:STRING=/usr/include
-MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
-
+OTB_USE_MAPNIK:BOOL=OFF 
+#MAPNIK_INCLUDE_DIR:STRING=/usr/include
+#MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
 GDAL_CONFIG:STRING=/home/otbtesting/local/bin/gdal_trunk/bin/gdal-config
 GDALCONFIG_EXECUTABLE:STRING=/home/otbtesting/local/bin/gdal_trunk/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=/home/otbtesting/local/bin/gdal_trunk/include
