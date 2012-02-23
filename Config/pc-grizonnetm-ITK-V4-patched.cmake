@@ -11,9 +11,9 @@ set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
 
-set(dashboard_root_name "My\ Tests")
-set(dashboard_source_name "My\ Tests/ITK")
-set(dashboard_binary_name "My\ Tests/bin/ITKv4-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_root_name "My_Tests")
+set(dashboard_source_name "My_Tests/ITK")
+set(dashboard_binary_name "My_Tests/bin/ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
 set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "https://github.com/julienmalik/ITK.git")
