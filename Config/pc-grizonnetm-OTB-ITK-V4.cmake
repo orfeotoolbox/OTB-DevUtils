@@ -14,9 +14,9 @@ set(CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
 set(CTEST_HG_COMMAND "/usr/bin/hg")
 #set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4") 
 
-set(dashboard_root_name "My\ Tests")
-set(dashboard_source_name "My\ Tests/OTB-ITKv4")
-set(dashboard_binary_name "My\ Tests/bin/OTB-ITKv4-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_root_name "My_Tests")
+set(dashboard_source_name "My_Tests/OTB-ITKv4")
+set(dashboard_binary_name "My_Tests/bin/OTB-ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
 set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
