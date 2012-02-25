@@ -32,6 +32,9 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB
 
+MAPNIK_INCLUDE_DIR:PATH=$ENV{HOME}/Dashboard/install/mapnik-2.0.0/include
+MAPNIK_LIBRARY:FILEPATH=$ENV{HOME}/Dashboard/install/mapnik-2.0.0/lib/libmapnik2.so
+
 ")
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
