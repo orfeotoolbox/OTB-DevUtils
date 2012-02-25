@@ -8,8 +8,8 @@
 # patches that failed.
 
 # Parameters
-OSSIM_SOURCES=the-ossim-svn/ossim-read-only
-OTB_SOURCES=the-otb-repository/OTB
+OSSIM_SOURCES=full-path-to-the-ossim-svn/ossim-read-only
+OTB_SOURCES=full-path-to-the-otb-repository/OTB
 
 # Find out previous ossim sync number
 cd $OTB_SOURCES
@@ -67,6 +67,7 @@ hg st Utilities/otbossim | grep '^? ' | sed -e 's/^? //' | xargs hg add
 hg commit -m "OSSIM: update ossim to r$NEW_OSSIM_SYNC"
 
 # Apply OTB patch.
+# You might need to tweak the -pN setting to fit your environment
 patch -p6 < $INCLUDE_PATCH
 patch -p6 < $SRC_PATCH
 patch -p6 < $SHARE_PATCH
