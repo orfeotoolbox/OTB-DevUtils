@@ -56,6 +56,7 @@ cp -r $OSSIM_SOURCES/ossim/share/ossim Utilities/otbossim/share
 find Utilities/otbossim -name '.svn' | xargs rm -rf
 find Utilities/otbossim -name '.cvsignore' | xargs rm -rf
 find Utilities/otbossim -name 'makefile.vc' | xargs rm -rf
+rm Utilities/otbossim/include/ossim/ossimConfig.h
 
 # Add new files in mercurial, remove the old one.
 hg st Utilities/otbossim
