@@ -38,6 +38,7 @@ diff -urw $OSSIM_SOURCES/ossim/share/ossim $OTB_SOURCES/Utilities/otbossim/src/o
 # Update ossim to the latest revision.
 cd $OSSIM_SOURCES
 svn up
+export LC_ALL=C
 NEW_OSSIM_SYNC=`svn info | grep '^Revision:' | sed -e 's/^Revision: //'`
 echo "We are going to sync on r$NEW_OSSIM_SYNC"
 
