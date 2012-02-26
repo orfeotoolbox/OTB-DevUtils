@@ -1,13 +1,13 @@
 Source: otb
 Priority: extra
 Maintainer: OTB Team <contact@orfeo-toolbox.org>
-Build-Depends: debhelper (>= 7), cmake (>= 2.6), libc6-dev (>= 2.4),
+Build-Depends: debhelper (>= 9), cmake (>= 2.8), libc6-dev (>= 2.4),
  libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libgeotiff-dev,
  libpng-dev, libx11-dev, libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev,
  libgdal-dev, libproj-dev, libfltk1.3-dev, fluid, libexpat1-dev,
  libtool, libcurl4-gnutls-dev, libopenthreads-dev, libboost-graph-dev,
  libqt4-dev, libqtcore4, libqtgui4, libqt4-xml, swig, python
-Standards-Version: 3.8.4
+Standards-Version: 3.9.3
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/
 
@@ -43,14 +43,14 @@ Description: Free library of image processing algorithms - runtime
  applications.
 
 Package: libotb@VERSION_MAJOR@-dev
-Section: contrib/devel
+Section: contrib/libdevel
 Architecture: any
 Conflicts: libotb3-dev (<< @VERSION_SONAME@)
-Depends: libotb@VERSION_SONAME@ (= ${binary:Version}), cmake (>= 2.6),
+Depends: libotb@VERSION_SONAME@ (= ${binary:Version}), cmake (>= 2.8),
  libc6-dev (>= 2.4), libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libexpat1-dev,
- libfltk1.1-dev, fluid, libgdal-dev, libopenthreads-dev, libx11-dev,
- libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev, libtiff4-dev,
- libgeotiff-dev, libboost-graph-dev, ${misc:Depends}
+ libfltk1.3-dev, fluid, libgdal-dev, libopenthreads-dev, libx11-dev,
+ libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev, libgeotiff-dev,
+ libboost-graph-dev, ${misc:Depends}
 Description: Free library of image processing algorithms - development
  ORFEO Toolbox (OTB) is distributed as an open source library of image
  processing algorithms. OTB is based on the medical image processing library
@@ -140,7 +140,7 @@ Description: ORFEO Toolbox graphical user interface applications
  plugins provided by otb-bin-common package).
 
 Package: python-otb
-Section: contrib/libs
+Section: contrib/python
 Architecture: any
 Depends: libotb@VERSION_SONAME@ (= ${binary:Version}), ${shlibs:Depends},
  ${misc:Depends}, otb-bin-common, python (>= 2.6), python-central (>= 0.6.11)
@@ -152,5 +152,5 @@ Description: ORFEO Toolbox Python API for applications
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This packages contains the Python API for applications provided by the
+ This package contains the Python API for applications provided by the
  otb-bin-common package.
