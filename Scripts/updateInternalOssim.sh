@@ -8,8 +8,8 @@
 # patches that failed.
 
 # Parameters
-OSSIM_SOURCES=the-ossim-svn/ossim-read-only
-OTB_SOURCES=the-otb-repository/OTB
+OSSIM_SOURCES=full-path-to-the-ossim-svn/ossim-read-only
+OTB_SOURCES=full-path-to-the-otb-repository/OTB
 
 # Find out previous ossim sync number
 cd $OTB_SOURCES
@@ -38,6 +38,7 @@ diff -urw $OSSIM_SOURCES/ossim/share/ossim $OTB_SOURCES/Utilities/otbossim/src/o
 # Update ossim to the latest revision.
 cd $OSSIM_SOURCES
 svn up
+export LC_ALL=C
 NEW_OSSIM_SYNC=`svn info | grep '^Revision:' | sed -e 's/^Revision: //'`
 echo "We are going to sync on r$NEW_OSSIM_SYNC"
 
@@ -55,6 +56,7 @@ cp -r $OSSIM_SOURCES/ossim/share/ossim Utilities/otbossim/share
 find Utilities/otbossim -name '.svn' | xargs rm -rf
 find Utilities/otbossim -name '.cvsignore' | xargs rm -rf
 find Utilities/otbossim -name 'makefile.vc' | xargs rm -rf
+rm Utilities/otbossim/include/ossim/ossimConfig.h
 
 # Add new files in mercurial, remove the old one.
 hg st Utilities/otbossim
@@ -65,6 +67,7 @@ hg st Utilities/otbossim | grep '^? ' | sed -e 's/^? //' | xargs hg add
 hg commit -m "OSSIM: update ossim to r$NEW_OSSIM_SYNC"
 
 # Apply OTB patch.
+# You might need to tweak the -pN setting to fit your environment
 patch -p6 < $INCLUDE_PATCH
 patch -p6 < $SRC_PATCH
 patch -p6 < $SHARE_PATCH
