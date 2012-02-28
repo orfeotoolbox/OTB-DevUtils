@@ -34,8 +34,8 @@ OTB_WRAP_QT:BOOL=ON
 CMAKE_C_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang
 CMAKE_CXX_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang++
 
-CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -fno-color-diagnostics
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-c++0x-static-nonintegral-init -fno-color-diagnostics
+CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-c++0x-static-nonintegral-init -Wno-gnu
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
@@ -55,7 +55,7 @@ USE_FFTWF:BOOL=ON
 OTB_GL_USE_ACCEL:BOOL=OFF
 OTB_USE_MAPNIK:BOOL=OFF
 
-BOOST_ROOT:PATH=$ENV{HOME}/tools/install/boost-1.47
+BOOST_ROOT:PATH=$ENV{HOME}/tools/install/boost-1.49.0
 
     ")
 endmacro()
