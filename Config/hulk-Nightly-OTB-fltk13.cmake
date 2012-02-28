@@ -47,8 +47,6 @@ USE_FFTWD:BOOL=ON
 USE_FFTWF:BOOL=ON
 OTB_GL_USE_ACCEL:BOOL=OFF
 OTB_USE_MAPNIK:BOOL=ON
-MAPNICK_INCLUDE_DIR:PATH=$ENV{HOME}/Dashboard/install/mapnick-2.0.0/include
-MAPNICK_LIBRARY:FILEPATH=$ENV{HOME}/Dashboard/install/mapnick-2.0.0/lib/libmapnik2.so
 
     ")
 endmacro()
