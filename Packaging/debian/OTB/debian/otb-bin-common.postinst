@@ -2,16 +2,6 @@
 
 set -e
 
-LDCONFIG_FILE=/etc/ld.so.conf.d/otb-bin.conf
-
-if [ "$1" = "configure" ] ; then
-    cat > "$LDCONFIG_FILE" <<EOF
-# Orfeo Toolbox related search paths
-/usr/lib/otb/applications
-EOF
-    ldconfig
-fi
-
 #DEBHELPER#
 
 exit 0
