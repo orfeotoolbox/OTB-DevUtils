@@ -2,11 +2,11 @@ Source: otb
 Priority: extra
 Maintainer: OTB Team <contact@orfeo-toolbox.org>
 Build-Depends: debhelper (>= 9), cmake (>= 2.8), libc6-dev (>= 2.4),
- libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libgeotiff-dev,
- libpng-dev, libx11-dev, libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev,
- libgdal-dev, libproj-dev, libfltk1.3-dev, fluid, libexpat1-dev,
+ libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libgeotiff-dev, libpng-dev,
+ libx11-dev, libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev,
+ libgdal-dev (>= 1.9.0), libproj-dev, libfltk1.3-dev, fluid, libexpat1-dev,
  libtool, libcurl4-gnutls-dev, libopenthreads-dev, libboost-graph-dev,
- libqt4-dev, libqtcore4, libqtgui4, libqt4-xml, swig, python
+ libqt4-dev, libqtcore4, libqtgui4, libqt4-xml, swig, python-dev
 Standards-Version: 3.9.3
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/
