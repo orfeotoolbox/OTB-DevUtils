@@ -1,3 +1,9 @@
+otb (3.12.0-3) unstable; urgency=low
+
+  * Dependencies updated
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Sun, 11 Mar 2012 11:45:57 +0100
+
 otb (3.12.0-2) unstable; urgency=low
 
   * Added patch to compile with the last debhelper compatibility level
