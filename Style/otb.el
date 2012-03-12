@@ -37,8 +37,7 @@
 (defun apply-otb-style ()
    (c-set-style "otb")
    (indent-region (point-min) (point-max) nil)
-   (save-buffer)
-)
+   (save-buffer))
 
 ;;default compilation command
 (setq compile-command "cd ~/OTB/OTB-Binary; make")
@@ -92,13 +91,11 @@
 (add-hook 'c++-mode-hook 'maybe-ossim-style)
 
 ;; to be used in batch mode, for example with:
-;; find Utilities/otbossimplugins -name "*.h" -o -name "*.cxx" | \
-;; xargs emacs \
+;; find Utilities/otbossimplugins -name "*.h" -o -name "*.cpp" | \
+;; xargs -I {} emacs -batch {} \
 ;; -l /home/christop/.emacs.d/otb.el \
-;; -f apply-ossim-style \
-;; -batch
+;; -f apply-ossim-style
 (defun apply-ossim-style ()
    (c-set-style "ossim")
    (indent-region (point-min) (point-max) nil)
-   (save-buffer)
-)
+   (save-buffer))
