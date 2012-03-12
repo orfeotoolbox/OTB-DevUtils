@@ -34,6 +34,12 @@
           (lambda ()
             (setq tab-width 2) (turn-on-auto-fill)))
 
+(defun apply-otb-style ()
+   (c-set-style "otb")
+   (indent-region (point-min) (point-max) nil)
+   (save-buffer)
+)
+
 ;;default compilation command
 (setq compile-command "cd ~/OTB/OTB-Binary; make")
 
@@ -84,3 +90,15 @@
              (string-match "ossim" buffer-file-name))
     (c-set-style "ossim")))
 (add-hook 'c++-mode-hook 'maybe-ossim-style)
+
+;; to be used in batch mode, for example with:
+;; find Utilities/otbossimplugins -name "*.h" -o -name "*.cxx" | \
+;; xargs emacs \
+;; -l /home/christop/.emacs.d/otb.el \
+;; -f apply-ossim-style \
+;; -batch
+(defun apply-ossim-style ()
+   (c-set-style "ossim")
+   (indent-region (point-min) (point-max) nil)
+   (save-buffer)
+)
