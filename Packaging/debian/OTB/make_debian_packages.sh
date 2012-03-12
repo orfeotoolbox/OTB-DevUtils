@@ -12,7 +12,7 @@
 # http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt
 
 
-SCRIPT_VERSION="Debian 1.0"
+SCRIPT_VERSION="Debian 2.0"
 
 export DEBFULLNAME="OTB Team"
 export DEBEMAIL="contact@orfeo-toolbox.org"
@@ -65,6 +65,8 @@ Options:
   -o version    External version of the OTB library (ex. 3.8.0)
 
   -p version    Version of the package (ex. 2)
+
+  -S            Build only the source package
 
   -c message    Changelog message
 
@@ -145,6 +147,14 @@ check_external_version ()
 }
 
 
+check_package_version ()
+{
+    if [ -z "$pkg_version" ] ; then
+        pkg_version=1
+    fi
+}
+
+
 check_gpgkeyid ()
 {
     if [ -z "$gpgkeyid" ] ; then
@@ -185,7 +195,7 @@ set_debian_code_name ()
             debian_codename="Debian Testing"
             debian_version="7.0"
             ;;
-        "unstable" )
+        "sid"|"unstable" )
             debian_codename="Debian Unstable"
             debian_version="7.0"
             ;;
@@ -197,7 +207,7 @@ set_debian_code_name ()
 }
 
 
-while getopts ":r:d:o:p:c:g:w:hv" option
+while getopts ":r:d:o:p:c:g:w:Shv" option
 do
     case $option in
         d ) topdir=$OPTARG
@@ -213,6 +223,8 @@ do
         g ) gpgkeyid=$OPTARG
             ;;
         w ) workdir=$OPTARG
+            ;;
+        S ) srconly=1
             ;;
         v ) display_version
             exit 0
@@ -236,6 +248,7 @@ echo "Command line checking..."
 check_src_top_dir
 check_src_revision
 check_external_version
+check_package_version
 check_gpgkeyid
 check_working_dir
 
@@ -270,21 +283,23 @@ for f in *VERSION_SONAME* ; do
     mv "$f" "$g"
 done
 
-echo "Source package generation..."
+echo "Packages generation..."
 cd "$workdir/otb-$otb_version_full"
 set_debian_code_name "$TARGET"
 echo "Package for $debian_codename ($debian_version)"
 cp -f "$DEBDIR/changelog" debian
 
-# if [ -n "$changelog_message" ] ; then
-#     dch_message="$changelog_message"
-# else
-#     dch_message="Automated update for $debian_codename ($debian_version)."
-# fi
-# dch --force-distribution --distribution "$TARGET" \
-#     -v "${otb_version_full}-${pkg_version}" "$dch_message"
-#
-# debuild -k$gpgkeyid -S -sa --lintian-opts -i
+if [ -n "$changelog_message" ] ; then
+    dch_message="$changelog_message"
+else
+    dch_message="Automated update for $debian_codename ($debian_version)."
+fi
+dch --force-distribution --distribution "$TARGET" \
+    -v "${otb_version_full}-${pkg_version}" "$dch_message"
 
 export DEB_BUILD_OPTIONS="parallel=3"
-debuild -k$gpgkeyid --lintian-opts -i
+if [ "$srconly" == "1" ] ; then
+    debuild -k$gpgkeyid -S -sa --lintian-opts -i
+else
+    debuild -k$gpgkeyid --lintian-opts -i
+fi
