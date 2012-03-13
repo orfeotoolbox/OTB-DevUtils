@@ -6,6 +6,7 @@ Build-Depends: debhelper (>= 9), cmake (>= 2.8), libc6-dev (>= 2.4),
  libx11-dev, libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev,
  libgdal-dev (>= 1.9.0), libproj-dev, libfltk1.3-dev, fluid, libexpat1-dev,
  libtool, libcurl4-gnutls-dev, libopenthreads-dev, libboost-graph-dev,
+ libkml-dev, libmuparser-dev, libtinyxml-dev,
  libqt4-dev, libqtcore4, libqtgui4, libqt4-xml, swig, python-dev
 Standards-Version: 3.9.3
 Section: contrib/science
@@ -50,7 +51,8 @@ Depends: libotb@VERSION_SONAME@ (= ${binary:Version}), cmake (>= 2.8),
  libc6-dev (>= 2.4), libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libexpat1-dev,
  libfltk1.3-dev, fluid, libgdal-dev, libopenthreads-dev, libx11-dev,
  libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev, libgeotiff-dev,
- libboost-graph-dev, ${misc:Depends}
+ libboost-graph-dev, libkml-dev, libmuparser-dev, libtinyxml-dev,
+ ${misc:Depends}
 Description: Free library of image processing algorithms - development
  ORFEO Toolbox (OTB) is distributed as an open source library of image
  processing algorithms. OTB is based on the medical image processing library
