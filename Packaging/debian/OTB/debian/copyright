@@ -25,10 +25,6 @@ Internal dependencies (included third-party works):
   distributed under a specific license (simplified BSD-like)
   (see Copyright/VXLCopyright.txt)
 
-* FLTK (http://www.fltk.org/),
-  distributed under the FLTK License (GNU LGPL 2.0 license with exeptions)
-  (see Copyright/FLTKLicense.txt)
-
 * OSSIM (http://www.ossim.org/),
   distributed under the GNU LGPL 2.1 license
   (see Copyright/OSSIMCopyright.txt)
@@ -36,14 +32,6 @@ Internal dependencies (included third-party works):
 * LibSVM (http://www.csie.ntu.edu.tw/~cjlin/libsvm/),
   distributed under the revised BSD license
   (see Copyright/LibSVMCopyright.txt)
-
-* Boost Graph Library (BGL, http://www.boost.org/),
-  distributed under the Boost Software License 1.0
-  (revised BSD-like, see Copyright/LibBOOSTCopyright.txt)
-
-* TinyXML (http://www.grinninglizard.com/tinyxml/),
-  distributed under the zlib/libpng license
-  (see Copyright/TinyXMLCopyright.txt)
 
 * OpenJPEG (http://www.openjpeg.org/),
   distributed under the revised BSD license
@@ -54,14 +42,6 @@ Internal dependencies (included third-party works):
   wxWindows Library License
   (see Copyright/OpenThreadsCopyright.txt)
 
-* muParser (http://muparser.sourceforge.net/),
-  distributed under the MIT license
-  (see Copyright/MuParserCopyright.txt)
-
-* LibKML (http://code.google.com/p/libkml/),
-  distributed under the revised BSD license
-  (see Copyright/KMLCopyright.txt)
-
 * SiftFast (http://libsift.sourceforge.net/),
   distributed under the GNU LGPL 3.0 license
   (see Utilities/otbsiftfast/LICENSE)
@@ -69,10 +49,6 @@ Internal dependencies (included third-party works):
 * libLAS (http://liblas.org/),
   distributed under the revised BSD license
   (see Copyright/LibLASCopyright.txt)
-
-* Expat (http://expat.sourceforge.net/),
-  distributed under the MIT license
-  (see Copyright/EXPATCopyright.txt)
 
 * ConfigFile (http://www-personal.umich.edu/~wagnerr/ConfigFile.html),
   distributed under the MIT license
@@ -100,6 +76,10 @@ Internal dependencies (included third-party works):
 
 
 External dependencies (not included third-party works):
+
+* FLTK (http://www.fltk.org/),
+  distributed under the FLTK License (GNU LGPL 2.0 license with exeptions)
+  (see Copyright/FLTKLicense.txt)
 
 * GDAL (http://www.gdal.org/),
   distributed under the X/MIT license
@@ -133,6 +113,22 @@ External dependencies (not included third-party works):
 
 * Mapnik (http://www.mapnik.org/)
   distributed under the GNU LGPL 2.1 license
+
+* TinyXML (http://www.grinninglizard.com/tinyxml/),
+  distributed under the zlib/libpng license
+  (see Copyright/TinyXMLCopyright.txt)
+
+* LibKML (http://code.google.com/p/libkml/),
+  distributed under the revised BSD license
+  (see Copyright/KMLCopyright.txt)
+
+* muParser (http://muparser.sourceforge.net/),
+  distributed under the MIT license
+  (see Copyright/MuParserCopyright.txt)
+
+* Expat (http://expat.sourceforge.net/),
+  distributed under the MIT license
+  (see Copyright/EXPATCopyright.txt)
 
 
 Upstream Author(s):
@@ -186,8 +182,8 @@ Upstream Author(s):
 
 Copyright:
 
-    Copyright (c) Centre National d'Etudes Spatiales and others, see files in
-    'Copyright' directory for third parties copyrights.
+    Copyright (c) 2004-2012 Centre National d'Etudes Spatiales and others, see
+    files in 'Copyright' directory for third parties copyrights.
 
 
 License:
@@ -202,6 +198,6 @@ License:
 
 The Debian packaging is:
 
-    Copyright (C) 2010,2011 OTB Team <contact@orfeo-toolbox.org>
+    Copyright (c) 2012 OTB Team <contact@orfeo-toolbox.org>
 
     This package is distributed under the CeCILL license version 2.
