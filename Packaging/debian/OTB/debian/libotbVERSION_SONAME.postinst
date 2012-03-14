@@ -1,5 +1,4 @@
 #!/bin/sh
-
 set -e
 
 LDCONFIG_FILE=/etc/ld.so.conf.d/otb.conf
@@ -9,9 +8,6 @@ if [ "$1" = "configure" ] ; then
 # Orfeo Toolbox related search paths
 /usr/lib/otb
 EOF
-    ldconfig
 fi
 
 #DEBHELPER#
-
-exit 0
