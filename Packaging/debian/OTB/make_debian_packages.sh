@@ -28,7 +28,7 @@ fi
 DEBDIR=$CMDDIR/debian
 DEFAULT_GPGKEYID=0xAEB3D22F
 DEFAULT_WORKDIR="/tmp"
-TARGET="unstable"
+DEFAULT_TARGET="unstable"
 
 
 display_version ()
@@ -66,9 +66,11 @@ Options:
 
   -p version    Version of the package (ex. 2)
 
-  -S            Build only the source package
-
   -c message    Changelog message
+
+  -t target     Target (stable, testing, unstable, squeeze, wheezy, sid, ...)
+
+  -S            Build only the source package
 
   -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
 
@@ -155,6 +157,32 @@ check_package_version ()
 }
 
 
+check_target ()
+{
+    if [ -z "$target" ] ; then
+        target=$DEFAULT_TARGET
+    fi
+    case "$target" in
+        "squeeze"|"stable" )
+            debian_codename="Debian Squeeze"
+            debian_version="6.0"
+            ;;
+        "wheezy"|"testing" )
+            debian_codename="Debian Wheezy"
+            debian_version="7.0"
+            ;;
+        "sid"|"unstable" )
+            debian_codename="Debian Sid"
+            debian_version="7.0"
+            ;;
+        * )
+            echo "*** ERROR: Unknown target ('')"
+            exit 4
+            ;;
+    esac
+}
+
+
 check_gpgkeyid ()
 {
     if [ -z "$gpgkeyid" ] ; then
@@ -184,30 +212,7 @@ check_working_dir ()
 }
 
 
-set_debian_code_name ()
-{
-    case "$1" in
-        "squeeze"|"stable" )
-            debian_codename="Debian Stable"
-            debian_version="6.0"
-            ;;
-        "wheezy"|"testing" )
-            debian_codename="Debian Testing"
-            debian_version="7.0"
-            ;;
-        "sid"|"unstable" )
-            debian_codename="Debian Unstable"
-            debian_version="7.0"
-            ;;
-        * )
-            echo "*** ERROR: Unknown Debian version name"
-            exit 4
-            ;;
-    esac
-}
-
-
-while getopts ":r:d:o:p:c:g:w:Shv" option
+while getopts ":r:d:o:p:c:g:w:t:Shv" option
 do
     case $option in
         d ) topdir=$OPTARG
@@ -219,6 +224,8 @@ do
         p ) pkg_version=$OPTARG
             ;;
         c ) changelog_message=$OPTARG
+            ;;
+        t ) target=$OPTARG
             ;;
         g ) gpgkeyid=$OPTARG
             ;;
@@ -249,6 +256,7 @@ check_src_top_dir
 check_src_revision
 check_external_version
 check_package_version
+check_target
 check_gpgkeyid
 check_working_dir
 
@@ -285,7 +293,6 @@ done
 
 echo "Packages generation..."
 cd "$workdir/otb-$otb_version_full"
-set_debian_code_name "$TARGET"
 echo "Package for $debian_codename ($debian_version)"
 cp -f "$DEBDIR/changelog" debian
 
@@ -294,7 +301,7 @@ if [ -n "$changelog_message" ] ; then
 else
     dch_message="Automated update for $debian_codename ($debian_version)."
 fi
-dch --force-distribution --distribution "$TARGET" \
+dch --force-distribution --distribution "$target" \
     -v "${otb_version_full}-${pkg_version}" "$dch_message"
 
 export DEB_BUILD_OPTIONS="parallel=3"
