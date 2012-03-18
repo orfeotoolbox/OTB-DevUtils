@@ -1,15 +1,16 @@
 SET (ENV{DISPLAY} ":0")
-SET (ENV{CC} "/opt/local/bin/llvm-gcc-4.2")
-SET (ENV{CXX} "/opt/local/bin/llvm-g++-4.2")
+
+SET (ENV{CC} "/opt/local/bin/clang31")
+SET (ENV{CXX} "/opt/local/bin/clang31")
 
 SET (CTEST_SOURCE_DIRECTORY "/Users/otbval/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB")
-SET (CTEST_BINARY_DIRECTORY "/Users/otbval/OTB-NIGHTLY-VALIDATION/build/OTB-llvm_gcc42")
+SET (CTEST_BINARY_DIRECTORY "/Users/otbval/OTB-NIGHTLY-VALIDATION/build/OTB-clang31")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
 SET (CTEST_SITE "leod.c-s.fr")
-SET (CTEST_BUILD_NAME "MacOSX10.5-Release-llvm_gcc42")
+SET (CTEST_BUILD_NAME "MacOSX10.5-Release-clang31")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/opt/local/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
@@ -24,8 +25,8 @@ OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-Data
 
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -fPIC
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -fPIC
+CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
 OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON
@@ -53,7 +54,7 @@ OTB_GL_USE_ACCEL:BOOL=OFF
 ITK_USE_REVIEW:BOOL=ON 
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
 OTB_USE_MAPNIK:BOOL=OFF
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/OTB-llvm_gcc42
+CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/OTB-clang31
 
 GDALCONFIG_EXECUTABLE:FILEPATH=/opt/local/bin/gdal-config
 GDAL_CONFIG:FILEPATH=/opt/local/bin/gdal-config
