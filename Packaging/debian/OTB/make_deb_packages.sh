@@ -27,7 +27,40 @@ fi
 
 display_help ()
 {
-    echo "FIXME: Write a short help message"
+    cat <<EOF
+
+make_deb_packages.sh, version ${SCRIPT_VERSION}
+Copyright (C) 2010-2012 CNES (Centre National d'Etudes Spatiales)
+by Sebastien DINOT <sebastien.dinot@c-s.fr>
+
+This script is used to automate the Orfeo Toolbox library packaging for
+Debian.
+
+Usage:
+  ./make_deb_packages.sh [options]
+
+Options:
+
+  -h            Display this short help message.
+
+  -a arch       Target architecture (i386, amd64), not supported at the moment
+
+  -d dist       Target distribution (sid, unstable, wheezy, testing, ...)
+
+  -b branch     OTB branch (stable, dev)
+
+  -o repository OTB repository (only local directories are supported at the moment)
+
+  -g id         GnuPG key id used for signing if different from default
+
+  -s            Build only the source package
+
+  -w workspace  Workspace (directory wherein the packages are built)
+
+Example:
+  ./make_deb_packages.sh -b stable -o ../../../../OTB -w ~/tmp/packages/stable
+
+EOF
 }
 
 
@@ -75,28 +108,28 @@ check_distribution ()
 }
 
 
-check_release ()
+check_branch ()
 {
-    if [ -z "$release" ] ; then
-        release="dev"
+    if [ -z "$branch" ] ; then
+        branch="dev"
     fi
-    case "$release" in
+    case "$branch" in
         "dev"|"3.13" )
-            otb_release="dev"
+            otb_branch="dev"
             otb_revision="tip"
             otb_version_major="3"
             otb_version_minor="13"
             otb_version_patch="0"
             ;;
         "stable"|"3.12" )
-            otb_release="stable"
+            otb_branch="stable"
             otb_revision="3.12.0"
             otb_version_major="3"
             otb_version_minor="12"
             otb_version_patch="0"
             ;;
         * )
-            echo "*** ERROR: Unknown OTB release ('$release')"
+            echo "*** ERROR: Unknown OTB branch ('$branch')"
             exit 3
             ;;
     esac
@@ -104,7 +137,7 @@ check_release ()
     otb_version=${otb_version_major}.${otb_version_minor}.${otb_version_patch}
     otb_version_soname="${otb_version_major}.${otb_version_minor}"
 
-    debdir="$cmddir/otb-${otb_release}/debian"
+    debdir="$cmddir/otb-${otb_branch}/debian"
 }
 
 
@@ -112,7 +145,7 @@ check_repository ()
 {
     if [ -z "$otb_repository" ] ; then
         echo "*** ERROR: missing directory of the Mercurial working copy (option -s)"
-        echo "*** Use ./make_debian_packages.sh -h to show command line syntax"
+        echo "*** Use ./make_deb_packages.sh -h to show command line syntax"
         exit 4
     fi
     if [ ! -d "$otb_repository" ] ; then
@@ -214,7 +247,7 @@ build_packages ()
 
     echo "Packages generation..."
     cd "${workspace}/otb-${otb_version}"
-    echo "OTB $otb_release packages for $target_description"
+    echo "OTB $otb_branch packages for $target_description"
 
     export DEB_BUILD_OPTIONS="parallel=3"
     if [ "$srconly" == "1" ] ; then
@@ -225,24 +258,22 @@ build_packages ()
 }
 
 
-while getopts ":a:d:r:p:o:w:g:sh" option
+while getopts ":a:d:b:o:w:g:sh" option
 do
     case $option in
         a ) arch=$OPTARG
             ;;
         d ) dist=$OPTARG
             ;;
-        r ) release=$OPTARG
-            ;;
-        p ) pkg_version=$OPTARG
-            ;;
-        s ) srconly=1
+        b ) branch=$OPTARG
             ;;
         o ) otb_repository=$OPTARG
             ;;
         w ) workspace=$OPTARG
             ;;
         g ) gpgkeyid=$OPTARG
+            ;;
+        s ) srconly=1
             ;;
         h ) display_help
             exit 0
@@ -258,7 +289,7 @@ done
 echo "Command line checking..."
 check_architecture
 check_distribution
-check_release
+check_branch
 check_repository
 check_workspace
 
@@ -270,13 +301,13 @@ build_packages
 
 # Packages target:
 # - Distributor:  $target_distributor
-# - Release:      $target_release
+# - Release:      $target_branch
 # - Codename:     $target_codename
 # - Description:  $target_description
 # - Architecture: $arch
 
 # Orfeo Toolbox:
-# - Release:      $otb_release
+# - Branch:       $otb_branch
 # - Version:      $otb_version
 # - Revision:     $otb_revision
 # - Repository:   $otb_repository
