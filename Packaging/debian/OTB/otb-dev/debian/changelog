@@ -1,0 +1,29 @@
+otb (3.13.0-1) unstable; urgency=low
+
+  * Test of OTB 3.13.0 packaging
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Mon, 19 Mar 2012 15:07:42 +0100
+
+otb (3.12.0-3) unstable; urgency=low
+
+  * Dependencies updated
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Sun, 11 Mar 2012 11:45:57 +0100
+
+otb (3.12.0-2) unstable; urgency=low
+
+  * Added patch to compile with the last debhelper compatibility level
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Fri, 08 Mar 2012 18:37:15 +0100
+
+otb (3.12.0-1) unstable; urgency=low
+
+  * Switch to GDAL 1.9 (with experimental package)
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Mon, 25 Feb 2012 23:11:05 +0100
+
+otb (3.12.0-0) unstable; urgency=low
+
+  * Version 3.12.0 released, first Debian package
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Mon, 06 Feb 2012 17:50:50 +0100
