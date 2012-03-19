@@ -1,0 +1,9 @@
+Command line :
+
+Build packages for stable release :
+
+  $ ./make_deb_packages.sh -r stable -o ../../../../OTB -w ~/tmp/packages
+
+Build packages for development release :
+
+  $  ./make_deb_packages.sh -r dev -o ../../../../OTB -w ~/tmp/packages
