@@ -144,7 +144,7 @@ check_branch ()
 check_repository ()
 {
     if [ -z "$otb_repository" ] ; then
-        echo "*** ERROR: missing directory of the Mercurial working copy (option -s)"
+        echo "*** ERROR: missing directory of the Mercurial working copy (option -o)"
         echo "*** Use ./make_deb_packages.sh -h to show command line syntax"
         exit 4
     fi
