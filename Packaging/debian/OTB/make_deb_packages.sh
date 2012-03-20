@@ -253,7 +253,7 @@ build_packages ()
     if [ "$srconly" == "1" ] ; then
         debuild -k$gpgkeyid -S -sa --lintian-opts -i
     else
-        debuild -k$gpgkeyid --lintian-opts -i
+        debuild -k$gpgkeyid -sa --lintian-opts -i
     fi
 }
 
