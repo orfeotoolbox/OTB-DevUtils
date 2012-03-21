@@ -3,8 +3,8 @@
 # norootforbuild
 
 Name:           Monteverdi
-Version:        1.9.0
-Release:        0
+Version:        1.10.0
+Release:        1
 Summary:        Application based on OrfeoToolbox for remote sensing image processing
 Group:          Applications/Image
 License:        Cecill
@@ -16,7 +16,7 @@ BuildRequires: cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libp
 BuildRequires: boost-devel fltk-devel fltk-fluid gettext-devel
 BuildRequires: OrfeoToolbox-devel OrfeoToolbox
 
-Requires:      OrfeoToolbox = 3.11.0
+Requires:      OrfeoToolbox = 3.12.0
 
 
 %description
@@ -79,6 +79,9 @@ rm -rf ../temp
 
 
 %changelog
+* Wed Mar 21 2012 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.10.0-1
+- Packaging Monteverdi 1.10 for CentOS 5.5
+
 * Fri Dec 09 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.9.0-0
 - Packaging Monteverdi 1.9 for CentOS 5.5
 

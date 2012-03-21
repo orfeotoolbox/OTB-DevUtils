@@ -3,7 +3,7 @@
 # norootforbuild
 
 Name:          OrfeoToolbox-Wrapping
-Version:       1.7.0
+Version:       1.8.0
 Release:       1+java5
 Summary:       The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:         Development/Libraries
@@ -17,7 +17,7 @@ BuildRequires: libpng-devel boost-devel fltk-devel fltk-fluid CableSwig-devel
 BuildRequires: swig >= 1.3.40 python26 python26-devel jdk >= 1.5.0
 BuildRequires: OrfeoToolbox-devel OrfeoToolbox
 
-Requires:      OrfeoToolbox = 3.11.0
+Requires:      OrfeoToolbox = 3.12.0
 
 
 %description
@@ -31,7 +31,7 @@ CNES in the frame of the ORFEO Accompaniment Program
 Summary:        Java bindings for The Orfeo Toolbox library
 Group:          Development/Libraries
 License:        Cecill
-Requires:       jdk >= 1.5.0 OrfeoToolbox = 3.11.0
+Requires:       jdk >= 1.5.0 OrfeoToolbox = 3.12.0
 
 
 %description java
@@ -42,7 +42,7 @@ Java bindings for the Orfeo Toolbox library
 Summary:        Python bindings for The Orfeo Toolbox library
 Group:          Development/Libraries
 License:        Cecill
-Requires:       python26 OrfeoToolbox = 3.11.0
+Requires:       python26 OrfeoToolbox = 3.12.0
 
 
 %description python
@@ -194,6 +194,9 @@ fi
 
 
 %changelog
+* Wed Mar 21 2012 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.8.0-1+java5
+- Packaging OTB Wrapping 1.8 for CentOS 5.5
+
 * Fri Dec 09 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.7.0-0+java5
 - Packaging OTB Wrapping 1.7 for CentOS 5.5
 

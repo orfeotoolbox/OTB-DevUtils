@@ -3,8 +3,8 @@
 # norootforbuild
 
 Name:          OrfeoToolbox
-Version:       3.11.0
-Release:       2
+Version:       3.12.0
+Release:       1
 Summary:       The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:         Development/Libraries
 License:       Cecill
@@ -15,7 +15,7 @@ BuildRoot:     %{_tmppath}/%{name}-%{version}-build
 BuildRequires: cmake >= 2.8.6 gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel
 BuildRequires: libpng-devel boost-devel fltk-devel fltk-fluid uuid-devel proj-devel
 BuildRequires: expat-devel mapnik-devel libicu-devel libtool libtool-ltdl-devel
-BuildRequires: swig >= 1.3.40 python26 python26-devel
+BuildRequires: swig >= 1.3.40 python26 python26-devel qt4-devel
 
 Requires:      gdal fltk expat boost mapnik python26
 
@@ -119,6 +119,9 @@ fi
 %{_libdir}/otb/*.cmake
 
 %changelog
+* Wed Mar 21 2012 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.12.0-1
+- Packaging OTB 3.12 for CentOS 5.5
+
 * Fri Dec 09 2011 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.11.0-1
 - Packaging OTB 3.11 for CentOS 5.5
 
