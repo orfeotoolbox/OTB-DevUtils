@@ -3,7 +3,7 @@
 
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/Dashboards")
-set(CTEST_SITE "pc-grizonnetm")
+set(CTEST_SITE "pc-grizonnetm.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_NAME "ITKv4-Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
