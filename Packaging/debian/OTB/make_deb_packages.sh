@@ -53,6 +53,10 @@ Options:
 
   -g id         GnuPG key id used for signing if different from default
 
+  -p version    Version of the package (ex. 2)
+
+  -c message    Changelog message
+
   -s            Build only the source package
 
   -w workspace  Workspace (directory wherein the packages are built)
@@ -249,6 +253,14 @@ build_packages ()
     cd "${workspace}/otb-${otb_version}"
     echo "OTB $otb_branch packages for $target_description"
 
+    if [ -n "$pkg_version" ] ; then
+        if [ -z "$changelog_message" ] ; then
+            changelog_message="Automated update for $ubuntu_codename ($ubuntu_version)."
+        fi
+        dch --force-distribution --distribution "$target_release" \
+            -v "${otb_version_full}-${target}${pkg_version}" "$changelog_message"
+    fi
+
     export DEB_BUILD_OPTIONS="parallel=3"
     if [ "$srconly" == "1" ] ; then
         debuild -k$gpgkeyid -S -sa --lintian-opts -i
@@ -258,7 +270,7 @@ build_packages ()
 }
 
 
-while getopts ":a:d:b:o:w:g:sh" option
+while getopts ":a:d:b:o:w:g:p:c:sh" option
 do
     case $option in
         a ) arch=$OPTARG
@@ -272,6 +284,10 @@ do
         w ) workspace=$OPTARG
             ;;
         g ) gpgkeyid=$OPTARG
+            ;;
+        p ) pkg_version=$OPTARG
+            ;;
+        c ) changelog_message=$OPTARG
             ;;
         s ) srconly=1
             ;;
