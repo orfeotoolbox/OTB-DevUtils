@@ -51,7 +51,8 @@ Options:
 
   -o repository OTB repository (only local directories are supported at the moment)
 
-  -g id         GnuPG key id used for signing if different from default
+  -g keyid      GnuPG key id used for signing if different from default
+                (if keyid = 0, the packages are not signed).
 
   -p version    Version of the package (ex. 2)
 
@@ -190,13 +191,18 @@ check_workspace ()
 
 check_gpg_key_id ()
 {
-    if [ -z "$gpgkeyid" ] ; then
-        gpgkeyid=$DEFAULT_GPGKEYID
-    fi
-    gpg --list-secret-keys $gpgkeyid &>/dev/null
-    if [ "$?" -ne 0 ] ; then
-        echo "*** ERROR: Secret part of the GnuPG key $gpgkeyid is unavailable, the packages can't be signed"
-        exit 4
+    if [ "$gpgkeyid" == "0" ] ; then
+        signopts="-us -uc"
+    else
+        if [ -z "$gpgkeyid" ] ; then
+            gpgkeyid=$DEFAULT_GPGKEYID
+        fi
+        gpg --list-secret-keys $gpgkeyid &>/dev/null
+        if [ "$?" -ne 0 ] ; then
+            echo "*** ERROR: Secret part of the GnuPG key $gpgkeyid is unavailable, the packages can't be signed"
+            exit 4
+        fi
+        signopts="-k$gpgkeyid"
     fi
 }
 
@@ -263,9 +269,9 @@ build_packages ()
 
     export DEB_BUILD_OPTIONS="parallel=3"
     if [ "$srconly" == "1" ] ; then
-        debuild -k$gpgkeyid -S -sa --lintian-opts -i
+        debuild -S -sd $signopts --lintian-opts -i
     else
-        debuild -k$gpgkeyid -sa --lintian-opts -i
+        debuild -sd $signopts --lintian-opts -i
     fi
 }
 
