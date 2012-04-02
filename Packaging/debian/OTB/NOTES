@@ -1,9 +1,15 @@
-Command line :
+Examples :
 
-Build packages for stable release :
+Build binary packages for stable release :
 
-  $ ./make_deb_packages.sh -b stable -o ../../../../OTB -w ~/tmp/packages
+  $ ./make_deb_packages.sh -b stable -o ../../../../OTB -k 0x46047121 -w ~/tmp/packages/stable
 
-Build packages for development release :
+Build not signed source package for development release :
 
-  $ ./make_deb_packages.sh -b dev -o ../../../../OTB -w ~/tmp/packages
+  $ ./make_deb_packages.sh -b dev -o ../../../../OTB -k 0 -s -w ~/tmp/packages/dev
+
+Build a signed source package for development release with a special package
+revision :
+
+  $ ./make_deb_packages.sh -b dev -o ../../../../OTB -k 0x46047121 -s \
+        -p $(date "+%Y%j")~sid -m "Experimental OTB package" -w ~/tmp/packages/dev-sid

@@ -51,12 +51,12 @@ Options:
 
   -o repository OTB repository (only local directories are supported at the moment)
 
-  -g keyid      GnuPG key id used for signing if different from default
+  -k keyid      GnuPG key id used for signing if different from default
                 (if keyid = 0, the packages are not signed).
 
   -p version    Version of the package (ex. 2)
 
-  -c message    Changelog message
+  -m message    Changelog message
 
   -s            Build only the source package
 
@@ -246,14 +246,6 @@ build_packages ()
             < "$f.in" > "$f"
         rm -f "$f.in"
     done
-    for f in *VERSION_MAJOR* ; do
-        g=$(echo $f | sed -e "s/VERSION_MAJOR/${otb_version_major}/g")
-        mv "$f" "$g"
-    done
-    for f in *VERSION_SONAME* ; do
-        g=$(echo $f | sed -e "s/VERSION_SONAME/${otb_version_soname}/g")
-        mv "$f" "$g"
-    done
 
     echo "Packages generation..."
     cd "${workspace}/otb-${otb_version}"
@@ -264,7 +256,7 @@ build_packages ()
             changelog_message="Automated update for $ubuntu_codename ($ubuntu_version)."
         fi
         dch --force-distribution --distribution "$target_release" \
-            -v "${otb_version_full}-${target}${pkg_version}" "$changelog_message"
+            -v "${otb_version}-${pkg_version}" "$changelog_message"
     fi
 
     export DEB_BUILD_OPTIONS="parallel=3"
@@ -276,7 +268,7 @@ build_packages ()
 }
 
 
-while getopts ":a:d:b:o:w:g:p:c:sh" option
+while getopts ":a:d:b:o:w:k:p:m:sh" option
 do
     case $option in
         a ) arch=$OPTARG
@@ -289,11 +281,11 @@ do
             ;;
         w ) workspace=$OPTARG
             ;;
-        g ) gpgkeyid=$OPTARG
+        k ) gpgkeyid=$OPTARG
             ;;
         p ) pkg_version=$OPTARG
             ;;
-        c ) changelog_message=$OPTARG
+        m ) changelog_message=$OPTARG
             ;;
         s ) srconly=1
             ;;
