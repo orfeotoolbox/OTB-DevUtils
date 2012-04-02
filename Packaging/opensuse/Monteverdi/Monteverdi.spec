@@ -1,6 +1,4 @@
-#
 # spec file for package Orfeo-Applications
-#
 
 # norootforbuild
 
@@ -13,12 +11,11 @@ License:        Cecill
 URL:            http://www.orfeo-toolbox.org
 Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-# BuildArch:      noarch
 
 BuildRequires:  cmake libgdal-devel libgeotiff-devel gcc-c++ gcc gettext-runtime gettext-tools freeglut-devel libpng-devel
-BuildRequires:  fdupes OrfeoToolbox-devel libOpenThreads-devel boost-devel fltk-devel
-#Requires:       libgdal1 libgeotiff freeglut libpng14
+BuildRequires:  fdupes OrfeoToolbox-devel libOpenThreads-devel boost-devel
 BuildRequires:	fltk-devel
+BuildRequires:	fltk
 
 %description
 %{name} is a image processing application developed by CNES in the frame of the ORFEO Accompaniment Program
