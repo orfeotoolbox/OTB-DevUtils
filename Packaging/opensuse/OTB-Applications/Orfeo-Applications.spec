@@ -1,6 +1,4 @@
-#
 # spec file for package Orfeo-Applications
-#
 
 # norootforbuild
 
@@ -13,11 +11,11 @@ License:        Cecill
 URL:            http://www.orfeo-toolbox.org
 Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-# BuildArch:      noarch
 
 BuildRequires:  cmake libgdal-devel libgeotiff-devel gcc-c++ gcc gettext-runtime gettext-tools freeglut-devel libpng-devel libqt4-devel
-BuildRequires:  fdupes libOpenThreads-devel boost-devel OrfeoToolbox-devel fltk fltk-devel
-#Requires:       libgdal1 libgeotiff freeglut libpng
+BuildRequires:  fdupes libOpenThreads-devel boost-devel OrfeoToolbox-devel
+BuildRequires:	fltk-devel
+BuildRequires:	fltk
 
 
 %description
