@@ -29,10 +29,23 @@ macro(dashboard_hook_init)
     ITK_USE_REVIEW:BOOL=ON
     ITK_USE_CONCEPT_CHECKING:BOOL=ON
     ITKV3_COMPATIBILITY:BOOL=OFF
-    ITK_USE_64BITS_IDS:BOOL=OFF
-    ITK_COMPUTER_MEMORY_SIZE:STRING=16
     CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
     CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wextra
+    ExternalData_OBJECT_STORES:PATH=/home/otbtesting/Dashboards/My_Tests/ITKv4-ExternalObjectStores
+	# as much external libraries as possible
+	# libtiff on ubuntu does not support BigTIFF and is incompatible with ITK
+	ITK_USE_SYSTEM_HDF5:BOOL=ON
+	ITK_USE_SYSTEM_GDCM:BOOL=OFF
+	ITK_USE_SYSTEM_JPEG:BOOL=ON
+	ITK_USE_SYSTEM_PNG:BOOL=ON
+	ITK_USE_SYSTEM_TIFF:BOOL=OFF
+	ITK_USE_SYSTEM_ZLIB:BOOL=ON
+
+	# OTB depends on this
+	USE_FFTWF:BOOL=ON
+	USE_FFTWD:BOOL=ON
+	USE_SYSTEM_FFTW:BOOL=ON
+
     ")
 endmacro()
 
