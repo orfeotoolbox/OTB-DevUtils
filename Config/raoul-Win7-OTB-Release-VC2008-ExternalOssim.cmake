@@ -24,15 +24,15 @@ OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
 
-OTB_USE_EXTERNAL_BOOST:BOOL=ON
-OTB_USE_MAPNIK:BOOL=ON
-MAPNIK_INCLUDE_DIR:PATH=C:/OSGeo4W/include/mapnik
-MAPNIK_LIBRARY:FILEPATH=C:/OSGeo4W/lib/mapnik.lib
-FREETYPE2_INCLUDE_DIR:PATH=C:/OSGeo4W/include/freetype
-ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
-ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
-LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
-LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
+OTB_USE_EXTERNAL_BOOST:BOOL=OFF
+OTB_USE_MAPNIK:BOOL=OFF
+#MAPNIK_INCLUDE_DIR:PATH=C:/OSGeo4W/include/mapnik
+#MAPNIK_LIBRARY:FILEPATH=C:/OSGeo4W/lib/mapnik.lib
+#FREETYPE2_INCLUDE_DIR:PATH=C:/OSGeo4W/include/freetype
+#ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
+#ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
+#LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
+#LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
 
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
 OSSIM_INCLUDE_DIR:PATH=C:/Users/jmalik/Dashboard/install/ossim-trunk/include
