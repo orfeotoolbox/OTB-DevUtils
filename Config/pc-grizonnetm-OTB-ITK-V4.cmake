@@ -27,7 +27,7 @@ macro(dashboard_hook_init)
 
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
-OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
+OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-ITKv4-Data
 
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
