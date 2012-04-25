@@ -50,7 +50,7 @@ execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL
 execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://otmane:Crabgejtov8@www.orfeo-toolbox.org/SandBox/GE-Monteverdi
+execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://www.orfeo-toolbox.org/SandBox/GE-Monteverdi
                  WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
                  OUTPUT_VARIABLE   OTB_PULL_RESULT
                  ERROR_VARIABLE    OTB_PULL_RESULT )
