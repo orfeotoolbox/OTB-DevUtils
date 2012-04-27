@@ -38,6 +38,12 @@ BUILD_EXAMPLES:BOOL=ON
 OTB_USE_EXTERNAL_ITK:BOOL=ON
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/${dashboard_root_name}/bin/ITKv4-Debug
 
+GDAL_CONFIG:STRING=/home/otbtesting/local/bin/gdal_trunk/bin/gdal-config
+GDALCONFIG_EXECUTABLE:STRING=/home/otbtesting/local/bin/gdal_trunk/bin/gdal-config
+GDAL_INCLUDE_DIR:STRING=/home/otbtesting/local/bin/gdal_trunk/include
+GDAL_LIBRARY:STRING=/home/otbtesting/local/bin/gdal_trunk/lib/libgdal.so
+OGR_INCLUDE_DIRS:STRING=/home/otbtesting/local/bin/gdal_trunk/include
+
 OTB_USE_CURL:BOOL=ON
 OTB_USE_PQXX:BOOL=OFF
 OTB_USE_PATENTED:BOOL=OFF
