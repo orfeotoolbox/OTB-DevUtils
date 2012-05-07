@@ -28,8 +28,9 @@ macro(dashboard_hook_init)
 OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 
-CMAKE_C_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage  -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable -Wextra
-CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wshadow -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wextra
+CMAKE_C_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage  -Wall -Wno-uninitialized -Wno-unused-variable -fPIC
+CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -fPIC
+CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=-g -O0 -fprofile-arcs -ftest-coverage -fPIC
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
