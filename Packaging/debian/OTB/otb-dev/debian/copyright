@@ -66,8 +66,8 @@ Internal dependencies (included third-party works):
 
 * 6S (http://6s.ltdri.org/)
   No license information available on the website but the authors gave CNES
-  the permission to use Edison code inside OTB and to release it under CeCILL
-  v2 license. FIXME: add a link to the authorization.
+  the permission to use 6S code inside OTB and to release it under CeCILL v2
+  license. FIXME: add a link to the authorization.
 
 * Edison (http://coewww.rutgers.edu/riul/research/robust.html)
   No license information available on the website but the authors gave CNES
