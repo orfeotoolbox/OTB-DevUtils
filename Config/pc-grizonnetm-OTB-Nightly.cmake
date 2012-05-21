@@ -5,7 +5,7 @@ SET (CTEST_SITE "pc-grizonnetm.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}-GDAL_trunk")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 set(CTEST_HG_COMMAND "/usr/bin/hg")
@@ -30,7 +30,7 @@ OTB_DATA_ROOT:STRING=/mnt/dd-2/OTB/trunk/OTB-Data
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-
+CMAKE_INSTALL_PREFIX:STRING=/mnt/dd-2/OTB/OTB-Binary-Nightly-Install
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 OTB_USE_CURL:BOOL=ON
