@@ -22,6 +22,9 @@ mkdir $BOOST_SUBPARTROOT
 echo 'Extract what we need from Code'
 grep -r "^#include <boost/" $OTB_ROOT/Code | cut -d ' ' -f 2 | sed 's/<\(.*\)>/\1/' > $TMP1
 
+echo 'Extract what we need from Examples'
+grep -r "^#include <boost/" $OTB_ROOT/Examples | cut -d ' ' -f 2 | sed 's/<\(.*\)>/\1/' > $TMP1
+
 echo 'Extract what we need from Utilities/otbliblas'
 grep -r "^#include <boost/" $OTB_ROOT/Utilities/otbliblas | cut -d ' ' -f 2 | sed 's/<\(.*\)>/\1/' >> $TMP1
 
@@ -52,18 +55,18 @@ hg revert $OTB_ROOT/Utilities/BGL/boost/CMakeLists.txt
 files_to_remove=$(hg st Utilities/BGL | grep '^! ' | sed -e 's/^! //')
 need_to_commit=0
 if [ -n "$files_to_remove" ] ; then
-    xargs hg rm $files_to_remove
+    hg rm $files_to_remove
     need_to_commit=1
 else
     echo "No deprecated dependencies/files to remove"
 fi
 files_to_add=$(hg st Utilities/BGL | grep '^? ' | sed -e 's/^? //')
 if [ -n "$files_to_add" ] ; then
-    xargs hg add $files_to_add
+    hg add $files_to_add
     need_to_commit=1
 else
     echo "No new files"
 fi
 if [ $need_to_commit -gt 0 ] ; then
-    echo hg commit -m "ENH: update Boost to $BOOST_VER" $OTB_ROOT/Utilities/BGL
+    hg commit -m "ENH: update dependencies to Boost v$BOOST_VER" $OTB_ROOT/Utilities/BGL
 fi
