@@ -47,7 +47,7 @@ OTB_USE_GETTEXT:BOOL=OFF
 OTB_USE_JPEG2000:BOOL=ON
 
 OTB_WRAP_PYTHON:BOOL=ON
-OTB_WRAP_JAVA:BOOL=ON
+#OTB_WRAP_JAVA:BOOL=ON
 OTB_WRAP_QT:BOOL=ON
 #OTB_WRAP_PYQT:BOOL=ON
 
@@ -59,19 +59,19 @@ PYTHON_LIBRARY:FILEPATH=C:/OSGeo4W/apps/Python27/libs/python27.lib
 
 
 # Java Stuffs
-JAVA_JVM_LIBRARY:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/lib/jvm.lib
-JAVA_INCLUDE_PATH:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include
-JAVA_INCLUDE_PATH2:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include/win32
-JAVA_AWT_INCLUDE:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include
-JAVA_RUNTIME:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
-JAVA_COMPILE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
-JAVA_ARCHIVE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
-JAVA_MAXIMUM_HEAP_SIZE:STRING=1G
-JAVA_INITIAL_HEAP_SIZE:STRING=256m
+#JAVA_JVM_LIBRARY:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/lib/jvm.lib
+#JAVA_INCLUDE_PATH:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include
+#JAVA_INCLUDE_PATH2:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include/win32
+#JAVA_AWT_INCLUDE:PATH=C:/Program Files (x86)/Java/jdk1.6.0_22/include
+#JAVA_RUNTIME:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
+#JAVA_COMPILE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
+#JAVA_ARCHIVE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
+#JAVA_MAXIMUM_HEAP_SIZE:STRING=1G
+#JAVA_INITIAL_HEAP_SIZE:STRING=256m
 
-Java_JAR_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
-Java_JAVAC_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
-Java_JAVA_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
+#Java_JAR_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/jar.exe
+#Java_JAVAC_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/javac.exe
+#Java_JAVA_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Java/jdk1.6.0_22/bin/java.exe
 
 
 ")
