@@ -1,5 +1,8 @@
 import os, sys, shutil, datetime, subprocess
 
+OTB_SRC="C:\\Users\\jmalik\\Dashboard\\src\\OTB"
+MONTEVERDI_SRC="C:\\Users\\jmalik\\Dashboard\\src\\Monteverdi"
+OTB_WRAPPING_SRC="C:\\Users\\jmalik\\Dashboard\\src\\OTB-Wrapping"
 
 OTB_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\OTB-Release-VC2008-ExternalOssim"
 MONTEVERDI_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\Monteverdi-Release-VC2008"
@@ -10,10 +13,30 @@ OSGEO4W_STAGING="C:\\Users\\jmalik\\Dashboard\\osgeo4w"
 OSGEO4W_TEMPLATE="C:\\Users\\jmalik\\Dashboard\\src\\OTB-DevUtils\\Packaging\\osgeo4w"
 TAREXE="C:\\OSGeo4W\\apps\\msys\\bin\\tar.exe"
 
+def get_version(cmakelistpath, id):
+    with open(cmakelistpath) as cmakelist:
+        for line in cmakelist:
+            if "SET(" + id + "_VERSION_MAJOR" in line:
+                MAJOR = line.split()[1].split('"')[1]
+                
+            if "SET(" + id + "_VERSION_MINOR" in line:
+                MINOR = line.split()[1].split('"')[1]
+                
+            if "SET(" + id + "_VERSION_PATCH" in line:
+                PATCH = line.split()[1].split('"')[1]
+    return "%s.%s.%s" % (MAJOR, MINOR, PATCH)
+
+
+    
 # TODO extract this automatically
-OTB_VERSION="3.11.0"
-MONTEVERDI_VERSION="1.9.0"
-OTB_WRAPPING_VERSION="1.7.0"
+OTB_VERSION = get_version( os.path.join(OTB_SRC, "CMakeLists.txt"), "OTB" )
+print "OTB version : %s" % OTB_VERSION
+
+MONTEVERDI_VERSION = get_version( os.path.join(MONTEVERDI_SRC, "CMakeLists.txt"), "Monteverdi" )
+print "Monteverdi version : %s" % MONTEVERDI_VERSION
+
+OTB_WRAPPING_VERSION = get_version( os.path.join(OTB_WRAPPING_SRC, "CMakeLists.txt"), "OTB-Wrapping" )
+print "OTB-Wrapping version : %s" % OTB_WRAPPING_VERSION
 
 
 todayiso = datetime.date.today().isoformat().replace('-','')
