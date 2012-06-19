@@ -152,6 +152,10 @@ check_gpgkeyid ()
 set_ubuntu_code_name ()
 {
     case "$1" in
+        "precise" )
+            ubuntu_codename="Precise Pangolin"
+            ubuntu_version="12.04"
+            ;;
         "oneiric" )
             ubuntu_codename="Oneiric Ocelot"
             ubuntu_version="11.10"
@@ -262,18 +266,18 @@ echo "Source package generation..."
 #cp -ar /home/otbval/Dashboard/src/gdalpackage_lucid .
 #cd gdalpackage_lucid/gdal-1.8.0
 #for target in karmic lucid maverick natty ; do
-for target in maverick ; do
-    cd /tmp/gdal/maverick/gdal-1.8.0
+for target in lucid oneiric precise ; do
+    cd /tmp/gdal/$target/gdal-1.9.1
     set_ubuntu_code_name $target
     echo "Package for $ubuntu_codename ($ubuntu_version)"
 #    cp -f "$DEBDIR/changelog" debian
     if [ -n "$changelog_message" ] ; then
         dch_message="$changelog_message"
     else
-        dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
+        dch_message="Enabled internal libtiff/libgeotiff symbols renaming"
     fi
     dch --force-distribution --distribution "$target" \
-        -v "1.8.0-2~maverick2+otb3" "Don't disable the GTiff driver on libtiff version mismatch"
+        -v "1.9.1-2~${target}4" "$dch_message"
     debuild -k$gpgkeyid -S -sa --lintian-opts -i
 done
 
