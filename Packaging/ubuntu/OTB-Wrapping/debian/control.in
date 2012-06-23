@@ -3,7 +3,7 @@ Priority: extra
 Maintainer: OTB Team <contact@orfeo-toolbox.org>
 Build-Depends: debhelper (>= 7), cdbs, cmake (>= 2.6), libc6-dev (>= 2.4), swig, cableswig,
  libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libotb@OTB_VERSION_MAJOR@-dev (>= @OTB_VERSION_FULL@),
- libgdal1-dev, python2.6, python2.6-dev, python-central (>= 0.6.11), openjdk-6-jdk
+ libgdal1-dev, python (>= 2.6), python-central (>= 0.6.11), openjdk-6-jdk
 Standards-Version: 3.8.4
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/
