@@ -3,7 +3,7 @@
 # norootforbuild
 
 Name:           Orfeo-Applications
-Version:        3.12.0
+Version:        3.14.0
 Release:        1
 Summary:        Applications based on OrfeoToolbox for remote sensing image processing
 Group:          Development/Libraries
@@ -35,7 +35,7 @@ cmake  -DBUILD_TESTING:BOOL=OFF \
        -DCMAKE_SKIP_RPATH:BOOL=ON \
        -DOTB_USE_QGIS:BOOL=OFF \
        -DOTB_USE_QT:BOOL=ON \
-       -DOTB_DIR:PATH=%{_libdir}/otb \
+       -DOTB_DIR:PATH=/usr/%{_lib}/otb \
        -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
 
 make VERBOSE=1
