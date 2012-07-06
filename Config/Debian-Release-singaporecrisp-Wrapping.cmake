@@ -1,7 +1,0 @@
-SET( CMAKE_BUILD_TYPE "Release" CACHE STRING "debianRelease" FORCE )
-SET( OTB_DIR "/home/otbtesting/OTB/OTB-Binary-Nightly" CACHE STRING "debianRelease" FORCE )
-SET( CableSwig_DIR "/home/christop/opensource/CableSwig-Binary" CACHE STRING "debianRelease" FORCE )
-SET( WRAP_LevelSet "OFF" CACHE STRING "debianRelease" FORCE )
-SET( WRAP_Morphology "OFF" CACHE STRING "debianRelease" FORCE )
-SET( WRAP_ITK_DIMS "2" CACHE STRING "debianRelease" FORCE )
-SET( WRAP_ITK_PYTHON ON CACHE BOOL "debianRelease" FORCE )
