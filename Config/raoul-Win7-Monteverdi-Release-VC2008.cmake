@@ -63,5 +63,5 @@ ctest_submit (PARTS Start Update Configure)
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}"
              TARGET INSTALL)
 ctest_submit (PARTS Start Update Configure Build)
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
+ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_submit ()
