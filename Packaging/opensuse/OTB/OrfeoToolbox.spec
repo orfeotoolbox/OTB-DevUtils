@@ -62,8 +62,8 @@ cmake  -DBUILD_EXAMPLES:BOOL=OFF \
        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
        -DCMAKE_SKIP_RPATH:BOOL=ON \
        -DOTB_INSTALL_LIB_DIR:STRING=%{_lib}/otb \
-       -DITK_INSTALL_LIB_DIR:STRING=/%{_lib} \
        -DOTB_INSTALL_APP_DIR:STRING=%{_lib}/otb/applications \
+       -DOTB_INSTALL_PYTHON_DIR:STRING=%{_lib}/otb/python \
        -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
 
 make VERBOSE=1 %{?_smp_mflags}
@@ -78,17 +78,11 @@ LDCONFIG_FILE=%{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 cat > "$LDCONFIG_FILE" <<EOF
 # Orfeo Toolbox related search paths
 /usr/lib64/otb
-/usr/lib64/otb/applications
-/usr/lib64/otb/python
 EOF
-mkdir -p %{buildroot}/usr/%{_lib}/otb
-mv %{buildroot}/usr/lib/otb/* %{buildroot}/usr/%{_lib}/otb/
 %else
 cat > "$LDCONFIG_FILE" <<EOF
 # Orfeo Toolbox related search paths
 /usr/lib/otb
-/usr/lib/otb/applications
-/usr/lib/otb/python
 EOF
 %endif
 %fdupes %{buildroot}%{_includedir}/otb
@@ -107,7 +101,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %config %{_sysconfdir}/ld.so.conf.d/otb.conf
 %{_bindir}/*
-%{_libdir}/lib*.so.*
+#%{_libdir}/lib*.so.*
 %dir %{_libdir}/otb/
 %{_libdir}/otb/lib*.so.*
 %dir %{_libdir}/otb/applications/
@@ -119,7 +113,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %{_includedir}/otb/
 %{_libdir}/otb/lib*.so
-%{_libdir}/lib*.so
-%{_libdir}/otb/*.cmake 
+#%{_libdir}/lib*.so
+%{_libdir}/otb/*.cmake
+%{_libdir}/otb/cmakemodules/ 
 
 %changelog
