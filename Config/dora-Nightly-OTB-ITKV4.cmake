@@ -21,7 +21,7 @@ set(dashboard_fresh_source_checkout ON)
 set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
 set(dashboard_hg_branch "default")
 
-SET(OTB_GDAL_INSTALL_DIR "$ENV{HOME}/OTB-OUTILS/gdal/install-linux-gdal-1.9.0")
+SET(OTB_GDAL_INSTALL_DIR "$ENV{HOME}/OTB-OUTILS/gdal/install/gdal-1.9.1")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
