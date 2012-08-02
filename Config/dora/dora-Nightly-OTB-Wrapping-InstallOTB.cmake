@@ -46,9 +46,9 @@ CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
 #GDAL_INCLUDE_DIR:STRING=${OTB_GDAL_INSTALL_DIR}/include
 #GDAL_LIBRARY:FILEPATH=${OTB_GDAL_INSTALL_DIR}/lib/libgdal.so
 
-SWIG_DIR:PATH=$ENV{HOME}/OTB-OUTILS/swig/install-linux
-SWIG_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/swig/install-linux/bin/swig
-CableSwig_DIR:PATH=$ENV{HOME}/OTB-OUTILS/cableswig/binaries-linux-release-cableswig-3.16.0
+#SWIG_DIR:PATH=$ENV{HOME}/OTB-OUTILS/swig/install-linux
+#SWIG_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/swig/install-linux/bin/swig
+#CableSwig_DIR:PATH=$ENV{HOME}/OTB-OUTILS/cableswig/binaries-linux-release-cableswig-3.16.0
 WRAP_ITK_PYTHON:BOOL=ON
 WRAP_ITK_JAVA:BOOL=ON
 
