@@ -12,7 +12,7 @@ SET (CTEST_HG_COMMAND "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
 
 SET (ENV{DISPLAY} ":0.0")
-SET (ENV{LD_LIBRARY_PATH} "$ENV{HOME}/Dashboard/nightly/OTB-Release/install/OTB/lib/otb:$ENV{LD_LIBRARY_PATH}")
+SET (ENV{LD_LIBRARY_PATH} "$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/otb:$ENV{LD_LIBRARY_PATH}")
 #SET (ENV{LD_LIBRARY_PATH} "${OTB_GDAL_INSTALL_DIR}/lib:$ENV{LD_LIBRARY_PATH}")
 #SET (ENV{LD_LIBRARY_PATH} "$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.9/bin:$ENV{LD_LIBRARY_PATH}")
 
@@ -33,8 +33,6 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 CMAKE_BUILD_TYPE:STRING=Release
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/otb
-
-
 BUILD_TESTING:BOOL=ON
 
 CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
