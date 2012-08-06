@@ -1,11 +1,11 @@
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-Wrapping")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/OTB-Wrapping")
+SET (CTEST_SOURCE_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Wrapping/src")
+SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Wrapping/build")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k install" )
 SET (CTEST_SITE "leod.c-s.fr")
-SET (CTEST_BUILD_NAME "MacOSX10.5-Release-macport")
+SET (CTEST_BUILD_NAME "MacOSX10.8-Release-macport")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/opt/local/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
@@ -15,23 +15,24 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
 
-OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/Users/otbval/Data/OTB-LargeInput
-OTB_DATA_ROOT:STRING=$ENV{HOME}/WWW.ORFEO-TOOLBOX.ORG-CS-NIGHTLY/OTB-Data
+#OTB_DATA_USE_LARGEINPUT:BOOL=ON
+#OTB_DATA_LARGEINPUT_ROOT:STRING=/Users/otbval/Data/OTB-LargeInput
+OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 
-CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc-4.2
-CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++-4.2
+
+CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc
+CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-CMAKE_OSX_ARCHITECTURES:STRING=i386
+#CMAKE_OSX_ARCHITECTURES:STRING=i386
 CMAKE_BUILD_TYPE:STRING=Release
 
-OTB_DIR:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/build/OTB-macport
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build
 
 BUILD_TESTING:BOOL=ON
 
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/OTB-NIGHTLY-VALIDATION/install/OTB-Wrapping
+CMAKE_INSTALL_PREFIX:STRING=/Users/otbval/Dashboard/nightly/OTB-Wrapping/install
 
 GDALCONFIG_EXECUTABLE:FILEPATH=/opt/local/bin/gdal-config
 GDAL_CONFIG:FILEPATH=/opt/local/bin/gdal-config
@@ -48,9 +49,10 @@ JPEG_INCLUDE_DIRS:PATH=/opt/local/include
 JPEG_INCLUDE_DIR:PATH=/opt/local/include
 JPEG_LIBRARY:FILEPATH=/opt/local/lib/libjpeg.dylib
 
-SWIG_DIR:PATH=$ENV{HOME}/OTB-OUTILS/swig/install-macosx
-SWIG_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/swig/install-macosx/bin/swig
-CableSwig_DIR:PATH=$ENV{HOME}/OTB-OUTILS/cableswig/binaries-macosx-release-cableswig-3.16.0
+## TODO : need configuration
+#SWIG_DIR:PATH=$ENV{HOME}/OTB-OUTILS/swig/install-macosx
+#SWIG_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/swig/install-macosx/bin/swig
+#CableSwig_DIR:PATH=$ENV{HOME}/OTB-OUTILS/cableswig/binaries-macosx-release-cableswig-3.16.0
 WRAP_ITK_PYTHON:BOOL=ON
 WRAP_ITK_JAVA:BOOL=ON
 
