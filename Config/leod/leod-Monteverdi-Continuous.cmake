@@ -1,5 +1,5 @@
 SET (CTEST_SOURCE_DIRECTORY "/Users/otbval/Dashboard/continuous/Monteverdi/src")
-SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/continuous/Monteverdi/src")
+SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/continuous/Monteverdi/build")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
