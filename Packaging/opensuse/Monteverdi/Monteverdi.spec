@@ -3,7 +3,7 @@
 # norootforbuild
 
 Name:           Monteverdi
-Version:        1.10.0
+Version:        1.12.0
 Release:        1
 Summary:        Application based on OrfeoToolbox for remote sensing image processing
 Group:          Development/Libraries

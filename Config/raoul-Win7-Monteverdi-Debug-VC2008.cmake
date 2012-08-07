@@ -20,17 +20,45 @@ OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
 
-GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
-GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
 
 OTB_DIR:PATH=C:/Users/jmalik/Dashboard/build/OTB-Debug-VC2008
 OTB_USE_CPACK:BOOL=ON
+
+MAPNIK_INCLUDE_DIR:PATH=C:/OSGeo4W/include/mapnik
+MAPNIK_LIBRARY:FILEPATH=C:/OSGeo4W/lib/mapnik.lib
+FREETYPE2_INCLUDE_DIR:PATH=C:/OSGeo4W/include/freetype
+ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
+ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
+LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
+LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
+
+GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
+
+GEOTIFF_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
+GEOTIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/geotiff_i.lib
+
+JPEG_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
+JPEG_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+JPEG_LIBRARY:FILEPATH=C:/OSGeo4W/lib/jpeg_i.lib
+
+TIFF_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
+TIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libtiff_i.lib
+
+CURL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+CURL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libcurl_imp.lib
 
 EXPAT_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 EXPAT_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libexpat.lib
 
 LIBLAS_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 LIBLAS_LIBRARY:FILEPATH=C:/OSGeo4W/lib/liblas_c.lib
+
+ZLIB_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+ZLIB_LIBRARY:FILEPATH=C:/OSGeo4W/lib/zlib.lib
+
+PNG_PNG_INCLUDE_DIR:PATH=C:/OSGeo4W/include
+PNG_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libpng13.lib
 
 ")
 
@@ -57,5 +85,5 @@ ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 #ctest_submit (PARTS Start Update Configure)
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 #ctest_submit (PARTS Build)
-#ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
+ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_submit ()

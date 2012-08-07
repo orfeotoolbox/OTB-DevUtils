@@ -11,3 +11,4 @@ usr/include/otb
 
 # CMake helper scripts
 usr/lib/otb/*.cmake
+usr/lib/otb/cmakemodules
