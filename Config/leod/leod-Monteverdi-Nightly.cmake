@@ -25,10 +25,11 @@ CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_OSX_ARCHITECTURES:STRING=x86_64
 
 CMAKE_BUILD_TYPE:STRING=Release
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build
 
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/nightly/Monteverdi-Release/install
