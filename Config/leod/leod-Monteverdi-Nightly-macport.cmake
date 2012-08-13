@@ -8,7 +8,7 @@ SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi-Release/bui
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
 SET (CTEST_SITE "leod.c-s.fr")
 SET (CTEST_BUILD_NAME "MacOSX10.8-Release-macport")
 SET (CTEST_BUILD_CONFIGURATION "Release")
