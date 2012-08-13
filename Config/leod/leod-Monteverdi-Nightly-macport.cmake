@@ -38,7 +38,7 @@ CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build
 
 #MAPNIK_INCLUDE_DIR:PATH=/opt/local/include
 #MAPNIK_LIBRARY:FILEPATH=/opt/local/lib/libmapnik.dylib
