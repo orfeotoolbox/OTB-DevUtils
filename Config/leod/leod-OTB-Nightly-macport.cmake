@@ -8,9 +8,9 @@ SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/experimental/OTB-Release/bu
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "/opt/local/bin/cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
+SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
 SET (CTEST_SITE "leod.c-s.fr")
-SET (CTEST_BUILD_NAME "MacOSX10.8-Release-macport")
+SET (CTEST_BUILD_NAME "MacOSX10.8-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/opt/local/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
