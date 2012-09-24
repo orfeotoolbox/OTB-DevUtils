@@ -1,5 +1,5 @@
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Wrapping-Release/src")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Wrapping-Release-InstallOTB/src")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Wrapping-Release-InstallOTB/build")
 
 
