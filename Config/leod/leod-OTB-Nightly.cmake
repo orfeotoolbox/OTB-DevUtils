@@ -1,7 +1,7 @@
 SET (ENV{DISPLAY} ":0")
 
-SET (CTEST_SOURCE_DIRECTORY "/Users/otbval/Dashboard/experimental/OTB-Release/src")
-SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/experimental/OTB-Release/build")
+SET (CTEST_SOURCE_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Release/src")
+SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Release/build")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "/opt/local/bin/cmake" )
@@ -51,7 +51,7 @@ OTB_GL_USE_ACCEL:BOOL=OFF
 ITK_USE_REVIEW:BOOL=ON
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
 OTB_USE_MAPNIK:BOOL=OFF
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/experimental/OTB-Release/install
+CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/install
 
 GDALCONFIG_EXECUTABLE:FILEPATH=/opt/local/bin/gdal-config
 GDAL_CONFIG:FILEPATH=/opt/local/bin/gdal-config
@@ -86,7 +86,7 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-ctest_start(Experimental)
+ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
