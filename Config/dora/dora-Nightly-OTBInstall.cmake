@@ -1,5 +1,5 @@
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Release-InstallOTB/src")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Release/src")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Release-InstallOTB/build")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
