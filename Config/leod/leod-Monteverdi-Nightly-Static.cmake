@@ -8,7 +8,7 @@ SET (CTEST_SITE "leod.c-s.fr")
 SET (CTEST_BUILD_NAME "MacOSX10.5-g++4.0.1-Release-Static")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/opt/local/bin/hg")
-#SET (CTEST_HG_UPDATE_OPTIONS "-C")
+SET (CTEST_HG_UPDATE_OPTIONS "-C")
 SET (ENV{DISPLAY} ":0")
 
 SET (CTEST_INITIAL_CACHE "
@@ -41,22 +41,12 @@ OTB_USE_CPACK:BOOL=ON
 
 ")
 
-SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-
 SET (CTEST_NOTES_FILES
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi-Nightly
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   PULL_RESULT
-                 ERROR_VARIABLE    PULL_RESULT )
-file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
-
 ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})

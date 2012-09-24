@@ -25,11 +25,6 @@ OTB_DATA_ROOT:STRING=/Users/otbval/Data/OTB-Data
 OTB_USE_VISU_GUI:BOOL=ON
 OTB_USE_SIFTFAST:BOOL=OFF
 
-#CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc-4.2
-#CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++-4.2
-CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc
-CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++
-
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
@@ -93,7 +88,6 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 ctest_start(Continuous)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}" RETURN_VALUE count)
 message("Found ${count} changed files")
-
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})

@@ -1,7 +1,4 @@
 SET (ENV{DISPLAY} ":0")
-SET (ENV{CC} "/usr/bin/gcc")
-SET (ENV{CPP} "/usr/bin/cpp")
-SET (ENV{CXX} "/usr/bin/g++")
 
 SET (CTEST_SOURCE_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Release/src")
 SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Release/build")
@@ -86,22 +83,12 @@ CURL_LIBRARY:FILEPATH=/opt/local/lib/libcurl.dylib
 
 ")
 
-SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-
 SET (CTEST_NOTES_FILES
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Nightly
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   PULL_RESULT
-                 ERROR_VARIABLE    PULL_RESULT )
-file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
-
 ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})

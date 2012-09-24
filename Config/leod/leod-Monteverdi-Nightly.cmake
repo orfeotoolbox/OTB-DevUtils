@@ -37,22 +37,12 @@ CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/nightly/Monteverdi-Release/inst
 GDAL_INCLUDE_DIR:STRING=/opt/local/include
 ")
 
-SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-
 SET (CTEST_NOTES_FILES
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi-Nightly
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   PULL_RESULT
-                 ERROR_VARIABLE    PULL_RESULT )
-file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
-
 ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
