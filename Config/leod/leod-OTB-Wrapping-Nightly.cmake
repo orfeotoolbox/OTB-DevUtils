@@ -19,13 +19,8 @@ CTEST_USE_LAUNCHERS:BOOL=ON
 #OTB_DATA_LARGEINPUT_ROOT:STRING=/Users/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 
-
-CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc
-CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++
-
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-#CMAKE_OSX_ARCHITECTURES:STRING=i386
 CMAKE_BUILD_TYPE:STRING=Release
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build
