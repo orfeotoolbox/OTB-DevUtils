@@ -19,6 +19,10 @@ CTEST_USE_LAUNCHERS:BOOL=ON
 #OTB_DATA_LARGEINPUT_ROOT:STRING=/Users/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 
+
+CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc
+CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++
+
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
@@ -50,7 +54,7 @@ JPEG_LIBRARY:FILEPATH=/opt/local/lib/libjpeg.dylib
 #SWIG_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/swig/install-macosx/bin/swig
 #CableSwig_DIR:PATH=$ENV{HOME}/OTB-OUTILS/cableswig/binaries-macosx-release-cableswig-3.16.0
 WRAP_ITK_PYTHON:BOOL=ON
-#WRAP_ITK_JAVA:BOOL=ON
+WRAP_ITK_JAVA:BOOL=ON
 
 # We need the following to be compatible with cmake 2.8.2
 JAVA_ARCHIVE:FILEPATH=/usr/bin/jar
