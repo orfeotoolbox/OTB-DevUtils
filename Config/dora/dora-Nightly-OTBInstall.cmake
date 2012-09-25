@@ -1,5 +1,5 @@
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Release-InstallOTB/src")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Release/src")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Release-InstallOTB/build")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
@@ -46,20 +46,18 @@ CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release-InstallOTB/
 
 ")
 
-SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
 
 SET (CTEST_NOTES_FILES
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${OTB_PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 ctest_start(Nightly)
-#ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
+ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}" SOURCE "${CTEST_SOURCE_DIRECTORY}/Testing")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
