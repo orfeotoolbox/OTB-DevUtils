@@ -26,7 +26,7 @@ OTB_USE_VISU_GUI:BOOL=ON
 OTB_USE_SIFTFAST:BOOL=OFF
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
 
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
 OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON
