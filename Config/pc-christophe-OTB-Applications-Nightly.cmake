@@ -15,6 +15,7 @@ SET (CTEST_CMAKE_COMMAND
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k")
 # should ctest wipe the binary tree before running
 SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
+SET (CTEST_USE_LAUNCHERS ON)
 
 # this is the initial cache to use for the binary tree, be careful to escape
 # any quotes inside of this string if you use it
