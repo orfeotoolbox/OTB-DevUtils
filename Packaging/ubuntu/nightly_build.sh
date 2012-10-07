@@ -191,7 +191,8 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
     # Push source packages on Launchpad (through tsocks proxy if necessary)
     if [ "$simulate" -eq 0 ] ; then
         # $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
-        dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
+        #dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
+        dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~precise${pkg_version}_source.changes
     else
         # echo "COMMAND: $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes"
         echo "COMMAND: dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes"
