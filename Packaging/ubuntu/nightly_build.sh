@@ -36,7 +36,7 @@ CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 MAX_WAIT_TIME=36000
 # Sleep time between two scans of OTB PPA
 SLEEP_TIME=300
-EXPECTED_OTB_PACKAGES=4
+EXPECTED_OTB_PACKAGES=1
 
 SCRIPT_VERSION="2.0"
 TMPDIR="/tmp"
@@ -108,8 +108,8 @@ done
 rm -rf /tmp/otb* /tmp/monteverdi*
 
 # For each project ("OTB" must be the first one)
-for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
-#for project in OTB Monteverdi OTB-Applications ; do
+#for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
+for project in OTB Monteverdi OTB-Applications ; do
 
     # Update working copy
     cd $SRCDIR/$project
