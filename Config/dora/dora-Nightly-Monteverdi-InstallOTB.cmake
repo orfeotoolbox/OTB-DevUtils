@@ -1,3 +1,7 @@
+SET (ENV{DISPLAY} ":0.0")
+SET (ENV{LD_LIBRARY_PATH} "$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/otb:$ENV{LD_LIBRARY_PATH}")
+#SET (ENV{LD_LIBRARY_PATH} "${OTB_GDAL_INSTALL_DIR}/lib:$ENV{LD_LIBRARY_PATH}")
+#SET (ENV{LD_LIBRARY_PATH} "$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.9/bin:$ENV{LD_LIBRARY_PATH}")
 
 SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi-Release-InstallOTB/src")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi-Release-InstallOTB/build")
@@ -10,11 +14,8 @@ SET (CTEST_BUILD_NAME "Ubuntu12.04-64bits-Release-InstallOTB")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
+SET (CTEST_USE_LAUNCHERS ON)
 
-SET (ENV{DISPLAY} ":0.0")
-SET (ENV{LD_LIBRARY_PATH} "$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/otb:$ENV{LD_LIBRARY_PATH}")
-#SET (ENV{LD_LIBRARY_PATH} "${OTB_GDAL_INSTALL_DIR}/lib:$ENV{LD_LIBRARY_PATH}")
-#SET (ENV{LD_LIBRARY_PATH} "$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.9/bin:$ENV{LD_LIBRARY_PATH}")
 
 SET(OTB_INSTALL_PREFIX $ENV{HOME}/Dashboard/nightly/Monteverdi-Release-InstallOTB/install/Monteverdi_InstallOTB)
 

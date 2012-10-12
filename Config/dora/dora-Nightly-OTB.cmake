@@ -3,7 +3,7 @@ SET (ENV{DISPLAY} ":0.0")
 SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Release/src")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Release/build")
 
-SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
+SET (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
 SET (CTEST_SITE "dora.c-s.fr" )
@@ -11,6 +11,7 @@ SET (CTEST_BUILD_NAME "Ubuntu12.04-64bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
+SET (CTEST_USE_LAUNCHERS ON)
 
 SET(OTB_INSTALL_PREFIX $ENV{HOME}/Dashboard/nightly/OTB-Release/install/)
 

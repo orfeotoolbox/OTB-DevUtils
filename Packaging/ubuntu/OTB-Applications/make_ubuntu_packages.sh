@@ -153,6 +153,10 @@ check_gpgkeyid ()
 set_ubuntu_code_name ()
 {
     case "$1" in
+        "quantal" )
+            ubuntu_codename="Quantal Quetzal"
+            ubuntu_version="12.10"
+            ;;
         "precise" )
             ubuntu_codename="Precise Pangolin"
             ubuntu_version="12.04"
@@ -255,7 +259,7 @@ done
 
 echo "Source package generation..."
 cd "$TMPDIR/otbapp-$otb_version_full"
-for target in lucid maverick oneiric precise ; do
+for target in lucid maverick oneiric precise quantal ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     cp -f "$DEBDIR/changelog" debian

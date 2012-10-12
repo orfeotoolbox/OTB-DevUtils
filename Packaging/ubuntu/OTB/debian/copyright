@@ -131,9 +131,6 @@ External dependencies (not included third-party works):
 * gettext (http://www.gnu.org/s/gettext/)
   distributed under the GNU GPL 3 license
 
-* Mapnik (http://www.mapnik.org/)
-  distributed under the GNU LGPL 2.1 license
-
 
 Upstream Author(s):
 

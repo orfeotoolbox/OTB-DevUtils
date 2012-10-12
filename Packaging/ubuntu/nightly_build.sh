@@ -36,7 +36,7 @@ CMDDIR=$SRCDIR/OTB-DevUtils/Packaging/ubuntu
 MAX_WAIT_TIME=36000
 # Sleep time between two scans of OTB PPA
 SLEEP_TIME=300
-EXPECTED_OTB_PACKAGES=4
+EXPECTED_OTB_PACKAGES=1
 
 SCRIPT_VERSION="2.0"
 TMPDIR="/tmp"
@@ -191,7 +191,8 @@ for project in OTB Monteverdi OTB-Applications ; do
     # Push source packages on Launchpad (through tsocks proxy if necessary)
     if [ "$simulate" -eq 0 ] ; then
         # $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
-        dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
+        #dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
+        dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~quantal${pkg_version}_source.changes
     else
         # echo "COMMAND: $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes"
         echo "COMMAND: dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes"

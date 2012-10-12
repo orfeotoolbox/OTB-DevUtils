@@ -9,6 +9,7 @@ SET (CTEST_BUILD_NAME "MacOSX10.8-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/opt/local/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
+SET (CTEST_USE_LAUNCHERS ON)
 
 SET (ENV{DISPLAY} ":0")
 
@@ -26,7 +27,7 @@ OTB_USE_VISU_GUI:BOOL=ON
 OTB_USE_SIFTFAST:BOOL=OFF
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
 
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
 OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON

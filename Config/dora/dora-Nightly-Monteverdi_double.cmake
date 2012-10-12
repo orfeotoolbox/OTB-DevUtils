@@ -1,3 +1,4 @@
+SET (ENV{DISPLAY} ":0.0")
 
 SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi-Release_double/src")
 SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi-Release_double/build")
@@ -10,7 +11,7 @@ SET (CTEST_BUILD_NAME "Ubuntu12.04-64bits-Release-double")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
-SET (ENV{DISPLAY} ":0.0")
+SET (CTEST_USE_LAUNCHERS ON)
 
 SET (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
