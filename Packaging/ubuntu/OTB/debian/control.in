@@ -51,7 +51,7 @@ Conflicts: libotb3-dev (<< @VERSION_SONAME@)
 Depends: libotb@VERSION_SONAME@ (= ${binary:Version}), cmake (>= 2.6),
  libc6-dev (>= 2.4), libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libexpat1-dev,
  libfltk1.1-dev, fluid, libgdal1-dev, libopenthreads-dev, libx11-dev,
- libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev, libtiff4-dev,
+ libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev,
  libgeotiff-dev, libboost-graph-dev, libkml-dev,
  libmuparser-dev,
  ${misc:Depends}
