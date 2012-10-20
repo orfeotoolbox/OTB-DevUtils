@@ -3,13 +3,13 @@
 # norootforbuild
 
 Name:           OrfeoToolbox
-Version:        3.14.0
+Version:        3.14.1
 Release:        1
 Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:          Development/Libraries
 License:        Cecill
 URL:            http://www.orfeo-toolbox.org
-Source0:        %{name}-%{version}.tar.gz
+Source0:        %{name}-%{version}.tgz
 ##Patch1:		radiometry.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
@@ -20,7 +20,7 @@ BuildRequires:	libexpat-devel libicu-devel libtool libltdl7 swig python-devel py
 BuildRequires:  fdupes libOpenThreads-devel boost-devel
 BuildRequires:	curl libqt4-devel fftw3-devel
 Requires:       gdal expat libgdal1 libgeotiff libpng python
-BuildRequires:	fltk-devel 
+BuildRequires:	fltk-devel
 BuildRequires:	fltk
 
 %description
