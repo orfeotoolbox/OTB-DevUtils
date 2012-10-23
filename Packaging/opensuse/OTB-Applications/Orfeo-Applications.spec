@@ -3,13 +3,13 @@
 # norootforbuild
 
 Name:           Orfeo-Applications
-Version:        3.14.0
+Version:        3.14.1
 Release:        1
 Summary:        Applications based on OrfeoToolbox for remote sensing image processing
 Group:          Development/Libraries
 License:        Cecill
 URL:            http://www.orfeo-toolbox.org
-Source0:        %{name}-%{version}.tar.gz
+Source0:        %{name}-%{version}.tgz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires:  cmake libgdal-devel libgeotiff-devel gcc-c++ gcc gettext-runtime gettext-tools freeglut-devel libpng-devel libqt4-devel
