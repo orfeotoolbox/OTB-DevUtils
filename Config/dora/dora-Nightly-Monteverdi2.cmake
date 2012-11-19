@@ -1,19 +1,21 @@
 set (ENV{DISPLAY} ":0.0")
 
-set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi2-Release/src")
-set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi2-Release/build")
+set (CTEST_BUILD_CONFIGURATION "Release")
 
+set (DASHBOARD_DIR "$ENV{HOME}/Dashboard/nightly/Monteverdi2-${CTEST_BUILD_CONFIGURATION}")
+
+set (CTEST_SOURCE_DIRECTORY "${DASHBOARD_DIR}/src")
+set (CTEST_BINARY_DIRECTORY "${DASHBOARD_DIR}/build")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
 set (CTEST_SITE "dora.c-s.fr" )
 set (CTEST_BUILD_NAME "Ubuntu12.04-64bits-Release")
-set (CTEST_BUILD_CONFIGURATION "Release")
 set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "-C")
 set (CTEST_USE_LAUNCHERS ON)
 
-set (OTB_INSTALL_PREFIX $ENV{HOME}/Dashboard/nightly/Monteverdi-Release/install/)
+set (OTB_INSTALL_PREFIX ${DASHBOARD_DIR}/install/)
 
 set (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
