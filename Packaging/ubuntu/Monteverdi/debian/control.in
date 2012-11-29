@@ -3,7 +3,7 @@ Priority: extra
 Maintainer: OTB Team <contact@orfeo-toolbox.org>
 Build-Depends: cdbs, debhelper (>= 7), cmake, libc6-dev (>= 2.4), libgcc1 (>= 1:4.1),
  libstdc++6 (>= 4.4), libotb@OTB_VERSION_MAJOR@-dev (>= @OTB_VERSION_FULL@),
- libgdal1-dev, libfltk1.1-dev, fluid
+ libgdal1-dev, libfltk-dev, fluid
 Standards-Version: 3.8.4
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/otb/monteverdi.html
