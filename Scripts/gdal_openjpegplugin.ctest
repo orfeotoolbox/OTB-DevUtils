@@ -1,0 +1,25 @@
+set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/src/OTB-DevUtils/Scripts/GDALOpenJpegPlugin/")
+set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/build/gdal-openjpeg-plugin")
+
+set (CTEST_CMAKE_GENERATOR     "Unix Makefiles" )
+set (CTEST_CMAKE_COMMAND       "cmake" )
+set (CTEST_BUILD_COMMAND       "/usr/bin/make" )
+set (CTEST_SITE                "hulk.c-s.fr" )
+set (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-Release")
+set (CTEST_BUILD_CONFIGURATION "Release")
+set (CTEST_USE_LAUNCHERS       ON)
+
+set (INITIAL_CACHE "
+GDAL_SOURCE_DIR:PATH=$ENV{HOME}/Dashboard/src/gdal-trunk
+OpenJPEG_DIR:PATH=$ENV{HOME}/Dashboard/install/openjpeg_trunk/lib/openjpeg-2.0
+
+CMAKE_C_FLAGS:STRING= -Wall
+CMAKE_CXX_FLAGS:STRING= -Wall
+")
+
+ctest_start(Experimental)
+file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${INITIAL_CACHE})
+ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+
