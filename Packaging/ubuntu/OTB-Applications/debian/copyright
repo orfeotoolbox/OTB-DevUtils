@@ -1,6 +1,6 @@
 This work was packaged for Debian by:
 
-    OTB Team <contact@orfeo-toolbox.org> on Tue, 07 Dec 2010 13:51:52 +0100
+    OTB Team <contact@orfeo-toolbox.org> on Tue, 29 Nov 2012 11:22:13 +0100
 
 It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
 
@@ -28,8 +28,8 @@ Upstream Author(s):
 
 Copyright:
 
-    Copyright (c) Centre National d'Etudes Spatiales and others, see files in
-    'Copyright' directory for third parties copyrights.
+    Copyright (c) 2004-2012 Centre National d'Etudes Spatiales and others, see
+    files in 'Copyright' directory for third parties copyrights.
 
 
 License:
@@ -45,6 +45,6 @@ License:
 
 The Debian packaging is:
 
-    Copyright (C) 2010,2011 OTB Team <contact@orfeo-toolbox.org>
+    Copyright (c) 2010-2012 OTB Team <contact@orfeo-toolbox.org>
 
     This package is distributed under the CeCILL license version 2.

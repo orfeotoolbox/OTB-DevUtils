@@ -1,6 +1,6 @@
 This work was packaged for Debian by:
 
-    OTB Team <contact@orfeo-toolbox.org> on Tue, 31 Jan 2012 13:16:20 +0100
+    OTB Team <contact@orfeo-toolbox.org> on Tue, 29 Nov 2012 10:46:50 +0100
 
 It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
 
@@ -108,12 +108,6 @@ External dependencies (not included third-party works):
 * Boost (http://www.boost.org/)
   distributed under the Boost Software License 1.0
 
-* gettext (http://www.gnu.org/s/gettext/)
-  distributed under the GNU GPL 3 license
-
-* Mapnik (http://www.mapnik.org/)
-  distributed under the GNU LGPL 2.1 license
-
 * TinyXML (http://www.grinninglizard.com/tinyxml/),
   distributed under the zlib/libpng license
   (see Copyright/TinyXMLCopyright.txt)
@@ -130,6 +124,9 @@ External dependencies (not included third-party works):
   distributed under the MIT license
   (see Copyright/EXPATCopyright.txt)
 
+* Qt (http://qt.digia.com/)
+  distributed under the GNU LGPL 2.1 license
+
 
 Upstream Author(s):
 
@@ -140,7 +137,7 @@ Upstream Author(s):
     Emmanuel Christophe (CNES then CRISP) <emmanuel.christophe@orfeo-toolbox.org>
     Cyrille Valladeau (CS) <cyrille.valladeau@c-s.fr>
     Julien Radoux (UCL)
-    Grégoire Mercier (Telecom Bretagne) <gregoire.mercier@telecom-bretagne.eu>
+    Gregoire Mercier (Telecom Bretagne) <gregoire.mercier@telecom-bretagne.eu>
     Vincent Poulain (CNES) <vincent.poulain@cnes.fr>
     Patrick Imbo (CS) <patrick.imbo@c-s.fr>
     Caroline Ruffel (CS) <caroline.ruffel@c-s.fr>
@@ -159,7 +156,7 @@ Upstream Author(s):
     Gwendoline Blanchet (CNES) <gwendoline.blanchet@cnes.fr>
     Adamo Ferro
     Rik Bellens
-    Jean-Guilhem Cailton (Arkémie)
+    Jean-Guilhem Cailton (Arkemie)
     Etienne Bougoin (CS) <etienne.bougoin@c-s.fr>
     Tishampati Dhar
     Massimo Di Stefano <massimodisasha@gmail.com>
@@ -168,8 +165,8 @@ Upstream Author(s):
     Stephane May (CNES) <stephane.may@cnes.fr>
     Conrad Bielski (JRC) <conrad_bielski@yahoo.com>
     Antonio Valentino
-    Aurélien Bricier (CS) <aurelien.bricier@c-s.fr>
-    Sébastien Dinot (CS) <sebastien.dinot@c-s.fr>
+    Aurelien Bricier (CS) <aurelien.bricier@c-s.fr>
+    Sebastien Dinot (CS) <sebastien.dinot@c-s.fr>
     Julien Malik (CS) <julien.malik@c-s.fr>
     Amit Kulkarni <amitkulz@gmail.com>
     Arnaud Jaen (CS) <arnaud.jaen@c-s.fr>
@@ -178,6 +175,8 @@ Upstream Author(s):
     Yin Tiangang <crsyt@nus.edu.sg>
     Rosario Ruiloba (CS) <rosario.ruiloba@c-s.fr>
     Guillaume Pasero (CS) <guillaume.pasero@c-s.fr>
+    Sebastien Harasse (CS) <sebastien.harasse@c-s.fr>
+    Angelos Tzotsos <gcpp.kalxas@gmail.com>
 
 
 Copyright:
@@ -198,6 +197,6 @@ License:
 
 The Debian packaging is:
 
-    Copyright (c) 2012 OTB Team <contact@orfeo-toolbox.org>
+    Copyright (c) 2010-2012 OTB Team <contact@orfeo-toolbox.org>
 
     This package is distributed under the CeCILL license version 2.
