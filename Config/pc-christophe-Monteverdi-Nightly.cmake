@@ -22,12 +22,12 @@ SET (CTEST_INITIAL_CACHE "
 // Use Launchers for CDash reporting
 CTEST_USE_LAUNCHERS:BOOL=ON
 //Name of the build
-BUILDNAME:STRING=Monteverdi-ArchLinux2010.5-64bits-Release
+BUILDNAME:STRING=Monteverdi-Fedora17-64bits-Release
 //Name of the computer/site where compile is being run
 SITE:STRING=pc-christophe
 //LargeInput
-OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
+OTB_DATA_USE_LARGEINPUT:BOOL=OFF
+//OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 //Data root
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 //Compilation options
