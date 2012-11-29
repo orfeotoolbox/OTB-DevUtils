@@ -1,5 +1,5 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
-set(dashboard_model Nightly)
+set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
@@ -41,9 +41,9 @@ OTB_WRAP_QT:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
 
 OTB_USE_EXTERNAL_BOOST:BOOL=ON
-OTB_USE_MAPNIK:BOOL=ON
-MAPNIK_INCLUDE_DIR:STRING=/usr/include
-MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so  
+OTB_USE_MAPNIK:BOOL=OFF
+#MAPNIK_INCLUDE_DIR:STRING=/usr/include
+#MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so  
     ")
 endmacro()
 
