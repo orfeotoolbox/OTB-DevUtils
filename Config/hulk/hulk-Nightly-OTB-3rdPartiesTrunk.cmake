@@ -68,5 +68,5 @@ SET(CTEST_NOTES_FILES
     "$ENV{HOME}/Dashboard/nightly/logs/build_gdal_trunk.log"
     "$ENV{HOME}/Dashboard/nightly/logs/build_ossim_trunk.log")
 
-include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
 

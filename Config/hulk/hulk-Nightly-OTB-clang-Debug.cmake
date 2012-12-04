@@ -56,5 +56,5 @@ BOOST_ROOT:PATH=$ENV{HOME}/tools/install/boost-1.49.0
     ")
 endmacro()
 
-include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
 

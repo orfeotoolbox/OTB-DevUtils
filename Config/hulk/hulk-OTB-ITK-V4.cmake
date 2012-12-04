@@ -55,4 +55,4 @@ OTB_USE_MAPNIK:BOOL=OFF
     ")
 endmacro()
 
-include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
