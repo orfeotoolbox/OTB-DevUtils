@@ -80,4 +80,4 @@ OTB_USE_JPEG2000:BOOL=OFF
     ")
 endmacro()
 
-include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
