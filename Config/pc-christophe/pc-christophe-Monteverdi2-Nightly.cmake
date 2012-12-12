@@ -1,5 +1,8 @@
 set (ENV{DISPLAY} ":0.0")
 
+# Avoid non-ascii characters in tool output.
+set(ENV{LC_ALL} C)
+
 set (CTEST_BUILD_CONFIGURATION "Release")
 
 set (DASHBOARD_DIR "$ENV{HOME}/OTB")
