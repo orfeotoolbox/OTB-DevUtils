@@ -1,0 +1,4 @@
+sdesc: "msinttypes"
+ldesc: "msinttypes - see https://code.google.com/p/msinttypes"
+category: Libs
+requires: 

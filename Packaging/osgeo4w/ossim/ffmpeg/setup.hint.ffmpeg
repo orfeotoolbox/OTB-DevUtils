@@ -1,0 +1,4 @@
+sdesc: "ffmpeg"
+ldesc: "ffmpeg"
+category: Libs
+requires: msvcrt
