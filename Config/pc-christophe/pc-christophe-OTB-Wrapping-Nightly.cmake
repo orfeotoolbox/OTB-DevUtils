@@ -22,14 +22,14 @@ SET (CTEST_INITIAL_CACHE "
 // Use Launchers for CDash reporting
 CTEST_USE_LAUNCHERS:BOOL=1
 //Name of the build
-BUILDNAME:STRING=ArchLinux2010.5-64bits-Release
+BUILDNAME:STRING=Fedora17-64bits-Release
 //Name of the computer/site where compile is being run
 SITE:STRING=pc-christophe
 //Data root
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 //LargeInput
-OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
+OTB_DATA_USE_LARGEINPUT:BOOL=OFF
+//OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 //Compilation options
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
@@ -37,7 +37,7 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 CMAKE_BUILD_TYPE:STRING=Release
 OTB_DIR:STRING=/home/otbtesting/OTB/bin/OTB-Nightly/
 BUILD_TESTING:BOOL=ON
-CableSwig_DIR:STRING=/usr/local/lib/CableSwig
+//CableSwig_DIR:STRING=/usr/local/lib/CableSwig
 //Set up SWIG options
 //SWIG_DIR:STRING=/home/otbtesting/local/swig-1.3.40-build/share/swig/1.3.40
 //SWIG_EXECUTABLE:STRING=/usr/bin/swig
@@ -49,22 +49,22 @@ WRAP_ITK_DIMS:STRING=2
 WRAP_ITK_JAVA:BOOL=ON 
 WRAP_ITK_PYTHON:BOOL=ON 
 // We need the following to be compatible with cmake 2.8.2
-JAVA_ARCHIVE:FILEPATH=/opt/java/bin/jar
-JAVA_COMPILE:FILEPATH=/opt/java/bin/javac
-JAVA_RUNTIME:FILEPATH=/opt/java/bin/java
+//JAVA_ARCHIVE:FILEPATH=/opt/java/bin/jar
+//JAVA_COMPILE:FILEPATH=/opt/java/bin/javac
+//JAVA_RUNTIME:FILEPATH=/opt/java/bin/java
 // Python Excecutable
-PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2
-JAVA_AWT_INCLUDE_PATH:STRING=/opt/java/include/linux/
-JAVA_AWT_LIBRARY:STRING=/opt/java/jre/lib/amd64/
-JAVA_INCLUDE_PATH:STRING=/opt/java/include/
-JAVA_INCLUDE_PATH2:STRING=/opt/java/include/linux/
-JAVA_JVM_LIBRARY:STRING=/opt/java/jre/lib/amd64/server/	
+//PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2
+//JAVA_AWT_INCLUDE_PATH:STRING=/opt/java/include/linux/
+//JAVA_AWT_LIBRARY:STRING=/opt/java/jre/lib/amd64/
+//JAVA_INCLUDE_PATH:STRING=/opt/java/include/
+//JAVA_INCLUDE_PATH2:STRING=/opt/java/include/linux/
+//JAVA_JVM_LIBRARY:STRING=/opt/java/jre/lib/amd64/server/	
 ")
 
 # set any extra envionment varibles here
-SET (CTEST_ENVIRONMENT
- "DISPLAY=pc-inglada:101"
-)
+#SET (CTEST_ENVIRONMENT
+# "DISPLAY=pc-inglada:101"
+#)
 
 
 
