@@ -24,6 +24,7 @@ OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
 
+OTB_USE_EXTERNAL_FLTK:BOOL=OFF
 OTB_USE_EXTERNAL_BOOST:BOOL=OFF
 OTB_USE_MAPNIK:BOOL=OFF
 #MAPNIK_INCLUDE_DIR:PATH=C:/OSGeo4W/include/mapnik
@@ -35,8 +36,8 @@ OTB_USE_MAPNIK:BOOL=OFF
 #LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
 
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
-OSSIM_INCLUDE_DIR:PATH=C:/Users/jmalik/Dashboard/install/ossim-trunk/include
-OSSIM_LIBRARY:FILEPATH=C:/Users/jmalik/Dashboard/install/ossim-trunk/lib/ossim.lib
+#OSSIM_INCLUDE_DIR:PATH=C:/Users/jmalik/Dashboard/install/ossim-trunk/include
+#OSSIM_LIBRARY:FILEPATH=C:/Users/jmalik/Dashboard/install/ossim-trunk/lib/ossim.lib
 
 OTB_USE_CURL:BOOL=ON
 OTB_USE_EXTERNAL_EXPAT:BOOL=ON
