@@ -4,7 +4,7 @@ SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-Release-VC2008-
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 9 2008" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE "raoul.c-s.fr" )
-SET (CTEST_BUILD_NAME "Win7-Visual2008-Release-Static-OssimDLL")
+SET (CTEST_BUILD_NAME "Win7-Visual2008-Release-Static")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 #SET (CTEST_HG_UPDATE_OPTIONS "-C")
