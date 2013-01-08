@@ -10,23 +10,27 @@ SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
 
 SET (OTB_INITIAL_CACHE "
+
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=OFF
 BUILD_APPLICATIONS:BOOL=ON
-OTB_WRAP_PYTHON:BOOL=ON
-OTB_WRAP_QT:BOOL=ON
-#OTB_WRAP_PYQT:BOOL=ON
+# On windows, we need python27_d.lib, dragged by python.h
+# and it is not available with OSGeo4W python
+# OTB_WRAP_PYTHON:BOOL=ON
 
-OTB_USE_CPACK:BOOL=ON
+OTB_WRAP_QT:BOOL=ON
+
+OTB_USE_CPACK:BOOL=OFF
 
 OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
 
 OTB_USE_EXTERNAL_FLTK:BOOL=OFF
+OTB_USE_EXTERNAL_OSSIM:BOOL=ON
 
 GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
@@ -84,8 +88,8 @@ ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-ctest_submit (PARTS Start Update Configure)
+#ctest_submit (PARTS Start Update Configure)
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_submit (PARTS Start Update Configure Build)
+#ctest_submit (PARTS Start Update Configure Build)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()
