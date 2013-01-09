@@ -35,10 +35,10 @@ def make_package():
 						 os.path.join(dstdir,subdir) )
 						 
 	# remove some files we don't want in the package
-	os.unlink( os.path.join(dstdir, "bin", "msvcm90.dll") )
-	os.unlink( os.path.join(dstdir, "bin", "msvcp90.dll") )
-	os.unlink( os.path.join(dstdir, "bin", "msvcr90.dll") )
-	os.unlink( os.path.join(dstdir, "bin", "Microsoft.VC90.CRT.manifest") )
+	#os.unlink( os.path.join(dstdir, "bin", "msvcm90.dll") )
+	#os.unlink( os.path.join(dstdir, "bin", "msvcp90.dll") )
+	#os.unlink( os.path.join(dstdir, "bin", "msvcr90.dll") )
+	#os.unlink( os.path.join(dstdir, "bin", "Microsoft.VC90.CRT.manifest") )
 	
 	os.unlink( os.path.join(dstdir, "include", "ossimConfig.h") )
 	os.unlink( os.path.join(dstdir, "include", "ossimVersion.h") )
