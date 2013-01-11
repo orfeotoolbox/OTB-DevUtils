@@ -10,9 +10,9 @@ SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
 
 SET (OTB_INITIAL_CACHE "
-
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
+CMAKE_INSTALL_PREFIX:PATH=C:/Users/jmalik/Dashboard/install/OTB-Release-VC2010
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=OFF
@@ -89,7 +89,7 @@ file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 #ctest_submit (PARTS Start Update Configure)
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}" TARGET INSTALL)
 #ctest_submit (PARTS Start Update Configure Build)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()
