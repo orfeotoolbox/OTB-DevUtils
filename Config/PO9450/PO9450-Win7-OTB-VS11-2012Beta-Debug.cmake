@@ -32,6 +32,8 @@ OTB_DATA_ROOT:STRING=C:/Users/msavinau/dev/nightly/data/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 #OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
 
+OTB_USE_EXTERNAL_FLTK:BOOL=OFF
+
 ")
 
 #Remove build dir
