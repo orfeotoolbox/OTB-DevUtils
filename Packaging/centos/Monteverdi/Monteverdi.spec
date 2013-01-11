@@ -3,7 +3,7 @@
 # norootforbuild
 
 Name:           Monteverdi
-Version:        1.10.0
+Version:        1.13.0
 Release:        1
 Summary:        Application based on OrfeoToolbox for remote sensing image processing
 Group:          Applications/Image
@@ -12,11 +12,11 @@ URL:            http://www.orfeo-toolbox.org
 Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
-BuildRequires: cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libpng-devel
-BuildRequires: boost-devel fltk-devel fltk-fluid gettext-devel
+BuildRequires: cmake >= 2.8.6 gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel
+BuildRequires: libpng-devel boost-devel fltk-devel fltk-fluid gettext-devel
 BuildRequires: OrfeoToolbox-devel OrfeoToolbox
 
-Requires:      OrfeoToolbox = 3.12.0
+Requires:      OrfeoToolbox = 3.15.0
 
 
 %description
@@ -39,14 +39,16 @@ CNES in the frame of the ORFEO Accompaniment Program.
 %build
 cd ..
 if [ -d temp ] ; then
-	rm -rf temp/*
+       rm -rf temp/*
 else
-	mkdir temp
+        mkdir temp
 fi
 cd temp
 cmake -DBUILD_TESTING:BOOL=OFF \
-      -DCMAKE_INSTALL_PREFIX:PATH=/usr \
       -DBUILD_SHARED_LIBS:BOOL=ON \
+      -DBoost_NO_BOOST_CMAKE:BOOL=ON \
+      -DMonteverdi_INSTALL_LIB_DIR:PATH=%{_lib}/otb \
+      -DCMAKE_INSTALL_PREFIX:PATH=/usr \
       -DCMAKE_SKIP_RPATH:BOOL=ON \
       -DOTB_DIR:PATH=%{_libdir} \
       -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
@@ -79,6 +81,11 @@ rm -rf ../temp
 
 
 %changelog
+* Thu Jan 10 2013 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.13.0-1
+- Packaging Monteverdi 1.13 for CentOS 6.3
+- Boost_NO_BOOST_CMAKE and Monteverdi_INSTALL_LIB_DIR added on CMake command
+  line
+
 * Wed Mar 21 2012 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.10.0-1
 - Packaging Monteverdi 1.10 for CentOS 5.5
 

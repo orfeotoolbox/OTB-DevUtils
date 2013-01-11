@@ -3,7 +3,7 @@
 # norootforbuild
 
 Name:          OrfeoToolbox
-Version:       3.12.0
+Version:       3.15.0
 Release:       1
 Summary:       The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:         Development/Libraries
@@ -14,10 +14,10 @@ BuildRoot:     %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: cmake >= 2.8.6 gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel
 BuildRequires: libpng-devel boost-devel fltk-devel fltk-fluid uuid-devel proj-devel
-BuildRequires: expat-devel mapnik-devel libicu-devel libtool libtool-ltdl-devel
-BuildRequires: swig >= 1.3.40 python26 python26-devel qt4-devel
+BuildRequires: expat-devel libicu-devel libtool libtool-ltdl-devel
+BuildRequires: swig >= 1.3.40 python python-devel qt-devel
 
-Requires:      gdal fltk expat boost mapnik python26
+Requires:      gdal fltk expat boost python
 
 
 %description
@@ -30,7 +30,7 @@ Summary:        Development files for %{name}
 Group:          Development/Libraries
 Requires:       %{name} = %{version}
 Requires:       cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libpng-devel
-Requires:       boost-devel fltk-devel fltk-fluid mapnik-devel
+Requires:       boost-devel fltk-devel fltk-fluid
 
 
 %description    devel
@@ -46,9 +46,9 @@ ORFEO Accompaniment Program
 %build
 cd ..
 if [ -d temp ] ; then
-	rm -rf temp/*
+        rm -rf temp/*
 else
-	mkdir temp
+        mkdir temp
 fi
 cd temp
 cmake -DBUILD_EXAMPLES:BOOL=OFF \
@@ -57,16 +57,15 @@ cmake -DBUILD_EXAMPLES:BOOL=OFF \
       -DBUILD_APPLICATIONS:BOOL=ON \
       -DOTB_USE_GETTEXT:BOOL=OFF \
       -DOTB_USE_CURL:BOOL=ON \
-      -DOTB_USE_MAPNIK:BOOL=ON \
+      -DOTB_USE_MAPNIK:BOOL=OFF \
       -DOTB_USE_EXTERNAL_EXPAT:BOOL=ON \
       -DOTB_USE_EXTERNAL_FLTK:BOOL=ON \
       -DOTB_USE_EXTERNAL_BOOST:BOOL=ON \
+      -DBoost_NO_BOOST_CMAKE:BOOL=ON \
       -DOTB_USE_EXTERNAL_GDAL:BOOL=ON \
       -DOTB_WRAP_QT:BOOL=ON \
       -DOTB_WRAP_PYTHON:BOOL=ON \
-      -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python26 \
-      -DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.6.so \
-      -DPYTHON_INCLUDE_DIR:PATH=/usr/include/python2.6 \
+      -DOTB_INSTALL_LIB_DIR:PATH=%{_lib}/otb \
       -DCMAKE_INSTALL_PREFIX:PATH=/usr \
       -DCMAKE_SKIP_RPATH:BOOL=ON \
       -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
@@ -86,7 +85,7 @@ rm -rf ../temp
 %post
 LDCONFIG_FILE=/etc/ld.so.conf.d/otb.conf
 if [ ! -f "$LDCONFIG_FILE" ] ; then
-	cat > "$LDCONFIG_FILE" <<EOF
+        cat > "$LDCONFIG_FILE" <<EOF
 # Orfeo Toolbox related search paths
 /usr/lib/otb
 /usr/lib/otb/applications
@@ -99,7 +98,7 @@ fi
 %postun
 LDCONFIG_FILE=/etc/ld.so.conf.d/otb.conf
 if [ -f "$LDCONFIG_FILE" ] ; then
-	rm -f "$LDCONFIG_FILE"
+        rm -f "$LDCONFIG_FILE"
 fi
 /sbin/ldconfig
 
@@ -117,8 +116,17 @@ fi
 %{_includedir}/otb/
 %{_libdir}/otb/lib*.so
 %{_libdir}/otb/*.cmake
+%{_libdir}/otb/cmakemodules/*.cmake
 
 %changelog
+* Thu Jan 10 2013 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.15.0-1
+- Packaging OTB 3.15 for CentOS 6.3
+- Updated dependencies
+- Boost_NO_BOOST_CMAKE and OTB_INSTALL_LIB_DIR added on CMake command line
+- otb/cmakemodules/*.cmake files added to installed files
+- Mapnik disabled
+- Default Python version used
+
 * Wed Mar 21 2012 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.12.0-1
 - Packaging OTB 3.12 for CentOS 5.5
 

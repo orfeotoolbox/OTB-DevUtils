@@ -159,6 +159,7 @@ Create a link to OTB spec file in ~/rpmbuild/SPECS:
 Build the source and binary packages:
 
    ---------------------------------------------------------------------------
+   user@host:~$ cd ~/rpmbuild
    user@host:~$ rpmbuild -ba SPECS/OrfeoToolbox.spec 2>&1 | tee rpmbuild-OrfeoToolbox.log
    ---------------------------------------------------------------------------
 
