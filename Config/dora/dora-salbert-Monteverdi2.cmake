@@ -1,4 +1,5 @@
 set (ENV{DISPLAY} ":0.0")
+set (ENV{LANG} "C")
 
 set (CTEST_BUILD_CONFIGURATION "Debug")
 
@@ -15,26 +16,24 @@ set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "")
 set (CTEST_USE_LAUNCHERS ON)
 
-set (OTB_INSTALL_PREFIX "$ENV{HOME}/dev/install/Monteverdi2")
+set (MVD2_INSTALL_PREFIX "$ENV{HOME}/dev/install/Monteverdi2")
 
-set (OTB_INITIAL_CACHE "
+set (MVD2_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
 
-OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
-OTB_DATA_ROOT:STRING=$ENV{HOME}/dev/source/OTB-Data
-
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING=-Wall
+CMAKE_CXX_FLAGS:STRING=-Wall
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-#OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build
+OTB_DIR:STRING=/home/otbval/Dashboard/nightly/OTB-Release/install/lib/otb
 
 BUILD_TESTING:BOOL=ON
-CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:STRING=${MVD2_INSTALL_PREFIX}
+
+MERGE_TS:BOOL=ON
 ")
 
 set (CTEST_NOTES_FILES
@@ -42,13 +41,13 @@ ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
-execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
-execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
+execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${MVD2_INSTALL_PREFIX})
+execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${MVD2_INSTALL_PREFIX})
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 ctest_start (Experimental)
 ctest_update (SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file (WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
+file (WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${MVD2_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files (${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
