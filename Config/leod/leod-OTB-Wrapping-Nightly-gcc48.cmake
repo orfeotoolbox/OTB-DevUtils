@@ -1,6 +1,8 @@
+SET (ENV{CC} "/opt/local/bin/gcc-mp-4.8")
+SET (ENV{CXX} "/opt/local/bin/g++-mp-4.8")
+
 SET (CTEST_SOURCE_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Wrapping/src")
 SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Wrapping-gcc48/build")
-
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )

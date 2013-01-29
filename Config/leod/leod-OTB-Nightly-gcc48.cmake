@@ -1,4 +1,3 @@
-SET (ENV{DISPLAY} ":0")
 SET (ENV{CC} "/opt/local/bin/gcc-mp-4.8")
 SET (ENV{CXX} "/opt/local/bin/g++-mp-4.8")
 
