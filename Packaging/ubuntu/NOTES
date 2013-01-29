@@ -64,6 +64,8 @@ Packages list:
   - otbapp-qt             : Qt based GUI applications
   - otbapp-qgis           : QGis plugins
 
+OTB-Applications packages are not maintained since January 2013.
+
 * 3 binary packages related to OTB-Wrapping
 
   - otb-wrapping-common : Common files
