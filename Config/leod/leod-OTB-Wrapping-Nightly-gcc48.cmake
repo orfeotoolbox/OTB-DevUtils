@@ -1,5 +1,5 @@
 SET (CTEST_SOURCE_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Wrapping/src")
-SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Wrapping/build")
+SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Wrapping-gcc48/build")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
