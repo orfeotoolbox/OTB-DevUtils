@@ -3,7 +3,7 @@
 # norootforbuild
 
 Name:           Monteverdi
-Version:        1.13.0
+Version:        1.14.0
 Release:        1
 Summary:        Application based on OrfeoToolbox for remote sensing image processing
 Group:          Applications/Image
@@ -16,7 +16,7 @@ BuildRequires: cmake >= 2.8.6 gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-d
 BuildRequires: libpng-devel boost-devel fltk-devel fltk-fluid gettext-devel
 BuildRequires: OrfeoToolbox-devel OrfeoToolbox
 
-Requires:      OrfeoToolbox = 3.15.0
+Requires:      OrfeoToolbox = 3.16.0
 
 
 %description
@@ -81,8 +81,8 @@ rm -rf ../temp
 
 
 %changelog
-* Thu Jan 10 2013 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.13.0-1
-- Packaging Monteverdi 1.13 for CentOS 6.3
+* Thu Feb 01 2013 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.14.0-1
+- Packaging Monteverdi 1.14 for CentOS 6.3
 - Boost_NO_BOOST_CMAKE and Monteverdi_INSTALL_LIB_DIR added on CMake command
   line
 

@@ -3,7 +3,7 @@
 # norootforbuild
 
 Name:          OrfeoToolbox
-Version:       3.15.0
+Version:       3.16.0
 Release:       1
 Summary:       The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:         Development/Libraries
@@ -87,9 +87,9 @@ LDCONFIG_FILE=/etc/ld.so.conf.d/otb.conf
 if [ ! -f "$LDCONFIG_FILE" ] ; then
         cat > "$LDCONFIG_FILE" <<EOF
 # Orfeo Toolbox related search paths
-/usr/lib/otb
-/usr/lib/otb/applications
-/usr/lib/otb/python
+%{_libdir}/otb
+%{_libdir}/otb/applications
+%{_libdir}/otb/python
 EOF
 fi
 /sbin/ldconfig
@@ -119,8 +119,8 @@ fi
 %{_libdir}/otb/cmakemodules/*.cmake
 
 %changelog
-* Thu Jan 10 2013 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.15.0-1
-- Packaging OTB 3.15 for CentOS 6.3
+* Thu Feb 01 2013 Sebastien Dinot <sebastien.dinot@c-s.fr> - 3.16.0-1
+- Packaging OTB 3.16 for CentOS 6.3
 - Updated dependencies
 - Boost_NO_BOOST_CMAKE and OTB_INSTALL_LIB_DIR added on CMake command line
 - otb/cmakemodules/*.cmake files added to installed files
