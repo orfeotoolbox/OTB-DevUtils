@@ -3,25 +3,49 @@
 # norootforbuild
 
 Name:           OrfeoToolbox
-Version:        3.14.1
+Version:        3.16.0
 Release:        1
 Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:          Development/Libraries
 License:        Cecill
 URL:            http://www.orfeo-toolbox.org
-Source0:        %{name}-%{version}.tgz
+Source0:        %{name}-%{version}.tar.bz2
 ##Patch1:		radiometry.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires:	cmake >= 2.8.0
-BuildRequires:  libgdal-devel libgeotiff-devel gcc-c++ gcc gettext-runtime 
-BuildRequires:	gettext-tools freeglut-devel libpng-devel uuid-devel libproj-devel 
-BuildRequires:	libexpat-devel libicu-devel libtool libltdl7 swig python-devel python python-base
-BuildRequires:  fdupes libOpenThreads-devel boost-devel
-BuildRequires:	curl libqt4-devel fftw3-devel
-Requires:       gdal expat libgdal1 libgeotiff libpng python
+BuildRequires:  libgdal-devel 
+BuildRequires:  libgeotiff-devel 
+BuildRequires:  gcc-c++ 
+BuildRequires:  gcc 
+BuildRequires:  gettext-runtime 
+BuildRequires:	gettext-tools 
+BuildRequires:  freeglut-devel 
+BuildRequires:  libpng-devel 
+BuildRequires:  uuid-devel 
+BuildRequires:  libproj-devel 
+BuildRequires:	libexpat-devel 
+BuildRequires:  libicu-devel 
+BuildRequires:  libtool 
+BuildRequires:  libltdl7 
+BuildRequires:  swig 
+BuildRequires:  python-devel 
+BuildRequires:  python 
+BuildRequires:  python-base
+BuildRequires:  fdupes 
+BuildRequires:  libOpenThreads-devel 
+BuildRequires:  boost-devel
+BuildRequires:	curl 
+BuildRequires:  libqt4-devel 
+BuildRequires:  fftw3-devel
 BuildRequires:	fltk-devel
-BuildRequires:	fltk
+Requires:       gdal 
+Requires:       expat 
+Requires:       libgdal1 
+Requires:       libgeotiff 
+Requires:       libpng 
+Requires:       python
+
 
 %description
 The %{name} is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program
@@ -30,8 +54,16 @@ The %{name} is a library of image processing algorithms developed by CNES in the
 Summary:        Development files for %{name}
 Group:          Development/Libraries
 Requires:       %{name} = %{version}
-Requires: 	cmake gcc-c++ gcc freeglut-devel libgeotiff-devel libgdal-devel libpng14-devel boost-devel fftw3-devel
-Requires:	fltk-devel fltk
+Requires: 	cmake 
+Requires:       gcc-c++ 
+Requires:       gcc 
+Requires:       freeglut-devel 
+Requires:       libgeotiff-devel 
+Requires:       libgdal-devel 
+Requires:       libpng14-devel 
+Requires:       boost-devel 
+Requires:       fftw3-devel
+Requires:	fltk-devel
 
 %description    devel
 Development files for the %{name} library. The %{name} is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program

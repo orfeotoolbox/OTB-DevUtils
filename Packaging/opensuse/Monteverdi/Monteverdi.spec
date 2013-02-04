@@ -3,19 +3,29 @@
 # norootforbuild
 
 Name:           Monteverdi
-Version:        1.12.1
+Version:        1.14.0
 Release:        1
 Summary:        Application based on OrfeoToolbox for remote sensing image processing
 Group:          Development/Libraries
 License:        Cecill
 URL:            http://www.orfeo-toolbox.org
-Source0:        %{name}-%{version}.tgz
+Source0:        %{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
-BuildRequires:  cmake libgdal-devel libgeotiff-devel gcc-c++ gcc gettext-runtime gettext-tools freeglut-devel libpng-devel
-BuildRequires:  fdupes OrfeoToolbox-devel libOpenThreads-devel boost-devel
+BuildRequires:  cmake 
+BuildRequires:  libgdal-devel 
+BuildRequires:  libgeotiff-devel 
+BuildRequires:  gcc-c++ 
+BuildRequires:  gcc 
+BuildRequires:  gettext-runtime 
+BuildRequires:  gettext-tools 
+BuildRequires:  freeglut-devel 
+BuildRequires:  libpng-devel
+BuildRequires:  fdupes 
+BuildRequires:  OrfeoToolbox-devel 
+BuildRequires:  libOpenThreads-devel 
+BuildRequires:  boost-devel
 BuildRequires:	fltk-devel
-BuildRequires:	fltk
 
 %description
 %{name} is a image processing application developed by CNES in the frame of the ORFEO Accompaniment Program
