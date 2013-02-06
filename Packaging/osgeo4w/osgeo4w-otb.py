@@ -4,9 +4,9 @@ OTB_SRC="C:\\Users\\jmalik\\Dashboard\\src\\OTB"
 MONTEVERDI_SRC="C:\\Users\\jmalik\\Dashboard\\src\\Monteverdi"
 OTB_WRAPPING_SRC="C:\\Users\\jmalik\\Dashboard\\src\\OTB-Wrapping"
 
-OTB_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\OTB-Release-VC2008-ExternalOssim"
-MONTEVERDI_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\Monteverdi-Release-VC2008"
-OTB_WRAPPING_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\OTB-Wrapping-Release-VC2008"
+OTB_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\OTB-Release-VC2010"
+MONTEVERDI_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\Monteverdi-Release-VC2010"
+#OTB_WRAPPING_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\OTB-Wrapping-Release-VC2008"
 
 OSSIM_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\ossim-trunk"
 OSGEO4W_STAGING="C:\\Users\\jmalik\\Dashboard\\osgeo4w"
@@ -32,8 +32,8 @@ print "OTB version : %s" % OTB_VERSION
 MONTEVERDI_VERSION = get_version( os.path.join(MONTEVERDI_SRC, "CMakeLists.txt"), "Monteverdi" )
 print "Monteverdi version : %s" % MONTEVERDI_VERSION
 
-OTB_WRAPPING_VERSION = get_version( os.path.join(OTB_WRAPPING_SRC, "CMakeLists.txt"), "OTB-Wrapping" )
-print "OTB-Wrapping version : %s" % OTB_WRAPPING_VERSION
+#OTB_WRAPPING_VERSION = get_version( os.path.join(OTB_WRAPPING_SRC, "CMakeLists.txt"), "OTB-Wrapping" )
+#print "OTB-Wrapping version : %s" % OTB_WRAPPING_VERSION
 
 
 todayiso = datetime.date.today().isoformat().replace('-','')
@@ -75,7 +75,7 @@ def make_otb_bin():
       shutil.copy( os.path.join(inputdir, fic), \
                    os.path.join(OSGEO4W_STAGING, package_versioned_name, "apps", "orfeotoolbox", "applications" ) )
 
-    # copy the .bat launcher in bin
+    # copy the .bat launchers in bin
     inputdir = os.path.join(OTB_INSTALL, "bin")
     outputbindir = os.path.join(OSGEO4W_STAGING, package_versioned_name, "bin" )
     for fic in os.listdir( inputdir ) :
@@ -129,5 +129,5 @@ make_otb_bin()
 make_otb_python()
 make_monteverdi()
 
-# Not supported
+# Not supported on VC2010
 #make_otb_wrapping()
