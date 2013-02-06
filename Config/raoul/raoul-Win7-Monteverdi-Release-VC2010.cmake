@@ -12,13 +12,16 @@ SET (CTEST_HG_UPDATE_OPTIONS "-C")
 SET (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
+CMAKE_INSTALL_PREFIX:PATH=C:/Users/jmalik/Dashboard/install/Monteverdi-Release-VC2010
 
 BUILD_TESTING:BOOL=ON
-OTB_USE_CPACK:BOOL=ON
-
 OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
+
+OTB_USE_CPACK:BOOL=ON
+
+
 
 GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
@@ -55,7 +58,7 @@ file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_submit (PARTS Start Update Configure)
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}" TARGET INSTALL)
 ctest_submit (PARTS Start Update Configure Build)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_submit ()
