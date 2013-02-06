@@ -26,9 +26,6 @@ def get_version(cmakelistpath, id):
                 PATCH = line.split()[1].split('"')[1]
     return "%s.%s.%s" % (MAJOR, MINOR, PATCH)
 
-
-    
-# TODO extract this automatically
 OTB_VERSION = get_version( os.path.join(OTB_SRC, "CMakeLists.txt"), "OTB" )
 print "OTB version : %s" % OTB_VERSION
 
@@ -90,13 +87,8 @@ def make_otb_bin():
     shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbApplicationLauncherQt.exe"), outputbindir )
     shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbViewer.exe"), outputbindir )
     
-
     # copy ossim and ossimplugin dll in the otbbin package for now
-    # we need an ossim package !!!
-    shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbossimplugins.dll"),
-                 os.path.join(OSGEO4W_STAGING, package_versioned_name, "bin" ) )
-    shutil.copy( os.path.join(OSSIM_INSTALL, "bin", "ossim.dll"),
-                 os.path.join(OSGEO4W_STAGING, package_versioned_name, "bin" ) )
+    shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbossimplugins.dll"), outputbindir )
     
     make_tarbz2(package_versioned_name)
                    
@@ -136,4 +128,6 @@ def make_otb_wrapping():
 make_otb_bin()
 make_otb_python()
 make_monteverdi()
-make_otb_wrapping()
+
+# Not supported
+#make_otb_wrapping()
