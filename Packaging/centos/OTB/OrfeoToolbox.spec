@@ -29,7 +29,7 @@ CNES in the frame of the ORFEO Accompaniment Program
 Summary:        Development files for %{name}
 Group:          Development/Libraries
 Requires:       %{name} = %{version}
-Requires:       cmake gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libpng-devel
+Requires:       cmake >= 2.8.6 gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel libpng-devel
 Requires:       boost-devel fltk-devel fltk-fluid
 
 
