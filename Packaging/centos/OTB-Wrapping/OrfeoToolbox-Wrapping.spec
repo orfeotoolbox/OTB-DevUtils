@@ -3,8 +3,8 @@
 # norootforbuild
 
 Name:          OrfeoToolbox-Wrapping
-Version:       1.8.0
-Release:       1+java6
+Version:       1.12.0
+Release:       1
 Summary:       The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:         Development/Libraries
 License:       Cecill
@@ -14,10 +14,10 @@ BuildRoot:     %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: cmake >= 2.8.6 gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel
 BuildRequires: libpng-devel boost-devel fltk-devel fltk-fluid CableSwig-devel
-BuildRequires: swig >= 1.3.40 python26 python26-devel jdk >= 1.6.0
+BuildRequires: swig >= 1.3.40 python python-devel java-1.6.0-openjdk >= 1.6.0
 BuildRequires: OrfeoToolbox-devel OrfeoToolbox
 
-Requires:      OrfeoToolbox = 3.12.0
+Requires:      OrfeoToolbox = 3.16.0
 
 
 %description
@@ -31,7 +31,7 @@ CNES in the frame of the ORFEO Accompaniment Program
 Summary:        Java bindings for The Orfeo Toolbox library
 Group:          Development/Libraries
 License:        Cecill
-Requires:       jdk >= 1.6.0 OrfeoToolbox = 3.12.0
+Requires:       java-1.6.0-openjdk >= 1.6.0 OrfeoToolbox = 3.16.0
 
 
 %description java
@@ -42,7 +42,7 @@ Java bindings for the Orfeo Toolbox library
 Summary:        Python bindings for The Orfeo Toolbox library
 Group:          Development/Libraries
 License:        Cecill
-Requires:       python26 OrfeoToolbox = 3.12.0
+Requires:       python OrfeoToolbox = 3.16.0
 
 
 %description python
@@ -61,15 +61,11 @@ else
 	mkdir temp
 fi
 cd temp
+export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
 cmake -DBUILD_TESTING:BOOL=OFF \
-      -DOTB_DIR:PATH=/usr/lib/otb \
+      -DOTB_DIR:PATH=%{_libdir}/otb \
       -DCMAKE_INSTALL_PREFIX:PATH=/usr \
       -DWRAP_ITK_JAVA:BOOL=ON \
-      -DJava_JAR_EXECUTABLE:FILEPATH=/usr/java/jdk1.6.0_25/bin/jar \
-      -DJava_JAVAC_EXECUTABLE:FILEPATH=/usr/java/jdk1.6.0_25/bin/javac \
-      -DJava_JAVA_EXECUTABLE:FILEPATH=/usr/java/jdk1.6.0_25/bin/java \
-      -DJava_JAVAH_EXECUTABLE:FILEPATH=/usr/java/jdk1.6.0_25/bin/javah \
-      -DJava_JAVADOC_EXECUTABLE:FILEPATH=/usr/java/jdk1.6.0_25/bin/javadoc \
       -DWRAP_ITK_PYTHON:BOOL=ON \
       -DCMAKE_SKIP_RPATH:BOOL=ON \
       -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
@@ -92,7 +88,7 @@ LDCONFIG_FILE=/etc/ld.so.conf.d/otb-wrapping-python.conf
 if [ ! -f "$LDCONFIG_FILE" ] ; then
 	cat > "$LDCONFIG_FILE" <<EOF
 # Orfeo Toolbox bindings for Python related search paths
-/usr/lib/otb-wrapping/lib
+%{_libdir}/otb-wrapping/lib
 EOF
 fi
 /sbin/ldconfig
@@ -103,7 +99,7 @@ LDCONFIG_FILE=/etc/ld.so.conf.d/otb-wrapping-java.conf
 if [ ! -f "$LDCONFIG_FILE" ] ; then
 	cat > "$LDCONFIG_FILE" <<EOF
 # Orfeo Toolbox bindings for Java related search paths
-/usr/lib/otb-wrapping/lib
+%{_libdir}/otb-wrapping/lib
 EOF
 fi
 /sbin/ldconfig
@@ -194,6 +190,9 @@ fi
 
 
 %changelog
+* Wed Feb 08 2013 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.12.0-1
+- Packaging OTB Wrapping 1.12 for CentOS 6.3 against OpenJDK
+
 * Wed Mar 21 2012 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.8.0-1+java6
 - Packaging OTB Wrapping 1.8 for CentOS 5.5
 
