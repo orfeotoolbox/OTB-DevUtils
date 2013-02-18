@@ -22,7 +22,7 @@ set(dashboard_hg_branch "default")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
-OTB_DATA_USE_LARGEINPUT:BOOL=OFF
+OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
@@ -44,7 +44,7 @@ OTB_USE_EXTERNAL_BOOST:BOOL=ON
 OTB_USE_EXTERNAL_FLTK:BOOL=ON
 OTB_USE_MAPNIK:BOOL=OFF
 #MAPNIK_INCLUDE_DIR:STRING=/usr/include
-#MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so  
+#MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
     ")
 endmacro()
 
