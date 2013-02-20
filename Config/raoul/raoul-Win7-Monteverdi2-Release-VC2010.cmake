@@ -55,7 +55,6 @@ ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}"
-             TARGET INSTALL))
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}" TARGET INSTALL)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_submit ()
