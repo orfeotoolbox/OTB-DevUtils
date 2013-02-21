@@ -32,17 +32,9 @@ LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
-SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi2
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   OTB_PULL_RESULT
-                 ERROR_VARIABLE    OTB_PULL_RESULT )
-file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
-
 SET (CTEST_NOTES_FILES
 ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-${OTB_PULL_RESULT_FILE}
 )
 
 ctest_start(Nightly)
