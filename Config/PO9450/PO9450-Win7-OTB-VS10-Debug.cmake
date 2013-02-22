@@ -1,11 +1,11 @@
-SET (CTEST_SOURCE_DIRECTORY "C:/Users/msavinau/dev/nightly/OTB-VS2008-Debug/src")
-SET (CTEST_BINARY_DIRECTORY "C:/Users/msavinau/dev/nightly/OTB-VS2008-Debug/build")
+SET (CTEST_SOURCE_DIRECTORY "C:/Users/msavinau/dev/nightly/OTB-MVSC10-Debug/src")
+SET (CTEST_BINARY_DIRECTORY "C:/Users/msavinau/dev/nightly/OTB-MVSC10-Debug/build")
 
-SET (CTEST_CMAKE_GENERATOR  "Visual Studio 9 2008" )
+SET (CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE "PO9450.c-s.fr" )
-SET (CTEST_BUILD_NAME "Win7-Visual2008-Debug-Static")
-SET (CTEST_BUILD_CONFIGURATION "Debug")
+SET (CTEST_BUILD_NAME "Win7-Visual2010-Debug-Static")
+SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "C:/Program Files/TortoiseHg/hg.exe")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
 
@@ -19,7 +19,7 @@ BUILD_TESTING:BOOL=OFF
 BUILD_EXAMPLES:BOOL=OFF
 
 # Applications
-BUILD_APPLICATIONS:BOOL=OFF
+BUILD_APPLICATIONS:BOOL=ON
 #OTB_WRAP_PYTHON:BOOL=ON
 #OTB_WRAP_QT:BOOL=ON
 #SWIG_EXECUTABLE:FILEPATH=C:/OSGeo4W/apps/swigwin/swig.exe
@@ -33,10 +33,10 @@ OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 #OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
 
 OTB_USE_EXTERNAL_FLTK:BOOL=OFF
-
+OTB_USE_EXTERNAL_OSSIM:BOOL=OFF
 ")
 
-#Remove build dir
+#remove build dir
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 SET (CTEST_NOTES_FILES
