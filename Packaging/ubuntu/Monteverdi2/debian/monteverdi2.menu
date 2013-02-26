@@ -1,4 +1,4 @@
-?package(monteverdi):\
+?package(monteverdi2):\
         needs="X11"\
         section="Applications/Science"\
         title="Monteverdi2"\
