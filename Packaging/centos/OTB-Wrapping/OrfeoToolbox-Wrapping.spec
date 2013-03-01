@@ -65,6 +65,7 @@ export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
 cmake -DBUILD_TESTING:BOOL=OFF \
       -DOTB_DIR:PATH=%{_libdir}/otb \
       -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+      -DWRAP_ITK_INSTALL_PREFIX:PATH=%{_lib}/otb-wrapping \
       -DWRAP_ITK_JAVA:BOOL=ON \
       -DWRAP_ITK_PYTHON:BOOL=ON \
       -DCMAKE_SKIP_RPATH:BOOL=ON \
@@ -178,8 +179,6 @@ fi
 %defattr(-,root,root,-)
 %{_libdir}/otb-wrapping/Python/
 %{_libdir}/otb-wrapping/lib/*.py
-%{_libdir}/otb-wrapping/lib/*.pyc
-%{_libdir}/otb-wrapping/lib/*.pyo
 %{_libdir}/otb-wrapping/lib/*Python.so
 %{_libdir}/otb-wrapping/Configuration/Languages/Python/
 %{_libdir}/otb-wrapping/Configuration/Typedefs/python/
@@ -190,7 +189,7 @@ fi
 
 
 %changelog
-* Wed Feb 08 2013 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.12.0-1
+* Fri Mar 01 2013 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.12.0-1
 - Packaging OTB Wrapping 1.12 for CentOS 6.3 against OpenJDK
 
 * Wed Mar 21 2012 Sebastien Dinot <sebastien.dinot@c-s.fr> - 1.8.0-1+java6
