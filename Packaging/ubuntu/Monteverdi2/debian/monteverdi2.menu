@@ -1,0 +1,7 @@
+?package(monteverdi2):\
+        needs="X11"\
+        section="Applications/Science"\
+        title="Monteverdi2"\
+        longtitle="Monteverdi2, remote sensing image processing application based on OrfeoToolbox"\
+        icon="/usr/share/pixmaps/monteverdi2.xpm"\
+        command="/usr/bin/monteverdi2"

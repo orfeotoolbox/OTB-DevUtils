@@ -1,0 +1,11 @@
+# Binaries
+usr/bin/monteverdi2
+
+# Shared libraries
+usr/lib/otb/lib*.so
+
+# External resources
+usr/share/pixmaps/monteverdi2.*
+
+# FreeDeskop entry file
+usr/share/applications/monteverdi2.desktop

@@ -3,7 +3,7 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Fedora17-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "Fedora17-64bits-clang-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -12,7 +12,7 @@ set(CTEST_HG_COMMAND "/usr/bin/hg")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "trunk/OTB")
-set(dashboard_binary_name "bin/OTB-Nightly")
+set(dashboard_binary_name "bin/OTB-clang-Nightly")
 
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
@@ -26,6 +26,9 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
+
+CMAKE_C_COMPILER=/usr/bin/clang
+CMAKE_CXX_COMPILER=/usr/bin/clang++
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
@@ -49,3 +52,4 @@ OTB_USE_MAPNIK:BOOL=OFF
 endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
+

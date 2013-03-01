@@ -38,7 +38,7 @@ OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build
 #MAPNIK_LIBRARY:FILEPATH=/opt/local/lib/libmapnik.dylib
 #FREETYPE2_INCLUDE_DIR:PATH=/opt/local/include/freetype2
 
-OTB_USE_CPACK:BOOL=ON
+Monteverdi2_USE_CPACK:BOOL=ON
 GDAL_INCLUDE_DIR:STRING=/opt/local/include
 
 ")
@@ -55,7 +55,7 @@ ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}" TARGET package)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()
 
