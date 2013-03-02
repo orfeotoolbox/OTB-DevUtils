@@ -1,3 +1,15 @@
+otb (3.16.0-1) unstable; urgency=low
+
+  * Test of OTB 3.16.0 packaging
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Fri, 1 Mar 2013 23:13:48 +0100
+
+otb (3.13.0-1) unstable; urgency=low
+
+  * Test of OTB 3.13.0 packaging
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Mon, 19 Mar 2012 15:07:42 +0100
+
 otb (3.12.0-3) unstable; urgency=low
 
   * Dependencies updated

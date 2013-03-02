@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 #
-# Copyright (C) 2010-2012 CNES - Centre National d'Etudes Spatiales
+# Copyright (C) 2010-2013 CNES - Centre National d'Etudes Spatiales
 # Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
 # The OTB is distributed under the CeCILL license version 2. See files
@@ -11,17 +11,15 @@
 # http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 # http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt
 
-# export DH_VERBOSE=1
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
 
-CMAKE_EXTRA_FLAGS = \
-	-DCMAKE_INSTALL_PREFIX=/usr \
-	-DCMAKE_BUILD_TYPE:STRING=Release \
+CMAKE_EXTRA_FLAGS += \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
 	-DOTB_USE_CURL:BOOL=ON \
 	-DOTB_USE_EXTERNAL_EXPAT:BOOL=ON \
 	-DOTB_USE_EXTERNAL_FLTK:BOOL=ON \
 	-DOTB_USE_EXTERNAL_BOOST:BOOL=ON \
-	-DOTB_USE_EXTERNAL_GDAL:BOOL=ON \
 	-DOTB_USE_GETTEXT:BOOL=OFF \
 	-DOTB_USE_MAPNIK:BOOL=OFF \
 	-DBUILD_APPLICATIONS:BOOL=ON \
@@ -31,16 +29,13 @@ CMAKE_EXTRA_FLAGS = \
 	-DOTB_WRAP_QT:BOOL=ON \
 	-DOTB_WRAP_PYTHON:BOOL=ON
 
-OTB_LIB_DIRS=/usr/lib/otb:/usr/lib/otb/applications:/usr/lib/otb/python
+OTB_LIB_DIRS = /usr/lib/otb:/usr/lib/otb/applications:/usr/lib/otb/python
 
 %:
-	dh $@
+	dh $@ --parallel
 
 override_dh_auto_configure:
 	dh_auto_configure -- $(CMAKE_EXTRA_FLAGS)
-
-override_dh_auto_build:
-	dh_auto_build --parallel
 
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OTB_LIB_DIRS) dh_shlibdeps
