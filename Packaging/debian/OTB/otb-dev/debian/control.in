@@ -1,9 +1,9 @@
 Source: otb
 Priority: extra
 Maintainer: OTB Team <contact@orfeo-toolbox.org>
-Build-Depends: debhelper (>= 9), cmake (>= 2.8), libc6-dev (>= 2.4),
- libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libgeotiff-dev, libpng-dev,
- libx11-dev, libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev,
+Build-Depends: debhelper (>= 9), dpkg-dev (>= 1.16.1~), cmake (>= 2.8),
+ libc6-dev (>= 2.4), libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libgeotiff-dev,
+ libpng-dev, libx11-dev, libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev,
  libgdal-dev (>= 1.9.0), libproj-dev, libfltk1.3-dev, fluid, libexpat1-dev,
  libtool, libcurl4-gnutls-dev, libopenthreads-dev, libboost-graph-dev,
  libqt4-dev, libqtcore4, libqtgui4, libqt4-xml, swig, python-dev,
@@ -64,37 +64,37 @@ Description: Plugins for ORFEO Toolbox applications
  encourage contribution from users and to promote reproducible research.
  .
  This package contains several plugins illustrating OTB features:
- * Feature extraction:
-   - LineSegmentDetection
- * Segmentation:
-   - MeanShiftSegmentation
- * Classification:
-   - EstimateImagesStatistics
-   - ImageSVMClassifier
-   - KMeansClassification
-   - LabeledImageColorMapping
-   - TrainSVMImagesClassifier
-   - ValidateSVMImagesClassifier
- * Change detection:
-   - MultivariateAlterationDetector
- * Hyperspectral:
-   - HyperspectralUnmixing
- * Projection:
-   - BundleToPerfectSensor
-   - OrthoRectification
- * Radiometry:
-   - OpticalCalibration
-   - SarRadiometricCalibration
- * Various utilities:
-   - BandMath
-   - ConcatenateImages
-   - Convert
-   - ExtractROI
-   - MultiResolutionPyramid
-   - ReadImageInfo
-   - Rescale
-   - Smoothing
-   - SplitImage
+   * Feature extraction:
+     - LineSegmentDetection
+   * Segmentation:
+     - MeanShiftSegmentation
+   * Classification:
+     - EstimateImagesStatistics
+     - ImageSVMClassifier
+     - KMeansClassification
+     - LabeledImageColorMapping
+     - TrainSVMImagesClassifier
+     - ValidateSVMImagesClassifier
+   * Change detection:
+     - MultivariateAlterationDetector
+   * Hyperspectral:
+     - HyperspectralUnmixing
+   * Projection:
+     - BundleToPerfectSensor
+     - OrthoRectification
+   * Radiometry:
+     - OpticalCalibration
+     - SarRadiometricCalibration
+   * Various utilities:
+     - BandMath
+     - ConcatenateImages
+     - Convert
+     - ExtractROI
+     - MultiResolutionPyramid
+     - ReadImageInfo
+     - Rescale
+     - Smoothing
+     - SplitImage
 
 Package: otb-bin
 Section: contrib/science
