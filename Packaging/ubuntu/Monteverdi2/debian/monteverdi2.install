@@ -2,7 +2,7 @@
 usr/bin/monteverdi2
 
 # Shared libraries
-usr/lib/otb/lib*.so
+usr/lib/otb/lib*.so*
 
 # Translations
 usr/share/otb/i18n
