@@ -3,5 +3,5 @@
         section="Applications/Science"\
         title="Monteverdi2"\
         longtitle="Monteverdi2, remote sensing image processing application based on OrfeoToolbox"\
-        icon="/usr/share/pixmaps/monteverdi2.xpm"\
+        icon="/usr/share/icons/hicolor/48x48/apps/monteverdi2.png"\
         command="/usr/bin/monteverdi2"
