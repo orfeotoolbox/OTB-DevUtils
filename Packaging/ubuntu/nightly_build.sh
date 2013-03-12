@@ -139,9 +139,17 @@ for project in OTB Monteverdi Monteverdi2 ; do
     if [ "$project" == "OTB" ] ; then
         otb_version=$next_version
         otb_pkg_version=$pkg_version
-        $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -p $pkg_version -c "Nightly build"
+        if [ "$simulate" -eq 0 ] ; then
+          $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -p $pkg_version -c "Nightly build"
+        else
+          echo "COMMAND: $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -p $pkg_version -c \"Nightly build\""
+        fi
     else
-        $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -p $pkg_version -c "Nightly build" -m $next_version
+        if [ "$simulate" -eq 0 ] ; then
+          $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -p $pkg_version -c "Nightly build" -m $next_version
+        else
+          echo "COMMAND: $CMDDIR/$project/make_ubuntu_packages.sh -d $SRCDIR/$project -r tip -o $otb_version -p $pkg_version -c \"Nightly build\" -m $next_version"
+        fi
     fi
 
     case $project in
