@@ -1,5 +1,5 @@
 # Binaries
-usr/bin/monteverdi2
+usr/bin/mvd2-*
 
 # Shared libraries
 usr/lib/otb/lib*.so*
@@ -12,4 +12,4 @@ usr/share/pixmaps
 usr/share/icons
 
 # FreeDeskop entry file
-usr/share/applications/monteverdi2.desktop
+usr/share/applications/mvd2-viewer.desktop

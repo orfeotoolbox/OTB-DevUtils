@@ -4,4 +4,4 @@
         title="Monteverdi2"\
         longtitle="Monteverdi2, remote sensing image processing application based on OrfeoToolbox"\
         icon="/usr/share/pixmaps/monteverdi2.xpm"\
-        command="/usr/bin/monteverdi2"
+        command="/usr/bin/mvd2-viewer"
