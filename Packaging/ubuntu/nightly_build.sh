@@ -151,6 +151,9 @@ for project in OTB Monteverdi Monteverdi2 ; do
         Monteverdi)
             pkg_name=monteverdi
             ;;
+        Monteverdi2)
+            pkg_name=monteverdi2
+            ;;
         OTB-Applications)
             pkg_name=otbapp
             ;;
