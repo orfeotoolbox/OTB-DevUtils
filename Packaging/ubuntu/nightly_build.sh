@@ -109,7 +109,7 @@ rm -rf /tmp/otb* /tmp/monteverdi*
 
 # For each project ("OTB" must be the first one)
 #for project in OTB Monteverdi OTB-Wrapping ; do
-for project in OTB Monteverdi Monteverdi2 ; do
+for project in OTB Monteverdi2 ; do
 
     # Update working copy
     cd $SRCDIR/$project
