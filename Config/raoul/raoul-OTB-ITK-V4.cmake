@@ -1,36 +1,35 @@
 # Client maintainer: julien.malik@c-s.fr
-set(dashboard_model Experimental)
-set(CTEST_DASHBOARD_ROOT "C:/Users/jmalik/Dashboard")
-set(CTEST_SITE "raoul.c-s.fr" )
-set(CTEST_BUILD_NAME "ITKv4-Win7-Visual2008-Release-Static")
-set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_CMAKE_GENERATOR  "Visual Studio 9 2008" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
-set(CTEST_TEST_TIMEOUT 500)
 
-set(CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
-set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4")
+SET (CTEST_SOURCE_DIRECTORY "C:/Users/jmalik/Dashboard/src/OTB-ITKv4")
+SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-ITKv4-Release-MVSC2010")
 
-set(dashboard_source_name "src/OTB-ITKv4")
-set(dashboard_binary_name "build/OTB-ITKv4-Release-VC2008")
+SET (CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
+SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
+SET (CTEST_SITE "raoul.c-s.fr" )
+SET (CTEST_BUILD_NAME "OTB-ITKv4-Win7-MVSC2010-RelWithDebInfo-Static")
+SET (CTEST_BUILD_CONFIGURATION "RelWithDebInfo")
+SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
+SET (CTEST_HG_UPDATE_OPTIONS "-C")
 
-set(dashboard_fresh_source_checkout ON)
-set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
-set(dashboard_hg_branch "default")
-
-macro(dashboard_hook_init)
-  set(dashboard_cache "${dashboard_cache}
+SET (OTB_INITIAL_CACHE "
+BUILDNAME:STRING=${CTEST_BUILD_NAME}
+SITE:STRING=${CTEST_SITE}
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
-OTB_USE_CPACK:BOOL=ON
+BUILD_APPLICATIONS:BOOL=ON
 
-OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:PATH=C:/Users/jmalik/Dashboard/build/ITKv4-Release
+OTB_WRAP_PYTHON:BOOL=OFF
+OTB_WRAP_QT:BOOL=ON
+
+OTB_USE_CPACK:BOOL=OFF
 
 OTB_DATA_ROOT:STRING=C:/Users/jmalik/Dashboard/src/OTB-Data
-OTB_DATA_USE_LARGEINPUT:BOOL=ON
+OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
+
+OTB_USE_EXTERNAL_FLTK:BOOL=OFF
+OTB_USE_EXTERNAL_OSSIM:BOOL=ON
 
 GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
@@ -44,16 +43,6 @@ JPEG_LIBRARY:FILEPATH=C:/OSGeo4W/lib/jpeg_i.lib
 
 TIFF_INCLUDE_DIRS:PATH=C:/OSGeo4W/include
 TIFF_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libtiff_i.lib
-
-OTB_USE_EXTERNAL_BOOST:BOOL=ON
-OTB_USE_MAPNIK:BOOL=ON
-MAPNIK_INCLUDE_DIR:PATH=C:/OSGeo4W/include/mapnik
-MAPNIK_LIBRARY:FILEPATH=C:/OSGeo4W/lib/mapnik.lib
-FREETYPE2_INCLUDE_DIR:PATH=C:/OSGeo4W/include/freetype
-ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
-ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
-LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
-LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
 
 OTB_USE_CURL:BOOL=ON
 CURL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
@@ -75,9 +64,30 @@ PNG_PNG_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 PNG_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libpng13.lib
 
 OTB_USE_GETTEXT:BOOL=OFF
-OTB_USE_JPEG2000:BOOL=OFF
+OTB_USE_JPEG2000:BOOL=ON
 
-    ")
-endmacro()
+OTB_USE_EXTERNAL_ITK:BOOL=ON
+ITK_DIR:PATH=C:/Users/jmalik/Dashboard/build/ITK-V4
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
+
+
+")
+
+#remove build dir
+ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
+
+SET (CTEST_NOTES_FILES
+${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
+${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
+)
+
+ctest_start(Experimental)
+ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
+file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
+ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+#ctest_submit (PARTS Start Update Configure)
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+#ctest_submit (PARTS Start Update Configure Build)
+ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
+ctest_submit ()
