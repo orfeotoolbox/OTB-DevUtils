@@ -6,8 +6,8 @@ SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-ITKv4-Release-M
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE "raoul.c-s.fr" )
-SET (CTEST_BUILD_NAME "OTB-ITKv4-Win7-MVSC2010-RelWithDebInfo-Static")
-SET (CTEST_BUILD_CONFIGURATION "RelWithDebInfo")
+SET (CTEST_BUILD_NAME "OTB-ITKv4-Win7-MVSC2010-Release-Static")
+SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
 
