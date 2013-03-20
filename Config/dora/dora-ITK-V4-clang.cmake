@@ -1,13 +1,13 @@
 # Client maintainer: julien.malik@c-s.fr
 SET(ENV{DISPLAY} ":0.0")
-SET(ENV{CC} "/usr/bin/clang-3.2")
-SET(ENV{CXX} "/usr/bin/clang++-3.2")
+SET(ENV{CC} "/usr/bin/clang-3.0")
+SET(ENV{CXX} "/usr/bin/clang++-3.0")
 
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard/experimental")
 set(CTEST_SITE "dora.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
-set(CTEST_BUILD_NAME "OrfeoToolbox-Ubuntu12.04-64bits-clang32-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "OrfeoToolbox-Ubuntu12.04-64bits-clang30-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
