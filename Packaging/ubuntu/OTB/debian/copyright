@@ -1,6 +1,6 @@
 This work was packaged for Debian by:
 
-    OTB Team <contact@orfeo-toolbox.org> on Tue, 29 Nov 2012 10:46:50 +0100
+    OTB Team <contact@orfeo-toolbox.org> on Wed, 20 Mar 2013 20:12:44 +0100
 
 It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
 
@@ -15,11 +15,11 @@ Internal dependencies (included third-party works):
 
 * ITK (http://www.itk.org/),
   distributed under the revised BSD license
-  (see Copyright/ITKCopyright.txt)
+  (see Copyright/ITKCopyright.txt or /usr/share/common-licenses/BSD)
 
 * VTK (http://www.vtk.org/),
   distributed under the revised BSD license
-  (see Copyright/VTKCopyright.txt)
+  (see Copyright/VTKCopyright.txt or /usr/share/common-licenses/BSD)
 
 * VXL (http://vxl.sourceforge.net/),
   distributed under a specific license (simplified BSD-like)
@@ -27,15 +27,15 @@ Internal dependencies (included third-party works):
 
 * OSSIM (http://www.ossim.org/),
   distributed under the GNU LGPL 2.1 license
-  (see Copyright/OSSIMCopyright.txt)
+  (see Copyright/OSSIMCopyright.txt or /usr/share/common-licenses/LGPL-2.1)
 
 * LibSVM (http://www.csie.ntu.edu.tw/~cjlin/libsvm/),
   distributed under the revised BSD license
-  (see Copyright/LibSVMCopyright.txt)
+  (see Copyright/LibSVMCopyright.txt or /usr/share/common-licenses/BSD)
 
 * OpenJPEG (http://www.openjpeg.org/),
   distributed under the revised BSD license
-  (see Copyright/OpenJPEGCopyright.txt)
+  (see Copyright/OpenJPEGCopyright.txt or /usr/share/common-licenses/BSD)
 
 * OpenThreads (http://www.openscenegraph.org/),
   distributed under the OpenSceneGraph Public License (OSGPL) 0.0, i.e.
@@ -44,11 +44,11 @@ Internal dependencies (included third-party works):
 
 * SiftFast (http://libsift.sourceforge.net/),
   distributed under the GNU LGPL 3.0 license
-  (see Utilities/otbsiftfast/LICENSE)
+  (see Utilities/otbsiftfast/LICENSE or /usr/share/common-licenses/LGPL-3)
 
 * libLAS (http://liblas.org/),
   distributed under the revised BSD license
-  (see Copyright/LibLASCopyright.txt)
+  (see Copyright/LibLASCopyright.txt or /usr/share/common-licenses/BSD)
 
 * ConfigFile (http://www-personal.umich.edu/~wagnerr/ConfigFile.html),
   distributed under the MIT license
@@ -56,23 +56,18 @@ Internal dependencies (included third-party works):
 
 * Insight Journal Publications (http://www.insight-journal.org/browse/publications),
   distributed under the revised BSD license
-  (see Copyright/ITKCopyright.txt)
+  (see Copyright/ITKCopyright.txt or /usr/share/common-licenses/BSD)
 
 * ISO C9x compliant inttypes.h and stdint.h for Microsoft Visual Studio
   Utilities/otbmsinttypes/inttypes.h
   Utilities/otbmsinttypes/stdint.h
   distributed under the revised BSD license
-  (see header of above files)
+  (see header of above files or /usr/share/common-licenses/BSD)
 
 * 6S (http://6s.ltdri.org/)
   No license information available on the website but the authors gave CNES
   the permission to use 6S code inside OTB and to release it under CeCILL v2
   license. FIXME: add a link to the authorization.
-
-* Edison (http://coewww.rutgers.edu/riul/research/robust.html)
-  No license information available on the website but the authors gave CNES
-  the permission to use Edison code inside OTB and to release it under CeCILL
-  v2 license. FIXME: add a link to the authorization.
 
 
 External dependencies (not included third-party works):
@@ -89,6 +84,7 @@ External dependencies (not included third-party works):
 
 * FFTW (http://www.fftw.org/)
   distributed under the GNU GPL 2 license
+  NB: FFTW is optional. OTB is not linked against it by default.
 
 * zlib (http://www.zlib.net/)
   distributed under the zlib/libpng license
@@ -138,7 +134,7 @@ Upstream Author(s):
     Cyrille Valladeau (CS) <cyrille.valladeau@c-s.fr>
     Julien Radoux (UCL)
     Gregoire Mercier (Telecom Bretagne) <gregoire.mercier@telecom-bretagne.eu>
-    Vincent Poulain (CNES) <vincent.poulain@cnes.fr>
+    Vincent Poulain (Thales) <vincent.poulain@thalesgroup.com>
     Patrick Imbo (CS) <patrick.imbo@c-s.fr>
     Caroline Ruffel (CS) <caroline.ruffel@c-s.fr>
     Miarintsoa Ramanantsimiavona
@@ -177,11 +173,14 @@ Upstream Author(s):
     Guillaume Pasero (CS) <guillaume.pasero@c-s.fr>
     Sebastien Harasse (CS) <sebastien.harasse@c-s.fr>
     Angelos Tzotsos <gcpp.kalxas@gmail.com>
+    Luc Hermitte <luc.hermitte@c-s.fr>
+    Charles Peyrega <charles.peyrega@c-s.fr>
+    Daphne Deleflie <daphne.deleflie@thalesgroup.com>
 
 
 Copyright:
 
-    Copyright (c) 2004-2012 Centre National d'Etudes Spatiales and others, see
+    Copyright (c) 2004-2013 Centre National d'Etudes Spatiales and others, see
     files in 'Copyright' directory for third parties copyrights.
 
 
@@ -197,6 +196,6 @@ License:
 
 The Debian packaging is:
 
-    Copyright (c) 2010-2012 OTB Team <contact@orfeo-toolbox.org>
+    Copyright (c) 2010-2013 OTB Team <contact@orfeo-toolbox.org>
 
     This package is distributed under the CeCILL license version 2.
