@@ -313,10 +313,13 @@ while(NOT dashboard_done)
     endif()
     ctest_build()
     
-    if(COMMAND dashboard_hook_test)
-      dashboard_hook_test()
+    if(NOT dashboard_no_test)
+      if(COMMAND dashboard_hook_test)
+        dashboard_hook_test()
+      endif()
+      ctest_test(${CTEST_TEST_ARGS})
     endif()
-    ctest_test(${CTEST_TEST_ARGS})
+    
     set(safe_message_skip 1) # Block furhter messages
 
     if(dashboard_do_coverage)
