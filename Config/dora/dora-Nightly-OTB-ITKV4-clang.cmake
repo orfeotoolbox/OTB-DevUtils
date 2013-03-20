@@ -1,7 +1,7 @@
 # Client maintainer: julien.malik@c-s.fr
 set(ENV{DISPLAY} ":0.0")
-set(ENV{CC} "/usr/bin/clang-3.0")
-set(ENV{CXX} "/usr/bin/clang++-3.0")
+set(ENV{CC} "/usr/bin/clang")
+set(ENV{CXX} "/usr/bin/clang++")
 
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard/experimental")

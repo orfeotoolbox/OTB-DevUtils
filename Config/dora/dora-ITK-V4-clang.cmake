@@ -1,7 +1,7 @@
 # Client maintainer: julien.malik@c-s.fr
 SET(ENV{DISPLAY} ":0.0")
-SET(ENV{CC} "/usr/bin/clang-3.0")
-SET(ENV{CXX} "/usr/bin/clang++-3.0")
+SET(ENV{CC} "/usr/bin/clang")
+SET(ENV{CXX} "/usr/bin/clang++")
 
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard/experimental")
