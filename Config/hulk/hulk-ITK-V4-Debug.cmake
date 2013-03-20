@@ -9,26 +9,29 @@ set(CTEST_BUILD_NAME "OrfeoToolbox-Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATIO
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j5 -i -k" )
 
 set(dashboard_root_name "tests")
-set(dashboard_source_name "src/ITKv4")
-set(dashboard_binary_name "build/ITKv4-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_source_name "src/ITKv4-upstream")
+set(dashboard_binary_name "build/ITKv4-upstream-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout ON)
-set(dashboard_git_url "https://github.com/julienmalik/ITK.git")
-set(dashboard_git_branch "OTB_ITKv4")
+set(dashboard_fresh_source_checkout OFF)
+set(dashboard_git_url "http://itk.org/ITK.git")
+set(dashboard_git_branch "v4.3.1")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
+
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra
+CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
+
 BUILD_SHARED_LIBS:BOOL=ON
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=OFF
-ITKV3_COMPATIBILITY:BOOL=OFF
-ITK_BUILD_ALL_MODULES:BOOL=ON
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra
-CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
+
 ExternalData_OBJECT_STORES:PATH=/home/otbval/Dashboard/src/ITKv4-ExternalObjectStores
+
+ITK_BUILD_ALL_MODULES:BOOL=ON
 
 # as much external libraries as possible
 # libtiff on ubuntu does not support BigTIFF and is incompatible with ITK
@@ -40,9 +43,9 @@ ITK_USE_SYSTEM_TIFF:BOOL=OFF
 ITK_USE_SYSTEM_ZLIB:BOOL=ON
 
 # OTB depends on this
-USE_FFTWF:BOOL=ON
-USE_FFTWD:BOOL=ON
-USE_SYSTEM_FFTW:BOOL=ON
+ITK_USE_FFTWF:BOOL=ON
+ITK_USE_FFTWD:BOOL=ON
+ITK_USE_SYSTEM_FFTW:BOOL=ON
 
     ")
 endmacro()

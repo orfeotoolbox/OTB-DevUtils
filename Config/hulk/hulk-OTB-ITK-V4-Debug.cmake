@@ -3,7 +3,7 @@ set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
-set(CTEST_BUILD_NAME "ITKv4-nopatch-Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "ITKv4-Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j14 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -14,9 +14,9 @@ set(CTEST_HG_COMMAND "/usr/bin/hg")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB-ITKv4")
-set(dashboard_binary_name "build/OTB-ITKv4-nopatch-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_binary_name "build/OTB-ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout OFF)
+set(dashboard_fresh_source_checkout ON)
 set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
 set(dashboard_hg_branch "default")
 
@@ -34,12 +34,12 @@ OTB_WRAP_PYTHON:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
 OTB_WRAP_QT:BOOL=ON
 
-OTB_DATA_USE_LARGEINPUT:BOOL=OFF
+OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/ITKv4-upstream-Debug
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/ITKv4-upstream-${CTEST_BUILD_CONFIGURATION}
 
 OTB_USE_CURL:BOOL=ON
 OTB_USE_PQXX:BOOL=OFF
