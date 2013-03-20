@@ -9,7 +9,7 @@ set(CTEST_SITE "dora.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 set(CTEST_BUILD_NAME "ITKv4-Ubuntu12.04-64bits-clang30-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j10 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 

@@ -11,7 +11,7 @@ set(CTEST_BUILD_NAME "OrfeoToolbox-Ubuntu12.04-64bits-clang30-${CTEST_BUILD_CONF
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j5 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/ITKv4")
