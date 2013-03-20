@@ -10,13 +10,13 @@ set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 
 set(CTEST_HG_COMMAND "/usr/bin/hg")
-#set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4") 
+#set(CTEST_HG_UPDATE_OPTIONS "-r otb-itkv4")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "trunk/OTB-ITKv4")
 set(dashboard_binary_name "bin/OTB-ITKv4-nopatch-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout OFF)
+set(dashboard_fresh_source_checkout ON)
 set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
 set(dashboard_hg_branch "default")
 
