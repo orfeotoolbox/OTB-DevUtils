@@ -23,7 +23,7 @@ echo "#cmakedefine OPJ_USE_MANGLE_PREFIX\n" >> $OUT_FILE
 echo "#ifdef OPJ_USE_MANGLE_PREFIX\n" >> $OUT_FILE
 
 # grep functions
-symbol_list=$(objdump -t bin/libopenjpeg.so  | grep .text | awk '{print $6}' | grep -v .text | grep -v __do_global | grep -v __bss_start | grep -v _edata | grep -v _end | grep -v _fini | grep -v _init | grep -v call_gmon_start | grep -v frame_dummy| grep -v set_fast_math | grep -v T.76 |sort)
+symbol_list=$(objdump -t bin/libopenjpeg.so  | grep .text | awk '{print $6}' | grep -v .text | grep -v __do_global | grep -v __bss_start | grep -v _edata | grep -v _fini | grep -v _init | grep -v call_gmon_start | grep -v frame_dummy| grep -v set_fast_math | grep -v T.76 |sort)
 for symbol in $symbol_list
 do
     #echo "#define $symbol @OPJ_MANGLE_PREFIX@_$symbol" >> $OUT_FILE
