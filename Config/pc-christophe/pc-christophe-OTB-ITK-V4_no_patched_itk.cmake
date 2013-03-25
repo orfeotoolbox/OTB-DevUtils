@@ -36,7 +36,7 @@ OTB_WRAP_QT:BOOL=ON
 
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
-OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
+OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-ITKv4-Data
 
 OTB_USE_EXTERNAL_ITK:BOOL=ON
 ITK_DIR:PATH=$ENV{HOME}/OTB/bin/ITKv4-upstream-Release
