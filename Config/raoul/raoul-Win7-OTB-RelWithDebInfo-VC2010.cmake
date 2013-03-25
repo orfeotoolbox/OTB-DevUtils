@@ -30,6 +30,9 @@ OTB_DATA_LARGEINPUT_ROOT:PATH=C:/Users/jmalik/Dashboard/src/OTB-LargeInput
 OTB_USE_EXTERNAL_FLTK:BOOL=OFF
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
 
+OTB_USE_OPENCV:BOOL=ON
+OpenCV_DIR:PATH=C:/Users/jmalik/Dashboard/tools/build/opencv/install
+
 GDAL_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 GDAL_LIBRARY:FILEPATH=C:/OSGeo4W/lib/gdal_i.lib
 
