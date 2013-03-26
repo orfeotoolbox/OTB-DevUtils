@@ -10,8 +10,9 @@ OUT_FILE=/path/where/create/openjpeg_mangle.h.cmake.in
 rm $OPJ_BUILD_PATH
 mkdir $OPJ_BUILD_PATH
 cd $OPJ_BUILD_PATH
-cmake $OPJ_SRC_PATH -DCMAKE_BUILD_TYPE:STRING=Release
+cmake $OPJ_SRC_PATH -DCMAKE_BUILD_TYPE:STRING=Debug # In debug more symbols appear
 make
+
 
 rm $OUT_FILE 2>/dev/null
 
@@ -23,7 +24,7 @@ echo "#cmakedefine OPJ_USE_MANGLE_PREFIX\n" >> $OUT_FILE
 echo "#ifdef OPJ_USE_MANGLE_PREFIX\n" >> $OUT_FILE
 
 # grep functions
-symbol_list=$(objdump -t bin/libopenjpeg.so  | grep .text | awk '{print $6}' | grep -v .text | grep -v __do_global | grep -v __bss_start | grep -v _edata | grep -v _fini | grep -v _init | grep -v call_gmon_start | grep -v frame_dummy| grep -v set_fast_math | grep -v T.76 |sort)
+symbol_list=$(objdump -t bin/libopenjpeg.so  | grep .text | awk '{print $6}' | grep -v .text | grep -v __do_global | grep -v call_gmon_start | grep -v frame_dummy| sort)
 for symbol in $symbol_list
 do
     #echo "#define $symbol @OPJ_MANGLE_PREFIX@_$symbol" >> $OUT_FILE
