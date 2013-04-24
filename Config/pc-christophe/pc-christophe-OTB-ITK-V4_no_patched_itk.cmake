@@ -1,4 +1,4 @@
-# Client maintainer: julien.malik@c-s.fr
+# Client maintainer: manuel.grizonnet@cnes.fr
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
@@ -34,7 +34,7 @@ OTB_WRAP_PYTHON:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
 OTB_WRAP_QT:BOOL=ON
 
-OTB_DATA_USE_LARGEINPUT:BOOL=OFF
+OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-ITKv4-Data
 
