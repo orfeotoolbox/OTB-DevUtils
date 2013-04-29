@@ -166,6 +166,10 @@ check_gpgkeyid ()
 set_ubuntu_code_name ()
 {
     case "$1" in
+        "raring" )
+            ubuntu_codename="Raring Ringtail"
+            ubuntu_version="13.04"
+            ;;
         "quantal" )
             ubuntu_codename="Quantal Quetzal"
             ubuntu_version="12.10"
@@ -274,7 +278,7 @@ done
 
 echo "Source package generation..."
 cd "$TMPDIR/monteverdi-$src_version_full"
-for target in lucid oneiric precise quantal ; do
+for target in lucid oneiric precise quantal raring ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     cp -f "$DEBDIR/changelog" debian
