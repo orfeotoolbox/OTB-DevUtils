@@ -85,6 +85,14 @@ macro(dashboard_hook_init)
     Module_ITKOptimizersv4:BOOL=ON
     Module_ITKPolynomials:BOOL=ON
     Module_ITKStatistics:BOOL=ON
+    
+    Module_ITKRegistrationCommon:BOOL=ON
+    Module_ITKFEMRegistration:BOOL=ON
+    Module_ITKGPURegistrationCommon:BOOL=ON
+    Module_ITKGPUPDEDeformableRegistration:BOOL=ON
+    Module_ITKMetricsv4:BOOL=ON
+    Module_ITKPDEDeformableRegistration:BOOL=ON
+    Module_ITKRegistrationMethodsv4:BOOL=ON
 
     Module_ITKBioCell:BOOL=ON
     Module_ITKClassifiers:BOOL=ON
