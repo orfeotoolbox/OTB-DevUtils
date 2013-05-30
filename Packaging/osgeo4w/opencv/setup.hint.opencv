@@ -1,0 +1,4 @@
+sdesc: "OpenCV"
+ldesc: "OpenCV (library & python binding)"
+category: Libs
+requires: msvcrt libtiff libjpeg libpng zlib python-core python-numpy
