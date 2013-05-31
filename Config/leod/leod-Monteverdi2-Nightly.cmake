@@ -40,6 +40,7 @@ OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build
 
 Monteverdi2_USE_CPACK:BOOL=ON
 GDAL_INCLUDE_DIR:STRING=/opt/local/include
+OpenCV_DIR:PATH=/opt/local/lib/cmake
 
 ")
 

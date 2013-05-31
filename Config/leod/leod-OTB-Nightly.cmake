@@ -79,6 +79,9 @@ EXPAT_LIBRARY:FILEPATH=/opt/local/lib/libexpat.dylib
 CURL_INCLUDE_DIR:PATH=/opt/local/include
 CURL_LIBRARY:FILEPATH=/opt/local/lib/libcurl.dylib
 
+OTB_USE_OPENCV:BOOL=ON
+OpenCV_DIR:PATH=/opt/local/lib/cmake
+
 ")
 
 SET (CTEST_NOTES_FILES

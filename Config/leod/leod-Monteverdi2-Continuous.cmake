@@ -33,6 +33,8 @@ BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/continuous/Monteverdi2/install
 
 GDAL_INCLUDE_DIR:STRING=/opt/local/include
+OpenCV_DIR:PATH=/opt/local/lib/cmake
+
 ")
 
 SET (CTEST_NOTES_FILES
