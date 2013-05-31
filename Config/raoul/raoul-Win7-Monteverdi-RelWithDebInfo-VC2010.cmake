@@ -35,6 +35,8 @@ EXPAT_LIBRARY:FILEPATH=C:/OSGeo4W/lib/libexpat.lib
 LIBLAS_INCLUDE_DIR:PATH=C:/OSGeo4W/include
 LIBLAS_LIBRARY:FILEPATH=C:/OSGeo4W/lib/liblas_c.lib
 
+OpenCV_DIR:PATH=C:/OSGeo4W/share/OpenCV
+
 ")
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})

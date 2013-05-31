@@ -29,6 +29,8 @@ ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/ic
 LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
 LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
 
+OpenCV_DIR:PATH=C:/OSGeo4W/share/OpenCV
+
 ")
 
 #Remove install dir
