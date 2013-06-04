@@ -4,6 +4,7 @@ Maintainer: OTB Team <contact@orfeo-toolbox.org>
 Build-Depends: cdbs, debhelper (>= 7), cmake,
  libc6-dev (>= 2.4), libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), 
  libotb@OTB_VERSION_MAJOR@-dev (>= @OTB_VERSION_FULL@),
+ otb-bin-qt,
  libgdal1-dev,
  libqt4-dev, libqt4-opengl-dev
 Standards-Version: 3.8.4
