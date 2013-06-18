@@ -23,7 +23,7 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 OTB_DATA_PATHS:STRING=$ENV{HOME}/Dashboard/src/OTB-Data/Examples::$ENV{HOME}/Dashboard/src/OTB-Data/Input
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB
-
+OpenCV_DIR:PATH=/home/otbval/tools/install/opencv-2.4.5/share/OpenCV
 ")
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
