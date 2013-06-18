@@ -109,7 +109,7 @@ rm -rf /tmp/otb* /tmp/monteverdi*
 
 # For each project ("OTB" must be the first one)
 #for project in OTB Monteverdi OTB-Wrapping ; do
-for project in OTB Monteverdi2 ; do
+for project in OTB Monteverdi Monteverdi2 ; do
 
     # Update working copy
     cd $SRCDIR/$project
@@ -203,7 +203,7 @@ for project in OTB Monteverdi2 ; do
     if [ "$simulate" -eq 0 ] ; then
         # $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
         #dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes
-        dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~precise${pkg_version}_source.changes
+        dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~raring${pkg_version}_source.changes
     else
         # echo "COMMAND: $TSOCKS dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes"
         echo "COMMAND: dput -P ppa-otb-nightly /tmp/${pkg_name}_${next_version}-0ppa~*${pkg_version}_source.changes"
