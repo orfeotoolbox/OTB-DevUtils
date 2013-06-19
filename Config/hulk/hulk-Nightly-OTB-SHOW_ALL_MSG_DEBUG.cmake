@@ -55,6 +55,8 @@ USE_FFTWF:BOOL=ON
 OTB_GL_USE_ACCEL:BOOL=OFF
 OTB_USE_MAPNIK:BOOL=ON
 
+OTB_USE_OPENCV:BOOL=ON
+OpenCV_DIR:PATH=/home/otbval/tools/install/opencv-2.4.5/share/OpenCV
     ")
 endmacro()
 
