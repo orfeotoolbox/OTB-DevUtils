@@ -22,6 +22,9 @@ set(dashboard_hg_branch "default")
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
+CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
+CMAKE_INCLUDE_PATH:PATH=/opt/local/include
+
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
 

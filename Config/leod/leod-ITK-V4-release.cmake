@@ -29,6 +29,9 @@ BUILD_SHARED_LIBS:BOOL=ON
 BUILD_TESTING:BOOL=OFF
 BUILD_EXAMPLES:BOOL=OFF
 
+CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
+CMAKE_INCLUDE_PATH:PATH=/opt/local/include
+
 # as much external libraries as possible
 # libtiff on ubuntu does not support BigTIFF and is incompatible with ITK
 ITK_USE_SYSTEM_HDF5:BOOL=ON

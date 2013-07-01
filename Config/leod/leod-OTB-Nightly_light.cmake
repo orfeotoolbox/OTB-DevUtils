@@ -19,6 +19,9 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
 
+CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
+CMAKE_INCLUDE_PATH:PATH=/opt/local/include
+
 OTB_USE_VISU_GUI:BOOL=ON
 OTB_USE_SIFTFAST:BOOL=OFF
 
@@ -56,31 +59,6 @@ ITK_USE_REVIEW:BOOL=ON
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
 OTB_USE_MAPNIK:BOOL=OFF
 CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/experimental/OTB-Release/install/OTB-macport
-
-GDALCONFIG_EXECUTABLE:FILEPATH=/opt/local/bin/gdal-config
-GDAL_CONFIG:FILEPATH=/opt/local/bin/gdal-config
-GDAL_INCLUDE_DIR:STRING=/opt/local/include
-GDAL_LIBRARY:FILEPATH=/opt/local/lib/libgdal.dylib
-
-GEOTIFF_INCLUDE_DIRS:PATH=/opt/local/include
-GEOTIFF_LIBRARY:FILEPATH=/opt/local/lib/libgeotiff.dylib
-
-TIFF_INCLUDE_DIRS:PATH=/opt/local/include
-TIFF_LIBRARY:FILEPATH=/opt/local/lib/libtiff.dylib
-
-JPEG_INCLUDE_DIRS:PATH=/opt/local/include
-JPEG_INCLUDE_DIR:PATH=/opt/local/include
-JPEG_LIBRARY:FILEPATH=/opt/local/lib/libjpeg.dylib
-
-#MAPNIK_INCLUDE_DIR:PATH=/opt/local/include
-#MAPNIK_LIBRARY:FILEPATH=/opt/local/lib/libmapnik.dylib
-#FREETYPE2_INCLUDE_DIR:PATH=/opt/local/include/freetype2
-
-EXPAT_INCLUDE_DIR:PATH=/opt/local/include
-EXPAT_LIBRARY:FILEPATH=/opt/local/lib/libexpat.dylib
-
-CURL_INCLUDE_DIR:PATH=/opt/local/include
-CURL_LIBRARY:FILEPATH=/opt/local/lib/libcurl.dylib
 
 ")
 

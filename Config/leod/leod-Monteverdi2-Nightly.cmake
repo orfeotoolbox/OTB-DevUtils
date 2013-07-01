@@ -19,6 +19,9 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
 
+CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
+CMAKE_INCLUDE_PATH:PATH=/opt/local/include
+
 BUILD_SHARED_LIBS:BOOL=OFF
 CMAKE_BUILD_TYPE:STRING=Release
 BUILD_TESTING:BOOL=ON
@@ -34,13 +37,7 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build
 
-#MAPNIK_INCLUDE_DIR:PATH=/opt/local/include
-#MAPNIK_LIBRARY:FILEPATH=/opt/local/lib/libmapnik.dylib
-#FREETYPE2_INCLUDE_DIR:PATH=/opt/local/include/freetype2
-
 Monteverdi2_USE_CPACK:BOOL=ON
-GDAL_INCLUDE_DIR:STRING=/opt/local/include
-OpenCV_DIR:PATH=/opt/local/lib/cmake
 
 ")
 

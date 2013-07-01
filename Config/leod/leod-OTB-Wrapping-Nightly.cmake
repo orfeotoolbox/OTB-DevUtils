@@ -16,6 +16,9 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
 
+CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
+CMAKE_INCLUDE_PATH:PATH=/opt/local/include
+
 #OTB_DATA_USE_LARGEINPUT:BOOL=ON
 #OTB_DATA_LARGEINPUT_ROOT:STRING=/Users/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
@@ -30,25 +33,6 @@ BUILD_TESTING:BOOL=ON
 
 CMAKE_INSTALL_PREFIX:STRING=/Users/otbval/Dashboard/nightly/OTB-Wrapping/install
 
-GDALCONFIG_EXECUTABLE:FILEPATH=/opt/local/bin/gdal-config
-GDAL_CONFIG:FILEPATH=/opt/local/bin/gdal-config
-GDAL_INCLUDE_DIR:STRING=/opt/local/include
-GDAL_LIBRARY:FILEPATH=/opt/local/lib/libgdal.dylib
-
-GEOTIFF_INCLUDE_DIRS:PATH=/opt/local/include
-GEOTIFF_LIBRARY:FILEPATH=/opt/local/lib/libgeotiff.dylib
-
-TIFF_INCLUDE_DIRS:PATH=/opt/local/include
-TIFF_LIBRARY:FILEPATH=/opt/local/lib/libtiff.dylib
-
-JPEG_INCLUDE_DIRS:PATH=/opt/local/include
-JPEG_INCLUDE_DIR:PATH=/opt/local/include
-JPEG_LIBRARY:FILEPATH=/opt/local/lib/libjpeg.dylib
-
-## TODO : need configuration
-#SWIG_DIR:PATH=$ENV{HOME}/OTB-OUTILS/swig/install-macosx
-#SWIG_EXECUTABLE:FILEPATH=$ENV{HOME}/OTB-OUTILS/swig/install-macosx/bin/swig
-#CableSwig_DIR:PATH=$ENV{HOME}/OTB-OUTILS/cableswig/binaries-macosx-release-cableswig-3.16.0
 WRAP_ITK_PYTHON:BOOL=ON
 WRAP_ITK_JAVA:BOOL=ON
 

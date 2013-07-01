@@ -17,6 +17,9 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
 
+CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
+CMAKE_INCLUDE_PATH:PATH=/opt/local/include
+
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/Users/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=/Users/otbval/Data/OTB-Data
@@ -31,9 +34,6 @@ OTB_DIR:STRING=$ENV{HOME}/Dashboard/continuous/OTB/build
 
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/continuous/Monteverdi2/install
-
-GDAL_INCLUDE_DIR:STRING=/opt/local/include
-OpenCV_DIR:PATH=/opt/local/lib/cmake
 
 ")
 
