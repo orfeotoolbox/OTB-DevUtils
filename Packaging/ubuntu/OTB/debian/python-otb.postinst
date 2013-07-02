@@ -2,6 +2,30 @@
 
 set -e
 
+# symlink /usr/lib/otb/python to /usr/lib/pythonX.Y/dist-packages/otbApplication dir
+OTB_PYTHON_SRCDIR="/usr/lib/otb/python"
+OTB_PYTHON_DEBDIR="/usr/lib/$(pyversions -d)/dist-packages/otbApplication"
+
+mkdir -p $OTB_PYTHON_DEBDIR
+ln -s $OTB_PYTHON_SRCDIR/otbApplication.py $OTB_PYTHON_DEBDIR/otbApplication.py
+ln -s $OTB_PYTHON_SRCDIR/otbApplication.pyc $OTB_PYTHON_DEBDIR/otbApplication.pyc
+ln -s $OTB_PYTHON_SRCDIR/_otbApplication.so $OTB_PYTHON_DEBDIR/_otbApplication.so
+
+# add __init__.py file to /usr/lib/pythonX.Y/dist-packages/otbApplication dir
+INITPY_FILE=$OTB_PYTHON_DEBDIR/__init__.py
+cat > "$INITPY_FILE" <<EOF
+from otbApplication import *
+
+# Add application plugin path to ITK_AUTOLOAD_PATH automatically
+import os
+app_env_var="ITK_AUTOLOAD_PATH"
+app_path="/usr/lib/otb/applications"
+if not os.environ.has_key(app_env_var):
+  os.environ[app_env_var] = app_path
+elif not app_path in os.environ[app_env_var]:
+  os.environ[app_env_var] = "%s:%s" % (os.environ[app_env_var], app_path)
+EOF
+
 ldconfig
 
 #DEBHELPER#
