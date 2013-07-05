@@ -21,7 +21,7 @@ set(dashboard_source_name "src/OTB-ITKv4")
 set(dashboard_binary_name "build/OTB-ITKv4-clang-${CTEST_BUILD_CONFIGURATION}")
 
 set(dashboard_fresh_source_checkout OFF)
-set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
+set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-ITKv4")
 set(dashboard_hg_branch "default")
 
 macro(dashboard_hook_init)
