@@ -274,7 +274,7 @@ done
 
 echo "Source package generation..."
 cd "$TMPDIR/otb-wrapping-$src_version_full"
-for target in lucid oneiric precise quantal ; do
+for target in oneiric precise quantal raring ; do
 #for target in precise ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
