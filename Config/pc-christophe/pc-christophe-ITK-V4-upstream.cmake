@@ -17,7 +17,7 @@ set(dashboard_binary_name "bin/ITKv4-upstream-${CTEST_BUILD_CONFIGURATION}")
 
 set(dashboard_fresh_source_checkout ON)
 set(dashboard_git_url "http://itk.org/ITK.git")
-set(dashboard_git_branch "v4.3.1")
+set(dashboard_git_branch "v4.4.0")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
