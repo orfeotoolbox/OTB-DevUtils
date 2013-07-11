@@ -15,14 +15,14 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB-ITKv4")
 set(dashboard_binary_name "build/OTB-ITKv4-VC2010-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout ON)
+set(dashboard_fresh_source_checkout OFF)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-ITKv4")
 set(dashboard_hg_branch "default")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-BUILD_TESTING:BOOL=OFF
+BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 BUILD_APPLICATIONS:BOOL=ON
 
@@ -45,8 +45,8 @@ OTB_USE_GETTEXT:BOOL=OFF
 # problem already solved into the OTB trunk
 OTB_USE_JPEG2000:BOOL=OFF
 
-CMAKE_INCLUDE_PATH:PATH=$ENV{OSGEO4W_ROOT}/include
-CMAKE_LIBRARY_PATH:PATH=$ENV{OSGEO4W_ROOT}/lib
+CMAKE_INCLUDE_PATH:PATH=$ENV{OSGEO4W_ROOT}include
+CMAKE_LIBRARY_PATH:PATH=$ENV{OSGEO4W_ROOT}lib
 
 OTB_USE_EXTERNAL_ITK:BOOL=ON
 ITK_DIR:PATH=C:/Users/jmalik/Dashboard/build/ITKv4-Release
