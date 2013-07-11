@@ -2,7 +2,7 @@
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "C:/Users/jmalik/Dashboard")
 set(CTEST_SITE "raoul.c-s.fr")
-set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 set(CTEST_BUILD_NAME "ITKv4-Win7-vc10-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Visual Studio 10")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -46,7 +46,7 @@ OTB_USE_GETTEXT:BOOL=OFF
 OTB_USE_JPEG2000:BOOL=OFF
 
 OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:PATH=C:/Users/jmalik/Dashboard/build/ITKv4-Release
+ITK_DIR:PATH=C:/Users/jmalik/Dashboard/build/ITKv4-RelDeb
 
     ")
 endmacro()
