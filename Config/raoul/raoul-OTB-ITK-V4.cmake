@@ -15,7 +15,7 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB-ITKv4")
 set(dashboard_binary_name "build/OTB-ITKv4-VC2010-${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout OFF)
+set(dashboard_fresh_source_checkout ON)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-ITKv4")
 set(dashboard_hg_branch "default")
 
