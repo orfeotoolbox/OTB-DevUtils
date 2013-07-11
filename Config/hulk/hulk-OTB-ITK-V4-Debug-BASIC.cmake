@@ -15,8 +15,7 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB-ITKv4")
 set(dashboard_binary_name "build/OTB-ITKv4-${CTEST_BUILD_CONFIGURATION}-BASIC")
 
-#set(dashboard_fresh_source_checkout TRUE)
-#set(dashboard_hg_url "https://bitbucket.org/julienmalik/otb-itkv4")
+set(dashboard_fresh_source_checkout OFF)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-ITKv4")
 set(dashboard_hg_branch "default")
 
@@ -62,8 +61,8 @@ USE_FFTWF:BOOL=ON
 OTB_GL_USE_ACCEL:BOOL=OFF
 OTB_USE_MAPNIK:BOOL=ON
 
-#OTB_USE_OPENCV:BOOL=ON
-#OpenCV_DIR:PATH=/home/otbval/tools/install/opencv-2.4.5/share/OpenCV
+OTB_USE_OPENCV:BOOL=ON
+OpenCV_DIR:PATH=/home/otbval/tools/install/opencv-2.4.5/share/OpenCV
     ")
 endmacro()
 
