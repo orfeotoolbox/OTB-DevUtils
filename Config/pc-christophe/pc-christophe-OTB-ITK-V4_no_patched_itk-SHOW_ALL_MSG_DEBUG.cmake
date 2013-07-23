@@ -3,7 +3,7 @@ set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "ITKv4-nopatch-Fedora17-64bits-${CTEST_BUILD_CONFIGURATION}-SHOW_ALL_MSG_DEBUG")
+set(CTEST_BUILD_NAME "ITKv4-nopatch-Internal-Fedora17-64bits-${CTEST_BUILD_CONFIGURATION}-SHOW_ALL_MSG_DEBUG")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -19,6 +19,8 @@ set(dashboard_binary_name "bin/OTB-ITKv4-nopatch-SHOW_ALL_MSG_DEBUG")
 set(dashboard_fresh_source_checkout ON)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-ITKv4")
 set(dashboard_hg_branch "default")
+
+set (OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/bin/OTB-ITKv4-nopatch-SHOW_ALL_MSG_DEBUG-INSTALL/)
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -54,8 +56,8 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-ITKv4-Data
 
-OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:PATH=$ENV{HOME}/OTB/bin/ITKv4-upstream-Release
+OTB_USE_EXTERNAL_ITK:BOOL=OFF
+#ITK_DIR:PATH=$ENV{HOME}/OTB/bin/ITKv4-upstream-Release
 
 OTB_USE_CURL:BOOL=ON
 OTB_USE_PQXX:BOOL=OFF
