@@ -8,6 +8,7 @@ Build-Depends: debhelper (>= 7), cdbs, cmake (>= 2.6), libc6-dev (>= 2.4),
  libtool, libcurl4-gnutls-dev, libopenthreads-dev, libboost-graph-dev,
  libkml-dev, libmuparser-dev, libopencv-dev,
  libqt4-dev, libqtcore4, libqtgui4, libqt4-xml,
+ libossim-dev,
  swig, python-dev
 Standards-Version: 3.8.4
 Section: contrib/science
@@ -41,8 +42,7 @@ Description: Free library of image processing algorithms - runtime
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This package contains the libraries needed to run Monteverdi and OTB
- applications.
+ This package contains the shared libraries
 
 Package: libotb@VERSION_MAJOR@-dev
 Section: contrib/devel
@@ -79,38 +79,7 @@ Description: Plugins for ORFEO Toolbox applications
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This package contains several plugins illustrating OTB features:
- * Feature extraction:
-   - LineSegmentDetection
- * Segmentation:
-   - MeanShiftSegmentation
- * Classification:
-   - EstimateImagesStatistics
-   - ImageSVMClassifier
-   - KMeansClassification
-   - LabeledImageColorMapping
-   - TrainSVMImagesClassifier
-   - ValidateSVMImagesClassifier
- * Change detection:
-   - MultivariateAlterationDetector
- * Hyperspectral:
-   - HyperspectralUnmixing
- * Projection:
-   - BundleToPerfectSensor
-   - OrthoRectification
- * Radiometry:
-   - OpticalCalibration
-   - SarRadiometricCalibration
- * Various utilities:
-   - BandMath
-   - ConcatenateImages
-   - Convert
-   - ExtractROI
-   - MultiResolutionPyramid
-   - ReadImageInfo
-   - Rescale
-   - Smoothing
-   - SplitImage
+ This package contains the application plugins used by otb-bin and otb-bin-qt
 
 Package: otb-bin
 Section: contrib/science
@@ -124,7 +93,7 @@ Description: ORFEO Toolbox command line applications
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This package contains several command line tools illustrating OTB features
+ This package contains the command line tools illustrating OTB features
  (using plugins provided by otb-bin-common package).
 
 Package: otb-bin-qt
@@ -140,7 +109,7 @@ Description: ORFEO Toolbox graphical user interface applications
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This package contains several GUI tools illustrating OTB features (using
+ This package contains the GUI tools illustrating OTB features (using
  plugins provided by otb-bin-common package).
 
 Package: python-otb
