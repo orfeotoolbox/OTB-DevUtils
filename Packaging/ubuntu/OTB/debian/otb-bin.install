@@ -1,7 +1,5 @@
-# OTB specific libraries (binaries and all symlinks)
-usr/lib/otb/libOTBWrapperCommandLine.so*
-
-# Executables
 usr/bin/otbApplicationLauncherCommandLine
 usr/bin/otbcli_*
 usr/bin/otbcli
+usr/bin/otbTestDriver
+usr/bin/otbViewer

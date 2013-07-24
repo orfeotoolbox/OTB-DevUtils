@@ -3,7 +3,7 @@ usr/lib/otb/libInsightJournal.so
 usr/lib/otb/libITK*.so
 usr/lib/otb/libitk*.so
 usr/lib/otb/libotb*.so
-usr/lib/otb/libOTB[A-V]*.so
+usr/lib/otb/libOTB*.so
 usr/lib/otb/libsiftfast.so
 
 # OTB headers
