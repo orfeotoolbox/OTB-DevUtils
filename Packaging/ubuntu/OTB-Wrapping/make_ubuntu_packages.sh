@@ -14,8 +14,16 @@
 
 SCRIPT_VERSION="1.0"
 
-export DEBFULLNAME="OTB Team"
-export DEBEMAIL="contact@orfeo-toolbox.org"
+if [ -z "$DEBFULLNAME" ]; then
+  DEBFULLNAME="OTB Team"
+fi
+
+if [ -z "$DEBEMAIL" ]; then
+  DEBEMAIL="contact@orfeo-toolbox.org"
+fi
+
+export DEBFULLNAME
+export DEBEMAIL
 
 TMPDIR="/tmp"
 DIRNAME=$(dirname $0)

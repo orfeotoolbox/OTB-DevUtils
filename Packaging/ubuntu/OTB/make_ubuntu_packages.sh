@@ -14,8 +14,16 @@
 
 SCRIPT_VERSION="1.0"
 
-export DEBFULLNAME="OTB Team"
-export DEBEMAIL="contact@orfeo-toolbox.org"
+if [ -z "$DEBFULLNAME" ]; then
+  DEBFULLNAME="OTB Team"
+fi
+
+if [ -z "$DEBEMAIL" ]; then
+  DEBEMAIL="contact@orfeo-toolbox.org"
+fi
+
+export DEBFULLNAME
+export DEBEMAIL
 
 TMPDIR="/tmp"
 DIRNAME=$(dirname $0)
@@ -274,7 +282,7 @@ done
 
 echo "Source package generation..."
 cd "$TMPDIR/otb-$otb_version_full"
-for target in oneiric precise quantal raring ; do
+for target in precise quantal raring ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     cp -f "$DEBDIR/changelog" debian
