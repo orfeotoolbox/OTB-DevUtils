@@ -12,10 +12,21 @@ URL:            http://www.orfeo-toolbox.org
 Source0:        %{name}-%{version}.tgz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
-BuildRequires:  cmake libgdal-devel libgeotiff-devel gcc-c++ gcc gettext-runtime gettext-tools freeglut-devel libpng-devel libqt4-devel
-BuildRequires:  fdupes libOpenThreads-devel boost-devel OrfeoToolbox-devel
+BuildRequires:  cmake 
+BuildRequires:  libgdal-devel 
+BuildRequires:  libgeotiff-devel 
+BuildRequires:  gcc-c++ 
+BuildRequires:  gcc 
+BuildRequires:  gettext-runtime 
+BuildRequires:  gettext-tools 
+BuildRequires:  freeglut-devel 
+BuildRequires:  libpng-devel 
+BuildRequires:  libqt4-devel
+BuildRequires:  fdupes 
+BuildRequires:  libOpenThreads-devel 
+BuildRequires:  boost-devel 
+BuildRequires:  OrfeoToolbox-devel
 BuildRequires:	fltk-devel
-BuildRequires:	fltk
 
 
 %description

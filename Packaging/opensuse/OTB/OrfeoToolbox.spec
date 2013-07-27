@@ -1,13 +1,27 @@
+#
 # spec file for package OrfeoToolbox
+#
+# Copyright (c) 2013 Angelos Tzotsos <tzotsos@opensuse.org>.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the OrfeoToolbox package itself (unless the
+# license for the OrfeoToolbox package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
+# Please submit bugfixes or comments via http://bugs.opensuse.org/
 
 # norootforbuild
 
 Name:           OrfeoToolbox
-Version:        3.16.0
+Version:        3.18.1
 Release:        1
 Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:          Development/Libraries
-License:        Cecill
+License:        CECILL-2.0
 URL:            http://www.orfeo-toolbox.org
 Source0:        %{name}-%{version}.tar.bz2
 ##Patch1:		radiometry.patch
@@ -59,8 +73,12 @@ Requires:       gcc-c++
 Requires:       gcc 
 Requires:       freeglut-devel 
 Requires:       libgeotiff-devel 
-Requires:       libgdal-devel 
+Requires:       libgdal-devel
+%if 0%{?suse_version} > 1220
+Requires:       libpng15-devel 
+%else
 Requires:       libpng14-devel 
+%endif 
 Requires:       boost-devel 
 Requires:       fftw3-devel
 Requires:	fltk-devel

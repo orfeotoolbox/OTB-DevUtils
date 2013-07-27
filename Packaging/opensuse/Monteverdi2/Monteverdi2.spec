@@ -1,15 +1,15 @@
-# spec file for package Orfeo-Applications
+# spec file for package Monteverdi2
 
 # norootforbuild
 
-Name:           Monteverdi
-Version:        1.16.0
+Name:           Monteverdi2
+Version:        0.2.0
 Release:        1
-Summary:        Application based on OrfeoToolbox for remote sensing image processing
+Summary:        New generation application based on OrfeoToolbox for remote sensing image processing
 Group:          Development/Libraries
 License:        CECILL-2.0
 URL:            http://www.orfeo-toolbox.org
-Source0:        %{name}-%{version}.tar.bz2
+Source0:        %{name}-%{version}.tgz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires:  cmake 
@@ -25,13 +25,13 @@ BuildRequires:  fdupes
 BuildRequires:  OrfeoToolbox-devel 
 BuildRequires:  libOpenThreads-devel 
 BuildRequires:  boost-devel
-BuildRequires:	fltk-devel
+BuildRequires:  libqt4-devel
 
 %description
 %{name} is a image processing application developed by CNES in the frame of the ORFEO Accompaniment Program
 
 %prep
-%setup -q
+%setup -q -n %{name}
 
 
 %build
@@ -43,7 +43,7 @@ cmake  -DBUILD_TESTING:BOOL=OFF \
        -DBUILD_SHARED_LIBS:BOOL=ON \
        -DCMAKE_SKIP_RPATH:BOOL=ON \
        -DOTB_DIR:PATH=%{_libdir}/otb \
-       -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
+       -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}/
 
 make VERBOSE=1 
 
@@ -51,10 +51,10 @@ make VERBOSE=1
 %install
 cd ../temp
 make install DESTDIR=%{buildroot}
-%if "%{_lib}" == "lib64"  
-mkdir %{buildroot}/usr/%{_lib}
-mv %{buildroot}/usr/lib/otb %{buildroot}/usr/%{_lib}/
-%endif
+#%if "%{_lib}" == "lib64"  
+#mkdir %{buildroot}/usr/%{_lib}
+#mv %{buildroot}/usr/lib/otb %{buildroot}/usr/%{_lib}/
+#%endif
 %fdupes %{buildroot}
 
 %clean
@@ -67,7 +67,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{_bindir}/*
-%{_libdir}/otb/
+#%{_libdir}/otb/
 #%{_libdir}/otb/lib*
 %{_datadir}/applications/*.desktop
 %{_datadir}/pixmaps/monteverdi.*
