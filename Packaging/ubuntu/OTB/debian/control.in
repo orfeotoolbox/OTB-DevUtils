@@ -54,6 +54,7 @@ Depends: libotb@VERSION_SONAME@ (= ${binary:Version}), cmake (>= 2.6),
  libgl1-mesa-dev, libgl1-mesa-dri, libglu1-mesa-dev,
  libgeotiff-dev, libboost-graph-dev, libkml-dev,
  libmuparser-dev, libopencv-dev,
+ libossim-dev,
  ${misc:Depends}
 Description: Free library of image processing algorithms - development
  ORFEO Toolbox (OTB) is distributed as an open source library of image
