@@ -15,7 +15,7 @@ set(CTEST_HG_COMMAND "/opt/local/bin/hg")
 set(dashboard_source_name "nightly/OTB-ITKv4/src")
 set(dashboard_binary_name "nightly/OTB-ITKv4/build")
 
-set(dashboard_fresh_source_checkout ON)
+set(dashboard_fresh_source_checkout OFF)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-ITKv4")
 set(dashboard_hg_branch "default")
 
@@ -38,7 +38,7 @@ OTB_WRAP_QT:BOOL=ON
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
-OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
+OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data-ITKv4
 
 OTB_USE_EXTERNAL_ITK:BOOL=ON
 ITK_DIR:PATH=/Users/otbval/Dashboard/itkv4/build
