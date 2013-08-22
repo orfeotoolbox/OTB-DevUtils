@@ -1,5 +1,5 @@
 # Binaries
-usr/bin/monteverdi2
+usr/bin/monteverdi2.bin
 
 # Shared libraries
 usr/lib/otb/lib*.so*
