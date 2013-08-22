@@ -2,8 +2,6 @@
 
 set -e
 
-ldconfig
-
-#DEBHELPER#
+rm /usr/bin/monteverdi2
 
 exit 0
