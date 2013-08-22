@@ -1,7 +1,15 @@
 ?package(monteverdi2):\
         needs="X11"\
         section="Applications/Science"\
-        title="Monteverdi2"\
+        title="Monteverdi2 Viewer"\
         longtitle="Monteverdi2, remote sensing image processing application based on OrfeoToolbox"\
         icon="/usr/share/pixmaps/monteverdi2.xpm"\
-        command="/usr/bin/monteverdi2"
+        command="/usr/bin/mvd2-viewer"
+        
+?package(monteverdi2):\
+        needs="X11"\
+        section="Applications/Science"\
+        title="Monteverdi2 Catalog"\
+        longtitle="Monteverdi2, remote sensing image processing application based on OrfeoToolbox"\
+        icon="/usr/share/pixmaps/monteverdi2.xpm"\
+        command="/usr/bin/mvd2-catalogue"
