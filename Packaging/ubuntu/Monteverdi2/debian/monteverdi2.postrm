@@ -4,4 +4,6 @@ set -e
 
 rm /usr/bin/monteverdi2
 
+ldconfig
+
 exit 0

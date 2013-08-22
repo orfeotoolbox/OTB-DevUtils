@@ -4,7 +4,11 @@ set -e
 
 cat > /usr/bin/monteverdi2 << EOF
 export ITK_AUTOLOAD_PATH=/usr/lib/otb/applications
-/usr/bin/monteverdi2.bin $@
+/usr/bin/monteverdi2.bin \$@
 EOF
+
+chmod +x /usr/bin/monteverdi2
+
+ldconfig
 
 exit 0
