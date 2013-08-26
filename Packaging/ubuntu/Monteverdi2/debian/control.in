@@ -6,7 +6,8 @@ Build-Depends: cdbs, debhelper (>= 7), cmake,
  libotb@OTB_VERSION_MAJOR@-dev (>= @OTB_VERSION_FULL@),
  otb-bin-qt,
  libgdal1-dev,
- libqt4-dev, libqt4-opengl-dev
+ libqt4-dev, libqt4-opengl-dev,
+ libqwt5-qt4-dev
 Standards-Version: 3.8.4
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/otb/monteverdi.html
