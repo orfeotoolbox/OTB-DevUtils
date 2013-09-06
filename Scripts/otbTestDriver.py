@@ -32,16 +32,16 @@ class otbTestDriver:
 
     def SetCMakeExecutable(self,name):
 	self.CMakeExecutable=name
-    
+
     def SetCTestExecutable(self,name):
 	self.CTestExecutable=name
-    
+
     def SetCPackExecutable(self,name):
 	self.CPackExecutable=name
 
     def SetMercurialExecutable(self,name):
 	self.MercurialExecutable=name
-    
+
     # Create a log file
     def CreateLogFile(self):
         if not self.LogFileCreated:
@@ -52,7 +52,7 @@ class otbTestDriver:
 	    date = date[:-7]
             self.LogFile=self.LogFilesPath+"/"+self.DriverName+"-"+date+".log"
             self.LogFileCreated = True
-    
+
     # Log a message
     def Log(self,type,message):
         if self.UseLogFile and len(message) > 0:
@@ -154,9 +154,9 @@ class otbTestDriver:
             opener = urllib2.build_opener(proxy, auth, urllib2.HTTPHandler)
             urllib2.install_opener(opener)
 	revisions={}
-	revisions['OTB']=urllib2.urlopen('http://host2.orfeo-toolbox.org/nightly/libNightlyNumber').read()
-        revisions['OTB-Applications']=urllib2.urlopen('http://host2.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
-        revisions['Monteverdi']=urllib2.urlopen('http://host2.orfeo-toolbox.org/nightly/MonteverdiNightlyNumber').read()
-        revisions['Wrapping']=urllib2.urlopen('http://host2.orfeo-toolbox.org/nightly/wrappingNightlyNumber').read()
+	revisions['OTB']=urllib2.urlopen('http://otb2.orfeo-toolbox.org/nightly/libNightlyNumber').read()
+        revisions['OTB-Applications']=urllib2.urlopen('http://otb2.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
+        revisions['Monteverdi']=urllib2.urlopen('http://otb2.orfeo-toolbox.org/nightly/MonteverdiNightlyNumber').read()
+        revisions['Wrapping']=urllib2.urlopen('http://otb2.orfeo-toolbox.org/nightly/wrappingNightlyNumber').read()
 	self.Log("INFO","Nightly revisions retrieved. OTB:"+revisions['OTB']+", Applications:"+revisions['OTB-Applications']+", Monteverdi:"+revisions['Monteverdi']+", Wrapping:"+revisions['Wrapping'])
 	return revisions
