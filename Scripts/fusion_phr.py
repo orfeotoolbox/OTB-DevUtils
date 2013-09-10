@@ -136,7 +136,7 @@ def Execute(directory,ram,dem,geoid):
     zoom_app="/home/grizonnetm/projets/otb/bin/release/OTB/bin/otbApplicationLauncherCommandLine RigidTransformResample /home/grizonnetm/projets/otb/bin/release/OTB/bin/"
     #zoom_app="otbcli_RigidTransformResample"
 
-    zoom_cmd = zoom_app + " -in " + str(tabs[1]['path']) + " -transform.type translation -transform.type.translation.tx "+str(-1+dec_col_MS_P_pixPAN/4.+0.375)+" -transform.type.translation.ty "+str(dec_lig_MS_P_pixPAN/4.+0.375)+" -transform.type.translation.scalex 4 -transform.type.translation.scaley 4 -out \"" + xs_zoom_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12&box=0:0:"+str(tabs[0]['nb_col'])+":"+str(tabs[0]['nb_lig'])+"\"" + " uint16 -ram " + ram
+    zoom_cmd = zoom_app + " -in " + str(tabs[1]['path']) + " -transform.type translation -transform.type.translation.tx "+str(-1+dec_col_MS_P_pixPAN/4.+0.375)+" -transform.type.translation.ty "+str(dec_lig_MS_P_pixPAN/4.+0.375)+" -transform.type.translation.scalex 4 -transform.type.translation.scaley 4 -out \"" + xs_zoom_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12&box=0:0:"+str(tabs[0]['nb_col'])+":"+str(tabs[0]['nb_lig'])+"\"" + " uint16 -ram " + str(ram)
 
     print zoom_cmd
     status,output = commands.getstatusoutput(zoom_cmd)
@@ -151,7 +151,7 @@ def Execute(directory,ram,dem,geoid):
     fusion_path = os.path.join(directory,os.path.basename(directory)) + "_pxs.tif" 
     print "fusion_path" , fusion_path 
 
-    fusion_cmd = "otbcli_Pansharpening " + "-inp " + tabs[0]['path'] + " -inxs " + xs_zoom_path + " -out \"" + fusion_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -ram " + ram
+    fusion_cmd = "otbcli_Pansharpening " + "-inp " + tabs[0]['path'] + " -inxs " + xs_zoom_path + " -out \"" + fusion_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -ram " + str(ram)
     
     print fusion_cmd
     status,output = commands.getstatusoutput(fusion_cmd)
@@ -168,10 +168,10 @@ def Execute(directory,ram,dem,geoid):
     #orthorectification
     dem_option= " -elev.dem " + dem 
     geoid_option= " -elev.geoid " + geoid
-    ortho_cmd = "otbcli_OrthoRectification -io.in " + fusion_path + " -io.out \"" + ortho_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -outputs.mode auto -outputs.spacingx 0.5 -outputs.spacingy -0.5" + dem_path + geoid_path + " -opt.ram " + ram
+    ortho_cmd = "otbcli_OrthoRectification -io.in " + fusion_path + " -io.out \"" + ortho_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -outputs.mode auto -outputs.spacingx 0.5 -outputs.spacingy -0.5" + dem_option + geoid_option + " -opt.ram " + str(ram)
 
     print "ortho_cmd", ortho_cmd
-    status,output = commands.getstatusoutput(fusion_cmd)
+    status,output = commands.getstatusoutput(ortho_cmd)
 
     if not status == 0:
         print "Error"
@@ -184,7 +184,7 @@ def main():
                           version="%prog 1.0")
 
     parser.add_option("-p","--path_bundle", help="absolute path to bundle product directory", dest="img_path", type="string")
-    parser.add_option("-r","--ram", help="ram value", dest="ram", type="string", default=512)
+    parser.add_option("-r","--ram", help="ram value", dest="ram", type="int", default=512)
     parser.add_option("-d","--dem", help="dem directory", dest="dem", type="string")
     parser.add_option("-g","--geoid", help="geoid file", dest="geoid", type="string")
 
