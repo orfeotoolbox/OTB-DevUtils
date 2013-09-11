@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-import sys, os, commands, otbApplication
+# need Python >= 2.5
+
+import sys, os, commands
 from optparse import OptionParser
 import xml.etree.ElementTree as ET
 import glob
@@ -196,7 +198,7 @@ def main():
         exit(-1)
     else:
         #print opts.path
-        Execute(os.path.dirname(opts.img_path),opts.ram,os.path.dirname(opts.dem),opts.geoid)
+        Execute(opts.img_path,opts.ram,os.path.dirname(opts.dem),opts.geoid)
 
 if __name__ == '__main__':
     main()
