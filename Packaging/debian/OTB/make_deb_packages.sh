@@ -87,22 +87,32 @@ check_distribution ()
         dist=$(lsb_release -sc)
     fi
     case "$dist" in
-        "squeeze"|"stable" )
+        "squeeze"|"oldstable" )
+            target_distributor="debian"
+            target_release="oldstable"
+            target_codename="squeeze"
+            target_version="6.0"
+            target_description="Debian GNU/Linux old stable (Squeeze)"
+            ;;
+        "wheezy"|"stable" )
             target_distributor="debian"
             target_release="stable"
-            target_codename="squeeze"
-            target_description="Debian GNU/Linux stable (Squeeze)"
+            target_codename="wheezy"
+            target_version="7.0"
+            target_description="Debian GNU/Linux stable (Wheezy)"
             ;;
-        "wheezy"|"testing" )
+        "jessie"|"testing" )
             target_distributor="debian"
             target_release="testing"
-            target_codename="wheezy"
-            target_description="Debian GNU/Linux testing (Wheezy)"
+            target_codename="jessie"
+            target_version="8.0"
+            target_description="Debian GNU/Linux testing (Jessie)"
             ;;
         "sid"|"unstable" )
             target_distributor="debian"
             target_release="unstable"
             target_codename="sid"
+            target_version="8.0"
             target_description="Debian GNU/Linux unstable (Sid)"
             ;;
         * )
@@ -119,18 +129,18 @@ check_branch ()
         branch="dev"
     fi
     case "$branch" in
-        "dev"|"3.13" )
+        "dev"|"3.19" )
             otb_branch="dev"
             otb_revision="tip"
             otb_version_major="3"
-            otb_version_minor="13"
+            otb_version_minor="19"
             otb_version_patch="0"
             ;;
-        "stable"|"3.12" )
+        "stable"|"3.18" )
             otb_branch="stable"
-            otb_revision="3.12.0"
+            otb_revision="3.18.0"
             otb_version_major="3"
-            otb_version_minor="12"
+            otb_version_minor="18"
             otb_version_patch="0"
             ;;
         * )
@@ -253,7 +263,7 @@ build_packages ()
 
     if [ -n "$pkg_version" ] ; then
         if [ -z "$changelog_message" ] ; then
-            changelog_message="Automated update for $ubuntu_codename ($ubuntu_version)."
+            changelog_message="Automated update for $target_codename ($target_version)."
         fi
         dch --force-distribution --distribution "$target_release" \
             -v "${otb_version}-${pkg_version}" "$changelog_message"
@@ -309,26 +319,3 @@ check_workspace
 
 complete_environment
 build_packages
-
-
-# cat <<EOF
-
-# Packages target:
-# - Distributor:  $target_distributor
-# - Release:      $target_branch
-# - Codename:     $target_codename
-# - Description:  $target_description
-# - Architecture: $arch
-
-# Orfeo Toolbox:
-# - Branch:       $otb_branch
-# - Version:      $otb_version
-# - Revision:     $otb_revision
-# - Repository:   $otb_repository
-
-# Other parameters:
-# - Workspace:    $workspace
-# - GPG key id.:  $gpgkeyid
-# - Contact:      $DEBFULLNAME <$DEBEMAIL>
-
-# EOF
