@@ -154,9 +154,9 @@ class otbTestDriver:
             opener = urllib2.build_opener(proxy, auth, urllib2.HTTPHandler)
             urllib2.install_opener(opener)
 	revisions={}
-	revisions['OTB']=urllib2.urlopen('http://otb2.orfeo-toolbox.org/nightly/libNightlyNumber').read()
-        revisions['OTB-Applications']=urllib2.urlopen('http://otb2.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
-        revisions['Monteverdi']=urllib2.urlopen('http://otb2.orfeo-toolbox.org/nightly/MonteverdiNightlyNumber').read()
-        revisions['Wrapping']=urllib2.urlopen('http://otb2.orfeo-toolbox.org/nightly/wrappingNightlyNumber').read()
+	revisions['OTB']=urllib2.urlopen('http://www.orfeo-toolbox.org/nightly/libNightlyNumber').read()
+        revisions['OTB-Applications']=urllib2.urlopen('http://www.orfeo-toolbox.org/nightly/applicationsNightlyNumber').read()
+        revisions['Monteverdi']=urllib2.urlopen('http://www.orfeo-toolbox.org/nightly/MonteverdiNightlyNumber').read()
+        revisions['Wrapping']=urllib2.urlopen('http://www.orfeo-toolbox.org/nightly/wrappingNightlyNumber').read()
 	self.Log("INFO","Nightly revisions retrieved. OTB:"+revisions['OTB']+", Applications:"+revisions['OTB-Applications']+", Monteverdi:"+revisions['Monteverdi']+", Wrapping:"+revisions['Wrapping'])
 	return revisions
