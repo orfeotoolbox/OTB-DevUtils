@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-import sys, os, commands, otbApplication
+#need python >=2.5
+#command line example : /usr/bin/python2.6 $HOME/OTB-DevUtils/Scripts/fusion_phr.py -p ${OUTPUT}/ -o /mnt/dd-2/MORONI/ -r 512 -d /media/TeraDisk2_/Images/SRTM4/ -g /home/jmichel/data/egm96.grd
+import sys, os, commands
 from optparse import OptionParser
 import xml.etree.ElementTree as ET
 import glob
@@ -63,10 +65,10 @@ import glob
 #########################################################################################################
 
 
-def Execute(directory,ram,dem,geoid):
+def Execute(directory,outputdir,ram,dem,geoid):
 
     path=os.path.join(os.path.join(directory,"IMG*PHR*_*"),"DIM_PHR*.XML")
-
+    #print "path ",path
     dimap_files = glob.glob(path)
 
     dimap_files.sort(reverse=True)
@@ -128,13 +130,13 @@ def Execute(directory,ram,dem,geoid):
     print "xs path", tabs[1]['path']
 
     xs_without_extension=os.path.splitext(os.path.basename(tabs[1]['path']))[0]
-    xs_zoom_path = os.path.join(directory,xs_without_extension) + "_zoom.tif"
+    xs_zoom_path = os.path.join(outputdir,xs_without_extension) + "_zoom.tif"
     
     print "xs_zoom_path" , xs_zoom_path 
     
     #FIXME local path to dev version of this otb app
-    zoom_app="/home/grizonnetm/projets/otb/bin/release/OTB/bin/otbApplicationLauncherCommandLine RigidTransformResample /home/grizonnetm/projets/otb/bin/release/OTB/bin/"
-    #zoom_app="otbcli_RigidTransformResample"
+    #zoom_app="/home/grizonnetm/projets/otb/bin/release/OTB/bin/otbApplicationLauncherCommandLine RigidTransformResample /home/grizonnetm/projets/otb/bin/release/OTB/bin/"
+    zoom_app="/home/jmichel/bin/OTB/bin/otbcli_RigidTransformResample"
 
     zoom_cmd = zoom_app + " -in " + str(tabs[1]['path']) + " -transform.type translation -transform.type.translation.tx "+str(-1+dec_col_MS_P_pixPAN/4.+0.375)+" -transform.type.translation.ty "+str(dec_lig_MS_P_pixPAN/4.+0.375)+" -transform.type.translation.scalex 4 -transform.type.translation.scaley 4 -out \"" + xs_zoom_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12&box=0:0:"+str(tabs[0]['nb_col'])+":"+str(tabs[0]['nb_lig'])+"\"" + " uint16 -ram " + str(ram)
 
@@ -148,10 +150,10 @@ def Execute(directory,ram,dem,geoid):
         print output
 
     
-    fusion_path = os.path.join(directory,os.path.basename(directory)) + "_pxs.tif" 
+    fusion_path = os.path.join(outputdir,os.path.basename(directory)) + "_pxs.tif" 
     print "fusion_path" , fusion_path 
 
-    fusion_cmd = "otbcli_Pansharpening " + "-inp " + tabs[0]['path'] + " -inxs " + xs_zoom_path + " -out \"" + fusion_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -ram " + str(ram)
+    fusion_cmd = "/home/jmichel/bin/OTB/bin/otbcli_Pansharpening " + "-inp " + tabs[0]['path'] + " -inxs " + xs_zoom_path + " -out \"" + fusion_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -ram " + str(ram)
     
     print fusion_cmd
     status,output = commands.getstatusoutput(fusion_cmd)
@@ -162,13 +164,15 @@ def Execute(directory,ram,dem,geoid):
         
         print output
 
+    #remove zoom xs to save space
+    os.remove(xs_zoom_path)
 
-    ortho_path = os.path.join(directory,os.path.basename(directory)) + "_ortho_pxs.tif"
+    ortho_path = os.path.join(outputdir,os.path.basename(directory)) + "_ortho_pxs.tif"
     
     #orthorectification
     dem_option= " -elev.dem " + dem 
     geoid_option= " -elev.geoid " + geoid
-    ortho_cmd = "otbcli_OrthoRectification -io.in " + fusion_path + " -io.out \"" + ortho_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -outputs.mode auto -outputs.spacingx 0.5 -outputs.spacingy -0.5" + dem_option + geoid_option + " -opt.ram " + str(ram)
+    ortho_cmd = "/home/jmichel/bin/OTB/bin/otbcli_OrthoRectification -io.in " + fusion_path + " -io.out \"" + ortho_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -outputs.mode auto -outputs.spacingx 0.5 -outputs.spacingy -0.5" + dem_option + geoid_option + " -opt.ram " + str(ram)
 
     print "ortho_cmd", ortho_cmd
     status,output = commands.getstatusoutput(ortho_cmd)
@@ -179,6 +183,9 @@ def Execute(directory,ram,dem,geoid):
         
         print output
 
+    #remove pxs to save space
+    os.remove(fusion_path)
+
 def main():
     parser = OptionParser(usage="usage: %prog [options] filename",
                           version="%prog 1.0")
@@ -187,6 +194,7 @@ def main():
     parser.add_option("-r","--ram", help="ram value", dest="ram", type="int", default=512)
     parser.add_option("-d","--dem", help="dem directory", dest="dem", type="string")
     parser.add_option("-g","--geoid", help="geoid file", dest="geoid", type="string")
+    parser.add_option("-o","--outputdir", help="output directory", dest="outputdir", type="string")
 
     (opts, args) = parser.parse_args()
 
@@ -196,8 +204,9 @@ def main():
         exit(-1)
     else:
         #print opts.path
-        Execute(os.path.dirname(opts.img_path),opts.ram,os.path.dirname(opts.dem),opts.geoid)
+        Execute(os.path.dirname(opts.img_path),os.path.dirname(opts.outputdir),opts.ram,os.path.dirname(opts.dem),opts.geoid)
 
+   
 if __name__ == '__main__':
     main()
    
