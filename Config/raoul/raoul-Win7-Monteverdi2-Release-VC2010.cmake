@@ -22,12 +22,15 @@ CMAKE_LIBRARY_PATH:PATH=$ENV{OSGEO4W_ROOT}/lib
 BUILD_TESTING:BOOL=ON
 Monteverdi2_USE_CPACK:BOOL=ON
 
-OTB_DIR:PATH=C:/Users/jmalik/Dashboard/build/OTB-Release-VC2010
+OTB_DIR:PATH=C:/Users/jmalik/Dashboard/install/OTB-Release-VC2010
+
 
 ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
 ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
 LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
 LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
+
+OpenCV_DIR:PATH=C:/OSGeo4W/share/OpenCV
 
 ")
 

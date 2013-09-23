@@ -14,8 +14,8 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CMAKE_INSTALL_PREFIX:PATH=C:/Users/jmalik/Dashboard/install/OTB-Debug-VC2010
 
-BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=OFF
+#BUILD_TESTING:BOOL=ON
+#BUILD_EXAMPLES:BOOL=OFF
 BUILD_APPLICATIONS:BOOL=ON
 # On windows, we need python27_d.lib, dragged by python.h
 # and it is not available with OSGeo4W python
@@ -91,5 +91,5 @@ ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_submit (PARTS Start Update Configure)
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}" TARGET INSTALL)
 ctest_submit (PARTS Start Update Configure Build)
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
+#ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()
