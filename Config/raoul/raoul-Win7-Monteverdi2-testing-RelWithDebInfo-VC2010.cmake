@@ -1,4 +1,4 @@
-SET (CTEST_SOURCE_DIRECTORY "C:/Users/jmalik/Dashboard/src/Monteverdi2-testing")
+SET (CTEST_SOURCE_DIRECTORY "C:/Users/jmalik/Dashboard/src/Monteverdi2")
 SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/Monteverdi2-testing-RelWithDebInfo-VC2010")
 
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
