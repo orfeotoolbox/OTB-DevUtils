@@ -1,10 +1,10 @@
-SET (CTEST_SOURCE_DIRECTORY "C:/Users/jmalik/Dashboard/src/OTB-3.18")
-SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-3.18-RelWithDebInfo-VC2010")
+SET (CTEST_SOURCE_DIRECTORY "C:/Users/jmalik/Dashboard/src/OTB-stable")
+SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/OTB-RelWithDebInfo-VC2010-stable")
 
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE "raoul.c-s.fr" )
-SET (CTEST_BUILD_NAME "Win7-Visual2010-RelWithDebInfo-Static-3.18")
+SET (CTEST_BUILD_NAME "Win7-Visual2010-RelWithDebInfo-Static-stable")
 SET (CTEST_BUILD_CONFIGURATION "RelWithDebInfo")
 SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 SET (CTEST_HG_UPDATE_OPTIONS "-C -r 296c1e1532fd")
@@ -12,7 +12,7 @@ SET (CTEST_HG_UPDATE_OPTIONS "-C -r 296c1e1532fd")
 SET (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
-CMAKE_INSTALL_PREFIX:PATH=C:/Users/jmalik/Dashboard/install/OTB-3.18-RelWithDebInfo-VC2010
+CMAKE_INSTALL_PREFIX:PATH=C:/Users/jmalik/Dashboard/install/OTB-RelWithDebInfo-VC2010-stable
 
 BUILD_TESTING:BOOL=OFF
 BUILD_EXAMPLES:BOOL=OFF

@@ -12,7 +12,7 @@ SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 SET (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
-CMAKE_INSTALL_PREFIX:PATH=C:/Users/jmalik/Dashboard/install/Monteverdi2-testing-RelWithDebInfo-VC2010
+CMAKE_INSTALL_PREFIX:PATH=C:/Users/jmalik/Dashboard/install/Monteverdi2-RelWithDebInfo-VC2010-testing
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
@@ -22,7 +22,7 @@ CMAKE_LIBRARY_PATH:PATH=$ENV{OSGEO4W_ROOT}/lib
 BUILD_TESTING:BOOL=ON
 Monteverdi2_USE_CPACK:BOOL=ON
 
-OTB_DIR:PATH=C:/Users/jmalik/Dashboard/build/OTB-3.18-RelWithDebInfo-VC2010
+OTB_DIR:PATH=C:/Users/jmalik/Dashboard/build/OTB-RelWithDebInfo-VC2010-stable
 
 ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
 ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
@@ -33,8 +33,8 @@ OpenCV_DIR:PATH=C:/OSGeo4W/share/OpenCV
 ")
 
 #Remove install dir
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory C:/Users/jmalik/Dashboard/install/Monteverdi2-testing-RelWithDebInfo-VC2010)
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory C:/Users/jmalik/Dashboard/install/Monteverdi2-testing-RelWithDebInfo-VC2010)
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory C:/Users/jmalik/Dashboard/install/Monteverdi2-RelWithDebInfo-VC2010-testing)
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory C:/Users/jmalik/Dashboard/install/Monteverdi2-RelWithDebInfo-VC2010-testing)
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
