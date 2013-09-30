@@ -35,7 +35,7 @@ CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release-stable/install
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/stable/OTB-Release-stable/build
 
 Monteverdi2_USE_CPACK:BOOL=ON
 ")
@@ -52,7 +52,7 @@ ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}" TARGET package TARGET install)
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}" TARGET package)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()
 
