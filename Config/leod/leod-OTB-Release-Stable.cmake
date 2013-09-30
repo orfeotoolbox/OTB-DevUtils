@@ -1,7 +1,7 @@
 SET (ENV{DISPLAY} ":0")
 
-SET (CTEST_SOURCE_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Release-stable/src")
-SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Release-stable/build")
+SET (CTEST_SOURCE_DIRECTORY "/Users/otbval/Dashboard/stable/OTB-Release-stable/src")
+SET (CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/stable/OTB-Release-stable/build")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "/opt/local/bin/cmake" )
@@ -10,14 +10,13 @@ SET (CTEST_SITE "leod.c-s.fr")
 SET (CTEST_BUILD_NAME "MacOSX10.8-Release-stable")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/opt/local/bin/hg")
-SET (CTEST_HG_UPDATE_OPTIONS "-C -r 296c1e1532fd")
-SET (CTEST_USE_LAUNCHERS ON)
+SET (CTEST_USE_LAUNCHERS OFF)
 
 
 SET (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
-CTEST_USE_LAUNCHERS:BOOL=ON
+CTEST_USE_LAUNCHERS:BOOL=OFF
 
 CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
 CMAKE_INCLUDE_PATH:PATH=/opt/local/include
@@ -55,7 +54,7 @@ OTB_USE_GETTEXT:BOOL=OFF
 #ITK_USE_REVIEW:BOOL=ON
 #ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
 #OTB_USE_MAPNIK:BOOL=OFF
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release-stable/install
+CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/stable/OTB-Release-stable/install
 
 OTB_USE_OPENCV:BOOL=ON
 ")
@@ -69,8 +68,8 @@ ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-ctest_start(Nightly)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
+ctest_start(Experimental)
+#ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
