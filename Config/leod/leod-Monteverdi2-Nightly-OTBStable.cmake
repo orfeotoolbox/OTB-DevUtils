@@ -1,13 +1,13 @@
 SET (ENV{DISPLAY} ":0")
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi2-Release-testing/src")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi2-Release-testing/build")
+SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi2-Release-OTBStable/src")
+SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Monteverdi2-Release-OTBStable/build")
 
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
 SET (CTEST_SITE "leod.c-s.fr")
-SET (CTEST_BUILD_NAME "MacOSX10.8-Release-testing")
+SET (CTEST_BUILD_NAME "MacOSX10.8-Release-OTBStable")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "/opt/local/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
@@ -25,7 +25,7 @@ CMAKE_INCLUDE_PATH:PATH=/opt/local/include
 BUILD_SHARED_LIBS:BOOL=OFF
 CMAKE_BUILD_TYPE:STRING=Release
 BUILD_TESTING:BOOL=ON
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/nightly/Monteverdi2-Release-stable/install
+CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/nightly/Monteverdi2-Release-OTBStable/install
 
 #OTB_DATA_USE_LARGEINPUT:BOOL=ON
 #OTB_DATA_LARGEINPUT_ROOT:STRING=/Users/otbval/Data/OTB-LargeInput
