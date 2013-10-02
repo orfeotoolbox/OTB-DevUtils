@@ -4,7 +4,7 @@ SET (CTEST_BINARY_DIRECTORY "C:/Users/jmalik/Dashboard/build/Monteverdi2-Release
 SET (CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE "raoul.c-s.fr" )
-SET (CTEST_BUILD_NAME "Win7-Visual2010-Release-Static-testing")
+SET (CTEST_BUILD_NAME "Win7-Visual2010-Release-Static-OTBStable")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 #SET (CTEST_HG_UPDATE_OPTIONS "-C")
