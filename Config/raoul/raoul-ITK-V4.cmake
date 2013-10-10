@@ -10,7 +10,7 @@ set(CTEST_TEST_TIMEOUT 500)
 set(CTEST_GIT_COMMAND "C:/Program Files (x86)/Git/bin/git.exe")
 
 set(dashboard_source_name "src/ITKv4")
-set(dashboard_binary_name "build/ITKv4-RelDeb")
+set(dashboard_binary_name "build/ITKv4-${CTEST_BUILD_CONFIGURATION}")
 
 #set(dashboard_fresh_source_checkout OFF)
 #set(dashboard_git_url "http://itk.org/ITK.git")
