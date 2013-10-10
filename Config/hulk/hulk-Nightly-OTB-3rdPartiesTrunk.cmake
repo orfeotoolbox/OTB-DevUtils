@@ -40,8 +40,8 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 ITK_USE_PATENTED:BOOL=ON
-ITK_USE_REVIEW:BOOL=ON 
-ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
+ITK_USE_REVIEW:BOOL=ON
+ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON
 OTB_USE_PATENTED:BOOL=ON
 OTB_USE_PQXX:BOOL=OFF
 OTB_USE_CURL:BOOL=ON
@@ -64,9 +64,8 @@ GDAL_LIBRARY:FILEPATH=$ENV{HOME}/Dashboard/install/gdal-trunk/lib/libgdal.so
 endmacro()
 
 
-SET(CTEST_NOTES_FILES 
+SET(CTEST_NOTES_FILES
     "$ENV{HOME}/Dashboard/nightly/logs/build_gdal_trunk.log"
     "$ENV{HOME}/Dashboard/nightly/logs/build_ossim_trunk.log")
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
-
