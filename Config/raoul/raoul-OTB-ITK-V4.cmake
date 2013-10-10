@@ -46,7 +46,7 @@ OTB_USE_GETTEXT:BOOL=OFF
 OTB_USE_JPEG2000:BOOL=OFF
 
 OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:PATH=C:/Users/jmalik/Dashboard/build/ITKv4-RelDeb
+ITK_DIR:PATH=C:/Users/jmalik/Dashboard/build/ITKv4-${CTEST_BUILD_CONFIGURATION}
 
     ")
 endmacro()
