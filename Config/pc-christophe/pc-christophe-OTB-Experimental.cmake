@@ -1,6 +1,6 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
 set(dashboard_model Experimental)
-set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB/trunk/OTB_trunk")
+set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB/")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Fedora17-64bits-${CTEST_BUILD_CONFIGURATION}")
@@ -10,9 +10,9 @@ set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 set(CTEST_HG_COMMAND "/usr/bin/hg")
 
-set(dashboard_root_name "tests")
+set(dashboard_root_name "tests_trunk")
 set(dashboard_source_name "trunk/OTB_trunk")
-set(dashboard_binary_name "bin/OTB_trunk/Experimental")
+set(dashboard_binary_name "bin/OTB_trunk-Experimental")
 
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB")
