@@ -136,7 +136,7 @@ def Execute(directory,outputdir,ram,dem,geoid):
     
     #FIXME local path to dev version of this otb app
     #zoom_app="/home/grizonnetm/projets/otb/bin/release/OTB/bin/otbApplicationLauncherCommandLine RigidTransformResample /home/grizonnetm/projets/otb/bin/release/OTB/bin/"
-    zoom_app="/home/jmichel/bin/OTB/bin/otbcli_RigidTransformResample"
+    zoom_app="otbcli_RigidTransformResample"
 
     zoom_cmd = zoom_app + " -in " + str(tabs[1]['path']) + " -transform.type translation -transform.type.translation.tx "+str(-1+dec_col_MS_P_pixPAN/4.+0.375)+" -transform.type.translation.ty "+str(dec_lig_MS_P_pixPAN/4.+0.375)+" -transform.type.translation.scalex 4 -transform.type.translation.scaley 4 -out \"" + xs_zoom_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12&box=0:0:"+str(tabs[0]['nb_col'])+":"+str(tabs[0]['nb_lig'])+"\"" + " uint16 -ram " + str(ram)
 
@@ -153,7 +153,7 @@ def Execute(directory,outputdir,ram,dem,geoid):
     fusion_path = os.path.join(outputdir,os.path.basename(directory)) + "_pxs.tif" 
     print "fusion_path" , fusion_path 
 
-    fusion_cmd = "/home/jmichel/bin/OTB/bin/otbcli_Pansharpening " + "-inp " + tabs[0]['path'] + " -inxs " + xs_zoom_path + " -out \"" + fusion_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -ram " + str(ram)
+    fusion_cmd = "otbcli_Pansharpening " + "-inp " + tabs[0]['path'] + " -inxs " + xs_zoom_path + " -out \"" + fusion_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -ram " + str(ram)
     
     print fusion_cmd
     status,output = commands.getstatusoutput(fusion_cmd)
@@ -172,7 +172,7 @@ def Execute(directory,outputdir,ram,dem,geoid):
     #orthorectification
     dem_option= " -elev.dem " + dem 
     geoid_option= " -elev.geoid " + geoid
-    ortho_cmd = "/home/jmichel/bin/OTB/bin/otbcli_OrthoRectification -io.in " + fusion_path + " -io.out \"" + ortho_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -outputs.mode auto -outputs.spacingx 0.5 -outputs.spacingy -0.5" + dem_option + geoid_option + " -opt.ram " + str(ram)
+    ortho_cmd = "otbcli_OrthoRectification -io.in " + fusion_path + " -io.out \"" + ortho_path + "?&gdal:co:TILED=yes&gdal:co:NBITS=12\" uint16 -outputs.mode auto -outputs.spacingx 0.5 -outputs.spacingy -0.5 -map epsg -map.epsg.code 2154 " + dem_option + geoid_option + " -opt.ram " + str(ram)
 
     print "ortho_cmd", ortho_cmd
     status,output = commands.getstatusoutput(ortho_cmd)
