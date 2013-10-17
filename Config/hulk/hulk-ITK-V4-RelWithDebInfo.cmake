@@ -17,7 +17,7 @@ set(dashboard_binary_name "build/ITKv4-upstream-${CTEST_BUILD_CONFIGURATION}")
 
 set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "http://itk.org/ITK.git")
-set(dashboard_git_branch "v4.4.0")
+set(dashboard_git_branch "v4.4.2")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -46,6 +46,8 @@ ITK_USE_SYSTEM_ZLIB:BOOL=ON
 ITK_USE_FFTWF:BOOL=ON
 ITK_USE_FFTWD:BOOL=ON
 ITK_USE_SYSTEM_FFTW:BOOL=ON
+
+ITK_LEGACY_REMOVE:BOOL=ON
 
     ")
 endmacro()

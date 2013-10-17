@@ -17,7 +17,7 @@ set(dashboard_binary_name "itkv4/build")
 
 set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "http://itk.org/ITK.git")
-set(dashboard_git_branch "release")
+set(dashboard_git_branch "4.4.2")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -123,6 +123,8 @@ Module_ITKWatersheds:BOOL=ON
 ITK_USE_FFTWF:BOOL=ON
 ITK_USE_FFTWD:BOOL=ON
 ITK_USE_SYSTEM_FFTW:BOOL=ON
+
+ITK_LEGACY_REMOVE:BOOL=ON
 
     ")
 endmacro()

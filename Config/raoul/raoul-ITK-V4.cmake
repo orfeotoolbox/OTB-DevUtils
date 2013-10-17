@@ -127,10 +127,14 @@ macro(dashboard_hook_init)
     # ITK_USE_SYSTEM_PNG:BOOL=ON
     # PNG_NAMES:STRING=libpng13
 
-    # OTB depends on this
+    # Build issues with osgeo4w FFTW version
+    # To be further studied...
     ITK_USE_FFTWF:BOOL=OFF
-    ITK_USE_FFTWD:BOOL=ON
-    ITK_USE_SYSTEM_FFTW:BOOL=ON
+    ITK_USE_FFTWD:BOOL=OFF
+    ITK_USE_SYSTEM_FFTW:BOOL=OFF
+    
+    ITK_LEGACY_REMOVE:BOOL=ON
+
    
     ")
 endmacro()
