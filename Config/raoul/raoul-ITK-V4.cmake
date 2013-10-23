@@ -19,8 +19,8 @@ set(dashboard_binary_name "build/ITKv4-RelDeb")
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-    CMAKE_INCLUDE_PATH:PATH=$ENV{OSGEO4W_ROOT}include
-    CMAKE_LIBRARY_PATH:PATH=$ENV{OSGEO4W_ROOT}lib
+    CMAKE_INCLUDE_PATH:PATH=$ENV{OSGEO4W_ROOT}/include
+    CMAKE_LIBRARY_PATH:PATH=$ENV{OSGEO4W_ROOT}/lib
 
     BUILD_SHARED_LIBS:BOOL=OFF
     BUILD_TESTING:BOOL=OFF
