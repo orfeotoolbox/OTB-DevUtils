@@ -15,15 +15,18 @@ Internal dependencies (included third-party works):
 
 * ITK (http://www.itk.org/),
   distributed under the revised BSD license
-  (see Copyright/ITKCopyright.txt or /usr/share/common-licenses/BSD)
+  (see Copyright/ITKCopyright.txt or
+       http://www.itk.org/ITK/project/license.html)
 
 * VTK (http://www.vtk.org/),
   distributed under the revised BSD license
-  (see Copyright/VTKCopyright.txt or /usr/share/common-licenses/BSD)
+  (see Copyright/VTKCopyright.txt or
+       http://www.vtk.org/Wiki/VTK/License)
 
 * VXL (http://vxl.sourceforge.net/),
   distributed under a specific license (simplified BSD-like)
-  (see Copyright/VXLCopyright.txt)
+  (see Copyright/VXLCopyright.txt or
+       http://sourceforge.net/p/vxl/git/ci/master/tree/core/vxl_copyright.h)
 
 * OSSIM (http://www.ossim.org/),
   distributed under the GNU LGPL 2.1 license
@@ -31,11 +34,13 @@ Internal dependencies (included third-party works):
 
 * LibSVM (http://www.csie.ntu.edu.tw/~cjlin/libsvm/),
   distributed under the revised BSD license
-  (see Copyright/LibSVMCopyright.txt or /usr/share/common-licenses/BSD)
+  (see Copyright/LibSVMCopyright.txt or
+       https://github.com/cjlin1/libsvm/blob/master/COPYRIGHT)
 
 * OpenJPEG (http://www.openjpeg.org/),
   distributed under the revised BSD license
-  (see Copyright/OpenJPEGCopyright.txt or /usr/share/common-licenses/BSD)
+  (see Copyright/OpenJPEGCopyright.txt or
+       http://www.openjpeg.org/BSDlicense.txt)
 
 * OpenThreads (http://www.openscenegraph.org/),
   distributed under the OpenSceneGraph Public License (OSGPL) 0.0, i.e.
@@ -48,7 +53,8 @@ Internal dependencies (included third-party works):
 
 * libLAS (http://liblas.org/),
   distributed under the revised BSD license
-  (see Copyright/LibLASCopyright.txt or /usr/share/common-licenses/BSD)
+  (see Copyright/LibLASCopyright.txt or
+       http://www.liblas.org/copyright.html#license)
 
 * ConfigFile (http://www-personal.umich.edu/~wagnerr/ConfigFile.html),
   distributed under the MIT license
@@ -56,13 +62,14 @@ Internal dependencies (included third-party works):
 
 * Insight Journal Publications (http://www.insight-journal.org/browse/publications),
   distributed under the revised BSD license
-  (see Copyright/ITKCopyright.txt or /usr/share/common-licenses/BSD)
+  (see Copyright/ITKCopyright.txt or
+       http://www.itk.org/ITK/project/license.html)
 
 * ISO C9x compliant inttypes.h and stdint.h for Microsoft Visual Studio
   Utilities/otbmsinttypes/inttypes.h
   Utilities/otbmsinttypes/stdint.h
   distributed under the revised BSD license
-  (see header of above files or /usr/share/common-licenses/BSD)
+  (see header of above files)
 
 * 6S (http://6s.ltdri.org/)
   No license information available on the website but the authors gave CNES

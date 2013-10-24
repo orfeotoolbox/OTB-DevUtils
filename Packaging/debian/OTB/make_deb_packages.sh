@@ -269,7 +269,7 @@ build_packages ()
             -v "${otb_version}-${pkg_version}" "$changelog_message"
     fi
 
-    export DEB_BUILD_OPTIONS="parallel=3"
+    export DEB_BUILD_OPTIONS="parallel=5"
     if [ "$srconly" == "1" ] ; then
         debuild -S -sd $signopts --lintian-opts -i
     else

@@ -7,8 +7,8 @@ Build-Depends: debhelper (>= 9), dpkg-dev (>= 1.16.1~), cmake (>= 2.8),
  libgdal-dev (>= 1.9.0), libproj-dev, libfltk1.3-dev, fluid, libexpat1-dev,
  libtool, libcurl4-gnutls-dev, libopenthreads-dev, libboost-graph-dev,
  libqt4-dev, libqtcore4, libqtgui4, libqt4-xml, swig, python-dev,
- libkml-dev, libmuparser-dev, libtinyxml-dev
-Standards-Version: 3.9.3
+ libkml-dev, libmuparser-dev, libopencv-dev
+Standards-Version: 3.9.4
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/
 
@@ -27,7 +27,7 @@ Description: Free library of image processing algorithms - runtime
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This package contains the libraries needed to run Monteverdi and OTB
+ This package contains the shared libraries required by Monteverdi and the OTB
  applications.
 
 Package: libotb-dev
@@ -39,7 +39,7 @@ Depends: libotb (= ${binary:Version}), cmake (>= 2.8), libc6-dev (>= 2.4),
  libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), libexpat1-dev, libfltk1.3-dev,
  fluid, libgdal-dev, libopenthreads-dev, libx11-dev, libgl1-mesa-dev,
  libgl1-mesa-dri, libglu1-mesa-dev, libgeotiff-dev, libboost-graph-dev,
- libkml-dev, libmuparser-dev, libtinyxml-dev, ${misc:Depends}
+ libkml-dev, libmuparser-dev, libopencv-dev, ${misc:Depends}
 Description: Free library of image processing algorithms - development
  ORFEO Toolbox (OTB) is distributed as an open source library of image
  processing algorithms. OTB is based on the medical image processing library
@@ -63,38 +63,7 @@ Description: Plugins for ORFEO Toolbox applications
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This package contains several plugins illustrating OTB features:
-   * Feature extraction:
-     - LineSegmentDetection
-   * Segmentation:
-     - MeanShiftSegmentation
-   * Classification:
-     - EstimateImagesStatistics
-     - ImageSVMClassifier
-     - KMeansClassification
-     - LabeledImageColorMapping
-     - TrainSVMImagesClassifier
-     - ValidateSVMImagesClassifier
-   * Change detection:
-     - MultivariateAlterationDetector
-   * Hyperspectral:
-     - HyperspectralUnmixing
-   * Projection:
-     - BundleToPerfectSensor
-     - OrthoRectification
-   * Radiometry:
-     - OpticalCalibration
-     - SarRadiometricCalibration
-   * Various utilities:
-     - BandMath
-     - ConcatenateImages
-     - Convert
-     - ExtractROI
-     - MultiResolutionPyramid
-     - ReadImageInfo
-     - Rescale
-     - Smoothing
-     - SplitImage
+ This package contains the application plugins used by otb-bin and otb-bin-qt
 
 Package: otb-bin
 Section: contrib/science
@@ -108,8 +77,8 @@ Description: ORFEO Toolbox command line applications
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This package contains several command line tools illustrating OTB features
- (using plugins provided by otb-bin-common package).
+ This package contains the command line tools illustrating OTB features (using
+ plugins provided by otb-bin-common package).
 
 Package: otb-bin-qt
 Section: contrib/science
@@ -124,8 +93,8 @@ Description: ORFEO Toolbox graphical user interface applications
  distributed under a free software license CeCILL (similar to GNU GPL) to
  encourage contribution from users and to promote reproducible research.
  .
- This package contains several GUI tools illustrating OTB features (using
- plugins provided by otb-bin-common package).
+ This package contains the GUI tools illustrating OTB features (using plugins
+ provided by otb-bin-common package).
 
 Package: python-otb
 Section: contrib/python
