@@ -14,7 +14,7 @@ fi
 CLONE_DIR=`readlink -f $1`
 OUT_DIR=`readlink -f $2`
 
-for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
+for project in OTB Monteverdi Monteverdi2 OTB-Applications OTB-Wrapping ; do
   cd $CLONE_DIR/$project
   
   hg pull -u
@@ -29,6 +29,9 @@ for project in OTB Monteverdi OTB-Applications OTB-Wrapping ; do
       ;;
     Monteverdi)
       pkg_name=Monteverdi
+      ;;
+    Monteverdi2)
+      pkg_name=Monteverdi2
       ;;
     OTB-Applications)
       pkg_name=Orfeo-Applications
