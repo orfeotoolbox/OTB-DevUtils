@@ -5,8 +5,8 @@ SET (CTEST_CMAKE_GENERATOR     "Unix Makefiles")
 SET (CTEST_CMAKE_COMMAND       "cmake")
 SET (CTEST_BUILD_COMMAND       "/usr/bin/make -i -k")
 SET (CTEST_SITE                "hulk.c-s.fr" )
-SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
+SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 SET (CTEST_HG_COMMAND          "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS   "-C")
 SET (CTEST_USE_LAUNCHERS ON)
@@ -22,8 +22,8 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 OTB_DATA_PATHS:STRING=$ENV{HOME}/Dashboard/src/OTB-Data/Examples::$ENV{HOME}/Dashboard/src/OTB-Data/Input
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB
-OpenCV_DIR:PATH=/home/otbval/tools/install/opencv-2.4.5/share/OpenCV
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB-RelWithDebInfo
+OpenCV_DIR:PATH=$ENV{HOME}/tools/install/opencv-2.4.5/share/OpenCV
 ")
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
