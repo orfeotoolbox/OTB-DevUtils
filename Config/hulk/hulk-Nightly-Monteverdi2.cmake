@@ -8,8 +8,8 @@ SET( CTEST_CMAKE_GENERATOR     "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND       "cmake" )
 SET (CTEST_BUILD_COMMAND       "/usr/bin/make -j10 -i -k install" )
 SET (CTEST_SITE                "hulk.c-s.fr" )
-SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
+SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 SET (CTEST_HG_COMMAND          "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS   "-C")
 SET (CTEST_USE_LAUNCHERS ON)
@@ -28,12 +28,12 @@ CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
+OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB-RelWithDebInfo
 ITK_DIR:PATH=$ENV{HOME}/Dashboard/build/ITKv4-upstream-RelWithDebInfo
-OpenCV_DIR:PATH=/home/otbval/tools/install/opencv-2.4.5/share/OpenCV
+OpenCV_DIR:PATH=$ENV{HOME}/tools/install/opencv-2.4.5/share/OpenCV
 ")
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
