@@ -16,6 +16,9 @@ if (NOT DEFINED CTEST_DASHBOARD_ROOT)
 set(CTEST_DASHBOARD_ROOT "C:/Users/jmalik/Dashboard")
 endif()
 
+file(TO_CMAKE_PATH $ENV{OSGEO4W_ROOT} OSGEO4W_ROOT)
+message("OSGEO4W_ROOT is ${OSGEO4W_ROOT}")
+
 if (NOT DEFINED CTEST_SITE)
 set(CTEST_SITE "raoul.c-s.fr" )
 endif()
