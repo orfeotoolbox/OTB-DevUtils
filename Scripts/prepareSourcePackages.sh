@@ -25,7 +25,7 @@ for project in OTB Monteverdi Monteverdi2 OTB-Applications OTB-Wrapping ; do
   
   case $project in
     OTB)
-      pkg_name=OrfeoToolbox
+      pkg_name=OTB
       ;;
     Monteverdi)
       pkg_name=Monteverdi
@@ -34,10 +34,10 @@ for project in OTB Monteverdi Monteverdi2 OTB-Applications OTB-Wrapping ; do
       pkg_name=Monteverdi2
       ;;
     OTB-Applications)
-      pkg_name=Orfeo-Applications
+      pkg_name=OTB-Applications
       ;;
     OTB-Wrapping)
-      pkg_name=Orfeo-Wrapping
+      pkg_name=OTB-Wrapping
       ;;
   esac
   
