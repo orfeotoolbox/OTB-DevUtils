@@ -1,0 +1,61 @@
+# Client maintainer: julien.malik@c-s.fr
+foreach(req
+    OTB_PROJECT
+    OTB_ARCH
+    )
+  if(NOT DEFINED ${req})
+    message(FATAL_ERROR "The containing script must set ${req}")
+  endif()
+endforeach()
+
+if (NOT DEFINED dashboard_model)
+  set(dashboard_model Nightly)
+endif()
+
+if (NOT DEFINED CTEST_DASHBOARD_ROOT)
+set(CTEST_DASHBOARD_ROOT "C:/Users/jmalik/Dashboard")
+endif()
+
+if (NOT DEFINED CTEST_SITE)
+set(CTEST_SITE "raoul.c-s.fr" )
+endif()
+
+if (NOT DEFINED CTEST_CMAKE_GENERATOR)
+if (${OTB_ARCH} STREQUAL "x86")
+  set(CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
+elseif(${OTB_ARCH} STREQUAL "amd64")
+  set(CTEST_CMAKE_GENERATOR  "Visual Studio 10 Win64" )
+endif()
+endif()
+
+if (NOT DEFINED CTEST_TEST_ARGS)
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+endif()
+
+if (NOT DEFINED CTEST_TEST_TIMEOUT)
+set(CTEST_TEST_TIMEOUT 1500)
+endif()
+
+set(CTEST_GIT_COMMAND "C:/Program Files (x86)/Git/bin/git.exe")
+set(CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
+set(CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
+
+if (NOT DEFINED CTEST_BUILD_NAME)
+set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${RelWithDebInfo}-Static")
+endif()
+if (NOT DEFINED dashboard_source_name)
+set(dashboard_source_name "src/${OTB_PROJECT}")
+endif()
+if (NOT DEFINED dashboard_binary_name)
+set(dashboard_binary_name "build/${OTB_PROJECT}-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}")
+endif()
+
+if (NOT DEFINED dashboard_fresh_source_checkout)
+set(dashboard_fresh_source_checkout OFF)
+endif()
+if (NOT DEFINED dashboard_hg_url)
+set(dashboard_hg_url "http://hg.orfeo-toolbox.org/${OTB_PROJECT}")
+endif()
+if (NOT DEFINED dashboard_hg_branch)
+set(dashboard_hg_branch "default")
+endif()
