@@ -2,7 +2,11 @@
 
 set -e
 
-rm /usr/bin/monteverdi2
+MVD2_SYMLINK=/usr/bin/monteverdi2
+if [ -f $MVD2_SYMLINK ]
+then
+    rm /usr/bin/monteverdi2
+fi
 
 ldconfig
 
