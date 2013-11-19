@@ -1,85 +1,64 @@
-SET (ENV{DISPLAY} ":0.0")
+# Client maintainer: julien.malik@c-s.fr
+set(dashboard_model Nightly)
+set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
+set(CTEST_SITE "dora.c-s.fr")
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "Ubuntu12.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+set(CTEST_TEST_TIMEOUT 500)
 
-SET (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Release/src")
-SET (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/OTB-Release/build")
+set(CTEST_HG_COMMAND "/usr/bin/hg")
+set(CTEST_HG_UPDATE_OPTIONS "-C")
 
-SET (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
-SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
-SET (CTEST_SITE "dora.c-s.fr" )
-SET (CTEST_BUILD_NAME "Ubuntu12.04-64bits-Release")
-SET (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_HG_COMMAND "/usr/bin/hg")
-SET (CTEST_HG_UPDATE_OPTIONS "-C")
-SET (CTEST_USE_LAUNCHERS ON)
+string(TOLOWER ${dashboard_model} lcdashboard_model)
 
-SET(OTB_INSTALL_PREFIX $ENV{HOME}/Dashboard/nightly/OTB-Release/install/)
+set(dashboard_root_name "tests")
+set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src")
+set(dashboard_binary_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build")
 
-SET (OTB_INITIAL_CACHE "
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-SITE:STRING=${CTEST_SITE}
-CTEST_USE_LAUNCHERS:BOOL=ON
+set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install/)
+
+#set(dashboard_fresh_source_checkout OFF)
+set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
+set(dashboard_hg_branch "default")
+
+set(ENV{DISPLAY} ":0.0")
+
+
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
+  
+CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+
+BUILD_TESTING:BOOL=ON
+BUILD_EXAMPLES:BOOL=ON
+BUILD_APPLICATIONS:BOOL=ON
+BUILD_BUG_TRACKER_TESTS:BOOL=OFF
+
+OTB_WRAP_PYTHON:BOOL=ON
+OTB_WRAP_JAVA:BOOL=ON
+OTB_WRAP_QT:BOOL=ON
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 
-CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+OTB_USE_EXTERNAL_ITK:BOOL=ON
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/experimental/build/ITKv4-RelWithDebInfo
 
-CMAKE_BUILD_TYPE:STRING=Release
-BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=ON
-BUILD_APPLICATIONS:BOOL=ON
-
-OTB_WRAP_PYTHON:BOOL=ON
-OTB_WRAP_QT:BOOL=ON
-
-OTB_USE_OPENCV:BOOL=ON
 OTB_USE_CURL:BOOL=ON
 OTB_USE_PQXX:BOOL=OFF
-ITK_USE_PATENTED:BOOL=ON
-OTB_USE_PATENTED:BOOL=ON
+OTB_USE_PATENTED:BOOL=OFF
 OTB_USE_EXTERNAL_BOOST:BOOL=ON
-
 OTB_USE_EXTERNAL_EXPAT:BOOL=ON
 OTB_USE_EXTERNAL_FLTK:BOOL=ON
+OTB_USE_MAPNIK:BOOL=OFF
+OTB_USE_OPENCV:BOOL=ON
 
-USE_FFTWD:BOOL=OFF
-USE_FFTWF:BOOL=OFF
-OTB_GL_USE_ACCEL:BOOL=ON
-ITK_USE_REVIEW:BOOL=ON 
-ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
-OTB_USE_MAPNIK:BOOL=ON
+    ")
+endmacro()
 
-CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
-
-")
-
-SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
-
-SET (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${OTB_PULL_RESULT_FILE}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
-
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Nightly
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   OTB_PULL_RESULT
-                 ERROR_VARIABLE    OTB_PULL_RESULT )
-file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
-
-ctest_start(Nightly)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
-ctest_submit ()
-
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
