@@ -1,7 +1,7 @@
 # Client maintainer: julien.malik@c-s.fr
 set(OTB_PROJECT OTB) # OTB / Monteverdi / Monteverdi2
 set(OTB_ARCH x86) # x86 / amd64
-set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
+set(CTEST_BUILD_CONFIGURATION Release)
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
 macro(dashboard_hook_init)
@@ -42,6 +42,9 @@ PYTHON_LIBRARY:FILEPATH=${OSGEO4W_ROOT}/apps/Python27/libs/python27.lib
 
     ")
 endmacro()
+
+#remove install dir
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_DASHBOARD_ROOT}/install/${OTB_PROJECT}-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
 
