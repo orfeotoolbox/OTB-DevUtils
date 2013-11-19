@@ -44,7 +44,7 @@ set(CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 set(CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 
 if (NOT DEFINED CTEST_BUILD_NAME)
-set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${RelWithDebInfo}-Static")
+set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-Static")
 endif()
 if (NOT DEFINED dashboard_source_name)
 set(dashboard_source_name "src/${OTB_PROJECT}")
