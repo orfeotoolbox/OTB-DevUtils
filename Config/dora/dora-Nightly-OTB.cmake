@@ -18,7 +18,7 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build")
 
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install/)
+set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install)
 
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
@@ -29,7 +29,9 @@ set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-  
+
+CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
@@ -60,5 +62,8 @@ OTB_USE_OPENCV:BOOL=ON
 
     ")
 endmacro()
+
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
