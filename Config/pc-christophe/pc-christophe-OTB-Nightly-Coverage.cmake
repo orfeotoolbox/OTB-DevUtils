@@ -31,9 +31,12 @@ OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 CMAKE_C_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage  -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
+OTB_USE_EXTERNAL_ITK:BOOL=OFF
+
 ITK_USE_PATENTED:BOOL=ON
 ITK_USE_REVIEW:BOOL=ON 
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
+
 OTB_USE_PATENTED:BOOL=ON
 OTB_USE_PQXX:BOOL=OFF
 OTB_USE_CURL:BOOL=ON
