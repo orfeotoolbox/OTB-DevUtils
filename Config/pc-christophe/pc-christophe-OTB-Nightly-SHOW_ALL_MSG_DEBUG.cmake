@@ -13,7 +13,7 @@ set(CTEST_HG_UPDATE_OPTIONS "-C")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "trunk/OTB")
-set(dashboard_binary_name "bin/OTB-Nightly-SHOW_ALL_MSG_DEBUG")
+set(dashboard_binary_name "bin/OTB-Nightly-Internal-ITK-SHOW_ALL_MSG_DEBUG")
 
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
