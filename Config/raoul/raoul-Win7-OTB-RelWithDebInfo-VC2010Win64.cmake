@@ -2,6 +2,7 @@
 set(OTB_PROJECT OTB) # OTB / Monteverdi / Monteverdi2
 set(OTB_ARCH amd64) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
+set(CTEST_BUILD_TARGET INSTALL)
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
 macro(dashboard_hook_init)
