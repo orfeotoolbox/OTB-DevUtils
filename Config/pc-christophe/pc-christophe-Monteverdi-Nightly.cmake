@@ -1,6 +1,6 @@
 #SET (ENV{DISPLAY} ":0.0")
 
-SET (dashboard_model Nightly)
+#SET (dashboard_model Nightly)
 
 SET (CTEST_SOURCE_DIRECTORY "/home/otbtesting/OTB/trunk/Monteverdi/")
 SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/OTB/bin/Monteverdi-Nightly/")
@@ -53,8 +53,6 @@ ${OTB_PULL_RESULT_FILE}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi-Nightly
@@ -63,9 +61,9 @@ execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Mo
                  ERROR_VARIABLE    OTB_PULL_RESULT )
 file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
 
-ctest_start(${dashboard_model})
+ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
+file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
