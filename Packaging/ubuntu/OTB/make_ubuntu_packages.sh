@@ -294,4 +294,5 @@ for target in precise quantal raring ; do
     dch --force-distribution --distribution "$target" \
         -v "${otb_version_full}-0ppa~${target}${pkg_version}" "$dch_message"
     debuild -k$gpgkeyid -S -sa --lintian-opts -i
+    echo "You might want to run 'cp \"$TMPDIR/otb-$otb_version_full/debian/changelog\" \"$DEBDIR/changelog\"' and commit"
 done

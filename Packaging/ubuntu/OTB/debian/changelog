@@ -1,3 +1,9 @@
+otb (3.20.0-0ppa~raring2) raring; urgency=low
+
+  * Fix muparser incompatibilities
+
+ -- Julien Malik <julien.malik@gmail.com>  Tue, 26 Nov 2013 16:21:06 +0100
+
 otb (3.12.0-1) lucid; urgency=low
 
   * Version 3.12.0 released
