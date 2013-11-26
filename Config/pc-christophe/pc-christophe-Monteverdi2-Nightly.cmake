@@ -1,7 +1,7 @@
-set (ENV{DISPLAY} ":0.0")
+#set (ENV{DISPLAY} ":0.0")
 
 # Avoid non-ascii characters in tool output.
-set(ENV{LC_ALL} C)
+#set(ENV{LC_ALL} C)
 
 set (CTEST_BUILD_CONFIGURATION "Release")
 
@@ -11,14 +11,12 @@ set (CTEST_SOURCE_DIRECTORY "${DASHBOARD_DIR}/trunk/Monteverdi2")
 set (CTEST_BINARY_DIRECTORY "${DASHBOARD_DIR}/bin/Monteverdi2-Nightly")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
+set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set (CTEST_SITE "pc-christophe.cst.cnes.fr" )
 set (CTEST_BUILD_NAME "Fedora17-64bits-Release")
 set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "-C")
 set (CTEST_USE_LAUNCHERS ON)
-
-set (OTB_INSTALL_PREFIX ${DASHBOARD_DIR}/bin/Monteverdi2-Nightly-Install)
 
 set (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
