@@ -1,3 +1,9 @@
+otb (3.20.0-0ppa~precise3) precise; urgency=low
+
+  * Add conflict with previous OTB version
+
+ -- Julien Malik <julien.malik@gmail.com>  Thu, 28 Nov 2013 12:03:58 +0100
+
 otb (3.20.0-0ppa~precise2) precise; urgency=low
 
   * Fix muparser incompatibilities
