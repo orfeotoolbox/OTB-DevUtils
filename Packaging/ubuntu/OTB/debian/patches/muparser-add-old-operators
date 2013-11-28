@@ -1,0 +1,360 @@
+Author: Julien Malik <julien.malik@orfeo-toolbox.org>
+Description: Add 'and' and 'or' operators for compatibility when muParser version is >= 2.0.0
+Origin: upstream, http://hg.orfeo-toolbox.org/OTB/rev/6c78cf7bf342
+Bug: http://bugs.orfeo-toolbox.org/view.php?id=836
+Index: otb-3.20.0/CMake/otbConfigure.h.in
+===================================================================
+--- otb-3.20.0.orig/CMake/otbConfigure.h.in	2013-11-26 14:20:08.309768028 +0100
++++ otb-3.20.0/CMake/otbConfigure.h.in	2013-11-26 14:21:28.006937930 +0100
+@@ -88,3 +88,5 @@
+ 
+ #cmakedefine CHECK_HDF4OPEN_SYMBOL
+ 
++/* MuParser has "&&" and "||" operators (version >= 2.0.0), instead of "and" and "or" (version <2.0.0 version) */
++#cmakedefine OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS
+Index: otb-3.20.0/CMake/otbTestMuParserHasCxxLogicalOperators.cxx
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ otb-3.20.0/CMake/otbTestMuParserHasCxxLogicalOperators.cxx	2013-11-26 14:21:28.006937930 +0100
+@@ -0,0 +1,26 @@
++#include <cstdlib>
++#include "muParser.h"
++
++int main(int argc, char *argv[])
++{
++  // Test "&&" operator
++  // This will throw an exception if muParser version is < 2.0.0,
++  // which have "and" instead
++
++  mu::Parser parser;
++  parser.SetExpr("0 && 1");
++
++  try
++    {
++    double result = parser.Eval();
++    }
++  catch( const mu::Parser::exception_type& e )
++    {
++    std::cerr << "Message:     "   << e.GetMsg()   << std::endl
++              << "Formula:     "   << e.GetExpr()  << std::endl
++              << "Token:       "   << e.GetToken() << std::endl
++              << "Position:    "   << e.GetPos()   << std::endl;
++    return EXIT_FAILURE;
++    }
++  return EXIT_SUCCESS;
++}
+Index: otb-3.20.0/Code/Common/otbParser.cxx
+===================================================================
+--- otb-3.20.0.orig/Code/Common/otbParser.cxx	2013-11-26 14:20:08.297767852 +0100
++++ otb-3.20.0/Code/Common/otbParser.cxx	2013-11-26 14:21:28.006937930 +0100
+@@ -59,8 +59,18 @@
+   /** Initialize user defined functions */
+   virtual void InitFun()
+   {
+-    m_MuParser.DefineFun("ndvi", NDVI);
+-    m_MuParser.DefineFun("NDVI", NDVI);
++    m_MuParser.DefineFun("ndvi", Self::NDVI);
++    m_MuParser.DefineFun("NDVI", Self::NDVI);
++
++#ifdef OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS
++    /* Starting with muParser 2.0.0, logical operators have been
++       renamed to "&&" and "||", instead of "and" and "or".
++       Reintroducing pre-2.0.0 operators, so formulas can be
++       defined with "and" and "or" even after 2.0.0
++     */
++    m_MuParser.DefineOprt("and", Self::AND);
++    m_MuParser.DefineOprt("or",  Self::OR);
++#endif
+   }
+ 
+   /** Set the expression to be parsed */
+@@ -119,7 +129,6 @@
+   /**  Check Expression **/
+   bool CheckExpr()
+   {
+-
+     try
+     {
+       m_MuParser.Eval();
+@@ -206,6 +215,17 @@
+     return (niri-r)/(niri+r);
+   }
+ 
++#ifdef OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS
++  static ValueType AND(ValueType left, ValueType right)
++  {
++    return static_cast<int>(left) && static_cast<int>(right);
++  }
++
++  static ValueType OR(ValueType left, ValueType right)
++  {
++    return static_cast<int>(left) || static_cast<int>(right);
++  }
++#endif
+   //----------  User Defined Functions  ----------//END
+ }; // end class
+ 
+Index: otb-3.20.0/Testing/Code/Common/otbParserTest.cxx
+===================================================================
+--- otb-3.20.0.orig/Testing/Code/Common/otbParserTest.cxx	2013-11-26 14:20:08.281767617 +0100
++++ otb-3.20.0/Testing/Code/Common/otbParserTest.cxx	2013-11-26 14:21:28.006937930 +0100
+@@ -15,116 +15,111 @@
+   PURPOSE.  See the above copyright notices for more information.
+ 
+ =========================================================================*/
+-#include "itkMacro.h"
+-#include <cstdlib>
+-#include <cmath>
+-
++#include "otbMath.h"
+ #include "otbParser.h"
+ 
++typedef otb::Parser ParserType;
++
+ int otbParserTestNew(int argc, char * argv[])
+ {
+-  typedef otb::Parser                                 ParserType;
+-  
+   // Instantiating object
+   ParserType::Pointer parser = ParserType::New();
+-
+   std::cout << parser << std::endl;
+-
+   return EXIT_SUCCESS;
+ }
+ 
+-int otbParserTest(int argc, char * argv[])
++void otbParserTest_ThrowIfNotEqual(double output, double ref, std::string testname, double epsilon = 1.0E-12)
++{
++  std::cout << "Running test " << testname << std::endl;
++  if (vcl_abs(output-ref) > epsilon)
++  {
++    itkGenericExceptionMacro( << "Got " << output << " while waiting for " << ref );
++  }
++  std::cout << " -- OK" << std::endl;
++}
++
++void otbParserTest_ThrowIfNotEqual(int output, int ref, std::string testname = "")
++{
++  std::cout << "Running test " << testname << std::endl;
++  if (output != ref)
++  {
++    itkGenericExceptionMacro( << "Got " << output << " while waiting for " << ref );
++  }
++  std::cout << " -- OK" << std::endl;
++}
++
++void otbParserTest_Numerical(void)
++{
++  ParserType::Pointer parser = ParserType::New();
++  parser->SetExpr("10.0+3");
++  otbParserTest_ThrowIfNotEqual(parser->Eval(), 13.0, "Numerical");
++}
++
++void otbParserTest_BuildInFun(void)
+ {
+-  double result;
+-  double Var1 = 10.0;
+-  double Var2 = 2.0;
+-  double Var3 = 7.0;
+-  double Var4 = 100.0;
+-  double Var5 = 200.0;
+-  double error = 0.0;
+-
+-  std::string Expression_Numerical       = "10.0+3";
+-  std::string Expression_BuildInFun      = "cos(1.55)";
+-  std::string Expression_UserDefinedCst  = "ln10";
+-  std::string Expression_UserDefinedFun  = "ndvi(100, 10)";
+-  std::string Expression_UserDefinedVars = "(var1+var2-var3)*var4/var5";
+-  std::string Expression_Mixed           = "(7+10)/2+cos(pi/4)*10-10*ln10+ndvi(100, 10)";
+-  std::string Expression_StressTest      = "(7+10)/2+cos(pi/4)*10-10*ln10+ndvi(100, 10)*40+rint(83.144)*0.6588";
+-  
+-  typedef otb::Parser                                 ParserType;
+-  
+-  // Instantiating object
+   ParserType::Pointer parser = ParserType::New();
++  parser->SetExpr("cos(1.55)");
++  otbParserTest_ThrowIfNotEqual(parser->Eval(), vcl_cos(1.55), "BuildInFun");
++}
+ 
+-  std::cout << std::endl;
+-  
+-  parser->SetExpr(Expression_Numerical);
+-  result = parser->Eval();
+-  std::cout << "Expression Parsing Result : "                    << std::endl;
+-  std::cout << Expression_Numerical << " = " << result           << std::endl; // 13.0
+-  std::cout << "Expected Result : " << 13.0 << std::endl         << std::endl;
+-  error += sqrt((result - 13.0)*(result - 13.0));
+-
+-  parser->SetExpr(Expression_BuildInFun);
+-  result = parser->Eval();
+-  std::cout << "Expression Parsing Result : "                    << std::endl;
+-  std::cout << Expression_BuildInFun << " = " << result          << std::endl; // 0.0207948278
+-  std::cout << "Expected Result : " << 0.0207948278 << std::endl << std::endl;
+-  error += sqrt((result - 0.0207948278)*(result - 0.0207948278));
+-
+-  parser->SetExpr(Expression_UserDefinedCst);
+-  result = parser->Eval();
+-  std::cout << "Expression Parsing Result : "                    << std::endl;
+-  std::cout << Expression_UserDefinedCst << " = " << result      << std::endl; // 2.302585092
+-  std::cout << "Expected Result : " << 2.302585092 << std::endl  << std::endl;
+-  error += sqrt((result - 2.302585092)*(result - 2.302585092));
+-
+-  parser->SetExpr(Expression_UserDefinedFun);
+-  result = parser->Eval();
+-  std::cout << "Expression Parsing Result : "                    << std::endl;
+-  std::cout << Expression_UserDefinedFun << " = " << result      << std::endl; // -0.8181818182
+-  std::cout << "Expected Result : " << -0.81818182 << std::endl  << std::endl;
+-  error += sqrt((result - (-0.8181818182))*(result - (-0.8181818182)));
+-
+-  parser->SetExpr(Expression_UserDefinedVars);
+-  parser->DefineVar("var1", &Var1);
+-  parser->DefineVar("var2", &Var2);
+-  parser->DefineVar("var3", &Var3);
+-  parser->DefineVar("var4", &Var4);
+-  parser->DefineVar("var5", &Var5);
+-  result = parser->Eval();
+-  parser->ClearVar();
+-  std::cout << "Expression Parsing Result : "                    << std::endl;
+-  std::cout << Expression_UserDefinedVars << " = " << result     << std::endl; // 2.5
+-  std::cout << "Expected Result : " << 2.5         << std::endl  << std::endl;
+-  error += sqrt((result - 2.5)*(result - 2.5));
+-  
+-  parser->SetExpr(Expression_Mixed);
+-  result = parser->Eval();
+-  std::cout << "Expression Parsing Result : "                    << std::endl;
+-  std::cout << Expression_Mixed << " = " << result               << std::endl; // -8.27296
+-  std::cout << "Expected Result : " << -8.27296 << std::endl     << std::endl;
+-  error += sqrt((result - (-8.27296))*(result - (-8.27296)));
+-
+-  parser->SetExpr(Expression_StressTest);
+-  result = parser->Eval();
+-  std::cout << "Expression Parsing Result : "                    << std::endl;
+-  std::cout << Expression_StressTest << " = " << result          << std::endl; // 14.4983
+-  std::cout << "Expected Result : " << 14.4983 << std::endl      << std::endl;
+-  error += sqrt((result - 14.4983)*(result - 14.4983));
+-
+-
+-  error /= 7;
+-  std::cout << "Error : " << error << std::endl;
+-
+-  if(error > 10E-5)
+-    {
+-    itkGenericExceptionMacro(  << "Cumulated Error > 10E-5 -> Test Failled" << std::endl );
+-    }
+-
+-  /* Exception Tests */
+-  //parser->DefineVar("ndvi", &Var1);
+-  //parser->DefineVar("euler", &Var2);
++void otbParserTest_UserDefinedCst(void)
++{
++  ParserType::Pointer parser = ParserType::New();
++  parser->SetExpr("ln10");
++  otbParserTest_ThrowIfNotEqual(parser->Eval(), vcl_log(10.0), "UserDefinedCst");
++}
+ 
++void otbParserTest_UserDefinedFun(void)
++{
++  ParserType::Pointer parser = ParserType::New();
++  parser->SetExpr("ndvi(100, 10)");
++  otbParserTest_ThrowIfNotEqual(parser->Eval(), (10.0-100.0)/(10.0+100.0), "UserDefinedFun");
++}
++
++void otbParserTest_UserDefinedVars(void)
++{
++  double var1 = 10.0;
++  double var2 = 2.0;
++  double var3 = 7.0;
++  double var4 = 100.0;
++  double var5 = 200.0;
++
++  ParserType::Pointer parser = ParserType::New();
++  parser->DefineVar("var1", &var1);
++  parser->DefineVar("var2", &var2);
++  parser->DefineVar("var3", &var3);
++  parser->DefineVar("var4", &var4);
++  parser->DefineVar("var5", &var5);
++  parser->SetExpr("(var1+var2-var3)*var4/var5");
++  otbParserTest_ThrowIfNotEqual(parser->Eval(), (var1+var2-var3)*var4/var5, "UserDefinedVars");
++}
++
++void otbParserTest_Mixed(void)
++{
++  ParserType::Pointer parser = ParserType::New();
++  parser->SetExpr("(7+10)/2+cos(pi/4)*10-10*ln10+ndvi(100, 10)");
++  otbParserTest_ThrowIfNotEqual(parser->Eval(),
++                                (7.0+10.0)/2.0+vcl_cos(otb::CONST_PI/4)*10.0-10.0*vcl_log(10.0)+(10.0-100.0)/(10.0+100.0),
++                                "Mixed");
++}
++
++void otbParserTest_LogicalOperator(void)
++{
++  ParserType::Pointer parser = ParserType::New();
++  parser->SetExpr("1 and 0");
++  otbParserTest_ThrowIfNotEqual(static_cast<int>(parser->Eval()), 0, "LogicalOperator and");
++  parser->SetExpr("1 or 0");
++  otbParserTest_ThrowIfNotEqual(static_cast<int>(parser->Eval()), 1, "LogicalOperator or");
++}
++
++int otbParserTest(int argc, char * argv[])
++{
++  otbParserTest_Numerical();
++  otbParserTest_BuildInFun();
++  otbParserTest_UserDefinedCst();
++  otbParserTest_UserDefinedFun();
++  otbParserTest_UserDefinedVars();
++  otbParserTest_Mixed();
++  otbParserTest_LogicalOperator();
+   return EXIT_SUCCESS;
+ }
+Index: otb-3.20.0/CMake/ImportMuParser.cmake
+===================================================================
+--- otb-3.20.0.orig/CMake/ImportMuParser.cmake	2013-11-26 14:21:15.894760131 +0100
++++ otb-3.20.0/CMake/ImportMuParser.cmake	2013-11-26 14:22:04.107467861 +0100
+@@ -1,10 +1,37 @@
+-MESSAGE(STATUS "Importing MuParser...")
+-FIND_PACKAGE(MuParser)
++message(STATUS "Importing MuParser...")
++find_package(MuParser)
+ 
+-IF(MUPARSER_FOUND)
+-  OPTION(OTB_USE_EXTERNAL_MUPARSER "Use external MuParser library." ON)
+-ELSE(MUPARSER_FOUND)
+-  OPTION(OTB_USE_EXTERNAL_MUPARSER "Use external MuParser library." OFF)
+-  SET(MUPARSER_LIBRARIES otbmuparser)
+-ENDIF(MUPARSER_FOUND)
+-MARK_AS_ADVANCED(OTB_USE_EXTERNAL_MUPARSER)
++if(MUPARSER_FOUND)
++  option(OTB_USE_EXTERNAL_MUPARSER "Use external MuParser library." ON)
++
++  # Starting with muparser 2.0.0,
++  #  intrinsic operators "and", "or", "xor" have been removed
++  #  and intrinsic operators "&&" and "||" have been introduced as replacements
++  set(CMAKE_REQUIRED_INCLUDES ${MUPARSER_INCLUDE_DIR})
++  set(CMAKE_REQUIRED_LIBRARIES ${MUPARSER_LIBRARIES})
++  unset(CMAKE_REQUIRED_FLAGS)
++  unset(CMAKE_REQUIRED_DEFINES)
++  file(READ ${CMAKE_CURRENT_SOURCE_DIR}/CMake/otbTestMuParserHasCxxLogicalOperators.cxx
++       OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS_SOURCEFILE)
++  check_cxx_source_runs(
++    "${OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS_SOURCEFILE}"
++    OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS
++    )
++  unset(CMAKE_REQUIRED_INCLUDES)
++  unset(CMAKE_REQUIRED_LIBRARIES)
++  unset(CMAKE_REQUIRED_FLAGS)
++  unset(CMAKE_REQUIRED_DEFINES)
++
++  if(OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS)
++    message(STATUS "  Testing if muParser has '&&' operator -- yes")
++  else()
++    message(STATUS "  Testing if muParser has '&&' operator -- no")
++  endif()
++
++else()
++  option(OTB_USE_EXTERNAL_MUPARSER "Use external MuParser library." OFF)
++  set(MUPARSER_LIBRARIES otbmuparser)
++  unset(OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS) # internal version is < 2.0.0
++  message(STATUS "  Using MuParser internal version")
++endif()
++mark_as_advanced(OTB_USE_EXTERNAL_MUPARSER)

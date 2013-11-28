@@ -1,4 +1,4 @@
-otb (3.20.0-0ppa~raring2) raring; urgency=low
+otb (3.20.0-0ppa~precise2) precise; urgency=low
 
   * Fix muparser incompatibilities
 
