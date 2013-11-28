@@ -32,7 +32,8 @@ Package: libotb@VERSION_SONAME@
 Section: contrib/libs
 Architecture: any
 Conflicts: libotb3.4, libotb3.5, libotb3.6, libotb3.7, libotb3.8, libotb3.9,
-           libotb3.10, libotb3.11, libotb3.12, libotb3.13, libotb3.14
+           libotb3.10, libotb3.11, libotb3.12, libotb3.13, libotb3.14, libotb3.15,
+           libotb3.16, libotb3.17, libotb3.18, libotb3.19
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Free library of image processing algorithms - runtime
  ORFEO Toolbox (OTB) is distributed as an open source library of image
