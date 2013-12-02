@@ -21,7 +21,7 @@ set(dashboard_hg_branch "default")
 
 set(ENV{DISPLAY} ":0.0")
 set(ENV{LD_LIBRARY_PATH} "${CTEST_DASHBOARD_ROOT}/install/openjpeg-r2249/lib:$ENV{LD_LIBRARY_PATH}")
-
+set(ENV{GDAL_DATA} "/home/otbval/Dashboard/src/gdal-trunk/data")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
