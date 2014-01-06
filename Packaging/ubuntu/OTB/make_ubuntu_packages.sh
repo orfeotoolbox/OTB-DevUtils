@@ -166,6 +166,10 @@ check_gpgkeyid ()
 set_ubuntu_code_name ()
 {
     case "$1" in
+        "saucy" )
+            ubuntu_codename="Saucy Salamander"
+            ubuntu_version="13.10"
+            ;;
         "raring" )
             ubuntu_codename="Raring Ringtail"
             ubuntu_version="13.04"
