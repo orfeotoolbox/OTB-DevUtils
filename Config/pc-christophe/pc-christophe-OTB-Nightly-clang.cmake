@@ -21,30 +21,18 @@ set(dashboard_hg_branch "default")
 set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
-set(dashboard_cache "${dashboard_cache}
+set(dashboard_cache "${dashboard_cache} 
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 #OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
-#using external clang due to fedora 17
+#using clang 3.3 due to fedora 17
 CMAKE_C_COMPILER=/home/otbtesting/local/bin/clang
 CMAKE_CXX_COMPILER=/home/otbtesting/local/bin/clang++
 
 CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu
 
-#external ITK
-OTB_USE_EXTERNAL_ITK:BOOL=ON 
-
-##using external ossim due to clang error in nested class
-OTB_USE_EXTERNAL_OSSIM:BOOL=ON 
-OSSIM_INCLUDE_DIR:STRING=/home/otbtesting/local/include 
-OSSIM_LIBRARY:STRING=/home/otbtesting/local/lib/libossim.so 
-
-##clang boost 1.4x bug. using boost 1.54.0
-##https://svn.boost.org/trac/boost/ticket/6156
-Boost_INCLUDE_DIR:STRING=/home/otbtesting/local/include 
-Boost_LIBRARY_DIRS:STRING=/home/otbtesting/local/lib/
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
@@ -56,12 +44,27 @@ PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 OTB_WRAP_QT:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
 
+#external ITK
+OTB_USE_EXTERNAL_ITK:BOOL=ON 
+ITK_DIR:STRING=/home/otbtesting/local/lib/cmake/ITK-4.4
+
+##using external ossim due to clang error in nested class
+OTB_USE_EXTERNAL_OSSIM:BOOL=ON 
+OSSIM_INCLUDE_DIR:STRING=/home/otbtesting/local/include 
+OSSIM_LIBRARY:STRING=/home/otbtesting/local/lib/libossim.so 
+
 OTB_USE_EXTERNAL_BOOST:BOOL=ON
+##clang boost 1.4x bug. using boost 1.54.0
+##https://svn.boost.org/trac/boost/ticket/6156
+Boost_INCLUDE_DIR:STRING=/home/otbtesting/local/include 
+Boost_LIBRARY_DIRS:STRING=/home/otbtesting/local/lib/
+
+
 OTB_USE_EXTERNAL_FLTK:BOOL=ON
 OTB_USE_MAPNIK:BOOL=OFF
 #MAPNIK_INCLUDE_DIR:STRING=/usr/include
 #MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
-    ")
+ ")
 endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
