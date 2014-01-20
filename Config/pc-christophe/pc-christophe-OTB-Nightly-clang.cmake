@@ -51,7 +51,7 @@ ITK_DIR:STRING=/home/otbtesting/local/lib/cmake/ITK-4.4
 ##using external ossim
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
 OSSIM_INCLUDE_DIR:STRING=/home/otbtesting/local/include
-OSSIM_LIBRARY:STRING=/home/otbtesting/local/lib/libossim.so
+OSSIM_LIBRARY:STRING=/home/otbtesting/local/lib64/libossim.so
 
 OTB_USE_EXTERNAL_BOOST:BOOL=ON
 
