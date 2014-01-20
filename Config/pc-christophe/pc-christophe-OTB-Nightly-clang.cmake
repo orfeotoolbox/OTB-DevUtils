@@ -46,7 +46,7 @@ OTB_WRAP_JAVA:BOOL=ON
 
 #external ITK
 OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:STRING=/home/otbtesting/local/lib/cmake/ITK-4.4
+ITK_DIR:STRING=/home/otbtesting/local/lib/cmake/ITK-4.6
 
 ##using external ossim
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
