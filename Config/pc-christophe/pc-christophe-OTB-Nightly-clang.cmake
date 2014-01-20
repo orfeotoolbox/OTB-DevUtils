@@ -2,8 +2,8 @@
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
-set(CTEST_BUILD_CONFIGURATION "External-OSSIM_svn22473-Release")
-set(CTEST_BUILD_NAME "Fedora17-64bits-clang-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_CONFIGURATION "External-OSSIM_trunk-Release")
+set(CTEST_BUILD_NAME "Fedora20-64bits-clang-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -21,14 +21,14 @@ set(dashboard_hg_branch "default")
 set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
-set(dashboard_cache "${dashboard_cache} 
+set(dashboard_cache "${dashboard_cache}
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 #OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
-#using clang 3.3 due to fedora 17
-CMAKE_C_COMPILER=/home/otbtesting/local/bin/clang
-CMAKE_CXX_COMPILER=/home/otbtesting/local/bin/clang++
+
+CMAKE_C_COMPILER=/usr/bin/clang
+CMAKE_CXX_COMPILER=/usr/bin/clang++
 
 CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu
@@ -45,27 +45,24 @@ OTB_WRAP_QT:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
 
 #external ITK
-OTB_USE_EXTERNAL_ITK:BOOL=ON 
+OTB_USE_EXTERNAL_ITK:BOOL=ON
 ITK_DIR:STRING=/home/otbtesting/local/lib/cmake/ITK-4.4
 
-##using external ossim due to clang error in nested class
-OTB_USE_EXTERNAL_OSSIM:BOOL=ON 
-OSSIM_INCLUDE_DIR:STRING=/home/otbtesting/local/include 
-OSSIM_LIBRARY:STRING=/home/otbtesting/local/lib/libossim.so 
+##using external ossim
+OTB_USE_EXTERNAL_OSSIM:BOOL=ON
+OSSIM_INCLUDE_DIR:STRING=/home/otbtesting/local/include
+OSSIM_LIBRARY:STRING=/home/otbtesting/local/lib/libossim.so
 
 OTB_USE_EXTERNAL_BOOST:BOOL=ON
-##clang boost 1.4x bug. using boost 1.54.0
-##https://svn.boost.org/trac/boost/ticket/6156
-Boost_INCLUDE_DIR:STRING=/home/otbtesting/local/include 
-Boost_LIBRARY_DIRS:STRING=/home/otbtesting/local/lib/
-
 
 OTB_USE_EXTERNAL_FLTK:BOOL=ON
+OTB_USE_EXTERNAL_EXPAT:BOOL=OFF
+OTB_USE_EXTERNAL_LIBKML:BOOL=ON
 OTB_USE_MAPNIK:BOOL=OFF
+
 #MAPNIK_INCLUDE_DIR:STRING=/usr/include
 #MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
  ")
 endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
-
