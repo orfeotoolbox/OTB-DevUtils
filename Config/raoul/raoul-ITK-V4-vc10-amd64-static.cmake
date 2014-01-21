@@ -27,7 +27,7 @@ macro(dashboard_hook_init)
     BUILD_EXAMPLES:BOOL=OFF
 
     # ExternalData_OBJECT_STORES:PATH=
-    ITK_BUILD_ALL_MODULES:BOOL=OFF
+    ITK_BUILD_DEFAULT_MODULES:BOOL=OFF
 
     Module_ITKCommon:BOOL=ON
     Module_ITKFiniteDifference:BOOL=ON

@@ -28,7 +28,7 @@ BUILD_EXAMPLES:BOOL=OFF
 
 ExternalData_OBJECT_STORES:PATH=/home/otbtesting/OTB/trunk/ITKv4-ExternalObjectStores
 
-# ITK_BUILD_ALL_MODULES:BOOL=ON # ON by default
+# ITK_BUILD_DEFAULT_MODULES:BOOL=ON # ON by default
 
 # as much external libraries as possible
 # libtiff on ubuntu does not support BigTIFF and is incompatible with ITK
