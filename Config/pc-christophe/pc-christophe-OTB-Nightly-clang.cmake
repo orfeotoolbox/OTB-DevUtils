@@ -45,12 +45,12 @@ OTB_WRAP_JAVA:BOOL=ON
 
 #external ITK
 OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:STRING=/home/otbtesting/OTB/bin/ITKv4-upstream-Release/lib/cmake/ITK-4.5
+ITK_DIR:STRING=${CTEST_DASHBOARD_ROOT}/bin/ITKv4-upstream-Release
 
 ##using external ossim
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
-OSSIM_INCLUDE_DIR:STRING= /home/otbtesting/OTB/bin/ossim-install/include
-OSSIM_LIBRARY:STRING=/home/otbtesting/OTB/bin/ossim-install/lib64/libossim.so
+OSSIM_INCLUDE_DIR:STRING= ${CTEST_DASHBOARD_ROOT}/bin/ossim-install/include
+OSSIM_LIBRARY:STRING=${CTEST_DASHBOARD_ROOT}/bin/ossim-install/lib64/libossim.so
 
 OTB_USE_EXTERNAL_BOOST:BOOL=ON
 
