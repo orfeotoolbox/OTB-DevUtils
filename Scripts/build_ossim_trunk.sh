@@ -1,37 +1,54 @@
 #!/bin/bash
 
-SRCROOT=/home/otbval/Dashboard/src
-BUILDROOT=/home/otbval/Dashboard/build
-INSTALLROOT=/home/otbval/Dashboard/install
+if [ $# -ne 2 ]; then
+ echo 'Usage: $0 <path/to/ossim_trunk> <install-dir>'
+ echo 'Usage: $0 /home/user/sources/ /home/rashad/'
+ exit;
+fi
 
-OSIM_VER=dev
-OSSIM_SRC=$SRCROOT/ossim-trunk
-OSSIM_BUILD=$BUILDROOT/ossim-trunk
-OSSIM_INSTALL=$INSTALLROOT/ossim-trunk
-OSSIM_DEV_HOME=$OSSIM_SRC
+
+OSSIM_REPOSITORY_ROOT=$1'/ossim_trunk'
+INSTALLROOT=$2
+OSSIM_BUILD=$1/build-ossim
+OSSIM_INSTALL=$INSTALLROOT/install-ossim
+
+OSSIM_SRC=$OSSIM_REPOSITORY_ROOT/ossim
 
 #update src
-cd $OSSIM_SRC
+cd $OSSIM_REPOSITORY_ROOT
 svn update
 
-# clean up build dir
-rm -Rf $OSSIM_BUILD/*
-rm -Rf $OSSIM_INSTALL/*
+if [ -d "$OSSIM_BUILD" ]; then
+    # clean up build dir
+    command="rm -f $OSSIM_BUILD/CMakeCache.txt;rm -fr $OSSIM_BUILD/CMakeFiles"
+    echo $command
+else
+    mkdir $OSSIM_BUILD
+fi
+if [ -d "$OSSIM_INSTALL" ]; then
+    # clean up install dir
+    command="rm -f $OSSIM_INSTALL/include; rm -fr $OSSIM_INSTALL/lib"
+    echo $command
+else
+    mkdir $OSSIM_INSTALL
+fi
 
-#configure
+#configure. all ossimplanet and gui related are disabled
+#mpi support is also disabled
 cd $OSSIM_BUILD
-cmake $OSSIM_SRC/ossim_package_support/cmake \
-      -DOSSIM_DEV_HOME:STRING=$OSSIM_DEV_HOME \
-      -DCMAKE_INSTALL_PREFIX:STRING=$OSSIM_INSTALL \
-      -DCMAKE_BUILD_TYPE:STRING=Release \
-      -DBUILD_CSMAPI:BOOL=OFF \
-      -DBUILD_OSSIMCSM_PLUGIN:STRING=OFF \
-      -DCMAKE_CXX_FLAGS:STRING=-D__STDC_CONSTANT_MACROS \
-      -DWMS_INCLUDE_DIR:STRING=$OSSIM_SRC/libwms/include \
-      -DBUILD_OSSIMPREDATOR:BOOL=OFF
+cmake $OSSIM_SRC \
+    -DCMAKE_MODULE_PATH=$OSSIM_REPOSITORY_ROOT/ossim_package_support/cmake/CMakeModules \
+    -DCMAKE_INSTALL_PREFIX:STRING=$OSSIM_INSTALL \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DBUILD_OSSIM_FRAMEWORKS:BOOL=ON \
+    -DBUILD_OSSIM_FREETYPE_SUPPORT:BOOL=ON \
+    -DBUILD_OSSIM_ID_SUPPORT:BOOL=ON \
+    -DBUILD_OSSIM_MPI_SUPPORT:BOOL=OFF \
+    -DBUILD_OSSIM_TEST_APPS:BOOL=ON \
+    -DBUILD_SHARED_LIBS:BOOL=ON
 
 #build
 make -j8
 
-#install
+#install to $OSSIM_INSTALL
 make install

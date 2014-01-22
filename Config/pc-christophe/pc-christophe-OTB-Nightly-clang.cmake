@@ -2,8 +2,8 @@
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
-set(CTEST_BUILD_CONFIGURATION "External-OSSIM_trunk-Release")
-set(CTEST_BUILD_NAME "Fedora20-64bits-clang-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "Fedora20-64bits-clang-External-ITK_OSSIM_trunk-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -18,12 +18,12 @@ set(dashboard_binary_name "bin/OTB-clang-Nightly")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
-set(ENV{DISPLAY} ":0.0")
+#set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
-OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-#OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
+OTB_DATA_USE_LARGEINPUT:BOOL=ON
+OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 
@@ -45,12 +45,12 @@ OTB_WRAP_JAVA:BOOL=ON
 
 #external ITK
 OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:STRING=/home/otbtesting/local/lib/cmake/ITK-4.4
+ITK_DIR:STRING=/home/otbtesting/OTB/bin/ITKv4-upstream-Release/lib/cmake/ITK-4.5
 
 ##using external ossim
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
-OSSIM_INCLUDE_DIR:STRING=/home/otbtesting/local/include
-OSSIM_LIBRARY:STRING=/home/otbtesting/local/lib64/libossim.so
+OSSIM_INCLUDE_DIR:STRING= /home/otbtesting/OTB/bin/ossim-install/include
+OSSIM_LIBRARY:STRING=/home/otbtesting/OTB/bin/ossim-install/lib64/libossim.so
 
 OTB_USE_EXTERNAL_BOOST:BOOL=ON
 
