@@ -26,21 +26,18 @@ cmake -E make_directory %install_dir%
 cd %build_dir%
 cmake   %src_dir% ^
         -G "Visual Studio 10" ^
+        -DCMAKE_LIBRARY_PATH:PATH="%OSGEO4W_ROOT%\lib" ^
+        -DCMAKE_INCLUDE_PATH:PATH="%OSGEO4W_ROOT%\include" ^
         -DOPTION_BUILD_SHARED_LIBS:BOOL=ON ^
         -DOPTION_BUILD_EXAMPLES:BOOL=OFF ^
         -DCMAKE_INSTALL_PREFIX:PATH=%install_dir% ^
-        -DCMAKE_INCLUDE_PATH:PATH="%OSGEO4W_ROOT%\include" ^
-        -DPNG_PNG_INCLUDE_DIR:PATH="%OSGEO4W_ROOT%\include" ^
-        -DPNG_LIBRARY_RELEASE:FILEPATH="%OSGEO4W_ROOT%\lib\libpng13.lib" ^
         -DLIB_png:FILEPATH="%OSGEO4W_ROOT%\lib\libpng13.lib" ^
-        -DJPEG_INCLUDE_DIR:PATH="%OSGEO4W_ROOT%\include" ^
+        -DPNG_NAMES:STRING="libpng13" ^
         -DJPEG_LIBRARY:FILEPATH="%OSGEO4W_ROOT%\lib\jpeg_i.lib" ^
         -DLIB_jpeg:FILEPATH="%OSGEO4W_ROOT%\lib\jpeg_i.lib" ^
-        -DZLIB_INCLUDE_DIR:PATH="%OSGEO4W_ROOT%\include" ^
         -DZLIB_LIBRARY:FILEPATH="%OSGEO4W_ROOT%\lib\zlib.lib" ^
         -DLIB_zlib:FILEPATH="%OSGEO4W_ROOT%\lib\zlib.lib" ^
         -DCMAKE_CONFIGURATION_TYPES:STRING=Release;RelWithDebInfo
-
 
 cmake --build . --config Release --target INSTALL
 
