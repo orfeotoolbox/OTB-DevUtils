@@ -36,6 +36,8 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
 OTB_DIR:STRING=$ENV{HOME}/OTB/bin/OTB-clang-Nightly
+#external ITK
+ITK_DIR:STRING=$ENV{HOME}/OTB/bin/ITKv4-upstream-Release
 
 BUILD_TESTING:BOOL=ON
 
