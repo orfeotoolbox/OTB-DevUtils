@@ -34,10 +34,8 @@ CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-
-OTB_DIR:STRING=$ENV{HOME}/OTB/bin/OTB-clang-Nightly
-#external ITK
-ITK_DIR:STRING=$ENV{HOME}/OTB/bin/ITKv4-upstream-Release
+ITK_DIR:STRING=${DASHBOARD_DIR}/bin/ITKv4-upstream-Release
+OTB_DIR:STRING=${DASHBOARD_DIR}/bin/OTB-clang-Nightly
 
 BUILD_TESTING:BOOL=ON
 
