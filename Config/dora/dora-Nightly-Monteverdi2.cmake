@@ -35,10 +35,15 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build
 ITK_DIR:PATH=$ENV{HOME}/Dashboard/experimental/build/ITKv4-RelWithDebInfo
 
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build
+
 BUILD_TESTING:BOOL=ON
+
+ICE_INCLUDE_DIR=$ENV{HOME}/Dashboard/experimental/install/ice/include/otb
+ICE_LIBRARY=$ENV{HOME}/Dashboard/experimental/install/ice/lib/otb/libOTBIce.so
+
 CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
 ")
 
