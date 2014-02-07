@@ -17,7 +17,7 @@ set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "")
 set (CTEST_USE_LAUNCHERS ON)
 
-set (ICE_INSTALL_PREFIX "$ENV{HOME}/dev/install/ice")
+set (ICE_INSTALL_PREFIX "$ENV{HOME}/Dashboard/experimental/install/ice")
 
 set (ICE_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
