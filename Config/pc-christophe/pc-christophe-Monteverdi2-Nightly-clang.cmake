@@ -39,6 +39,10 @@ OTB_DIR:STRING=${DASHBOARD_DIR}/bin/OTB-clang-Nightly
 
 BUILD_TESTING:BOOL=ON
 
+#otbIce
+ICE_INCLUDE_DIR=${DASHBOARD_DIR}/bin/OTB-Ice-trunk-Release/include/otb/
+ICE_LIBRARY=${DASHBOARD_DIR}/bin/OTB-Ice-trunk-Release/lib/otb/libOTBIce.so
+
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
 QWT_LIBRARY:PATH=/usr/lib64/libqwt.so.5
 

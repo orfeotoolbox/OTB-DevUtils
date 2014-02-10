@@ -35,7 +35,9 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DIR:STRING=$ENV{HOME}/OTB/bin/OTB-Nightly
 
 BUILD_TESTING:BOOL=ON
-ICE_INCLUDE_DIR=${DASHBOARD_DIR}/bin/OTB-Ice-trunk-Release/include
+
+#otbIce
+ICE_INCLUDE_DIR=${DASHBOARD_DIR}/bin/OTB-Ice-trunk-Release/include/otb/
 ICE_LIBRARY=${DASHBOARD_DIR}/bin/OTB-Ice-trunk-Release/lib/otb/libOTBIce.so
 
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
