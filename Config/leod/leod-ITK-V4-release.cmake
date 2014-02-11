@@ -4,7 +4,7 @@ SET(ENV{DISPLAY} ":0.0")
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/Users/otbval/Dashboard")
 set(CTEST_SITE "leod.c-s.fr")
-set(CTEST_BUILD_CONFIGURATION Debug)
+set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "OrfeoToolbox-MacOSX10.8-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -17,7 +17,7 @@ set(dashboard_binary_name "itkv4/build")
 
 set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "http://itk.org/ITK.git")
-set(dashboard_git_branch "4.5.0")
+set(dashboard_git_branch "v4.5.0")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
