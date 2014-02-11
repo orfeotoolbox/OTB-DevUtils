@@ -51,11 +51,6 @@ Internal dependencies (included third-party works):
   distributed under the GNU LGPL 3.0 license
   (see Utilities/otbsiftfast/LICENSE or /usr/share/common-licenses/LGPL-3)
 
-* libLAS (http://liblas.org/),
-  distributed under the revised BSD license
-  (see Copyright/LibLASCopyright.txt or
-       http://www.liblas.org/copyright.html#license)
-
 * ConfigFile (http://www-personal.umich.edu/~wagnerr/ConfigFile.html),
   distributed under the MIT license
   (see Copyright/ConfigFileCopyright.txt)
@@ -78,10 +73,6 @@ Internal dependencies (included third-party works):
 
 
 External dependencies (not included third-party works):
-
-* FLTK (http://www.fltk.org/),
-  distributed under the FLTK License (GNU LGPL 2.0 license with exeptions)
-  (see Copyright/FLTKLicense.txt)
 
 * GDAL (http://www.gdal.org/),
   distributed under the X/MIT license
@@ -129,6 +120,10 @@ External dependencies (not included third-party works):
 
 * Qt (http://qt.digia.com/)
   distributed under the GNU LGPL 2.1 license
+
+* OpenCV (http://opencv.org/)
+  distributed under the revised BSD License
+  (see Copyright/OpenCVCopyright.txt)
 
 
 Upstream Author(s):
