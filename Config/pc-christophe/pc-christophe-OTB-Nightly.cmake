@@ -27,8 +27,8 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 
-CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON

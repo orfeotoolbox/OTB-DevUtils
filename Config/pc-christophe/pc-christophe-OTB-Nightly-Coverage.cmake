@@ -28,13 +28,13 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 
-CMAKE_C_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage  -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage  -Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
+CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
 
 OTB_USE_EXTERNAL_ITK:BOOL=OFF
 
 ITK_USE_PATENTED:BOOL=ON
-ITK_USE_REVIEW:BOOL=ON
+Module_ITKReview:BOOL=ON
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON
 
 OTB_USE_PATENTED:BOOL=ON

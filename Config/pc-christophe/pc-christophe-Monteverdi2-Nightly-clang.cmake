@@ -29,8 +29,8 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/OTB/trunk/OTB-Data
 
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
+CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-unused-local-typedefs
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual -Wno-unused-local-typedefs
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 ITK_DIR:STRING=${DASHBOARD_DIR}/bin/ITKv4-upstream-Release
