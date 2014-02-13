@@ -3,7 +3,7 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Fedora20-64bits-clang-External-ITK_OSSIM_GDAL_OpenCV_trunk-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "Fedora20-64bits-clang-3rdPartiesTrunk-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -52,8 +52,7 @@ OSSIM_INCLUDE_DIR:PATH= ${CTEST_DASHBOARD_ROOT}/bin/ossim-install/include
 OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/bin/ossim-install/lib64/libossim.so
 
 ##external OpenCV
-OpenCV_CONFIG_PATH:PATH=${CTEST_DASHBOARD_ROOT}/bin/opencv-trunk-install
-
+OpenCV_DIR=${CTEST_DASHBOARD_ROOT}/bin/opencv-trunk-install/share/OpenCV/
 ##external GDAL
 GDAL_CONFIG:FILEPATH=${CTEST_DASHBOARD_ROOT}/bin/gdal-trunk/bin/gdal-config
 GDAL_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/bin/gdal-trunk/include/
