@@ -3,7 +3,7 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Fedora20-64bits-clang-External-ITK_OSSIM_trunk-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "Fedora20-64bits-clang-External-ITK_OSSIM_GDAL_OpenCV_trunk-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -47,10 +47,18 @@ OTB_WRAP_JAVA:BOOL=ON
 OTB_USE_EXTERNAL_ITK:BOOL=ON
 ITK_DIR:STRING=${CTEST_DASHBOARD_ROOT}/bin/ITKv4-upstream-Release
 
-##using external ossim
+##external OSSIM
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
-OSSIM_INCLUDE_DIR:STRING= ${CTEST_DASHBOARD_ROOT}/bin/ossim-install/include
-OSSIM_LIBRARY:STRING=${CTEST_DASHBOARD_ROOT}/bin/ossim-install/lib64/libossim.so
+OSSIM_INCLUDE_DIR:PATH= ${CTEST_DASHBOARD_ROOT}/bin/ossim-install/include
+OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/bin/ossim-install/lib64/libossim.so
+
+##external OpenCV
+OpenCV_DIR:PATH=${CTEST_DASHBOARD_ROOT}/bin/opencv-trunk-install
+
+##external GDAL
+GDAL_CONFIG:FILEPATH=${CTEST_DASHBOARD_ROOT}/bin/gdal-trunk/bin/gdal-config
+GDAL_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/bin/gdal-trunk/include/
+GDAL_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/bin/gdal-trunk/lib/libgdal.so
 
 OTB_USE_EXTERNAL_BOOST:BOOL=ON
 
@@ -58,6 +66,7 @@ OTB_USE_EXTERNAL_FLTK:BOOL=ON
 OTB_USE_EXTERNAL_EXPAT:BOOL=OFF
 OTB_USE_EXTERNAL_LIBKML:BOOL=ON
 OTB_USE_MAPNIK:BOOL=OFF
+OTB_USE_OPENCV:BOOL=ON
 
 #MAPNIK_INCLUDE_DIR:STRING=/usr/include
 #MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
