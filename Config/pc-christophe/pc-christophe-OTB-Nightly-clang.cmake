@@ -30,7 +30,7 @@ OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
 
-CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-unused-local-typedefs
+CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual -Wno-unused-local-typedefs
 
 BUILD_TESTING:BOOL=ON
