@@ -35,7 +35,7 @@ OTB_WRAP_QT:BOOL=ON
 
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs -Wno-cpp
 
 OTB_SHOW_ALL_MSG_DEBUG:BOOL=ON
 
