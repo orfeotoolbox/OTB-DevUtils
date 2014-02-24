@@ -37,7 +37,7 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 //Compilation options
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs -Wno-cpp
 //Set up the build options
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=ON
