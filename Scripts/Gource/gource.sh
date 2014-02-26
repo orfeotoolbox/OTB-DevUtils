@@ -13,7 +13,8 @@
 
 otb_src_dir=~/projets/otb/src
 gource_dir=~/projets/otb/gource
-repo_otb=( "OTB" "OTB-Applications" "Monteverdi" "OTB-Documents" "OTB-Qgis-plugins" "OTB-Wrapping")
+processLogs_dir=~/projets/otb/src/OTB-DevUtils/Scripts/Gource
+repo_otb=( "OTB" "OTB-Applications" "Monteverdi" "OTB-Documents" "OTB-Qgis-plugins" "OTB-Wrapping" "Monteverdi2" "ice")
 
 cd $otb_src_dir
 
@@ -27,18 +28,18 @@ do
    #work in ~/prog/gource
    cd $gource_dir
    echo "process gource log..."
-   python processLogs.py $i
+   python $processLogs_dir/processLogs.py $i
    #(input output.csv, output output.log)
 done
 
 cd $gource_dir
 
 #+combine +sort
-sort output-Monteverdi.log output-OTB-Applications.log output-OTB-Documents.log output-OTB.log output-OTB-Qgis-plugins.log output-OTB-Wrapping.log > output-full.log
+sort output-Monteverdi.log output-OTB-Applications.log output-OTB-Documents.log output-OTB.log output-OTB-Qgis-plugins.log output-OTB-Wrapping.log output-Monteverdi2.log output-ice.log > output-full.log
 
 #remove Utilities
 grep -v '/Utilities/' output-full.log > output-full-noutils.log
 
-gource -640x480 -s 0.1 --hide filenames --highlight-users --date-format '%Y-%m-%d' --stop-at-end --output-ppm-stream --log-format hg -o - output-full-noutils.log | ffmpeg -y -b 3000K -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -vpre default otb_gource_full.mp4
+gource -1280x720 --title "OTB history" -s 0.1 --hide filenames --highlight-users --date-format '%Y-%m-%d' --stop-at-end --output-ppm-stream --log-format hg -o - output-full-noutils.log | avconv -y -r 60 -f image2pipe -vcodec ppm -i - -b 65536K otb_gource_full.mp4
 
 exit 0
