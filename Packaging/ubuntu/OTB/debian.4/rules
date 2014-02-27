@@ -1,0 +1,62 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+#
+# Copyright (C) 2010-2014 CNES - Centre National d'Etudes Spatiales
+# Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
+#
+# The OTB is distributed under the CeCILL license version 2. See files
+# Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
+# (french version) in 'Copyright' directory for details. This licenses are
+# also available online:
+# http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+# http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+
+OTB_VERSION_MAJOR  = $(shell sed -ne 's/set(OTB_VERSION_MAJOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
+OTB_VERSION_MINOR  = $(shell sed -ne 's/set(OTB_VERSION_MINOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
+OTB_VERSION_PATCH  = $(shell sed -ne 's/set(OTB_VERSION_PATCH "\([0-9]*\)")/\1/p' CMakeLists.txt)
+OTB_VERSION_SONAME = "$(OTB_VERSION_MAJOR).$(OTB_VERSION_MINOR)"
+OTB_VERSION_FULL   = "$(OTB_VERSION_MAJOR).$(OTB_VERSION_MINOR).$(OTB_VERSION_PATCH)"
+
+CMAKE_EXTRA_FLAGS += \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+	-DCMAKE_BUILD_TYPE:STRING=Release \
+	-DCMAKE_SKIP_RPATH:BOOL=ON \
+	-DOTB_USE_CURL:BOOL=ON \
+	-DOTB_USE_EXTERNAL_EXPAT:BOOL=ON \
+	-DOTB_USE_EXTERNAL_BOOST:BOOL=ON \
+	-DOTB_USE_EXTERNAL_GDAL:BOOL=ON \
+	-DOTB_USE_EXTERNAL_OSSIM:BOOL=ON \
+	-DOTB_USE_OPENCV:BOOL=ON \
+	-DOTB_USE_MAPNIK:BOOL=OFF \
+	-DBUILD_APPLICATIONS:BOOL=ON \
+	-DBUILD_SHARED_LIBS:BOOL=ON \
+	-DBUILD_EXAMPLES:BOOL=OFF \
+	-DBUILD_TESTING:BOOL=OFF \
+	-DOTB_WRAP_QT:BOOL=ON \
+	-DOTB_WRAP_PYTHON:BOOL=ON
+
+# OTB_LIB_DIRS = /usr/lib/otb:/usr/lib/otb/applications:/usr/lib/otb/python
+OTB_LIB_DIRS = /usr/lib/otb
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(CMAKE_EXTRA_FLAGS)
+
+override_dh_shlibdeps:
+	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OTB_LIB_DIRS) dh_shlibdeps
+
+control-file:
+	sed -e "s/@OTB_VERSION_MAJOR@/$(OTB_VERSION_MAJOR)/g" \
+	    -e "s/@OTB_VERSION_MINOR@/$(OTB_VERSION_MINOR)/g" \
+	    -e "s/@OTB_VERSION_PATCH@/$(OTB_VERSION_PATCH)/g" \
+	    -e "s/@OTB_VERSION_SONAME@/$(OTB_VERSION_SONAME)/g" \
+	    -e "s/@OTB_VERSION_FULL@/$(OTB_VERSION_FULL)/g" \
+	    < debian/control.in > debian/control

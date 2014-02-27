@@ -1,0 +1,11 @@
+# OTB libraries (symlinks)
+usr/lib/otb/libotb*.so
+usr/lib/otb/libOTB[A-V]*.so
+usr/lib/otb/libsiftfast.so
+
+# OTB headers
+usr/include/otb
+
+# CMake helper scripts
+usr/lib/otb/*.cmake
+usr/lib/otb/cmakemodules

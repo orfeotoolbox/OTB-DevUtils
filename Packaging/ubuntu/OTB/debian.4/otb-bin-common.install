@@ -1,0 +1,2 @@
+# OTB specific libraries (binaries and symlinks)
+usr/lib/otb/applications/otbapp_*.so

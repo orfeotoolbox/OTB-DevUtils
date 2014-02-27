@@ -1,0 +1,49 @@
+otb (4.0.0-1) saucy; urgency=low
+
+  * Test #2
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Fri, 14 Feb 2014 00:46:41 +0100
+
+otb (4.0.0-0ppa~quantal1) quantal; urgency=low
+
+  * New major version 4.0.0 released
+  * Switch to ITK 4.5.0
+  * New naming convention for packages
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 13 Feb 2014 20:53:50 +0100
+
+otb (3.20.0-0ppa~precise3) precise; urgency=low
+
+  * Add conflict with previous OTB version
+
+ -- Julien Malik <julien.malik@gmail.com>  Thu, 28 Nov 2013 12:03:58 +0100
+
+otb (3.20.0-0ppa~precise2) precise; urgency=low
+
+  * Fix muparser incompatibilities
+
+ -- Julien Malik <julien.malik@gmail.com>  Tue, 26 Nov 2013 16:21:06 +0100
+
+otb (3.12.0-1) lucid; urgency=low
+
+  * Version 3.12.0 released
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 31 Jan 2012 09:12:12 +0100
+
+otb (3.10.0-0) lucid; urgency=low
+
+  * Version 3.10.0 released
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 30 Jun 2011 08:59:14 +0200
+
+otb (3.8.0-7) lucid; urgency=low
+
+  * Version 3.8.0 released
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Wed, 15 Dec 2010 16:50:52 +0100
+
+otb (3.6.0-1) lucid; urgency=low
+
+  * Version 3.6.0 released (first public package)
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 30 Nov 2010 12:22:17 +0200

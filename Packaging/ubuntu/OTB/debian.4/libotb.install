@@ -1,0 +1,7 @@
+# OTB libraries (binaries and versioned symlinks)
+usr/lib/otb/libotb*.so.*
+usr/lib/otb/libOTB[A-V]*.so.*
+usr/lib/otb/libsiftfast.so.*
+
+# Executables
+usr/bin/otbTestDriver
