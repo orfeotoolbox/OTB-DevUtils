@@ -1,0 +1,41 @@
+Description: Declaration of variable _stl_prime_list outside of get_stl_prime_list() function
+ Applied patch from Orfeo Toolbox which solves segfault issue with dl_close():
+ http://hg.orfeo-toolbox.org/OTB/rev/12576beb1198
+Author: Mickael Savinaud <mickael.savinaud@c-s.fr>
+Origin: other, http://hg.orfeo-toolbox.org/OTB/rev/12576beb1198
+Bug: http://bugs.orfeo-toolbox.org/view.php?id=418
+Last-Update: 2014-02-17
+
+--- insighttoolkit4-4.5.0.orig/Modules/ThirdParty/KWSys/src/KWSys/hashtable.hxx.in
++++ insighttoolkit4-4.5.0/Modules/ThirdParty/KWSys/src/KWSys/hashtable.hxx.in
+@@ -37,7 +37,7 @@
+ #ifdef __BORLANDC__
+ # pragma warn -8027 /* 'for' not inlined.  */
+ # pragma warn -8026 /* 'exception' not inlined.  */
+-#endif 
++#endif
+
+ #ifndef @KWSYS_NAMESPACE@_hashtable_hxx
+ #define @KWSYS_NAMESPACE@_hashtable_hxx
+@@ -403,10 +403,6 @@ struct _Hashtable_const_iterator {
+ // Note: assumes long is at least 32 bits.
+ enum { _stl_num_primes = 31 };
+
+-// create a function with a static local to that function that returns
+-// the static
+-inline const unsigned long* get_stl_prime_list() {
+-
+ static const unsigned long _stl_prime_list[_stl_num_primes] =
+ {
+   5ul,          11ul,         23ul,
+@@ -418,6 +414,10 @@ static const unsigned long _stl_prime_li
+   1610612741ul, 3221225473ul, 4294967291ul
+ };
+
++// create a function with a static local to that function that returns
++// the static
++inline const unsigned long* get_stl_prime_list() {
++
+ return &_stl_prime_list[0]; }
+
+ inline size_t _stl_next_prime(size_t __n)

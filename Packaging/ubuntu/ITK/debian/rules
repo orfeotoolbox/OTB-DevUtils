@@ -1,0 +1,92 @@
+#!/usr/bin/make -f
+
+VER_MAJOR = 4
+VER_MINOR = 5
+
+CMAKE_FLAGS = \
+	-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+	-DBUILD_SHARED_LIBS:BOOL=ON \
+	-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON \
+	-DCMAKE_SKIP_RPATH:BOOL=ON \
+	-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+	-DITKV3_COMPATIBILITY:BOOL=ON \
+	-DITK_USE_STRICT_CONCEPT_CHECKING:BOOL=ON \
+	-DITK_USE_SYSTEM_DCMTK:BOOL=ON \
+	-DITK_USE_SYSTEM_GDCM:BOOL=ON \
+	-DITK_USE_SYSTEM_HDF5:BOOL=OFF \
+	-DITK_USE_SYSTEM_JPEG:BOOL=ON \
+	-DITK_USE_SYSTEM_PNG:BOOL=ON \
+	-DITK_USE_SYSTEM_TIFF:BOOL=OFF \
+	-DITK_USE_SYSTEM_VXL:BOOL=OFF \
+	-DITK_USE_SYSTEM_ZLIB:BOOL=ON \
+	-DModule_ITKDCMTK:BOOL=ON \
+	-DModule_ITKIOPhilipsREC:BOOL=ON \
+	-DModule_ITKLevelSetsv4Visualization:BOOL=OFF \
+	-DModule_ITKReview:BOOL=ON \
+	-DModule_ITKVideoBridgeOpenCV:BOOL=OFF \
+	-DModule_ITKVideoBridgeVXL:BOOL=OFF \
+	-DModule_ITKVtkGlue:BOOL=OFF \
+	-DITK_USE_FFTWD:BOOL=ON \
+	-DITK_USE_FFTWF:BOOL=ON \
+	-DITK_USE_SYSTEM_FFTW:BOOL=ON \
+	-DVCL_INCLUDE_CXX_0X:BOOL=ON \
+	-DBUILD_EXAMPLES:BOOL=ON \
+	-DBUILD_TESTING:BOOL=ON
+
+SOVERSION = $(VER_MAJOR).$(VER_MINOR)
+
+pkg_lib = libinsighttoolkit$(SOVERSION)
+pkg_dev = libinsighttoolkit$(VER_MAJOR)-dev
+pkg_examples = insighttoolkit$(VER_MAJOR)-examples
+
+
+%:
+	dh $@ --builddir=BUILD --parallel
+
+override_dh_auto_configure: pre-build
+	dh_auto_configure -- $(CMAKE_FLAGS)
+
+pre-build:
+	echo "Available disk space:"
+	df -h .
+
+override_dh_auto_test:
+	LD_LIBRARY_PATH=`pwd`/BUILD/lib dh_auto_test
+
+override_dh_lintian:
+	echo "$(pkg_lib): package-name-doesnt-match-sonames" > debian/$(pkg_lib).lintian-overrides
+	echo "$(pkg_lib): embedded-library usr/lib/libitktiff-4.5.so.1: tiff" >> debian/$(pkg_lib).lintian-overrides
+	dh_lintian
+
+override_dh_install:
+	# pkg_lib
+	dh_install -p$(pkg_lib) -XJava -XPython -XTcl debian/tmp/usr/lib/lib*.so.* usr/lib
+	cp CMake/InsightValgrind.supp Insight$(SOVERSION)Valgrind.supp
+	cp Modules/ThirdParty/VNL/src/vxl/config/valgrind.supp Insight$(SOVERSION)VxlValgrind.supp
+	dh_install -p$(pkg_lib) Insight$(SOVERSION)*.supp usr/lib/valgrind
+	#
+	# pkg_dev
+	dh_installman -p$(pkg_dev) debian/insighttoolkit.3
+	dh_installdocs -p$(pkg_dev) Documentation/*
+	dh_install -p$(pkg_dev) -XJava -XPython -XTcl debian/tmp/usr/lib/lib*.so usr/lib
+	dh_install -p$(pkg_dev) --autodest debian/tmp/usr/include/ITK-$(SOVERSION)/*
+	dh_install -p$(pkg_dev) --autodest debian/tmp/usr/lib/cmake
+	dh_install -p$(pkg_dev) --autodest debian/tmp/usr/bin/itkTestDriver
+#	dh_install -p$(pkg_dev) Wrapping/WrapITK /usr/src
+
+override_dh_installexamples:
+	# pkg_examples
+	dh_installexamples -p$(pkg_examples) Examples/*
+ifneq (,$(filter $(pkg_examples), $(shell dh_listpackages)))
+	find debian/$(pkg_examples)/usr/share/doc/$(pkg_examples)/examples \
+	    -type f -print0 | xargs -0 chmod 644
+endif
+
+control-file:
+	sed -e "s/@VER_MAJOR@/$(VER_MAJOR)/g" \
+	    -e "s/@SOVERSION@/$(SOVERSION)/g" \
+	    < debian/control.in > debian/control.tmp
+	[ -e debian/control ] \
+	  && cmp -s debian/control debian/control.tmp \
+	  && rm -f debian/control.tmp && exit 0; \
+	  mv debian/control.tmp debian/control
