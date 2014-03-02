@@ -1,9 +1,23 @@
-# spec file for package Orfeo-Applications
+#
+# spec file for package Monteverdi
+#
+# Copyright (c) 2014 Angelos Tzotsos <tzotsos@opensuse.org>.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the Monteverdi package itself (unless the
+# license for the Monteverdi package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
+# Please submit bugfixes or comments via http://bugs.opensuse.org/
 
 # norootforbuild
 
 Name:           Monteverdi
-Version:        1.16.0
+Version:        1.18.0
 Release:        1
 Summary:        Application based on OrfeoToolbox for remote sensing image processing
 Group:          Development/Libraries
@@ -26,6 +40,7 @@ BuildRequires:  OrfeoToolbox-devel
 BuildRequires:  libOpenThreads-devel 
 BuildRequires:  boost-devel
 BuildRequires:	fltk-devel
+BuildRequires:  libSM-devel
 
 %description
 %{name} is a image processing application developed by CNES in the frame of the ORFEO Accompaniment Program

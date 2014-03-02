@@ -17,14 +17,13 @@
 # norootforbuild
 
 Name:           OrfeoToolbox
-Version:        3.18.1
+Version:        3.20.0
 Release:        1
 Summary:        The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:          Development/Libraries
 License:        CECILL-2.0
 URL:            http://www.orfeo-toolbox.org
 Source0:        %{name}-%{version}.tar.bz2
-##Patch1:		radiometry.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires:	cmake >= 2.8.0
@@ -74,11 +73,7 @@ Requires:       gcc
 Requires:       freeglut-devel 
 Requires:       libgeotiff-devel 
 Requires:       libgdal-devel
-%if 0%{?suse_version} > 1220
-Requires:       libpng15-devel 
-%else
-Requires:       libpng14-devel 
-%endif 
+Requires:       libpng-devel 
 Requires:       boost-devel 
 Requires:       fftw3-devel
 Requires:	fltk-devel
@@ -89,7 +84,6 @@ Development files for the %{name} library. The %{name} is a library of image pro
 
 %prep
 %setup -q
-##%patch1
 
 %build
 cd ..
