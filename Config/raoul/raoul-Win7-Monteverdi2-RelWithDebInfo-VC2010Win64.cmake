@@ -38,7 +38,7 @@ Monteverdi2_USE_CPACK:BOOL=ON
 
 OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OTB-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/lib/otb
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/ITK-64-RelDeb
-#OpenCV_DIR:PATH=C:/OSGeo4W/share/OpenCV
+OpenCV_DIR:PATH=${OSGEO4W_ROOT}/share/OpenCV
 
 #ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
 #ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
