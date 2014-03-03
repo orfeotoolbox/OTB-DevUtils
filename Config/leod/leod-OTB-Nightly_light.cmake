@@ -57,6 +57,11 @@ ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON
 OTB_USE_MAPNIK:BOOL=OFF
 CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/experimental/OTB-Release/install/OTB-macport
 
+PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python
+PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers
+PYTHON_LIBRARY:FILEPATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python
+
+
 ")
 
 SET (CTEST_NOTES_FILES

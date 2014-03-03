@@ -54,6 +54,12 @@ OTB_USE_EXTERNAL_EXPAT:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/stable/OTB-Release-stable/install
 
 OTB_USE_OPENCV:BOOL=ON
+
+PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python
+PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers
+PYTHON_LIBRARY:FILEPATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python
+
+
 ")
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
