@@ -13,15 +13,15 @@ cmake -E remove_directory %OSSIM_INSTALL%
 cmake -E make_directory %OSSIM_INSTALL%
 
 cd %OSSIM_BUILD%
-cmake "%OSSIM_SRC%" -G "Visual Studio 10" ^
+cmake "%OSSIM_SRC%" -G "Visual Studio 10 Win64" ^
       -DOSSIM_DEV_HOME:STRING="%OSSIM_DEV_HOME%" ^
       -DCMAKE_BUILD_TYPE:STRING=Release ^
       -DCMAKE_INSTALL_PREFIX:PATH=%OSSIM_INSTALL% ^
       -DCMAKE_MODULE_PATH:PATH=%OSSIM_SRC%/CMakeModules ^
       -DCURL_INCLUDE_DIR:PATH="%OSGEO4W_ROOT%/include" ^
-      -DCURL_LIBRARY:FILEPATH="%OSGEO4W_ROOT%/lib/libcurl_imp.lib" ^
+      -DCURL_LIBRARY:FILEPATH="%OSGEO4W_ROOT%/lib/libcurl.lib" ^
       -DEXPAT_INCLUDE_DIR:PATH="%OSGEO4W_ROOT%/include" ^
-      -DEXPAT_LIBRARY:FILEPATH="%OSGEO4W_ROOT%/lib/libexpat.lib" ^
+      -DEXPAT_LIBRARY:FILEPATH="%OSGEO4W_ROOT%/lib/expat.lib" ^
       -DGEOS_INCLUDE_DIR:PATH="%OSGEO4W_ROOT%/include" ^
       -DGEOS_LIBRARY:FILEPATH="%OSGEO4W_ROOT%/lib/geos_c.lib" ^
       -DGEOTIFF_INCLUDE_DIR:PATH="%OSGEO4W_ROOT%/include" ^
@@ -36,9 +36,6 @@ cmake "%OSSIM_SRC%" -G "Visual Studio 10" ^
       -DZLIB_LIBRARY:FILEPATH="%OSGEO4W_ROOT%/lib/zlib.lib" ^
       -DFFTW3_INCLUDE_DIR:PATH="%OSGEO4W_ROOT%/include" ^
       -DFFTW3_LIBRARY:FILEPATH="%OSGEO4W_ROOT%/lib/fftw3.lib" ^
-      -DFREETYPE_INCLUDE_DIR_ft2build:PATH="%OSGEO4W_ROOT%/include/freetype" ^
-      -DFREETYPE_INCLUDE_DIR_freetype2:PATH="%OSGEO4W_ROOT%/include/freetype" ^
-      -DFREETYPE_LIBRARY:FILEPATH="%OSGEO4W_ROOT%/lib/freetype237.lib" ^
       -DFFMPEG_ROOT:PATH="%OSGEO4W_ROOT%." ^
 	  -DFFMPEG_STDINT_INCLUDE_DIR:PATH="%OSGEO4W_ROOT%/include" ^
       -DBUILD_OSSIM_FREETYPE_SUPPORT:BOOL=ON ^

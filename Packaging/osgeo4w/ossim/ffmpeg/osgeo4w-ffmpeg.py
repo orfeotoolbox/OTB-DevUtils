@@ -3,12 +3,13 @@ import os, sys, shutil, datetime, subprocess
 THIS_DIR = os.path.dirname(  os.path.abspath(__file__) )
 
 # To identify the zipped sources
-FFMPEG_SRC_VERSION="20121125-git-26c531c"
-FFMPEG_SRC_DEV = os.path.join(THIS_DIR, "ffmpeg-%s-win32-dev.7z" % (FFMPEG_SRC_VERSION) )
-FFMPEG_SRC_SHARED = os.path.join(THIS_DIR, "ffmpeg-%s-win32-shared.7z" % (FFMPEG_SRC_VERSION) )
+FFMPEG_SRC_VERSION="20140304-git-f34cceb"
+FFMPEG_ARCH="win64"
+FFMPEG_SRC_DEV = os.path.join(THIS_DIR, "ffmpeg-%s-%s-dev.7z" % (FFMPEG_SRC_VERSION, FFMPEG_ARCH) )
+FFMPEG_SRC_SHARED = os.path.join(THIS_DIR, "ffmpeg-%s-%s-shared.7z" % (FFMPEG_SRC_VERSION, FFMPEG_ARCH) )
 
 # For the OSGeo4W package
-FFMPEG_VERSION="20121125"
+FFMPEG_VERSION="20140304"
 FFMPEG_PACKAGE_VERSION=1
 
 EXE_TAR="C:\\OSGeo4W\\apps\\msys\\bin\\tar.exe"
@@ -31,7 +32,7 @@ def make_package():
 	subprocess.call( [EXE_7Z, "x", "-o%s" % (unzipdir), FFMPEG_SRC_DEV] )
 	subprocess.call( [EXE_7Z, "x", "-o%s" % (unzipdir), FFMPEG_SRC_SHARED] )
 	
-	unzipped_dev = os.path.join(unzipdir, "ffmpeg-%s-win32-dev" % (FFMPEG_SRC_VERSION))
+	unzipped_dev = os.path.join(unzipdir, "ffmpeg-%s-%s-dev" % (FFMPEG_SRC_VERSION, FFMPEG_ARCH))
 	shutil.copytree( os.path.join(unzipped_dev, "include"), \
 					 os.path.join(dstdir,"include") )
 	shutil.copytree( os.path.join(unzipped_dev, "lib"), \
@@ -41,7 +42,7 @@ def make_package():
 	shutil.copytree( os.path.join(unzipped_dev, "licenses"), \
 					 os.path.join(dstdir, "share\\ffmpeg\\licenses" ) )
 	
-	unzipped_shared = os.path.join(unzipdir, "ffmpeg-%s-win32-shared" % (FFMPEG_SRC_VERSION))
+	unzipped_shared = os.path.join(unzipdir, "ffmpeg-%s-%s-shared" % (FFMPEG_SRC_VERSION, FFMPEG_ARCH))
 	shutil.copytree( os.path.join(unzipped_shared, "bin"), \
 					 os.path.join(dstdir,"bin") )
 	shutil.copytree( os.path.join(unzipped_shared, "presets"), \

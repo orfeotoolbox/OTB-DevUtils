@@ -1,13 +1,13 @@
-import os, sys, shutil, datetime, subprocess
+import os, sys, shutil, datetime, subprocess, urllib
 
 CURDIR = os.path.dirname(  os.path.abspath(__file__) )
 
-MSINTTYPES_SRC_VERSION=26
+MSINTTYPES_SRC_VERSION=29
 MSINTTYPES_PACKAGE_VERSION=1
 
 MSINTTYPES_SRC = os.path.join(CURDIR, "msinttypes-r%i" % (MSINTTYPES_SRC_VERSION) )
 
-TAREXE="C:\\OSGeo4W\\apps\\msys\\bin\\tar.exe"
+TAREXE="C:\\OSGeo4W64\\apps\\msys\\bin\\tar.exe"
 	
 def make_package():	
 	# init dest dir
@@ -19,12 +19,14 @@ def make_package():
 	
 	# cp necessary files
 	include_dir = os.path.join(dstdir, "include") # shutil.copytree will create it
-	shutil.copytree( MSINTTYPES_SRC, include_dir )
-	os.unlink( os.path.join(include_dir, "changelog.txt") )
-	
+	os.mkdir(include_dir)
+	urllib.urlretrieve ( "http://msinttypes.googlecode.com/svn-history/r%s/trunk/stdint.h" % (MSINTTYPES_SRC_VERSION), os.path.join(include_dir, "stdint.h"))
+	urllib.urlretrieve ( "http://msinttypes.googlecode.com/svn-history/r%s/trunk/inttypes.h" % (MSINTTYPES_SRC_VERSION), os.path.join(include_dir, "inttypes.h"))
+		
 	# compress with osgeo4w compliance
 	os.chdir( dstdir )
-	subprocess.call( [TAREXE, "-cvjf", "../" + package_versioned_name + ".tar.bz2",  "*" ] )
+	os.system("tar -cvjf ../%s.tar.bz2 *" % (package_versioned_name))
+#	subprocess.call( [TAREXE, "-cvjf", "../" + package_versioned_name + ".tar.bz2",  "*" ] )
 	os.chdir( CURDIR )
 
 
