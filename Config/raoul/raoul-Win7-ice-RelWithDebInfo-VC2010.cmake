@@ -2,7 +2,7 @@ SET (dashboard_model Nightly)
 SET (CTEST_DASHBOARD_ROOT "C:/Users/jmalik/Dashboard")
 
 SET (OTB_PROJECT Ice) # OTB / Monteverdi / Monteverdi2
-SET (OTB_ARCH amd64) # x86 / amd64
+SET (OTB_ARCH x86) # x86 / amd64
 
 SET (CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 
