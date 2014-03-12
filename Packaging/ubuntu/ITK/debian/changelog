@@ -3,18 +3,19 @@ insighttoolkit4 (4.5.0-1otb3) saucy; urgency=low
   * -dev package depends on libdcmtk2-dev, dcmtk, libgdcm2-dev, libfftw3-dev,
     uuid-dev
 
- -- OTB Team <contact@orfeo-toolbox.org>  Wed, 26 Feb 2014 10:39:09 +0100
+ -- Sebastien Dinot <sebastien.dinot@c-s.fr>  Wed, 26 Feb 2014 10:39:09 +0100
 
 insighttoolkit4 (4.5.0-1otb2) saucy; urgency=low
 
   * Applied patch from Orfeo Toolbox which solves segfault issue with dl_close():
     http://hg.orfeo-toolbox.org/OTB/rev/12576beb1198
+    http://bugs.orfeo-toolbox.org/view.php?id=418
 
  -- Sebastien Dinot <sebastien.dinot@c-s.fr>  Mon, 17 Feb 2014 10:16:07 +0100
 
 insighttoolkit4 (4.5.0-1otb1) saucy; urgency=low
 
-  * New upstream, minor release. Removed "bool-is-not-bool" and
+  * New upstream release. Removed "bool-is-not-bool" and
     "add-missing-include" patches.
   * rules: Enable modules ITKDCMTK (using system DCMTK), Review and FFTW.
 
