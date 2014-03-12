@@ -14,7 +14,8 @@ fi
 CLONE_DIR=`readlink -f $1`
 OUT_DIR=`readlink -f $2`
 
-for project in OTB Monteverdi Monteverdi2 OTB-Applications OTB-Wrapping ; do
+#for project in OTB Monteverdi Monteverdi2 OTB-Applications OTB-Wrapping ; do
+for project in OTB Monteverdi ; do
   cd $CLONE_DIR/$project
   
   hg pull -u
@@ -41,7 +42,9 @@ for project in OTB Monteverdi Monteverdi2 OTB-Applications OTB-Wrapping ; do
       ;;
   esac
   
+  echo Generating $OUT_DIR/$pkg_name-$full_version.zip
   hg archive -t zip -r $full_version $OUT_DIR/$pkg_name-$full_version.zip
+  echo Generating $OUT_DIR/$pkg_name-$full_version.tgz
   hg archive -t tgz -r $full_version $OUT_DIR/$pkg_name-$full_version.tgz
 
 done
