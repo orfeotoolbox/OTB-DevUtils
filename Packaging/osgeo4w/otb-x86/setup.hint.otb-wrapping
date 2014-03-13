@@ -1,0 +1,4 @@
+sdesc: "OrfeoToolbox Wrapping - Low level Python/Java bindings of OrfeoToolbox"
+ldesc: "OrfeoToolbox Wrapping - Low level Python/Java bindings of OrfeoToolbox"
+category: Libs
+requires: otb-bin python
