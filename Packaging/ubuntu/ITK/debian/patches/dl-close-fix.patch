@@ -6,17 +6,8 @@ Origin: other, http://hg.orfeo-toolbox.org/OTB/rev/12576beb1198
 Bug: http://bugs.orfeo-toolbox.org/view.php?id=418
 Last-Update: 2014-02-17
 
---- insighttoolkit4-4.5.0.orig/Modules/ThirdParty/KWSys/src/KWSys/hashtable.hxx.in
-+++ insighttoolkit4-4.5.0/Modules/ThirdParty/KWSys/src/KWSys/hashtable.hxx.in
-@@ -37,7 +37,7 @@
- #ifdef __BORLANDC__
- # pragma warn -8027 /* 'for' not inlined.  */
- # pragma warn -8026 /* 'exception' not inlined.  */
--#endif 
-+#endif
-
- #ifndef @KWSYS_NAMESPACE@_hashtable_hxx
- #define @KWSYS_NAMESPACE@_hashtable_hxx
+--- insighttoolkit4-4.5.1.orig/Modules/ThirdParty/KWSys/src/KWSys/hashtable.hxx.in
++++ insighttoolkit4-4.5.1/Modules/ThirdParty/KWSys/src/KWSys/hashtable.hxx.in
 @@ -403,10 +403,6 @@ struct _Hashtable_const_iterator {
  // Note: assumes long is at least 32 bits.
  enum { _stl_num_primes = 31 };

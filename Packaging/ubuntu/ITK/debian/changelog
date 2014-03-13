@@ -1,3 +1,9 @@
+insighttoolkit4 (4.5.1-1~precise1) precise; urgency=medium
+
+  * New upstream release
+
+ -- Julien Malik <julien.malik@gmail.com>  Thu, 13 Mar 2014 00:45:33 +0100
+
 insighttoolkit4 (4.5.0-1otb3) saucy; urgency=low
 
   * -dev package depends on libdcmtk2-dev, dcmtk, libgdcm2-dev, libfftw3-dev,
