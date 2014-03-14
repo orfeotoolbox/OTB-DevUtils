@@ -43,7 +43,7 @@ OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFI
 ITK_DIR:PATH=$ENV{HOME}/Dashboard/itkv4/build
 
 ICE_INCLUDE_DIR=$ENV{HOME}/Dashboard/nightly/Ice-Release/install/include/otb
-ICE_LIBRARY=$ENV{HOME}/Dashboard/nightly/Ice-Release/install/lib/otb/libOTBIce.so
+ICE_LIBRARY=$ENV{HOME}/Dashboard/nightly/Ice-Release/install/lib/otb/libOTBIce.dylib
 
 Monteverdi2_USE_CPACK:BOOL=ON
 
