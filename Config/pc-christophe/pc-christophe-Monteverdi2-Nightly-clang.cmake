@@ -29,18 +29,18 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/OTB/trunk/OTB-Data
 
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
+CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-ITK_DIR:STRING=${DASHBOARD_DIR}/bin/ITKv4-upstream-Release
-OTB_DIR:STRING=${DASHBOARD_DIR}/bin/OTB-clang-Nightly
+ITK_DIR:PATH=${DASHBOARD_DIR}/bin/ITKv4-upstream-Release
+OTB_DIR:PATH=${DASHBOARD_DIR}/bin/OTB-clang-Nightly
 
 BUILD_TESTING:BOOL=ON
 
 #otbIce
-ICE_INCLUDE_DIR=${DASHBOARD_DIR}/bin/OTB-Ice-trunk-Release/include/otb/
-ICE_LIBRARY=${DASHBOARD_DIR}/bin/OTB-Ice-trunk-Release/lib/otb/libOTBIce.so
+ICE_INCLUDE_DIR=${DASHBOARD_DIR}/bin/Ice-clang-Nightly/include/otb/
+ICE_LIBRARY=${DASHBOARD_DIR}/bin/Ice-clang-Nightly/lib/otb/libOTBIce.so
 
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
 QWT_LIBRARY:PATH=/usr/lib64/libqwt.so.5
