@@ -14,6 +14,8 @@ set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "")
 set (CTEST_USE_LAUNCHERS ON)
 
+set (ICE_INSTALL_PREFIX "/home/otbval/Dashboard/nightly/Ice/install")
+
 set (ICE_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
@@ -28,10 +30,7 @@ ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
 OTB_DIR:PATH=/home/otbval/Dashboard/nightly/OTB-Release/install/lib/otb
 
 BUILD_TESTING:BOOL=ON
-CMAKE_INSTALL_PREFIX:PATH=/home/otbval/Dashboard/nightly/Ice/install
-
-# GLFW_INCLUDE_DIR:PATH=$ENV{HOME}/Tools/glfw/install/include
-# GLFW_LIBRARY:FILEPATH=$ENV{HOME}/Tools/glfw/install/lib/libglfw3.a
+CMAKE_INSTALL_PREFIX:STRING=${ICE_INSTALL_PREFIX}
 
 BUILD_ICE_APPLICATION:BOOL=OFF
 ")
@@ -51,5 +50,5 @@ file (WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ICE_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files (${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-#ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
+ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
 ctest_submit ()
