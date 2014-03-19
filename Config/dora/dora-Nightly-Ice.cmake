@@ -3,8 +3,8 @@ set (ENV{LANG} "C")
 
 set (CTEST_BUILD_CONFIGURATION "Release")
 
-set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Ice/src")
-set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/nightly/Ice/build")
+set (CTEST_SOURCE_DIRECTORY "/home/otbval/Dashboard/nightly/Ice/src")
+set (CTEST_BINARY_DIRECTORY "/home/otbval/Dashboard/nightly/Ice/build")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j6 -i -k install" )
@@ -25,10 +25,10 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
 ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
 
-OTB_DIR:PATH=/home/otbval/Dashboard/nightly/OTB-Release/install
+OTB_DIR:PATH=/home/otbval/Dashboard/nightly/OTB-Release/install/lib/otb
 
 BUILD_TESTING:BOOL=ON
-CMAKE_INSTALL_PREFIX:PATH=$ENV{HOME}/Dashboard/nightly/Ice/install
+CMAKE_INSTALL_PREFIX:PATH=/home/otbval/Dashboard/nightly/Ice/install
 
 # GLFW_INCLUDE_DIR:PATH=$ENV{HOME}/Tools/glfw/install/include
 # GLFW_LIBRARY:FILEPATH=$ENV{HOME}/Tools/glfw/install/lib/libglfw3.a
