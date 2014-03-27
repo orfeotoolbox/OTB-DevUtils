@@ -10,11 +10,13 @@ set (CTEST_SOURCE_DIRECTORY "${DASHBOARD_DIR}/trunk/Ice")
 set (CTEST_BINARY_DIRECTORY "${DASHBOARD_DIR}/bin/Ice-clang-Nightly")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
+set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 set (CTEST_SITE "pc-christophe.cst.cnes.fr" )
 set (CTEST_BUILD_NAME "Fedora20-64bits-clang-${CTEST_BUILD_CONFIGURATION}")
 set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "-C")
+
+set (ICE_INSTALL_PREFIX "${DASHBOARD_DIR}/install/Ice-clang-Nightly")
 
 set (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
@@ -30,6 +32,8 @@ GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
 ITK_DIR:PATH=${DASHBOARD_DIR}/bin/ITKv4-upstream-Release
 OTB_DIR:PATH=${DASHBOARD_DIR}/bin/OTB-clang-Nightly
 BUILD_ICE_APPLICATION:BOOL=ON
+CMAKE_INSTALL_PREFIX:STRING=${ICE_INSTALL_PREFIX}
+
 ")
 
 set (CTEST_NOTES_FILES
@@ -37,6 +41,8 @@ ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
+execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${ICE_INSTALL_PREFIX})
+execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${ICE_INSTALL_PREFIX})
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 ctest_start (Nightly)

@@ -37,8 +37,8 @@ OTB_DIR:PATH=${DASHBOARD_DIR}/bin/OTB-Nightly
 BUILD_TESTING:BOOL=ON
 
 #otbIce
-ICE_INCLUDE_DIR=${DASHBOARD_DIR}/bin/Ice-Nightly/include/otb/
-ICE_LIBRARY=${DASHBOARD_DIR}/bin/Ice-Nightly/lib/otb/libOTBIce.so
+ICE_INCLUDE_DIR=${DASHBOARD_DIR}/install/Ice-Nightly/include/otb/
+ICE_LIBRARY=${DASHBOARD_DIR}/install/Ice-Nightly/lib/otb/libOTBIce.so
 
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
 QWT_LIBRARY:PATH=/usr/lib64/libqwt.so.5
