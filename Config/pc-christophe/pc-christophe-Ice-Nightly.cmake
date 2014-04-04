@@ -28,7 +28,10 @@ CMAKE_CXX_FLAGS:STRING=-Wall
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
 OTB_DIR:PATH=${DASHBOARD_DIR}/bin/OTB-Nightly
-ITK_DIR:PATH=${DASHBOARD_DIR}/bin/ITKv4-upstream-Release
+##internal ITK is used in OTB-Nightly unlike the clang Nightly build
+##link failing due to that. see dashboard build
+##http://dash.orfeo-toolbox.org/viewBuildError.php?buildid=143734
+##ITK_DIR:PATH=${DASHBOARD_DIR}/bin/ITKv4-upstream-Release
 BUILD_ICE_APPLICATION:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=${ICE_INSTALL_PREFIX}
 ")
