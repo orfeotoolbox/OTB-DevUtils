@@ -22,24 +22,20 @@ set (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
-
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/OTB/trunk/OTB-Data
-
 CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
-
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-ITK_DIR:PATH=${DASHBOARD_DIR}/bin/ITKv4-upstream-Release
 OTB_DIR:PATH=${DASHBOARD_DIR}/bin/OTB-Nightly
-
 BUILD_TESTING:BOOL=ON
 
 #otbIce
 ICE_INCLUDE_DIR=${DASHBOARD_DIR}/install/Ice-Nightly/include/otb/
 ICE_LIBRARY=${DASHBOARD_DIR}/install/Ice-Nightly/lib/otb/libOTBIce.so
 
+#Qwt
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
 QWT_LIBRARY:PATH=/usr/lib64/libqwt.so.5
 
