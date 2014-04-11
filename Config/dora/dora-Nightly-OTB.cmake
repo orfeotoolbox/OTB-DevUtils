@@ -25,8 +25,9 @@ set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
 set(ENV{DISPLAY} ":0.0")
-set(ENV{LD_LIBRARY_PATH} "/home/otbval/Tools/OpenJpeg/install/lib:$ENV{LD_LIBRARY_PATH}")
-set(ENV{GDAL_DRIVER_PATH} "/home/otbval/Tools/gdal_plugin")
+# disable GDAL OpenJpeg plugin for now due to symbol confusion (OTB-297)
+#set(ENV{LD_LIBRARY_PATH} "/home/otbval/Tools/OpenJpeg/install/lib:$ENV{LD_LIBRARY_PATH}")
+#set(ENV{GDAL_DRIVER_PATH} "/home/otbval/Tools/gdal_plugin")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -58,8 +59,6 @@ OTB_USE_EXTERNAL_BOOST:BOOL=ON
 OTB_USE_EXTERNAL_EXPAT:BOOL=ON
 OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_OPENCV:BOOL=ON
-OTB_USE_JPEG2000:BOOL=OFF
-OTB_USE_JPEG2000_TESTING:BOOL=ON
 
     ")
 endmacro()
