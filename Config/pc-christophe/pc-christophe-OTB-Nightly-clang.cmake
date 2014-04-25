@@ -18,7 +18,8 @@ set(dashboard_binary_name "bin/OTB-clang-3rdPartiesTrunk")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
-set(OTB_INSTALL_PREFIX "/home/otbtesting/install/OTB-clang-3rdPartiesTrunk")
+set(INSTALLROOT "/home/otbtesting/install")
+set(OTB_INSTALL_PREFIX "${INSTALLROOT}/OTB-clang-3rdPartiesTrunk")
 
 #set(ENV{DISPLAY} ":0.0")
 
