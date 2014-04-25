@@ -49,7 +49,7 @@ OTB_WRAP_JAVA:BOOL=ON
 #external ITK
 OTB_USE_EXTERNAL_ITK:BOOL=ON
 #install location of ITK trunk build
-ITK_DIR:STRING=${INSTALLROOT}/ITK_trunk-Release
+ITK_DIR:PATH=${INSTALLROOT}/ITK_trunk-Release/lib/cmake/ITK-4.5
 
 ##external OSSIM
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
