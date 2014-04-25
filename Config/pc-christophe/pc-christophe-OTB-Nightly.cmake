@@ -5,7 +5,7 @@ SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Fedora20-64bits-Internal-ITK-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 set(CTEST_HG_COMMAND "/usr/bin/hg")
@@ -19,6 +19,7 @@ set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
 #set(ENV{DISPLAY} ":0.0")
+set(OTB_INSTALL_PREFIX "/home/otbtesting/install/OTB-InternalITK-Release")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
@@ -29,6 +30,7 @@ OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
 
 CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs -Wno-cpp
+CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON

@@ -17,6 +17,8 @@ set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "-C")
 set (CTEST_USE_LAUNCHERS ON)
 
+set(INSTALLROOT "/home/otbtesting/install/OTB-clang-3rdPartiesTrunk")
+
 set (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
@@ -24,26 +26,29 @@ CTEST_USE_LAUNCHERS:BOOL=ON
 
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
-
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
-OTB_DATA_ROOT:STRING=$ENV{HOME}/OTB/trunk/OTB-Data
 
 CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-ITK_DIR:PATH=${DASHBOARD_DIR}/bin/ITKv4-upstream-Release
-OTB_DIR:PATH=${DASHBOARD_DIR}/bin/OTB-clang-Nightly
 
-BUILD_TESTING:BOOL=ON
+#data dir
+OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
+OTB_DATA_ROOT:STRING=${DASHBOARD_DIR}/trunk/OTB-Data
 
-#otbIce
-ICE_INCLUDE_DIR=${DASHBOARD_DIR}/install/Ice-clang-Nightly/include/otb/
-ICE_LIBRARY=${DASHBOARD_DIR}/install/Ice-clang-Nightly/lib/otb/libOTBIce.so
+#otb, itk, ice 
+ITK_DIR:PATH=${INSTALLROOT}/ITK_trunk-Release
+OTB_DIR:PATH=${INSTALLROOT}/OTB-clang-3rdPartiesTrunk
+ICE_INCLUDE_DIR=${INSTALLROOT}/Ice-clang-Release/include/otb/
+ICE_LIBRARY:FILEPATH=${INSTALLROOT}/Ice-clang-Release/lib/otb/libOTBIce.so
 
+#qwt
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
 QWT_LIBRARY:PATH=/usr/lib64/libqwt.so.5
+
+#enable Testing
+BUILD_TESTING:BOOL=ON
 
 ")
 

@@ -18,6 +18,8 @@ set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "-C")
 set (CTEST_USE_LAUNCHERS ON)
 
+set(INSTALLROOT "/home/otbtesting/install")
+
 set (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
@@ -28,12 +30,12 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/OTB/trunk/OTB-Data
 CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-OTB_DIR:PATH=${DASHBOARD_DIR}/bin/OTB-Nightly
+OTB_DIR:PATH=${INSTALL_ROOT}/OTB-InternalITK-Release
 BUILD_TESTING:BOOL=ON
 
 #otbIce
-ICE_INCLUDE_DIR=${DASHBOARD_DIR}/install/Ice-Nightly/include/otb/
-ICE_LIBRARY=${DASHBOARD_DIR}/install/Ice-Nightly/lib/otb/libOTBIce.so
+ICE_INCLUDE_DIR=${INSTALLROOT}/Ice-Debug/include/otb/
+ICE_LIBRARY=${INSTALLROOT}/Ice-Debug/lib/otb/libOTBIce.so
 
 #Qwt
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4

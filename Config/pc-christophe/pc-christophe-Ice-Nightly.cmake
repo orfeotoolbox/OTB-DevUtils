@@ -16,7 +16,8 @@ set (CTEST_BUILD_NAME "Fedora20-64bits-${CTEST_BUILD_CONFIGURATION}")
 set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "-C")
 
-set (ICE_INSTALL_PREFIX "${DASHBOARD_DIR}/install/Ice-Nightly")
+set(INSTALLROOT "/home/otbtesting/install")
+set (ICE_INSTALL_PREFIX "${INSTALLROOT}/Ice-${CTEST_BUILD_CONFIGURATION}")
 
 set (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
@@ -27,7 +28,8 @@ CMAKE_CXX_FLAGS:STRING=-Wall
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
-OTB_DIR:PATH=${DASHBOARD_DIR}/bin/OTB-Nightly
+OTB_DIR:PATH=/home/otbtesting/install/OTB-InternalITK-Release
+
 ##internal ITK is used in OTB-Nightly unlike the clang Nightly build
 ##link failing due to that. see dashboard build
 ##http://dash.orfeo-toolbox.org/viewBuildError.php?buildid=143734
