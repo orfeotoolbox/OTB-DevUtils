@@ -1,17 +1,16 @@
 #!/bin/bash
 
-if [ $# -ne 2 ]; then
- echo 'Usage: $0 <path/to/ossim_trunk> <install-dir>'
- echo 'Usage: $0 /home/user/sources/ /home/rashad/'
+if [ $# -ne 1 ]; then
+ echo 'Usage: '$0' <path/to/ossim_trunk>'
+ echo 'Usage: '$0' /home/user/sources/ossim'
  exit;
 fi
 
 
-OSSIM_REPOSITORY_ROOT=$1'/ossim_trunk'
-INSTALLROOT=$2
-OSSIM_BUILD=$1/build-ossim
-OSSIM_INSTALL=$INSTALLROOT/ossim-install
-
+OSSIM_REPOSITORY_ROOT=$1
+INSTALLROOT=$HOME/install
+BUILDROOT=$HOME/build
+OSSIM_BUILD=$BUILDROOT/ossim_
 OSSIM_SRC=$OSSIM_REPOSITORY_ROOT/ossim
 
 #update src
@@ -20,25 +19,21 @@ svn update
 
 if [ -d "$OSSIM_BUILD" ]; then
     # clean up build dir
-    command="rm -f $OSSIM_BUILD/CMakeCache.txt;rm -fr $OSSIM_BUILD/CMakeFiles"
-    echo $command
+    /bin/rm -fr $OSSIM_BUILD/*
 else
     mkdir $OSSIM_BUILD
 fi
-if [ -d "$OSSIM_INSTALL" ]; then
-    # clean up install dir
-    command="rm -f $OSSIM_INSTALL/include; rm -fr $OSSIM_INSTALL/lib"
-    echo $command
-else
-    mkdir $OSSIM_INSTALL
-fi
+echo 'OSSIM_SRC='$OSSIM_SRC
+echo 'OSSIM_BUILD='$OSSIM_BUILD
+echo 'OSSIM_INSTALL='$INSTALLROOT
+
 
 #configure. all ossimplanet and gui related are disabled
 #mpi support is also disabled
 cd $OSSIM_BUILD
 cmake $OSSIM_SRC \
     -DCMAKE_MODULE_PATH=$OSSIM_REPOSITORY_ROOT/ossim_package_support/cmake/CMakeModules \
-    -DCMAKE_INSTALL_PREFIX:STRING=$OSSIM_INSTALL \
+    -DCMAKE_INSTALL_PREFIX:STRING=$INSTALLROOT \
     -DCMAKE_BUILD_TYPE:STRING=Release \
     -DBUILD_OSSIM_FRAMEWORKS:BOOL=ON \
     -DBUILD_OSSIM_FREETYPE_SUPPORT:BOOL=ON \
@@ -50,5 +45,5 @@ cmake $OSSIM_SRC \
 #build
 make -j8
 
-#install to $OSSIM_INSTALL
+#install to $INSTALLROOT
 make install

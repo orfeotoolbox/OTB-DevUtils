@@ -1,45 +1,34 @@
 #!/bin/bash
 
-if [ $# -ne 3 ]; then
- echo 'Usage: $0 <source-dir> <package-name> <install-dir>'
- echo 'Usage: $0 /home/user/sources/ opencv_trunk /home/user/local'
+if [ $# -ne 1 ]; then
+ echo 'Usage: '$0' <source-dir>'
+ echo 'Usage: '$0' /home/user/sources/opencv_trunk'
  exit;
 fi
 
 SOURCEROOT=$1
-PACKAGE=$2
-INSTALLROOT=$3
-
-PACKAGE_SRC=$SOURCEROOT'/'$PACKAGE
-PACKAGE_BUILD=$SOURCEROOT'/build-'$PACKAGE
-PACKAGE_INSTALL=$INSTALLROOT'/'$PACKAGE'-install'
+INSTALLROOT=$HOME/install
+PACKAGE_BUILD=$HOME'/build/opencv_'
 
 #update src
-cd $PACKAGE_SRC
+cd $SOURCEROOT
 git pull
 
 if [ -d "$PACKAGE_BUILD" ]; then
     # clean up build dir
-    command="rm -fr $PACKAGE_BUILD"
-    echo $command
+    /bin/rm -fr $PACKAGE_BUILD
 else
     mkdir $PACKAGE_BUILD
 fi
-if [ -d "$PACKAGE_INSTALL" ]; then
-    # clean up install dir
-    command="rm -f $PACKAGE_INSTALL"
-    echo $command
-else
-    mkdir $PACKAGE_INSTALL
-fi
 
-echo 'PACKAGE_SRC='$PACKAGE_SRC
+echo 'PACKAGE_SRC='$SOURCEROOT
 echo 'PACKAGE_BUILD='$PACKAGE_BUILD
-echo 'PACKAGE_INSTALL='$PACKAGE_INSTALL
+echo 'PACKAGE_INSTALL='$INSTALLROOT
+
 #configure opencv
 cd $PACKAGE_BUILD
 cmake $PACKAGE_SRC \
-    -DCMAKE_INSTALL_PREFIX:STRING=$PACKAGE_INSTALL \
+    -DCMAKE_INSTALL_PREFIX:STRING=$INSTALLROOT \
     -DCMAKE_BUILD_TYPE:STRING=Release \
     -DBUILD_PACKAGE:BOOL=OFF \
     -DBUILD_SHARED_LIBS:BOOL=ON
@@ -47,5 +36,5 @@ cmake $PACKAGE_SRC \
 #build
 make -j8
 
-#install to $PACKAGE_INSTALL
+#install to $INSTALLROOT
 make install
