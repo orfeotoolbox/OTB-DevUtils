@@ -3,7 +3,7 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Fedora20-64bits-clang-3rdPartiesTrunk-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "Fedora20-64bits-clang-ThirdPartyTrunk-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -i -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -12,27 +12,23 @@ set(CTEST_HG_COMMAND "/usr/bin/hg")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "trunk/OTB")
-set(dashboard_binary_name "bin/OTB-clang-3rdPartiesTrunk")
+set(dashboard_binary_name "bin/OTB-clang-ThirdPartyTrunk")
 
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
 set(INSTALLROOT "/home/otbtesting/install")
-set(OTB_INSTALL_PREFIX "${INSTALLROOT}/OTB-clang-3rdPartiesTrunk")
+set(OTB_INSTALL_PREFIX "${INSTALLROOT}/OTB-clang-ThirdPartyTrunk")
 
 #set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
-OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
-
-OTB_DATA_ROOT:STRING=${CTEST_DASBOARD_ROOT}/trunk/OTB-Data
 
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
-CMAKE_INSTALL_PREFIX={OTB_INSTALL_PREFIX}
 
 CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
@@ -45,14 +41,22 @@ OTB_WRAP_PYTHON:BOOL=ON
 PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 OTB_WRAP_QT:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
+OTB_USE_EXTERNAL_BOOST:BOOL=ON
+OTB_USE_EXTERNAL_EXPAT:BOOL=ON
+OTB_USE_EXTERNAL_LIBKML:BOOL=ON
+OTB_USE_MAPNIK:BOOL=OFF
+OTB_USE_OPENCV:BOOL=ON
+OTB_USE_EXTERNAL_ITK:BOOL=ON
+OTB_USE_EXTERNAL_OSSIM:BOOL=ON
+
+OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
+OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/trunk/OTB-Data
 
 #external ITK
-OTB_USE_EXTERNAL_ITK:BOOL=ON
 #install location of ITK trunk build
-ITK_DIR:PATH=${INSTALLROOT}/ITK_trunk-Release/lib/cmake/ITK-4.5
+ITK_DIR:PATH=${INSTALLROOT}/ITK_trunk-Release/lib/cmake/ITK-4.6
 
 ##external OSSIM
-OTB_USE_EXTERNAL_OSSIM:BOOL=ON
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/include
 OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/lib64/libossim.so
 
@@ -64,14 +68,8 @@ GDAL_CONFIG:FILEPATH=${INSTALLROOT}/bin/gdal-config
 GDAL_INCLUDE_DIR:PATH=${INSTALLROOT}/include/
 GDAL_LIBRARY:FILEPATH=${INSTALLROOT}/lib/libgdal.so
 
-OTB_USE_EXTERNAL_BOOST:BOOL=ON
-OTB_USE_EXTERNAL_EXPAT:BOOL=OFF
-OTB_USE_EXTERNAL_LIBKML:BOOL=ON
-OTB_USE_MAPNIK:BOOL=OFF
-OTB_USE_OPENCV:BOOL=ON
+CMAKE_INSTALL_PREFIX=${OTB_INSTALL_PREFIX}
 
-#MAPNIK_INCLUDE_DIR:STRING=/usr/include
-#MAPNIK_LIBRARY:STRING=/usr/lib/libmapnik.so
  ")
 endmacro()
 
