@@ -1,26 +1,31 @@
+
 # Client maintainer: julien.malik@c-s.fr
 SET(ENV{DISPLAY} ":0.0")
 
 set(dashboard_model Experimental)
-set(CTEST_DASHBOARD_ROOT "/home/otbtesting/OTB")
+set(CTEST_DASHBOARD_ROOT "/home/otbtesting/")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "OrfeoToolBox-Fedora20-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 
 set(dashboard_root_name "tests")
-set(dashboard_source_name "trunk/ITK")
-set(dashboard_binary_name "bin/ITKv4-upstream-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_source_name "code/ITK_trunk")
+set(dashboard_binary_name "build/ITK_trunk-${CTEST_BUILD_CONFIGURATION}")
 
+
+set(INSTALLROOT "/home/otbtesting/install")
+set (ITK_INSTALL_PREFIX "${INSTALLROOT}/ITK_trunk-${CTEST_BUILD_CONFIGURATION}")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
+CMAKE_INSTALL_PREFIX=${ITK_INSTALL_PREFIX}
 
 BUILD_SHARED_LIBS:BOOL=ON
 BUILD_TESTING:BOOL=ON
@@ -36,7 +41,7 @@ ITK_USE_SYSTEM_HDF5:BOOL=ON
 ITK_USE_SYSTEM_GDCM:BOOL=OFF
 ITK_USE_SYSTEM_JPEG:BOOL=ON
 ITK_USE_SYSTEM_PNG:BOOL=ON
-ITK_USE_SYSTEM_TIFF:BOOL=OFF
+ITK_USE_SYSTEM_TIFF:BOOL=ON
 ITK_USE_SYSTEM_ZLIB:BOOL=ON
 
 # OTB depends on this
