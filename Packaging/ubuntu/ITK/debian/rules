@@ -3,35 +3,91 @@
 VER_MAJOR = 4
 VER_MINOR = 5
 
+export DEB_LDFLAGS_MAINT_APPEND = "-Wl,--as-needed"
+
+# TODO: turn on the following:
+#
+# system HDF5 (omits C++ bindings; Bug #660547)
+# system FFTW (test failures; see http://lists.debian.org/debian-med/2012/04/msg00064.html)
+#             ( __float128 not parsed by gccxml on i386
+#              http://public.kitware.com/pipermail/gccxml/2011-December/thread.html#1470
+#              http://www.gccxml.org/Bug/view.php?id=14794)
+#
+# system VXL (Bug #656837)
+# Module_ITKLevelSetsv4Visualization (https://issues.itk.org/jira/browse/ITK-2856)
+# Module_ITKVideoBridgeOpenCV (undiagnosed build error)
+# Module_ITKVideoBridgeVXL (undiagnosed build error)
+# Module_ITKVtkGlue (https://issues.itk.org/jira/browse/ITK-2856)
+
+# multi-python, no idea how to do this without re-compiling all and everything for
+#     each python version
+
+ifndef DIST
+    DIST=$(shell /usr/bin/lsb_release -s -c)
+endif
+
+ifndef PKGVERSION
+    PKGVERSION=1
+endif
+
+ifeq ($(DEB_BUILD_ARCH),i386)
+    ENABLE_FFTW = OFF
+    # ITK tests are not reliables on 32 bits systems
+    ENABLE_TESTING = OFF
+else
+    ENABLE_FFTW = ON
+    ENABLE_TESTING = ON
+endif
+
+ifeq ($(DIST),$(filter $(DIST), precise trusty))
+    ENABLE_SYSTEM_TIFF = ON
+    CONTROL_IN_FILE = control.in.$(DIST)
+else
+    ENABLE_SYSTEM_TIFF = OFF
+    CONTROL_IN_FILE = control.in
+endif
+
+# test:
+# 	@echo "	 ENABLE_SYSTEM_TIFF:       $(ENABLE_SYSTEM_TIFF)"
+# 	@echo "	 CONTROL_IN_FILE:          $(CONTROL_IN_FILE)"
+# 	@echo "	 DEB_LDFLAGS_MAINT_APPEND: $(DEB_LDFLAGS_MAINT_APPEND)"
+# 	@echo "	 DIST:                     $(DIST)"
+# 	@echo "	 PKGVERSION:               $(PKGVERSION)"
+
 CMAKE_FLAGS = \
-	-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+	-DBUILD_EXAMPLES:BOOL=ON \
 	-DBUILD_SHARED_LIBS:BOOL=ON \
+	-DBUILD_TESTING:BOOL=$(ENABLE_TESTING) \
+	-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
 	-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
 	-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-	-DITKV3_COMPATIBILITY:BOOL=ON \
+	-DUSE_FFTWF=$(ENABLE_FFTW) \
+	-DITK_USE_FFTWD:BOOL=$(ENABLE_FFTW) \
+	-DITK_USE_FFTWF:BOOL=$(ENABLE_FFTW) \
+	-DITK_USE_SYSTEM_FFTW:BOOL=$(ENABLE_FFTW) \
 	-DITK_USE_STRICT_CONCEPT_CHECKING:BOOL=ON \
 	-DITK_USE_SYSTEM_DCMTK:BOOL=ON \
 	-DITK_USE_SYSTEM_GDCM:BOOL=ON \
+	-DITK_USE_SYSTEM_DOUBLECONVERSION:BOOL=OFF \
 	-DITK_USE_SYSTEM_HDF5:BOOL=OFF \
 	-DITK_USE_SYSTEM_JPEG:BOOL=ON \
 	-DITK_USE_SYSTEM_PNG:BOOL=ON \
-	-DITK_USE_SYSTEM_TIFF:BOOL=OFF \
+	-DITK_USE_SYSTEM_TIFF:BOOL=$(ENABLE_SYSTEM_TIFF) \
 	-DITK_USE_SYSTEM_VXL:BOOL=OFF \
 	-DITK_USE_SYSTEM_ZLIB:BOOL=ON \
+	-DITK_USE_SYSTEM_GCCXML:BOOL=ON \
 	-DModule_ITKDCMTK:BOOL=ON \
-	-DModule_ITKIOPhilipsREC:BOOL=ON \
+	-DModule_ITKIOPhilipsREC:BOOL=OFF \
 	-DModule_ITKLevelSetsv4Visualization:BOOL=OFF \
 	-DModule_ITKReview:BOOL=ON \
 	-DModule_ITKVideoBridgeOpenCV:BOOL=OFF \
 	-DModule_ITKVideoBridgeVXL:BOOL=OFF \
 	-DModule_ITKVtkGlue:BOOL=OFF \
-	-DITK_USE_FFTWD:BOOL=ON \
-	-DITK_USE_FFTWF:BOOL=ON \
-	-DITK_USE_SYSTEM_FFTW:BOOL=ON \
 	-DVCL_INCLUDE_CXX_0X:BOOL=ON \
-	-DBUILD_EXAMPLES:BOOL=ON \
-	-DBUILD_TESTING:BOOL=ON
+        -DITK_USE_SYSTEM_SWIG:BOOL=ON \
+        -DITK_WRAPPING:BOOL=OFF \
+        -DITK_WRAP_PYTHON:BOOL=OFF
 
 SOVERSION = $(VER_MAJOR).$(VER_MINOR)
 
@@ -55,7 +111,6 @@ override_dh_auto_test:
 
 override_dh_lintian:
 	echo "$(pkg_lib): package-name-doesnt-match-sonames" > debian/$(pkg_lib).lintian-overrides
-	echo "$(pkg_lib): embedded-library usr/lib/libitktiff-4.5.so.1: tiff" >> debian/$(pkg_lib).lintian-overrides
 	dh_lintian
 
 override_dh_install:
@@ -69,10 +124,14 @@ override_dh_install:
 	dh_installman -p$(pkg_dev) debian/insighttoolkit.3
 	dh_installdocs -p$(pkg_dev) Documentation/*
 	dh_install -p$(pkg_dev) -XJava -XPython -XTcl debian/tmp/usr/lib/lib*.so usr/lib
+
+	# this is only for libITKGDCM which is a stub
+	dh_install -p$(pkg_dev) -XJava -XPython -XTcl debian/tmp/usr/lib/lib*.a usr/lib
+
 	dh_install -p$(pkg_dev) --autodest debian/tmp/usr/include/ITK-$(SOVERSION)/*
-	dh_install -p$(pkg_dev) --autodest debian/tmp/usr/lib/cmake
 	dh_install -p$(pkg_dev) --autodest debian/tmp/usr/bin/itkTestDriver
-#	dh_install -p$(pkg_dev) Wrapping/WrapITK /usr/src
+
+	dh_install -p$(pkg_dev) --autodest debian/tmp/usr/lib/cmake
 
 override_dh_installexamples:
 	# pkg_examples
@@ -85,8 +144,17 @@ endif
 control-file:
 	sed -e "s/@VER_MAJOR@/$(VER_MAJOR)/g" \
 	    -e "s/@SOVERSION@/$(SOVERSION)/g" \
-	    < debian/control.in > debian/control.tmp
+	    < debian/$(CONTROL_IN_FILE) > debian/control.tmp
 	[ -e debian/control ] \
 	  && cmp -s debian/control debian/control.tmp \
 	  && rm -f debian/control.tmp && exit 0; \
 	  mv debian/control.tmp debian/control
+
+changelog-file:
+	sed -e "s/@DIST@/$(DIST)/g" \
+	    -e "s/@PKGVERSION@/$(PKGVERSION)/g" \
+	    < debian/changelog.in > debian/changelog.tmp
+	[ -e debian/changelog ] \
+	  && cmp -s debian/changelog debian/changelog.tmp \
+	  && rm -f debian/changelog.tmp && exit 0; \
+	  mv debian/changelog.tmp debian/changelog

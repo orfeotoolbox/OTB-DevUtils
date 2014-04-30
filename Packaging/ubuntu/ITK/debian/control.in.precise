@@ -2,20 +2,28 @@ Source: insighttoolkit4
 Homepage: http://www.itk.org/
 Section: science
 Priority: optional
-Maintainer: Orfeo Toolbox Team <contact@orfeo-toolbox.org>
-XSBC-Original-Maintainer: Debian Med Packaging Team <debian-med-packaging@lists.alioth.debian.org>
+Maintainer: Debian Med Packaging Team <debian-med-packaging@lists.alioth.debian.org>
 Uploaders: Steve M. Robbins <smr@debian.org>
 Build-Depends: debhelper (>= 9),
- cmake, cableswig (>= 0.1.0+cvs20110226), gccxml (>= 0.9.0+cvs20110723),
- zlib1g-dev (>= 1.2.2), libpng12-dev, libvxl1-dev,
- libfftw3-dev, libdcmtk2-dev, dcmtk,
- uuid-dev, libgdcm2-dev,
- libvtk5-dev, python-vtk
+ 	cmake,
+	swig (>= 2.0),
+	gccxml,
+	zlib1g-dev (>= 1.2.2),
+	libpng12-dev,
+        libtiff4-dev,
+	libfftw3-dev,
+	libdcmtk2-dev,
+	libgdcm2-dev,
+	uuid-dev,
+	libhdf5-serial-dev,
+	python-all-dev,
+	libvtk5-dev,
+	python-vtk
 Standards-Version: 3.9.4
 Vcs-Browser: http://anonscm.debian.org/viewvc/debian-med/trunk/packages/insighttoolkit/trunk/
 Vcs-Svn: svn://svn.debian.org/debian-med/trunk/packages/insighttoolkit/trunk/
 
-Package: libinsighttoolkit4.5
+Package: libinsighttoolkit@SOVERSION@
 Section: libs
 Architecture: amd64 i386
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -32,14 +40,14 @@ Description: Image processing toolkit for registration and segmentation - runtim
  .
  This package contains the libraries needed to run ITK applications.
 
-Package: libinsighttoolkit4-dev
+Package: libinsighttoolkit@VER_MAJOR@-dev
 Section: libdevel
 Architecture: amd64 i386
-Depends: ${shlibs:Depends}, ${misc:Depends}, libinsighttoolkit4.5 (= ${binary:Version}),
- libdcmtk2-dev, dcmtk, libgdcm2-dev, libfftw3-dev, uuid-dev
+Depends: ${shlibs:Depends}, ${misc:Depends}, libinsighttoolkit@SOVERSION@ (= ${binary:Version}), libgdcm2-dev, libdcmtk2-dev
+Recommends: libfftw3-dev, uuid-dev
 Conflicts: libinsighttoolkit-dev, libinsighttoolkit3-dev
 Replaces: libinsighttoolkit-dev
-Suggests: insighttoolkit4-examples
+Suggests: insighttoolkit@VER_MAJOR@-examples
 Description: Image processing toolkit for registration and segmentation - development
  ITK is an open-source software toolkit for performing registration and
  segmentation. Segmentation is the process of identifying and
@@ -54,11 +62,11 @@ Description: Image processing toolkit for registration and segmentation - develo
  This package contains the development files needed to build your own
  ITK applications.
 
-Package: insighttoolkit4-examples
+Package: insighttoolkit@VER_MAJOR@-examples
 Section: devel
 Architecture: all
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Suggests: libinsighttoolkit4-dev
+Suggests: libinsighttoolkit@VER_MAJOR@-dev
 Conflicts: insighttoolkit-examples
 Replaces: insighttoolkit-examples
 Description: Image processing toolkit for registration and segmentation - examples
