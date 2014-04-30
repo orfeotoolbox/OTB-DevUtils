@@ -10,6 +10,7 @@ Group:         Development/Libraries
 License:       Cecill
 URL:           http://www.orfeo-toolbox.org
 Source0:       %{name}-%{version}.tar.gz
+Prefix:        /usr
 BuildRoot:     %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires: cmake >= 2.8.6 gdal-devel libgeotiff-devel gcc-c++ gcc freeglut-devel
@@ -66,7 +67,7 @@ cmake -DBUILD_EXAMPLES:BOOL=OFF \
       -DOTB_WRAP_QT:BOOL=ON \
       -DOTB_WRAP_PYTHON:BOOL=ON \
       -DOTB_INSTALL_LIB_DIR:PATH=%{_lib}/otb \
-      -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+      -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
       -DCMAKE_SKIP_RPATH:BOOL=ON \
       -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-%{version}/
 make VERBOSE=1 %{?_smp_mflags}
@@ -85,12 +86,19 @@ rm -rf ../temp
 %post
 LDCONFIG_FILE=/etc/ld.so.conf.d/otb.conf
 if [ ! -f "$LDCONFIG_FILE" ] ; then
-        cat > "$LDCONFIG_FILE" <<EOF
+if [ ${RPM_INSTALL_PREFIX} == %{_prefix} ] ; then
+cat > "$LDCONFIG_FILE" <<EOF
 # Orfeo Toolbox related search paths
 %{_libdir}/otb
 %{_libdir}/otb/applications
-%{_libdir}/otb/python
 EOF
+else
+cat > "$LDCONFIG_FILE" <<EOF
+# Orfeo Toolbox related search paths
+${RPM_INSTALL_PREFIX}/%{_lib}/otb
+${RPM_INSTALL_PREFIX}/%{_lib}/otb/applications
+EOF
+fi
 fi
 /sbin/ldconfig
 

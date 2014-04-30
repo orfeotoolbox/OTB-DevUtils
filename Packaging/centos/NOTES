@@ -11,7 +11,7 @@ Required extra repositories are:
 
 Optional extra repository:
 
-* RPMFORGE (http://wiki.centos.org/AdditionalResources/Repositories/RPMForge)
+* REPOFORGE (http://wiki.centos.org/AdditionalResources/Repositories/RPMForge)
 
 1.1. EPEL
 ---------
@@ -69,7 +69,7 @@ Optional extra repository:
    root@host:~# yum update
    ---------------------------------------------------------------------------
 
-1.3. RPMFORGE
+1.3. REPOFORGE
 -------------
 
    Get and import the GnuPG public key used to verify the packages:
@@ -79,11 +79,11 @@ Optional extra repository:
    root@host:~# rpm --import RPM-GPG-KEY.dag.txt
    ---------------------------------------------------------------------------
 
-   Get and install RPMFORGE repository configuration package:
+   Get and install REPOFORGE repository configuration package:
 
    ---------------------------------------------------------------------------
-   root@host:~# wget http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.i386.rpm
-   root@host:~# rpm -ivh rpmforge-release-0.5.2-2.el5.rf.i386.rpm
+   root@host:~# wget pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el5.rf.x86_64.rpm
+   root@host:~# rpm -ivh rpmforge-release-0.5.3-1.el5.rf.x86_64.rpm
    ---------------------------------------------------------------------------
 
    Update yum local database:
@@ -92,7 +92,7 @@ Optional extra repository:
    root@host:~# yum update
    ---------------------------------------------------------------------------
 
-   WARNING: RPMFORGE packages can be in conflict with those the other
+   WARNING: REPOFORGE packages can be in conflict with those the other
             repositories. In that case, you must temporarily deactivate this
             repository with the following command line:
 

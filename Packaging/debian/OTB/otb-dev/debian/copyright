@@ -1,6 +1,6 @@
 This work was packaged for Debian by:
 
-    OTB Team <contact@orfeo-toolbox.org> on Wed, 11 Feb 2014 11:26:32 +0100
+    OTB Team <contact@orfeo-toolbox.org> on Wed, 09 Apr 2014 15:44:20 +0200
 
 It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
 
@@ -14,7 +14,7 @@ Orfeo-Toolbox (OTB).
 Internal dependencies (included third-party works):
 
 * ITK (http://www.itk.org/),
-  distributed under the revised BSD license
+  distributed under the Apache 2.0 license
   (see Copyright/ITKCopyright.txt or
        http://www.itk.org/ITK/project/license.html)
 
