@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script to automate the Orfeo Toolbox library packaging for Ubuntu.
 #
-# Copyright (C) 2010-2013 CNES - Centre National d'Etudes Spatiales
+# Copyright (C) 2010-2014 CNES - Centre National d'Etudes Spatiales
 # by Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
 # The OTB is distributed under the CeCILL license version 2. See files
@@ -34,7 +34,7 @@ elif [ "${DIRNAME:0:1}" == "." ] ; then
 else
     CMDDIR=$(pwd)/$DIRNAME
 fi
-DEBDIR=$CMDDIR/debian
+DEBDIR=$CMDDIR/debian.3
 DEFAULT_GPGKEYID=0xAEB3D22F
 
 
