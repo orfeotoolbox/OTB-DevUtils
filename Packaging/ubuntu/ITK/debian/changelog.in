@@ -1,3 +1,10 @@
+insighttoolkit4 (4.5.2-1otb2~@DIST@@PKGVERSION@) @DIST@; urgency=medium
+
+  * Tests disabled on all platforms
+  * FFTW enabled on all platforms
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 01 May 2014 21:57:44 +0200
+
 insighttoolkit4 (4.5.2-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=medium
 
   * Python wrapping removed
@@ -5,7 +12,7 @@ insighttoolkit4 (4.5.2-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=medium
     library because it does not work with version 4.0.2 of external
     TIFF library available on these Ubuntu versions.
 
- -- OTB Team <contact@orfeo-toolbox.org>  Thu, 30 Apr 2014 13:59:30 +0200
+ -- OTB Team <contact@orfeo-toolbox.org>  Wed, 30 Apr 2014 13:59:30 +0200
 
 insighttoolkit4 (4.5.2-1) unstable; urgency=medium
 
