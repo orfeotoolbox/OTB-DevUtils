@@ -1,3 +1,10 @@
+insighttoolkit4 (4.5.2-1otb3~@DIST@@PKGVERSION@) @DIST@; urgency=medium
+
+  * Tests disabled on all platforms
+  * FFTW enabled on amd64 platforms and disabled on i386 platforms
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 02 May 2014 11:01:10 +0200
+
 insighttoolkit4 (4.5.2-1otb2~@DIST@@PKGVERSION@) @DIST@; urgency=medium
 
   * Tests disabled on all platforms
