@@ -1,5 +1,4 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
 #
 # Copyright (C) 2010-2014 CNES - Centre National d'Etudes Spatiales
 # Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
@@ -14,8 +13,15 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DPKG_EXPORT_BUILDFLAGS = 1
-include /usr/share/dpkg/buildflags.mk
+export DEB_LDFLAGS_MAINT_APPEND = "-Wl,--as-needed"
+
+ifndef DIST
+    DIST=$(shell /usr/bin/lsb_release -s -c)
+endif
+
+ifndef PKGVERSION
+    PKGVERSION=1
+endif
 
 OTB_VERSION_MAJOR  = $(shell sed -ne 's/set(OTB_VERSION_MAJOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
 OTB_VERSION_MINOR  = $(shell sed -ne 's/set(OTB_VERSION_MINOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
@@ -23,7 +29,7 @@ OTB_VERSION_PATCH  = $(shell sed -ne 's/set(OTB_VERSION_PATCH "\([0-9]*\)")/\1/p
 OTB_VERSION_SONAME = "$(OTB_VERSION_MAJOR).$(OTB_VERSION_MINOR)"
 OTB_VERSION_FULL   = "$(OTB_VERSION_MAJOR).$(OTB_VERSION_MINOR).$(OTB_VERSION_PATCH)"
 
-CMAKE_EXTRA_FLAGS += \
+CMAKE_FLAGS = \
 	-DCMAKE_INSTALL_PREFIX=/usr \
 	-DCMAKE_BUILD_TYPE:STRING=Release \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
@@ -41,14 +47,13 @@ CMAKE_EXTRA_FLAGS += \
 	-DOTB_WRAP_QT:BOOL=ON \
 	-DOTB_WRAP_PYTHON:BOOL=ON
 
-# OTB_LIB_DIRS = /usr/lib/otb:/usr/lib/otb/applications:/usr/lib/otb/python
 OTB_LIB_DIRS = /usr/lib/otb
 
 %:
 	dh $@ --parallel
 
 override_dh_auto_configure:
-	dh_auto_configure -- $(CMAKE_EXTRA_FLAGS)
+	dh_auto_configure -- $(CMAKE_FLAGS)
 
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OTB_LIB_DIRS) dh_shlibdeps
@@ -60,3 +65,8 @@ control-file:
 	    -e "s/@OTB_VERSION_SONAME@/$(OTB_VERSION_SONAME)/g" \
 	    -e "s/@OTB_VERSION_FULL@/$(OTB_VERSION_FULL)/g" \
 	    < debian/control.in > debian/control
+
+changelog-file:
+	sed -e "s/@DIST@/$(DIST)/g" \
+	    -e "s/@PKGVERSION@/$(PKGVERSION)/g" \
+	    < debian/changelog.in > debian/changelog

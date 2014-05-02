@@ -1,4 +1,4 @@
-otb (4.0.0-1otb1~trusty1) trusty; urgency=low
+otb (4.0.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
 
   * Switch to ITK 4.5.2
 
