@@ -1,0 +1,238 @@
+Description: <short summary of the patch>
+ ENH: Added soname to Monteverdi libraries
+ .
+ monteverdi (1.20.0-1otb1~saucy1) saucy; urgency=low
+ .
+   * Switch to OTB 4.0.0
+   * Added legacy visualisation library based on OTB widgets (at the same
+     time, they were removed from OTB sources)
+   * Build with external FLTK library
+Author: OTB Team <contact@orfeo-toolbox.org>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+Index: monteverdi-1.20.0/CMakeLists.txt
+===================================================================
+--- monteverdi-1.20.0.orig/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
++++ monteverdi-1.20.0/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
+@@ -19,11 +19,14 @@
+ SET(Monteverdi_VERSION_MINOR "20")
+ SET(Monteverdi_VERSION_PATCH "0")
+ 
+-
+ # Version string should not include patch level.  The major.minor is
+ # enough to distinguish available features of the toolkit.
+ SET(Monteverdi_VERSION_STRING "${Monteverdi_VERSION_MAJOR}.${Monteverdi_VERSION_MINOR}.${Monteverdi_VERSION_PATCH}")
+ 
++SET(Monteverdi_LIBRARY_PROPERTIES
++    VERSION   "${Monteverdi_VERSION_MAJOR}.${Monteverdi_VERSION_MINOR}.${Monteverdi_VERSION_PATCH}"
++    SOVERSION "${Monteverdi_VERSION_MAJOR}.${Monteverdi_VERSION_MINOR}")
++
+ 
+ SET(Monteverdi_FLOATING_TYPE "float" CACHE STRING "The type of data in which input images are read (double/float)" )
+ 
+@@ -95,13 +98,13 @@
+           "Monteverdi is only compatible with OTB version greater than 4.0.0")
+ ENDIF()
+ 
+-SET(CMAKE_MODULE_PATH 
+-    ${CMAKE_SOURCE_DIR}/CMake 
+-    ${CMAKE_MODULE_PATH} 
++SET(CMAKE_MODULE_PATH
++    ${CMAKE_SOURCE_DIR}/CMake
++    ${CMAKE_MODULE_PATH}
+     "${OTB_SOURCE_DIR}/CMake" )
+ 
+ # Import FLTK
+-include(ImportFLTK) 
++include(ImportFLTK)
+ 
+ 
+ FIND_PACKAGE(Mercurial QUIET)
+@@ -306,8 +309,8 @@
+ 
+ file(RELATIVE_PATH REL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/${Monteverdi_INSTALL_CMAKE_DIR}"
+    "${CMAKE_INSTALL_PREFIX}/${Monteverdi_INSTALL_INCLUDE_DIR}")
+-  
+-   
++
++
+ # ... for the build tree
+ set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/Code/GuiFLTK" "${PROJECT_BINARY_DIR}/Code/GuiFLTK"
+ "${PROJECT_SOURCE_DIR}/Code/VisuFLTK" "${PROJECT_BINARY_DIR}/Code/VisuFLTK"
+@@ -323,13 +326,13 @@
+ # ... for both
+ configure_file(MonteverdiConfigVersion.cmake.in
+   "${PROJECT_BINARY_DIR}/MonteverdiConfigVersion.cmake" @ONLY)
+- 
++
+ # Install the MonteverdiConfig.cmake and MonteverdiConfigVersion.cmake
+ install(FILES
+   "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/MonteverdiConfig.cmake"
+   "${PROJECT_BINARY_DIR}/MonteverdiConfigVersion.cmake"
+   DESTINATION "${Monteverdi_INSTALL_CMAKE_DIR}" COMPONENT Development)
+- 
++
+ # Install the export set for use with the install-tree
+ install(EXPORT MonteverdiTargets DESTINATION
+   "${Monteverdi_INSTALL_CMAKE_DIR}" COMPONENT Development)
+Index: monteverdi-1.20.0/Code/GuiFLTK/CMakeLists.txt
+===================================================================
+--- monteverdi-1.20.0.orig/Code/GuiFLTK/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
++++ monteverdi-1.20.0/Code/GuiFLTK/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
+@@ -4,8 +4,8 @@
+ 
+ add_library(OTBGuiFLTK ${OTBGuiFLTK_SRCS})
+ target_link_libraries(OTBGuiFLTK OTBCommon ${MVD_VISU_GUI_LIBRARIES})
+-if(MVD_LIBRARY_PROPERTIES)
+-  set_target_properties(OTBGuiFLTK PROPERTIES ${MVD_LIBRARY_PROPERTIES})
++if(Monteverdi_LIBRARY_PROPERTIES)
++  set_target_properties(OTBGuiFLTK PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
+ endif()
+ 
+ install(TARGETS OTBGuiFLTK
+Index: monteverdi-1.20.0/Code/Modules/CMakeLists.txt
+===================================================================
+--- monteverdi-1.20.0.orig/Code/Modules/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
++++ monteverdi-1.20.0/Code/Modules/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
+@@ -72,6 +72,9 @@
+ 
+         ADD_LIBRARY(${LIB_NAME} ${SC_SRCS} )
+         TARGET_LINK_LIBRARIES(${LIB_NAME} ${LINK_LIBS})
++        IF(Monteverdi_LIBRARY_PROPERTIES)
++          SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
++        ENDIF()
+         ADD_DEPENDENCIES(${LIB_NAME} ${DEPS_LIBS})
+ 
+         SET(LIST_MODULE_LIBRARIES "${LIST_MODULE_LIBRARIES};${LIB_NAME}" )
+@@ -113,6 +116,9 @@
+ 
+         ADD_LIBRARY(${LIB_NAME} ${SC_SRCS} )
+         TARGET_LINK_LIBRARIES(${LIB_NAME} ${LINK_LIBS})
++        IF(Monteverdi_LIBRARY_PROPERTIES)
++          SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
++        ENDIF()
+         ADD_DEPENDENCIES(${LIB_NAME} ${DEPS_LIBS})
+ 
+         SET(LIST_MODULE_LIBRARIES "${LIST_MODULE_LIBRARIES};${LIB_NAME}" )
+@@ -150,12 +156,18 @@
+ 
+         ADD_LIBRARY(${LIB_NAME} ${SC_SRCS} )
+         TARGET_LINK_LIBRARIES(${LIB_NAME} ${LINK_LIBS} OTBOBIA)
++        IF(Monteverdi_LIBRARY_PROPERTIES)
++          SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
++        ENDIF()
+         ADD_DEPENDENCIES(${LIB_NAME} ${DEPS_LIBS})
+ 
+         # OTBGeospatialAnalysis is not generated if OTB_USE_PQXX
+         # is set to OFF
+         IF(OTB_USE_PQXX)
+           TARGET_LINK_LIBRARIES(${LIB_NAME} OTBGeospatialAnalysis)
++          IF(Monteverdi_LIBRARY_PROPERTIES)
++            SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
++          ENDIF()
+         ENDIF(OTB_USE_PQXX)
+ 
+         SET(LIST_MODULE_LIBRARIES "${LIST_MODULE_LIBRARIES};${LIB_NAME}" )
+Index: monteverdi-1.20.0/Code/Application/CMakeLists.txt
+===================================================================
+--- monteverdi-1.20.0.orig/Code/Application/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
++++ monteverdi-1.20.0/Code/Application/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
+@@ -40,6 +40,9 @@
+ 
+ ADD_LIBRARY(otbMonteverdi ${APPLICATION_SRCS} ${otbMonteverdi_FLTK_UI_SRCS})
+ TARGET_LINK_LIBRARIES(otbMonteverdi OTBGuiFLTK OTBMonteverdiCommon flu otbCachingModule otbWriterModule otbViewerModule otbReaderModule)
++IF(Monteverdi_LIBRARY_PROPERTIES)
++  SET_TARGET_PROPERTIES(otbMonteverdi PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
++ENDIF()
+ ADD_DEPENDENCIES(otbMonteverdi OTBMonteverdiCommon otbCachingModule otbWriterModule otbViewerModule)
+ 
+ IF(NOT OTB_INSTALL_NO_LIBRARIES)
+Index: monteverdi-1.20.0/Code/VisuFLTK/CMakeLists.txt
+===================================================================
+--- monteverdi-1.20.0.orig/Code/VisuFLTK/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
++++ monteverdi-1.20.0/Code/VisuFLTK/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
+@@ -9,8 +9,8 @@
+ 
+ add_library(OTBVisuFLTK ${OTBVisuFLTK_SRCS} ${OTBVisuFLTK_FLTK_UI_SRCS})
+ target_link_libraries(OTBVisuFLTK OTBGuiFLTK OTBCommon OTBIO ${MVD_VISU_GUI_LIBRARIES})
+-if(MVD_LIBRARY_PROPERTIES)
+-  set_target_properties(OTBVisuFLTK PROPERTIES ${MVD_LIBRARY_PROPERTIES})
++if(Monteverdi_LIBRARY_PROPERTIES)
++  set_target_properties(OTBVisuFLTK PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
+ endif()
+ 
+ install(TARGETS OTBVisuFLTK
+@@ -28,4 +28,3 @@
+    ${CMAKE_CURRENT_BINARY_DIR}/otbMsgReporterGUI.h
+    DESTINATION ${Monteverdi_INSTALL_INCLUDE_DIR}/VisuFLTK
+    COMPONENT Development)
+-
+Index: monteverdi-1.20.0/Code/VisuLegacyFLTK/CMakeLists.txt
+===================================================================
+--- monteverdi-1.20.0.orig/Code/VisuLegacyFLTK/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
++++ monteverdi-1.20.0/Code/VisuLegacyFLTK/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
+@@ -4,8 +4,8 @@
+ 
+ add_library(OTBVisuLegacyFLTK ${OTBVisuLegacyFLTK_SRCS})
+ target_link_libraries(OTBVisuLegacyFLTK OTBGuiFLTK OTBCommon ${MVD_VISU_GUI_LIBRARIES})
+-if(MVD_LIBRARY_PROPERTIES)
+-  set_target_properties(OTBVisuLegacyFLTK PROPERTIES ${MVD_LIBRARY_PROPERTIES})
++if(Monteverdi_LIBRARY_PROPERTIES)
++  set_target_properties(OTBVisuLegacyFLTK PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
+ endif()
+ 
+ install(TARGETS OTBVisuLegacyFLTK
+Index: monteverdi-1.20.0/Code/Common/CMakeLists.txt
+===================================================================
+--- monteverdi-1.20.0.orig/Code/Common/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
++++ monteverdi-1.20.0/Code/Common/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
+@@ -4,6 +4,9 @@
+ 
+ ADD_LIBRARY(OTBMonteverdiCommon ${OTBMonteverdiCommon_SRCS} )
+ TARGET_LINK_LIBRARIES(OTBMonteverdiCommon OTBIO OTBCommon OTBGuiFLTK OTBVisuFLTK flu)
++IF(Monteverdi_LIBRARY_PROPERTIES)
++  SET_TARGET_PROPERTIES(OTBMonteverdiCommon PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
++ENDIF()
+ 
+ 
+ IF(NOT Monteverdi_INSTALL_NO_LIBRARIES)
+Index: monteverdi-1.20.0/Code/Common/FeatureExtractionBase/CMakeLists.txt
+===================================================================
+--- monteverdi-1.20.0.orig/Code/Common/FeatureExtractionBase/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
++++ monteverdi-1.20.0/Code/Common/FeatureExtractionBase/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
+@@ -25,6 +25,9 @@
+ 
+ ADD_LIBRARY(${LIB_NAME} ${SC_SRCS} )
+ TARGET_LINK_LIBRARIES(${LIB_NAME} OTBCommon OTBLearning OTBBasicFilters OTBIO OTBVisuFLTK OTBVisuLegacyFLTK OTBGuiFLTK OTBMonteverdiCommon flu)
++IF(Monteverdi_LIBRARY_PROPERTIES)
++  SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
++ENDIF()
+ ADD_DEPENDENCIES(${LIB_NAME} OTBMonteverdiCommon)
+ 
+ IF(NOT Monteverdi_INSTALL_NO_LIBRARIES)
+Index: monteverdi-1.20.0/StarterKit/CMakeLists.txt
+===================================================================
+--- monteverdi-1.20.0.orig/StarterKit/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
++++ monteverdi-1.20.0/StarterKit/CMakeLists.txt	2014-05-07 14:48:20.000000000 +0200
+@@ -13,6 +13,9 @@
+ 
+ ADD_LIBRARY(otbExampleModule ${MODULE_SRCS})
+ TARGET_LINK_LIBRARIES(otbExampleModule OTBMonteverdiCommon OTBIO)
++IF(Monteverdi_LIBRARY_PROPERTIES)
++  SET_TARGET_PROPERTIES(otbExampleModule PROPERTIES ${Monteverdi_LIBRARY_PROPERTIES})
++ENDIF()
+ 
+ # Then, compile the application
+ ADD_EXECUTABLE(otbExampleApplication otbExampleApplication.cxx)

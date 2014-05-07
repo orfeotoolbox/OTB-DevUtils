@@ -1,0 +1,11 @@
+# Monteverdi libraries (symlinks)
+usr/lib/otb/libflu.so
+usr/lib/otb/libOTBGuiFLTK.so
+usr/lib/otb/libOTBVisuFLTK.so
+usr/lib/otb/libOTBVisuLegacyFLTK.so
+
+# Monteverdi headers
+usr/include/otb
+
+# CMake helper scripts
+usr/lib/otb/*.cmake

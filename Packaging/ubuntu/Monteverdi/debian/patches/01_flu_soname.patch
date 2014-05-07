@@ -1,0 +1,45 @@
+Description: <short summary of the patch>
+ Added FLU soname in the library .so files
+ .
+ monteverdi (1.20.0-1otb1~saucy1) saucy; urgency=low
+ .
+   * Switch to OTB 4.0.0
+   * Build with external FLTK library
+Author: OTB Team <contact@orfeo-toolbox.org>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- monteverdi-1.20.0.orig/Utilities/FLU/src/CMakeLists.txt
++++ monteverdi-1.20.0/Utilities/FLU/src/CMakeLists.txt
+@@ -1,3 +1,12 @@
++SET(FLU_VERSION_MAJOR "2")
++SET(FLU_VERSION_MINOR "14")
++SET(FLU_VERSION_PATCH "1")
++
++SET(FLU_VERSION_STRING "${FLU_VERSION_MAJOR}.${FLU_VERSION_MINOR}.${FLU_VERSION_PATCH}")
++SET(FLU_LIBRARY_PROPERTIES
++    VERSION   "${FLU_VERSION_MAJOR}.${FLU_VERSION_MINOR}.${FLU_VERSION_PATCH}"
++    SOVERSION "${FLU_VERSION_MAJOR}.${FLU_VERSION_MINOR}")
++
+ IF(CYGWIN)
+   ADD_DEFINITIONS(-DCYGWIN)
+ ENDIF(CYGWIN)
+@@ -75,6 +84,7 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(flu ${CPPFILES} ${CFILES})
+ TARGET_LINK_LIBRARIES(flu OTBGuiFLTK)
++SET_TARGET_PROPERTIES(flu PROPERTIES ${FLU_LIBRARY_PROPERTIES})
+ 
+ INSTALL(TARGETS flu
+         RUNTIME DESTINATION ${Monteverdi_INSTALL_BIN_DIR} COMPONENT RuntimeLibraries
