@@ -36,7 +36,7 @@ Package: libotb
 Section: contrib/libs
 Architecture: any
 Provides: libotb
-Conflicts: libotb (<< @OTB_VERSION_SONAME@)
+Conflicts: libotb3.16, libotb3.18, libotb3.20
 Depends:
  libinsighttoolkit4.5,
  libgdal1h (>= 1.10.0),
@@ -58,7 +58,7 @@ Package: libotb-dev
 Section: contrib/libdevel
 Architecture: any
 Provides: libotb-dev
-Conflicts: libotb-dev (<< @OTB_VERSION_SONAME@)
+Conflicts: libotb3-dev
 Depends:
  libotb (= ${binary:Version}),
  cmake (>= 2.8.3),
