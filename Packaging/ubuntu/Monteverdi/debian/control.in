@@ -9,6 +9,8 @@ Build-Depends:
  libgcc1 (>= 1:4.1),
  libstdc++6 (>= 4.4),
  libotb-dev (>= @OTB_VERSION_MINIMAL@),
+ libgl1-mesa-dev | libgl-dev,
+ libglu1-mesa-dev | libglu-dev,
  libfltk1.3-dev,
  fluid
 Standards-Version: 3.9.4
@@ -18,6 +20,8 @@ Homepage: http://www.orfeo-toolbox.org/otb/monteverdi.html
 Package: libmonteverdi
 Architecture: any
 Depends:
+ libgl1-mesa-glx | libgl1,
+ libglu1-mesa | libglu1,
  libfltk1.3,
  libotb (>= 4.0.0),
  ${shlibs:Depends},
@@ -38,6 +42,8 @@ Depends:
  libc6-dev (>= 2.4),
  libgcc1 (>= 1:4.1),
  libstdc++6 (>= 4.4),
+ libgl1-mesa-dev | libgl-dev,
+ libglu1-mesa-dev | libglu-dev,
  libfltk1.3-dev,
  fluid,
  libmonteverdi (>= @MVD_VERSION_FULL@),
