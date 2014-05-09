@@ -1,0 +1,20 @@
+monteverdi (1.20.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * Switch to OTB 4.0.0
+  * Added legacy visualisation library based on OTB widgets (at the same
+    time, they were removed from OTB sources)
+  * Build with external FLTK library
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Wed, 07 May 2014 23:27:40 +0200
+
+monteverdi (1.8.0-0) lucid; urgency=low
+
+  * Version 1.8.0 released
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 30 Jun 2011 09:03:25 +0200
+
+monteverdi (1.4.0-1) lucid; urgency=low
+
+  * Version 1.4.0 released (first public package)
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 07 Dec 2010 13:51:52 +0100
