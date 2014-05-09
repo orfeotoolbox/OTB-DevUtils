@@ -1,0 +1,47 @@
+Source: otb-ice
+Priority: extra
+Maintainer: OTB Team <contact@orfeo-toolbox.org>
+Build-Depends:
+ debhelper (>= 9),
+ dpkg-dev (>= 1.16.1~),
+ cmake (>= 2.8.3),
+ libc6-dev (>= 2.4),
+ libgcc1 (>= 1:4.1),
+ libstdc++6 (>= 4.4),
+ libotb-dev (>= @OTB_VERSION_MINIMAL@)
+Standards-Version: 3.9.4
+Section: contrib/science
+Homepage: http://www.orfeo-toolbox.org/
+
+Package: libotb-ice
+Section: contrib/libs
+Architecture: any
+Provides: libotb-ice
+Depends:
+ libotb (>= @OTB_VERSION_MINIMAL@),
+ ${shlibs:Depends},
+ ${misc:Depends}
+Suggests: libotb-ice-dev
+Description: A fast OpenGL rendering library for remote sensing images - runtime
+ OTB ICE is a fast OpenGL rendering library for remote sensing images. This
+ small piece of code decomposes into an OTB/OpenGL only library with an API
+ for simple rendering of remote sensing images and a GLFW3 example of how to
+ use the API.
+
+Package: libotb-ice-dev
+Section: contrib/libdevel
+Architecture: any
+Provides: libotb-ice-dev
+Depends:
+ cmake (>= 2.8.3),
+ libc6-dev (>= 2.4),
+ libgcc1 (>= 1:4.1),
+ libstdc++6 (>= 4.4),
+ libotb-ice (= ${binary:Version}),
+ libotb-dev (>= @OTB_VERSION_MINIMAL@),
+ ${misc:Depends}
+Description: A fast OpenGL rendering library for remote sensing images - development files
+ OTB ICE is a fast OpenGL rendering library for remote sensing images. This
+ small piece of code decomposes into an OTB/OpenGL only library with an API
+ for simple rendering of remote sensing images and a GLFW3 example of how to
+ use the API.

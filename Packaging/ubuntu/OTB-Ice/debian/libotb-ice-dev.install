@@ -1,0 +1,5 @@
+# OTB Ice libraries (symlinks)
+usr/lib/otb/libOTBIce.so
+
+# OTB headers
+usr/include/otb

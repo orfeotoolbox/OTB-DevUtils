@@ -1,0 +1,5 @@
+otb-ice (0.1.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * Initial release (first public package)
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Fri, 09 May 2014 14:16:06 +0100

@@ -1,0 +1,52 @@
+This work was packaged for Debian by:
+
+    OTB Team <contact@orfeo-toolbox.org> on Fri, 09 May 2014 14:16:06 +0100
+
+It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
+
+    hg clone -r <version> http://hg.orfeo-toolbox.org/Ice
+
+
+External dependencies (not included third-party works):
+
+    * OTB (http://www.orfeo-toolbox.org/),
+      distributed under the CeCILL license version 2
+
+    * GLEW (http://glew.sourceforge.net)
+      distributed under the Modified BSD License, the Mesa 3-D License
+      (MIT License), and the Khronos License (MIT License)
+
+    * GLFW (http://www.glfw.org/)
+      distributed under an unmodified zlib/libpng license
+
+
+Upstream Author(s):
+
+    Julien Michel <julien.michel@orfeo-toolbox.org>
+    Stephane Albert <stephane.albert@c-s.fr>
+    Julien Malik <julien.malik@orfeo-toolbox.org>
+    Mickael Savinaud <mickael.savinaud@c-s.fr>
+    Manuel Grizonnet <manuel.grizonnet@orfeo-toolbox.org>
+
+
+Copyright:
+
+    Copyright (c) 2013-2014 Centre National d'Etudes Spatiales and others, see
+    files in 'Copyright' directory for third parties copyrights.
+
+
+License:
+
+    OTB Ice is distributed under the CeCILL license version 2. See files
+    Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
+    (french version) in 'Copyright' directory for details. This licenses are
+    also available online:
+    http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+    http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt
+
+
+The Debian packaging is:
+
+    Copyright (c) 2014 OTB Team <contact@orfeo-toolbox.org>
+
+    This package is distributed under the CeCILL license version 2.
