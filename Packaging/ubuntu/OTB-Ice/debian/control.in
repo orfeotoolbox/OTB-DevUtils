@@ -8,7 +8,8 @@ Build-Depends:
  libc6-dev (>= 2.4),
  libgcc1 (>= 1:4.1),
  libstdc++6 (>= 4.4),
- libotb-dev (>= @OTB_VERSION_MINIMAL@)
+ libotb-dev (>= @OTB_VERSION_MINIMAL@),
+ libglew-dev
 Standards-Version: 3.9.4
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/
@@ -39,6 +40,7 @@ Depends:
  libstdc++6 (>= 4.4),
  libotb-ice (= ${binary:Version}),
  libotb-dev (>= @OTB_VERSION_MINIMAL@),
+ libglew-dev,
  ${misc:Depends}
 Description: A fast OpenGL rendering library for remote sensing images - development files
  OTB ICE is a fast OpenGL rendering library for remote sensing images. This
