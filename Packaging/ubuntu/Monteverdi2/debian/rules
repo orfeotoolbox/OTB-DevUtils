@@ -1,0 +1,62 @@
+#!/usr/bin/make -f
+#
+# Copyright (C) 2013-2014 CNES - Centre National d'Etudes Spatiales
+# Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
+#
+# Monteverdi 2 is distributed under the CeCILL license version 2. See files
+# Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
+# (french version) in 'Copyright' directory for details. This licenses are
+# also available online:
+# http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+# http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_LDFLAGS_MAINT_APPEND = "-Wl,--as-needed"
+
+ifndef DIST
+    DIST=$(shell /usr/bin/lsb_release -s -c)
+endif
+
+ifndef PKGVERSION
+    PKGVERSION=1
+endif
+
+MVD2_VERSION_MAJOR = $(shell sed -ne 's/SET(Monteverdi2_VERSION_MAJOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
+MVD2_VERSION_MINOR = $(shell sed -ne 's/SET(Monteverdi2_VERSION_MINOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
+MVD2_VERSION_PATCH = $(shell sed -ne 's/SET(Monteverdi2_VERSION_PATCH "\([0-9]*\)")/\1/p' CMakeLists.txt)
+MVD2_VERSION_FULL  = "$(MVD2_VERSION_MAJOR).$(MVD2_VERSION_MINOR).$(MVD2_VERSION_PATCH)"
+
+OTB_VERSION_MINIMAL     = 4.0.0
+OTB_ICE_VERSION_MINIMAL = 0.1.0
+
+DEB_CMAKE_INSTALL_PREFIX = /usr
+CMAKE_FLAGS = \
+	-DCMAKE_INSTALL_PREFIX="$(DEB_CMAKE_INSTALL_PREFIX)" \
+	-DCMAKE_BUILD_TYPE:STRING=Release \
+	-DBUILD_SHARED_LIBS:BOOL=ON \
+	-DMONTEVERDI2_OUTPUT_NAME:STRING=monteverdi2.bin \
+	-DCMAKE_SKIP_RPATH:BOOL=ON \
+	-DBUILD_TESTING:BOOL=OFF
+
+OTB_LIB_DIRS = /usr/lib/otb
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(CMAKE_FLAGS)
+
+override_dh_shlibdeps:
+	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OTB_LIB_DIRS) dh_shlibdeps
+
+control-file:
+	sed -e "s/@OTB_VERSION_MINIMAL@/$(OTB_VERSION_MINIMAL)/g" \
+	    -e "s/@OTB_ICE_VERSION_MINIMAL@/$(OTB_ICE_VERSION_MINIMAL)/g" \
+	    < debian/control.in > debian/control
+
+changelog-file:
+	sed -e "s/@DIST@/$(DIST)/g" \
+	    -e "s/@PKGVERSION@/$(PKGVERSION)/g" \
+	    < debian/changelog.in > debian/changelog

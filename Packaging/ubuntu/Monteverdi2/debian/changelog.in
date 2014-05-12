@@ -1,0 +1,5 @@
+monteverdi2 (0.7.3-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * Initial release
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Fri, 09 May 2014 15:59:43 +0200

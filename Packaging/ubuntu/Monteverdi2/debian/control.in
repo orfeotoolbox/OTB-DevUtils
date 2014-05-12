@@ -1,26 +1,38 @@
 Source: monteverdi2
 Priority: extra
 Maintainer: OTB Team <contact@orfeo-toolbox.org>
-Build-Depends: cdbs, debhelper (>= 7), cmake,
- libc6-dev (>= 2.4), libgcc1 (>= 1:4.1), libstdc++6 (>= 4.4), 
- libotb@OTB_VERSION_MAJOR@-dev (>= @OTB_VERSION_FULL@),
+Build-Depends:
+ debhelper (>= 9),
+ dpkg-dev (>= 1.16.1~),
+ cmake (>= 2.8.3),
+ libc6-dev (>= 2.4),
+ libgcc1 (>= 1:4.1),
+ libstdc++6 (>= 4.4),
+ libotb-dev (>= @OTB_VERSION_MINIMAL@),
+ libotb-ice-dev (>= @OTB_ICE_VERSION_MINIMAL@),
  otb-bin-qt,
- libgdal1-dev,
- libqt4-dev, libqt4-opengl-dev,
- libqwt5-qt4-dev
-Standards-Version: 3.8.4
+ libgdal-dev (>= 1.10.0),
+ libqt4-dev,
+ libqt4-opengl-dev,
+ libqwt5-qt4-dev,
+ libglew-dev
+Standards-Version: 3.9.4
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/otb/monteverdi.html
 
 Package: monteverdi2
 Architecture: any
-Depends: libotb@OTB_VERSION_SONAME@ (>= @OTB_VERSION_FULL@),
- ${shlibs:Depends}, ${misc:Depends}
+Depends:
+ libotb (>= @OTB_VERSION_MINIMAL@),
+ otb-bin-qt (>= @OTB_VERSION_MINIMAL@),
+ libotb-ice (>= @OTB_ICE_VERSION_MINIMAL@),
+ ${shlibs:Depends},
+ ${misc:Depends}
 Section: contrib/science
 Description: Image processing application based on the OTB library
- Monteverdi is an image processing application based on the OTB library. It takes
- advantage of the streaming and multi-threading capabilities of the OTB
+ Monteverdi 2 is an image processing application based on the OTB library. It
+ takes advantage of the streaming and multi-threading capabilities of the OTB
  pipeline. It also uses cool features as processing on demand and automagic
- file format I/O. Monteverdi is distributed under a free software license
+ file format I/O. Monteverdi 2 is distributed under the free software license
  CeCILL (similar to GNU GPL) to encourage contribution from users and to
  promote reproducible research.

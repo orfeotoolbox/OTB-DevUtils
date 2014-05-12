@@ -11,4 +11,6 @@ chmod +x /usr/bin/monteverdi2
 
 ldconfig
 
+#DEBHELPER#
+
 exit 0

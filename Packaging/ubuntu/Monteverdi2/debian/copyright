@@ -1,25 +1,28 @@
 This work was packaged for Debian by:
 
-    OTB Team <contact@orfeo-toolbox.org> on Tue, 29 Nov 2012 11:41:23 +0100
+    OTB Team <contact@orfeo-toolbox.org> on Fri, 09 May 2014 16:02:28 +0200
 
 It was downloaded from <http://hg.orfeo-toolbox.org/>, using command:
 
     hg clone -r <version> http://hg.orfeo-toolbox.org/Monteverdi2
 
+
 Upstream Author(s):
 
     Stephane ALBERT (CS) <stephane.albert@c-s.fr>
-    Manuel GRIZONNET (CNES) <manuel.grizonnet@cnes.fr>
     Otmane LAHLOU (CS) <otmane.lahlou@c-s.fr>
+    Julien MALIK (CS)  <julien.malik@orfeo-toolbox.org>
     Julien MICHEL (CNES) <julien.michel@orfeo-toolbox.org>
     Mickael SAVINAUD (CS) <mickael.savinaud@c-s.fr>
-    Julien MALIK (CS)  <julien.malik@orfeo-toolbox.org>
+    Manuel GRIZONNET (CNES) <manuel.grizonnet@cnes.fr>
+    Charles PEYREGA (CS) <charles.peyrega@c-s.fr>
 
 
 Copyright:
 
-    Copyright (c) 2012-2013 Centre National d'Etudes Spatiales. All rights reserved.
-    and others, see files in 'Copyright' directory for third parties copyrights.
+    Copyright (c) 2013-2014 Centre National d'Etudes Spatiales. All rights
+    reserved. and others, see files in 'Copyright' directory for third parties
+    copyrights.
 
 
 License:
@@ -34,5 +37,5 @@ License:
 
 The Debian packaging is:
 
-    Copyright (c) 2013 Centre National d'Etudes Spatiales. All rights reserved.
-    This package is distributed under the CeCILL license version 2.
+    Copyright (c) 2013-2014 Centre National d'Etudes Spatiales. All rights
+    reserved. This package is distributed under the CeCILL license version 2.
