@@ -33,16 +33,20 @@ BUILD_EXAMPLES:BOOL=OFF
 
 ExternalData_OBJECT_STORES:PATH=/home/otbtesting/OTB/trunk/ITKv4-ExternalObjectStores
 
-# ITK_BUILD_DEFAULT_MODULES:BOOL=ON # ON by default
-
 # as much external libraries as possible
 # libtiff on ubuntu does not support BigTIFF and is incompatible with ITK
 ITK_USE_SYSTEM_HDF5:BOOL=ON
-ITK_USE_SYSTEM_GDCM:BOOL=OFF
-ITK_USE_SYSTEM_JPEG:BOOL=ON
 ITK_USE_SYSTEM_PNG:BOOL=ON
 ITK_USE_SYSTEM_TIFF:BOOL=ON
 ITK_USE_SYSTEM_ZLIB:BOOL=ON
+
+# Enable system jpeg, gdcm and use openjpeg2.0 build with libgdal 
+# to prevent symbol conflict. For more info refer to wiki
+# http://wiki.orfeo-toolbox.org/index.php/JPEG2000_with_GDAL_OpenJpeg_plugin
+ITK_USE_SYSTEM_GDCM:BOOL=ON
+ITK_USE_SYSTEM_JPEG:BOOL=ON
+JPEG_INCLUDE_DIR:PATH=/home/otbtesting/install/include/openjpeg-2.0
+JPEG_LIBRARY:FILEPATH=/home/otbtesting/install/lib/libopenjp2.so
 
 # OTB depends on this
 ITK_USE_FFTWF:BOOL=ON
