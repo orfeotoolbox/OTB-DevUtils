@@ -39,7 +39,6 @@ CMAKE_FLAGS = \
 	-DBUILD_TESTING:BOOL=OFF
 
 OTB_LIB_DIRS = /usr/lib/otb
-MVD_LIB_DIRS = /usr/lib/otb
 
 %:
 	dh $@ --parallel
@@ -48,11 +47,10 @@ override_dh_auto_configure:
 	dh_auto_configure -- $(CMAKE_FLAGS)
 
 override_dh_shlibdeps:
-	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OTB_LIB_DIRS):$(MVD_LIB_DIRS) dh_shlibdeps
+	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OTB_LIB_DIRS) dh_shlibdeps
 
 control-file:
 	sed -e "s/@OTB_VERSION_MINIMAL@/$(OTB_VERSION_MINIMAL)/g" \
-	    -e "s/@MVD_VERSION_FULL@/$(MVD_VERSION_FULL)/g" \
 	    < debian/control.in > debian/control
 
 changelog-file:

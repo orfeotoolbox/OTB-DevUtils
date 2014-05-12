@@ -23,7 +23,7 @@ Depends:
  libgl1-mesa-glx | libgl1,
  libglu1-mesa | libglu1,
  libfltk1.3,
- libotb (>= 4.0.0),
+ libotb (>= @OTB_VERSION_MINIMAL@),
  ${shlibs:Depends},
  ${misc:Depends}
 Section: contrib/libs
@@ -38,6 +38,7 @@ Description: Visualisation library based on legacy OTB/FLTK widgets
 Package: libmonteverdi-dev
 Architecture: any
 Depends:
+ libmonteverdi (= ${binary:Version}),
  cmake (>= 2.8.3),
  libc6-dev (>= 2.4),
  libgcc1 (>= 1:4.1),
@@ -46,7 +47,6 @@ Depends:
  libglu1-mesa-dev | libglu-dev,
  libfltk1.3-dev,
  fluid,
- libmonteverdi (>= @MVD_VERSION_FULL@),
  libotb-dev (>= @OTB_VERSION_MINIMAL@),
  ${shlibs:Depends},
  ${misc:Depends}
@@ -62,7 +62,7 @@ Description: Visualisation library based on legacy OTB/FLTK widgets - developmen
 Package: monteverdi
 Architecture: any
 Depends:
- libmonteverdi (>= @MVD_VERSION_FULL@),
+ libmonteverdi (= ${binary:Version}),
  ${shlibs:Depends},
  ${misc:Depends}
 Section: contrib/science
