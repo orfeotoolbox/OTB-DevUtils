@@ -52,7 +52,7 @@ OTB_USE_EXTERNAL_OSSIM:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/trunk/OTB-Data
 
-#external ITK
+##external ITK
 #install location of ITK trunk build
 ITK_DIR:PATH=${INSTALLROOT}/ITK_trunk-Release/lib/cmake/ITK-4.6
 
@@ -62,6 +62,16 @@ OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/lib64/libossim.so
 
 ##external OpenCV
 OpenCV_DIR=${INSTALLROOT}/share/OpenCV/
+
+##external LibKML
+LIBKML_INCLUDE_DIR:PATH=${INSTALLROOT}/include 
+LIBKML_BASE_LIBRARY:FILEPATH=${INSTALLROOT}/lib/libkmlbase.so 
+LIBKML_CONVENIENCE_LIBRARY:FILEPATH=${INSTALLROOT}/lib/libkmlconvenience.so 
+LIBKML_DOM_LIBRARY:FILEPATH=${INSTALLROOT}/lib/libkmldom.so 
+LIBKML_ENGINE_LIBRARY:FILEPATH=${INSTALLROOT}/lib/libkmlengine.so 
+LIBKML_MINIZIP_LIBRARY:FILEPATH=${INSTALLROOT}/lib/libminizip.so 
+LIBKML_REGIONATOR_LIBRARY:FILEPATH=${INSTALLROOT}/lib/libkmlregionator.so 
+LIBKML_XSD_LIBRARY:FILEPATH=${INSTALLROOT}/lib/libkmlxsd.so
 
 ##external GDAL
 GDAL_CONFIG:FILEPATH=${INSTALLROOT}/bin/gdal-config
