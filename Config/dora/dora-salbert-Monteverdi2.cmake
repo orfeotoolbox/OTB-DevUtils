@@ -2,7 +2,7 @@ set (ENV{DISPLAY} ":0.0")
 set (ENV{LANG} "C")
 
 set (CTEST_BUILD_CONFIGURATION "Debug")
-#set (CTEST_BUILD_CONFIGURATION "Release")
+# set (CTEST_BUILD_CONFIGURATION "Release")
 
 #set (OTB_DASHBOARD_DIR "$ENV{HOME}/dev/install/Monteverdi2Dashboard/nightly/Monteverdi2-${CTEST_BUILD_CONFIGURATION}")
 
@@ -37,8 +37,8 @@ OTB_DIR:STRING=~/dev/install/OTB/lib/otb
 # OTB_DIR:STRING=~/dev/build/OTB/bin
 
 # ICE_DIR:STRING=$ENV{HOME}/dev/install/ice
-ICE_INCLUDE_DIR=$ENV{HOME}/dev/install/ice/include/otb
-ICE_LIBRARY=$ENV{HOME}/dev/install/ice/lib/otb/libOTBIce.so
+ICE_INCLUDE_DIR=$ENV{HOME}/dev/install/Ice/include/otb
+ICE_LIBRARY=$ENV{HOME}/dev/install/Ice/lib/otb/libOTBIce.so
 
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=${MVD2_INSTALL_PREFIX}

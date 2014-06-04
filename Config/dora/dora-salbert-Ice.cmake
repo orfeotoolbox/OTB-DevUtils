@@ -1,13 +1,16 @@
 set (ENV{DISPLAY} ":0.0")
 set (ENV{LANG} "C")
 
+set (dashboard_model Experimental)
+string(TOLOWER ${dashboard_model} lcdashboard_model)
+
 set (CTEST_BUILD_CONFIGURATION "Debug")
-#set (CTEST_BUILD_CONFIGURATION "Release")
+# set (CTEST_BUILD_CONFIGURATION "Release")
 
 #set (OTB_DASHBOARD_DIR "$ENV{HOME}/dev/install/Monteverdi2Dashboard/nightly/Monteverdi2-${CTEST_BUILD_CONFIGURATION}")
 
-set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/ice")
-set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/ice")
+set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/Ice")
+set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/Ice")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
@@ -17,7 +20,7 @@ set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "")
 set (CTEST_USE_LAUNCHERS ON)
 
-set (ICE_INSTALL_PREFIX "$ENV{HOME}/dev/install/ice")
+set (ICE_INSTALL_PREFIX "$ENV{HOME}/dev/install/Ice")
 
 set (ICE_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
@@ -64,4 +67,4 @@ ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files (${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 #ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
-#ctest_submit ()
+ctest_submit ()
