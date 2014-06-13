@@ -52,7 +52,12 @@ def expandFiles(cleanBaseline,cleanTestFile):
   currentTestFiles = []
   
   if op.exists(cleanBaseline):
-    currentBaselines.append(cleanBaseline)
+    # check that the path looks like a baseline path (i.e. contains OTB-Data/Baseline)
+    if cleanBaseline.find("OTB-Data/Baseline") >= 0:
+      currentBaselines.append(cleanBaseline)
+    else:
+      print "\t Baseline file not in OTB-Data/Baseline"
+      currentBaselines.append("")
   else:
     print "\tBaseline file not found : "+cleanBaseline
     currentBaselines.append("")
