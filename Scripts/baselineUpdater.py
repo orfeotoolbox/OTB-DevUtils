@@ -13,6 +13,7 @@ def showHelp():
   print "Usage: baselineUpdater.py [OPTIONS] -p BUILD_PATH"
   print "Options:"
   print "\t-p (--path) DIRECTORY      : OTB build directory where the new baselines are located"
+  print "\t-o (--output) DIRECTORY    : checkout of OTB-Data where the new baselines will be copied (if not given, the default path is used)"
   print "\t-t (--test) TEST_NAME      : test name to select the one test to update"
   print "\t-R (--regex) REGEX_EXPR    : regex expression to select the tests to update"
   print "\t-l (--list) TEST_LIST      : path to a file containing all the tests to update"
@@ -83,27 +84,27 @@ def expandFiles(cleanBaseline,cleanTestFile):
   
   # ESRI shapefile
   if (bExt.lower() == ".shp") and (tExt.lower() == ".shp"):
-    currentBaselines.append(op.join(bBase,".shx"))
-    currentTestFiles.append(op.join(tBase,".shx"))
-    currentBaselines.append(op.join(bBase,".dbf"))
-    currentTestFiles.append(op.join(tBase,".dbf"))
+    currentBaselines.append(bBase+".shx")
+    currentTestFiles.append(tBase+".shx")
+    currentBaselines.append(bBase+".dbf")
+    currentTestFiles.append(tBase+".dbf")
     # test if prj files are used
-    bPRJ = op.join(bBase,".prj")
-    tPRJ = op.join(tBase,".prj")
+    bPRJ = bBase+".prj"
+    tPRJ = tBase+".prj"
     if op.exists(bPRJ) and op.exists(tPRJ):
       currentBaselines.append(bPRJ)
       currentTestFiles.append(tPRJ)
   
   # test geom metadata file
-  bGEOM = op.join(bBase,".geom")
-  tGEOM = op.join(tBase,".geom")
+  bGEOM = bBase+".geom"
+  tGEOM = tBase+".geom"
   if op.exists(bGEOM) and op.exists(tGEOM):
     currentBaselines.append(bGEOM)
     currentTestFiles.append(tGEOM)
   
   # test aux.xml metadata file
-  bAUX = op.join(cleanBaseline,".aux.xml")
-  tAUX = op.join(cleanTestFile,".aux.xml")
+  bAUX = cleanBaseline+".aux.xml"
+  tAUX = cleanTestFile+".aux.xml"
   if op.exists(bAUX) and op.exists(tAUX):
     currentBaselines.append(bAUX)
     currentTestFiles.append(tAUX)
@@ -111,7 +112,7 @@ def expandFiles(cleanBaseline,cleanTestFile):
   return [currentBaselines, currentTestFiles]
 
 
-def copyFiles(baselines, testFiles):
+def copyFiles(baselines, testFiles, outPath=None):
   if len(baselines) != len(testFiles):
     print "ERROR : Number of baseline files different from number of "\
           "test files ! ("+str(len(baselines))+" vs "+str(len(testFiles))+")"
@@ -120,14 +121,21 @@ def copyFiles(baselines, testFiles):
   for index in range(len(baselines)):
     if (baselines[index] == "") or (testFiles[index] == ""):
       return False
+    
+    # replace OTB-Data repository if needed
+    currentBaseline = baselines[index]
+    if outPath:
+      position = baselines[index].find("OTB-Data/Baseline") + 9
+      currentBaseline = op.join(outPath.encode('utf-8'),baselines[index][position:])
+    
     command = ["cp"]
     command.append(testFiles[index])
-    command.append(baselines[index])
+    command.append(currentBaseline)
     call(command)
   return True  
   
 
-def processQuery(cleanTestName,isRegex=False):
+def processQuery(outPath,cleanTestName,isRegex=False):
   command = ["ctest","-R","^"+cleanTestName+"$","-V","-N"]
   if isRegex:
     command[2] = cleanTestName
@@ -149,7 +157,10 @@ def processQuery(cleanTestName,isRegex=False):
       else:
         print "Updating : "+cleanTestName
       [baselines, testFiles] = parseLine(testFound[index])
-      res = copyFiles(baselines,testFiles)
+      if op.exists(outPath):
+        res = copyFiles(baselines,testFiles,outPath)
+      else:
+        res = copyFiles(baselines,testFiles)
   
   return count 
 
@@ -162,8 +173,9 @@ def main(argv):
   testName = ""
   regexCTest = ""
   testListPath = ""
+  outPath = ""
   
-  opts, rest = getopt(argv[1:], "p:t:R:l:h",["path=","test=", "regex=","list=", "help"])
+  opts, rest = getopt(argv[1:], "p:t:R:l:ho:",["path=","test=", "regex=","list=", "help","output="])
   for o, a in opts:
     if o in ["-h", "--help"]:
       showHelp()
@@ -172,6 +184,7 @@ def main(argv):
     if o in ["-t", "--test"]: testName = a
     if o in ["-R", "--regex"]: regexCTest = a
     if o in ["-l", "--list"]: testListPath = a.decode('utf-8')
+    if o in ["-o", "--output"]: outPath = a.decode('utf-8')
   
   if buildPath == "":
     print "No build directory given"
@@ -182,6 +195,8 @@ def main(argv):
     print "No test specified"
     showHelp()
     return 1
+  
+  outPath = op.abspath(outPath)
   
   print "WARNING : be sure to only update baselines with the normal expected test results"
   
@@ -200,11 +215,11 @@ def main(argv):
   if len(content) > 0:
     for name in content:
       cleanName = name.strip("\"\'\t\n\r ")
-      nbTest = processQuery(cleanName)
+      nbTest = processQuery(outPath,cleanName)
       if nbTest == 0:
         print "Not found:\t"+cleanName 
   elif regexCTest != "":
-    nbTest = processQuery(regexCTest,True)
+    nbTest = processQuery(outPath,regexCTest,True)
     if nbTest == 0:
       print "Not found:\t"+regexCTest 
   
