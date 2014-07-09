@@ -35,10 +35,10 @@ OTB_WRAP_QT:BOOL=ON
 
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs -Wno-cpp
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-cpp
 
 OTB_SHOW_ALL_MSG_DEBUG:BOOL=ON
-
+OTB_COMPILE_WITH_FULL_WARNING=ON
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
