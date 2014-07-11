@@ -36,9 +36,10 @@ ExternalData_OBJECT_STORES:PATH=/home/otbtesting/OTB/trunk/ITKv4-ExternalObjectS
 # as much external libraries as possible
 # libtiff on ubuntu does not support BigTIFF and is incompatible with ITK
 ITK_USE_SYSTEM_HDF5:BOOL=ON
-ITK_USE_SYSTEM_PNG:BOOL=ON
+ITK_USE_SYSTEM_PNG:BOOL=OFF #due test failing in itkSingedMaurerDistanceMap..
 ITK_USE_SYSTEM_TIFF:BOOL=ON
 ITK_USE_SYSTEM_ZLIB:BOOL=ON
+ITK_USE_SYSTEM_EXPAT:BOOL=ON
 
 # Enable system jpeg, gdcm and use openjpeg2.0 build with libgdal 
 # to prevent symbol conflict. For more info refer to wiki
