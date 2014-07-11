@@ -23,7 +23,7 @@ set (ITK_INSTALL_PREFIX "${INSTALLROOT}/ITK_trunk-${CTEST_BUILD_CONFIGURATION}")
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra -Wunsed-local-typedefs
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
 CMAKE_INSTALL_PREFIX=${ITK_INSTALL_PREFIX}
 
