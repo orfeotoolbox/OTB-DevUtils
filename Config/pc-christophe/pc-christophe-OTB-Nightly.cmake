@@ -19,7 +19,8 @@ set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
 #set(ENV{DISPLAY} ":0.0")
-set(OTB_INSTALL_PREFIX "/home/otbtesting/install/OTB-InternalITK-Release")
+set(OTB_INSTALL_PREFIX "/home/otbtesting/install/OTB-Release")
+set(INSTALLROOT "/home/otbtesting/install/")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
