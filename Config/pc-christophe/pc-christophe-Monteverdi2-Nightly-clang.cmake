@@ -2,50 +2,50 @@
 # Avoid non-ascii characters in tool output.
 #set(ENV{LC_ALL} C)
 
+
 set (CTEST_BUILD_CONFIGURATION "Release")
-
-set (DASHBOARD_DIR "$ENV{HOME}/OTB")
-
-set (CTEST_SOURCE_DIRECTORY "${DASHBOARD_DIR}/trunk/Monteverdi2")
-set (CTEST_BINARY_DIRECTORY "${DASHBOARD_DIR}/bin/Monteverdi2-clang-Nightly")
+SET (CTEST_DASHBOARD_ROOT "/home/otbtesting")
+SET (CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/Monteverdi2/")
+SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Monteverdi2-clang-ThirdPartyTrunk")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set (CTEST_SITE "pc-christophe.cst.cnes.fr" )
-set (CTEST_BUILD_NAME "Fedora20-64bits-clang-Release")
+set (CTEST_BUILD_NAME "Fedora20-64bits-clang-${CTEST_BUILD_CONFIGURATION}")
 set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "-C")
 set (CTEST_USE_LAUNCHERS ON)
 
-set(INSTALLROOT "/home/otbtesting/install")
+set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
+set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/Monteverdi2-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
 
 set (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
-SITE:STRING=${CTEST_SITE}
-CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-CTEST_USE_LAUNCHERS:BOOL=ON
-OTB_DATA_USE_LARGEINPUT:BOOL=ON
 BUILD_TESTING:BOOL=ON
 
+CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
 CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
 CMAKE_CXX_FLAGS:STRING=-Weverything -Wall -Wno-deprecated -Wno-uninitialized -Wno-gnu -Wno-overloaded-virtual
+CTEST_USE_LAUNCHERS:BOOL=ON
+
+#otb, itk, ice
+ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.6
+ICE_INCLUDE_DIR=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/Release
+ICE_LIBRARY:FILEPATH=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/Release/lib/otb/libOTBIce.so
+OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-clang-ThridPartyTrunk/Release
 
 #data dir
+OTB_DATA_USE_LARGEINPUT:BOOL=ON
+OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
-OTB_DATA_ROOT:STRING=${DASHBOARD_DIR}/trunk/OTB-Data
-
-#otb, itk, ice 
-ITK_DIR:PATH=${INSTALLROOT}/ITK_trunk-Release/lib/cmake/ITK-4.6
-OTB_DIR:PATH=${INSTALLROOT}/OTB-clang-ThirdPartyTrunk/lib/otb/
-ICE_INCLUDE_DIR=${INSTALLROOT}/Ice-clang-Release/include/otb/
-ICE_LIBRARY:FILEPATH=${INSTALLROOT}/Ice-clang-Release/lib/otb/libOTBIce.so
 
 #qwt
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
-QWT_LIBRARY:PATH=/usr/lib64/libqwt.so.5
+QWT_LIBRARY:FILEPPATH=/usr/lib64/libqwt.so.5
 
+SITE:STRING=${CTEST_SITE}
 ")
 
 set (CTEST_NOTES_FILES

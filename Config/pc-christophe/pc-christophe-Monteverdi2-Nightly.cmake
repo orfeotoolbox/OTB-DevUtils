@@ -3,12 +3,10 @@
 # Avoid non-ascii characters in tool output.
 #set(ENV{LC_ALL} C)
 
-set (CTEST_BUILD_CONFIGURATION "Debug")
-
-set (DASHBOARD_DIR "$ENV{HOME}/OTB")
-
-set (CTEST_SOURCE_DIRECTORY "${DASHBOARD_DIR}/trunk/Monteverdi2")
-set (CTEST_BINARY_DIRECTORY "${DASHBOARD_DIR}/bin/Monteverdi2-Nightly")
+set (CTEST_BUILD_CONFIGURATION "Release")
+SET (CTEST_DASHBOARD_ROOT "/home/otbtesting")
+SET (CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/Monteverdi2/")
+SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Monteverdi2/")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
@@ -28,21 +26,22 @@ CTEST_USE_LAUNCHERS:BOOL=ON
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 BUILD_TESTING:BOOL=ON
 
-CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
-CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
+CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized 
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized
 
+OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
-OTB_DATA_ROOT:STRING=${DASHBOARD_DIR}/trunk/OTB-Data
-OTB_DIR:PATH=${INSTALLROOT}/OTB-InternalITK-Release/lib/otb/
+
+ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.6
+OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-Nightly/Release
 
 #otbIce
-ICE_INCLUDE_DIR=${INSTALLROOT}/Ice-Debug/include/otb/
-ICE_LIBRARY=${INSTALLROOT}/Ice-Debug/lib/otb/libOTBIce.so
+ICE_INCLUDE_DIR:PATH=${INSTALLROOT}/orfeo/trunk/Ice/${CTEST_BUILD_CONFIGURATION}/include/otb/
+ICE_LIBRARY:FILEPATH=${INSTALLROOT}/orfeo/trunk/Ice/${CTEST_BUILD_CONFIGURATION}/lib/otb/libOTBIce.so
 
 #Qwt
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
-QWT_LIBRARY:PATH=/usr/lib64/libqwt.so.5
-
+QWT_LIBRARY:FILEPATH=/usr/lib64/libqwt.so.5
 ")
 
 set (CTEST_NOTES_FILES

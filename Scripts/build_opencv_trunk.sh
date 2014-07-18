@@ -1,34 +1,37 @@
 #!/bin/bash
 
-if [ $# -ne 1 ]; then
- echo 'Usage: '$0' <source-dir>'
- echo 'Usage: '$0' /home/user/sources/opencv_trunk'
+
+if [ $# -ne 2 ]; then
+ echo 'Usage: '$0' <path/to/source>  <type>'
+ echo 'Usage: '$0' /home/user/sources/ trunk'
  exit;
 fi
 
-SOURCEROOT=$1
+SRCROOT=$1 #default is /home/otbtesting/sources
+TYPE=$2 #default: trunk
+
+SOURCEDIR=$SRCROOT/opencv/$TYPE
+BUILDDIR=$HOME/build/opencv/$TYPE
 INSTALLROOT=$HOME/install
-PACKAGE_BUILD=$HOME'/build/opencv_'
 
-#update src
-cd $SOURCEROOT
-git pull
+cd $SOURCEDIR
+git pull origin master
 
-if [ -d "$PACKAGE_BUILD" ]; then
+if [ -d "$BUILDDIR" ]; then
     # clean up build dir
-    /bin/rm -fr $PACKAGE_BUILD
+    /bin/rm -fr $BUILDDIR
 else
-    mkdir $PACKAGE_BUILD
+    mkdir $BUILDDIR
 fi
 
-echo 'PACKAGE_SRC='$SOURCEROOT
-echo 'PACKAGE_BUILD='$PACKAGE_BUILD
-echo 'PACKAGE_INSTALL='$INSTALLROOT
+echo 'Source Dir='$SOURCEDIR
+echo 'Build Dir='$BUILDDIR
+echo 'Install Dir='$INSTALLROOT
 
 #configure opencv
-cd $PACKAGE_BUILD
-cmake $PACKAGE_SRC \
-    -DCMAKE_INSTALL_PREFIX:STRING=$INSTALLROOT \
+cd $BUILDDIR
+cmake $SOURCEDIR \
+    -DCMAKE_INSTALL_PREFIX:STRING=$INSTALLROOT/opencv/$TYPE \
     -DCMAKE_BUILD_TYPE:STRING=Release \
     -DBUILD_PACKAGE:BOOL=OFF \
     -DBUILD_SHARED_LIBS:BOOL=ON

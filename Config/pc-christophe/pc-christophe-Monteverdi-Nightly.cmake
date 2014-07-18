@@ -1,12 +1,11 @@
 #SET (ENV{DISPLAY} ":0.0")
 
 #SET (dashboard_model Nightly)
+SET (CTEST_DASHBOARD_ROOT "/home/otbtesting")
 
-SET (CTEST_SOURCE_DIRECTORY "/home/otbtesting/OTB/trunk/Monteverdi/")
-SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/OTB/bin/Monteverdi-Nightly/")
-
+SET (CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/Monteverdi-Nightly/")
+SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Monteverdi-Nightly/")
 SET (CTEST_BUILD_CONFIGURATION Release)
-
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
 SET (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
@@ -16,10 +15,8 @@ SET (CTEST_HG_COMMAND "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS "-C")
 SET (CTEST_USE_LAUNCHERS ON)
 
-
 # should ctest wipe the binary tree before running
 SET (CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
-
 
 # this is the initial cache to use for the binary tree, be careful to escape
 # any quotes inside of this string if you use it
@@ -34,15 +31,15 @@ SITE:STRING=${CTEST_SITE}
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 //Data root
-OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
+OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 //Compilation options
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-unused-local-typedefs -Wno-cpp
+CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-cpp
 //Set up the build options
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=ON
-OTB_DIR:STRING=/home/otbtesting/OTB/bin/OTB-Nightly
-
+OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-Nightly/Release
+ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.6
 ")
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )

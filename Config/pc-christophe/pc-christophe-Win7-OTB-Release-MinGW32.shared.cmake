@@ -1,4 +1,8 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
+# This build is not submitted daily or weekly and the cmake
+# script is kept as a reference for enable daily submission 
+# from Windows 7 machine in future.
+
 set (CTEST_SOURCE_DIRECTORY "D:/sources/OTB")
 set (CTEST_BINARY_DIRECTORY "D:/build/OTB-MinGW32-shared")
 

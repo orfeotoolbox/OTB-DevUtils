@@ -13,12 +13,11 @@ set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 
 set(dashboard_root_name "tests")
-set(dashboard_source_name "code/ITK_trunk")
-set(dashboard_binary_name "build/ITK_trunk-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_source_name "sources/itk/trunk")
+set(dashboard_binary_name "build/itk/trunk/${CTEST_BUILD_CONFIGURATION}")
 
-
-set(INSTALLROOT "/home/otbtesting/install")
-set (ITK_INSTALL_PREFIX "${INSTALLROOT}/ITK_trunk-${CTEST_BUILD_CONFIGURATION}")
+set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
+set (ITK_INSTALL_PREFIX "${INSTALLROOT}/itk/trunk/${CTEST_BUILD_CONFIGURATION}")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -31,23 +30,21 @@ BUILD_SHARED_LIBS:BOOL=ON
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=OFF
 
-ExternalData_OBJECT_STORES:PATH=/home/otbtesting/OTB/trunk/ITKv4-ExternalObjectStores
-
 # as much external libraries as possible
 # libtiff on ubuntu does not support BigTIFF and is incompatible with ITK
 ITK_USE_SYSTEM_HDF5:BOOL=ON
 ITK_USE_SYSTEM_PNG:BOOL=OFF #due test failing in itkSingedMaurerDistanceMap..
 ITK_USE_SYSTEM_TIFF:BOOL=ON
 ITK_USE_SYSTEM_ZLIB:BOOL=ON
-ITK_USE_SYSTEM_EXPAT:BOOL=ON
+ITK_USE_SYSTEM_EXPAT:BOOL=ON #since itkv4.6
 
 # Enable system jpeg, gdcm and use openjpeg2.0 build with libgdal 
 # to prevent symbol conflict. For more info refer to wiki
 # http://wiki.orfeo-toolbox.org/index.php/JPEG2000_with_GDAL_OpenJpeg_plugin
 ITK_USE_SYSTEM_GDCM:BOOL=ON
 ITK_USE_SYSTEM_JPEG:BOOL=ON
-JPEG_INCLUDE_DIR:PATH=/home/otbtesting/install/include/openjpeg-2.0
-JPEG_LIBRARY:FILEPATH=/home/otbtesting/install/lib/libopenjp2.so
+JPEG_INCLUDE_DIR:PATH=${INSTALLROOT}/openjpeg/stable/include/openjpeg-2.0
+JPEG_LIBRARY:FILEPATH=${INSTALLROOT}/openjpeg/stable/lib/libopenjp2.so
 
 # OTB depends on this
 ITK_USE_FFTWF:BOOL=ON
