@@ -17,6 +17,7 @@ set(dashboard_binary_name "build/orfeo/trunk/OTB-clang-ThridPartyTrunk/${CTEST_B
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
+set(CTEST_USE_LAUNCHERS 1)
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
@@ -42,7 +43,7 @@ GDAL_INCLUDE_DIR:PATH=${INSTALLROOT}/gdal/trunk/include/
 GDAL_LIBRARY:FILEPATH=${INSTALLROOT}/gdal/trunk/lib/libgdal.so
 
 ##external ITK
-ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.6
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}build/itk/trunk/Release
 
 ##external OpenCV
 OpenCV_DIR=${INSTALLROOT}/opencv/trunk/share/OpenCV/

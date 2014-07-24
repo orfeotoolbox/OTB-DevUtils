@@ -25,12 +25,19 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
 CMAKE_C_FLAGS:STRING=-Wall -Wno-gnu
-CMAKE_CXX_FLAGS:STRING=-Wall -Wno-gnu
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-gnu -Wno-sometimes-uninitialized
 CMAKE_INSTALL_PREFIX:PATH=${ICE_INSTALL_PREFIX}
 
+#currently. i am forced to keep this for clang
+CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/openjpeg/trunk/lib/'
+CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/trunk/lib64
+CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/gdal/trunk/lib'
+
 GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
-ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.6
-OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-clang-ThridPartyTrunk/Release
+
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/Release
+OTB_DIR:STRING=/home/otbtesting/build/orfeo/trunk/OTB-clang-ThridPartyTrunk/Release/
+
 
 SITE:STRING=${CTEST_SITE}
 ")

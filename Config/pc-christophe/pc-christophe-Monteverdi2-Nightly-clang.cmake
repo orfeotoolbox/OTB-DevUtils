@@ -26,21 +26,29 @@ BUILD_TESTING:BOOL=ON
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
-CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-gnu
-CMAKE_CXX_FLAGS:STRING=-Weverything -Wall -Wno-deprecated -Wno-uninitialized -Wno-gnu -Wno-overloaded-virtual
+CMAKE_C_FLAGS:STRING=-Wall -Wno-gnu
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-gnu -Wno-overloaded-virtual -Wno-sometimes-uninitialized
+#currently. i am forced to keep this for clang
+CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/openjpeg/trunk/lib'
+CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/trunk/lib64'
+CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/gdal/trunk/lib'
+CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/install/openjpeg/trunk/lib'
+CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/trunk/lib64 
+CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/install/gdal/trunk/lib'
+
 CTEST_USE_LAUNCHERS:BOOL=ON
 
 #otb, itk, ice
-ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.6
-ICE_INCLUDE_DIR=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/Release
-ICE_LIBRARY:FILEPATH=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/Release/lib/otb/libOTBIce.so
-OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-clang-ThridPartyTrunk/Release
+ICE_INCLUDE_DIR=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/Debug/include/otb/
+ICE_LIBRARY:FILEPATH=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/Debug/lib/otb/libOTBIce.so
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/Release
 
 #data dir
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 
+OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/Release/lib/otb/
 #qwt
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
 QWT_LIBRARY:FILEPPATH=/usr/lib64/libqwt.so.5

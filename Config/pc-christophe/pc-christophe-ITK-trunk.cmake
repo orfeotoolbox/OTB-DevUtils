@@ -3,12 +3,12 @@
 SET(ENV{DISPLAY} ":0.0")
 
 set(dashboard_model Experimental)
-set(CTEST_DASHBOARD_ROOT "/home/otbtesting/")
+set(CTEST_DASHBOARD_ROOT "/home/otbtesting")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "OrfeoToolBox-Fedora20-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 
@@ -33,7 +33,7 @@ BUILD_EXAMPLES:BOOL=OFF
 # as much external libraries as possible
 # libtiff on ubuntu does not support BigTIFF and is incompatible with ITK
 ITK_USE_SYSTEM_HDF5:BOOL=ON
-ITK_USE_SYSTEM_PNG:BOOL=OFF #due test failing in itkSingedMaurerDistanceMap..
+ITK_USE_SYSTEM_PNG:BOOL=ON #will have test failing in itkSingedMaurerDistanceMap... in ITK dashboard
 ITK_USE_SYSTEM_TIFF:BOOL=ON
 ITK_USE_SYSTEM_ZLIB:BOOL=ON
 ITK_USE_SYSTEM_EXPAT:BOOL=ON #since itkv4.6

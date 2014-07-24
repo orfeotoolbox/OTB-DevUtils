@@ -41,7 +41,7 @@ OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
 
 ##external ITK
 OTB_USE_EXTERNAL_ITK:BOOL=ON
-ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.6
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}build/itk/stable/Release
 
 ##external OSSIM
 OTB_USE_EXTERNAL_OSSIM:BOOL=ON
@@ -62,8 +62,7 @@ OTB_USE_OPENCV:BOOL=ON
 
 ##external LibKML
 OTB_USE_EXTERNAL_LIBKML:BOOL=ON
-
  ")
-endmacro()
 
+endmacro()
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

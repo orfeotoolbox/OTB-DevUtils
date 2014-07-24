@@ -28,8 +28,8 @@ CMAKE_C_FLAGS:STRING=-Wall
 CMAKE_CXX_FLAGS:STRING=-Wall
 
 GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
-ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.6
-OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-Nightly/Release
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/stable/Release
+OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-Nightly/Release/lib/otb/
 CMAKE_INSTALL_PREFIX:PATH=${ICE_INSTALL_PREFIX}
 ")
 
