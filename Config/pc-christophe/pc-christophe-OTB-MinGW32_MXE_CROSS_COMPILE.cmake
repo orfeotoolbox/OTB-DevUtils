@@ -29,7 +29,7 @@ set(OTB_CMAKE_TRYRUN_FILE "${MXE_ROOT}/TryRunResults-OTB.cmake")
 
 set (OTB_CTEST_CACHE_SETTINGS "
 BUILD_TESTING:BOOL=OFF
-BUILD_EXAMPLES:BOOL=OFF
+BUILD_EXAMPLES:BOOL=ON
 BUILD_APPLICATIONS:BOOL=ON
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
@@ -43,8 +43,7 @@ CMAKE_USE_WIN32_THREADS:BOOL=ON
 
 #ITK et al :- auto detected from MXE_TARGET_ROOT
 
-#auto detects only ossim.dll.a. But we need openthreads to prevent build failure.
-#TODO: make this change in source CMakeLists.txt?
+#auto detects only ossim.dll.a. But we need openthreads to prevent build failure.#TODO: make this change in source CMakeLists.txt?
 OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
 
 OTB_COMPILE_WITH_FULL_WARNING:BOOL=OFF

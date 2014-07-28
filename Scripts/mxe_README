@@ -11,3 +11,8 @@
     d) Binaries will be installed in mxe/usr/i686-pc-mingw32/bin and lib
     e) A helper script is available for deployment into a zip file
        OTB-DevUtils/Scripts/mxe_deploy_otb.sh
+
+
+TODO:
+
+Generate 64 bit binaries using mingw64 toolchain
