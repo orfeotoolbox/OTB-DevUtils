@@ -1,0 +1,13 @@
+== CROSS COMPILE OTB, Ice, Monteverdi, Monteverdi2
+1. Clone mxe from github fork
+2. Clone OTB-DevUtils, OTB, Ice, Monteverdi, Monteverdi2 from hg.orfeo-toolbox.org
+3. Refer to OTB-DevUtils/Scripts/mxe_*.sh
+
+4. Start script OTB-DevUtils/Scripts/mxe_dashboard.sh
+   This script will 
+    a) clone and build mxe.
+    b) Download and compile all dependencies for OTB(GDAL, ITK, GEOS, OpenThreads, OSSIM).
+    c) Run the ctest scripts for OTB, Ice, Monteverdi and Monteverdi2 respectively.
+    d) Binaries will be installed in mxe/usr/i686-pc-mingw32/bin and lib
+    e) A helper script is available for deployment into a zip file
+       OTB-DevUtils/Scripts/mxe_deploy_otb.sh
