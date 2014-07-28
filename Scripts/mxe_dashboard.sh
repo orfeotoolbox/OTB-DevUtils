@@ -16,9 +16,9 @@ MXE_BUILD_SCRIPT=${DEVUTILS_DIRECTORY}/Scripts/mxe_build.sh
 $MXE_BUILD_SCRIPT $HOME/win-sources/mxe "yes" > $LOGS_DIR/mxe_build.log
 if [ "$?" -eq "0" ]; then
 echo 'MXE is up-to-date.'
-# ctest -S $DEVUTILS_CONFIG_DIR/pc-christophe-OTB-MinGW32_MXE_CROSS_COMPILE.cmake
-# ctest -S $DEVUTILS_CONFIG_DIR/pc-christophe-Ice-MinGW32_MXE_CROSS_COMPILE.cmake
-# ctest -S $DEVUTILS_CONFIG_DIR/pc-christophe-Monteverdi-MinGW32_MXE_CROSS_COMPILE.cmake
+ctest -S $DEVUTILS_CONFIG_DIR/pc-christophe-OTB-MinGW32_MXE_CROSS_COMPILE.cmake
+ctest -S $DEVUTILS_CONFIG_DIR/pc-christophe-Ice-MinGW32_MXE_CROSS_COMPILE.cmake
+ctest -S $DEVUTILS_CONFIG_DIR/pc-christophe-Monteverdi-MinGW32_MXE_CROSS_COMPILE.cmake
 
 ## ATTENTION !!!!!
 ##Below we appliced a local patch for Monteverdi2 cross compilation. 
@@ -35,9 +35,9 @@ echo 'MXE is up-to-date.'
 
 ##For the record. I hate to do this kind of hacks but unfortunately the build must go fine 
 ##and I dont have any options right now.. 
-/home/otbtesting/scripts/mvd2_mxe_patch.sh 'patch'
-ctest -VV -S $DEVUTILS_CONFIG_DIR/pc-christophe-Monteverdi2-MinGW32_MXE_CROSS_COMPILE.cmake
-/home/otbtesting/scripts/mvd2_mxe_patch.sh 'revert'
+${DEVUTILS_DIRECTORY}/Scripts/mvd2_mxe_patch.sh 'patch'
+ctest -S $DEVUTILS_CONFIG_DIR/pc-christophe-Monteverdi2-MinGW32_MXE_CROSS_COMPILE.cmake
+${DEVUTILS_DIRECTORY}/Scripts/mvd2_mxe_patch.sh 'revert'
 else
 echo 'MXE build failed..'
 fi
