@@ -15,14 +15,13 @@ set(CTEST_HG_UPDATE_OPTIONS "-C")
 set(CTEST_SITE "pc-christophe.cst.cnes.fr")
 
 set(CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nightly")
-set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-Nightly-MXE_CROSS_COMPILE/${CTEST_BUILD_CONFIGURATION}")
-
+set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-Nightly-MXE_CROSS_COMPILE_64bit/${CTEST_BUILD_CONFIGURATION}")
 
 #-Wno-unused-function -Wno-maybe-uninitialized -Wno-unused-but-set-variable -Wno-format-extra-args -Wno-format -Wno-unused-variable -Wno-unused-but-set-parameter -Wno-deprecated-declarations
 
 ##cross compile specific
 set(MXE_ROOT "/home/otbtesting/win-sources/mxe") 
-set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-pc-mingw32.shared")
+set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/x86_64-w64-mingw32.shared")
 set(CTEST_USE_LAUNCHERS OFF)
 set(OTB_CMAKE_TRYRUN_FILE "${MXE_ROOT}/TryRunResults-OTB.cmake")
 ##cross compile specific
