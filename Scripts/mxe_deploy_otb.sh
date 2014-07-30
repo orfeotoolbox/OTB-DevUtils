@@ -9,14 +9,14 @@ COMPRESSED_FILE=$2
 else
 echo 'Usage: '$0' <path/to/mxe/usr/TARGET-dir> <zip-file-name>'
 echo 'Ex: '$0' /home/otbtesting/win-sources/mxe/usr/i686-pc-mingw32 ~/OTB-Windows-MinGW32.zip'
-exit 1;
+exit 1
 fi
 
 if [ -d "$MXE_TARGET_DIR" ]; then
 echo 'Using ' $MXE_TARGET_DIR' as mxe target directory.'
 else
 echo $MXE_TARGET_DIR' does not exists.Exiting..'
-exit 1;
+exit 1
 fi
 
 DEPOLY_DIR='/tmp/OTB-mingw32'
@@ -29,7 +29,7 @@ rm -fr $DEPOLY_DIR/lib
 echo 'Using ' $DEPOLY_DIR' as temp directory.'
 else
 echo $DEPOLY_DIR' does not exists.Exiting..'
-exit 1;
+exit 1
 fi
 
 echo 'Start deploying OTB 32bit binaries for Windows with MinGW'
@@ -54,7 +54,7 @@ $CP $MXE_TARGET_DIR/qwt-5.2.2/lib/*.dll $DEPOLY_DIR/bin/
 $CP $MXE_TARGET_DIR/x86/mingw/bin/*.dll $DEPOLY_DIR/bin/
 $CP $MXE_TARGET_DIR/bin/otb*.exe $DEPOLY_DIR/bin/
 $CP $MXE_TARGET_DIR/bin/montever*.exe $DEPOLY_DIR/bin/
-$CP $MXE_TARGET_DIR/binaries/lib/otb/libotbopenjpeg.dll $DEPOLY_DIR/bin/
+$CP $MXE_TARGET_DIR/lib/otb/libotbopenjpeg.dll $DEPOLY_DIR/bin/
 $CP $MXE_TARGET_DIR/lib/otb/applications/*.dll $DEPOLY_DIR/lib/otb/applications/
 
 ##TODO:
