@@ -34,7 +34,7 @@ fi
 
 echo 'Start deploying OTB 32bit binaries for Windows with MinGW'
 mkdir -p $DEPOLY_DIR/bin
-mkdir -p $DEPOLY_DIR/share
+mkdir -p $DEPOLY_DIR/share/otb/i18n
 mkdir -p $DEPOLY_DIR/lib/otb/applications
 
 CP='/bin/cp -rv'
@@ -56,6 +56,7 @@ $CP $MXE_TARGET_DIR/bin/otb*.exe $DEPOLY_DIR/bin/
 $CP $MXE_TARGET_DIR/bin/montever*.exe $DEPOLY_DIR/bin/
 $CP $MXE_TARGET_DIR/lib/otb/libotbopenjpeg.dll $DEPOLY_DIR/bin/
 $CP $MXE_TARGET_DIR/lib/otb/applications/*.dll $DEPOLY_DIR/lib/otb/applications/
+$CP $MXE_TARGET_DIR/share/otb/i18n $DEPOLY_DIR/share/otb/
 
 ##TODO:
 ##remove SOME unwanted .dlls or donot copy them
