@@ -4,7 +4,7 @@
 
 Name:           CableSwig
 Version:        3.20.0
-Release:        2
+Release:        7
 Summary:        CableSwig is used to create wrappers to interpreted languages such as Tcl and Python
 Group:          Development/Libraries
 License:        Apache 2.0
@@ -12,7 +12,7 @@ URL:            http://www.itk.org/ITK/resources/CableSwig.html
 Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
-BuildRequires:  cmake gcc-c++ gcc
+BuildRequires:  cmake gcc-c++ gcc gccxml
 
 
 %description
