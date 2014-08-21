@@ -1,16 +1,16 @@
 Update of ITK in OTB source tree
 ================================
 
-#Perhpas better to update internal ITK using the archive .tar.gz
+#Update internal ITK is facilitate using the archive .tar.gz
 
 # Remove old version
-find Utilities/ITK -type f -not -name "README.OTB.txt" | xargs rm
 find Utilities/ITK/* -type d | xargs rm -r
+find Utilities/ITK/* -type f | xargs rm -r
 
 # Copy new version
 cp -R /home/jmalik/dev/src/ITK/* Utilities/ITK
 
-# git files 
+# git files (if you use git tree)
 rm -rf Utilities/ITK/.git*
 rm -rf Utilities/ITK/Modules/Remote/.gitignore
 rm -rf Utilities/ITK/Modules/External/.gitignore
