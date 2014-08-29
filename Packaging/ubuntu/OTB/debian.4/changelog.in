@@ -1,3 +1,11 @@
+otb (4.2.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * Version 4.2.0 released
+  * Fix index space conventions
+  * Switch to ITK 4.6
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Fri, 29 Aug 2014 10:07:02 +0200
+
 otb (4.0.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
 
   * Switch to ITK 4.5.2
