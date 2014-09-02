@@ -244,24 +244,20 @@ tar xzf "otb_${otb_version_full}.orig.tar.gz"
 echo "Debian scripts import..."
 cd "$TMPDIR/otb-${otb_version_full}"
 cp -a "$DEBDIR" debian
-cd debian
-sed -e "s/@OTB_VERSION_SONAME@/${otb_version_soname}/g" < control.in > control
-rm -f control.in
 
 echo "Source package generation..."
-cd "$TMPDIR/otb-${otb_version_full}"
 first_pkg=1
 for target in precise quantal saucy trusty ; do
     set_ubuntu_code_name "$target"
+    echo "Configure scripts for $ubuntu_codename"
+    cp -f "$DEBDIR/control.in" ./debian
+    cp -f "$DEBDIR/changelog.in" ./debian
+    make -f debian/rules control-file DIST=$target
+    make -f debian/rules changelog-file DIST=$target
+    rm -f debian/control.in
+    rm -f debian/changelog.in
+
     echo "Package for $ubuntu_codename ($ubuntu_version)"
-    cp -f "$DEBDIR/changelog" debian
-    if [ -n "$changelog_message" ] ; then
-        dch_message="$changelog_message"
-    else
-        dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
-    fi
-    dch --force-distribution --distribution "$target" \
-        -v "${otb_version_full}-1otb~${target}${pkg_version}" "$dch_message"
     if [ $first_pkg -eq 1 ] ; then
         debuild -k$gpgkeyid -S -sa --lintian-opts -i
         first_pkg=0
