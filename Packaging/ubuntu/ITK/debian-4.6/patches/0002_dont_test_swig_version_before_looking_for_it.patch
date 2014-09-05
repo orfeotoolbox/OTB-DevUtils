@@ -1,0 +1,23 @@
+Description: cmake tries to read the version of SWIG before it is actually searched for 
+  Since this is just awarning about the used swig version, I simply removed the snipped
+Author: Gert Wollny <gw.fossdev@gmail.com>
+Bug: https://issues.itk.org/jira/browse/ITK-3303
+
+diff --git a/Wrapping/Generators/SwigInterface/CMakeLists.txt b/Wrapping/Generators/SwigInterface/CMakeLists.txt
+index 6e77848..a8e51ca 100644
+--- a/Wrapping/Generators/SwigInterface/CMakeLists.txt
++++ b/Wrapping/Generators/SwigInterface/CMakeLists.txt
+@@ -7,13 +7,6 @@ find_package(PythonInterp REQUIRED)
+ 
+ option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." OFF)
+ 
+-# Require at least SWIG 3.0.0
+-if(ITK_USE_SYSTEM_SWIG)
+-  if(${SWIG_VERSION} VERSION_LESS 3.0.0)
+-    message(WARNING "Swig version less than 3.0.0: \"${SWIG_VERSION}\".")
+-  endif()
+-endif()
+-
+ set(swig_version 3.0.2)
+ set(swig_md5     62f9b0d010cef36a13a010dc530d0d41)
+ set(swigwin_md5  3f18de4fc09ab9abb0d3be37c11fbc8f)
