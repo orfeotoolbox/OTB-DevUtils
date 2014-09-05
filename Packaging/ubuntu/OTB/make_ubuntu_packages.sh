@@ -257,6 +257,14 @@ for target in precise quantal saucy trusty ; do
     rm -f debian/control.in
     rm -f debian/changelog.in
 
+    if [ -n "$changelog_message" ] ; then
+        dch_message="$changelog_message"
+    else
+        dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
+    fi
+    dch --force-distribution --distribution "$target" \
+        -v "${otb_version_full}-1otb~${target}${pkg_version}" "$dch_message"
+
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     if [ $first_pkg -eq 1 ] ; then
         debuild -k$gpgkeyid -S -sa --lintian-opts -i
