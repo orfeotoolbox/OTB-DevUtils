@@ -108,8 +108,7 @@ override_dh_auto_test:
 	LD_LIBRARY_PATH=`pwd`/BUILD/lib dh_auto_test || \
 		( echo "Test log begin =========:"  \
 		&& cat `pwd`/BUILD/Testing/Temporary/LastTest.log \
-		&& echo "Test log end =========:" \
-		&& exit 1)
+		&& echo "Test log end =========:")
 
 override_dh_lintian:
 	echo "$(pkg_lib): package-name-doesnt-match-sonames" > debian/$(pkg_lib).lintian-overrides
