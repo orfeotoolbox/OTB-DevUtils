@@ -47,7 +47,7 @@ sKey = sys.argv[2]
 dKey = sys.argv[3]
 
 for (dir,files) in RecursiveDirectoriesListing(path):
-    if not dir.startswith("./.hg"):
+    if not dir.startswith("./.hg") and not dir.startswith("./.git"):
 	for file in files:
 	    src = join(dir,file)
 	    # First process file content
