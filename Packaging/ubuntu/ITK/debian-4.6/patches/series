@@ -1,6 +1,5 @@
 nrrdio-linking.patch
 bsd-hdf5.patch
 0005-make-gdcm-helper-library-static.patch
-0001_avoid-includsion-of-emmintr_h_without_sse2.patch
 0002_dont_test_swig_version_before_looking_for_it.patch
 dl-close-fix.patch
