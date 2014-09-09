@@ -247,7 +247,7 @@ cp -a "$DEBDIR" debian
 
 echo "Source package generation..."
 first_pkg=1
-for target in precise quantal saucy trusty ; do
+for target in precise trusty ; do
     set_ubuntu_code_name "$target"
     echo "Configure scripts for $ubuntu_codename"
     cp -f "$DEBDIR/control.in" ./debian
