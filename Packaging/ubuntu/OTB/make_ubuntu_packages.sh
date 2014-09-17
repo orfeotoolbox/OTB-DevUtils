@@ -67,11 +67,13 @@ Options:
 
   -d directory  Top directory of the local repository clone
 
-  -r tag        Revision to extract.
+  -r tag        Revision to extract ('tip', rev. number, tag name). By default,
+                the last tagged version (after tip) is used.
 
-  -o version    External version of the OTB library (ex. 3.8.0)
+  -o version    External version of the OTB library (ex. 3.8.0). By default,
+                the last version in changelog.in is used
 
-  -p version    Version of the package (ex. 2)
+  -p version    Version of the package (ex. 2). Default is 1.
 
   -c message    Changelog message
 
@@ -109,16 +111,16 @@ check_src_top_dir ()
 
 check_src_revision ()
 {
-    if [ -z "$revision" ] ; then
-        echo "*** ERROR: missing revision identifier of the repository (option -r)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
-    fi
     olddir=$(pwd)
     cd "$topdir"
-    if ! hg log -r "$revision" &>/dev/null ; then
+    if [ -z "$revision" ] ; then
+        revision=`hg tags | head -n 2 | tail -n 1 | awk '{print $1}'`
+        echo "Using last tagged revision : $revision"
+    else
+      if ! hg log -r "$revision" &>/dev/null ; then
         echo "*** ERROR: Revision $revision unknown"
         exit 2
+      fi
     fi
     cd "$olddir"
 }
@@ -126,26 +128,19 @@ check_src_revision ()
 
 check_external_version ()
 {
-    # If OTB version is not given on command line, this script parse the top
-    # level CMakeLists.txt file to find it.
-    if [ -n "$otb_version_full" ] ; then
-        if [ "$(echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/')" != "OK" ] ; then
-            echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
-            exit 3
-        fi
-        otb_version_major=$(echo $otb_version_full | sed -e 's/^\([0-9]\+\)\..*$/\1/')
-        otb_version_minor=$(echo $otb_version_full | sed -e 's/^[^\.]\+\.\([0-9]\+\)[\.-].*$/\1/')
-        otb_version_patch=$(echo $otb_version_full | sed -e 's/^.*[\.-]\(\(RC\)\?[0-9]\+\)$/\1/')
-    else
-        otb_version_major=$(sed -n -e 's/SET(OTB_VERSION_MAJOR "\([0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
-        otb_version_minor=$(sed -n -e 's/SET(OTB_VERSION_MINOR "\([0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
-        otb_version_patch=$(sed -n -e 's/SET(OTB_VERSION_PATCH "\(\(RC\)\?[0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
-        if [ "${otb_version_patch:0:2}" == "RC" ] ; then
-            otb_version_full=${otb_version_major}.${otb_version_minor}-${otb_version_patch}
-        else
-            otb_version_full=${otb_version_major}.${otb_version_minor}.${otb_version_patch}
-        fi
+    # If OTB version is not given on command line, the head version in
+    # changelog.in file is used.
+    if [ -z "$otb_version_full" ] ; then
+        otb_version_full=$changelog_version
+        echo "Using last version in changelog.in : $otb_version_full"
     fi
+    if [ "$(echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/')" != "OK" ] ; then
+        echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
+        exit 3
+    fi
+    otb_version_major=$(echo $otb_version_full | sed -e 's/^\([0-9]\+\)\..*$/\1/')
+    otb_version_minor=$(echo $otb_version_full | sed -e 's/^[^\.]\+\.\([0-9]\+\)[\.-].*$/\1/')
+    otb_version_patch=$(echo $otb_version_full | sed -e 's/^.*[\.-]\(\(RC\)\?[0-9]\+\)$/\1/')
     otb_version_soname="${otb_version_major}.${otb_version_minor}"
 }
 
@@ -193,6 +188,7 @@ set_ubuntu_code_name ()
     esac
 }
 
+pkg_version=1
 
 while getopts ":r:d:o:p:c:g:hv" option
 do
@@ -227,6 +223,9 @@ if [ "$OPTIND" -eq 1 ] ; then
     exit 1
 fi
 
+# find last version in changelog.in
+changelog_version=`grep -E -e 'otb \(.+-.+\)' "$DEBDIR/changelog.in" | head -n 1 | cut -d '(' -f 2 | cut -d '-' -f 1`
+
 echo "Command line checking..."
 check_src_top_dir
 check_src_revision
@@ -253,17 +252,21 @@ for target in precise trusty ; do
     cp -f "$DEBDIR/control.in" ./debian
     cp -f "$DEBDIR/changelog.in" ./debian
     make -f debian/rules control-file DIST=$target
-    make -f debian/rules changelog-file DIST=$target
+    make -f debian/rules changelog-file DIST=$target PKGVERSION=$pkg_version
     rm -f debian/control.in
     rm -f debian/changelog.in
 
     if [ -n "$changelog_message" ] ; then
         dch_message="$changelog_message"
+        dch --force-distribution --distribution "$target" \
+          -v "${otb_version_full}-1otb~${target}${pkg_version}" "$dch_message"
     else
-        dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
+        if [ "${otb_version_full}" != "${changelog_version}" ] ; then
+           echo "*** ERROR: changelog version (${changelog_version}) differs from external version (${otb_version_full})"
+           echo "*** Use option (-c) to overide the changelog message and version"
+           exit 1
+        fi
     fi
-    dch --force-distribution --distribution "$target" \
-        -v "${otb_version_full}-1otb~${target}${pkg_version}" "$dch_message"
 
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     if [ $first_pkg -eq 1 ] ; then
