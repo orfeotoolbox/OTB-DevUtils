@@ -75,7 +75,7 @@ Options:
 
   -o version    External version of the OTB library (ex. 3.8.0)
 
-  -p version    Version of the package (ex. 2)
+  -p version    Version of the package (ex. 2). Default is 1.
 
   -c message    Changelog message : using a custom changelog message will
                 also overide the external version of Monteverdi
@@ -227,6 +227,7 @@ set_ubuntu_code_name ()
     esac
 }
 
+pkg_version=1
 
 while getopts ":r:d:m:o:p:c:g:hv" option
 do
