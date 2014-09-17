@@ -17,7 +17,7 @@ SCRIPT_VERSION="1.0"
 export DEBFULLNAME="OTB Team"
 export DEBEMAIL="contact@orfeo-toolbox.org"
 
-TMPDIR="/tmp"
+TMPDIR=$(mktemp -d /tmp/monteverdi2.XXXXXX)
 DIRNAME=$(dirname $0)
 if [ "${DIRNAME:0:1}" == "/" ] ; then
     CMDDIR=$DIRNAME
@@ -60,15 +60,18 @@ Options:
 
   -d directory  Top directory of the local repository clone
 
-  -r tag        Revision to extract.
+  -r tag        Revision to extract ('tip', rev. number, tag name). By default,
+                the last tagged version (after tip) is used.
 
   -m version    External version of Monteverdi2 (ex. 0.1.0)
+                By default the last version in changelog.in is used.
 
   -o version    External version of the OTB library (ex. 3.16.0)
 
-  -p version    Version of the package (ex. 2)
+  -p version    Version of the package (ex. 2). Default is 1
 
-  -c message    Changelog message
+  -c message    Changelog message : using a custom changelog message will
+                also overide the external version of Monteverdi2
 
   -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
 
@@ -104,16 +107,16 @@ check_src_top_dir ()
 
 check_src_revision ()
 {
-    if [ -z "$revision" ] ; then
-        echo "*** ERROR: missing revision identifier of the repository (option -r)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
-    fi
     olddir=`pwd`
     cd "$topdir"
-    if ! hg log -r "$revision" &>/dev/null ; then
-        echo "*** ERROR: Revision $revision unknown"
-        exit 2
+    if [ -z "$revision" ] ; then
+        revision=`hg tags | head -n 2 | tail -n 1 | awk '{print $1}'`
+        echo "Using last tagged revision : $revision"
+    else
+        if ! hg log -r "$revision" &>/dev/null ; then
+          echo "*** ERROR: Revision $revision unknown"
+          exit 2
+        fi
     fi
     cd "$olddir"
 }
@@ -122,9 +125,8 @@ check_src_revision ()
 check_external_version ()
 {
     if [ -z "$src_version_full" ] ; then
-        echo "*** ERROR: missing version number of Monteverdi2 (option -m)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
+        src_version_full=$changelog_version
+        echo "Using last version in changelog.in : $src_version_full"
     fi
     if [ "`echo $src_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
         echo "*** ERROR: Monteverdi2 full version ($src_version_full) has an unexpected format"
@@ -167,6 +169,14 @@ check_gpgkeyid ()
 set_ubuntu_code_name ()
 {
     case "$1" in
+        "trusty" )
+            ubuntu_codename="Trusty Tahr"
+            ubuntu_version="14.04"
+            ;;
+        "saucy" )
+            ubuntu_codename="Saucy Salamander"
+            ubuntu_version="13.10"
+            ;;
         "raring" )
             ubuntu_codename="Raring Ringtail"
             ubuntu_version="13.04"
@@ -210,6 +220,7 @@ set_ubuntu_code_name ()
     esac
 }
 
+pkg_version=1
 
 while getopts ":r:d:m:o:p:c:g:hv" option
 do
@@ -246,6 +257,9 @@ if [ "$OPTIND" -eq 1 ] ; then
     exit 1
 fi
 
+# find last version in changelog.in
+changelog_version=`grep -E -e 'monteverdi2 \(.+-.+\)' "$DEBDIR/changelog.in" | head -n 1 | cut -d '(' -f 2 | cut -d '-' -f 1`
+
 echo "Command line checking..."
 check_src_top_dir
 check_src_revision
@@ -264,31 +278,26 @@ mv "monteverdi2-$src_version_full.tar.gz" "monteverdi2_$src_version_full.orig.ta
 echo "Debian scripts import..."
 cd "$TMPDIR/monteverdi2-$src_version_full"
 cp -a "$DEBDIR" .
-cd debian
-for f in control rules ; do
-    sed -e "s/@SRC_VERSION_MAJOR@/$src_version_major/g" \
-        -e "s/@SRC_VERSION_MINOR@/$src_version_minor/g" \
-        -e "s/@SRC_VERSION_PATCH@/$src_version_patch/g" \
-        -e "s/@SRC_VERSION_FULL@/$src_version_full/g" \
-        -e "s/@OTB_VERSION_MAJOR@/$otb_version_major/g" \
-        -e "s/@OTB_VERSION_SONAME@/$otb_version_soname/g" \
-        -e "s/@OTB_VERSION_FULL@/$otb_version_full/g" \
-        < "$f.in" > "$f"
-    rm -f "$f.in"
-done
+
+make -f debian/rules control-file OTB_VERSION_MINIMAL=$otb_version_full
+rm -f debian/control.in
 
 echo "Source package generation..."
-cd "$TMPDIR/monteverdi2-$src_version_full"
 for target in precise trusty ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
-    cp -f "$DEBDIR/changelog" debian
+    cp -f "$DEBDIR/changelog.in" debian
+    make -f debian/rules changelog-file DIST=$target PKGVERSION=$pkg_version
+    rm -f debian/changelog.in
     if [ -n "$changelog_message" ] ; then
-        dch_message="$changelog_message"
+        dch --force-distribution --distribution "$target" \
+          -v "${src_version_full}-0ppa~${target}${pkg_version}" "$changelog_message"
     else
-        dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
+        if [ "${src_version_full}" != "${changelog_version}" ] ; then
+           echo "*** ERROR: changelog version (${changelog_version}) differs from external version (${src_version_full})"
+           echo "*** Use option (-c) to overide the changelog message and version"
+           exit 1
+        fi
     fi
-    dch --force-distribution --distribution "$target" \
-        -v "${src_version_full}-0ppa~${target}${pkg_version}" "$dch_message"
     debuild -k$gpgkeyid -S -sa --lintian-opts -i
 done
