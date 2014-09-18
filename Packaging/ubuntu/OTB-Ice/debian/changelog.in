@@ -1,4 +1,10 @@
-otb-ice (0.1.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+otb-ice (0.2.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * Package released along with Monteverdi 0.8.0
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 04 Sep 2014 17:58:00 +0100
+
+otb-ice (0.1.0-1otb1~trusty2) trusty; urgency=low
 
   * Initial release (first public package)
 

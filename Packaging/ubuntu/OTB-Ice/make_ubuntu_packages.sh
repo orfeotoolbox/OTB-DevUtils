@@ -1,0 +1,312 @@
+#!/bin/bash
+# Script to automate the Orfeo Toolbox library packaging for Ubuntu.
+#
+# Copyright (C) 2010-2014 CNES - Centre National d'Etudes Spatiales
+# by Sebastien DINOT <sebastien.dinot@c-s.fr>
+# modified by Guillaume PASERO <guillaume.pasero@c-s.fr>
+#
+# Monteverdi OTB is distributed under the CeCILL license version 2. See files
+# Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
+# (french version) in 'Copyright' directory for details. This licenses are
+# also available online:
+# http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+# http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt
+
+
+SCRIPT_VERSION="2.0"
+
+if [ -z "$DEBFULLNAME" ]; then
+  DEBFULLNAME="OTB Team"
+fi
+
+if [ -z "$DEBEMAIL" ]; then
+  DEBEMAIL="contact@orfeo-toolbox.org"
+fi
+
+export DEBFULLNAME
+export DEBEMAIL
+
+TMPDIR=$(mktemp -d /tmp/otb-ice.XXXXXX)
+DIRNAME=$(dirname $0)
+if [ "${DIRNAME:0:1}" == "/" ] ; then
+    CMDDIR=$DIRNAME
+elif [ "${DIRNAME:0:1}" == "." ] ; then
+    CMDDIR=$(pwd)/${DIRNAME:2}
+else
+    CMDDIR=$(pwd)/$DIRNAME
+fi
+DEBDIR=$CMDDIR/debian
+DEFAULT_GPGKEYID=0xAEB3D22F
+
+
+display_version ()
+{
+    cat <<EOF
+
+make_ubuntu_packages.sh, version ${SCRIPT_VERSION}
+Copyright (C) 2010-2014 CNES (Centre National d'Etudes Spatiales)
+by Sebastien DINOT <sebastien.dinot@c-s.fr>
+modified by Guillaume PASERO <guillaume.pasero@c-s.fr>
+
+EOF
+}
+
+
+display_help ()
+{
+    cat <<EOF
+
+This script is used to automate the OTB-Ice packaging for
+Ubuntu. Source packages are created in ${TMPDIR} directory.
+
+Usage:
+  ./make_ubuntu_packages.sh [options]
+
+Options:
+  -h            Display this short help message.
+
+  -v            Display version and copyright informations.
+
+  -d directory  Top directory of the local repository clone
+
+  -r tag        Revision to extract ('tip', rev. number, tag name). By default,
+                the last tagged version (after tip) is used.
+
+  -i version    External version of the OTB-Ice library (ex. 0.2.0).
+                By default the last version in changelog.in is used.
+
+  -o version    External version of the OTB library needed by Ice (ex. 4.2.0)
+
+  -p version    Version of the package (ex. 2). Default is 1.
+
+  -c message    Changelog message : using a custom changelog message will
+                also overide the external version of Monteverdi
+
+  -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
+
+Example:
+  ./make_ubuntu_packages.sh -d ~/otb/src/Ice -r 0.2.0 -o 4.2.0 -i 0.2.0 -p 2
+
+EOF
+}
+
+
+check_src_top_dir ()
+{
+    if [ -z "$topdir" ] ; then
+        echo "*** ERROR: missing top directory of the Mercurial working copy (option -d)"
+        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
+        exit 3
+    fi
+    if [ ! -d "$topdir" ] ; then
+        echo "*** ERRROR: directory '$topdir' doesn't exist"
+        exit 2
+    fi
+    if [ ! -d "$topdir/.hg" ] ; then
+        echo "*** ERRROR: No Mercurial working copy found in '$topdir' directory"
+        exit 2
+    fi
+    if [ "$(hg identify $topdir)" == "000000000000 tip" ] ; then
+        echo "*** ERROR: Mercurial failed to identify a valid repository in '$topdir'"
+        exit 2
+    fi
+    topdir=$( cd $topdir ; pwd )
+}
+
+
+check_src_revision ()
+{
+    olddir=`pwd`
+    cd "$topdir"
+    if [ -z "$revision" ] ; then
+        revision=`hg tags | head -n 2 | tail -n 1 | awk '{print $1}'`
+        echo "Using last tagged revision : $revision"
+    else
+        if ! hg log -r "$revision" &>/dev/null ; then
+          echo "*** ERROR: Revision $revision unknown"
+          exit 2
+        fi
+    fi
+    cd "$olddir"
+}
+
+
+check_external_version ()
+{
+    if [ -z "$src_version_full" ] ; then
+        src_version_full=$changelog_version
+        echo "Using last version in changelog.in : $src_version_full"
+    fi
+    if [ "`echo $src_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
+        echo "*** ERROR: Ice full version ($src_version_full) has an unexpected format"
+        exit 3
+    fi
+    if [ -z "$otb_version_full" ] ; then
+        echo "*** ERROR: missing version number of OTB (option -o)"
+        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
+        exit 3
+    fi
+    if [ "`echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
+        echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
+        exit 3
+    fi
+
+    src_version_major=`echo $src_version_full | sed -e 's/^\([0-9]\+\)\..*$/\1/'`
+    src_version_minor=`echo $src_version_full | sed -e 's/^[^\.]\+\.\([0-9]\+\)[\.-].*$/\1/'`
+    src_version_patch=`echo $src_version_full | sed -e 's/^.*[\.-]\(\(RC\)\?[0-9]\+\)$/\1/'`
+
+    otb_version_major=`echo $otb_version_full | sed -e 's/^\([0-9]\+\)\..*$/\1/'`
+    otb_version_minor=`echo $otb_version_full | sed -e 's/^[^\.]\+\.\([0-9]\+\)[\.-].*$/\1/'`
+    otb_version_patch=`echo $otb_version_full | sed -e 's/^.*[\.-]\(\(RC\)\?[0-9]\+\)$/\1/'`
+    otb_version_soname="${otb_version_major}.${otb_version_minor}"
+}
+
+
+check_gpgkeyid ()
+{
+    if [ -z "$gpgkeyid" ] ; then
+        gpgkeyid=$DEFAULT_GPGKEYID
+    fi
+    gpg --list-secret-keys $gpgkeyid &>/dev/null
+    if [ "$?" -ne 0 ] ; then
+        echo "*** ERROR: Secret part of the GnuPG key $gpgkeyid is unavailable, packages can't be signed"
+        exit 4
+    fi
+}
+
+
+set_ubuntu_code_name ()
+{
+    case "$1" in
+        "trusty" )
+            ubuntu_codename="Trusty Tahr"
+            ubuntu_version="14.04"
+            ;;
+        "saucy" )
+            ubuntu_codename="Saucy Salamander"
+            ubuntu_version="13.10"
+            ;;
+        "raring" )
+            ubuntu_codename="Raring Ringtail"
+            ubuntu_version="13.04"
+            ;;
+        "quantal" )
+            ubuntu_codename="Quantal Quetzal"
+            ubuntu_version="12.10"
+            ;;
+        "precise" )
+            ubuntu_codename="Precise Pangolin"
+            ubuntu_version="12.04"
+            ;;
+        "oneiric" )
+            ubuntu_codename="Oneiric Ocelot"
+            ubuntu_version="11.10"
+            ;;
+        "natty" )
+            ubuntu_codename="Natty Narwhal"
+            ubuntu_version="11.04"
+            ;;
+        "maverick" )
+            ubuntu_codename="Maverick Meerkat"
+            ubuntu_version="10.10"
+            ;;
+        "lucid" )
+            ubuntu_codename="Lucid Lynx"
+            ubuntu_version="10.04 LTS"
+            ;;
+        "karmic" )
+            ubuntu_codename="Karmic Koala"
+            ubuntu_version="9.10"
+            ;;
+        "hardy" )
+            ubuntu_codename="Hardy Heron"
+            ubuntu_version="08.04 LTS"
+            ;;
+        * )
+            echo "*** ERROR: Unknown Ubuntu version name"
+            exit 4
+            ;;
+    esac
+}
+
+pkg_version=1
+
+while getopts ":r:d:i:o:p:c:g:hv" option
+do
+    case $option in
+        d ) topdir=$OPTARG
+            ;;
+        r ) revision=$OPTARG
+            ;;
+        i ) src_version_full=$OPTARG
+            ;;
+        o ) otb_version_full=$OPTARG
+            ;;
+        p ) pkg_version=$OPTARG
+            ;;
+        c ) changelog_message=$OPTARG
+            ;;
+        g ) gpgkeyid=$OPTARG
+            ;;
+        v ) display_version
+            exit 0
+            ;;
+        h ) display_help
+            exit 0
+            ;;
+        * ) echo "*** ERROR: Unknown option -$OPTARG (arg #"$(($OPTIND - 1))")"
+            display_help
+            exit 0
+            ;;
+    esac
+done
+
+if [ "$OPTIND" -eq 1 ] ; then
+    display_help
+    exit 1
+fi
+
+# find last version in changelog.in
+changelog_version=`grep -E -e 'otb-ice \(.+-.+\)' "$DEBDIR/changelog.in" | head -n 1 | cut -d '(' -f 2 | cut -d '-' -f 1`
+
+echo "Command line checking..."
+check_src_top_dir
+check_src_revision
+check_external_version
+check_gpgkeyid
+
+echo "Archive export..."
+cd "$topdir"
+hg archive -r "$revision" -t tgz "$TMPDIR/otb-ice-$src_version_full.tar.gz"
+
+echo "Archive extraction..."
+cd "$TMPDIR"
+tar xzf "otb-ice-$src_version_full.tar.gz"
+mv "otb-ice-$src_version_full.tar.gz" "otb-ice_$src_version_full.orig.tar.gz"
+
+echo "Debian scripts import..."
+cd "$TMPDIR/otb-ice-$src_version_full"
+cp -a "$DEBDIR" .
+
+make -f debian/rules control-file OTB_VERSION_MINIMAL=$otb_version_full
+rm -f debian/control.in
+
+echo "Source package generation..."
+for target in precise trusty ; do
+    set_ubuntu_code_name "$target"
+    echo "Package for $ubuntu_codename ($ubuntu_version)"
+    cp -f "$DEBDIR/changelog.in" debian
+    make -f debian/rules changelog-file DIST=$target PKGVERSION=$pkg_version
+    rm -f debian/changelog.in
+    if [ -n "$changelog_message" ] ; then
+        dch --force-distribution --distribution "$target" \
+          -v "${src_version_full}-0ppa~${target}${pkg_version}" "$changelog_message"
+    else
+        if [ "${src_version_full}" != "${changelog_version}" ] ; then
+           echo "*** ERROR: changelog version (${changelog_version}) differs from external version (${src_version_full})"
+           echo "*** Use option (-c) to overide the changelog message and version"
+           exit 1
+        fi
+    fi
+    debuild -k$gpgkeyid -S -sa --lintian-opts -i
+done
