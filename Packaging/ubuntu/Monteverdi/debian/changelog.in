@@ -5,7 +5,7 @@ monteverdi (1.22.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
 
  -- OTB Team <contact@orfeo-toolbox.org>  Fri, 29 Aug 2014 10:07:02 +0200
 
-monteverdi (1.20.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+monteverdi (1.20.0-1otb1~trusty3) trusty; urgency=low
 
   * Switch to OTB 4.0.0
   * Added legacy visualisation library based on OTB widgets (at the same
