@@ -63,12 +63,14 @@ Options:
   -r tag        Revision to extract ('tip', rev. number, tag name). By default,
                 the last tagged version (after tip) is used.
 
-  -m version    External version of Monteverdi2 (ex. 0.1.0)
+  -m version    External version of Monteverdi2 (ex. 0.8.0)
                 By default the last version in changelog.in is used.
 
-  -o version    External version of the OTB library (ex. 3.16.0)
+  -o version    External version of the OTB library (ex. 4.2.0)
 
   -p version    Version of the package (ex. 2). Default is 1
+
+  -i version    External version of the ICE library (ex. 0.2.0)
 
   -c message    Changelog message : using a custom changelog message will
                 also overide the external version of Monteverdi2
@@ -76,7 +78,7 @@ Options:
   -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
 
 Example:
-  ./make_ubuntu_packages.sh -d ~/otb/src/Monteverdi2 -r 0.1 -o 3.16.0 -m 0.1-alpha1 -p 2
+  ./make_ubuntu_packages.sh -d ~/otb/src/Monteverdi2 -o 4.2.0 -i 0.2.0 -p 2
 
 EOF
 }
@@ -139,6 +141,16 @@ check_external_version ()
     fi
     if [ "`echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
         echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
+        exit 3
+    fi
+
+    if [ -z "$ice_version_full" ] ; then
+        echo "*** ERROR: missing version number of ICE (option -i)"
+        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
+        exit 3
+    fi
+    if [ "`echo $ice_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
+        echo "*** ERROR: ICE full version ($ice_version_full) has an unexpected format"
         exit 3
     fi
 
@@ -222,7 +234,7 @@ set_ubuntu_code_name ()
 
 pkg_version=1
 
-while getopts ":r:d:m:o:p:c:g:hv" option
+while getopts ":r:d:m:o:p:i:c:g:hv" option
 do
     case $option in
         d ) topdir=$OPTARG
@@ -234,6 +246,8 @@ do
         o ) otb_version_full=$OPTARG
             ;;
         p ) pkg_version=$OPTARG
+            ;;
+        i ) ice_version_full=$OPTARG
             ;;
         c ) changelog_message=$OPTARG
             ;;
@@ -279,7 +293,7 @@ echo "Debian scripts import..."
 cd "$TMPDIR/monteverdi2-$src_version_full"
 cp -a "$DEBDIR" .
 
-make -f debian/rules control-file OTB_VERSION_MINIMAL=$otb_version_full
+make -f debian/rules control-file OTB_VERSION_MINIMAL=$otb_version_full OTB_ICE_VERSION_MINIMAL=$ice_version_full
 rm -f debian/control.in
 
 echo "Source package generation..."
