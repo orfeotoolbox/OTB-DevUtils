@@ -77,6 +77,11 @@ Options:
 
   -c message    Changelog message
 
+  -s archive    Use a source archive ('orig') instead of a local repository
+                (-d) and a revision (-r). It can be used in case a previous
+                version of the package is already on the ppa. The source
+                archive won't be uploaded again.
+
   -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
 
 Example:
@@ -145,6 +150,15 @@ check_external_version ()
 }
 
 
+check_src_archive ()
+{
+    if [ ! -f "$source_archive" ] ; then
+        echo "*** ERROR: archive '$source_archive' doesn't exist"
+        exit 2
+    fi
+}
+
+
 check_gpgkeyid ()
 {
     if [ -z "$gpgkeyid" ] ; then
@@ -189,8 +203,11 @@ set_ubuntu_code_name ()
 }
 
 pkg_version=1
+# -sa : force original source inclusion
+# -sd : force original source exclusion, only produce diff
+include_src_option="-sa"
 
-while getopts ":r:d:o:p:c:g:hv" option
+while getopts ":r:d:o:p:c:g:s:hv" option
 do
     case $option in
         d ) topdir=$OPTARG
@@ -204,6 +221,9 @@ do
         c ) changelog_message=$OPTARG
             ;;
         g ) gpgkeyid=$OPTARG
+            ;;
+        s ) source_archive=$OPTARG
+            include_src_option="-sd"
             ;;
         v ) display_version
             exit 0
@@ -227,18 +247,32 @@ fi
 changelog_version=`grep -E -e 'otb \(.+-.+\)' "$DEBDIR/changelog.in" | head -n 1 | cut -d '(' -f 2 | cut -d '-' -f 1`
 
 echo "Command line checking..."
-check_src_top_dir
-check_src_revision
+if [ -n "$source_archive" ] ; then
+  echo "Using source archive"
+  check_src_archive
+else
+  echo "Using local repository"
+  check_src_top_dir
+  check_src_revision
+fi
+
 check_external_version
 check_gpgkeyid
 
-echo "Archive export..."
-cd "$topdir"
-hg archive -r "$revision" -t tgz -p "otb-$otb_version_full" "$TMPDIR/otb_${otb_version_full}.orig.tar.gz"
+if [ -n "$source_archive" ] ; then
+  echo "Archive extraction..."
+  cp "$source_archive" "$TMPDIR"
+  cd "$TMPDIR"
+  tar xzf `basename "$source_archive"`
+else
+  echo "Archive export..."
+  cd "$topdir"
+  hg archive -r "$revision" -t tgz -p "otb-$otb_version_full" "$TMPDIR/otb_${otb_version_full}.orig.tar.gz"
 
-echo "Archive extraction..."
-cd "$TMPDIR"
-tar xzf "otb_${otb_version_full}.orig.tar.gz"
+  echo "Archive extraction..."
+  cd "$TMPDIR"
+  tar xzf "otb_${otb_version_full}.orig.tar.gz"
+fi
 
 echo "Debian scripts import..."
 cd "$TMPDIR/otb-${otb_version_full}"
@@ -269,12 +303,15 @@ for target in precise trusty ; do
     fi
 
     echo "Package for $ubuntu_codename ($ubuntu_version)"
+    debuild -k$gpgkeyid -S $include_src_option --lintian-opts -i
+
     if [ $first_pkg -eq 1 ] ; then
-        debuild -k$gpgkeyid -S -sa --lintian-opts -i
         first_pkg=0
-    else
-        debuild -k$gpgkeyid -S --lintian-opts -i
+        if [ "$include_src_option" = "-sa" ] ; then
+          include_src_option=""
+        fi
     fi
+
     echo "OTB source package for Ubuntu $ubuntu_codename is available in $TMPDIR"
     echo "You might want to run 'cp \"$TMPDIR/otb-${otb_version_full}/debian/changelog\" \"$DEBDIR/changelog\"' and commit"
 done
