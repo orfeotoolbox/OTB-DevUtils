@@ -184,6 +184,19 @@ check_src_archive ()
         echo "*** ERROR: archive '$source_archive' doesn't exist"
         exit 2
     fi
+    extract_cmd="tar -xf"
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.gz$')" ] ; then
+      extract_cmd="tar -xzf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tgz$')" ] ; then
+      extract_cmd="tar -xzf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.xz$')" ] ; then
+      extract_cmd="tar -xJf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.bz2$')" ] ; then
+      extract_cmd="tar -xjf"
+    fi
 }
 
 
@@ -304,7 +317,7 @@ if [ -n "$source_archive" ] ; then
   echo "Archive extraction..."
   cp "$source_archive" "$TMPDIR"
   cd "$TMPDIR"
-  tar xzf `basename "$source_archive"`
+  $extract_cmd `basename "$source_archive"`
 else
   echo "Archive export..."
   cd "$topdir"
