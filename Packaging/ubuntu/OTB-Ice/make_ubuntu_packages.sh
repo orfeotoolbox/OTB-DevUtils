@@ -84,6 +84,11 @@ Options:
 
   -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
 
+  -s archive    Use a source archive ('orig') instead of a local repository
+                (-d) and a revision (-r). It can be used in case a previous
+                version of the package is already on the ppa. The source
+                archive won't be uploaded again.
+
 Example:
   ./make_ubuntu_packages.sh -d ~/otb/src/Ice -r 0.2.0 -o 4.2.0 -i 0.2.0 -p 2
 
@@ -174,6 +179,13 @@ check_gpgkeyid ()
     fi
 }
 
+check_src_archive ()
+{
+    if [ ! -f "$source_archive" ] ; then
+        echo "*** ERROR: archive '$source_archive' doesn't exist"
+        exit 2
+    fi
+}
 
 set_ubuntu_code_name ()
 {
@@ -230,8 +242,11 @@ set_ubuntu_code_name ()
 }
 
 pkg_version=1
+# -sa : force original source inclusion
+# -sd : force original source exclusion, only produce diff
+include_src_option="-sa"
 
-while getopts ":r:d:i:o:p:c:g:hv" option
+while getopts ":r:d:i:o:p:c:g:s:hv" option
 do
     case $option in
         d ) topdir=$OPTARG
@@ -247,6 +262,9 @@ do
         c ) changelog_message=$OPTARG
             ;;
         g ) gpgkeyid=$OPTARG
+            ;;
+        s ) source_archive=$OPTARG
+            include_src_option="-sd"
             ;;
         v ) display_version
             exit 0
@@ -270,19 +288,33 @@ fi
 changelog_version=`grep -E -e 'otb-ice \(.+-.+\)' "$DEBDIR/changelog.in" | head -n 1 | cut -d '(' -f 2 | cut -d '-' -f 1`
 
 echo "Command line checking..."
-check_src_top_dir
-check_src_revision
+if [ -n "$source_archive" ] ; then
+  echo "Using source archive"
+  check_src_archive
+else
+  echo "Using local repository"
+  check_src_top_dir
+  check_src_revision
+fi
+
 check_external_version
 check_gpgkeyid
 
-echo "Archive export..."
-cd "$topdir"
-hg archive -r "$revision" -t tgz "$TMPDIR/otb-ice-$src_version_full.tar.gz"
+if [ -n "$source_archive" ] ; then
+  echo "Archive extraction..."
+  cp "$source_archive" "$TMPDIR"
+  cd "$TMPDIR"
+  tar xzf `basename "$source_archive"`
+else
+  echo "Archive export..."
+  cd "$topdir"
+  hg archive -r "$revision" -t tgz "$TMPDIR/otb-ice-$src_version_full.tar.gz"
 
-echo "Archive extraction..."
-cd "$TMPDIR"
-tar xzf "otb-ice-$src_version_full.tar.gz"
-mv "otb-ice-$src_version_full.tar.gz" "otb-ice_$src_version_full.orig.tar.gz"
+  echo "Archive extraction..."
+  cd "$TMPDIR"
+  tar xzf "otb-ice-$src_version_full.tar.gz"
+  mv "otb-ice-$src_version_full.tar.gz" "otb-ice_$src_version_full.orig.tar.gz"
+fi
 
 echo "Debian scripts import..."
 cd "$TMPDIR/otb-ice-$src_version_full"
@@ -308,5 +340,5 @@ for target in precise trusty ; do
            exit 1
         fi
     fi
-    debuild -k$gpgkeyid -S -sa --lintian-opts -i
+    debuild -k$gpgkeyid -S $include_src_option --lintian-opts -i
 done
