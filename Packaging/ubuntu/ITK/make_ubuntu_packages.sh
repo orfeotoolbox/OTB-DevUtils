@@ -86,69 +86,39 @@ EOF
 }
 
 
-check_src_top_dir ()
-{
-    if [ -z "$topdir" ] ; then
-        echo "*** ERROR: missing top directory of the Mercurial working copy (option -d)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
-    fi
-    if [ ! -d "$topdir" ] ; then
-        echo "*** ERRROR: directory '$topdir' doesn't exist"
-        exit 2
-    fi
-    if [ ! -d "$topdir/.hg" ] ; then
-        echo "*** ERRROR: No Mercurial working copy found in '$topdir' directory"
-        exit 2
-    fi
-    if [ "$(hg identify $topdir)" == "000000000000 tip" ] ; then
-        echo "*** ERROR: Mercurial failed to identify a valid repository in '$topdir'"
-        exit 2
-    fi
-    topdir=$( cd $topdir ; pwd )
-}
-
-
-check_src_revision ()
-{
-    if [ -z "$revision" ] ; then
-        echo "*** ERROR: missing revision identifier of the repository (option -r)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
-    fi
-    olddir=$(pwd)
-    cd "$topdir"
-    if ! hg log -r "$revision" &>/dev/null ; then
-        echo "*** ERROR: Revision $revision unknown"
-        exit 2
-    fi
-    cd "$olddir"
-}
-
-
 check_external_version ()
 {
-    # If OTB version is not given on command line, this script parse the top
-    # level CMakeLists.txt file to find it.
-    if [ -n "$otb_version_full" ] ; then
-        if [ "$(echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/')" != "OK" ] ; then
-            echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
-            exit 3
-        fi
-        otb_version_major=$(echo $otb_version_full | sed -e 's/^\([0-9]\+\)\..*$/\1/')
-        otb_version_minor=$(echo $otb_version_full | sed -e 's/^[^\.]\+\.\([0-9]\+\)[\.-].*$/\1/')
-        otb_version_patch=$(echo $otb_version_full | sed -e 's/^.*[\.-]\(\(RC\)\?[0-9]\+\)$/\1/')
-    else
-        otb_version_major=$(sed -n -e 's/SET(OTB_VERSION_MAJOR "\([0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
-        otb_version_minor=$(sed -n -e 's/SET(OTB_VERSION_MINOR "\([0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
-        otb_version_patch=$(sed -n -e 's/SET(OTB_VERSION_PATCH "\(\(RC\)\?[0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
-        if [ "${otb_version_patch:0:2}" == "RC" ] ; then
-            otb_version_full=${otb_version_major}.${otb_version_minor}-${otb_version_patch}
-        else
-            otb_version_full=${otb_version_major}.${otb_version_minor}.${otb_version_patch}
-        fi
+    if [ -z "$otb_version_full" ] ; then
+        echo "*** ERROR: missing version number of OTB (option -o)"
+        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
+        exit 3
     fi
-    otb_version_soname="${otb_version_major}.${otb_version_minor}"
+    if [ "`echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
+        echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
+        exit 3
+    fi
+}
+
+
+check_src_archive ()
+{
+    if [ ! -f "$source_archive" ] ; then
+        echo "*** ERROR: archive '$source_archive' doesn't exist"
+        exit 2
+    fi
+    extract_cmd="tar -xf"
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.gz$')" ] ; then
+      extract_cmd="tar -xzf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tgz$')" ] ; then
+      extract_cmd="tar -xzf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.xz$')" ] ; then
+      extract_cmd="tar -xJf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.bz2$')" ] ; then
+      extract_cmd="tar -xjf"
+    fi
 }
 
 
@@ -199,13 +169,9 @@ set_ubuntu_code_name ()
 while getopts ":a:o:p:c:g:hv" option
 do
     case $option in
-        a ) archpath=$OPTARG
-            ;;
-        o ) otb_version_full=$OPTARG
+        a ) source_archive=$OPTARG
             ;;
         p ) pkg_version=$OPTARG
-            ;;
-        c ) changelog_message=$OPTARG
             ;;
         g ) gpgkeyid=$OPTARG
             ;;
@@ -227,23 +193,22 @@ if [ "$OPTIND" -eq 1 ] ; then
     exit 1
 fi
 
-#echo "Command line checking..."
-#check_src_top_dir
-#check_src_revision
-#check_external_version
+# find last version in changelog.in
+changelog_version=`grep -E -e 'insighttoolkit4 \(.+-.+\)' "$DEBDIR/changelog.in" | head -n 1 | cut -d '(' -f 2 | cut -d '-' -f 1`
+
+echo "Command line checking..."
+check_src_archive
+
+check_external_version
 check_gpgkeyid
 
-#echo "Archive export..."
-#cd "$topdir"
-#hg archive -r "$revision" -t tgz -p "otb-$otb_version_full" "$TMPDIR/otb_${otb_version_full}.orig.tar.gz"
-
 echo "Archive extraction..."
-tar xJf "$archpath" -C "$TMPDIR"
-cp "$archpath" "$TMPDIR"
+cp "$source_archive" "$TMPDIR"
 cd "$TMPDIR"
+$extract_cmd `basename "$source_archive"`
 
 echo "Debian scripts import..."
-cd "$TMPDIR/InsightToolkit-4.6.0"
+cd "$TMPDIR/InsightToolkit-${changelog_version}"
 cp -a "$DEBDIR" debian
 
 echo "Source package generation..."
@@ -265,6 +230,5 @@ for target in precise trusty ; do
     else
         debuild -k$gpgkeyid -S --lintian-opts -i
     fi
-    echo "OTB source package for Ubuntu $ubuntu_codename is available in $TMPDIR"
-    echo "You might want to run 'cp \"$TMPDIR/otb-${otb_version_full}/debian/changelog\" \"$DEBDIR/changelog\"' and commit"
+    echo "ITK source package for Ubuntu $ubuntu_codename is available in $TMPDIR"
 done
