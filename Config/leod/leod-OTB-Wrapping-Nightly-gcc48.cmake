@@ -47,7 +47,7 @@ JAVA_COMPILE:FILEPATH=/usr/bin/javac
 JAVA_RUNTIME:FILEPATH=/usr/bin/java
 
 #Python Executable
-PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python
+PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python2.7
 
 ")
 
