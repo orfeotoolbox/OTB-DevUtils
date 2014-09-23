@@ -77,7 +77,7 @@ Options:
 
   -c message    Changelog message
 
-  -s archive    Use a source archive ('orig') instead of a local repository
+  -a archive    Use a source archive ('orig') instead of a local repository
                 (-d) and a revision (-r). It can be used in case a previous
                 version of the package is already on the ppa. The source
                 archive won't be uploaded again.
@@ -207,7 +207,7 @@ pkg_version=1
 # -sd : force original source exclusion, only produce diff
 include_src_option="-sa"
 
-while getopts ":r:d:o:p:c:g:s:hv" option
+while getopts ":r:d:o:p:c:g:a:hv" option
 do
     case $option in
         d ) topdir=$OPTARG
@@ -222,7 +222,7 @@ do
             ;;
         g ) gpgkeyid=$OPTARG
             ;;
-        s ) source_archive=$OPTARG
+        a ) source_archive=$OPTARG
             include_src_option="-sd"
             ;;
         v ) display_version
