@@ -1,5 +1,7 @@
 #!/bin/bash
-
+##07-oct-2014: checkout 2.4 branch instead of trunk 
+###ref mantis bug #956
+### http://bugs.orfeo-toolbox.org/view.php?id=956
 
 if [ $# -ne 2 ]; then
  echo 'Usage: '$0' <path/to/source>  <type>'
@@ -15,7 +17,9 @@ BUILDDIR=$HOME/build/opencv/$TYPE
 INSTALLROOT=$HOME/install
 
 cd $SOURCEDIR
-git pull origin master
+#git pull origin master
+git checkout -b 2.4
+rm -fr $INSTALLROOT/opencv/$TYPE
 
 if [ -d "$BUILDDIR" ]; then
     # clean up build dir
