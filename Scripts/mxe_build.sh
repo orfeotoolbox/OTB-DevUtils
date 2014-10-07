@@ -10,7 +10,7 @@ MXE_TARGET=$2
 DO_PULL=$3
 else
 echo 'Usage: '$0' <path/to/mxe> <mxe-target> <git-pull>'
-echo 'Ex: '$0' ~/win-sources/mxe/ i686-pc-mingw32 yes'
+echo 'Ex: '$0' ~/win-sources/mxe/ i686-pc-mingw32.shared yes'
 exit 1
 fi
 
@@ -24,4 +24,4 @@ fi;
 echo 'MXE_TARGET='$MXE_TARGET
 echo 'Sarting build of mxe and dependencies right now.'
 #now start building
-make MXE_TARGETS="$MXE_TARGET" expat zlib libpng jpeg xz tiff openjpeg gdal openthreads geos ossim itk qt opencv glfw3 glew freeglut boost qwt_qt4 fltk
+make MXE_TARGETS="$MXE_TARGET" expat zlib libpng jpeg xz tiff openjpeg gdal openthreads geos ossim itk qt opencv-noffmpeg glfw3 glew freeglut boost qwt_qt4 fltk
