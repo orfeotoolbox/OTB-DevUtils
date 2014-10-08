@@ -2,9 +2,9 @@
 # 24-07-2014
 # ** THIS IS A WORK IN PROGRESS. A better way to find the only needed files is needed deployed
 # 08-10-2014
-# ** Using copydlls.py script from - 
+# ** Using copydlls.py script from -
 # ** https://github.com/performous/performous/blob/master/win32/mxe/copydlls.py
- 
+
 if [ $# -eq 2 ]; then
 MXE_TARGET_DIR=$1
 COMPRESSED_FILE=$2
@@ -54,6 +54,8 @@ fi
 ##hack - qt and qwt goes $MXE_TARGET_DIR/qt to needs to cleaned
 $CP $MXE_TARGET_DIR/qt/bin/Qt*.dll $MXE_TARGET_DIR/bin/
 $CP $MXE_TARGET_DIR/qwt/lib/qwt5.dll $MXE_TARGET_DIR/bin/
+$CP $MXE_TARGET_DIR/lib/glfw3.dll $MXE_TARGET_DIR/bin/
+$CP $MXE_TARGET_DIR/x86/mingw/bin/libopencv_*.dll $MXE_TARGET_DIR/bin/
 
 echo 'Prepare deploy directory for copydlls.py script'
 $CP $MXE_TARGET_DIR/lib/otb/applications/otbapp_*.dll $COPYDLLS_DIR
@@ -100,8 +102,6 @@ $CP $MXE_TARGET_DIR/share/gdal $DEPLOY_DIR/share/gdal
 #otb*.bat
 $CP $MXE_TARGET_DIR/bin/*.bat $DEPLOY_DIR/bin/
 
-
-
 echo 'Deployed binaries in '$DEPLOY_DIR
 /bin/ls $DEPLOY_DIR
 echo 'Compressing files...'
@@ -113,8 +113,10 @@ $COMPRESS
 
 if [ -d "$DEPLOY_DIR" ]; then
 echo 'Cleanup deploy dir'
-$RM $MXE_TARGET_DIR/qt/bin/Qt*.dll
-$RM $MXE_TARGET_DIR/qwt/lib/qwt5.dll
+$RM $MXE_TARGET_DIR/bin/Qt*.dll
+$RM $MXE_TARGET_DIR/bin/qwt5.dll
+$RM $MXE_TARGET_DIR/bin/glfw3.dll
+$RM $MXE_TARGET_DIR/bin/libopencv_*.dll
 $RM -r $DEPLOY_DIR
 fi
 
