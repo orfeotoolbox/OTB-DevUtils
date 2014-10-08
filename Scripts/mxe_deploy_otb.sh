@@ -61,7 +61,10 @@ $CP $MXE_TARGET_DIR/bin/libOTB*.dll $COPYDLLS_DIR
 $CP $MXE_TARGET_DIR/bin/otbTestDriver.exe $COPYDLLS_DIR
 $CP $MXE_TARGET_DIR/bin/otbApplicationLauncher* $COPYDLLS_DIR
 $CP $MXE_TARGET_DIR/bin/libMonteverdi2_*.dll $COPYDLLS_DIR
+#copy monteverdi executable
 $CP $MXE_TARGET_DIR/bin/montever*.exe $COPYDLLS_DIR
+#copy iceviewer executable
+$CP $MXE_TARGET_DIR/bin/otbiceviewer.exe $COPYDLLS_DIR
 #copy gdal binaries
 $CP $MXE_TARGET_DIR/bin/gdal*.exe $COPYDLLS_DIR
 
@@ -69,25 +72,27 @@ $CP $MXE_TARGET_DIR/bin/gdal*.exe $COPYDLLS_DIR
 $PYTHON $COPYDLLS_SCRIPT $MXE_TARGET_DIR/bin/ $COPYDLLS_DIR
 
 echo 'Start deploying OTB binaries for Windows'
-$MKDIR $DEPLOY_DIR/bin
-$MKDIR $DEPLOY_DIR/lib/otb/applications
-$MKDIR $DEPLOY_DIR/lib/qt4/plugins/sqldrivers
-$MKDIR $DEPLOY_DIR/share/qt4/translations
-$MKDIR $DEPLOY_DIR/share/gdal
+$MKDIR $DEPLOY_DIR/bin/
+$MKDIR $DEPLOY_DIR/lib/otb/applications/
+$MKDIR $DEPLOY_DIR/lib/qt4/plugins/sqldrivers/
+$MKDIR $DEPLOY_DIR/share/qt4/translations/
+$MKDIR $DEPLOY_DIR/share/gdal/
 
 /bin/mv $COPYDLLS_DIR/otbapp_*.dll $DEPLOY_DIR/lib/otb/applications/
 $CP $COPYDLLS_DIR/*.dll $DEPLOY_DIR/bin/
 $CP $COPYDLLS_DIR/otbApplicationLauncher* $DEPLOY_DIR/bin/
 $CP $COPYDLLS_DIR/montever*.exe $DEPLOY_DIR/bin/
-$CP $COPYDLLS_DIR/bin/gdal*.exe $DEPLOY_DIR/bin
+$CP $COPYDLLS_DIR/gdal*.exe $DEPLOY_DIR/bin/
+$CP $COPYDLLS_DIR/otbiceviewer.exe $DEPLOY_DIR/bin/
+
 
 #copy translation and sqlite.dll for monteverdi2
-$CP $MXE_TARGET_DIR/share/otb/i18n $DEPLOY_DIR/share/qt4/translations
+$CP $MXE_TARGET_DIR/share/otb/i18n $DEPLOY_DIR/share/qt4/translations/
 $CP $MXE_TARGET_DIR/qt/plugins/sqldrivers/qsqlite4.dll $DEPLOY_DIR/lib/qt4/plugins/sqldrivers/
 
 #copy qt.conf and monteverdi2.bat
-$CP $MVD2_SRC_DIR/Packaging/Windows/qt.conf $DEPLOY_DIR/bin
-$CP $MVD2_SRC_DIR/Packaging/Windows/monteverdi2.bat $DEPLOY_DIR/bin
+$CP $MVD2_SRC_DIR/Packaging/Windows/qt.conf $DEPLOY_DIR/bin/
+$CP $MVD2_SRC_DIR/Packaging/Windows/monteverdi2.bat $DEPLOY_DIR/bin/
 
 #/usr/share/gdal
 $CP $MXE_TARGET_DIR/share/gdal $DEPLOY_DIR/share/gdal
