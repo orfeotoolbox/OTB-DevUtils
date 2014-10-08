@@ -40,6 +40,7 @@ CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
 CMAKE_USE_PTHREADS:BOOL=OFF
 CMAKE_USE_WIN32_THREADS:BOOL=ON
 
+GDAL_CONFIG:FILEPATH='${MXE_TARGET_ROOT}/bin/gdal-config'
 #ITK et al :- auto detected from MXE_TARGET_ROOT
 
 #auto detects only ossim.dll.a. But we need openthreads to prevent build failure.#TODO: make this change in source CMakeLists.txt?
