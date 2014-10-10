@@ -32,7 +32,7 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB
-OpenCV_DIR:PATH=/home/otbval/tools/install/opencv-2.4.5/share/OpenCV
+OpenCV_DIR:PATH=/usr/share/OpenCV
 
 ")
 

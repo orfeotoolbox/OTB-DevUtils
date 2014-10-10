@@ -28,7 +28,7 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
 ITK_DIR:PATH=/home/otbval/Dashboard/build/ITKv4-upstream-RelWithDebInfo 
 OTB_DIR:PATH=/home/otbval/Dashboard/build/OTB-RelWithDebInfo
-OpenCV_DIR:PATH=/home/otbval/tools/install/opencv-2.4.5/share/OpenCV 
+OpenCV_DIR:PATH=/usr/share/OpenCV 
 
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=${ICE_INSTALL_PREFIX}

@@ -24,7 +24,7 @@ OTB_DATA_PATHS:STRING=$ENV{HOME}/Dashboard/src/OTB-Data/Examples::$ENV{HOME}/Das
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB-RelWithDebInfo
 ITK_DIR:PATH=$ENV{HOME}/Dashboard/build/ITKv4-upstream-RelWithDebInfo
-OpenCV_DIR:PATH=$ENV{HOME}/tools/install/opencv-2.4.5/share/OpenCV
+OpenCV_DIR:PATH=/usr/share/OpenCV
 ")
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
