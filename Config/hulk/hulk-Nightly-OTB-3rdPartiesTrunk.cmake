@@ -1,5 +1,5 @@
 # Client maintainer: julien.malik@c-s.fr
-set(dashboard_model Experimental)
+set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
