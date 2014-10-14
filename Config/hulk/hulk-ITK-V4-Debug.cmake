@@ -5,7 +5,7 @@ set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
-set(CTEST_BUILD_NAME "OrfeoToolbox-Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "OrfeoToolbox-Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Eclipse CDT4 - Unix Makefiles")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
@@ -17,7 +17,7 @@ set(dashboard_binary_name "build/ITKv4-upstream-${CTEST_BUILD_CONFIGURATION}")
 
 set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "http://itk.org/ITK.git")
-set(dashboard_git_branch "v4.5.0")
+set(dashboard_git_branch "v4.6.0")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
