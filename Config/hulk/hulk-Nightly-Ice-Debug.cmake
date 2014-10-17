@@ -1,4 +1,3 @@
-set (ENV{DISPLAY} ":0.0")
 set (ENV{LANG} "C")
 
 set (CTEST_BUILD_CONFIGURATION "Debug")

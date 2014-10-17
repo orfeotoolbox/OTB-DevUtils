@@ -18,8 +18,6 @@ set(dashboard_binary_name "build/OTB-fltk13")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
-set(ENV{DISPLAY} ":0.0")
-
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 

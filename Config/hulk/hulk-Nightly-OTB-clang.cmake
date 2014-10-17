@@ -20,8 +20,6 @@ set(dashboard_binary_name "build/OTB-clang-${CTEST_BUILD_CONFIGURATION}")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
-set(ENV{DISPLAY} ":0.0")
-
 set(ENV{CC} "$ENV{HOME}/tools/install/llvm/bin/clang")
 set(ENV{CXX} "$ENV{HOME}/tools/install/llvm/bin/clang++")
 

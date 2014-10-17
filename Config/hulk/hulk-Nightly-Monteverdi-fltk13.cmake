@@ -1,5 +1,3 @@
-SET (ENV{DISPLAY} ":0.0")
-
 SET (CTEST_SOURCE_DIRECTORY  "$ENV{HOME}/Dashboard/src/Monteverdi")
 SET (CTEST_BINARY_DIRECTORY  "$ENV{HOME}/Dashboard/build/Monteverdi-fltk13")
 SET (CTEST_INSTALL_DIRECTORY "$ENV{HOME}/Dashboard/install/Monteverdi-fltk13")

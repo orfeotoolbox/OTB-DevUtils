@@ -19,7 +19,6 @@ set(dashboard_binary_name "build/OTB-3rdPartiesTrunk")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
-set(ENV{DISPLAY} ":0.0")
 set(ENV{LD_LIBRARY_PATH} "${CTEST_DASHBOARD_ROOT}/install/gdal-trunk/lib:${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.0-mangled/lib:$ENV{LD_LIBRARY_PATH}")
 set(ENV{GDAL_DATA} "${CTEST_DASHBOARD_ROOT}/src/gdal-trunk/data")
 set(ENV{GDAL_DRIVER_PATH} "${CTEST_DASHBOARD_ROOT}/install/gdal-openjpeg-plugin")

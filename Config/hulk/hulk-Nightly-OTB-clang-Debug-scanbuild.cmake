@@ -21,8 +21,6 @@ set(dashboard_no_submit ON)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
-set(ENV{DISPLAY} ":0.0")
-
 set(ENV{CCC_CC}   "$ENV{HOME}/tools/install/llvm/bin/clang")
 set(ENV{CCC_CXX}  "$ENV{HOME}/tools/install/llvm/bin/clang++")
 set(ENV{PATH}     "$ENV{HOME}/tools/install/llvm/bin:$ENV{PATH}")

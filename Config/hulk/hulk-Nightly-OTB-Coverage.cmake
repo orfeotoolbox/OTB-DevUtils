@@ -22,9 +22,6 @@ set(dashboard_hg_branch "default")
 
 set(dashboard_do_coverage true)
 
-set(ENV{DISPLAY} ":0.0")
-
-
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
   

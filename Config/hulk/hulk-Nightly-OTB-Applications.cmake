@@ -1,5 +1,3 @@
-SET (ENV{DISPLAY} ":0.0")
-
 SET (CTEST_SOURCE_DIRECTORY  "$ENV{HOME}/Dashboard/src/OTB-Applications")
 SET (CTEST_BINARY_DIRECTORY  "$ENV{HOME}/Dashboard/build/OTB-Applications")
 SET (CTEST_INSTALL_DIRECTORY "$ENV{HOME}/Dashboard/install/OTB-Applications")

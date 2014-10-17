@@ -1,6 +1,4 @@
 # Client maintainer: julien.malik@c-s.fr
-SET(ENV{DISPLAY} ":0.0")
-
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "hulk.c-s.fr")

@@ -21,8 +21,6 @@ set(dashboard_binary_name "build/OTB-MXE-32bit-${CTEST_BUILD_CONFIGURATION}")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
-set(ENV{DISPLAY} ":0.0")
-
 ##cross compile parameters
 set(MXE_ROOT "/home/otbval/tools/mxe")
 set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-pc-mingw32.shared")
