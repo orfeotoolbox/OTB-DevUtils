@@ -109,22 +109,23 @@ def ParseAddTests(cmakefile):
     current_test_name = ""
     in_addtest = False
     for line in lines:
-        if line.count("add_test("):      
+        if line.count("add_test"):      
             in_addtest = True
             try:
-                start = string.index(line,"add_test(")
+                start = string.index(line,"add_test")
                 end  = string.index(line," ",start)
                 current_test_name = line[start+9:end]
             except ValueError:
                 try:
-                    start = string.index(line,"add_test(")
+                    start = string.index(line,"add_test")
                     current_test_name = line[start+9:]
-                except ValueError:
+                except ValueError:  
                     pass
         if in_addtest:
             current_test_cmake_code.append(line)
         if line.count(")"):
             if in_addtest:
+                current_test_name.strip()    
                 resp.append((current_test_name, current_test_cmake_code))
             in_addtest = False
             current_test_cmake_code = []
@@ -160,7 +161,9 @@ test_count = 0
 for (d,f) in Find(testing_dir,"CMakeLists.txt"):
     tests = ParseAddTests(os.path.join(d,f))
     test_count = test_count + len(tests)
-    #print "Found "+str(len(tests))+" in "+os.path.join(d,f)
+#    print "Found "+str(len(tests))+" in "+os.path.join(d,f)
+#    for test,code in tests:
+            #print test
     tests_map[d]=tests
 print "Done. Parsed "+str(test_count)+" tests."
 
@@ -182,7 +185,7 @@ if command == "find_tests":
         for t in tests_name:
             for (n,c) in tests_map[d]:
                 for line in c:
-                    if line.count(t):
+                    if line.count(t.strip()):
                         print d[len(otb_rep)+14:]+"\t"+f+"\t"+t+"\t"+n
                         break
             
@@ -218,7 +221,7 @@ elif command == "find_includes":
 elif command == "display_test":
     for (k,v) in tests_map.iteritems():
         for (t,c) in v:
-            if t == inparam:
+            if t.count(inparam):
                 print "Found "+inparam+" test in "+k+" :"
                 for line in c:
                     print line
