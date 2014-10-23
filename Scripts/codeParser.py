@@ -51,6 +51,13 @@ def FindHeaders(directory):
                 resp.append((currentDirectory,currentFile))
     return resp
 
+def FindBinaries(directory):
+    resp = []
+    for (currentDirectory,files) in RecursiveDirectoriesListing(directory):
+        for currentFile in files:
+            if currentFile.endswith(".cxx"):
+                resp.append((currentDirectory,currentFile))
+    return resp
 
 # From a given header, find associated tests binaries
 def FindBinariesFromHeader(directory,header):
@@ -97,6 +104,38 @@ def ParseIncludes(cxx):
                 pass
     return resp
 
+def RecursiveParseIncludes(headers,infile, follow_cxx=False):
+        resp = set()
+        includes = ParseIncludes(infile)
+        for include in includes:
+                for(dd,ff) in headers:
+                        if include == ff:
+                                resp.add((dd,ff))
+        current_size = len(resp)
+        loop = True
+        while loop:
+                new = set()
+                for (d,f) in resp:
+                        includes = ParseIncludes(os.path.join(d,f))
+                        try:
+                                includes += ParseIncludes(os.path.join(d,f[:-2]+".txx"))
+                        except IOError:
+                                pass
+                        if follow_cxx:
+                                try:
+                                        includes += ParseIncludes(os.path.join(d,f[:-2]+".cxx"))
+                                except IOError:
+                                        pass
+                        for include in includes:
+                                for(dd,ff) in headers:
+                                        if include == ff and not (dd,ff) in resp:
+                                                new.add((dd,ff))
+                resp = resp | new
+                loop = (current_size != len(resp))
+                if loop:
+                        current_size = len(resp)
+        return resp
+
 def ParseAddTests(cmakefile):
 
     resp = []
@@ -133,7 +172,7 @@ def ParseAddTests(cmakefile):
     return resp
 
 # main
-available_commands = {"find_tests","find_examples","find_applications","find_includes", "display_test"}
+available_commands = {"find_tests","find_examples","find_applications","find_includes", "display_test", "list_tests", "list_headers","list_headers_tests"}
 
 if(len(sys.argv) < 3 or (len(sys.argv)>2 and sys.argv[1] not in available_commands)):
        print "Usage: "+sys.argv[0]+" command otb_dir param"
@@ -143,11 +182,14 @@ if(len(sys.argv) < 3 or (len(sys.argv)>2 and sys.argv[1] not in available_comman
        print "\t find_applications:\t inparam is a header file. Returns a list of all applications using this header, including application directory and cxx file"
        print "\t find_includes:\t inparam is a cxx file (without path). For all cxx test file matching inparam, returns a list otb included headers, and the directory where this include is located"
        print "\t display_test:\t inparam is a test name. Look for test in all tests, and display the CMake code of the test if found."
+       print "\t list_tests: For all tests, recursive list of all included headers in OTB."
+       print "\t list_headers_tests: For all headers, list tests where it is used."
+       print "\t list_headers: For all headers, recursive list of all included headers in OTB."
        sys.exit()
 
 command = sys.argv[1]    
 otb_rep = sys.argv[2]
-inparam = sys.argv[3]
+
 
 testing_dir = os.path.join(otb_rep,"Testing")
 example_dir = os.path.join(otb_rep,"Examples")
@@ -156,7 +198,7 @@ code_dir = os.path.join(otb_rep,"Code")
 
 tests_map = {}
 
-print "Building tests map ..."
+#print "Building tests map ..."
 test_count = 0
 for (d,f) in Find(testing_dir,"CMakeLists.txt"):
     tests = ParseAddTests(os.path.join(d,f))
@@ -165,15 +207,18 @@ for (d,f) in Find(testing_dir,"CMakeLists.txt"):
 #    for test,code in tests:
             #print test
     tests_map[d]=tests
-print "Done. Parsed "+str(test_count)+" tests."
+#print "Done. Parsed "+str(test_count)+" tests."
 
-print "Builidng headers map ..."
+#print "Builidng headers map ..."
 headers = FindHeaders(code_dir)
-print "Done. Parsed "+str(len(headers))+" headers."
+#print "Done. Parsed "+str(len(headers))+" headers."
 
+#print "Building tests binaries map ..."
+binaries = FindBinaries(testing_dir)
+#print "Done. Found "+str(len(binaries))+" binaries."
 
 if command == "find_tests":
-
+    inparam = sys.argv[3]
     tests = FindBinariesFromHeader(testing_dir,inparam)
 
     print "\n"
@@ -190,6 +235,7 @@ if command == "find_tests":
                         break
             
 elif command  == "find_examples":
+    inparam = sys.argv[3]
     examples = FindBinariesFromHeader(example_dir,inparam)
     print "\n"
     print "Examples using header "+inparam
@@ -198,6 +244,7 @@ elif command  == "find_examples":
         print d[len(otb_rep)+14:]+"\t"+f
 
 elif command == "find_applications":
+    inparam = sys.argv[3]
     apps = FindBinariesFromHeader(app_dir,inparam)
     print "\n"
     print "Applications using header "+inparam
@@ -206,22 +253,42 @@ elif command == "find_applications":
         print d[len(otb_rep)+14:]+"\t"+f
 
 elif command == "find_includes":
-    binaries = Find(testing_dir,inparam)
-
-    if len(binaries) == 0:
-        print inparam+" not found in OTB"
-    
-    for(d,f) in binaries:
-        includes = ParseIncludes(os.path.join(d,f))
-        for include in includes:
-            for(dd,ff) in headers:
-                if include == ff:
-                    print d[len(otb_rep)+14:]+"\t"+f+"\t"+dd[len(otb_rep)+6:]+"\t"+include
+    inparam = sys.argv[3]
+    binaries = Find(otb_rep,inparam)
+    for (d,f) in binaries:
+            includes = RecursiveParseIncludes(headers,os.path.join(d,f))
+            for (dd,ff) in includes:
+                    print d[len(otb_rep)+1:]+"\t"+f+"\t"+dd[len(otb_rep)+1:]+"\t"+ff
 
 elif command == "display_test":
+    inparam = sys.argv[3]
     for (k,v) in tests_map.iteritems():
         for (t,c) in v:
             if t.count(inparam):
                 print "Found "+inparam+" test in "+k+" :"
                 for line in c:
                     print line
+
+elif command == "list_tests":
+        print "#bin_dir bin_name include_dir include_name"
+        for(d,f) in binaries:
+                includes = RecursiveParseIncludes(headers,os.path.join(d,f))
+                for (dd,ff) in includes:
+                        print d[len(otb_rep)+1:]+"\t"+f+"\t"+dd[len(otb_rep)+1:]+"\t"+ff
+
+elif command == "list_headers_tests":
+        print "#header_dir header_name test_dir test_name test_command"
+        for(d,f) in headers:
+                tests = FindBinariesFromHeader(testing_dir,f)
+                for(dd,ff) in tests:
+#                        print d[len(otb_rep)+1:]+"\t"+f+"\t"+dd+"\t"+ff
+                        tests_name = FindTestsCommands(os.path.join(dd,ff))
+                        for t in tests_name:
+                                print d[len(otb_rep)+1:]+"\t"+f+"\t"+dd+"\t"+ff+"\t"+t
+
+elif command == "list_headers":
+        print "#header_dir header_name include_dir included_header"
+        for(d,f) in headers:
+                includes = RecursiveParseIncludes(headers,os.path.join(d,f))
+                for(dd,ff) in includes:
+                        print d[len(otb_rep)+1:]+"\t"+f+"\t"+dd[len(otb_rep)+1:]+"\t"+ff
