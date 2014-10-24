@@ -14,11 +14,11 @@ set(CTEST_HG_COMMAND "/usr/bin/hg")
 set(CTEST_HG_UPDATE_OPTIONS "-C")
 
 set(dashboard_root_name "tests")
-set(dashboard_source_name "src/OTB")
-set(dashboard_binary_name "build/OTB-MXE-32bit-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_source_name "src/Ice")
+set(dashboard_binary_name "build/Ice-MXE-32bit-${CTEST_BUILD_CONFIGURATION}")
 
 #set(dashboard_fresh_source_checkout OFF)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
+set(dashboard_hg_url "http://hg.orfeo-toolbox.org/Ice")
 set(dashboard_hg_branch "default")
 
 ##cross compile parameters
@@ -31,43 +31,22 @@ set(OTB_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/install/MXE-32bit-${CTEST_BUILD_
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
   
-CMAKE_C_FLAGS:STRING=-Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING=-Wall
+CMAKE_CXX_FLAGS:STRING=-Wall
 
 BUILD_TESTING:BOOL=OFF
-BUILD_EXAMPLES:BOOL=ON
-BUILD_APPLICATIONS:BOOL=ON
-BUILD_BUG_TRACKER_TESTS:BOOL=OFF
+BUILD_ICE_APPLICATION:BOOL=ON
 
-OTB_WRAP_PYTHON:BOOL=OFF
-OTB_WRAP_JAVA:BOOL=OFF
-OTB_WRAP_QT:BOOL=ON
-
-OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
-OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
-
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+
 CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
 CMAKE_USE_PTHREADS:BOOL=OFF
 CMAKE_USE_WIN32_THREADS:BOOL=ON
 
-GDAL_CONFIG:FILEPATH='${MXE_TARGET_ROOT}/bin/gdal-config'
+OTB_DIR:PATH=${OTB_INSTALL_PREFIX}/lib/otb
 
-OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
-
-OTB_USE_CURL:BOOL=ON
-OTB_USE_PATENTED:BOOL=ON
-OTB_USE_EXTERNAL_BOOST:BOOL=ON
-OTB_USE_EXTERNAL_EXPAT:BOOL=ON
-OTB_USE_EXTERNAL_ITK:BOOL=OFF
-OTB_USE_EXTERNAL_OSSIM:BOOL=ON
-OTB_USE_MAPNIK:BOOL=OFF
-OTB_USE_OPENCV:BOOL=ON
-OTB_USE_SIFTFAST:BOOL=OFF
-
-CHECK_HDF4OPEN_SYMBOL_EXITCODE:STRING=FAILED_TO_RUN
+GLFW_LIBRARY:PATH=${MXE_TARGET_ROOT}/lib/glfw3.dll
 
     ")
 endmacro()
