@@ -20,7 +20,7 @@ set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Ice-MinGW-
 
 ##cross compile specific
 set(MXE_ROOT "/home/otbtesting/win-sources/mxe")
-set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-pc-mingw32.shared")
+set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-w64-mingw32.shared")
 set(CTEST_USE_LAUNCHERS OFF)
 ##cross compile specific
 set (OTB_CTEST_CACHE_SETTINGS "
@@ -37,7 +37,7 @@ CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
 CMAKE_USE_PTHREADS:BOOL=OFF
 CMAKE_USE_WIN32_THREADS:BOOL=ON
 
-GLFW_LIBRARY:PATH=${MXE_TARGET_ROOT}/lib/glfw3.dll
+#GLFW_LIBRARY:PATH=${MXE_TARGET_ROOT}/lib/glfw3.dll
 
 #ITK et al :- auto detected from MXE_TARGET_ROOT
 ")

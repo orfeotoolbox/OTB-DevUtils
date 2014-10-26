@@ -20,6 +20,7 @@ MKDIR='/bin/mkdir -p'
 PYTHON='/usr/bin/python'
 
 COPYDLLS_SCRIPT='/home/otbtesting/sources/orfeo/OTB-DevUtils/Scripts/copydlls.py'
+
 MVD2_SRC_DIR='/home/otbtesting/sources/orfeo/trunk/Monteverdi2'
 DEPLOY_DIR='/tmp/OTB-mingw32'
 COPYDLLS_DIR='/tmp/OTB-mingw32-copydlls/'

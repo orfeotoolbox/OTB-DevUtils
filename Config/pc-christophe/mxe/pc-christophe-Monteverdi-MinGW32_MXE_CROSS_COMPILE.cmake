@@ -20,7 +20,7 @@ set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Monteverdi
 
 ##cross compile specific
 set(MXE_ROOT "/home/otbtesting/win-sources/mxe")
-set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-pc-mingw32.shared")
+set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-w64-mingw32.shared")
 set(CTEST_USE_LAUNCHERS OFF)
 ##cross compile specific
 

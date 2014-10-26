@@ -21,7 +21,8 @@ set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-MinGW-
 set(MXE_ROOT "/home/otbtesting/win-sources/mxe")
 set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/x86_64-w64-mingw32.shared")
 set(CTEST_USE_LAUNCHERS OFF)
-set(OTB_CMAKE_TRYRUN_FILE "${MXE_ROOT}/TryRunResults-OTB.cmake")
+set(OTB_CMAKE_TRYRUN_FILE "${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-DevUtils/Scripts/TryRunResults_mxe_x86_64.cmake")
+
 ##cross compile specific
 
 set (OTB_CTEST_CACHE_SETTINGS "

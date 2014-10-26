@@ -41,8 +41,8 @@ OTB_DIR:PATH=${MXE_TARGET_ROOT}
 #Using linux executable for generating translation files on Windows.
 QT_LRELEASE_EXECUTABLE=/usr/lib64/qt4/bin/lrelease-qt4
 
-QWT_INCLUDE_DIR:PATH=${MXE_TARGET_ROOT}/qwt/include/
-QWT_LIBRARY:FILEPATH=${MXE_TARGET_ROOT}/qwt/lib/qwt5.dll
+QWT_INCLUDE_DIR:PATH=${MXE_TARGET_ROOT}/qt/include/
+QWT_LIBRARY:FILEPATH=${MXE_TARGET_ROOT}/qt/lib/qwt5.dll
 
 SITE:STRING=${CTEST_SITE}
 ")
