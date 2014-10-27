@@ -21,8 +21,6 @@ set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-MinGW-
 set(MXE_ROOT "/home/otbtesting/win-sources/mxe")
 set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/x86_64-w64-mingw32.shared")
 set(CTEST_USE_LAUNCHERS OFF)
-set(OTB_CMAKE_TRYRUN_FILE "${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-DevUtils/Scripts/TryRunResults_mxe_x86_64.cmake")
-
 ##cross compile specific
 
 set (OTB_CTEST_CACHE_SETTINGS "
@@ -31,6 +29,12 @@ BUILD_EXAMPLES:BOOL=ON
 BUILD_APPLICATIONS:BOOL=ON
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
+
+#include tryrun results within
+HAS_SSE2_EXTENSIONS_EXITCODE:INTERNAL=0 #otbsiftfast
+HAS_SSE_EXTENSIONS_EXITCODE:INTERNAL=0 #otbsiftfast
+CHECK_HDF4OPEN_SYMBOL_EXITCODE:INTERNAL=0 #hdf5 and hdf4 in gdal
+IS_X86_64_EXITCODE:INTERNAL=0 #otbsiftfast for 64bit
 
 CMAKE_C_FLAGS:STRING='-Wall'
 CMAKE_CXX_FLAGS:STRING='-Wall -Wextra -Wno-cpp -Wno-strict-overflow'
@@ -73,8 +77,7 @@ ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" "${OTB_CTEST_CACHE_SETTINGS}")
 
 ctest_configure (BUILD   "${CTEST_BINARY_DIRECTORY}"
-                 SOURCE  "${CTEST_SOURCE_DIRECTORY}"
-                 OPTIONS "-C${OTB_CMAKE_TRYRUN_FILE}" )
+                 SOURCE  "${CTEST_SOURCE_DIRECTORY}" )
 
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
