@@ -172,10 +172,11 @@ def ParseAddTests(cmakefile):
     return resp
 
 # main
-available_commands = {"find_tests","find_examples","find_applications","find_includes", "display_test", "list_tests", "list_headers","list_headers_tests"}
-
-if(len(sys.argv) < 3 or (len(sys.argv)>2 and sys.argv[1] not in available_commands)):
-       print "Usage: "+sys.argv[0]+" command otb_dir param"
+def main(argv):
+  available_commands = {"find_tests","find_examples","find_applications","find_includes", "display_test", "list_tests", "list_headers","list_headers_tests"}
+  
+  if(len(argv) < 3 or (len(argv)>2 and argv[1] not in available_commands)):
+       print "Usage: "+argv[0]+" command otb_dir param"
        print "Available commands:"
        print "\t find_tests:\t inparam is a header file. Returns a list of all tests using this header, including test directory, test cxx file, test function (in cxx file) and test name"
        print "\t find_examples:\t inparam is a header file. Returns a list of all examples using this header, including example directory and cxx file."
@@ -186,39 +187,39 @@ if(len(sys.argv) < 3 or (len(sys.argv)>2 and sys.argv[1] not in available_comman
        print "\t list_headers_tests: For all headers, list tests where it is used."
        print "\t list_headers: For all headers, recursive list of all included headers in OTB."
        sys.exit()
-
-command = sys.argv[1]    
-otb_rep = sys.argv[2]
-
-
-testing_dir = os.path.join(otb_rep,"Testing")
-example_dir = os.path.join(otb_rep,"Examples")
-app_dir = os.path.join(otb_rep,"Applications")
-code_dir = os.path.join(otb_rep,"Code")
-
-tests_map = {}
-
-#print "Building tests map ..."
-test_count = 0
-for (d,f) in Find(testing_dir,"CMakeLists.txt"):
+  
+  command = argv[1]    
+  otb_rep = argv[2]
+  
+  
+  testing_dir = os.path.join(otb_rep,"Testing")
+  example_dir = os.path.join(otb_rep,"Examples")
+  app_dir = os.path.join(otb_rep,"Applications")
+  code_dir = os.path.join(otb_rep,"Code")
+  
+  tests_map = {}
+  
+  #print "Building tests map ..."
+  test_count = 0
+  for (d,f) in Find(testing_dir,"CMakeLists.txt"):
     tests = ParseAddTests(os.path.join(d,f))
     test_count = test_count + len(tests)
-#    print "Found "+str(len(tests))+" in "+os.path.join(d,f)
-#    for test,code in tests:
+  #    print "Found "+str(len(tests))+" in "+os.path.join(d,f)
+  #    for test,code in tests:
             #print test
     tests_map[d]=tests
-#print "Done. Parsed "+str(test_count)+" tests."
+  #print "Done. Parsed "+str(test_count)+" tests."
 
-#print "Builidng headers map ..."
-headers = FindHeaders(code_dir)
-#print "Done. Parsed "+str(len(headers))+" headers."
+  #print "Builidng headers map ..."
+  headers = FindHeaders(code_dir)
+  #print "Done. Parsed "+str(len(headers))+" headers."
 
-#print "Building tests binaries map ..."
-binaries = FindBinaries(testing_dir)
-#print "Done. Found "+str(len(binaries))+" binaries."
+  #print "Building tests binaries map ..."
+  binaries = FindBinaries(testing_dir)
+  #print "Done. Found "+str(len(binaries))+" binaries."
 
-if command == "find_tests":
-    inparam = sys.argv[3]
+  if command == "find_tests":
+    inparam = argv[3]
     tests = FindBinariesFromHeader(testing_dir,inparam)
 
     print "\n"
@@ -233,50 +234,50 @@ if command == "find_tests":
                     if line.count(t.strip()):
                         print d[len(otb_rep)+14:]+"\t"+f+"\t"+t+"\t"+n
                         break
-            
-elif command  == "find_examples":
-    inparam = sys.argv[3]
+              
+  elif command  == "find_examples":
+    inparam = argv[3]
     examples = FindBinariesFromHeader(example_dir,inparam)
     print "\n"
     print "Examples using header "+inparam
     print "\n"
     for(d,f) in examples:
         print d[len(otb_rep)+14:]+"\t"+f
-
-elif command == "find_applications":
-    inparam = sys.argv[3]
+  
+  elif command == "find_applications":
+    inparam = argv[3]
     apps = FindBinariesFromHeader(app_dir,inparam)
     print "\n"
     print "Applications using header "+inparam
     print "\n"
     for(d,f) in apps:
         print d[len(otb_rep)+14:]+"\t"+f
-
-elif command == "find_includes":
-    inparam = sys.argv[3]
+  
+  elif command == "find_includes":
+    inparam = argv[3]
     binaries = Find(otb_rep,inparam)
     for (d,f) in binaries:
             includes = RecursiveParseIncludes(headers,os.path.join(d,f))
             for (dd,ff) in includes:
                     print d[len(otb_rep)+1:]+"\t"+f+"\t"+dd[len(otb_rep)+1:]+"\t"+ff
-
-elif command == "display_test":
-    inparam = sys.argv[3]
+  
+  elif command == "display_test":
+    inparam = argv[3]
     for (k,v) in tests_map.iteritems():
         for (t,c) in v:
             if t.count(inparam):
                 print "Found "+inparam+" test in "+k+" :"
                 for line in c:
                     print line
-
-elif command == "list_tests":
+  
+  elif command == "list_tests":
         print "#bin_dir bin_name include_dir include_name"
         for(d,f) in binaries:
                 includes = RecursiveParseIncludes(headers,os.path.join(d,f))
                 for (dd,ff) in includes:
                         print d[len(otb_rep)+1:]+"\t"+f+"\t"+dd[len(otb_rep)+1:]+"\t"+ff
-
-elif command == "list_headers_tests":
+  
+  elif command == "list_headers_tests":
         print "#header_dir header_name test_dir test_name test_command"
         for(d,f) in headers:
                 tests = FindBinariesFromHeader(testing_dir,f)
@@ -285,10 +286,13 @@ elif command == "list_headers_tests":
                         tests_name = FindTestsCommands(os.path.join(dd,ff))
                         for t in tests_name:
                                 print d[len(otb_rep)+1:]+"\t"+f+"\t"+dd+"\t"+ff+"\t"+t
-
-elif command == "list_headers":
+  
+  elif command == "list_headers":
         print "#header_dir header_name include_dir included_header"
         for(d,f) in headers:
                 includes = RecursiveParseIncludes(headers,os.path.join(d,f))
                 for(dd,ff) in includes:
                         print d[len(otb_rep)+1:]+"\t"+f+"\t"+dd[len(otb_rep)+1:]+"\t"+ff
+
+if __name__ == "__main__":
+      main(sys.argv)
