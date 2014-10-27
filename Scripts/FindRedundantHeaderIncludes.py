@@ -40,40 +40,50 @@ class FileToPathMapping:
 
 
     def FillFromWalkingTree(self,basedir):
-        os.path.walk(basedir,makeGlobalMapping,self.filePathBaseDirs)
-        for all_files in self.filePathBaseDirs:
-           testfile=self.filePathBaseDirs[all_files]+'/'+all_files
-           curr_file=os.path.basename(testfile)
-           curr_dir=os.path.dirname(testfile)
-           if not os.path.isfile(testfile):
-             continue
-           #print testfile
-           ff=open(testfile)
-           search_string=r'^#include *([<"])(itk[^<"]*h)([>"])'
-           myregexp=re.compile(search_string)
-           for line in ff:
-              gg=myregexp.match(line)
-              if gg != None and ( len(gg.groups()) == 3 ):
-                  inc=gg.group(2)
-                  #make empty list if not found already
-                  self.DependUponTree_dict[inc]
-                  self.DependUponTree_dict[curr_file].append(inc)
-                  #print("{0} in {1}".format(inc,curr_file))
-           ff.close()
+        #os.path.walk(basedir,makeGlobalMapping,self.filePathBaseDirs)
+        #for all_files in self.filePathBaseDirs:
+        exclude = [".hg", "Utilities"]
+        for root, dirs, files in os.walk(basedir):
+           #print root, dirs, files
+           dirs[:] = [d for d in dirs if d not in exclude]
+           #print dirs
+           #testfile=basedir+'/'+files
+           testfiles=[root+os.sep+filetmp for filetmp in files]
+           #print "testfiles= ", testfiles
+           for testfile in testfiles:
+               if not os.path.isfile(testfile):
+                   continue
+               #print "testfile= ", testfile
+               curr_file=os.path.basename(testfile)
+               ff=open(testfile)
+               search_string=r'^#include *([<"])((otb|itk)[^<"]*h)([>"])'
+               myregexp=re.compile(search_string)
+               for line in ff:
+                   gg=myregexp.match(line)
+                   #print gg
+                   if gg != None and ( len(gg.groups()) == 4 ):
+                       inc=gg.group(2)
+                       #make empty list if not found already
+                       self.DependUponTree_dict[inc]
+                       self.DependUponTree_dict[curr_file].append(inc)
+                       self.filePathBaseDirs[curr_file]=testfile
+                       #print("{0} in {1}".format(inc,curr_file))
+               ff.close()
         return self.DependUponTree_dict
 
     def comment_out(self,filename,remove_header):
       """Get rid of include lines that are redundant"""
-      ff=open(self.filePathBaseDirs[filename]+"/"+filename)
-      outfile=open(self.filePathBaseDirs[filename]+"/"+filename+"_cleaned","w")
+      print filename
+      ff=open(self.filePathBaseDirs[filename])#+"/"+filename)
+      outfile=open(self.filePathBaseDirs[filename]+"_cleaned","w")
       for line in ff:
           if line.find(remove_header) != -1:
-            print("          Removing {0} from {1}".format(line,self.filePathBaseDirs[filename]+"/"+filename))
+            print("          Removing {0} from {1}".format(line,self.filePathBaseDirs[filename]))
           else:
             outfile.write(line)
       ff.close()
       outfile.close()
-      os.rename(self.filePathBaseDirs[filename]+"/"+filename+"_cleaned",self.filePathBaseDirs[filename]+"/"+filename)
+      os.rename(self.filePathBaseDirs[filename]+"_cleaned",self.filePathBaseDirs[filename])
 
     def proc_children(self,node,dupcandidate,starting_child):
         ## Pocess all children
@@ -112,20 +122,20 @@ class FileToPathMapping:
         return False
 
 basedir=sys.argv[1]  ## i.e. python FindRedundantHeaderIncludes.py $HOME/Dashboards/ITK_TESTS/ITK
-if os.path.isfile(basedir+"/Documentation/InsightLogo.gif"):  ## Currently hard-coded to only work with ITK dir.
-  print("Processing: {0}".format(basedir))
-else:
-  print("The directory must be the base ITK dir: {0} failed".format(basedir))
-  exit(-1)
+#if os.path.isfile(basedir+"/CMake/otb_logo.tif"):  ## Currently hard-coded to only work with ITK dir.
+#  print("Processing: {0}".format(basedir))
+#else:
+#  print("The directory must be the base ITK dir: {0} failed".format(basedir))
+#  exit(-1)
 
 mymapper=FileToPathMapping()
 myDependTree=mymapper.FillFromWalkingTree(basedir)
 
-#for parentFiles in myDependTree:
-#    print(parentFiles)
-#    for childFiles in myDependTree[parentFiles]:
-#        print(" "*3+childFiles)
-#print mymapper.filePathBaseDirs
+for parentFiles in myDependTree:
+    print(parentFiles)
+    for childFiles in myDependTree[parentFiles]:
+        print(" "*3+childFiles)
+print mymapper.filePathBaseDirs
 
 
 donenode=dict()
@@ -137,7 +147,7 @@ file_count=0
 #for process_file in ["itkImage.h"]:
 for process_file in myDependTree.keys():
   for remove_test_file in myDependTree[process_file]:
-    #print("Starting test for: {0} and {1}".format(process_file,remove_test_file))
+    print("Starting test for: {0} and {1}".format(process_file,remove_test_file))
     mymapper.proc_children(process_file,remove_test_file,process_file)
     file_count+=1
 print("Processed {0} files.".format(file_count))
