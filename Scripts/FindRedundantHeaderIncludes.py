@@ -42,11 +42,11 @@ class FileToPathMapping:
     def FillFromWalkingTree(self,basedir):
         #os.path.walk(basedir,makeGlobalMapping,self.filePathBaseDirs)
         #for all_files in self.filePathBaseDirs:
-        exclude = [".hg", "Utilities"]
+        exclude = [".hg", "CMake"]
         for root, dirs, files in os.walk(basedir):
-           #print root, dirs, files
+           print dirs
            dirs[:] = [d for d in dirs if d not in exclude]
-           #print dirs
+           print dirs
            #testfile=basedir+'/'+files
            testfiles=[root+os.sep+filetmp for filetmp in files]
            #print "testfiles= ", testfiles
