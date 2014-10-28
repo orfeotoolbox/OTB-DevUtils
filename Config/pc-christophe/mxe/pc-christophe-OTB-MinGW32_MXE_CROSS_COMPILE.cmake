@@ -78,7 +78,8 @@ file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" "${OTB_CTEST_CACHE_SETTING
 
 ctest_configure (BUILD   "${CTEST_BINARY_DIRECTORY}"
                  SOURCE  "${CTEST_SOURCE_DIRECTORY}")
-
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+SET(CTEST_NOTES_FILES 
+  "${CTEST_DASHBOARD_ROOT}/logs/mxe_i686-w64-mingw32.shared_build.log" )
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_submit ()
