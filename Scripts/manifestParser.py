@@ -5,21 +5,19 @@ import sys
 import string
 import os.path as op
 import codeParser
+import networkx as nx
 
 
 def showHelp():
-  print "Usage : manifestParser.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY"
+  print "Usage : manifestParser.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  [CSV_EDGE_LIST]"
 
 
-def main(argv):
-  csvPath = argv[1]
-  otbDir = argv[2]
-  
+def parseManifest(path):
   sourceList = {}
   moduleList = {}
   groups = {}
   nbFields = 6
-  fd = open(csvPath,'rb')
+  fd = open(path,'rb')
   # skip first line
   fd.readline()
   for line in fd:
@@ -31,21 +29,55 @@ def main(argv):
     moduleName = words[3].strip(" ,\t\n\r")
     sourceFile = words[0].strip(" ,\t\n\r")
     sourceName = op.basename(sourceFile)
-    
     if not groups.has_key(groupName):
-      groups[groupName] = []
-    groups[groupName].append(moduleName)
-    
+      groups[groupName] = {}
+    groups[groupName][moduleName] = 1
     if not moduleList.has_key(moduleName):
       moduleList[moduleName] = []
     moduleList[moduleName].append(sourceFile)
-    
     sourceList[sourceName] = moduleName
-    
   fd.close()
+  return [groups,moduleList,sourceList]
+
+
+def printDepList(depList):
+  for mod in depList.keys():
+    print "-------------------------------------------------------------------"
+    print "Module "+mod+" depends on :"
+    for dep in depList[mod].keys():
+      print "  -> "+dep
+      for link in depList[mod][dep]:
+        print "    * from "+link["from"]+" to "+link["to"]
+
+
+def printGroupTree(groups):
+  for grp in groups.keys():
+    print grp
+    for mod in groups[grp].keys():
+      print "  -> "+mod
+
+def outputCSVEdgeList(depList,outPath):
+  fd = open(outPath,'wb')
+  for mod in depList.keys():
+    for dep in depList[mod].keys():
+      fd.write(mod+","+dep+"\n")
+  fd.close()
+
+def buildGraph(depList):
+  pass
+
+def main(argv):
+  csvPath = argv[1]
+  otbDir = argv[2]
+  if len(argv) >= 4:
+    csvEdges = argv[3]
+  else:
+    csvEdges = None
   
+  [groups,moduleList,sourceList] = parseManifest(csvPath)
+  
+  depList = {}
   for mod in moduleList.keys():
-    print "Module "+mod+" depend on :"
     dependance = {}
     for src in moduleList[mod]:
       srcFullPath = op.join(otbDir,src)
@@ -60,8 +92,13 @@ def main(argv):
             dependance[targetModule].append({"from":op.basename(src) , "to":inc})
         else:
           print "Include not found :"+inc
-    for dep in dependance.keys():
-      print "  -> "+dep
+    depList[mod] = dependance
+  
+  printDepList(depList)
+  #printGroupTree(groups)
+  
+  if csvEdges:
+    outputCSVEdgeList(depList,csvEdges)
   
   return 0
 
