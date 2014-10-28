@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #coding=utf8
-import fileinput, glob, string, sys, os, stat
+import fileinput, glob, string, sys, os, stat, re
 
 # list all files in directory
 def RecursiveDirectoriesListing(top="."):
@@ -92,8 +92,15 @@ def ParseIncludes(cxx):
     ifstream = open(cxx)
     lines = ifstream.readlines()
     ifstream.close()
+    
+    search_string=r'^#include *([<"])(otb[^<"]*h)([>"])'
+    includeRegexp=re.compile(search_string)
 
     for line in lines:
+        gg = includeRegexp.match(line)
+        if (gg != None) and (len(gg.groups()) == 3):
+            resp.append(gg.group(2))
+        """
         if line.count('#include "'):
             try:
                 start = string.index(line,'#include "')
@@ -102,6 +109,7 @@ def ParseIncludes(cxx):
                     resp.append(line[start+10:end])
             except ValueError:
                 pass
+        """
     return resp
 
 def RecursiveParseIncludes(headers,infile, follow_cxx=False):
