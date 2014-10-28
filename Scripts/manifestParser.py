@@ -37,6 +37,9 @@ def parseManifest(path):
     moduleList[moduleName].append(sourceFile)
     sourceList[sourceName] = moduleName
   fd.close()
+  # manually add otbConfigure.h (belonging to Common)
+  sourceList['otbConfigure.h'] = 'Common'
+  
   return [groups,moduleList,sourceList]
 
 
@@ -94,8 +97,8 @@ def main(argv):
           print "Include not found :"+inc
     depList[mod] = dependance
   
-  printDepList(depList)
-  #printGroupTree(groups)
+  #printDepList(depList)
+  printGroupTree(groups)
   
   if csvEdges:
     outputCSVEdgeList(depList,csvEdges)
