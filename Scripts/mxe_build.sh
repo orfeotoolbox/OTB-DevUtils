@@ -19,21 +19,7 @@ echo 'Ex: '$0' ~/win-sources/mxe/ i686-w64-mingw32.shared yes'
 exit 1
 fi
 
-#we moved on to mingw-w64 project. why?.
-#seems like mingw64 has better support and mingw
-#and it has both 32bit and 64bit targets. Things are good and
-#easier in mingw64
-
-if [ "$MXE_TARGET" == "i686-pc-mingw32.shared" ]; then
-   MXE_TARGET='i686-w64-mingw32.shared'
-fi;
-
 cd $MXE_DIR
-#clean mxe due to merge(parent)-push
-#temp setup to clean mxe targets on otbtesting?
-make clean
-git pull origin master
-
 if [ "$DO_PULL" == "yes" ]; then
    GIT_PULL_MASTER='git pull origin master'
 $GIT_PULL_MASTER

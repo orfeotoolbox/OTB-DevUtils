@@ -10,6 +10,16 @@ echo 'Ex: '$0' /home/rashad/sources/orfeo/OTB-DevUtils /home/rashad/sources/mxe 
 exit 1
 fi
 
+#we moved on to mingw-w64 project. why?.
+#seems like mingw64 has better support and mingw
+#and it has both 32bit and 64bit targets. Things are good and
+#easier in mingw64
+
+if [ "$MXE_TARGET" == "i686-pc-mingw32.shared" ]; then
+   MXE_TARGET='i686-w64-mingw32.shared'
+fi;
+
+
 LOG_DIR=$HOME"/logs"
 
 if [ -d "$DEVUTILS_DIRECTORY" ]; then
@@ -49,7 +59,7 @@ $MXE_BUILD_SCRIPT "$MXE_SOURCE_DIR" "$MXE_TARGET" "yes" > $LOG_FILE
 if [ "$?" -eq "0" ]; then
   echo 'MXE is up-to-date.'
   #32bit
-  if [ "$MXE_TARGET" == "i686-pc-mingw32.shared" ]; then
+  if [ "$MXE_TARGET" == "i686-w64-mingw32.shared" ]; then
      ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-OTB-MinGW32_MXE_CROSS_COMPILE.cmake
      ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Ice-MinGW32_MXE_CROSS_COMPILE.cmake
      ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Monteverdi-MinGW32_MXE_CROSS_COMPILE.cmake
