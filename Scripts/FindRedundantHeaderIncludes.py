@@ -19,12 +19,13 @@
 
 
 ## Author: Hans J. Johnson
+## Modify by: M. Savinaud
 ## This script is designed to find redundant header files
 ## For a given file, if a sibling include file has a
 ## grand-child include file that is the same, then
 ## you can remove the sibling include.
 
-## in the ITK/Code directory issue the following command
+## in the OTB directory issue the following command
 import os
 import sys
 import re
@@ -40,27 +41,21 @@ class FileToPathMapping:
 
 
     def FillFromWalkingTree(self,basedir):
-        #os.path.walk(basedir,makeGlobalMapping,self.filePathBaseDirs)
-        #for all_files in self.filePathBaseDirs:
         exclude = [".hg", "CMake"]
         for root, dirs, files in os.walk(basedir):
            print dirs
            dirs[:] = [d for d in dirs if d not in exclude]
            print dirs
-           #testfile=basedir+'/'+files
            testfiles=[root+os.sep+filetmp for filetmp in files]
-           #print "testfiles= ", testfiles
            for testfile in testfiles:
                if not os.path.isfile(testfile):
                    continue
-               #print "testfile= ", testfile
                curr_file=os.path.basename(testfile)
                ff=open(testfile)
                search_string=r'^#include *([<"])((otb|itk)[^<"]*h)([>"])'
                myregexp=re.compile(search_string)
                for line in ff:
                    gg=myregexp.match(line)
-                   #print gg
                    if gg != None and ( len(gg.groups()) == 4 ):
                        inc=gg.group(2)
                        #make empty list if not found already
@@ -121,16 +116,17 @@ class FileToPathMapping:
               self.proc_children(currEdge,dupcandidate,starting_child)
         return False
 
-basedir=sys.argv[1]  ## i.e. python FindRedundantHeaderIncludes.py $HOME/Dashboards/ITK_TESTS/ITK
-#if os.path.isfile(basedir+"/CMake/otb_logo.tif"):  ## Currently hard-coded to only work with ITK dir.
-#  print("Processing: {0}".format(basedir))
-#else:
-#  print("The directory must be the base ITK dir: {0} failed".format(basedir))
-#  exit(-1)
+basedir=sys.argv[1]  ## i.e. python FindRedundantHeaderIncludes.py /path/to/OTB/src
+if os.path.isfile(basedir+"/CMake/otb_logo.tif"):  ## Currently hard-coded to only work with OTB dir.
+  print("Processing: {0}".format(basedir))
+else:
+  print("The directory must be the base ITK dir: {0} failed".format(basedir))
+  exit(-1)
 
 mymapper=FileToPathMapping()
 myDependTree=mymapper.FillFromWalkingTree(basedir)
 
+# output to check if it works
 for parentFiles in myDependTree:
     print(parentFiles)
     for childFiles in myDependTree[parentFiles]:
