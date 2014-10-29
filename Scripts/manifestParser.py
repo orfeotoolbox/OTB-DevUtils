@@ -22,7 +22,7 @@ def parseManifest(path):
   fd.readline()
   for line in fd:
     words = line.split(',')
-    if (len(words) != nbFields):
+    if (len(words) < nbFields):
       print "Wrong number of fields, skipping this line"
       continue
     groupName = words[2].strip(" ,\t\n\r")
@@ -97,8 +97,77 @@ def main(argv):
           print "Include not found :"+inc
     depList[mod] = dependance
   
-  #printDepList(depList)
-  printGroupTree(groups)
+  # compute full dependencies
+  fullDepList = {}
+  for mod in depList.keys():
+    fullDepList[mod] = {}
+    for tmp in depList[mod].keys():
+      fullDepList[mod][tmp] = 1
+    newDepFound = True
+    while (newDepFound):
+      depCountBefore = len(fullDepList[mod])
+      # try to explore each modules in dependency list
+      newModules = []
+      for subMod in fullDepList[mod]:
+        for subModDep in depList[subMod]:
+          if not subModDep in fullDepList[mod]:
+            if not subModDep in newModules:
+              newModules.append(subModDep)
+      for newMod in newModules:
+        fullDepList[mod][newMod] = 1
+      depCountAfter = len(fullDepList[mod])
+      if (depCountBefore == depCountAfter):
+        newDepFound = False
+  
+  # detect cyclic dependencies
+  cyclicDependentModules = []
+  for mod in fullDepList.keys():
+    if mod in fullDepList[mod]:
+      if not mod in cyclicDependentModules:
+        cyclicDependentModules.append(mod)
+  
+  # clean full dependencies : 
+  # - if module 'a' depends on 'b' 'c' and 'd'
+  # - if module 'b' depens on 'd'
+  # - if 'b' and 'd' are clean
+  #   -> then remove 'd' from 'a' dependency list
+  # it will be considered as inherited from 'b'
+  """
+  cleanDepList = depList.copy()
+  for mod in cleanDepList.keys():
+    depListToRemove = []
+    for dep1 in cleanDepList[mod]:
+      for dep2 in cleanDepList[mod]:
+        if dep2 == dep1:
+          continue
+        if (dep2 in fullDepList[dep1]) and \
+           (not dep1 in cyclicDependentModules) and \
+           (not dep2 in cyclicDependentModules) and \
+           (not dep2 in depListToRemove):
+          depListToRemove.append(dep2)
+    for duplicatedDep in depListToRemove:
+      del(cleanDepList[mod][duplicatedDep])
+  """
+  
+  """
+  print "Clean Modules :"
+  for mod in fullDepList.keys():
+    if not mod in cyclicDependentModules:
+      print " -> "+mod
+  """
+  
+  print "Check for cyclic dependency :"
+  for grp in groups.keys():
+    print "----------------------------------------------"
+    print grp
+    for mod in groups[grp].keys():
+      if mod in cyclicDependentModules:
+        print "  -> FAILED "+mod
+      else:
+        print "  -> PASSED "+mod
+  
+  printDepList(depList)
+  #printGroupTree(groups)
   
   if csvEdges:
     outputCSVEdgeList(depList,csvEdges)
