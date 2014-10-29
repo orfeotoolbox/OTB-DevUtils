@@ -81,4 +81,6 @@ ctest_configure (BUILD   "${CTEST_BINARY_DIRECTORY}"
 
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+SET(CTEST_NOTES_FILES 
+  "${CTEST_DASHBOARD_ROOT}/logs/mxe_x86_64-w64-mingw32.shared_build.log" )
 ctest_submit ()
