@@ -8,7 +8,7 @@ Build-Depends:
  libc6-dev (>= 2.4),
  libgcc1 (>= 1:4.1),
  libstdc++6 (>= 4.4),
- libinsighttoolkit4-dev (>= 4.5.0),
+ libinsighttoolkit4-dev (>= 4.6.0),
  libgdal-dev (>= 1.10.0),
  libgeotiff-dev,
  libpng-dev,
@@ -38,7 +38,7 @@ Architecture: any
 Provides: libotb
 Conflicts: libotb3.16, libotb3.18, libotb3.20
 Depends:
- libinsighttoolkit4.5,
+ libinsighttoolkit4.6,
  libgdal1h (>= 1.10.0),
  ${shlibs:Depends},
  ${misc:Depends}
@@ -65,7 +65,7 @@ Depends:
  libc6-dev (>= 2.4),
  libgcc1 (>= 1:4.1),
  libstdc++6 (>= 4.4),
- libinsighttoolkit4-dev (>= 4.5.0),
+ libinsighttoolkit4-dev (>= 4.6.0),
  libgdal-dev (>= 1.10.0),
  libgeotiff-dev,
  libexpat1-dev,
