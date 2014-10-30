@@ -18,16 +18,26 @@ def parseManifest(path):
   groups = {}
   nbFields = 6
   fd = open(path,'rb')
-  # skip first line
-  fd.readline()
+  # skip first line and detect separator
+  firstLine = fd.readline()
+  sep = ','
+  if (len(firstLine.split(sep)) != nbFields):
+    sep = ';'
+  if (len(firstLine.split(sep)) != nbFields):
+    sep = '\t'
+  if (len(firstLine.split(sep)) != nbFields):
+    print "Unknown separator"
+    return [groups,moduleList,sourceList]
+  
+  # parse file
   for line in fd:
-    words = line.split(',')
-    if (len(words) < nbFields):
+    words = line.split(sep)
+    if (len(words) < (nbFields-1)):
       print "Wrong number of fields, skipping this line"
       continue
-    groupName = words[2].strip(" ,\t\n\r")
-    moduleName = words[3].strip(" ,\t\n\r")
-    sourceFile = words[0].strip(" ,\t\n\r")
+    groupName = words[2].strip(" ,;\t\n\r")
+    moduleName = words[3].strip(" ,;\t\n\r")
+    sourceFile = words[0].strip(" ,;\t\n\r")
     sourceName = op.basename(sourceFile)
     if not groups.has_key(groupName):
       groups[groupName] = {}
@@ -43,12 +53,15 @@ def parseManifest(path):
   return [groups,moduleList,sourceList]
 
 
-def printDepList(depList):
+def printDepList(depList, cyclicDependentModules=None):
   for mod in depList.keys():
     print "-------------------------------------------------------------------"
     print "Module "+mod+" depends on :"
     for dep in depList[mod].keys():
-      print "  -> "+dep
+      suffix = ""
+      if dep in cyclicDependentModules:
+        suffix = "   (cyclic)"
+      print "  -> "+dep+suffix
       for link in depList[mod][dep]:
         print "    * from "+link["from"]+" to "+link["to"]
 
@@ -157,6 +170,7 @@ def main(argv):
   """
   
   print "Check for cyclic dependency :"
+  print "Cyclic modules = "+str(len(cyclicDependentModules))+" / "+str(len(depList))
   for grp in groups.keys():
     print "----------------------------------------------"
     print grp
@@ -166,7 +180,7 @@ def main(argv):
       else:
         print "  -> PASSED "+mod
   
-  printDepList(depList)
+  printDepList(depList,cyclicDependentModules)
   #printGroupTree(groups)
   
   if csvEdges:
