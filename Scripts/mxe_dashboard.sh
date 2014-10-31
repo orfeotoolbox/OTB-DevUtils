@@ -51,11 +51,14 @@ cd $DEVUTILS_DIRECTORY
 hg pull --rebase
 hg update
 
+#save status to log file for check if hg pull was just fine.
+hg status > $LOG_FILE
+
 DEVUTILS_CONFIG_DIR="${DEVUTILS_DIRECTORY}/Config/pc-christophe"
 
 MXE_BUILD_SCRIPT=${DEVUTILS_DIRECTORY}/Scripts/mxe_build.sh
 # # OTB Nightly MXE Cross Compile
-$MXE_BUILD_SCRIPT "$MXE_SOURCE_DIR" "$MXE_TARGET" "yes" > $LOG_FILE
+$MXE_BUILD_SCRIPT "$MXE_SOURCE_DIR" "$MXE_TARGET" "yes" >> $LOG_FILE
 if [ "$?" -eq "0" ]; then
   echo 'MXE is up-to-date.'
   #32bit
