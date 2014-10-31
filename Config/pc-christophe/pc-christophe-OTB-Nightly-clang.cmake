@@ -68,4 +68,9 @@ OTB_WRAP_PYTHON:BOOL=OFF
  ")
 endmacro()
 
+SET(CTEST_NOTES_FILES
+    "${CTEST_DASHBOARD_ROOT}/logs/gdal_weekly_out.log"
+    "${CTEST_DASHBOARD_ROOT}/logs/ossim_weekly_out.log"
+    "${CTEST_DASHBOARD_ROOT}/logs/opencv_weekly_out.log" )
+
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
