@@ -61,4 +61,7 @@ ctest_configure (BUILD   "${CTEST_BINARY_DIRECTORY}"
                  SOURCE  "${CTEST_SOURCE_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+#NOTE: this note file is from previous build. 
+list(APPEND CTEST_NOTES_FILES
+  "${CTEST_DASHBOARD_ROOT}/logs/mxe_deploy_otb_i686-w64-mingw32.shared.log")
 ctest_submit ()

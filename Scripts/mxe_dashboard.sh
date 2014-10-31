@@ -11,9 +11,8 @@ exit 1
 fi
 
 #we moved on to mingw-w64 project. why?.
-#seems like mingw64 has better support and mingw
-#and it has both 32bit and 64bit targets. Things are good and
-#easier in mingw64
+#seems like mingw64 has better support than mingw
+#and it has both 32bit and 64bit targets.
 
 if [ "$MXE_TARGET" == "i686-pc-mingw32.shared" ]; then
    MXE_TARGET='i686-w64-mingw32.shared'
