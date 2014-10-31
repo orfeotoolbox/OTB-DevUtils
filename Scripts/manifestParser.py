@@ -145,12 +145,12 @@ def main(argv):
   # - if 'b' and 'd' are clean
   #   -> then remove 'd' from 'a' dependency list
   # it will be considered as inherited from 'b'
-  """
-  cleanDepList = depList.copy()
-  for mod in cleanDepList.keys():
+  cleanDepList = {}
+  for mod in depList.keys():
+    cleanDepList[mod] = {}
     depListToRemove = []
-    for dep1 in cleanDepList[mod]:
-      for dep2 in cleanDepList[mod]:
+    for dep1 in depList[mod]:
+      for dep2 in depList[mod]:
         if dep2 == dep1:
           continue
         if (dep2 in fullDepList[dep1]) and \
@@ -158,9 +158,9 @@ def main(argv):
            (not dep2 in cyclicDependentModules) and \
            (not dep2 in depListToRemove):
           depListToRemove.append(dep2)
-    for duplicatedDep in depListToRemove:
-      del(cleanDepList[mod][duplicatedDep])
-  """
+    for dep in depList[mod]:
+      if not dep in depListToRemove:
+        cleanDepList[mod][dep] = 1
   
   """
   print "Clean Modules :"
@@ -184,7 +184,7 @@ def main(argv):
   #printGroupTree(groups)
   
   if csvEdges:
-    outputCSVEdgeList(depList,csvEdges)
+    outputCSVEdgeList(cleanDepList,csvEdges)
   
   return 0
 
