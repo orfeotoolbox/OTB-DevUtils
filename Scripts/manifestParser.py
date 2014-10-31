@@ -6,11 +6,36 @@ import string
 import os.path as op
 import codeParser
 import networkx as nx
+import re
 
 
 def showHelp():
   print "Usage : manifestParser.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  [CSV_EDGE_LIST]"
 
+
+def searchExternalIncludes(path):
+  includes = []
+  systemInc = ["string.h","stdio.h","stdint.h","ctype.h","dirent.h","assert.h","sys/types.h"]
+  ifstream = open(path)
+  
+  search_string=r'^#include *([<"])([^<"]*\.h.*)([>"])'
+  includeRegexp=re.compile(search_string)
+
+  for line in ifstream:
+    gg = includeRegexp.match(line)
+    if (gg != None) and (len(gg.groups()) == 3):
+      detection = gg.group(2)
+      # remove includes to OTB or ITK
+      if len(detection) > 5:
+        if detection[0:3] in ["otb","itk","vcl","vnl"]:
+          continue
+      # remove "system" includes (lib C/C++)
+      if detection in systemInc:
+        continue
+      includes.append(detection)
+  
+  ifstream.close()
+  return includes
 
 def parseManifest(path):
   sourceList = {}
@@ -64,6 +89,20 @@ def printDepList(depList, cyclicDependentModules=None):
       print "  -> "+dep+suffix
       for link in depList[mod][dep]:
         print "    * from "+link["from"]+" to "+link["to"]
+
+
+def printExternalDepList(externalDep):
+  for mod in externalDep:
+    print "-------------------------------------------------------------------"
+    print "Module "+mod+" depends on external libs :"
+    for ext in externalDep[mod]:
+      if (ext == "Other"):
+        if len(externalDep[mod][ext]) > 0:
+          print " -> "+ext
+          for inc in externalDep[mod][ext]:
+            print "    * from "+inc
+      else:
+        print " -> "+ext
 
 
 def printGroupTree(groups):
@@ -162,6 +201,44 @@ def main(argv):
       if not dep in depListToRemove:
         cleanDepList[mod][dep] = 1
   
+  externalDep = {}
+  for mod in moduleList.keys():
+    externalDep[mod] = {"Other":{}}
+    for src in moduleList[mod]:
+      fullPath = op.join(otbDir,src)
+      extInc = searchExternalIncludes(fullPath)
+      for inc in extInc:
+        if (inc.find("gdal") == 0) or (inc.find("ogr") == 0) or (inc.find("cpl_") == 0):
+          externalDep[mod]["GDAL"] = 1
+        elif (inc.find("ossim") == 0):
+          externalDep[mod]["OSSIM"] = 1
+        elif (inc.find("opencv") == 0):
+          externalDep[mod]["OpenCV"] = 1
+        elif (inc.find("muParser") == 0):
+          externalDep[mod]["MuParser"] = 1
+        elif (inc.find("boost") == 0):
+          externalDep[mod]["Boost"] = 1
+        elif (inc.find("tinyxml") == 0):
+          externalDep[mod]["TinyXML"] = 1
+        elif (inc.find("mapnik") == 0):
+          externalDep[mod]["Mapnik"] = 1
+        elif (inc.find("kml") == 0):
+          externalDep[mod]["LibKML"] = 1
+        elif (inc.find("curl") == 0):
+          externalDep[mod]["Curl"] = 1
+        elif (inc.find("msImageProcessor") == 0):
+          externalDep[mod]["Edison"] = 1
+        elif (inc.find("openjpeg") == 0):
+          externalDep[mod]["OpenJPEG"] = 1
+        elif (inc.find("siftfast") == 0):
+          externalDep[mod]["SiftFast"] = 1
+        elif (inc.find("svm") == 0):
+          externalDep[mod]["LibSVM"] = 1
+        else:
+          externalDep[mod]["Other"][inc] = 1
+  
+  
+  
   """
   print "Clean Modules :"
   for mod in fullDepList.keys():
@@ -169,19 +246,23 @@ def main(argv):
       print " -> "+mod
   """
   
-  print "Check for cyclic dependency :"
-  print "Cyclic modules = "+str(len(cyclicDependentModules))+" / "+str(len(depList))
-  for grp in groups.keys():
-    print "----------------------------------------------"
-    print grp
-    for mod in groups[grp].keys():
-      if mod in cyclicDependentModules:
-        print "  -> FAILED "+mod
-      else:
-        print "  -> PASSED "+mod
-  
-  printDepList(depList,cyclicDependentModules)
+  if len(cyclicDependentModules) > 0:
+    print "Check for cyclic dependency :"
+    print "Cyclic modules = "+str(len(cyclicDependentModules))+" / "+str(len(depList))
+    for grp in groups.keys():
+      print "----------------------------------------------"
+      print grp
+      for mod in groups[grp].keys():
+        if mod in cyclicDependentModules:
+          print "  -> FAILED "+mod
+        else:
+          print "  -> PASSED "+mod
+  else:
+    print "Check for cyclic dependency : OK"
+
+  #printDepList(depList,cyclicDependentModules)
   #printGroupTree(groups)
+  printExternalDepList(externalDep)
   
   if csvEdges:
     outputCSVEdgeList(cleanDepList,csvEdges)
