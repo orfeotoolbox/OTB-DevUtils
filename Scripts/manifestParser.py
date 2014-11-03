@@ -10,7 +10,7 @@ import re
 
 
 def showHelp():
-  print "Usage : manifestParser.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  [CSV_EDGE_LIST]"
+  print "Usage : manifestParser.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  [DOT_FILE]"
 
 
 def searchExternalIncludes(path):
@@ -117,6 +117,31 @@ def outputCSVEdgeList(depList,outPath):
     for dep in depList[mod].keys():
       fd.write(mod+","+dep+"\n")
   fd.close()
+
+def outputDotCompleteGraph(deplist,outPath):
+  nodemap = {}
+  nodeproperties = {}
+  edges = set()
+  for mod in deplist.keys():
+    for dep in deplist[mod].keys():
+      for link in deplist[mod][dep]:
+        if not link["from"] in nodemap.keys():
+          nodemap[link["from"]]="node"+str(len(nodemap))
+          nodeproperties[nodemap[link["from"]]]={"name":link["from"], "module":mod}
+        if not link["to"] in nodemap.keys():
+          nodemap[link["to"]]="node"+str(len(nodemap))
+          nodeproperties[nodemap[link["to"]]]={"name":link["to"], "module":dep}
+        edges.add((nodemap[link["from"]],nodemap[link["to"]]))
+  fd = open(outPath,'wb')
+  fd.write("digraph modules {\n")
+  for inc in nodemap.keys():
+    node = nodemap[inc]
+    fd.write(node+" [label=\""+nodeproperties[node]["name"]+"\", mod=\""+nodeproperties[node]["module"]+"\"];\n")
+  for (i,o) in edges:
+    fd.write(i+" -> "+o+";\n")
+  fd.write("}\n")
+  fd.close()
+
 
 def buildGraph(depList):
   pass
@@ -265,7 +290,7 @@ def main(argv):
   printExternalDepList(externalDep)
   
   if csvEdges:
-    outputCSVEdgeList(cleanDepList,csvEdges)
+    outputDotCompleteGraph(depList,csvEdges)
   
   return 0
 
