@@ -10,7 +10,7 @@ import re
 
 
 def showHelp():
-  print "Usage : manifestParser.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  [DOT_FILE]"
+  print "Usage : manifestParser.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  [DOT_FILE MODULE]"
 
 
 def searchExternalIncludes(path):
@@ -138,7 +138,31 @@ def outputDotCompleteGraph(deplist,outPath):
     node = nodemap[inc]
     fd.write(node+" [label=\""+nodeproperties[node]["name"]+"\", mod=\""+nodeproperties[node]["module"]+"\"];\n")
   for (i,o) in edges:
-    fd.write(i+" -> "+o+";\n")
+    fd.write(i+" -> "+o+" [src=\""+nodeproperties[i]["name"]+"\", dst=\""+nodeproperties[o]["name"]+"\"];\n")
+  fd.write("}\n")
+  fd.close()
+
+
+def outputDotPartialGraph(deplist,outPath,module):
+  nodemap = {}
+  nodeproperties = {}
+  edges = set()
+  for dep in deplist[module].keys():
+    for link in deplist[module][dep]:
+      if not link["from"] in nodemap.keys():
+        nodemap[link["from"]]="node"+str(len(nodemap))
+        nodeproperties[nodemap[link["from"]]]={"name":link["from"], "module":module}
+      if not link["to"] in nodemap.keys():
+        nodemap[link["to"]]="node"+str(len(nodemap))
+        nodeproperties[nodemap[link["to"]]]={"name":link["to"], "module":dep}
+      edges.add((nodemap[link["from"]],nodemap[link["to"]]))
+  fd = open(outPath,'wb')
+  fd.write("digraph modules {\n")
+  for inc in nodemap.keys():
+    node = nodemap[inc]
+    fd.write(node+" [label=\""+nodeproperties[node]["name"]+"\", mod=\""+nodeproperties[node]["module"]+"\"];\n")
+  for (i,o) in edges:
+    fd.write(i+" -> "+o+" [src=\""+nodeproperties[i]["name"]+"\", dst=\""+nodeproperties[o]["name"]+"\"];\n")
   fd.write("}\n")
   fd.close()
 
@@ -153,6 +177,10 @@ def main(argv):
     csvEdges = argv[3]
   else:
     csvEdges = None
+  if len(argv) >= 5:
+    module = argv[4]
+  else:
+    module = None
   
   [groups,moduleList,sourceList] = parseManifest(csvPath)
   
@@ -289,8 +317,10 @@ def main(argv):
   #printGroupTree(groups)
   printExternalDepList(externalDep)
   
-  if csvEdges:
+  if csvEdges and not module:
     outputDotCompleteGraph(depList,csvEdges)
+  elif csvEdges and module:
+    outputDotPartialGraph(depList,csvEdges,module)
   
   return 0
 
