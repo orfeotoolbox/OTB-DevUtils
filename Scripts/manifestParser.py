@@ -5,7 +5,6 @@ import sys
 import string
 import os.path as op
 import codeParser
-import networkx as nx
 import re
 
 
@@ -167,23 +166,44 @@ def outputDotPartialGraph(deplist,outPath,module):
   fd.close()
 
 
-def buildGraph(depList):
-  pass
-
-def main(argv):
-  csvPath = argv[1]
-  otbDir = argv[2]
-  if len(argv) >= 4:
-    csvEdges = argv[3]
+def findExternalDep(include):
+  depName = "Other"
+  if (include.find("gdal") == 0) or (include.find("ogr") == 0) or (include.find("cpl_") == 0):
+    depName = "GDAL"
+  elif (include.find("ossim") == 0):
+    depName = "OSSIM"
+  elif (include.find("opencv") == 0):
+    depName = "OpenCV"
+  elif (include.find("muParser") == 0):
+    depName = "MuParser"
+  elif (include.find("boost") == 0):
+    depName = "Boost"
+  elif (include.find("tinyxml") == 0):
+    depName = "TinyXML"
+  elif (include.find("mapnik") == 0):
+    depName = "Mapnik"
+  elif (include.find("kml") == 0):
+    depName = "LibKML"
+  elif (include.find("curl") == 0):
+    depName = "Curl"
+  elif (include.find("msImageProcessor") == 0):
+    depName = "Edison"
+  elif (include.find("openjpeg") == 0):
+    depName = "OpenJPEG"
+  elif (include.find("siftfast") == 0):
+    depName = "SiftFast"
+  elif (include.find("svm") == 0):
+    depName = "LibSVM"
   else:
-    csvEdges = None
+    depName = "Other"
   if len(argv) >= 5:
     module = argv[4]
   else:
     module = None
   
-  [groups,moduleList,sourceList] = parseManifest(csvPath)
-  
+  return depName
+
+def buildSimpleDep(otbDir,moduleList,sourceList):
   depList = {}
   for mod in moduleList.keys():
     dependance = {}
@@ -201,8 +221,9 @@ def main(argv):
         else:
           print "Include not found :"+inc
     depList[mod] = dependance
-  
-  # compute full dependencies
+  return depList
+
+def buildFullDep(depList):
   fullDepList = {}
   for mod in depList.keys():
     fullDepList[mod] = {}
@@ -223,6 +244,27 @@ def main(argv):
       depCountAfter = len(fullDepList[mod])
       if (depCountBefore == depCountAfter):
         newDepFound = False
+  return fullDepList
+  
+
+def buildGraph(depList):
+  pass
+
+def main(argv):
+  csvPath = argv[1]
+  otbDir = argv[2]
+  if len(argv) >= 4:
+    csvEdges = argv[3]
+  else:
+    csvEdges = None
+  
+  [groups,moduleList,sourceList] = parseManifest(csvPath)
+  
+  # compute simple dependencies
+  depList = buildSimpleDep(otbDir,moduleList,sourceList)
+  
+  # compute full dependencies
+  fullDepList = buildFullDep(depList)
   
   # detect cyclic dependencies
   cyclicDependentModules = []
@@ -261,36 +303,11 @@ def main(argv):
       fullPath = op.join(otbDir,src)
       extInc = searchExternalIncludes(fullPath)
       for inc in extInc:
-        if (inc.find("gdal") == 0) or (inc.find("ogr") == 0) or (inc.find("cpl_") == 0):
-          externalDep[mod]["GDAL"] = 1
-        elif (inc.find("ossim") == 0):
-          externalDep[mod]["OSSIM"] = 1
-        elif (inc.find("opencv") == 0):
-          externalDep[mod]["OpenCV"] = 1
-        elif (inc.find("muParser") == 0):
-          externalDep[mod]["MuParser"] = 1
-        elif (inc.find("boost") == 0):
-          externalDep[mod]["Boost"] = 1
-        elif (inc.find("tinyxml") == 0):
-          externalDep[mod]["TinyXML"] = 1
-        elif (inc.find("mapnik") == 0):
-          externalDep[mod]["Mapnik"] = 1
-        elif (inc.find("kml") == 0):
-          externalDep[mod]["LibKML"] = 1
-        elif (inc.find("curl") == 0):
-          externalDep[mod]["Curl"] = 1
-        elif (inc.find("msImageProcessor") == 0):
-          externalDep[mod]["Edison"] = 1
-        elif (inc.find("openjpeg") == 0):
-          externalDep[mod]["OpenJPEG"] = 1
-        elif (inc.find("siftfast") == 0):
-          externalDep[mod]["SiftFast"] = 1
-        elif (inc.find("svm") == 0):
-          externalDep[mod]["LibSVM"] = 1
-        else:
+        extDepName = findExternalDep(inc)
+        if extDepName == "Other":
           externalDep[mod]["Other"][inc] = 1
-  
-  
+        else:
+          externalDep[mod][extDepName] = 1
   
   """
   print "Clean Modules :"
@@ -313,9 +330,9 @@ def main(argv):
   else:
     print "Check for cyclic dependency : OK"
 
-  #printDepList(depList,cyclicDependentModules)
+  printDepList(depList,cyclicDependentModules)
   #printGroupTree(groups)
-  printExternalDepList(externalDep)
+  #printExternalDepList(externalDep)
   
   if csvEdges and not module:
     outputDotCompleteGraph(depList,csvEdges)
