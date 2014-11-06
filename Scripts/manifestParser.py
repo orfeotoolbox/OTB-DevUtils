@@ -196,10 +196,6 @@ def findExternalDep(include):
     depName = "LibSVM"
   else:
     depName = "Other"
-  if len(argv) >= 5:
-    module = argv[4]
-  else:
-    module = None
   
   return depName
 
@@ -257,6 +253,11 @@ def main(argv):
     csvEdges = argv[3]
   else:
     csvEdges = None
+  
+  if len(argv) >= 5:
+    module = argv[4]
+  else:
+    module = None
   
   [groups,moduleList,sourceList] = parseManifest(csvPath)
   
