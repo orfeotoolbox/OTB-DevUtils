@@ -14,7 +14,7 @@ def showHelp():
 
 def searchExternalIncludes(path):
   includes = []
-  systemInc = ["string.h","stdio.h","stdint.h","ctype.h","dirent.h","assert.h","sys/types.h"]
+  systemInc = ["string.h","stdio.h","stdint.h","ctype.h","dirent.h","assert.h","sys/types.h","stdlib.h"]
   ifstream = open(path)
   
   search_string=r'^#include *([<"])([^<"]*\.h.*)([>"])'
@@ -77,7 +77,7 @@ def parseManifest(path):
   return [groups,moduleList,sourceList]
 
 
-def printDepList(depList, cyclicDependentModules=None):
+def printDepList(depList, cyclicDependentModules=[]):
   for mod in depList.keys():
     print "-------------------------------------------------------------------"
     print "Module "+mod+" depends on :"
@@ -194,6 +194,12 @@ def findExternalDep(include):
     depName = "SiftFast"
   elif (include.find("svm") == 0):
     depName = "LibSVM"
+  elif (include.find("expat") >= 0):
+    depName = "Expat"
+  elif ((include.lower()).find("6s") >= 0):
+    depName = "6S"
+  elif (include.find("openthread") == 0):
+    depName = "OpenThread"
   else:
     depName = "Other"
   
