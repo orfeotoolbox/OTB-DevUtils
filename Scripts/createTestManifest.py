@@ -10,7 +10,7 @@ import re
 
 
 def showHelp():
-  print "Usage : createTestManifest.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  OUTPUT_TEST_MANIFEST"
+  print "Usage : createTestManifest.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  OUTPUT_TEST_MANIFEST  [TEST_DEPENDS_CSV]"
 
 def extractTestFunctionName(testCode):
   fullString = ""
@@ -211,18 +211,35 @@ def findClosestSourceName(testFile,sourceList):
   matchFile = ""
   matchPercent = -1.0
   
-  testFileLower = testFile.lower()
+  testFileLower = op.splitext(testFile.lower())[0]
+  
+  if testFileLower.endswith("test"):
+    testFileLower = testFileLower[0:-4]
+  
+  # handle Fa test name : replace '0004526-' by 'otb'
+  faSearchString = r'^[0-9]+-(.+)$'
+  faRe = re.compile(faSearchString)
+  faMatch = faRe.match(testFileLower)
+  if (faMatch != None) and (len(faMatch.groups()) == 1):
+    testFileLower = "otb"+faMatch.group(1)
+  
+  # prefix 'otb' if not present
+  if not testFileLower.startswith("otb"):
+    testFileLower = "otb"+testFileLower
   
   for src in sourceList:
-    srcLower = src.lower()
-    maxLength = min(len(testFileLower),len(srcLower))
+    srcLower = op.splitext(src.lower())[0]
+    minLength = min(len(testFileLower),len(srcLower))
+    maxLength = max(len(testFileLower),len(srcLower))
     currentPos = 0
-    while (currentPos<maxLength):
+    while (currentPos<minLength):
       if srcLower[currentPos] == testFileLower[currentPos]:
         currentPos = currentPos + 1
       else:
         break
-    score = 100.0 * float(currentPos) / float(len(testFile))
+    # take into account length difference between 2 names
+    score = 100.0 * float(currentPos) / float(maxLength)
+    
     if score > matchPercent:
       matchFile = src
       matchPercent = score
@@ -239,35 +256,21 @@ def getGroup(module,groups):
   return myGroup
 
 
-def gatherTestDepends(testMains,testFunctions,fullDepList):
+def gatherTestDepends(testCxx,fullDepList):
   gatherTestDependencies = {}
-  for tfile in testMains:
-    tmod = testMains[tfile]["module"]
+  for tfile in testCxx:
+    tmod = testCxx[tfile]["module"]
     if tmod == "TBD":
       continue
     if not tmod in gatherTestDependencies:
       gatherTestDependencies[tmod] = {}
-    for tdep in testMains[tfile]["depList"]:
+    for tdep in testCxx[tfile]["depList"]:
       # skip module itself and its dependencies
       if (tdep == tmod) or (tdep in fullDepList[tmod]):
         continue
       if not gatherTestDependencies[tmod].has_key(tdep):
         gatherTestDependencies[tmod][tdep] = []
-      gatherTestDependencies[tmod][tdep].append(testMains[tfile]["depList"][tdep])
-  for tfile in testFunctions:
-    tmod = testFunctions[tfile]["module"]
-    if tmod == "TBD":
-      continue
-    if not tmod in gatherTestDependencies:
-      gatherTestDependencies[tmod] = {}
-    for tdep in testFunctions[tfile]["depList"]:
-      # skip module itself and its dependencies
-      if (tdep == tmod) or (tdep in fullDepList[tmod]):
-        continue
-      if not gatherTestDependencies[tmod].has_key(tdep):
-        gatherTestDependencies[tmod][tdep] = []
-      gatherTestDependencies[tmod][tdep].append(testFunctions[tfile]["depList"][tdep])
-  
+      gatherTestDependencies[tmod][tdep].append(testCxx[tfile]["depList"][tdep])
   return gatherTestDependencies
 
 
@@ -275,6 +278,11 @@ def main(argv):
   manifestPath = op.expanduser(argv[1])
   otbDir = op.expanduser(argv[2])
   outManifest = argv[3]
+  
+  if len(argv) >= 5:
+    csvTestDepends = argv[4]
+  else:
+    csvTestDepends = None
   
   testing_dir = op.join(otbDir,"Testing")
   
@@ -285,11 +293,10 @@ def main(argv):
   
   OldFolderPartition = buildOldFolderPartition(moduleList)
   
-  testDrivers = {}
-  testMains = {}
-  testFunctions = {}
+  testCxx = {}
   
   outFD = open(outManifest,'wb')
+  outFD.write("# Monolithic path, Current dir, group name, module name, subDir name, comment\n")
   
   # parse all cxx test files : analyse them and extract their dependencies
   for (d,f) in codeParser.FindBinaries(testing_dir):
@@ -303,7 +310,6 @@ def main(argv):
     
     if res["isTestDriver"]:
       # no need to dispatch test drivers, they can be generated again
-      testDrivers[shortPath] = res["testFunctions"]
       continue
     
     [testDepList,thirdPartyDep] = getTestDependencies(res["includes"],sourceList)
@@ -336,6 +342,10 @@ def main(argv):
         if not subDep in testFullDepList:
           testFullDepList.append(subDep)
     
+    # start guessing
+    luckyGuess = None
+    guessStep = 1
+    
     # try to get the list of module used to partition the corresponding source directory
     guessModules = []
     guessSourceDir = op.split(shortPath.replace("./Testing","."))[0]
@@ -348,56 +358,77 @@ def main(argv):
     
     # first filter : find modules that appear in cleanTestDepList and in guessModules
     overlappingModules = []
-    firstLuckyGuess = None
     for dep in cleanTestDepList:
       if dep in guessModules:
         overlappingModules.append(dep)
     if len(overlappingModules) == 1:
-      firstLuckyGuess = overlappingModules[0]
+      luckyGuess = overlappingModules[0]
     
     # second filter : find the source file with the closest name
-    secondLuckyGuess = None
-    [matchFile, matchPercent] = findClosestSourceName(f,sourceList)
-    if (sourceList[matchFile] in testDepList) and (matchPercent > 50.0):
-      secondLuckyGuess = sourceList[matchFile]
-    elif (sourceList[matchFile] in testFullDepList) and (matchPercent > 70.0):
-      secondLuckyGuess = sourceList[matchFile]
+    if not luckyGuess:
+      guessStep += 1
+      [matchFile, matchPercent] = findClosestSourceName(f,sourceList)
+      if (sourceList[matchFile] in testDepList) and (matchPercent > 50.0):
+        luckyGuess = sourceList[matchFile]
+      elif (sourceList[matchFile] in testFullDepList) and (matchPercent > 70.0):
+        luckyGuess = sourceList[matchFile]
     
-    # third filter : Utilities
-    thirdLuckyGuess = None
-    if guessSourceDir == "./Utilities":
-      groupDestination = "ThirdParty"
-      if len(thirdPartyDep) == 1:
-        thirdLuckyGuess = thirdPartyDep[0]
+    # third filter : ThirdParty
+    if not luckyGuess:
+      guessStep += 1
+      if guessSourceDir == "./Utilities" or len(testDepList) == 0:
+        groupDestination = "ThirdParty"
+        if len(thirdPartyDep) == 1:
+          luckyGuess = thirdPartyDep[0]
     
     # fourth filter : if there is only one dependency in cleanTestDepList : take it
-    fourthLuckyGuess = None
-    if len(cleanTestDepList) == 1:
-      fourthLuckyGuess = cleanTestDepList[0]
+    if not luckyGuess:
+      guessStep += 1
+      if len(cleanTestDepList) == 1:
+        luckyGuess = cleanTestDepList[0]
     
-    # fifth filter : handle test containing "Reader" "Writer" ...
-    fifthLuckyGuess = None
-    if (f.find("Reader") >= 0) or (f.find("Reading") >= 0) or \
-       (f.find("Writer") >= 0) or (f.find("Writing") >= 0):
-      # remove non-IO deps from cleanTestDepList and look what's left
-      ioCleanDep = []
-      for dep in cleanTestDepList:
-        if getGroup(dep,groups) == "IO":
-          ioCleanDep.append(dep)
-      if len(ioCleanDep) == 1:
-        fifthLuckyGuess = ioCleanDep[0]
+    # fifth filter : separate IO test from non-IO test
+    if not luckyGuess:
+      guessStep += 1
+      if (f.find("Reader") >= 0) or (f.find("Reading") >= 0) or \
+         (f.find("Write") >= 0) or (f.find("Writing") >= 0) or \
+         (f.find("ImageIO") >= 0) or (guessSourceDir == "./Code/IO"):
+        # remove non-IO deps from cleanTestDepList and look what's left
+        ioCleanDep = []
+        for dep in cleanTestDepList:
+          if getGroup(dep,groups) == "IO":
+            ioCleanDep.append(dep)
+        # ImageIO should be low priority compared to other IO modules
+        if (len(ioCleanDep) == 2) and ("ImageIO" in ioCleanDep):
+          ioCleanDep.remove("ImageIO")
+        if len(ioCleanDep) == 1:
+          luckyGuess = ioCleanDep[0]
+      else:
+        # remove non-IO deps from cleanTestDepList and look what's left
+        nonIOcleanDep = []
+        for dep in cleanTestDepList:
+          if getGroup(dep,groups) != "IO":
+            nonIOcleanDep.append(dep)
+        if len(nonIOcleanDep) == 1:
+          luckyGuess = nonIOcleanDep[0]
+        elif len(nonIOcleanDep) == 2:
+          # compare the 2 possible modules based on their group
+          groupAandB = [getGroup(nonIOcleanDep[0],groups),getGroup(nonIOcleanDep[1],groups)]
+          levelAandB = [0,0]
+          for idx in [0,1]:
+            if groupAandB[idx] == "Core":
+              levelAandB[idx] = 1
+            elif groupAandB[idx] == "Filtering":
+              levelAandB[idx] = 2
+            else:
+              levelAandB[idx] = 3
+          if levelAandB[0] > levelAandB[1]:
+            luckyGuess = nonIOcleanDep[0]
+          if levelAandB[0] < levelAandB[1]:
+            luckyGuess = nonIOcleanDep[1]  
     
-    
-    if firstLuckyGuess:
-      moduleDestination = firstLuckyGuess
-    elif secondLuckyGuess:
-      moduleDestination = secondLuckyGuess
-    elif thirdLuckyGuess:
-      moduleDestination = thirdLuckyGuess
-    elif fourthLuckyGuess:
-      moduleDestination = fourthLuckyGuess
-    elif fifthLuckyGuess:
-      moduleDestination = fifthLuckyGuess
+    if luckyGuess:
+      moduleDestination = luckyGuess
     else:
       pass
       #print f + " -> " + str(testDepList)
@@ -407,74 +438,22 @@ def main(argv):
     if groupDestination == "TBD" and moduleDestination != "TBD":
       groupDestination = getGroup(moduleDestination,groups)
     
-    
-    outputDic = {"depList":testDepList , "thirdPartyDep":thirdPartyDep, "group":groupDestination, "module":moduleDestination}
-    
-    if res["hasMain"]:
-      testMains[shortPath] = outputDic
-    else:
-      outputDic["testFunctions"] = res["testFunctions"]
-      testFunctions[shortPath] = outputDic
-    
+    testCxx[shortPath] = {"depList":testDepList , "thirdPartyDep":thirdPartyDep, "group":groupDestination, "module":moduleDestination}
     outFD.write(shortPath+","+op.basename(op.dirname(shortPath))+","+groupDestination+","+moduleDestination+",test,\n")
   
   outFD.close()
   
   # sum all test dependencies in every module
-  allTestDepends = gatherTestDepends(testMains,testFunctions,fullDepList)
+  allTestDepends = gatherTestDepends(testCxx,fullDepList)
   
-  # clean inherited test depends
-  cleanedTestDepends = {}
-  for mod in allTestDepends:
-    cleanList = []
-    depListToRemove = []
-    for dep1 in allTestDepends[mod]:
-      for dep2 in allTestDepends[mod]:
-        if dep2 == dep1:
-          continue
-        if (dep2 in fullDepList[dep1]) and \
-           (not dep2 in depListToRemove):
-          depListToRemove.append(dep2)
-    for dep in allTestDepends[mod]:
-      if not dep in depListToRemove:
-        cleanList.append(dep)
-    cleanedTestDepends[mod] = cleanList
+  if csvTestDepends:
+    manifestParser.outputCSVEdgeList(allTestDepends,csvTestDepends)
   
-  
-  manifestParser.printDepList(allTestDepends)
-  """
-  for mod in allTestDepends:
-    print "---------------------------------------"
-    print "Module "+mod
-    for dep in allTestDepends[mod]:
-      print "  -> "+dep
-      for tfile in allTestDepends[mod][dep]:
-        print "    * "+tfile
-  """  
-  # DEBUG  
-  return
-  
-  
-  
-  # Get test list ( except application tests)
-  testing_dir = op.join(otbDir,"Testing")
-  test_count = 0
-  tests_map = {}
-  for (d,f) in codeParser.Find(testing_dir,"CMakeLists.txt"):
-    tests = codeParser.ParseAddTests(op.join(d,f))
-    test_count = test_count + len(tests)
-    
-    for (testName,testCode) in tests:
-      # for each testName, extract its corresponding "test_function_name" as called in add_test()
-      #testFunctionName = extractTestFunctionName(testCode)
-      #print testName + "\t\t->" + testFunctionName
-      pass
-      
-      # store each test name with usefull informations
-  
+  #manifestParser.printDepList(allTestDepends)
+
 
 if __name__ == "__main__":
-  if len(sys.argv) < 3 :
+  if len(sys.argv) < 4 :
     showHelp()
   else:
     main(sys.argv)
