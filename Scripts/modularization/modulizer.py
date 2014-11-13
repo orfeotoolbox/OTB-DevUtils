@@ -44,6 +44,7 @@ import sys
 import os
 import stat
 import glob
+import documentationCheck
 
 def parseFullManifest(path):
   sourceList = []
@@ -88,6 +89,8 @@ if len(sys.argv) < 4:
     print("  test_dep            : additional dependencies for tests")
     sys.exit(-1)
 
+scriptDir = op.dirname(op.abspath(sys.argv[0]))
+
 HeadOfOTBTree = sys.argv[1]
 if (HeadOfOTBTree[-1] == '/'):
     HeadOfOTBTree = HeadOfOTBTree[0:-1]
@@ -122,14 +125,14 @@ print("Done copying!")
 cmd ='hg clone http://hg.orfeo-toolbox.org/OTB-Modular  '+HeadOfModularOTBTree
 os.system(cmd)
 
-
-if not op.isdir('./logs'):
-  os.makedirs('./logs')
+logDir = op.join(OutputDir,"logs")
+if not op.isdir(logDir):
+  os.makedirs(logDir)
 
 # read the manifest file
 print ("moving files from ./OTB_remaining into modules in {0}".format(HeadOfModularOTBTree))
 numOfMissingFiles = 0;
-missingf =  open('./logs/missingFiles.log','w')
+missingf =  open(op.join(logDir,'missingFiles.log'),'w')
 moduleList=[]
 moduleDic={}
 sourceList = parseFullManifest(ManifestPath)
@@ -154,9 +157,21 @@ for source in sourceList:
     numOfMissingFiles = numOfMissingFiles + 1
 
 missingf.close()
-print ("listed {0} missing files to ./logs/missingFiles.log").format(numOfMissingFiles)
+print ("listed {0} missing files to logs/missingFiles.log").format(numOfMissingFiles)
 
 moduleList = moduleDic.keys()
+
+# after move, operate a documentation check
+for source in sourceList:
+  outputPath = op.join(op.join(HeadOfModularOTBTree,"Modules"),op.join(source["group"],op.join(source["module"],source["subDir"])))
+  outputFile = op.join(outputPath,op.basename(source["path"]))
+  if  op.isfile(outputFile):
+    if op.splitext(outputFile)[1] == ".h":
+      nextContent = documentationCheck.parserHeader(outputFile,source["module"])
+      fd = open(outputFile,'wb')
+      fd.writelines(nextContent)
+      fd.close()
+
 
 # get dependencies (if file is present)
 dependencies = {}
@@ -172,7 +187,7 @@ if op.isfile(EdgePath):
     if len(words) == 2:
       depFrom = words[0].strip(" ,;\t\n\r")
       depTo = words[1].strip(" ,;\t\n\r")
-      if dependencies.has_key(depFrom) and dependencies.has_key(depTo):
+      if dependencies.has_key(depFrom):
         dependencies[depFrom].append(depTo)
       else:
         print("Bad dependency : "+depFrom+" -> "+depTo)
@@ -185,7 +200,7 @@ if op.isfile(testDependPath):
     if len(words) == 2:
       depFrom = words[0].strip(" ,;\t\n\r")
       depTo = words[1].strip(" ,;\t\n\r")
-      if testDependencies.has_key(depFrom) and testDependencies.has_key(depTo):
+      if testDependencies.has_key(depFrom):
         testDependencies[depFrom].append(depTo)
       else:
         print("Bad dependency : "+depFrom+" -> "+depTo)
@@ -193,12 +208,12 @@ if op.isfile(testDependPath):
 
 
 # list the new files
-newf =  open('./logs/newFiles.log','w')
+newf =  open(op.join(logDir,'newFiles.log'),'w')
 for (root, subDirs, files) in os.walk(HeadOfTempTree):
    for afile in files:
      newf.write(op.join(root, afile)+'\n')
 newf.close()
-print ("listed new files to ./logs/newFiles.log")
+print ("listed new files to logs/newFiles.log")
 
 ###########################################################################
 
@@ -214,7 +229,7 @@ for  moduleName in moduleList:
     filepath = moduleDir+'/CMakeLists.txt'
     if not op.isfile(filepath):
       o = open(filepath,'w')
-      for line in open('./templateModule/otb-template-module/CMakeLists.txt','r'):
+      for line in open(op.join(scriptDir,'templateModule/otb-template-module/CMakeLists.txt'),'r'):
           line = line.replace('otb-template-module',cmakeModName)
           o.write(line);
       o.close()
@@ -235,7 +250,7 @@ for  moduleName in moduleList:
       filepath = moduleDir+'/src/CMakeLists.txt'
       if not op.isfile(filepath):
         o = open(filepath,'w')
-        for line in open('./templateModule/otb-template-module/src/CMakeLists.txt','r'):
+        for line in open(op.join(scriptDir,'templateModule/otb-template-module/src/CMakeLists.txt'),'r'):
           line = line.replace('otb-template-module',cmakeModName)
           line = line.replace('LIST_OF_CXX_FILES',cxxFileList[0:-1]) #get rid of the last \n
           line = line.replace('LINK_LIBRARIES_TO_BE_REPLACED',linkLibs)
@@ -269,7 +284,7 @@ for  moduleName in moduleList:
     filepath = moduleDir+'/otb-module.cmake'
     if not op.isfile(filepath):
       o = open(filepath,'w')
-      for line in open('./templateModule/otb-template-module/otb-module.cmake','r'):
+      for line in open(op.join(scriptDir,'templateModule/otb-template-module/otb-module.cmake'),'r'):
         # replace module name
         line = line.replace('otb-template-module',cmakeModName)
         # replace depend list
