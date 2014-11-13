@@ -12,6 +12,23 @@ def showHelp():
   print "Usage : manifestParser.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  [DOT_FILE MODULE]"
 
 
+def searchOTBAndITKIncludes(path):
+  includes = []
+  
+  ifstream = open(path)
+  lines = ifstream.readlines()
+  ifstream.close()
+  
+  search_string=r'^#include *([<"])((otb|itk)[^<"_]*\.h)([>"])'
+  includeRegexp=re.compile(search_string)
+  
+  for line in lines:
+    gg = includeRegexp.match(line)
+    if (gg != None) and (len(gg.groups()) == 4):
+      includes.append(gg.group(2))
+        
+  return includes
+
 def searchExternalIncludes(path):
   includes = []
   systemInc = ["string.h","stdio.h","stdint.h","ctype.h","dirent.h","assert.h","sys/types.h","stdlib.h"]
@@ -26,7 +43,9 @@ def searchExternalIncludes(path):
       detection = gg.group(2)
       # remove includes to OTB or ITK
       if len(detection) > 5:
-        if detection[0:3] in ["otb","itk","vcl","vnl"]:
+        if detection[0:3] in ["itk","vcl","vnl"]:
+          continue
+        if detection[0:3] == "otb" and detection[3] != "_":
           continue
       # remove "system" includes (lib C/C++)
       if detection in systemInc:
@@ -171,19 +190,21 @@ def findExternalDep(include):
   if (include.find("gdal") == 0) or (include.find("ogr") == 0) or (include.find("cpl_") == 0):
     depName = "GDAL"
   elif (include.find("ossim") == 0):
-    depName = "OSSIM"
+    depName = "Ossim"
   elif (include.find("opencv") == 0):
     depName = "OpenCV"
   elif (include.find("muParser") == 0):
     depName = "MuParser"
   elif (include.find("boost") == 0):
+    if (include == "boost/type_traits/is_contiguous.h"):
+      depName = "BoostAdapters"
     depName = "Boost"
   elif (include.find("tinyxml") == 0):
     depName = "TinyXML"
   elif (include.find("mapnik") == 0):
     depName = "Mapnik"
   elif (include.find("kml") == 0):
-    depName = "LibKML"
+    depName = "libkml"
   elif (include.find("curl") == 0):
     depName = "Curl"
   elif (include.find("msImageProcessor") == 0):
@@ -211,7 +232,9 @@ def buildSimpleDep(otbDir,moduleList,sourceList):
     dependance = {}
     for src in moduleList[mod]:
       srcFullPath = op.join(otbDir,src)
-      srcIncludes = codeParser.ParseIncludes(srcFullPath)
+      #srcIncludes = codeParser.ParseIncludes(srcFullPath)
+      srcIncludes = searchOTBAndITKIncludes(srcFullPath)
+      searchOTBAndITKIncludes
       for inc in srcIncludes:
         if inc in sourceList.keys():
           targetModule = sourceList[inc]
@@ -221,7 +244,8 @@ def buildSimpleDep(otbDir,moduleList,sourceList):
               dependance[targetModule] = []
             dependance[targetModule].append({"from":op.basename(src) , "to":inc})
         else:
-          print "Include not found :"+inc
+          if not inc.startswith("itk"):
+            print "Include not found :"+inc
     depList[mod] = dependance
   return depList
 
@@ -341,6 +365,7 @@ def main(argv):
   #printGroupTree(groups)
   #printExternalDepList(externalDep)
   
+
   if csvEdges and not module:
     outputDotCompleteGraph(depList,csvEdges)
   elif csvEdges and module:
