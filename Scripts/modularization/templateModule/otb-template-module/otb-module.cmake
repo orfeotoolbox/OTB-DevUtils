@@ -1,0 +1,10 @@
+set(DOCUMENTATION "TO BE DOCUMENTED")
+
+otb_module(otb-template-module 
+  DEPENDS
+
+  TEST_DEPENDS
+
+  DESCRIPTION
+    "${DOCUMENTATION}"
+)
