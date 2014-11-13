@@ -9,7 +9,7 @@ import re
 
 
 def showHelp():
-  print "Usage : manifestParser.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  [DOT_FILE MODULE]"
+  print "Usage : manifestParser.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  [DOT_FILE [MODULE]]"
 
 
 def searchOTBAndITKIncludes(path):
@@ -198,7 +198,8 @@ def findExternalDep(include):
   elif (include.find("boost") == 0):
     if (include == "boost/type_traits/is_contiguous.h"):
       depName = "BoostAdapters"
-    depName = "Boost"
+    else:
+      depName = "Boost"
   elif (include.find("tinyxml") == 0):
     depName = "TinyXML"
   elif (include.find("mapnik") == 0):
@@ -221,6 +222,8 @@ def findExternalDep(include):
     depName = "6S"
   elif (include.find("openthread") == 0):
     depName = "OpenThread"
+  elif (include == "ConfigFile.h"):
+    depName = "ConfigFile"
   else:
     depName = "Other"
   
@@ -234,7 +237,6 @@ def buildSimpleDep(otbDir,moduleList,sourceList):
       srcFullPath = op.join(otbDir,src)
       #srcIncludes = codeParser.ParseIncludes(srcFullPath)
       srcIncludes = searchOTBAndITKIncludes(srcFullPath)
-      searchOTBAndITKIncludes
       for inc in srcIncludes:
         if inc in sourceList.keys():
           targetModule = sourceList[inc]
@@ -246,6 +248,17 @@ def buildSimpleDep(otbDir,moduleList,sourceList):
         else:
           if not inc.startswith("itk"):
             print "Include not found :"+inc
+      # also check includes to third parties
+      extInc = searchExternalIncludes(srcFullPath)
+      for inc in extInc:
+        extDepName = findExternalDep(inc)
+        if extDepName == "Other":
+          print "Unknown dependency : "+inc
+        else:
+          if not dependance.has_key(extDepName):
+            dependance[extDepName] = []
+          dependance[extDepName].append({"from":op.basename(src) , "to":inc})
+      
     depList[mod] = dependance
   return depList
 
@@ -261,6 +274,9 @@ def buildFullDep(depList):
       # try to explore each modules in dependency list
       newModules = []
       for subMod in fullDepList[mod]:
+        if not subMod in fullDepList:
+          # if not dependency for this subMod, skip
+          continue
         for subModDep in depList[subMod]:
           if not subModDep in fullDepList[mod]:
             if not subModDep in newModules:
@@ -318,6 +334,8 @@ def main(argv):
       for dep2 in depList[mod]:
         if dep2 == dep1:
           continue
+        if not dep1 in fullDepList:
+          continue
         if (dep2 in fullDepList[dep1]) and \
            (not dep1 in cyclicDependentModules) and \
            (not dep2 in cyclicDependentModules) and \
@@ -326,26 +344,6 @@ def main(argv):
     for dep in depList[mod]:
       if not dep in depListToRemove:
         cleanDepList[mod][dep] = 1
-  
-  externalDep = {}
-  for mod in moduleList.keys():
-    externalDep[mod] = {"Other":{}}
-    for src in moduleList[mod]:
-      fullPath = op.join(otbDir,src)
-      extInc = searchExternalIncludes(fullPath)
-      for inc in extInc:
-        extDepName = findExternalDep(inc)
-        if extDepName == "Other":
-          externalDep[mod]["Other"][inc] = 1
-        else:
-          externalDep[mod][extDepName] = 1
-  
-  """
-  print "Clean Modules :"
-  for mod in fullDepList.keys():
-    if not mod in cyclicDependentModules:
-      print " -> "+mod
-  """
   
   if len(cyclicDependentModules) > 0:
     print "Check for cyclic dependency :"
@@ -363,14 +361,16 @@ def main(argv):
 
   printDepList(depList,cyclicDependentModules)
   #printGroupTree(groups)
-  #printExternalDepList(externalDep)
   
-
+  """
+  if csvEdges:
+    outputCSVEdgeList(depList,csvEdges)
+  return 0
+  """
   if csvEdges and not module:
     outputDotCompleteGraph(depList,csvEdges)
   elif csvEdges and module:
     outputDotPartialGraph(depList,csvEdges,module)
-  
   return 0
 
 
