@@ -14,6 +14,7 @@ echo 'Ex: '$0' /home/otbtesting/win-sources/mxe/usr/i686-pc-mingw32 ~/OTB-Window
 exit 1
 fi
 
+MXE_TARGET_DIR=${MXE_TARGET_DIR/i686-pc*./i686-w64-mingw32.}
 MXE_TARGET=$(basename $MXE_TARGET_DIR)
 LOG_FILE=$HOME'/logs/mxe_deploy_otb_'$MXE_TARGET'.log'
 exec 1> $LOG_FILE
