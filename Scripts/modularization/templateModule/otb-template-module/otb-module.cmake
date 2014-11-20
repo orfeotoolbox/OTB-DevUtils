@@ -2,9 +2,7 @@ set(DOCUMENTATION "TO BE DOCUMENTED")
 
 otb_module(otb-template-module 
   DEPENDS_TO_BE_REPLACED
-
   TESTDEP_TO_BE_REPLACED
-
   DESCRIPTION
     "${DOCUMENTATION}"
-)
+  )

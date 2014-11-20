@@ -240,11 +240,11 @@ for  moduleName in moduleList:
       cxxFiles = glob.glob(moduleDir+'/src/*.cxx')
       cxxFileList='';
       for cxxf in cxxFiles:
-          cxxFileList = cxxFileList+cxxf.split('/')[-1]+'\n'
+          cxxFileList = cxxFileList+'  '+cxxf.split('/')[-1]+'\n'
       # build list of link dependencies
       linkLibs = ""
       for dep in dependencies[moduleName]:
-        linkLibs = linkLibs + " ${OTB"+dep+"_LIBRARIES}"
+        linkLibs = linkLibs + "  ${OTB"+dep+"_LIBRARIES}" + "\n"
       if len(linkLibs) == 0:
         linkLibs = " ${OTBITK_LIBRARIES}"
       filepath = moduleDir+'/src/CMakeLists.txt'
@@ -290,16 +290,16 @@ for  moduleName in moduleList:
         # replace depend list
         dependTagPos = line.find("DEPENDS_TO_BE_REPLACED")
         if dependTagPos >= 0:
+          replacementStr = "DEPENDS"
           if len(dependencies[moduleName]) > 0:
             indentStr = ""
-            replacementStr = "DEPENDS"
             for it in range(dependTagPos+2):
               indentStr = indentStr + " "
             for dep in dependencies[moduleName]:
-              replacementStr = replacementStr + "\n" + indentStr +"OTB"+ dep  
-            line = line.replace('DEPENDS_TO_BE_REPLACED',replacementStr)
+              replacementStr = replacementStr + "\n" + indentStr +"  OTB"+ dep
           else:
-            line = line.replace('DEPENDS_TO_BE_REPLACED','')
+            replacementStr = replacementStr + "\n" + indentStr + "  OTBCommon"
+          line = line.replace('DEPENDS_TO_BE_REPLACED',replacementStr)
         # replace test_depend list
         testDependTagPos = line.find("TESTDEP_TO_BE_REPLACED")
         if testDependTagPos >= 0:
@@ -315,3 +315,11 @@ for  moduleName in moduleList:
             line = line.replace('TESTDEP_TO_BE_REPLACED','')
         o.write(line);
       o.close()
+
+# save version without patches (so that we can regenerate patches later)
+os.system( "cp -ar " + op.join(OutputDir,"OTB_Modular") + " " + op.join(OutputDir,"OTB_Modular-nopatch") )
+
+# apply patches in OTB_Modular
+curdir = os.path.dirname(__file__)
+os.system( "cd " + op.join(OutputDir,"OTB_Modular") + " && patch -p1 < " + curdir + "/patches/otbmodular.patch")
+

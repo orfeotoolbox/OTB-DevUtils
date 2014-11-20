@@ -1,2 +1,5 @@
 syntax: glob
 *~
+*pyc
+Scripts/modularization/logs/missingFiles.log
+Scripts/modularization/logs/newFiles.log

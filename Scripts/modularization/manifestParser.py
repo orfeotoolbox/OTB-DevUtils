@@ -362,17 +362,18 @@ def main(argv):
   printDepList(depList,cyclicDependentModules)
   #printGroupTree(groups)
   
-  """
+  
   if csvEdges:
     outputCSVEdgeList(depList,csvEdges)
   return 0
-  """
+
+  """ 
   if csvEdges and not module:
     outputDotCompleteGraph(depList,csvEdges)
   elif csvEdges and module:
     outputDotPartialGraph(depList,csvEdges,module)
   return 0
-
+  """
 
 if __name__ == "__main__":
   if len(sys.argv) < 3 :

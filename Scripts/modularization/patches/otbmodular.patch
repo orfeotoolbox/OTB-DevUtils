@@ -1,0 +1,12 @@
+diff -ur OTB_Modular-beforepatch/Modules/Core/Common/include/otbConfigurationFile.h OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h
+--- OTB_Modular-beforepatch/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-20 16:16:12.000000000 +0100
++++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-20 16:16:31.219385336 +0100
+@@ -22,7 +22,7 @@
+ 
+ #include "itkObject.h"
+ #include "itkObjectFactory.h"
+-#include "ConfigFile.h"
++#include "otb_configfile.h"
+ #include "itksys/FundamentalType.h"
+ 
+ namespace otb
