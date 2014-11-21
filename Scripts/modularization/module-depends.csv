@@ -161,8 +161,6 @@ SVMLearning,LibSVM
 SVMLearning,LabelMap
 SVMLearning,Streaming
 SVMLearning,Common
-TinyXML,Common
-TinyXML,TinyXML
 EndmembersExtraction,Statistics
 EndmembersExtraction,Projection
 EndmembersExtraction,ImageBase
