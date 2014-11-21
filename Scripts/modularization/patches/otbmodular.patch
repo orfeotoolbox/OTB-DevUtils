@@ -19,19 +19,6 @@ diff -ur OTB_Modular-nopatch/Modules/Adapters/ITKPendingPatches/include/itkFFTCo
  FFTComplexToComplexImageFilter< TImage >
  ::New(void)
  {
-diff -ur OTB_Modular-nopatch/Modules/Adapters/OSSIMAdapters/otb-module.cmake OTB_Modular/Modules/Adapters/OSSIMAdapters/otb-module.cmake
---- OTB_Modular-nopatch/Modules/Adapters/OSSIMAdapters/otb-module.cmake	2014-11-20 16:44:25.467790138 +0100
-+++ OTB_Modular/Modules/Adapters/OSSIMAdapters/otb-module.cmake	2014-11-21 18:34:39.604915355 +0100
-@@ -5,7 +5,7 @@
-       OTBGDAL
-       OTBCommon
-       OTBOssim
--  
-+      OTBOssimPlugins
-   DESCRIPTION
-     "${DOCUMENTATION}"
-   )
-Only in OTB_Modular-nopatch/Modules/Adapters: TinyXMLAdapters
 diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h
 --- OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-20 16:44:25.027780572 +0100
 +++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-20 16:44:25.639793879 +0100
@@ -58,21 +45,6 @@ diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbUniformAlphaBlending
  namespace otb
  {
  namespace Functor
-diff -ur OTB_Modular-nopatch/Modules/Core/Common/src/CMakeLists.txt OTB_Modular/Modules/Core/Common/src/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/Core/Common/src/CMakeLists.txt	2014-11-20 16:44:25.471790228 +0100
-+++ OTB_Modular/Modules/Core/Common/src/CMakeLists.txt	2014-11-20 17:17:57.903548476 +0100
-@@ -13,10 +13,5 @@
-   )
- 
- add_library(OTBCommon ${OTBCommon_SRC})
--target_link_libraries(OTBCommon 
--  ${OTBConfigFile_LIBRARIES}
--  ${OTBITKPendingPatches_LIBRARIES}
--
--  )
--
-+target_link_libraries(OTBCommon  ${OTBConfigFile_LIBRARIES} ${OTBITKPendingPatches_LIBRARIES} ${OTBITK_LIBRARIES})
- otb_module_target(OTBCommon)
 diff -ur OTB_Modular-nopatch/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx OTB_Modular/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx
 --- OTB_Modular-nopatch/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx	2013-05-28 18:12:17.064273000 +0200
 +++ OTB_Modular/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx	2014-11-21 18:41:30.530162381 +0100
@@ -200,19 +172,6 @@ diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter
  
  namespace otb {
  
-diff -ur OTB_Modular-nopatch/Modules/ThirdParty/OssimPlugins/CMakeLists.txt OTB_Modular/Modules/ThirdParty/OssimPlugins/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/ThirdParty/OssimPlugins/CMakeLists.txt	2014-11-20 16:44:24.771775002 +0100
-+++ OTB_Modular/Modules/ThirdParty/OssimPlugins/CMakeLists.txt	2014-11-21 18:37:11.240327598 +0100
-@@ -3,4 +3,9 @@
- 
- set(OTBOssimPlugins_LIBRARIES otbossimplugins)
- 
-+set(OTBOssimPlugins_INCLUDE_DIRS
-+  ${OTBOssimPlugins_SOURCE_DIR}/src
-+  ${OTBOssimPlugins_SOURCE_DIR}/src/ossim
-+  )
-+
- otb_module_impl()
 diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h
 --- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2014-11-20 16:44:25.007780132 +0100
 +++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2014-11-21 18:28:22.052419318 +0100

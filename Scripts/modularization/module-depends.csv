@@ -269,6 +269,7 @@ Polarimetry,ITKPendingPatches
 OSSIMAdapters,GDAL
 OSSIMAdapters,Common
 OSSIMAdapters,Ossim
+OSSIMAdapters,OssimPlugins
 Edge,VectorDataBase
 Edge,Conversion
 Edge,Projection
@@ -375,6 +376,7 @@ MeanShift,Conversion
 MeanShift,Smoothing
 MeanShift,MathParser
 Common,ConfigFile
+Common,ITK
 Common,ITKPendingPatches
 Markov,Boost
 Markov,Common
