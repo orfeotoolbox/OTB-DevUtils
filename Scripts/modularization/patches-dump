@@ -17,4 +17,4 @@ MODULAR_ROOT=~/dev/src/OTB-modular-test
 UNPATCHED_SOURCES=~/dev/src/OTB-modular-test/OTB_Modular-beforepatch
 PATCHED_SOURCES=~/dev/src/OTB-modular-test/OTB_Modular
 
-cd ~/dev/src/OTB-modular-test && diff -ur OTB_Modular-beforepatch OTB_Modular > $PATCHES_DIR/otbmodular.patch
+cd ~/dev/src/OTB-modular-test && diff -ur OTB_Modular-nopatch OTB_Modular > $PATCHES_DIR/otbmodular.patch

@@ -1,6 +1,40 @@
-diff -ur OTB_Modular-beforepatch/Modules/Core/Common/include/otbConfigurationFile.h OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h
---- OTB_Modular-beforepatch/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-20 16:16:12.000000000 +0100
-+++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-20 16:16:31.219385336 +0100
+Binary files OTB_Modular-nopatch/.hg/dirstate and OTB_Modular/.hg/dirstate differ
+diff -ur OTB_Modular-nopatch/Modules/Adapters/ITKPendingPatches/include/itkFFTComplexToComplexImageFilter.hxx OTB_Modular/Modules/Adapters/ITKPendingPatches/include/itkFFTComplexToComplexImageFilter.hxx
+--- OTB_Modular-nopatch/Modules/Adapters/ITKPendingPatches/include/itkFFTComplexToComplexImageFilter.hxx	2014-11-05 18:36:04.373153000 +0100
++++ OTB_Modular/Modules/Adapters/ITKPendingPatches/include/itkFFTComplexToComplexImageFilter.hxx	2014-11-21 18:18:04.910531813 +0100
+@@ -31,6 +31,7 @@
+ #ifndef __itkFFTComplexToComplexImageFilter_hxx
+ #define __itkFFTComplexToComplexImageFilter_hxx
+ 
++#include "itkFFTComplexToComplexImageFilter.h"
+ 
+ #if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
+ #include "itkFFTWComplexToComplexImageFilter.h"
+@@ -44,7 +45,7 @@
+ #endif
+ 
+ template< class TImage >
+-typename FFTComplexToComplexImageFilter< TImage >::Pointer
++typename ::itk::FFTComplexToComplexImageFilter< TImage >::Pointer
+ FFTComplexToComplexImageFilter< TImage >
+ ::New(void)
+ {
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OSSIMAdapters/otb-module.cmake OTB_Modular/Modules/Adapters/OSSIMAdapters/otb-module.cmake
+--- OTB_Modular-nopatch/Modules/Adapters/OSSIMAdapters/otb-module.cmake	2014-11-20 16:44:25.467790138 +0100
++++ OTB_Modular/Modules/Adapters/OSSIMAdapters/otb-module.cmake	2014-11-21 18:34:39.604915355 +0100
+@@ -5,7 +5,7 @@
+       OTBGDAL
+       OTBCommon
+       OTBOssim
+-  
++      OTBOssimPlugins
+   DESCRIPTION
+     "${DOCUMENTATION}"
+   )
+Only in OTB_Modular-nopatch/Modules/Adapters: TinyXMLAdapters
+diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h
+--- OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-20 16:44:25.027780572 +0100
++++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-20 16:44:25.639793879 +0100
 @@ -22,7 +22,7 @@
  
  #include "itkObject.h"
@@ -10,3 +44,364 @@ diff -ur OTB_Modular-beforepatch/Modules/Core/Common/include/otbConfigurationFil
  #include "itksys/FundamentalType.h"
  
  namespace otb
+diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbUniformAlphaBlendingFunctor.h OTB_Modular/Modules/Core/Common/include/otbUniformAlphaBlendingFunctor.h
+--- OTB_Modular-nopatch/Modules/Core/Common/include/otbUniformAlphaBlendingFunctor.h	2014-11-20 16:44:25.023780487 +0100
++++ OTB_Modular/Modules/Core/Common/include/otbUniformAlphaBlendingFunctor.h	2014-11-21 17:41:31.569175190 +0100
+@@ -18,6 +18,10 @@
+ #ifndef __otbUniformAlphaBlendingFunctor_h
+ #define __otbUniformAlphaBlendingFunctor_h
+ 
++#include "itkMacro.h"
++#include "otbMath.h"
++#include "itkNumericTraits.h"
++
+ namespace otb
+ {
+ namespace Functor
+diff -ur OTB_Modular-nopatch/Modules/Core/Common/src/CMakeLists.txt OTB_Modular/Modules/Core/Common/src/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Core/Common/src/CMakeLists.txt	2014-11-20 16:44:25.471790228 +0100
++++ OTB_Modular/Modules/Core/Common/src/CMakeLists.txt	2014-11-20 17:17:57.903548476 +0100
+@@ -13,10 +13,5 @@
+   )
+ 
+ add_library(OTBCommon ${OTBCommon_SRC})
+-target_link_libraries(OTBCommon 
+-  ${OTBConfigFile_LIBRARIES}
+-  ${OTBITKPendingPatches_LIBRARIES}
+-
+-  )
+-
++target_link_libraries(OTBCommon  ${OTBConfigFile_LIBRARIES} ${OTBITKPendingPatches_LIBRARIES} ${OTBITK_LIBRARIES})
+ otb_module_target(OTBCommon)
+diff -ur OTB_Modular-nopatch/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx OTB_Modular/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx
+--- OTB_Modular-nopatch/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx	2013-05-28 18:12:17.064273000 +0200
++++ OTB_Modular/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx	2014-11-21 18:41:30.530162381 +0100
+@@ -21,6 +21,10 @@
+ 
+ #include "otbImageListToSingleImageFilter.h"
+ 
++#include "itkImageRegionConstIteratorWithIndex.h"
++#include "itkImageRegionIteratorWithIndex.h"
++#include "itkProgressReporter.h"
++
+ namespace otb
+ {
+ /**
+diff -ur OTB_Modular-nopatch/Modules/Fusion/Fuzzy/otb-module.cmake OTB_Modular/Modules/Fusion/Fuzzy/otb-module.cmake
+--- OTB_Modular-nopatch/Modules/Fusion/Fuzzy/otb-module.cmake	2014-11-20 16:44:25.467790138 +0100
++++ OTB_Modular/Modules/Fusion/Fuzzy/otb-module.cmake	2014-11-21 18:31:02.472029229 +0100
+@@ -3,7 +3,7 @@
+ otb_module(OTBFuzzy 
+   DEPENDS
+       OTBCommon
+-      OTBTinyXMLAdapters
++      OTBTinyXML
+   
+   DESCRIPTION
+     "${DOCUMENTATION}"
+diff -ur OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/CMakeLists.txt OTB_Modular/Modules/Fusion/Fuzzy/src/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/CMakeLists.txt	2014-11-20 16:44:25.467790138 +0100
++++ OTB_Modular/Modules/Fusion/Fuzzy/src/CMakeLists.txt	2014-11-21 18:31:08.492164697 +0100
+@@ -6,7 +6,7 @@
+ add_library(OTBFuzzy ${OTBFuzzy_SRC})
+ target_link_libraries(OTBFuzzy 
+   ${OTBCommon_LIBRARIES}
+-  ${OTBTinyXMLAdapters_LIBRARIES}
++  ${OTBTinyXML_LIBRARIES}
+ 
+   )
+ 
+diff -ur OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx
+--- OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2013-11-15 15:47:35.118019000 +0100
++++ OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2014-11-21 18:29:17.569668620 +0100
+@@ -19,7 +19,7 @@
+ #include "otbFuzzyDescriptorsModelManager.h"
+ #include "itkMacro.h"
+ #include "itksys/SystemTools.hxx"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ namespace otb {
+ 
+diff -ur OTB_Modular-nopatch/Modules/Hyperspectral/AnomalyDetection/include/otbLocalRxDetectorFilter.h OTB_Modular/Modules/Hyperspectral/AnomalyDetection/include/otbLocalRxDetectorFilter.h
+--- OTB_Modular-nopatch/Modules/Hyperspectral/AnomalyDetection/include/otbLocalRxDetectorFilter.h	2014-11-20 16:44:24.999779965 +0100
++++ OTB_Modular/Modules/Hyperspectral/AnomalyDetection/include/otbLocalRxDetectorFilter.h	2014-11-21 17:42:29.706483451 +0100
+@@ -19,12 +19,12 @@
+ #define __otbLocalRxDetectorFilter_h
+ 
+ #include "itkImageToImageFilter.h"
+-
+ #include "itkConstShapedNeighborhoodIterator.h"
+ #include "itkNeighborhoodAlgorithm.h"
+ #include "itkImageRegionIterator.h"
+ #include "itkListSample.h"
+ #include "itkCovarianceSampleFilter.h"
++#include "itkProgressReporter.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/IO/Carto/otb-module.cmake OTB_Modular/Modules/IO/Carto/otb-module.cmake
+--- OTB_Modular-nopatch/Modules/IO/Carto/otb-module.cmake	2014-11-20 16:44:25.471790228 +0100
++++ OTB_Modular/Modules/IO/Carto/otb-module.cmake	2014-11-21 18:31:49.409085451 +0100
+@@ -5,7 +5,7 @@
+       OTBVectorDataBase
+       OTBImageIO
+       OTBProjection
+-      OTBTinyXMLAdapters
++      OTBTinyXML
+       OTBImageBase
+       OTBTransform
+       OTBCommon
+diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/CMakeLists.txt OTB_Modular/Modules/IO/Carto/src/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/IO/Carto/src/CMakeLists.txt	2014-11-20 16:44:25.471790228 +0100
++++ OTB_Modular/Modules/IO/Carto/src/CMakeLists.txt	2014-11-21 18:30:56.871903211 +0100
+@@ -9,7 +9,7 @@
+   ${OTBVectorDataBase_LIBRARIES}
+   ${OTBImageIO_LIBRARIES}
+   ${OTBProjection_LIBRARIES}
+-  ${OTBTinyXMLAdapters_LIBRARIES}
++  ${OTBTinyXML_LIBRARIES}
+   ${OTBImageBase_LIBRARIES}
+   ${OTBTransform_LIBRARIES}
+   ${OTBCommon_LIBRARIES}
+diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbCoordinateToName.cxx OTB_Modular/Modules/IO/Carto/src/otbCoordinateToName.cxx
+--- OTB_Modular-nopatch/Modules/IO/Carto/src/otbCoordinateToName.cxx	2013-11-15 15:47:35.126019000 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbCoordinateToName.cxx	2014-11-21 18:29:06.721424501 +0100
+@@ -23,7 +23,7 @@
+ #include "otbMacro.h"
+ #include "otbUtils.h"
+ 
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ #include "otbCurlHelper.h"
+ 
+ #include "itkMersenneTwisterRandomVariateGenerator.h"
+diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx OTB_Modular/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx
+--- OTB_Modular-nopatch/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx	2013-11-15 15:47:35.138019000 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx	2014-11-21 18:29:03.713356811 +0100
+@@ -22,7 +22,7 @@
+ #include "itkDataObject.h"
+ #include "itkMacro.h"
+ 
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx OTB_Modular/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx
+--- OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx	2013-11-15 15:47:35.142019000 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx	2014-11-21 18:29:00.293279848 +0100
+@@ -17,7 +17,7 @@
+ =========================================================================*/
+ 
+ #include "otbPlaceNameToLonLat.h"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ #include "otbCurlHelper.h"
+ 
+ namespace otb
+diff -ur OTB_Modular-nopatch/Modules/IO/IOGDAL/otb-module.cmake OTB_Modular/Modules/IO/IOGDAL/otb-module.cmake
+--- OTB_Modular-nopatch/Modules/IO/IOGDAL/otb-module.cmake	2014-11-20 16:44:25.463790048 +0100
++++ OTB_Modular/Modules/IO/IOGDAL/otb-module.cmake	2014-11-21 18:31:49.409085451 +0100
+@@ -4,7 +4,7 @@
+   DEPENDS
+       OTBVectorDataBase
+       OTBGdalAdapters
+-      OTBTinyXMLAdapters
++      OTBTinyXML
+       OTBImageBase
+       OTBCommon
+       OTBGDAL
+diff -ur OTB_Modular-nopatch/Modules/IO/IOGDAL/src/CMakeLists.txt OTB_Modular/Modules/IO/IOGDAL/src/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/IO/IOGDAL/src/CMakeLists.txt	2014-11-20 16:44:25.463790048 +0100
++++ OTB_Modular/Modules/IO/IOGDAL/src/CMakeLists.txt	2014-11-21 18:31:49.409085451 +0100
+@@ -11,7 +11,7 @@
+ target_link_libraries(OTBIOGDAL 
+   ${OTBVectorDataBase_LIBRARIES}
+   ${OTBGdalAdapters_LIBRARIES}
+-  ${OTBTinyXMLAdapters_LIBRARIES}
++  ${OTBTinyXML_LIBRARIES}
+   ${OTBImageBase_LIBRARIES}
+   ${OTBCommon_LIBRARIES}
+   ${OTBGDAL_LIBRARIES}
+diff -ur OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx
+--- OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2014-11-05 18:36:04.309152000 +0100
++++ OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2014-11-21 18:28:56.053184435 +0100
+@@ -24,7 +24,7 @@
+ #include "otbSystem.h"
+ #include "itksys/SystemTools.hxx"
+ #include "otbImage.h"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ #include "otbImageKeywordlist.h"
+ 
+ #include "itkMetaDataObject.h"
+diff -ur OTB_Modular-nopatch/Modules/IO/IOJPEG2000/otb-module.cmake OTB_Modular/Modules/IO/IOJPEG2000/otb-module.cmake
+--- OTB_Modular-nopatch/Modules/IO/IOJPEG2000/otb-module.cmake	2014-11-20 16:44:25.471790228 +0100
++++ OTB_Modular/Modules/IO/IOJPEG2000/otb-module.cmake	2014-11-21 18:31:49.409085451 +0100
+@@ -2,7 +2,7 @@
+ 
+ otb_module(OTBIOJPEG2000 
+   DEPENDS
+-      OTBTinyXMLAdapters
++      OTBTinyXML
+       OTBImageBase
+       OTBOSSIMAdapters
+       OTBCommon
+diff -ur OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/CMakeLists.txt OTB_Modular/Modules/IO/IOJPEG2000/src/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/CMakeLists.txt	2014-11-20 16:44:25.471790228 +0100
++++ OTB_Modular/Modules/IO/IOJPEG2000/src/CMakeLists.txt	2014-11-21 18:31:49.409085451 +0100
+@@ -5,7 +5,7 @@
+ 
+ add_library(OTBIOJPEG2000 ${OTBIOJPEG2000_SRC})
+ target_link_libraries(OTBIOJPEG2000 
+-  ${OTBTinyXMLAdapters_LIBRARIES}
++  ${OTBTinyXML_LIBRARIES}
+   ${OTBImageBase_LIBRARIES}
+   ${OTBOSSIMAdapters_LIBRARIES}
+   ${OTBCommon_LIBRARIES}
+diff -ur OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx OTB_Modular/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx
+--- OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx	2014-11-05 18:36:04.321152000 +0100
++++ OTB_Modular/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx	2014-11-21 18:28:45.892955800 +0100
+@@ -42,7 +42,7 @@
+ 
+ #include "itksys/SystemTools.hxx"
+ 
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ #include "itkMutexLock.h"
+ #include "itkMutexLockHolder.h"
+diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx
+--- OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx	2014-09-09 11:00:19.680597000 +0200
++++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx	2014-11-21 18:28:37.904776041 +0100
+@@ -21,7 +21,7 @@
+ #include "otbStatisticsXMLFileReader.h"
+ #include "itkMacro.h"
+ #include "itksys/SystemTools.hxx"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ namespace otb {
+ 
+diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx
+--- OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx	2014-09-09 11:00:19.680597000 +0200
++++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx	2014-11-21 18:28:33.076667396 +0100
+@@ -21,7 +21,7 @@
+ #include "otbStatisticsXMLFileWriter.h"
+ #include "itkMacro.h"
+ #include "itksys/SystemTools.hxx"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ namespace otb {
+ 
+diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/otb-module.cmake OTB_Modular/Modules/IO/IOXML/otb-module.cmake
+--- OTB_Modular-nopatch/Modules/IO/IOXML/otb-module.cmake	2014-11-20 16:44:25.471790228 +0100
++++ OTB_Modular/Modules/IO/IOXML/otb-module.cmake	2014-11-21 18:31:49.409085451 +0100
+@@ -2,7 +2,7 @@
+ 
+ otb_module(OTBIOXML 
+   DEPENDS
+-      OTBTinyXMLAdapters
++      OTBTinyXML
+   
+   DESCRIPTION
+     "${DOCUMENTATION}"
+diff -ur OTB_Modular-nopatch/Modules/ThirdParty/OssimPlugins/CMakeLists.txt OTB_Modular/Modules/ThirdParty/OssimPlugins/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/ThirdParty/OssimPlugins/CMakeLists.txt	2014-11-20 16:44:24.771775002 +0100
++++ OTB_Modular/Modules/ThirdParty/OssimPlugins/CMakeLists.txt	2014-11-21 18:37:11.240327598 +0100
+@@ -3,4 +3,9 @@
+ 
+ set(OTBOssimPlugins_LIBRARIES otbossimplugins)
+ 
++set(OTBOssimPlugins_INCLUDE_DIRS
++  ${OTBOssimPlugins_SOURCE_DIR}/src
++  ${OTBOssimPlugins_SOURCE_DIR}/src/ossim
++  )
++
+ otb_module_impl()
+diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h
+--- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2014-11-20 16:44:25.007780132 +0100
++++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2014-11-21 18:28:22.052419318 +0100
+@@ -1,7 +1,7 @@
+ #ifndef __otbWrapperInputProcessXMLParameter_h
+ #define __otbWrapperInputProcessXMLParameter_h
+ #include "otbWrapperApplication.h"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ #include <sstream>
+ 
+ namespace otb
+diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h
+--- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2014-11-20 16:44:25.007780132 +0100
++++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2014-11-21 18:28:25.936506719 +0100
+@@ -1,7 +1,7 @@
+ #ifndef __otbWrapperOutputProcessXMLParameter_h
+ #define __otbWrapperOutputProcessXMLParameter_h
+ #include "otbWrapperApplication.h"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/otb-module.cmake OTB_Modular/Modules/Wrappers/ApplicationEngine/otb-module.cmake
+--- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/otb-module.cmake	2014-11-20 16:44:25.459789961 +0100
++++ OTB_Modular/Modules/Wrappers/ApplicationEngine/otb-module.cmake	2014-11-21 18:31:49.409085451 +0100
+@@ -6,7 +6,7 @@
+       OTBImageManipulation
+       OTBImageIO
+       OTBProjection
+-      OTBTinyXMLAdapters
++      OTBTinyXML
+       OTBVectorDataIO
+       OTBTransform
+       OTBCommon
+diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/src/CMakeLists.txt OTB_Modular/Modules/Wrappers/ApplicationEngine/src/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/src/CMakeLists.txt	2014-11-20 16:44:25.459789961 +0100
++++ OTB_Modular/Modules/Wrappers/ApplicationEngine/src/CMakeLists.txt	2014-11-21 18:31:49.409085451 +0100
+@@ -27,7 +27,7 @@
+   ${OTBImageManipulation_LIBRARIES}
+   ${OTBImageIO_LIBRARIES}
+   ${OTBProjection_LIBRARIES}
+-  ${OTBTinyXMLAdapters_LIBRARIES}
++  ${OTBTinyXML_LIBRARIES}
+   ${OTBVectorDataIO_LIBRARIES}
+   ${OTBTransform_LIBRARIES}
+   ${OTBCommon_LIBRARIES}
+diff -ur OTB_Modular-nopatch/Modules/Wrappers/CommandLine/otb-module.cmake OTB_Modular/Modules/Wrappers/CommandLine/otb-module.cmake
+--- OTB_Modular-nopatch/Modules/Wrappers/CommandLine/otb-module.cmake	2014-11-20 16:44:25.459789961 +0100
++++ OTB_Modular/Modules/Wrappers/CommandLine/otb-module.cmake	2014-11-21 18:31:49.409085451 +0100
+@@ -3,7 +3,7 @@
+ otb_module(OTBCommandLine 
+   DEPENDS
+       OTBApplicationEngine
+-      OTBTinyXMLAdapters
++      OTBTinyXML
+       OTBCommon
+   
+   DESCRIPTION
+diff -ur OTB_Modular-nopatch/Modules/Wrappers/CommandLine/src/CMakeLists.txt OTB_Modular/Modules/Wrappers/CommandLine/src/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Wrappers/CommandLine/src/CMakeLists.txt	2014-11-20 16:44:25.459789961 +0100
++++ OTB_Modular/Modules/Wrappers/CommandLine/src/CMakeLists.txt	2014-11-21 18:31:49.409085451 +0100
+@@ -7,7 +7,7 @@
+ add_library(OTBCommandLine ${OTBCommandLine_SRC})
+ target_link_libraries(OTBCommandLine 
+   ${OTBApplicationEngine_LIBRARIES}
+-  ${OTBTinyXMLAdapters_LIBRARIES}
++  ${OTBTinyXML_LIBRARIES}
+   ${OTBCommon_LIBRARIES}
+ 
+   )
+diff -ur OTB_Modular-nopatch/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx OTB_Modular/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx
+--- OTB_Modular-nopatch/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx	2014-09-09 11:00:19.708597000 +0200
++++ OTB_Modular/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx	2014-11-21 18:28:17.356313641 +0100
+@@ -17,7 +17,7 @@
+  =========================================================================*/
+ 
+ #include "otbWrapperCommandLineLauncher.h"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ #include <vector>
+ 
+ const std::string GetChildNodeTextOf(TiXmlElement *parentElement, std::string key);
