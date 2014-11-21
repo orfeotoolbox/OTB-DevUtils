@@ -57,7 +57,7 @@ UrbanArea,Edge
 UrbanArea,Statistics
 UrbanArea,ImageManipulation
 CommandLine,ApplicationEngine
-CommandLine,TinyXMLAdapters
+CommandLine,TinyXML
 CommandLine,Common
 Simulation,Statistics
 Simulation,Metadata
@@ -77,7 +77,7 @@ ApplicationEngine,VectorDataBase
 ApplicationEngine,ImageManipulation
 ApplicationEngine,ImageIO
 ApplicationEngine,Projection
-ApplicationEngine,TinyXMLAdapters
+ApplicationEngine,TinyXML
 ApplicationEngine,VectorDataIO
 ApplicationEngine,Transform
 ApplicationEngine,Common
@@ -161,8 +161,8 @@ SVMLearning,LibSVM
 SVMLearning,LabelMap
 SVMLearning,Streaming
 SVMLearning,Common
-TinyXMLAdapters,Common
-TinyXMLAdapters,TinyXML
+TinyXML,Common
+TinyXML,TinyXML
 EndmembersExtraction,Statistics
 EndmembersExtraction,Projection
 EndmembersExtraction,ImageBase
@@ -226,7 +226,7 @@ Smoothing,ImageBase
 Smoothing,Common
 IOGDAL,VectorDataBase
 IOGDAL,GdalAdapters
-IOGDAL,TinyXMLAdapters
+IOGDAL,TinyXML
 IOGDAL,ImageBase
 IOGDAL,Common
 IOGDAL,GDAL
@@ -256,7 +256,7 @@ Descriptors,ObjectList
 IOBSQ,ImageBase
 IOBSQ,Common
 Fuzzy,Common
-Fuzzy,TinyXMLAdapters
+Fuzzy,TinyXML
 OpticalCalibration,ImageBase
 OpticalCalibration,6S
 OpticalCalibration,ImageManipulation
@@ -336,7 +336,7 @@ IOTileMap,CurlAdapters
 Carto,VectorDataBase
 Carto,ImageIO
 Carto,Projection
-Carto,TinyXMLAdapters
+Carto,TinyXML
 Carto,ImageBase
 Carto,Transform
 Carto,Common
@@ -389,7 +389,7 @@ DempsterShafer,LearningBase
 DempsterShafer,Common
 DempsterShafer,MathParser
 DempsterShafer,Fuzzy
-IOJPEG2000,TinyXMLAdapters
+IOJPEG2000,TinyXML
 IOJPEG2000,ImageBase
 IOJPEG2000,OSSIMAdapters
 IOJPEG2000,Common
@@ -410,7 +410,7 @@ RCC8,Common
 RCC8,Path
 RCC8,Boost
 RCC8,ObjectList
-IOXML,TinyXMLAdapters
+IOXML,TinyXML
 Watersheds,Common
 KMZWriter,VectorDataBase
 KMZWriter,ImageIO

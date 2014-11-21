@@ -1447,7 +1447,6 @@ Monolithic OTB file name,Monolithic OTB current directory,Group name,Module name
 ./Code/IO/otbTileMapImageIO.h,IO,IO,IOTileMap,include,
 ./Code/IO/otbTileMapImageIOHelper.cxx,IO,IO,IOTileMap,src,
 ./Code/IO/otbTileMapImageIOHelper.h,IO,IO,IOTileMap,include,
-./Code/UtilitiesAdapters/TinyXMLAdapters/otbTinyXML.h,UtilitiesAdapters/TinyXMLAdapters,Adapters,TinyXMLAdapters,include,
 ./Code/BasicFilters/otbLogPolarTransform.h,BasicFilters,Core,Transform,include,
 ./Code/BasicFilters/otbLogPolarTransform.txx,BasicFilters,Core,Transform,include,
 ./Code/Common/otbTransform.h,Common,Core,Transform,include,
