@@ -244,7 +244,22 @@ for  moduleName in moduleList:
       # build list of link dependencies
       linkLibs = ""
       for dep in dependencies[moduleName]:
-        linkLibs = linkLibs + "  ${OTB"+dep+"_LIBRARIES}" + "\n"
+        #verify if dep is a header-onlymodule
+        depThirdParty = False
+        try:
+          moduleDic[dep]
+        except KeyError:
+          # this is a ThirdParty module
+          depThirdParty = True
+ 
+        if not depThirdParty:
+          depModuleDir = op.join(op.join(HeadOfModularOTBTree,"Modules"),op.join(moduleDic[dep],dep))
+          depcxx = glob.glob(depModuleDir+'/src/*.cxx')
+          if depcxx :
+            linkLibs = linkLibs + "  ${OTB"+dep+"_LIBRARIES}" + "\n"
+        else:
+          linkLibs = linkLibs + "  ${OTB"+dep+"_LIBRARIES}" + "\n"
+          
       if len(linkLibs) == 0:
         linkLibs = " ${OTBITK_LIBRARIES}"
       filepath = moduleDir+'/src/CMakeLists.txt'
@@ -321,5 +336,7 @@ os.system( "cp -ar " + op.join(OutputDir,"OTB_Modular") + " " + op.join(OutputDi
 
 # apply patches in OTB_Modular
 curdir = os.path.dirname(__file__)
-os.system( "cd " + op.join(OutputDir,"OTB_Modular") + " && patch -p1 < " + curdir + "/patches/otbmodular.patch")
+command =  "cd " + op.join(OutputDir,"OTB_Modular") + " && patch -p1 < " + curdir + "/patches/otbmodular.patch"
+print "Executing " + command
+os.system( command )
 
