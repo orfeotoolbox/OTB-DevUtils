@@ -1,7 +1,7 @@
 Binary files OTB_Modular-nopatch/.hg/dirstate and OTB_Modular/.hg/dirstate differ
 diff -ur OTB_Modular-nopatch/Modules/Adapters/GdalAdapters/include/otbGdalDataTypeBridge.h OTB_Modular/Modules/Adapters/GdalAdapters/include/otbGdalDataTypeBridge.h
---- OTB_Modular-nopatch/Modules/Adapters/GdalAdapters/include/otbGdalDataTypeBridge.h	2014-11-21 20:26:09.733396953 +0100
-+++ OTB_Modular/Modules/Adapters/GdalAdapters/include/otbGdalDataTypeBridge.h	2014-11-21 23:59:08.318186051 +0100
+--- OTB_Modular-nopatch/Modules/Adapters/GdalAdapters/include/otbGdalDataTypeBridge.h	2014-11-25 17:03:53.794630392 +0100
++++ OTB_Modular/Modules/Adapters/GdalAdapters/include/otbGdalDataTypeBridge.h	2014-11-25 17:03:54.298641784 +0100
 @@ -19,6 +19,7 @@
  #ifndef __otbGdalDataTypeBridge_h
  #define __otbGdalDataTypeBridge_h
@@ -11,8 +11,8 @@ diff -ur OTB_Modular-nopatch/Modules/Adapters/GdalAdapters/include/otbGdalDataTy
  
  namespace otb
 diff -ur OTB_Modular-nopatch/Modules/Adapters/GdalAdapters/include/otbOGRGeometriesVisitor.h OTB_Modular/Modules/Adapters/GdalAdapters/include/otbOGRGeometriesVisitor.h
---- OTB_Modular-nopatch/Modules/Adapters/GdalAdapters/include/otbOGRGeometriesVisitor.h	2014-11-21 20:26:09.737397041 +0100
-+++ OTB_Modular/Modules/Adapters/GdalAdapters/include/otbOGRGeometriesVisitor.h	2014-11-21 23:58:19.789080084 +0100
+--- OTB_Modular-nopatch/Modules/Adapters/GdalAdapters/include/otbOGRGeometriesVisitor.h	2014-11-25 17:03:53.802630573 +0100
++++ OTB_Modular/Modules/Adapters/GdalAdapters/include/otbOGRGeometriesVisitor.h	2014-11-25 17:03:54.298641784 +0100
 @@ -20,6 +20,7 @@
  
  #include <boost/mpl/assert.hpp>
@@ -23,7 +23,7 @@ diff -ur OTB_Modular-nopatch/Modules/Adapters/GdalAdapters/include/otbOGRGeometr
  
 diff -ur OTB_Modular-nopatch/Modules/Adapters/ITKPendingPatches/include/itkFFTComplexToComplexImageFilter.hxx OTB_Modular/Modules/Adapters/ITKPendingPatches/include/itkFFTComplexToComplexImageFilter.hxx
 --- OTB_Modular-nopatch/Modules/Adapters/ITKPendingPatches/include/itkFFTComplexToComplexImageFilter.hxx	2014-11-05 18:36:04.373153000 +0100
-+++ OTB_Modular/Modules/Adapters/ITKPendingPatches/include/itkFFTComplexToComplexImageFilter.hxx	2014-11-21 20:33:52.343519547 +0100
++++ OTB_Modular/Modules/Adapters/ITKPendingPatches/include/itkFFTComplexToComplexImageFilter.hxx	2014-11-25 17:03:54.682650465 +0100
 @@ -31,6 +31,7 @@
  #ifndef __itkFFTComplexToComplexImageFilter_hxx
  #define __itkFFTComplexToComplexImageFilter_hxx
@@ -41,9 +41,123 @@ diff -ur OTB_Modular-nopatch/Modules/Adapters/ITKPendingPatches/include/itkFFTCo
  FFTComplexToComplexImageFilter< TImage >
  ::New(void)
  {
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbBoostMachineLearningModel.txx OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbBoostMachineLearningModel.txx
+--- OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbBoostMachineLearningModel.txx	2014-09-09 11:00:19.704597000 +0200
++++ OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbBoostMachineLearningModel.txx	2014-11-25 19:28:19.082499952 +0100
+@@ -23,6 +23,9 @@
+ 
+ #include <opencv2/opencv.hpp>
+ 
++#include <fstream>
++#include "itkMacro.h"
++
+ namespace otb
+ {
+ 
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbDecisionTreeMachineLearningModel.txx OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbDecisionTreeMachineLearningModel.txx
+--- OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbDecisionTreeMachineLearningModel.txx	2014-09-09 11:00:19.704597000 +0200
++++ OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbDecisionTreeMachineLearningModel.txx	2014-11-25 19:28:22.062567312 +0100
+@@ -23,6 +23,9 @@
+ 
+ #include <opencv2/opencv.hpp>
+ 
++#include <fstream>
++#include "itkMacro.h"
++
+ namespace otb
+ {
+ 
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbGradientBoostedTreeMachineLearningModel.txx OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbGradientBoostedTreeMachineLearningModel.txx
+--- OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbGradientBoostedTreeMachineLearningModel.txx	2014-09-09 11:00:19.704597000 +0200
++++ OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbGradientBoostedTreeMachineLearningModel.txx	2014-11-25 19:28:23.970610441 +0100
+@@ -23,6 +23,9 @@
+ 
+ #include <opencv2/opencv.hpp>
+ 
++#include <fstream>
++#include "itkMacro.h"
++
+ namespace otb
+ {
+ 
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbNeuralNetworkMachineLearningModel.h OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbNeuralNetworkMachineLearningModel.h
+--- OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbNeuralNetworkMachineLearningModel.h	2014-11-25 17:03:53.886632471 +0100
++++ OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbNeuralNetworkMachineLearningModel.h	2014-11-25 19:33:11.121101171 +0100
+@@ -21,8 +21,7 @@
+ #include "itkLightObject.h"
+ #include "itkFixedArray.h"
+ #include "otbMachineLearningModel.h"
+-
+-class CvANN_MLP;
++#include <opencv2/opencv.hpp>
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbNeuralNetworkMachineLearningModel.txx OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbNeuralNetworkMachineLearningModel.txx
+--- OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbNeuralNetworkMachineLearningModel.txx	2014-09-09 11:00:19.704597000 +0200
++++ OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbNeuralNetworkMachineLearningModel.txx	2014-11-25 19:28:48.675168862 +0100
+@@ -23,6 +23,9 @@
+ #include "itkMacro.h" // itkExceptionMacro
+ #include <opencv2/opencv.hpp>
+ 
++#include <fstream>
++#include "itkMacro.h"
++
+ namespace otb
+ {
+ 
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbNormalBayesMachineLearningModel.txx OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbNormalBayesMachineLearningModel.txx
+--- OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbNormalBayesMachineLearningModel.txx	2014-09-09 11:00:19.704597000 +0200
++++ OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbNormalBayesMachineLearningModel.txx	2014-11-25 19:28:33.230819759 +0100
+@@ -22,6 +22,8 @@
+ #include "otbOpenCVUtils.h"
+ 
+ #include <opencv2/opencv.hpp>
++#include <fstream>
++#include "itkMacro.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbOpenCVUtils.h OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbOpenCVUtils.h
+--- OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbOpenCVUtils.h	2014-11-25 17:03:53.886632471 +0100
++++ OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbOpenCVUtils.h	2014-11-25 19:20:34.463997748 +0100
+@@ -19,6 +19,7 @@
+ #define __otbOpenCVUtils_h
+ 
+ #include <opencv2/opencv.hpp>
++#include "itkListSample.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbRandomForestsMachineLearningModel.txx OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbRandomForestsMachineLearningModel.txx
+--- OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbRandomForestsMachineLearningModel.txx	2014-11-05 18:36:04.417154000 +0100
++++ OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbRandomForestsMachineLearningModel.txx	2014-11-25 19:29:09.759645455 +0100
+@@ -24,6 +24,9 @@
+ #include "otbOpenCVUtils.h"
+ #include <opencv2/opencv.hpp>       // opencv general include file
+ 
++#include <fstream>
++#include "itkMacro.h"
++
+ namespace otb
+ {
+ 
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbSVMMachineLearningModel.txx OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbSVMMachineLearningModel.txx
+--- OTB_Modular-nopatch/Modules/Adapters/OpenCVAdapters/include/otbSVMMachineLearningModel.txx	2014-09-09 11:00:19.704597000 +0200
++++ OTB_Modular/Modules/Adapters/OpenCVAdapters/include/otbSVMMachineLearningModel.txx	2014-11-25 19:29:33.568183620 +0100
+@@ -22,6 +22,9 @@
+ #include "otbSVMMachineLearningModel.h"
+ #include "otbOpenCVUtils.h"
+ #include <opencv2/opencv.hpp>       // opencv general include file
++#include <fstream>
++#include "itkMacro.h"
++
+ 
+ namespace otb
+ {
 diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h
---- OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-21 20:26:09.673395643 +0100
-+++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-21 20:26:11.453434541 +0100
+--- OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-25 17:03:53.746629307 +0100
++++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2014-11-25 17:03:54.682650465 +0100
 @@ -22,7 +22,7 @@
  
  #include "itkObject.h"
@@ -54,8 +168,8 @@ diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h 
  
  namespace otb
 diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbUniformAlphaBlendingFunctor.h OTB_Modular/Modules/Core/Common/include/otbUniformAlphaBlendingFunctor.h
---- OTB_Modular-nopatch/Modules/Core/Common/include/otbUniformAlphaBlendingFunctor.h	2014-11-21 20:26:09.673395643 +0100
-+++ OTB_Modular/Modules/Core/Common/include/otbUniformAlphaBlendingFunctor.h	2014-11-21 20:26:11.545436552 +0100
+--- OTB_Modular-nopatch/Modules/Core/Common/include/otbUniformAlphaBlendingFunctor.h	2014-11-25 17:03:53.746629307 +0100
++++ OTB_Modular/Modules/Core/Common/include/otbUniformAlphaBlendingFunctor.h	2014-11-25 17:03:54.686650555 +0100
 @@ -18,6 +18,10 @@
  #ifndef __otbUniformAlphaBlendingFunctor_h
  #define __otbUniformAlphaBlendingFunctor_h
@@ -68,8 +182,8 @@ diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbUniformAlphaBlending
  {
  namespace Functor
 diff -ur OTB_Modular-nopatch/Modules/Core/ImageBase/include/otbConvertPixelBuffer.h OTB_Modular/Modules/Core/ImageBase/include/otbConvertPixelBuffer.h
---- OTB_Modular-nopatch/Modules/Core/ImageBase/include/otbConvertPixelBuffer.h	2014-11-21 20:26:09.741397129 +0100
-+++ OTB_Modular/Modules/Core/ImageBase/include/otbConvertPixelBuffer.h	2014-11-21 23:41:20.902363250 +0100
+--- OTB_Modular-nopatch/Modules/Core/ImageBase/include/otbConvertPixelBuffer.h	2014-11-25 17:03:53.802630573 +0100
++++ OTB_Modular/Modules/Core/ImageBase/include/otbConvertPixelBuffer.h	2014-11-25 17:03:54.686650555 +0100
 @@ -17,6 +17,7 @@
  #ifndef __otbConvertPixelBuffer_h
  #define __otbConvertPixelBuffer_h
@@ -80,7 +194,7 @@ diff -ur OTB_Modular-nopatch/Modules/Core/ImageBase/include/otbConvertPixelBuffe
  namespace otb
 diff -ur OTB_Modular-nopatch/Modules/Core/ImageBase/include/otbConvertPixelBuffer.txx OTB_Modular/Modules/Core/ImageBase/include/otbConvertPixelBuffer.txx
 --- OTB_Modular-nopatch/Modules/Core/ImageBase/include/otbConvertPixelBuffer.txx	2013-11-15 15:47:35.126019000 +0100
-+++ OTB_Modular/Modules/Core/ImageBase/include/otbConvertPixelBuffer.txx	2014-11-21 23:44:34.842675362 +0100
++++ OTB_Modular/Modules/Core/ImageBase/include/otbConvertPixelBuffer.txx	2014-11-25 17:03:54.686650555 +0100
 @@ -20,6 +20,9 @@
  
  #include "itkRGBPixel.h"
@@ -91,9 +205,20 @@ diff -ur OTB_Modular-nopatch/Modules/Core/ImageBase/include/otbConvertPixelBuffe
  namespace otb
  {
  template < typename InputPixelType,
+diff -ur OTB_Modular-nopatch/Modules/Core/LabelMap/include/otbMergeLabelObjectFunctor.h OTB_Modular/Modules/Core/LabelMap/include/otbMergeLabelObjectFunctor.h
+--- OTB_Modular-nopatch/Modules/Core/LabelMap/include/otbMergeLabelObjectFunctor.h	2014-11-25 17:03:53.842631477 +0100
++++ OTB_Modular/Modules/Core/LabelMap/include/otbMergeLabelObjectFunctor.h	2014-11-25 19:17:57.208443154 +0100
+@@ -18,6 +18,7 @@
+ #ifndef __otbMergeLabelObjectFunctor_h
+ #define __otbMergeLabelObjectFunctor_h
+ 
++#include <algorithm>
+ 
+ namespace otb
+ {
 diff -ur OTB_Modular-nopatch/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx OTB_Modular/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx
 --- OTB_Modular-nopatch/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx	2013-05-28 18:12:17.064273000 +0200
-+++ OTB_Modular/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx	2014-11-21 20:26:11.545436552 +0100
++++ OTB_Modular/Modules/Core/ObjectList/include/otbImageListToSingleImageFilter.txx	2014-11-25 17:03:54.686650555 +0100
 @@ -21,6 +21,10 @@
  
  #include "otbImageListToSingleImageFilter.h"
@@ -105,9 +230,207 @@ diff -ur OTB_Modular-nopatch/Modules/Core/ObjectList/include/otbImageListToSingl
  namespace otb
  {
  /**
+diff -ur OTB_Modular-nopatch/Modules/Core/PointSet/include/otbPointSetAndValuesFunction.h OTB_Modular/Modules/Core/PointSet/include/otbPointSetAndValuesFunction.h
+--- OTB_Modular-nopatch/Modules/Core/PointSet/include/otbPointSetAndValuesFunction.h	2014-11-25 17:03:53.754629488 +0100
++++ OTB_Modular/Modules/Core/PointSet/include/otbPointSetAndValuesFunction.h	2014-11-25 19:08:57.708248328 +0100
+@@ -32,13 +32,12 @@
+  */
+ template <class TPointSet, class TValue, class TCoordRep = double>
+ class ITK_EXPORT PointSetAndValuesFunction
+-  : public itk::FunctionBase<itk::Point<TCoordRep, ::itk::GetPointSetDimension<TPointSet>::PointDimension>, TValue>
++  : public itk::FunctionBase<itk::Point<TCoordRep, TPointSet::PointDimension>, TValue>
+ {
+ public:
+   /** Standard typedefs */
+   typedef PointSetAndValuesFunction Self;
+-  typedef itk::FunctionBase<itk::Point<TCoordRep,
+-          ::itk::GetPointSetDimension<TPointSet>::PointDimension>, TValue> Superclass;
++  typedef itk::FunctionBase<itk::Point<TCoordRep, TPointSet::PointDimension>, TValue> Superclass;
+   typedef itk::SmartPointer<Self>
+   Pointer;
+   typedef itk::SmartPointer<const Self>
+diff -ur OTB_Modular-nopatch/Modules/Filtering/ChangeDetection/include/otbCBAMI.h OTB_Modular/Modules/Filtering/ChangeDetection/include/otbCBAMI.h
+--- OTB_Modular-nopatch/Modules/Filtering/ChangeDetection/include/otbCBAMI.h	2014-11-25 17:03:53.734629036 +0100
++++ OTB_Modular/Modules/Filtering/ChangeDetection/include/otbCBAMI.h	2014-11-25 19:03:29.980840402 +0100
+@@ -19,6 +19,7 @@
+ #define __otbCBAMI_h
+ 
+ #include <vector>
++#include "itkMath.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Filtering/ChangeDetection/include/otbCrossCorrelation.h OTB_Modular/Modules/Filtering/ChangeDetection/include/otbCrossCorrelation.h
+--- OTB_Modular-nopatch/Modules/Filtering/ChangeDetection/include/otbCrossCorrelation.h	2014-11-25 17:03:53.738629126 +0100
++++ OTB_Modular/Modules/Filtering/ChangeDetection/include/otbCrossCorrelation.h	2014-11-25 19:04:11.281773966 +0100
+@@ -18,6 +18,8 @@
+ #ifndef __otbCrossCorrelation_h
+ #define __otbCrossCorrelation_h
+ 
++#include "itkMath.h"
++
+ namespace otb
+ {
+ 
+diff -ur OTB_Modular-nopatch/Modules/Filtering/DimensionalityReduction/include/otbAngularProjectionBinaryImageFilter.txx OTB_Modular/Modules/Filtering/DimensionalityReduction/include/otbAngularProjectionBinaryImageFilter.txx
+--- OTB_Modular-nopatch/Modules/Filtering/DimensionalityReduction/include/otbAngularProjectionBinaryImageFilter.txx	2014-11-05 18:36:04.217150000 +0100
++++ OTB_Modular/Modules/Filtering/DimensionalityReduction/include/otbAngularProjectionBinaryImageFilter.txx	2014-11-25 17:58:36.212825943 +0100
+@@ -22,6 +22,7 @@
+ #include <vnl/vnl_math.h>
+ 
+ #include <itkImageRegionIterator.h>
++#include "itkProgressReporter.h"
+ 
+ namespace otb {
+ 
+diff -ur OTB_Modular-nopatch/Modules/Filtering/DimensionalityReduction/include/otbAngularProjectionImageFilter.h OTB_Modular/Modules/Filtering/DimensionalityReduction/include/otbAngularProjectionImageFilter.h
+--- OTB_Modular-nopatch/Modules/Filtering/DimensionalityReduction/include/otbAngularProjectionImageFilter.h	2014-11-25 17:03:53.970634371 +0100
++++ OTB_Modular/Modules/Filtering/DimensionalityReduction/include/otbAngularProjectionImageFilter.h	2014-11-25 19:12:03.416446064 +0100
+@@ -19,7 +19,8 @@
+ #define __otbAngularProjectionImageFilter_h
+ 
+ #include "itkImageToImageFilter.h"
+-
++#include "itkImageRegionConstIterator.h"
++#include "itkProgressReporter.h"
+ 
+ namespace otb {
+ /** \class AngularProjectionImageFilter
+diff -ur OTB_Modular-nopatch/Modules/Filtering/MathParser/include/otbMaskMuParserFunctor.h OTB_Modular/Modules/Filtering/MathParser/include/otbMaskMuParserFunctor.h
+--- OTB_Modular-nopatch/Modules/Filtering/MathParser/include/otbMaskMuParserFunctor.h	2014-11-25 17:03:53.854631748 +0100
++++ OTB_Modular/Modules/Filtering/MathParser/include/otbMaskMuParserFunctor.h	2014-11-25 18:24:15.899628915 +0100
+@@ -24,16 +24,12 @@
+ 
+ #include "otbParser.h"
+ #include "otbMacro.h"
+-
+-
+ #include "otbBinarySpectralAngleFunctor.h"
+ 
+-#include "muParserCallback.h"
+-
+ namespace otb
+ {
+ /** \class MaskMuParserFunctor
+- * \brief functor used to create binary mask for input of connected component segmentation module.
++ * \brief Functor used to create binary mask for input of connected component segmentation module.
+  *
+  * This functor is based on the mathematical parser library muParser.
+  * The built in functions and operators list is available at:
+diff -ur OTB_Modular-nopatch/Modules/Filtering/Path/include/otbPathMeanDistanceFunctor.h OTB_Modular/Modules/Filtering/Path/include/otbPathMeanDistanceFunctor.h
+--- OTB_Modular-nopatch/Modules/Filtering/Path/include/otbPathMeanDistanceFunctor.h	2014-11-25 17:03:53.978634551 +0100
++++ OTB_Modular/Modules/Filtering/Path/include/otbPathMeanDistanceFunctor.h	2014-11-25 17:30:31.138736646 +0100
+@@ -18,6 +18,7 @@
+ #ifndef __otbPathMeanDistanceFunctor_h
+ #define __otbPathMeanDistanceFunctor_h
+ 
++#include "otbMacro.h"
+ #include "otbMath.h"
+ 
+ namespace otb
+diff -ur OTB_Modular-nopatch/Modules/Filtering/Polarimetry/include/otbSinclairToReciprocalCoherencyMatrixFunctor.h OTB_Modular/Modules/Filtering/Polarimetry/include/otbSinclairToReciprocalCoherencyMatrixFunctor.h
+--- OTB_Modular-nopatch/Modules/Filtering/Polarimetry/include/otbSinclairToReciprocalCoherencyMatrixFunctor.h	2014-11-25 17:03:53.910633014 +0100
++++ OTB_Modular/Modules/Filtering/Polarimetry/include/otbSinclairToReciprocalCoherencyMatrixFunctor.h	2014-11-25 19:25:05.870132592 +0100
+@@ -19,6 +19,7 @@
+ #define __otbSinclairToReciprocalCoherencyMatrixFunctor_h
+ 
+ #include "vcl_complex.h"
++#include "itkMacro.h"
+ 
+ namespace otb
+ {
+@@ -62,6 +63,9 @@
+   /** Some typedefs. */
+   typedef typename std::complex <double>           ComplexType;
+   typedef typename TOutput::ValueType              OutputValueType;
++  
++  itkStaticConstMacro(NumberOfComponentsPerPixel, unsigned int, 6);
++  
+   inline TOutput operator ()(const TInput1& Shh, const TInput2& Shv, const TInput3& Svv)
+   {
+     TOutput result;
+@@ -103,7 +107,7 @@
+ 
+ 
+ private:
+-    itkStaticConstMacro(NumberOfComponentsPerPixel, unsigned int, 6);
++    
+ };
+ 
+ } // namespace Functor
+diff -ur OTB_Modular-nopatch/Modules/Filtering/Statistics/include/otbHistogramStatisticsFunction.h OTB_Modular/Modules/Filtering/Statistics/include/otbHistogramStatisticsFunction.h
+--- OTB_Modular-nopatch/Modules/Filtering/Statistics/include/otbHistogramStatisticsFunction.h	2014-11-25 17:03:53.810630754 +0100
++++ OTB_Modular/Modules/Filtering/Statistics/include/otbHistogramStatisticsFunction.h	2014-11-25 17:50:38.582029610 +0100
+@@ -20,6 +20,7 @@
+ #define __otbHistogramStatisticsFunction_h
+ 
+ #include "itkHistogramAlgorithmBase.h"
++#include "itkNumericTraits.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Filtering/Statistics/include/otbListSampleToHistogramListGenerator.h OTB_Modular/Modules/Filtering/Statistics/include/otbListSampleToHistogramListGenerator.h
+--- OTB_Modular-nopatch/Modules/Filtering/Statistics/include/otbListSampleToHistogramListGenerator.h	2014-11-25 17:03:53.950633918 +0100
++++ OTB_Modular/Modules/Filtering/Statistics/include/otbListSampleToHistogramListGenerator.h	2014-11-25 17:33:01.418133550 +0100
+@@ -21,7 +21,7 @@
+ #ifndef __otbListSampleToHistogramListGenerator_h
+ #define __otbListSampleToHistogramListGenerator_h
+ 
+-#include "itkObject.h"
++#include "itkProcessObject.h"
+ #include "itkHistogram.h"
+ #include "otbObjectList.h"
+ #include "itkStatisticsAlgorithm.h"
+diff -ur OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation/include/otbMapnikAdapter.h OTB_Modular/Modules/Filtering/VectorDataManipulation/include/otbMapnikAdapter.h
+--- OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation/include/otbMapnikAdapter.h	2014-11-25 17:03:53.966634280 +0100
++++ OTB_Modular/Modules/Filtering/VectorDataManipulation/include/otbMapnikAdapter.h	2014-11-25 17:23:24.153085094 +0100
+@@ -81,5 +81,6 @@
+ static geom* create_geom(mapnik::eGeomType geom_type) { return new geom(geom_type); }
+ #endif
+ }
++}
+ 
+ 
+diff -ur OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToSpecificDescriptionFilterBase.h OTB_Modular/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToSpecificDescriptionFilterBase.h
+--- OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToSpecificDescriptionFilterBase.h	2014-11-25 17:03:53.986634732 +0100
++++ OTB_Modular/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToSpecificDescriptionFilterBase.h	2014-11-25 17:15:57.706993656 +0100
+@@ -41,12 +41,12 @@
+ 
+ template <class TVectorData>
+ class ITK_EXPORT VectorDataToSpecificDescriptionFilterBase :
+-public otb::VectorDataToVectorDataFilter<TVectorData, TVectorData>
++  public VectorDataToVectorDataFilter<TVectorData, TVectorData>
+ {
+ public:
+   /** Standard class typedefs. */
+   typedef VectorDataToSpecificDescriptionFilterBase    Self;
+-  typedef otb::VectorDataToVectorDataFilter<TVectorData,
++  typedef VectorDataToVectorDataFilter<TVectorData,
+     TVectorData>                                       Superclass;
+   typedef itk::SmartPointer<Self>                      Pointer;
+   typedef itk::SmartPointer<const Self>                ConstPointer;
+diff -ur OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToVectorDataFilter.h OTB_Modular/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToVectorDataFilter.h
+--- OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToVectorDataFilter.h	2014-11-25 17:03:53.966634280 +0100
++++ OTB_Modular/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToVectorDataFilter.h	2014-11-25 17:15:43.934682348 +0100
+@@ -37,12 +37,12 @@
+  * \ingroup OTBVectorDataManipulation
+  */
+ template <class TInputVectorData, class TOutputVectorData>
+-class ITK_EXPORT VectorDataToVectorDataFilter : public otb::VectorDataSource<TOutputVectorData>
++class ITK_EXPORT VectorDataToVectorDataFilter : public VectorDataSource<TOutputVectorData>
+ {
+ public:
+   /** Standard class typedefs. */
+   typedef VectorDataToVectorDataFilter             Self;
+-  typedef otb::VectorDataSource<TOutputVectorData> Superclass;
++  typedef VectorDataSource<TOutputVectorData>      Superclass;
+   typedef itk::SmartPointer<Self>                  Pointer;
+   typedef itk::SmartPointer<const Self>            ConstPointer;
+ 
+Only in OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation: otbMapnikAdapter.h
 diff -ur OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx
 --- OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2013-11-15 15:47:35.118019000 +0100
-+++ OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2014-11-21 20:26:11.545436552 +0100
++++ OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2014-11-25 17:03:54.686650555 +0100
 @@ -19,7 +19,7 @@
  #include "otbFuzzyDescriptorsModelManager.h"
  #include "itkMacro.h"
@@ -118,8 +441,8 @@ diff -ur OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelMa
  namespace otb {
  
 diff -ur OTB_Modular-nopatch/Modules/Hyperspectral/AnomalyDetection/include/otbLocalRxDetectorFilter.h OTB_Modular/Modules/Hyperspectral/AnomalyDetection/include/otbLocalRxDetectorFilter.h
---- OTB_Modular-nopatch/Modules/Hyperspectral/AnomalyDetection/include/otbLocalRxDetectorFilter.h	2014-11-21 20:26:09.649395118 +0100
-+++ OTB_Modular/Modules/Hyperspectral/AnomalyDetection/include/otbLocalRxDetectorFilter.h	2014-11-21 20:26:11.545436552 +0100
+--- OTB_Modular-nopatch/Modules/Hyperspectral/AnomalyDetection/include/otbLocalRxDetectorFilter.h	2014-11-25 17:03:53.722628765 +0100
++++ OTB_Modular/Modules/Hyperspectral/AnomalyDetection/include/otbLocalRxDetectorFilter.h	2014-11-25 17:03:54.690650645 +0100
 @@ -19,12 +19,12 @@
  #define __otbLocalRxDetectorFilter_h
  
@@ -136,7 +459,7 @@ diff -ur OTB_Modular-nopatch/Modules/Hyperspectral/AnomalyDetection/include/otbL
  {
 diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbCoordinateToName.cxx OTB_Modular/Modules/IO/Carto/src/otbCoordinateToName.cxx
 --- OTB_Modular-nopatch/Modules/IO/Carto/src/otbCoordinateToName.cxx	2013-11-15 15:47:35.126019000 +0100
-+++ OTB_Modular/Modules/IO/Carto/src/otbCoordinateToName.cxx	2014-11-21 20:26:11.545436552 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbCoordinateToName.cxx	2014-11-25 17:03:54.690650645 +0100
 @@ -23,7 +23,7 @@
  #include "otbMacro.h"
  #include "otbUtils.h"
@@ -148,7 +471,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbCoordinateToName.cxx OTB_Mo
  #include "itkMersenneTwisterRandomVariateGenerator.h"
 diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx OTB_Modular/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx
 --- OTB_Modular-nopatch/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx	2013-11-15 15:47:35.138019000 +0100
-+++ OTB_Modular/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx	2014-11-21 20:26:11.545436552 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx	2014-11-25 17:03:54.690650645 +0100
 @@ -22,7 +22,7 @@
  #include "itkDataObject.h"
  #include "itkMacro.h"
@@ -160,7 +483,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerato
  {
 diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx OTB_Modular/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx
 --- OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx	2013-11-15 15:47:35.142019000 +0100
-+++ OTB_Modular/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx	2014-11-21 20:26:11.545436552 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx	2014-11-25 17:03:54.690650645 +0100
 @@ -17,7 +17,7 @@
  =========================================================================*/
  
@@ -172,7 +495,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx OTB_M
  namespace otb
 diff -ur OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx
 --- OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2014-11-05 18:36:04.309152000 +0100
-+++ OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2014-11-21 20:26:11.549436640 +0100
++++ OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2014-11-25 17:03:54.690650645 +0100
 @@ -24,7 +24,7 @@
  #include "otbSystem.h"
  #include "itksys/SystemTools.hxx"
@@ -184,7 +507,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx OTB_Modula
  #include "itkMetaDataObject.h"
 diff -ur OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx OTB_Modular/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx
 --- OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx	2014-11-05 18:36:04.321152000 +0100
-+++ OTB_Modular/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx	2014-11-24 17:47:06.893847529 +0100
++++ OTB_Modular/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx	2014-11-25 17:03:54.694650736 +0100
 @@ -31,7 +31,7 @@
  
  extern "C"
@@ -205,7 +528,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx OT
  #include "itkMutexLockHolder.h"
 diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx
 --- OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx	2014-09-09 11:00:19.680597000 +0200
-+++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx	2014-11-21 20:26:11.549436640 +0100
++++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx	2014-11-25 17:03:54.694650736 +0100
 @@ -21,7 +21,7 @@
  #include "otbStatisticsXMLFileReader.h"
  #include "itkMacro.h"
@@ -217,7 +540,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileReader
  
 diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx
 --- OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx	2014-09-09 11:00:19.680597000 +0200
-+++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx	2014-11-21 20:26:11.553436728 +0100
++++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx	2014-11-25 17:03:54.694650736 +0100
 @@ -21,7 +21,7 @@
  #include "otbStatisticsXMLFileWriter.h"
  #include "itkMacro.h"
@@ -227,9 +550,71 @@ diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter
  
  namespace otb {
  
+diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/otb-module.cmake OTB_Modular/Modules/IO/IOXML/otb-module.cmake
+--- OTB_Modular-nopatch/Modules/IO/IOXML/otb-module.cmake	2014-11-25 17:03:54.126637897 +0100
++++ OTB_Modular/Modules/IO/IOXML/otb-module.cmake	2014-11-25 17:38:48.053968882 +0100
+@@ -2,8 +2,8 @@
+ 
+ otb_module(OTBIOXML 
+   DEPENDS
++      OTBITK
+       OTBTinyXML
+-  
+   DESCRIPTION
+     "${DOCUMENTATION}"
+   )
+diff -ur OTB_Modular-nopatch/Modules/Learning/SOM/include/otbCzihoSOMLearningBehaviorFunctor.h OTB_Modular/Modules/Learning/SOM/include/otbCzihoSOMLearningBehaviorFunctor.h
+--- OTB_Modular-nopatch/Modules/Learning/SOM/include/otbCzihoSOMLearningBehaviorFunctor.h	2014-11-25 17:03:53.946633828 +0100
++++ OTB_Modular/Modules/Learning/SOM/include/otbCzihoSOMLearningBehaviorFunctor.h	2014-11-25 18:58:32.366113139 +0100
+@@ -22,6 +22,7 @@
+ #define __otbCzihoSOMLearningBehaviorFunctor_h
+ 
+ #include "itkSize.h"
++#include "otbMath.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Learning/SOM/include/otbCzihoSOMNeighborhoodBehaviorFunctor.h OTB_Modular/Modules/Learning/SOM/include/otbCzihoSOMNeighborhoodBehaviorFunctor.h
+--- OTB_Modular-nopatch/Modules/Learning/SOM/include/otbCzihoSOMNeighborhoodBehaviorFunctor.h	2014-11-25 17:03:53.946633828 +0100
++++ OTB_Modular/Modules/Learning/SOM/include/otbCzihoSOMNeighborhoodBehaviorFunctor.h	2014-11-25 19:02:38.711681517 +0100
+@@ -21,6 +21,9 @@
+ #ifndef __otbCzihoSOMNeighborhoodBehaviorFunctor_h
+ #define __otbCzihoSOMNeighborhoodBehaviorFunctor_h
+ 
++#include "itkSize.h"
++#include "itkMath.h"
++
+ namespace otb
+ {
+ 
+diff -ur OTB_Modular-nopatch/Modules/Learning/SOM/include/otbSOMLearningBehaviorFunctor.h OTB_Modular/Modules/Learning/SOM/include/otbSOMLearningBehaviorFunctor.h
+--- OTB_Modular-nopatch/Modules/Learning/SOM/include/otbSOMLearningBehaviorFunctor.h	2014-11-25 17:03:53.946633828 +0100
++++ OTB_Modular/Modules/Learning/SOM/include/otbSOMLearningBehaviorFunctor.h	2014-11-25 19:02:08.226992443 +0100
+@@ -46,8 +46,8 @@
+ {
+ public:
+   /** Empty constructor / descructor */
+-  CzihoSOMLearningBehaviorFunctor () {}
+-  virtual ~CzihoSOMLearningBehaviorFunctor() {}
++  SOMLearningBehaviorFunctor () {}
++  virtual ~SOMLearningBehaviorFunctor() {}
+ 
+   /** Functor */
+   virtual double operator ()(unsigned int currentIteration,
+diff -ur OTB_Modular-nopatch/Modules/Radiometry/Indices/include/otbMultiChannelRadiometricImageFilter.h OTB_Modular/Modules/Radiometry/Indices/include/otbMultiChannelRadiometricImageFilter.h
+--- OTB_Modular-nopatch/Modules/Radiometry/Indices/include/otbMultiChannelRadiometricImageFilter.h	2014-11-25 17:03:53.826631116 +0100
++++ OTB_Modular/Modules/Radiometry/Indices/include/otbMultiChannelRadiometricImageFilter.h	2014-11-25 17:56:56.590574088 +0100
+@@ -19,6 +19,7 @@
+ #define __otbMultiChannelRadiometricImageFilter_h
+ 
+ #include "itkUnaryFunctorImageFilter.h"
++#include "otbMacro.h"
+ #include "otbBandName.h"
+ 
+ namespace otb
 diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h
---- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2014-11-21 20:26:09.653395206 +0100
-+++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2014-11-21 20:26:11.553436728 +0100
+--- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2014-11-25 17:03:53.730628945 +0100
++++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2014-11-25 17:03:54.694650736 +0100
 @@ -1,7 +1,7 @@
  #ifndef __otbWrapperInputProcessXMLParameter_h
  #define __otbWrapperInputProcessXMLParameter_h
@@ -240,8 +625,8 @@ diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapp
  
  namespace otb
 diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h
---- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2014-11-21 20:26:09.657395293 +0100
-+++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2014-11-21 20:26:11.553436728 +0100
+--- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2014-11-25 17:03:53.730628945 +0100
++++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2014-11-25 17:03:54.694650736 +0100
 @@ -1,7 +1,7 @@
  #ifndef __otbWrapperOutputProcessXMLParameter_h
  #define __otbWrapperOutputProcessXMLParameter_h
@@ -253,7 +638,7 @@ diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapp
  {
 diff -ur OTB_Modular-nopatch/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx OTB_Modular/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx
 --- OTB_Modular-nopatch/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx	2014-09-09 11:00:19.708597000 +0200
-+++ OTB_Modular/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx	2014-11-21 20:26:11.553436728 +0100
++++ OTB_Modular/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx	2014-11-25 17:03:54.694650736 +0100
 @@ -17,7 +17,7 @@
   =========================================================================*/
  
