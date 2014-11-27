@@ -288,6 +288,7 @@ MathParser,VectorDataBase
 MathParser,Path
 MathParser,MuParser
 MathParser,MuParserX
+MathParser,Statistics
 MathParser,Common
 MathParser,ImageManipulation
 Projection,VectorDataBase
