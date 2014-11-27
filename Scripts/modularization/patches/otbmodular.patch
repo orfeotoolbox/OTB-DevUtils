@@ -511,28 +511,6 @@ diff -ur OTB_Modular-nopatch/Modules/Filtering/Statistics/include/otbListSampleT
  #include "itkHistogram.h"
  #include "otbObjectList.h"
  #include "itkStatisticsAlgorithm.h"
-diff -ur OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation/include/otbMapnikAdapter.h OTB_Modular/Modules/Filtering/VectorDataManipulation/include/otbMapnikAdapter.h
---- OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation/include/otbMapnikAdapter.h	2014-11-25 17:03:53.966634280 +0100
-+++ OTB_Modular/Modules/Filtering/VectorDataManipulation/include/otbMapnikAdapter.h	2014-11-26 13:17:48.333485383 +0100
-@@ -15,6 +15,10 @@
-      PURPOSE.  See the above copyright notices for more information.
- 
- =========================================================================*/
-+
-+#ifndef __otbMapnikAdapter_h
-+#define __otbMapnikAdapter_h
-+
- #include <mapnik/datasource_cache.hpp>
- #include <mapnik/font_engine_freetype.hpp>
- #include <mapnik/agg_renderer.hpp>
-@@ -81,5 +85,6 @@
- static geom* create_geom(mapnik::eGeomType geom_type) { return new geom(geom_type); }
- #endif
- }
-+}
- 
--
-+#endif
 diff -ur OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToSpecificDescriptionFilterBase.h OTB_Modular/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToSpecificDescriptionFilterBase.h
 --- OTB_Modular-nopatch/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToSpecificDescriptionFilterBase.h	2014-11-25 17:03:53.986634732 +0100
 +++ OTB_Modular/Modules/Filtering/VectorDataManipulation/include/otbVectorDataToSpecificDescriptionFilterBase.h	2014-11-25 17:15:57.706993656 +0100
