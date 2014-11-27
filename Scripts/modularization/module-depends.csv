@@ -213,7 +213,6 @@ ImageIO,Common
 ImageIO,ExtendedFilename
 ImageIO,OSSIMAdapters
 ImageIO,ObjectList
-SWIG,ApplicationEngine
 Transform,ITKPendingPatches
 Transform,Common
 Transform,GDAL

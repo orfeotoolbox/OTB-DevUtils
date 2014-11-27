@@ -1406,10 +1406,6 @@ Monolithic OTB file name,Monolithic OTB current directory,Group name,Module name
 ./Code/DisparityMap/otbPixelWiseBlockMatchingImageFilter.txx,DisparityMap,Registration,Stereo,include,
 ./Code/DisparityMap/otbStereoSensorModelToElevationMapFilter.h,DisparityMap,Registration,Stereo,include,
 ./Code/DisparityMap/otbStereoSensorModelToElevationMapFilter.txx,DisparityMap,Registration,Stereo,include,
-./Code/Wrappers/SWIG/itkPyCommand.cxx,Wrappers/SWIG,Wrappers,SWIG,src,
-./Code/Wrappers/SWIG/itkPyCommand.h,Wrappers/SWIG,Wrappers,SWIG,include,
-./Code/Wrappers/SWIG/otbApplicationLuaMain.cxx,Wrappers/SWIG,Wrappers,SWIG,src,
-./Code/Wrappers/SWIG/otbWrapperSWIGIncludes.h,Wrappers/SWIG,Wrappers,SWIG,include,
 ./Code/Common/otbDifferenceImageFilter.h,Common,IO,TestKernel,include,
 ./Code/Common/otbDifferenceImageFilter.txx,Common,IO,TestKernel,include,
 ./Code/Testing/otbCurlHelperStub.cxx,Testing,Adapters,CurlAdapters,src,Move to CurlAdapters
