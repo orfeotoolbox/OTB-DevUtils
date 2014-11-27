@@ -1,0 +1,27 @@
+Index: Modules/Compatibility/Deprecated/test/itkTestDriverIncludeDeprecatedIOFactories.h
+===================================================================
+diff -u -N -rd6ff008964bfea9f609e99354e76e96d2d426337 -rd11b737c52b7e98185585c530bcb2705a18bd578
+--- Modules/Compatibility/Deprecated/test/itkTestDriverIncludeDeprecatedIOFactories.h	(.../itkTestDriverIncludeDeprecatedIOFactories.h)	(revision d6ff008964bfea9f609e99354e76e96d2d426337)
++++ Modules/Compatibility/Deprecated/test/itkTestDriverIncludeDeprecatedIOFactories.h	(.../itkTestDriverIncludeDeprecatedIOFactories.h)	(revision d11b737c52b7e98185585c530bcb2705a18bd578)
+@@ -23,7 +23,10 @@
+ #include "itkNiftiImageIOFactory.h"
+ #include "itkGiplImageIOFactory.h"
+ #include "itkJPEGImageIOFactory.h"
+-#include "itkLSMImageIOFactory.h"
++#include "itk_tiff.h" // ITK_USE_SYSTEM_TIFF
++#ifndef ITK_USE_SYSTEM_TIFF
++#  include "itkLSMImageIOFactory.h"
++#endif // ITK_USE_SYSTEM_TIFF
+ #include "itkMetaImageIOFactory.h"
+ #include "itkPNGImageIOFactory.h"
+ #include "itkNrrdImageIOFactory.h"
+@@ -43,7 +46,9 @@
+   itk::ObjectFactoryBase::RegisterFactory( itk::PNGImageIOFactory::New() );
+   itk::ObjectFactoryBase::RegisterFactory( itk::VTKImageIOFactory::New() );
+   itk::ObjectFactoryBase::RegisterFactory( itk::GiplImageIOFactory::New() );
++#ifndef ITK_USE_SYSTEM_TIFF
+   itk::ObjectFactoryBase::RegisterFactory( itk::LSMImageIOFactory::New() );
++#endif // ITK_USE_SYSTEM_TIFF
+   itk::ObjectFactoryBase::RegisterFactory( itk::NiftiImageIOFactory::New() );
+   itk::ObjectFactoryBase::RegisterFactory( itk::JPEGImageIOFactory::New() );
+   itk::ObjectFactoryBase::RegisterFactory( itk::TIFFImageIOFactory::New() );
