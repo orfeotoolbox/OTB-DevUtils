@@ -744,8 +744,8 @@ Monolithic OTB file name,Monolithic OTB current directory,Group name,Module name
 ./Code/BasicFilters/otbOpeningClosingMorphologicalFilter.txx,BasicFilters,Segmentation,MorphologicalProfiles,include,Move to MorphologicalProfiles
 ./Code/BasicFilters/otbBandMathImageFilter.h,BasicFilters,Filtering,MathParser,include,
 ./Code/BasicFilters/otbBandMathImageFilter.txx,BasicFilters,Filtering,MathParser,include,
-./Code/BasicFilters/otbBandMathImageFilterX.h,BasicFilters,Filtering,MathParser,include,
-./Code/BasicFilters/otbBandMathImageFilterX.txx,BasicFilters,Filtering,MathParser,include,
+./Code/BasicFilters/otbBandMathXImageFilter.h,BasicFilters,Filtering,MathParser,include,
+./Code/BasicFilters/otbBandMathXImageFilter.txx,BasicFilters,Filtering,MathParser,include,
 ./Code/BasicFilters/otbConnectedComponentMuParserFunctor.h,BasicFilters,Segmentation,CCOBIA,include,
 ./Code/BasicFilters/otbLabelObjectOpeningMuParserFilter.h,BasicFilters,Segmentation,CCOBIA,include,
 ./Code/BasicFilters/otbLabelObjectOpeningMuParserFilter.txx,BasicFilters,Segmentation,CCOBIA,include,
