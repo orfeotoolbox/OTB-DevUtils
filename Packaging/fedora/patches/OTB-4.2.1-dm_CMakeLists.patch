@@ -1,0 +1,12 @@
+diff -bur OTB-4.2.1.orig/Code/DisparityMap/CMakeLists.txt OTB-4.2.1/Code/DisparityMap/CMakeLists.txt
+--- OTB-4.2.1.orig/Code/DisparityMap/CMakeLists.txt	2014-11-25 14:34:51.223907529 +0100
++++ OTB-4.2.1/Code/DisparityMap/CMakeLists.txt	2014-11-25 14:36:44.106368563 +0100
+@@ -3,7 +3,7 @@
+ file(GLOB OTBDisparityMap_SRCS "*.cxx" )
+ 
+ add_library(OTBDisparityMap ${OTBDisparityMap_SRCS})
+-target_link_libraries(OTBDisparityMap OTBCommon ${ITK_LIBRARIES} itkvnl)
++target_link_libraries(OTBDisparityMap OTBCommon ${ITK_LIBRARIES} ${ITKVNL_LIBRARIES})
+ if(OTB_LIBRARY_PROPERTIES)
+   set_target_properties(OTBDisparityMap PROPERTIES ${OTB_LIBRARY_PROPERTIES})
+ endif()

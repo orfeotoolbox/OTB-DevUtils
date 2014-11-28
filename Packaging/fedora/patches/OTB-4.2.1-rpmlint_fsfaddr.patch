@@ -1,0 +1,13 @@
+diff -bur OTB-4.2.1.orig/Copyright/OSSIMCopyright.txt OTB-4.2.1/Copyright/OSSIMCopyright.txt
+--- OTB-4.2.1.orig/Copyright/OSSIMCopyright.txt	2014-11-25 14:34:51.745905036 +0100
++++ OTB-4.2.1/Copyright/OSSIMCopyright.txt	2014-11-26 09:53:01.859445621 +0100
+@@ -5,7 +5,8 @@
+ (The master copy of this license lives on the GNU website.) 
+ 
+ Copyright (C) 1991, 1999 Free Software Foundation, Inc.
+-59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
++Boston, MA  02110-1301 USA
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+ 
