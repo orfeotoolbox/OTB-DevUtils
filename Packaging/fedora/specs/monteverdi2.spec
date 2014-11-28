@@ -50,7 +50,7 @@ BuildRequires:  qwt5-qt4-devel
 %{sname} is the GUI interface built with OTB library and Qt
 
 %prep
-%setup -q -n %{sname}-%{version} -D
+%setup -q -n %{sname}-%{version}
 
 %build
 mkdir -p %{_target_platform}

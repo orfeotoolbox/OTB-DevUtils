@@ -96,7 +96,7 @@ BuildRequires:	python2-devel
 This package provides python bindings for %{name}
 
 %prep
-%setup -q -n %{sname}-%{version} -D
+%setup -q -n %{sname}-%{version}
 
 cp -a %{SOURCE1} .
 
