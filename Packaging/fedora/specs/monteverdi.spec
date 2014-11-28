@@ -12,8 +12,6 @@ Group:    Applications/Engineering
 License:  CeCILL
 URL:	  http://www.orfeo-toolbox.org
 Source0:  http://orfeo-toolbox.org/packages/%{sname}-%{version}.tgz
-BuildRequires:  gcc-c++ 
-BuildRequires:  gcc
 BuildRequires:  fltk-devel
 BuildRequires:  fltk-fluid
 BuildRequires:  cmake

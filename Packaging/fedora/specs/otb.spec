@@ -16,15 +16,13 @@ Group:	       System Environment/Libraries
 License:       CeCILL
 URL:	       http://www.orfeo-toolbox.org
 Source0:       http://orfeo-toolbox.org/packages/%{sname}-%{version}.tgz
-Source1:       http://orfeo-toolbox.org/packages/OTBCookBook.pdf
-Source2:       http://orfeo-toolbox.org/packages/OTBSoftwareGuide.pdf
-Source3:       otb.conf
-Patch0:	       %{sname}-001-6S_main.patch
-Patch1:	       %{sname}-002-dm_CMakeLists.patch
-Patch2:	       %{sname}-003-rpmlint_fsfaddr.patch
+#File will be merged with upstream - http://bugs.orfeo-toolbox.org/view.php?id=987
+Source1:       README.txt
+Source2:       otb.conf
+Patch0:	       %{sname}-4.2.1-6S_main.patch
+Patch1:	       %{sname}-4.2.1-dm_CMakeLists.patch
+Patch2:	       %{sname}-4.2.1-rpmlint_fsfaddr.patch
 
-BuildRequires: gcc-c++ 
-BuildRequires: gcc 
 BuildRequires: cmake
 BuildRequires: gdal-devel 
 BuildRequires: libgeotiff-devel 
@@ -37,7 +35,7 @@ BuildRequires: muParser-devel
 BuildRequires: OpenThreads-devel
 BuildRequires: libjpeg-turbo-devel
 BuildRequires: openjpeg2-devel
-BuildRequires: InsightToolkit-devel >= 4.6
+BuildRequires: InsightToolkit-devel
 BuildRequires: ossim-devel
 ### test package to install only jpeg plugin
 ###BuildRequires: gdal-openjpeg 
@@ -99,10 +97,11 @@ This package provides python bindings for %{name}
 
 %prep
 %setup -q -n %{sname}-%{version} -D
-cp -a %{SOURCE1} %{SOURCE2} .
+
+cp -a %{SOURCE1} .
 
 #ld.so.conf.d/otb.conf
-cp -a %{SOURCE3} .
+cp -a %{SOURCE2} .
 
 #prep otb.conf
 sed -i 's,prefix,%{_libdir},g' otb.conf
@@ -120,7 +119,7 @@ done
 
 #otb6S  otbedison  otbossimplugins  otbsvm  otbsiffast  otbopenjpeg ITK
 for tparty in BGL otbossim otbmuparser otbopenthreads otbmsinttypes otbexpat tinyXMLlib; do \
-    rm -frv Utilities/${tparty}; \
+    rm -fr Utilities/${tparty}; \
 done
 
 %build
@@ -188,10 +187,10 @@ install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 %{_bindir}/otbTestDriver
 %{_libdir}/otb/lib*.so.*
 %{_libdir}/otb/applications/*
-%{_mandir}/man1/otbcli*.gz
+%{_mandir}/man1/otbcli*.1*
 %{_sysconfdir}/ld.so.conf.d/otb.conf
-%{_mandir}/man1/otbApplicationLauncherCommandLine.1.gz
-%{_mandir}/man1/otbTestDriver.1.gz
+%{_mandir}/man1/otbApplicationLauncherCommandLine.1*
+%{_mandir}/man1/otbTestDriver.1*
 %dir %{_libdir}/otb/applications
 %dir %{_libdir}/otb
 
@@ -199,8 +198,8 @@ install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 %{_bindir}/otb*Qt
 %{_bindir}/otbgu*
 %{_libdir}/otb/lib*QtWidget*.so.*
-%{_mandir}/man1/otbgui*.gz
-%{_mandir}/man1/otbApplicationLauncherQt.1.gz
+%{_mandir}/man1/otbgui*.1*
+%{_mandir}/man1/otbApplicationLauncherQt.1.*
 %dir %{_libdir}/otb
 
 %files devel
@@ -212,15 +211,21 @@ install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 %dir %{_libdir}/otb/cmakemodules
 
 %files doc
-%doc OTBCookBook.pdf
-%doc OTBSoftwareGuide.pdf
+%doc README.txt
+%doc RELEASE_NOTES.txt
 %doc Copyright/*.txt
 
+#location of python package need to be clarified for Fedora
 %files python
 %{_libdir}/otb/python/*
 %dir %{_libdir}/otb/python/
 
 %changelog
+* Fri Nov 28 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 4.2.1-2
+- updated patch names as per Fedora Guidelines(volter)
+- add RELEASE_NOTES.txt in doc package
+- removed pdf from SRPM and added links in a README(volter)
+
 * Wed Nov 26 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 4.2.1-2
 - added gdcm and vxl to build requires for OTB
 - rpmlint dangerous command in postun /bin/rm fixed

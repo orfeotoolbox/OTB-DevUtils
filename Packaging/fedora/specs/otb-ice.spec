@@ -11,8 +11,7 @@ Group:	       System Environment/Libraries
 License:       CeCILL
 URL:	       http://www.orfeo-toolbox.org
 Source0:       http://orfeo-toolbox.org/packages/%{sname}-%{version}.tgz
-BuildRequires:  gcc-c++ 
-BuildRequires:  gcc
+
 BuildRequires:  cmake
 BuildRequires:  otb-devel
 BuildRequires:  glfw-devel
@@ -92,7 +91,6 @@ rm -rf %{buildroot}
 %{_includedir}/otb/
 %dir %{_includedir}/otb/
 %dir %{_libdir}/otb
-
 
 %changelog
 * Tue Nov 25 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - bde0f85ca45dsnap
