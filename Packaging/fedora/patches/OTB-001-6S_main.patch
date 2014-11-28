@@ -1,5 +1,0 @@
-diff -bur OTB-4.2.1.orig/Utilities/otb6S/6SV1.0B/main.h OTB-4.2.1/Utilities/otb6S/6SV1.0B/main.h
---- OTB-4.2.1.orig/Utilities/otb6S/6SV1.0B/main.h	2014-11-19 14:54:20.321497486 +0100
-+++ OTB-4.2.1/Utilities/otb6S/6SV1.0B/main.h	2014-11-20 11:15:45.053428333 +0100
-@@ -0,0 +1 @@
-+/* THIS LINE IS ADDED BY PACKAGING TO PREVENT zero-length RPMLINT ERRROR */
