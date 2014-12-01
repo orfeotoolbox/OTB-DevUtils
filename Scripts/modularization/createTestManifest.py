@@ -266,7 +266,9 @@ def gatherTestDepends(testCxx,fullDepList):
       gatherTestDependencies[tmod] = {}
     for tdep in testCxx[tfile]["depList"]:
       # skip module itself and its dependencies
-      if (tdep == tmod) or (tdep in fullDepList[tmod]):
+      if (tdep == tmod):
+        continue
+      if (tmod in fullDepList) and (tdep in fullDepList[tmod]):
         continue
       if not gatherTestDependencies[tmod].has_key(tdep):
         gatherTestDependencies[tmod][tdep] = []
@@ -291,6 +293,12 @@ def main(argv):
   [groups,moduleList,sourceList] = manifestParser.parseManifest(manifestPath)
   depList = manifestParser.parseDependList(moduleDepPath)
   fullDepList = manifestParser.buildFullDep(depList)
+  # make sure every module is in depList and fullDepList (even if it has no dependencies)
+  for mod in moduleList:
+    if not depList.has_key(mod):
+      depList[mod] = {}
+    if not fullDepList.has_key(mod):
+      fullDepList[mod] = {}
   
   OldFolderPartition = buildOldFolderPartition(moduleList)
   
@@ -443,6 +451,11 @@ def main(argv):
     if groupDestination == "TBD" and moduleDestination != "TBD":
       groupDestination = getGroup(moduleDestination,groups)
     
+    if not res["hasMain"]:
+      # manually add dependency to TestKernel for cxx using a test driver
+      # the include to otbTestMain.h header is not located in the cxx
+      testDepList["TestKernel"] = {"from":shortPath ,"to":"./Code/Testing/otbTestMain.h"}
+    
     testCxx[shortPath] = {"depList":testDepList , "thirdPartyDep":thirdPartyDep, "group":groupDestination, "module":moduleDestination}
     outFD.write(shortPath+","+op.basename(op.dirname(shortPath))+","+groupDestination+","+moduleDestination+",test,\n")
   
@@ -451,8 +464,24 @@ def main(argv):
   # sum all test dependencies in every module
   allTestDepends = gatherTestDepends(testCxx,fullDepList)
   
+  # clean the test depends (i.e. ImageIO is dragged by TestKernel)
+  cleanTestDepends = {}
+  for mod in allTestDepends:
+    cleanTestDepends[mod] = {}
+    for dep1 in allTestDepends[mod]:
+      isClean = True
+      for dep2 in allTestDepends[mod]:
+        if dep1 == dep2:
+          continue
+        if dep1 in fullDepList[dep2]:
+          isClean = False
+          break
+      if isClean:
+        cleanTestDepends[mod][dep1] = 1
+  
+  
   if csvTestDepends:
-    manifestParser.outputCSVEdgeList(allTestDepends,csvTestDepends)
+    manifestParser.outputCSVEdgeList(cleanTestDepends,csvTestDepends)
   
   #manifestParser.printDepList(allTestDepends)
 
