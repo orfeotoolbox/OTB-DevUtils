@@ -1,8 +1,6 @@
 # spec file for OTB Ice
 # norootforbuild
 %define sname Ice
-%define _prefix /usr
-
 Name:  otb-%{sname}
 Version:  bde0f85ca45d
 Release:  1%{?dist}
@@ -20,7 +18,7 @@ BuildRequires:  freeglut-devel
 BuildRequires:  libXmu-devel
 BuildRequires:  gdal-devel 
 BuildRequires:  boost-devel
-BuildRequires:  InsightToolkit-devel >= 4.6
+BuildRequires:  InsightToolkit-devel 
 BuildRequires:  ossim-devel
 BuildRequires: libgeotiff-devel 
 BuildRequires: libpng-devel 
@@ -30,7 +28,7 @@ BuildRequires: curl-devel
 BuildRequires: tinyxml-devel 
 BuildRequires: muParser-devel
 BuildRequires: OpenThreads-devel
-BuildRequires: libjpeg-turbo-devel
+BuildRequires: libjpeg-devel
 BuildRequires: openjpeg2-devel
 ### test package to install only jpeg plugin
 ###BuildRequires: gdal-openjpeg 
@@ -66,23 +64,20 @@ Development files for the %{sname} library.
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake .. \
-    -DCMAKE_INSTALL_PREFIX=%{_prefix} \
     -DIce_INSTALL_LIB_DIR:PATH=%{_lib}/otb \
     -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"
 popd
 make %{?_smp_mflags} -C %{_target_platform}
 
 %install
-rm -rf %{buildroot}
 %make_install -C %{_target_platform}
-
 
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
 %files
-%{_libdir}/otb/*.so*
+%{_libdir}/otb/*.so.*
 %{_bindir}/*viewer
 %dir %{_libdir}/otb
 

@@ -1,11 +1,6 @@
 # spec file for package OrfeoToolbox
 # norootforbuild
 %global sname OTB
-#required for internal ITK
-%global itkversion 4.6
-%global _prefix /usr
-%global _sharedir %{_prefix}/share
-
 Name: otb
 # OrfeoToolbox
 Version:       4.2.1
@@ -33,7 +28,7 @@ BuildRequires: curl-devel
 BuildRequires: tinyxml-devel 
 BuildRequires: muParser-devel
 BuildRequires: OpenThreads-devel
-BuildRequires: libjpeg-turbo-devel
+BuildRequires: libjpeg-devel
 BuildRequires: openjpeg2-devel
 BuildRequires: InsightToolkit-devel
 BuildRequires: ossim-devel
@@ -51,8 +46,8 @@ BuildRequires:  vxl-devel
 BuildRequires:  python2-devel
 
 %description
-The %{name} is a library of image processing algorithms developed by
-CNES in the frame of the ORFEO Accompaniment Program
+%{sname} (Orfeo Toolbox) is a library of image processing algorithms 
+developed by CNES in the frame of the ORFEO Accompaniment Program
 
 %package        qt
 Summary:	Qt Widget wrapper for %{name}
@@ -60,10 +55,7 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}
 
 %description    qt
-Qt Widget wrapper for the %{name} library. 
-
-The %{name} is a library of image processing algorithms developed by 
-CNES in the frame of the ORFEO Accompaniment Program
+Qt Widget wrapper for %{sname} library. 
 
 %package        devel
 Summary:	Development files for %{name}
@@ -71,10 +63,7 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}
 
 %description    devel
-Development files for the %{name} library. 
-
-The %{name} is a library of image processing algorithms developed by 
-CNES in the frame of the ORFEO Accompaniment Program
+Development files for %{sname} library. 
 
 %package        doc
 Summary:	Documentation files for %{name}
@@ -83,7 +72,7 @@ Requires:	%{name} = %{version}
 BuildArch:	noarch
 
 %description doc
-This package provides additional documentation for %{name}
+Documentation for %{sname} library
 
 %package        python
 Summary:	Python bindings for %{name}
@@ -93,7 +82,7 @@ BuildRequires:	swig >= 1.3.40 python
 BuildRequires:	python2-devel
 
 %description python
-This package provides python bindings for %{name}
+Python bindings for %{sname} library
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -150,17 +139,14 @@ pushd %{_target_platform}
     -DOTB_INSTALL_PACKAGE_DIR=%{_lib}/otb \
     -DOTB_INSTALL_DATA_DIR:PATH=share/doc/otb \
     -DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=%{_lib}/otb \
-    -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
     -DCMAKE_SKIP_RPATH:BOOL=ON \
     -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"
-
 popd
 
 make %{?_smp_mflags} -C %{_target_platform}
 
 %install
-rm -rf %{buildroot}
-%make_install -C %{_target_platform} DESTDIR=%{buildroot}
+%make_install -C %{_target_platform}
 
 export PATH=$PATH:%{buildroot}%{_bindir}
 export LD_LIBRARY_PATH=%{buildroot}%{_bindir}
@@ -191,8 +177,6 @@ install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 %{_sysconfdir}/ld.so.conf.d/otb.conf
 %{_mandir}/man1/otbApplicationLauncherCommandLine.1*
 %{_mandir}/man1/otbTestDriver.1*
-%dir %{_libdir}/otb/applications
-%dir %{_libdir}/otb
 
 %files qt
 %{_bindir}/otb*Qt
@@ -200,15 +184,12 @@ install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 %{_libdir}/otb/lib*QtWidget*.so.*
 %{_mandir}/man1/otbgui*.1*
 %{_mandir}/man1/otbApplicationLauncherQt.1.*
-%dir %{_libdir}/otb
 
 %files devel
 %{_includedir}/otb/
 %{_libdir}/otb/lib*.so
 %{_libdir}/otb/*.cmake
 %{_libdir}/otb/cmakemodules/*.cmake
-%dir %{_libdir}/otb
-%dir %{_libdir}/otb/cmakemodules
 
 %files doc
 %doc README.txt
@@ -218,7 +199,6 @@ install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 #location of python package need to be clarified for Fedora
 %files python
 %{_libdir}/otb/python/*
-%dir %{_libdir}/otb/python/
 
 %changelog
 * Fri Nov 28 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 4.2.1-2

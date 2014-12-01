@@ -33,7 +33,7 @@ BuildRequires: help2man
 %{sname} is a powerful suite of geospatial libraries and applications
 used to process remote sensing imagery, maps, terrain, and vector data.
 
-%package	    devel
+%package	devel
 Summary:        Development files for %{sname}
 Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
@@ -50,22 +50,23 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 %description apps
 This package provides applications built with %{sname} library
 
-%package	    doc
+%package	doc
 Summary:        Documentation for %{sname}
 Group:          Documentation
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+BuildArch:	noarch
 
 %description doc
 This provides documentation for %{sname} library
 
-%package	    data
+%package	data
 Summary:        Additional data files for %{sname}
 Group:          Documentation
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+BuildArch:	noarch
 
 %description data
 This provides data and configuration files for %{sname} library
-
 
 %prep
 #---
@@ -74,24 +75,23 @@ This provides data and configuration files for %{sname} library
 # -T on setup = Disable the automatic unpacking of the archives.
 #---
 # %setup -q -D -T
-%setup -q -D
+%setup -q 
 
 #csm_plugins  libwms  ossim     ossimjni               ossimPlanet    ossim_plugins  ossim_qt4       pqe
 #csmApi  gsoc         oms     ossimGui  ossim_package_support  ossimPlanetQt  ossimPredator  planet_message  SVN-INFO.txt
 
 #Keep only ossim library sources for now. Add each lib as we move on..
 for tparty in csm* libwms ossimjni oms ossim_plugins ossim_q* ossimPlane* ossimGui gsoc planet_message ossimPredator pqe; do \
-    rm -frv ${tparty}; \
+    rm -fr ${tparty}; \
 done
 
 #remove rpms to keep rpmlint away from those spec files
 for tparty in windows_package rpms; do \
-    rm -frv ossim_package_support/${tparty}; \
+    rm -fr ossim_package_support/${tparty}; \
 done
 
 #remove this to silence rpmlint
 rm -frv ossim/specs ossim/doc/*.spec ossim/ospr.spec ossim/ossim.spec*
-
 
 %build
 # Exports for ossim build:
@@ -102,6 +102,7 @@ pushd build
 %cmake \
     -DBUILD_CSMAPI=OFF \
     -DBUILD_OMS=OFF \
+    -DCMAKE_SHARED_LINKER_FLAGS:STRING='-Wl,--as-needed' \
     -DBUILD_OSSIMGUI=ON \
     -DBUILD_OSSIM_MPI_SUPPORT=OFF \
     -DBUILD_OSSIMPLANET=OFF \
@@ -113,7 +114,6 @@ pushd build
     -DBUILD_WMS=OFF \
     -DINSTALL_LIBRARY_DIR:PATH=%{_libdir} \
     -DINSTALL_ARCHIVE_DIR:PATH=%{_libdir} \
-    -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF \
     -DCMAKE_MODULE_PATH=$OSSIM_DEV_HOME/ossim_package_support/cmake/CMakeModules \
      $OSSIM_DEV_HOME/%{name}
 make %{?_smp_mflags}
@@ -131,7 +131,7 @@ install -p -m644 -D ossim/etc/linux/profile.d/ossim.sh %{buildroot}%{_sysconfdir
 install -p -m644 -D ossim/etc/linux/profile.d/ossim.csh %{buildroot}%{_sysconfdir}/profile.d/ossim.csh
 install -p -m644 -D ossim/etc/templates/ossim_preferences_template %{buildroot}%{_datadir}/ossim/ossim_preferences
 
-%define ossim_cmakedir ossim_package_support/cmake/CMakeModules
+%global ossim_cmakedir ossim_package_support/cmake/CMakeModules
 mkdir -p %{buildroot}%{_libdir}/cmake/ossim/
 for file in Findossim.cmake OssimQt4Macros.cmake OssimQt5Macros.cmake OssimUtilities.cmake OssimCommonVariables.cmake OssimVersion.cmake; do
     install -p -m644 %{ossim_cmakedir}/$file %{buildroot}%{_libdir}/cmake/ossim/$file;
@@ -149,19 +149,15 @@ for file in `ls %{buildroot}%{_bindir}/ossim-*` ; do
     fi
 done
 
-%clean
-rm -rf %{buildroot}
-
-
 %post -n ossim -p /sbin/ldconfig
+
 %postun -n ossim -p /sbin/ldconfig
 
-
 %files
-%{_libdir}/libossim.so*
+%{_libdir}/libossim.so.*
 
 %files devel
-%{_includedir}/ossim
+%{_includedir}/ossim*
 %{_libdir}/*.so*
 %{_libdir}/cmake/ossim/Findossim.cmake
 %{_libdir}/cmake/ossim/OssimQt4Macros.cmake
@@ -169,14 +165,11 @@ rm -rf %{buildroot}
 %{_libdir}/cmake/ossim/OssimUtilities.cmake
 %{_libdir}/cmake/ossim/OssimCommonVariables.cmake
 %{_libdir}/cmake/ossim/OssimVersion.cmake
-
-%dir %{_libdir}/cmake/ossim/
-
 # pkgconfig/ossim.pc
 
 %files apps
 %{_bindir}/ossim-*
-%{_mandir}/man1/ossim-*.gz
+%{_mandir}/man1/ossim*
 
 %files doc
 %doc ossim/LICENSE.txt
@@ -188,6 +181,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Dec 1 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-1
+- fixed several rpmlint error
+- moved doc and data package to noarch
+
 * Wed Nov 26 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-1
 - packaging just ossim and removing everything else
 - adding doc, apps, data sub-packages
