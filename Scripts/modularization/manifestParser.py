@@ -96,6 +96,22 @@ def parseManifest(path):
   return [groups,moduleList,sourceList]
 
 
+def parseDependList(path):
+  depList = {}
+  sep = ','
+  fd = open(path,'rb')
+  for line in fd:
+    words = line.split(sep)
+    if len(words) == 2:
+      mod = words[0].strip(" ,;\t\n\r")
+      dep = words[1].strip(" ,;\t\n\r")
+      if not depList.has_key(mod):
+        depList[mod] = {}
+      depList[mod][dep] = 1
+  
+  fd.close()
+  return depList
+
 def printDepList(depList, cyclicDependentModules=[]):
   for mod in depList.keys():
     print "-------------------------------------------------------------------"

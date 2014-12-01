@@ -10,7 +10,7 @@ import re
 
 
 def showHelp():
-  print "Usage : createTestManifest.py  MANIFEST_FILE.csv  OTB_SRC_DIRECTORY  OUTPUT_TEST_MANIFEST  [TEST_DEPENDS_CSV]"
+  print "Usage : createTestManifest.py  MANIFEST_FILE.csv  MODULE_DEPENDS.csv  OTB_SRC_DIRECTORY  OUTPUT_TEST_MANIFEST  [TEST_DEPENDS_CSV]"
 
 def extractTestFunctionName(testCode):
   fullString = ""
@@ -276,11 +276,12 @@ def gatherTestDepends(testCxx,fullDepList):
 
 def main(argv):
   manifestPath = op.expanduser(argv[1])
-  otbDir = op.expanduser(argv[2])
-  outManifest = argv[3]
+  moduleDepPath = op.expanduser(argv[2])
+  otbDir = op.expanduser(argv[3])
+  outManifest = argv[4]
   
-  if len(argv) >= 5:
-    csvTestDepends = argv[4]
+  if len(argv) >= 6:
+    csvTestDepends = argv[5]
   else:
     csvTestDepends = None
   
@@ -288,7 +289,7 @@ def main(argv):
   
   # Standard Manifest parsing, extract simple and full dependencies
   [groups,moduleList,sourceList] = manifestParser.parseManifest(manifestPath)
-  depList = manifestParser.buildSimpleDep(otbDir,moduleList,sourceList)
+  depList = manifestParser.parseDependList(moduleDepPath)
   fullDepList = manifestParser.buildFullDep(depList)
   
   OldFolderPartition = buildOldFolderPartition(moduleList)
@@ -302,6 +303,10 @@ def main(argv):
   for (d,f) in codeParser.FindBinaries(testing_dir):
     fullPath = op.join(d,f)
     shortPath = fullPath.replace(otbDir,'.')
+    
+    # skip Testing/Utilities , will not be used anymore
+    if shortPath.startswith("./Testing/Utilities/"):
+      continue
     
     moduleDestination = "TBD"
     groupDestination = "TBD"
@@ -453,7 +458,7 @@ def main(argv):
 
 
 if __name__ == "__main__":
-  if len(sys.argv) < 4 :
+  if len(sys.argv) < 5 :
     showHelp()
   else:
     main(sys.argv)
