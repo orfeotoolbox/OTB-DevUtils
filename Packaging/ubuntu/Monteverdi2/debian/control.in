@@ -26,6 +26,7 @@ Depends:
  libotb (>= @OTB_VERSION_MINIMAL@),
  otb-bin-qt (>= @OTB_VERSION_MINIMAL@),
  libotb-ice (>= @OTB_ICE_VERSION_MINIMAL@),
+ libqt4-sql-sqlite,
  ${shlibs:Depends},
  ${misc:Depends}
 Section: contrib/science
