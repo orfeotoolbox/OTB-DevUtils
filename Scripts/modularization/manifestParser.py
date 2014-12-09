@@ -72,8 +72,12 @@ def parseManifest(path):
     print "Unknown separator"
     return [groups,moduleList,sourceList]
   
+  fd.seek(0)
+  
   # parse file
   for line in fd:
+    if (line.strip()).startswith("#"):
+      continue
     words = line.split(sep)
     if (len(words) < (nbFields-1)):
       print "Wrong number of fields, skipping this line"

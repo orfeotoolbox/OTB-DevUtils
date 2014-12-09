@@ -1,4 +1,4 @@
-Monolithic OTB file name,Monolithic OTB current directory,Group name,Module name,Subdir in the module,commentaires
+#Monolithic OTB file name,Monolithic OTB current directory,Group name,Module name,Subdir in the module,commentaires
 ./Code/BasicFilters/otbNDVIDataNodeFeatureFunction.h,BasicFilters,Radiometry,Indices,include,
 ./Code/BasicFilters/otbNDVIDataNodeFeatureFunction.txx,BasicFilters,Radiometry,Indices,include,
 ./Code/Hyperspectral/otbLocalRxDetectorFilter.h,Hyperspectral,Hyperspectral,AnomalyDetection,include,Move to hyperspectral group. Nothing to do with object detection.
