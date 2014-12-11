@@ -19,17 +19,14 @@ CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 ")
 
-
-set(CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
-
 execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
 execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
+
+message(STATUS "Install dir cleaned")
+
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
-ctest_update()
+message(STATUS "Build dir cleaned")
 
 ctest_start(Experimental)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
