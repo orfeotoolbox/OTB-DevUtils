@@ -89,7 +89,7 @@ def parseTestCxx(path):
     cleanLine = cleanLine.strip(" \t\n\r")
     comment1Pos = cleanLine.find("//")
     if comment1Pos >= 0:
-      cleanLine = cleanLine[comment1Pos:]
+      cleanLine = cleanLine[0:comment1Pos]
     comment2Pos = cleanLine.find("/*")
     comment3Pos = cleanLine.find("*/")
     if (comment2Pos >= 0) and (comment3Pos > comment2Pos):
@@ -215,6 +215,9 @@ def findClosestSourceName(testFile,sourceList):
   
   if testFileLower.endswith("test"):
     testFileLower = testFileLower[0:-4]
+  
+  if testFileLower.endswith("example"):
+    testFileLower = testFileLower[0:-7]
   
   # handle Fa test name : replace '0004526-' by 'otb'
   faSearchString = r'^[0-9]+-(.+)$'
