@@ -3,7 +3,7 @@ set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
@@ -14,13 +14,21 @@ set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild")
 set(CTEST_HG_COMMAND          "/usr/bin/hg")
 set(CTEST_HG_UPDATE_OPTIONS   "-C")
 
+set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
+set(CTEST_DROP_METHOD "http")
+set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
+set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
+set(CTEST_DROP_SITE_CDASH TRUE)
+
 set(OTB_INITIAL_CACHE "
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
+SUPERBUILD_PARALLEL_LEVEL:STRING=4
 ")
 
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
 
 message(STATUS "Install dir cleaned")
 
