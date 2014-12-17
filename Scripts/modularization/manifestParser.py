@@ -312,6 +312,25 @@ def buildFullDep(depList):
 def buildGraph(depList):
   pass
 
+def getGroup(module,groups):
+  myGroup = ""
+  for grp in groups:
+    if module in groups[grp]:
+      myGroup = grp
+      break
+  return myGroup
+
+def findGroupDeps(groups,depList):
+  groupDeps = {}
+  for grp in groups:
+    for mod in groups[grp]:
+      for dep in depList[mod]:
+        depGrp = getGroup(dep,groups)
+        if not groupDeps.has_key(depGrp):
+          groupDeps[depGrp] = 0
+        groupDeps[depGrp] += 1
+  return groupDeps
+
 def main(argv):
   csvPath = argv[1]
   otbDir = argv[2]

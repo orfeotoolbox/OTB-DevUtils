@@ -250,15 +250,6 @@ def findClosestSourceName(testFile,sourceList):
   return [matchFile,matchPercent]
 
 
-def getGroup(module,groups):
-  myGroup = ""
-  for grp in groups:
-    if module in groups[grp]:
-      myGroup = grp
-      break
-  return myGroup
-
-
 def gatherTestDepends(testCxx,fullDepList):
   gatherTestDependencies = {}
   for tfile in testCxx:
@@ -412,7 +403,7 @@ def main(argv):
         # remove non-IO deps from cleanTestDepList and look what's left
         ioCleanDep = []
         for dep in cleanTestDepList:
-          if getGroup(dep,groups) == "IO":
+          if manifestParser.getGroup(dep,groups) == "IO":
             ioCleanDep.append(dep)
         # ImageIO should be low priority compared to other IO modules
         if (len(ioCleanDep) == 2) and ("ImageIO" in ioCleanDep):
@@ -423,13 +414,13 @@ def main(argv):
         # remove non-IO deps from cleanTestDepList and look what's left
         nonIOcleanDep = []
         for dep in cleanTestDepList:
-          if getGroup(dep,groups) != "IO":
+          if manifestParser.getGroup(dep,groups) != "IO":
             nonIOcleanDep.append(dep)
         if len(nonIOcleanDep) == 1:
           luckyGuess = nonIOcleanDep[0]
         elif len(nonIOcleanDep) == 2:
           # compare the 2 possible modules based on their group
-          groupAandB = [getGroup(nonIOcleanDep[0],groups),getGroup(nonIOcleanDep[1],groups)]
+          groupAandB = [manifestParser.getGroup(nonIOcleanDep[0],groups),manifestParser.getGroup(nonIOcleanDep[1],groups)]
           levelAandB = [0,0]
           for idx in [0,1]:
             if groupAandB[idx] == "Core":
@@ -452,7 +443,7 @@ def main(argv):
     
     # if module is found and not group, deduce group
     if groupDestination == "TBD" and moduleDestination != "TBD":
-      groupDestination = getGroup(moduleDestination,groups)
+      groupDestination = manifestParser.getGroup(moduleDestination,groups)
     
     if not res["hasMain"]:
       # manually add dependency to TestKernel for cxx using a test driver
