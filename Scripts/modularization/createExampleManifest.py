@@ -11,7 +11,8 @@ import re
 
 
 def showHelp():
-  print "Usage : createExampleManifest.py  MANIFEST_FILE.csv  MODULE_DEPENDS.csv  OTB_SRC_DIRECTORY  OUTPUT_EXAMPLE_MANIFEST  [EXAMPLE_DEPENDS_CSV]"
+  print "Compute a first guess of module dispatch for OTB examples (TBD values may remain)"
+  print "Usage : createExampleManifest.py  MANIFEST_FILE.csv  MODULE_DEPENDS.csv  OTB_SRC_DIRECTORY  OUTPUT_EXAMPLE_MANIFEST"
 
 
 
@@ -20,11 +21,6 @@ def main(argv):
   moduleDepPath = op.expanduser(argv[2])
   otbDir = op.expanduser(argv[3])
   outManifest = argv[4]
-  
-  if len(argv) >= 6:
-    csvExampleDepends = argv[5]
-  else:
-    csvExampleDepends = None
   
   example_dir = op.join(otbDir,"Examples")
   
@@ -38,6 +34,8 @@ def main(argv):
       depList[mod] = {}
     if not fullDepList.has_key(mod):
       fullDepList[mod] = {}
+  
+  depListPerGroup = manifestParser.findGroupDeps(groups,depList)
   
   OldFolderPartition = createTestManifest.buildOldFolderPartition(moduleList)
   
@@ -129,45 +127,46 @@ def main(argv):
     # Constrain the search : if the folder containing the test corresponds
     # to a group name, limit the search to the modules in this group
     # Also, separate IO examples from non-IO examples
-    folderName = op.basename(d)
-    if folderName == "Classification":
-      folderName = "Learning"
-    if folderName in groups:
-      groupDestination = folderName
-    exampleSmallerDepList = {}
-    for dep in exampleDepList:
-      if groupDestination != "TBD":
-        if dep in groups[groupDestination]:
-          exampleSmallerDepList[dep] = 1
-      else:
-        if not dep in groups["IO"]:
-          exampleSmallerDepList[dep] = 1
-    if len(exampleSmallerDepList) == 1:
-      luckyGuess = exampleSmallerDepList.keys()[0]
-    elif len(exampleSmallerDepList) > 1:
-      # filter again to get top-level dependencies
-      doubleCleanDepList = []
-      depListToRemove = []
-      for dep1 in exampleSmallerDepList:
-        for dep2 in exampleSmallerDepList:
-          if dep2 == dep1:
-            continue
-          if (dep2 in fullDepList[dep1]) and \
-             (not dep2 in depListToRemove):
-            depListToRemove.append(dep2)
-      for dep in exampleSmallerDepList:
-        if not dep in depListToRemove:
-          doubleCleanDepList.append(dep)
-      if len(doubleCleanDepList) == 1:
-        luckyGuess = doubleCleanDepList[0]
-    elif len(exampleSmallerDepList) == 0:
-      # No dependence in guessed group
-      # choose the most probable module in that group
-      for mod in moduleList:
-        if mod.startswith(folderName) and (mod in groups[groupDestination]):
-          luckyGuess = mod
-          break
-    
+    if not luckyGuess:
+      folderName = op.basename(d)
+      if folderName == "Classification":
+        folderName = "Learning"
+      if folderName in groups:
+        groupDestination = folderName
+      exampleSmallerDepList = {}
+      for dep in exampleDepList:
+        if groupDestination != "TBD":
+          if dep in groups[groupDestination]:
+            exampleSmallerDepList[dep] = 1
+        else:
+          if not dep in groups["IO"]:
+            exampleSmallerDepList[dep] = 1
+      if len(exampleSmallerDepList) == 1:
+        luckyGuess = exampleSmallerDepList.keys()[0]
+      elif len(exampleSmallerDepList) > 1:
+        # filter again to get top-level dependencies
+        doubleCleanDepList = []
+        depListToRemove = []
+        for dep1 in exampleSmallerDepList:
+          for dep2 in exampleSmallerDepList:
+            if dep2 == dep1:
+              continue
+            if (dep2 in fullDepList[dep1]) and \
+               (not dep2 in depListToRemove):
+              depListToRemove.append(dep2)
+        for dep in exampleSmallerDepList:
+          if not dep in depListToRemove:
+            doubleCleanDepList.append(dep)
+        if len(doubleCleanDepList) == 1:
+          luckyGuess = doubleCleanDepList[0]
+      elif len(exampleSmallerDepList) == 0:
+        # No dependence in guessed group
+        # choose the most probable module in that group
+        for mod in moduleList:
+          if mod.startswith(folderName) and (mod in groups[groupDestination]):
+            luckyGuess = mod
+            break
+      
     
     # fourth filter : if there is only one dependency in cleanExampleDepList : take it
     if not luckyGuess:
@@ -191,7 +190,7 @@ def main(argv):
     
     # if module is found and not group, deduce group
     if groupDestination == "TBD" and moduleDestination != "TBD":
-      groupDestination = createTestManifest.getGroup(moduleDestination,groups)
+      groupDestination = manifestParser.getGroup(moduleDestination,groups)
     
     
     exampleCxx[shortPath] = {"depList":exampleDepList , "thirdPartyDep":thirdPartyDep, "group":groupDestination, "module":moduleDestination}
@@ -200,26 +199,11 @@ def main(argv):
   outFD.close()
   
   # sum all test dependencies in every module
-  allTestDepends = createTestManifest.gatherTestDepends(exampleCxx,fullDepList)
-  
-  # clean the test depends (i.e. ImageIO is dragged by TestKernel)
-  cleanTestDepends = {}
-  for mod in allTestDepends:
-    cleanTestDepends[mod] = {}
-    for dep1 in allTestDepends[mod]:
-      isClean = True
-      for dep2 in allTestDepends[mod]:
-        if dep1 == dep2:
-          continue
-        if dep1 in fullDepList[dep2]:
-          isClean = False
-          break
-      if isClean:
-        cleanTestDepends[mod][dep1] = 1
+  #allTestDepends = createTestManifest.gatherTestDepends(exampleCxx,fullDepList)
   
   
-  if csvExampleDepends:
-    manifestParser.outputCSVEdgeList(cleanTestDepends,csvExampleDepends)
+  # DEBUG
+  #manifestParser.printGroupTree(groups)
   
   #manifestParser.printDepList(allTestDepends)
 
