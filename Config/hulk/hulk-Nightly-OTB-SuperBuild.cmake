@@ -20,11 +20,13 @@ set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
 set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
+set(CTEST_USE_LAUNCHERS TRUE)
+
 set(OTB_INITIAL_CACHE "
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
-SUPERBUILD_PARALLEL_LEVEL:STRING=4
+CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 ")
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
@@ -33,11 +35,7 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIREC
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/bin)
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/include)
 
-message(STATUS "Install dir cleaned")
-
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-message(STATUS "Build dir cleaned")
 
 ctest_start(Experimental)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
