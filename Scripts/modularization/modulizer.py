@@ -339,7 +339,7 @@ for  moduleName in moduleList:
 os.system( "cp -ar " + op.join(OutputDir,"OTB_Modular") + " " + op.join(OutputDir,"OTB_Modular-nopatch") )
 
 # apply patches in OTB_Modular
-curdir = os.path.dirname(__file__)
+curdir = op.abspath(op.dirname(__file__))
 command =  "cd " + op.join(OutputDir,"OTB_Modular") + " && patch -p1 < " + curdir + "/patches/otbmodular.patch"
 print "Executing " + command
 os.system( command )
