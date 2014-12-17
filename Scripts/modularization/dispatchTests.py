@@ -291,8 +291,9 @@ def main(argv):
         testCode[srcName] = findTestFromExe(currentCMake,exeName,exeAlias,res["testFunctions"])
     
       # copy (move) test sources
-      command = ["cp",fullSrcPath,op.join(targetDir,srcName)]
-      call(command)
+      # TODO : should be done by modulizer.py
+      #command = ["cp",fullSrcPath,op.join(targetDir,srcName)]
+      #call(command)
     
     
     # generate the test driver source code
