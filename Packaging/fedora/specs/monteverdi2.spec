@@ -1,5 +1,6 @@
 # spec file for Monteverdi2
 %global sname Monteverdi2
+%global mvdbin monteverdi2.bin
 Name:  monteverdi2
 Version:  0.8.0
 Release:  1%{?dist}
@@ -57,7 +58,8 @@ pushd %{_target_platform}
 %cmake .. \
     -DQWT_LIBRARY:FILEPATH=%{_libdir}/libqwt5-qt4.so \
     -DQWT_INCLUDE_DIR:PATH=%{_includedir}/qwt5-qt4/ \
-    -DMonteverdi2_INSTALL_LIB_DIR:PATH=%{_lib}/otb
+    -DMonteverdi2_INSTALL_LIB_DIR:PATH=%{_lib}/otb \
+    -DMONTEVERDI2_OUTPUT_NAME:STRING="%{mvdbin}"
 popd
 make %{?_smp_mflags} -C %{_target_platform}
 
@@ -67,11 +69,16 @@ desktop-file-install                                    \
 --add-category="Science"                          \
 --delete-original                                       \
 --dir=%{buildroot}%{_datadir}/applications              \
-%{buildroot}/%{_datadir}/applications/monteverdi2.desktop
+%{buildroot}%{_datadir}/applications/monteverdi2.desktop
 
 %check
 desktop-file-validate %{buildroot}/%{_datadir}/applications/monteverdi2.desktop
-
+cat > %{buildroot}%{_bindir}/monteverdi2 <<EOF
+ITK_AUTOLOAD_PATH=%{_libdir}/otb/applications
+export ITK_AUTOLOAD_PATH
+%{_bindir}/%{mvdbin} "$@"
+EOF
+chmod +x %{buildroot}%{_bindir}/monteverdi2
 %post
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 /sbin/ldconfig
@@ -88,6 +95,7 @@ fi
 
 %files
 %{_libdir}/otb/libMonteverdi2*.so.*
+%{_bindir}/monteverdi2.bin
 %{_bindir}/monteverdi2
 %{_datadir}/otb/*
 %{_datadir}/icons/*
@@ -97,6 +105,9 @@ fi
 %exclude %{_datadir}/applications/mvd2-viewer.desktop
 
 %changelog
+* Wed Dec 10 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.8.0-1
+- add launcher script to set ITK_AUTOLOAD_PATH
+
 * Mon Dec 1 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.8.0-1
 - update for Fedora Guidelines as suggested by Volter
 - install and validate .desktop file. 
