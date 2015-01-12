@@ -41,6 +41,12 @@ ctest_start(Experimental)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
+
+# copy some source archives already on disk
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
+${CTEST_DASHBOARD_ROOT}/src/archives-superbuild
+${CTEST_BINARY_DIRECTORY})
+
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 
