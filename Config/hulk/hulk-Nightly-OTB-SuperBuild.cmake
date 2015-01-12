@@ -3,7 +3,7 @@ set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
@@ -53,7 +53,7 @@ ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 # before testing, set the LD_LIBRARY_PATH
 set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}/OTB/build" PARALLEL_LEVEL 6)
+ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}/OTB/build" ${CTEST_TEST_ARGS})
 ctest_submit ()
 
 
