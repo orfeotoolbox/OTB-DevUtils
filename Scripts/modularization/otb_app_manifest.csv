@@ -16,7 +16,7 @@
 ./Applications/Classification/otbTrainDecisionTree.cxx,Classification,Applications,AppClassification,app,
 ./Applications/Classification/otbTrainGradientBoostedTree.cxx,Classification,Applications,AppClassification,app
 ./Applications/Classification/otbTrainImagesClassifier.cxx,Classification,Applications,AppClassification,app
-./Applications/Classification/otbTrainImagesClassifier.h,Classification,Applications,AppClassification,include
+./Applications/Classification/otbTrainImagesClassifier.h,Classification,Applications,AppClassification,app
 ./Applications/Classification/otbTrainKNN.cxx,Classification,Applications,AppClassification,app
 ./Applications/Classification/otbTrainLibSVM.cxx,Classification,Applications,AppClassification,app
 ./Applications/Classification/otbTrainNeuralNetwork.cxx,Classification,Applications,AppClassification,app
