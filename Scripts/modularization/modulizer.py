@@ -45,6 +45,9 @@ import os
 import stat
 import glob
 import documentationCheck
+import analyseAppManifest
+import dispatchTests
+import dispatchExamples
 
 def parseFullManifest(path):
   sourceList = []
@@ -84,13 +87,14 @@ def parseFullManifest(path):
 
 
 if len(sys.argv) < 4:
-    print("USAGE:  {0}  monolithic_OTB_PATH  OUTPUT_DIR  Manifest_Path  [module_dep [test_dep]]".format(sys.argv[0]))
+    print("USAGE:  {0}  monolithic_OTB_PATH  OUTPUT_DIR  Manifest_Path  [module_dep [test_dep [example_dep]]]".format(sys.argv[0]))
     print("  monolithic_OTB_PATH : checkout of OTB repository (will not be modified)")
     print("  OUTPUT_DIR          : output directory where OTB_Modular and OTB_remaining will be created ")
     print("  Manifest_Path       : path to manifest file, in CSV-like format. Fields are :")
     print("                          source_path/current_subDir/group/module/subDir/comment")
     print("  module_dep          : dependencies between modules")
     print("  test_dep            : additional dependencies for tests")
+    print("  example_dep         : additional dependencies for examples")
     sys.exit(-1)
 
 scriptDir = op.dirname(op.abspath(sys.argv[0]))
@@ -111,6 +115,10 @@ if len(sys.argv) >= 5:
 testDependPath = ""
 if len(sys.argv) >= 6:
   testDependPath = sys.argv[5]
+
+exDependPath = ""
+if len(sys.argv) >= 7:
+  exDependPath = sys.argv[6]
 
 # copy the whole OTB tree over to a temporary dir
 HeadOfTempTree = op.join(OutputDir,"OTB_remaining")
@@ -180,9 +188,11 @@ for source in sourceList:
 # get dependencies (if file is present)
 dependencies = {}
 testDependencies = {}
+exDependencies = {}
 for mod in moduleList:
   dependencies[mod] = []
   testDependencies[mod] = []
+  exDependencies[mod] = []
 
 if op.isfile(EdgePath):
   fd = open(EdgePath,'rb')
@@ -210,6 +220,19 @@ if op.isfile(testDependPath):
         print("Bad dependency : "+depFrom+" -> "+depTo)
   fd.close()
 
+if op.isfile(exDependPath):
+  fd = open(exDependPath,'rb')
+  for line in fd:
+    words = line.split(',')
+    if len(words) == 2:
+      depFrom = words[0].strip(" ,;\t\n\r")
+      depTo = words[1].strip(" ,;\t\n\r")
+      if exDependencies.has_key(depFrom):
+        exDependencies[depFrom].append(depTo)
+      else:
+        print("Bad dependency : "+depFrom+" -> "+depTo)
+  fd.close()
+
 
 # list the new files
 newf =  open(op.join(logDir,'newFiles.log'),'w')
@@ -228,7 +251,7 @@ for  moduleName in moduleList:
   cmakeModName = "OTB"+moduleName
   
   if op.isdir(moduleDir):
-     
+    
     # write CMakeLists.txt
     filepath = moduleDir+'/CMakeLists.txt'
     if not op.isfile(filepath):
@@ -276,7 +299,78 @@ for  moduleName in moduleList:
           o.write(line);
         o.close()
 
-    # write  test/CMakeLists.txt
+    # write app/CMakeLists.txt
+    if op.isdir(moduleDir+'/app'):
+      srcFiles = glob.glob(moduleDir+'/app/*.cxx')
+      srcFiles += glob.glob(moduleDir+'/app/*.h')
+      appList = {}
+      
+      for srcf in srcFiles:
+        # get App name
+        appName = analyseAppManifest.findApplicationName(srcf)
+        if len(appName) == 0:
+          continue
+        
+        appList[appName] = {"source":op.basename(srcf)}
+        
+        # get original location
+        cmakeListPath = ""
+        for item in sourceList:
+          if op.basename(item["path"]) == op.basename(srcf) and \
+             moduleName == item["module"]:
+            appDir = op.basename(op.dirname(item["path"]))
+            cmakeListPath = op.join(HeadOfOTBTree,op.join("Testing/Applications"),op.join(appDir,"CMakeLists.txt"))
+            break
+        
+        # get App tests
+        if not op.isfile(cmakeListPath):
+          continue
+        
+        appList[appName]["test"] = analyseAppManifest.findTestFromApp(cmakeListPath,appName)
+      
+      # build list of link dependencies
+      linkLibs = ""
+      for dep in dependencies[moduleName]:
+        linkLibs = linkLibs + "  ${OTB"+dep+"_LIBRARIES}" + "\n"
+      
+      filepath = moduleDir+'/app/CMakeLists.txt'
+      if not op.isfile(filepath):
+        o = open(filepath,'w')
+        # define link libraries 
+        o.write("set("+cmakeModName+"_LINK_LIBS\n")
+        o.write(linkLibs)
+        o.write(")\n")
+        
+        for appli in appList:
+          content =  "\nOTB_CREATE_APPLICATION(NAME           " + appli + "\n"
+          content += "                       SOURCES        " + appList[appli]["source"] + "\n"
+          content += "                       LINK_LIBRARIES ${"+cmakeModName+"_LINK_LIBS})\n"
+          o.write(content)
+        
+        o.write("\nif( BUILD_TESTING )\n")
+        o.write("set(OTBAPP_BASELINE ${OTB_DATA_ROOT}/Baseline/OTB-Applications/Images)\n")
+        o.write("set(OTBAPP_BASELINE_FILES ${OTB_DATA_ROOT}/Baseline/OTB-Applications/Files)\n")
+        o.write("set(INPUTDATA ${OTB_DATA_ROOT}/Input)\n")
+        o.write("set(EXAMPLEDATA ${OTB_DATA_ROOT}/Examples)\n")
+        o.write("set(TEMP ${OTB_BINARY_DIR}/Testing/Temporary)\n")
+        
+        for appli in appList:
+          if not appList[appli].has_key("test"):
+            continue
+          o.write("\n#----------- "+appli+" TESTS ----------------\n")
+          for test in appList[appli]["test"]:
+            if test.count("${"):
+              print "Warning : test name contains a variable : "+test
+              continue
+            o.writelines(appList[appli]["test"][test])
+            o.write("\n")
+        
+        o.write("endif()\n")
+        o.close()
+        
+    
+    
+    # write  test/CMakeLists.txt : done by dispatchTests.py
     """
     if op.isdir(moduleDir+'/test'):
       cxxFiles = glob.glob(moduleDir+'/test/*.cxx')
@@ -332,8 +426,31 @@ for  moduleName in moduleList:
             line = line.replace('TESTDEP_TO_BE_REPLACED',replacementStr)
           else:
             line = line.replace('TESTDEP_TO_BE_REPLACED','')
+        
+        # replace example_depend list
+        exDependTagPos = line.find("EXDEP_TO_BE_REPLACED")
+        if exDependTagPos >= 0:
+          if len(exDependencies[moduleName]) > 0:
+            indentStr = ""
+            replacementStr = "EXAMPLE_DEPENDS"
+            for it in range(exDependTagPos+2):
+              indentStr = indentStr + " "
+            for dep in exDependencies[moduleName]:
+              replacementStr = replacementStr + "\n" + indentStr +"OTB"+ dep  
+            line = line.replace('EXDEP_TO_BE_REPLACED',replacementStr)
+          else:
+            line = line.replace('EXDEP_TO_BE_REPLACED','')
         o.write(line);
+        
       o.close()
+
+# call dispatchTests to fill test/CMakeLists
+if op.isfile(testDependPath):
+  dispatchTests.main(["dispatchTests.py",ManifestPath,HeadOfOTBTree,HeadOfModularOTBTree,testDependPath])
+
+# call dispatchExamples to fill example/CMakeLists
+if op.isfile(exDependPath):
+  dispatchExamples.main(["dispatchExamples.py",ManifestPath,HeadOfOTBTree,HeadOfModularOTBTree,exDependPath])
 
 # save version without patches (so that we can regenerate patches later)
 os.system( "cp -ar " + op.join(OutputDir,"OTB_Modular") + " " + op.join(OutputDir,"OTB_Modular-nopatch") )
