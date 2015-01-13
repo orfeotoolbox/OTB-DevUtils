@@ -12,7 +12,7 @@ from subprocess import call, PIPE
 
 
 def showHelp():
-  print "Usage : dispatchTests.py  TEST_MANIFEST.csv  OTB_SRC_DIRECTORY  OUTPUT_OTB_DIR  TEST_DEPENDS.csv"
+  print "Usage : dispatchTests.py  MANIFEST.csv  OTB_SRC_DIRECTORY  OUTPUT_OTB_DIR  TEST_DEPENDS.csv"
 
 
 def parseTestDepends(path):
@@ -239,17 +239,25 @@ def findTestFromExe(cmakefile,exeName,exeAlias,functionNames=[]):
 
 
 def main(argv):
-  testManifest = op.expanduser(argv[1])
+  manifest = op.expanduser(argv[1])
   otbDir = op.expanduser(argv[2])
   outputDir = argv[3]
   testDepends = op.expanduser(argv[4])
   
   testing_dir = op.join(otbDir,"Testing")
   
-  [groups,moduleList,sourceList] = manifestParser.parseManifest(testManifest)
+  [groups,moduleList,sourceList] = manifestParser.parseManifest(manifest)
   
   for mod in moduleList:
     if mod == "" or mod == "TBD":
+      continue
+    
+    # remove non-testing source files
+    for src in moduleList[mod]:
+      cleanSrc = src.strip("./")
+      if not cleanSrc.startswith("Testing/"):
+        moduleList[mod].remove(src)
+    if len(moduleList[mod]) == 0:
       continue
     
     currentGrp = ""

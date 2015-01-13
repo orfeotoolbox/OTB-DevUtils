@@ -13,22 +13,30 @@ from subprocess import call, PIPE
 
 
 def showHelp():
-  print "Usage : dispatchExamples.py  EXAMPLE_MANIFEST.csv  OTB_SRC_DIRECTORY  OUTPUT_OTB_DIR  EXAMPLE_DEPENDS.csv"
+  print "Usage : dispatchExamples.py  MANIFEST.csv  OTB_SRC_DIRECTORY  OUTPUT_OTB_DIR  EXAMPLE_DEPENDS.csv"
 
 
 
 def main(argv):
-  exManifest = op.expanduser(argv[1])
+  manifest = op.expanduser(argv[1])
   otbDir = op.expanduser(argv[2])
   outputDir = argv[3]
   exDepends = op.expanduser(argv[4])
   
   example_dir = op.join(otbDir,"Examples")
   
-  [groups,moduleList,sourceList] = manifestParser.parseManifest(exManifest)
+  [groups,moduleList,sourceList] = manifestParser.parseManifest(manifest)
   
   for mod in moduleList:
     if mod == "" or mod == "TBD":
+      continue
+    
+    # remove non-example source files
+    for src in moduleList[mod]:
+      cleanSrc = src.strip("./")
+      if not cleanSrc.startswith("Examples/"):
+        moduleList[mod].remove(src)
+    if len(moduleList[mod]) == 0:
       continue
     
     currentGrp = manifestParser.getGroup(mod,groups)
@@ -72,10 +80,12 @@ def main(argv):
     fd.write("void RegisterTests()\n")
     fd.write("{\n")
     for src in moduleList[mod]:
+      srcName = op.basename(src)
       tFunc = op.splitext(op.basename(srcName))[0]+"Test"
       fd.write("  REGISTER_TEST("+tFunc+");\n")
     fd.write("}\n\n")
     for src in moduleList[mod]:
+      srcName = op.basename(src)
       tFunc = op.splitext(op.basename(srcName))[0]+"Test"
       fd.write("#undef main\n")
       fd.write("#define main "+tFunc+"\n")
