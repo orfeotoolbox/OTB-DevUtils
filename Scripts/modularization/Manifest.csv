@@ -423,7 +423,6 @@
 ./Code/FeatureExtraction/otbTouziEdgeDetectorImageFilter.txx,FeatureExtraction,Feature,Edge,include,
 ./Code/BasicFilters/otbMeanShiftImageFilter.h,BasicFilters,Segmentation,EdisonMeanShift,include,
 ./Code/BasicFilters/otbMeanShiftImageFilter.txx,BasicFilters,Segmentation,EdisonMeanShift,include,
-./Code/BasicFilters/otbMeanShiftKernels.h,BasicFilters,Learning,SVMLearning,include,"Move to LibSVM, Non utilisé (a supprimer plus tard)"
 ./Code/BasicFilters/otbMeanShiftVectorImageFilter.h,BasicFilters,Segmentation,EdisonMeanShift,include,
 ./Code/Hyperspectral/otbEigenvalueLikelihoodMaximisation.h,Hyperspectral,Hyperspectral,EndmembersExtraction,include,
 ./Code/Hyperspectral/otbEigenvalueLikelihoodMaximisation.txx,Hyperspectral,Hyperspectral,EndmembersExtraction,include,

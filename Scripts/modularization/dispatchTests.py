@@ -189,8 +189,16 @@ def findTestFromExe(cmakefile,exeName,exeAlias,functionNames=[]):
   for line in fd:
     cleanLine = (line.replace("\t"," ")).strip(" \n\r")
     
+    
     # skip commented line
-    if cleanLine.startswith("#"):
+    #if cleanLine.startswith("#"):
+    #  continue
+    
+    idx=cleanLine.find('#')
+    if idx != -1:
+      cleanLine=cleanLine[0:idx]
+    
+    if not cleanLine:
       continue
     
     # collapse multi-spaces
@@ -324,26 +332,44 @@ def main(argv):
     
     #  - declare source files for test driver
     fd.write("set(OTB"+mod+"Tests\n")
-    fd.write("otb"+mod+"TestDriver.cxx")
+    fd.write("otb"+mod+"TestDriver.cxx\n")
     for srcName in testFunctions:
       fd.write(srcName+"\n")
     fd.write(")\n\n")
     
     #  - add test driver executable
-    fd.write("OTB_ADD_EXECUTABLE(otb"+mod+"TestDriver \"${OTB"+mod+"Tests}\" "\
-             "\"${OTB"+mod+"-Test_LIBRARIES};${OTBTestKernel_LIBRARIES}\")\n")
+    testdriverdecl = """
+add_executable(otb%sTestDriver ${OTB%sTests})
+target_link_libraries(otb%sTestDriver ${OTB%s-Test_LIBRARIES})
+""" % (mod, mod, mod, mod)
+    fd.write(testdriverdecl);
     
     #  - add other executables
     for srcName in testMains:
-      fd.write("OTB_ADD_EXECUTABLE("+testMains[srcName]+" "+srcName+" \"${OTB"+mod+"-Test_LIBRARIES}\"\n")
-    
+      testdriverdecl = """
+add_executable(%s %s)
+target_link_libraries(%s ${OTB%s-Test_LIBRARIES})
+""" % (testMains[srcName], srcName, testMains[srcName], mod)
+
     fd.write("\n#----------- TESTS DECLARATION ----------------\n")
     
     # add tests
     for srcName in testCode:
       for tName in testCode[srcName]:
+        
+        skip=False
         if tName.count("${"):
           print "Warning : test name contains a variable : "+tName
+          skip=True
+
+        # TODO
+        # temporary : remove test with generator expression $<...>
+        for codeline in testCode[srcName][tName]["code"]:
+          if '$<' in codeline:
+            print "Warning : (temporary) test name contains a generator expression. skipping : "+tName
+            skip=True
+
+        if skip:
           continue
         
         tCmakeCode = []
