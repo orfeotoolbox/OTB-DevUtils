@@ -232,9 +232,9 @@ for  moduleName in moduleList:
       o = open(filepath,'w')
       
       if op.isdir(moduleDir+'/src'):
-        template_cmakelist = op.join(scriptDir,'templateModule/otb-template-module/CMakeLists-nosrc.txt')
-      else:
         template_cmakelist = op.join(scriptDir,'templateModule/otb-template-module/CMakeLists.txt')
+      else:
+        template_cmakelist = op.join(scriptDir,'templateModule/otb-template-module/CMakeLists-nosrc.txt')
         
       for line in open(template_cmakelist,'r'):
           line = line.replace('otb-template-module',cmakeModName)
