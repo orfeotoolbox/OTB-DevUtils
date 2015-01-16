@@ -86,15 +86,34 @@ def parseFullManifest(path):
   return sourceList
 
 
+def parseDescriptions(path):
+  output = {}
+  sep = '|'
+  nbFields = 2
+  fd = open(path,'rb')
+  for line in fd:
+    if (line.strip()).startswith("#"):
+      continue
+    words = line.split(sep)
+    if len(words) != nbFields:
+      continue
+    moduleName = words[0].strip(" \t\n\r")
+    description = words[1].strip(" \t\n\r")
+    output[moduleName] = description
+  fd.close()
+  
+  return output
+
+
 if len(sys.argv) < 4:
-    print("USAGE:  {0}  monolithic_OTB_PATH  OUTPUT_DIR  Manifest_Path  [module_dep [test_dep [example_dep]]]".format(sys.argv[0]))
+    print("USAGE:  {0}  monolithic_OTB_PATH  OUTPUT_DIR  Manifest_Path  [module_dep [test_dep [mod_description]]]".format(sys.argv[0]))
     print("  monolithic_OTB_PATH : checkout of OTB repository (will not be modified)")
     print("  OUTPUT_DIR          : output directory where OTB_Modular and OTB_remaining will be created ")
     print("  Manifest_Path       : path to manifest file, in CSV-like format. Fields are :")
     print("                          source_path/current_subDir/group/module/subDir/comment")
     print("  module_dep          : dependencies between modules")
     print("  test_dep            : additional dependencies for tests")
-    print("  example_dep         : additional dependencies for examples")
+    print("  mod_description     : description for each module")
     sys.exit(-1)
 
 scriptDir = op.dirname(op.abspath(sys.argv[0]))
@@ -116,9 +135,9 @@ testDependPath = ""
 if len(sys.argv) >= 6:
   testDependPath = sys.argv[5]
 
-exDependPath = ""
+modDescriptionPath = ""
 if len(sys.argv) >= 7:
-  exDependPath = sys.argv[6]
+  modDescriptionPath = sys.argv[6]
 
 # copy the whole OTB tree over to a temporary dir
 HeadOfTempTree = op.join(OutputDir,"OTB_remaining")
@@ -220,6 +239,7 @@ if op.isfile(testDependPath):
         print("Bad dependency : "+depFrom+" -> "+depTo)
   fd.close()
 
+"""
 if op.isfile(exDependPath):
   fd = open(exDependPath,'rb')
   for line in fd:
@@ -232,6 +252,11 @@ if op.isfile(exDependPath):
       else:
         print("Bad dependency : "+depFrom+" -> "+depTo)
   fd.close()
+"""
+modDescriptions = {}
+if op.isfile(modDescriptionPath):
+  modDescriptions = parseDescriptions(modDescriptionPath)
+
 
 
 # list the new files
@@ -398,6 +423,23 @@ for  moduleName in moduleList:
     if not op.isfile(filepath):
       o = open(filepath,'w')
       for line in open(op.join(scriptDir,'templateModule/otb-template-module/otb-module.cmake'),'r'):
+        # replace documentation
+        if line.find("DESCRIPTION_TO_BE_REPLACED") >= 0:
+          docString = "\"TBD\""
+          if moduleName in modDescriptions:
+            descPos = line.find("DESCRIPTION_TO_BE_REPLACED")
+            limitChar = 80
+            docString = "\""+modDescriptions[moduleName]+"\""
+            curPos = 80 - descPos
+            while curPos < len(docString):
+              lastSpace = docString[0:curPos].rfind(' ')
+              if lastSpace > max(0,curPos-80):
+                docString = docString[0:lastSpace] + '\n' + docString[lastSpace+1:]
+              else:
+                docString = docString[0:curPos] + '\n' + docString[curPos:]
+              curPos += 81
+          line = line.replace('DESCRIPTION_TO_BE_REPLACED',docString)
+        
         # replace module name
         line = line.replace('otb-template-module',cmakeModName)
         # replace depend list
@@ -448,9 +490,11 @@ for  moduleName in moduleList:
 if op.isfile(testDependPath):
   dispatchTests.main(["dispatchTests.py",ManifestPath,HeadOfOTBTree,HeadOfModularOTBTree,testDependPath])
 
+"""
 # call dispatchExamples to fill example/CMakeLists
 if op.isfile(exDependPath):
   dispatchExamples.main(["dispatchExamples.py",ManifestPath,HeadOfOTBTree,HeadOfModularOTBTree,exDependPath])
+"""
 
 # save version without patches (so that we can regenerate patches later)
 os.system( "cp -ar " + op.join(OutputDir,"OTB_Modular") + " " + op.join(OutputDir,"OTB_Modular-nopatch") )
