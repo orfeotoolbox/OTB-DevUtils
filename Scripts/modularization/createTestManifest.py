@@ -185,6 +185,12 @@ def getTestDependencies(includes,sourceList):
     else:
       # try an external dependency
       depName = manifestParser.findExternalDep(inc)
+      if depName == "GDAL":
+        # don't want tests in ThirdParty/GDAL
+        depName = "IOGDAL"
+      if depName == "Ossim":
+        # don't want tests in ThirdParty/Ossim
+        depName = "OSSIMAdapters"
       if depName == "Other":
         print "Warning ! Unkown include : "+inc
       elif not depName in thirdPartyDep:
