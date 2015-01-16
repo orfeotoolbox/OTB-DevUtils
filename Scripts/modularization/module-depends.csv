@@ -269,6 +269,7 @@ OSSIMAdapters,GDAL
 OSSIMAdapters,Common
 OSSIMAdapters,Ossim
 OSSIMAdapters,OssimPlugins
+OSSIMAdapters,OpenThreads
 Edge,VectorDataBase
 Edge,Conversion
 Edge,Projection
