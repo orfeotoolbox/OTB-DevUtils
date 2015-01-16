@@ -6,17 +6,25 @@ OTB_MODULAR_BASE=/home/jmalik/dev/src/OTB-modular
 OTB_MODULAR_RESULT=/home/jmalik/dev/src/OTB-modular-test
 OTB_MODULAR_BUILD=/home/jmalik/dev/build/OTB-modular-test
 
+APP_MANIFEST=$DEVUTILS/otb_app_manifest.csv
+APP_DEPENDS=$DEVUTILS/otb_app_depends.csv
 TEST_MANIFEST=$DEVUTILS/TestManifest.csv
 TEST_DEPENDS=$DEVUTILS/test-depends.csv
 
+CODE_APPS_DEPENDS=$DEVUTILS/code_apps_depends.csv
+FULL_MANIFEST=$DEVUTILS/full-manifest.csv
+
 tsocks $DEVUTILS/createTestManifest.py $DEVUTILS/Manifest.csv $DEVUTILS/module-depends.csv $OTB_TRUNK $TEST_MANIFEST $TEST_DEPENDS
+cat $DEVUTILS/Manifest.csv $TEST_MANIFEST $APP_MANIFEST > $FULL_MANIFEST
+
+$DEVUTILS/analyseAppManifest.py $DEVUTILS/Manifest.csv $DEVUTILS/module-depends.csv $OTB_TRUNK $APP_MANIFEST $APP_DEPENDS
+
+cat $DEVUTILS/module-depends.csv $APP_DEPENDS > $CODE_APPS_DEPENDS
 
 rm -rf $OTB_MODULAR_RESULT
 
 tsocks $DEVUTILS/modulizer.py $OTB_TRUNK $OTB_MODULAR_RESULT \
-  $DEVUTILS/Manifest.csv  $DEVUTILS/module-depends.csv $DEVUTILS/test-depends.csv
-  
-$DEVUTILS/dispatchTests.py $DEVUTILS/TestManifest.csv $OTB_TRUNK $OTB_MODULAR_RESULT/OTB_Modular $DEVUTILS/test-depends.csv
+  $FULL_MANIFEST  $CODE_APPS_DEPENDS $DEVUTILS/test-depends.csv $DEVUTILS/module-descriptions.csv
 
 rm -rf $OTB_MODULAR_BUILD/*
 mkdir -p $OTB_MODULAR_BUILD

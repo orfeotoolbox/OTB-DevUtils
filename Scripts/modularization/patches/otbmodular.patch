@@ -743,19 +743,6 @@ diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter
  
  namespace otb {
  
-diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/otb-module.cmake OTB_Modular/Modules/IO/IOXML/otb-module.cmake
---- OTB_Modular-nopatch/Modules/IO/IOXML/otb-module.cmake	2014-11-27 15:53:01.608115163 +0100
-+++ OTB_Modular/Modules/IO/IOXML/otb-module.cmake	2014-11-27 15:53:02.124126663 +0100
-@@ -2,8 +2,8 @@
- 
- otb_module(OTBIOXML 
-   DEPENDS
-+      OTBITK
-       OTBTinyXML
--  
-   DESCRIPTION
-     "${DOCUMENTATION}"
-   )
 diff -ur OTB_Modular-nopatch/Modules/Learning/SOM/include/otbCzihoSOMLearningBehaviorFunctor.h OTB_Modular/Modules/Learning/SOM/include/otbCzihoSOMLearningBehaviorFunctor.h
 --- OTB_Modular-nopatch/Modules/Learning/SOM/include/otbCzihoSOMLearningBehaviorFunctor.h	2014-11-27 15:53:01.428111152 +0100
 +++ OTB_Modular/Modules/Learning/SOM/include/otbCzihoSOMLearningBehaviorFunctor.h	2014-11-27 15:53:02.124126663 +0100

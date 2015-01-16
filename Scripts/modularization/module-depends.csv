@@ -412,6 +412,7 @@ RCC8,Common
 RCC8,Path
 RCC8,Boost
 RCC8,ObjectList
+IOXML,ITK
 IOXML,TinyXML
 Watersheds,Common
 KMZWriter,VectorDataBase
