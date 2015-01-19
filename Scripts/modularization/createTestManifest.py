@@ -70,17 +70,21 @@ def parseTestCxx(path):
   includeRegexp=re.compile(search_string)
   
   main_search = r'^int main\(.*\)'
-  func_search = r'^int ([A-Za-z0-9]+)\(int [^,]+,char[^,]+\[\]\)'
-  shortFunc_search = r'^([A-Za-z0-9]+)\(int [^,]+,char[^,]+\[\]\)'
+  #TODO : support otbGenericGDALImageIOTest(int,char*[])
+  func_search = r'^int ([A-Za-z0-9_]+)\(int[^,]+,char.*\[\]\)'
+  shortFunc_search = r'^([A-Za-z0-9_]+)\(int[^,]+,char.*\[\]\)'
+  template_search = r'template<.*>'
   
   mainRe = re.compile(main_search)
   funcRe = re.compile(func_search)
   shortRe = re.compile(shortFunc_search)
+  templateRe = re.compile(template_search)
   
   refLevel = 0
   currentLevel = 0
   commented = False
   previousLine = ""
+  previousLineTemplate = False
   
   fd = open(path,'rb')
   for line in fd:
@@ -103,7 +107,7 @@ def parseTestCxx(path):
       commented = True
       cleanLine = cleanLine[0:comment2Pos]
     
-    # collapse mutli-spaces
+    # collapse multi-spaces
     sizeChanged = True
     while (sizeChanged):
       sizeBefore = len(cleanLine)
@@ -114,7 +118,7 @@ def parseTestCxx(path):
     
     if len(cleanLine) == 0:
       continue
-    
+
     # search for includes
     gg = includeRegexp.match(line)
     if (gg != None) and (len(gg.groups()) == 3):
@@ -131,6 +135,7 @@ def parseTestCxx(path):
         cleanLine = cleanLine.replace(" ","")
         res["testFunctions"].append(cleanLine[14:-2])
     else:
+      
       if cleanLine.startswith("namespace "):
         # assume test functions are not in a namespace
         #refLevel = refLevel+1
@@ -155,7 +160,7 @@ def parseTestCxx(path):
         if (matchMain != None):
           res["hasMain"] = True
           res["testFunctions"].append("main")
-        elif (matchFunc != None) and (len(matchFunc.groups()) == 1):
+        elif (matchFunc != None) and (len(matchFunc.groups()) == 1) and not previousLineTemplate:
           res["testFunctions"].append(matchFunc.group(1))
         elif (previousLine == "int") and (matchShort != None) and (len(matchShort.groups()) == 1):
           res["testFunctions"].append(matchShort.group(1))
@@ -165,6 +170,12 @@ def parseTestCxx(path):
       currentLevel = currentLevel + openBrCount - closeBrCount
     
     previousLine = line.strip(" \t\n\r")
+    
+    if templateRe.match(cleanLine):
+      previousLineTemplate = True
+    else:
+      previousLineTemplate = False
+
   
   fd.close()
   return res

@@ -311,47 +311,48 @@ def main(argv):
       #command = ["cp",fullSrcPath,op.join(targetDir,srcName)]
       #call(command)
     
-    
-    # generate the test driver source code
-    testDriver = op.join(targetDir,"otb"+mod+"TestDriver.cxx")
-    fd = open(testDriver,'wb')
-    fd.write("#include \"otbTestMain.h\"\n")
-    fd.write("void RegisterTests()\n")
-    fd.write("{\n")
-    for srcName in testFunctions:
-      for tFunc in testFunctions[srcName]:
-        fd.write("  REGISTER_TEST("+tFunc+");\n")
-    fd.write("}\n")
-    fd.close()
-    
+    if len(testFunctions)>0:
+      # generate the test driver source code
+      testDriver = op.join(targetDir,"otb"+mod+"TestDriver.cxx")
+      fd = open(testDriver,'wb')
+      fd.write("#include \"otbTestMain.h\"\n")
+      fd.write("void RegisterTests()\n")
+      fd.write("{\n")
+      for srcName in testFunctions:
+        for tFunc in testFunctions[srcName]:
+          fd.write("  REGISTER_TEST("+tFunc+");\n")
+      fd.write("}\n")
+      fd.close()
+      
     # generate CMakeLists.txt
     testCmakefile = op.join(targetDir,"CMakeLists.txt")
     fd = open(testCmakefile,'wb')
     
     fd.write("otb_module_test()\n")
     
-    #  - declare source files for test driver
-    fd.write("set(OTB"+mod+"Tests\n")
-    fd.write("otb"+mod+"TestDriver.cxx\n")
-    for srcName in testFunctions:
-      fd.write(srcName+"\n")
-    fd.write(")\n\n")
+    if len(testFunctions)>0:
+      #  - declare source files for test driver
+      fd.write("set(OTB"+mod+"Tests\n")
+      fd.write("otb"+mod+"TestDriver.cxx\n")
+      for srcName in testFunctions:
+        fd.write(srcName+"\n")
+      fd.write(")\n\n")
     
-    #  - add test driver executable
-    testdriverdecl = """
-add_executable(otb%sTestDriver ${OTB%sTests})
-target_link_libraries(otb%sTestDriver ${OTB%s-Test_LIBRARIES})
-""" % (mod, mod, mod, mod)
-    fd.write(testdriverdecl);
-    
-    #  - add other executables
-    for srcName in testMains:
-      testdriverdecl = """
-add_executable(%s %s)
-target_link_libraries(%s ${OTB%s-Test_LIBRARIES})
-""" % (testMains[srcName], srcName, testMains[srcName], mod)
+      #  - add test driver executable
+      testdriverdecl =  """
+                        add_executable(otb%sTestDriver ${OTB%sTests})
+                        target_link_libraries(otb%sTestDriver ${OTB%s-Test_LIBRARIES})
+                        """ % (mod, mod, mod, mod)
+      fd.write(testdriverdecl);
+      
+      #  - add other executables
+      for srcName in testMains:
+        testdriverdecl =  """
+                          add_executable(%s %s)
+                          target_link_libraries(%s ${OTB%s-Test_LIBRARIES})
+                          """ % (testMains[srcName], srcName, testMains[srcName], mod)
 
-    fd.write("\n#----------- TESTS DECLARATION ----------------\n")
+    fd.write("\n# Tests Declaration\n")
     
     # add tests
     for srcName in testCode:
