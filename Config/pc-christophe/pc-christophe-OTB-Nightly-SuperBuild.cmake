@@ -1,6 +1,6 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/")
-SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
+set(CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Fedora20-64bits-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
