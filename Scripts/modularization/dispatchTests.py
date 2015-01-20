@@ -344,16 +344,18 @@ def main(argv):
       #  - add test driver executable
       testdriverdecl =  """\
 add_executable(otb%sTestDriver ${OTB%sTests})
+otb_module_target_label(otb%sTestDriver)
 target_link_libraries(otb%sTestDriver ${OTB%s-Test_LIBRARIES})
-""" % (mod, mod, mod, mod)
+""" % (mod, mod, mod, mod, mod)
       fd.write(testdriverdecl);
       
       #  - add other executables
       for srcName in testMains:
         testdriverdecl =  """\
 add_executable(%s %s)
+otb_module_target_label(otb%sTestDriver)
 target_link_libraries(%s ${OTB%s-Test_LIBRARIES})
-""" % (testMains[srcName], srcName, testMains[srcName], mod)
+""" % (testMains[srcName], srcName, testMains[srcName], testMains[srcName], mod)
 
     fd.write("\n# Tests Declaration\n\n")
     
@@ -380,6 +382,7 @@ target_link_libraries(%s ${OTB%s-Test_LIBRARIES})
         if srcName in testFunctions:
           exeNameReplaced = False
           for line in testCode[srcName][tName]["code"]:
+            line=line.replace("add_test", "otb_add_test")
             if exeNameReplaced:
               tCmakeCode.append(line)
             else:
@@ -394,7 +397,7 @@ target_link_libraries(%s ${OTB%s-Test_LIBRARIES})
         for i, line in zip(range(len(tCmakeCode)), tCmakeCode):
           outputline = line.strip(' \t')
           if i != 0:
-            outputline = '%s%s' % (' ' * len('add_test('), outputline)
+            outputline = '%s%s' % (' ' * len('otb_add_test('), outputline)
           tCmakeCodeFinal.append(outputline)
 
         fd.writelines(tCmakeCodeFinal)
