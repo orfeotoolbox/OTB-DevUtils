@@ -394,7 +394,7 @@ target_link_libraries(%s ${OTB%s-Test_LIBRARIES})
         for i, line in zip(range(len(tCmakeCode)), tCmakeCode):
           outputline = line.strip(' \t')
           if i != 0:
-            outputline = '%s%s' % (' ' * len('add_test('), line)
+            outputline = '%s%s' % (' ' * len('add_test('), outputline)
           tCmakeCodeFinal.append(outputline)
 
         fd.writelines(tCmakeCodeFinal)
