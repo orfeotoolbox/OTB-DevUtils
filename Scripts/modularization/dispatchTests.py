@@ -310,6 +310,9 @@ def main(argv):
       # TODO : should be done by modulizer.py
       #command = ["cp",fullSrcPath,op.join(targetDir,srcName)]
       #call(command)
+      
+    if op.exists(op.join(targetDir,"CMakeLists.txt")):
+      continue
     
     if len(testFunctions)>0:
       # generate the test driver source code
@@ -339,20 +342,20 @@ def main(argv):
       fd.write(")\n\n")
     
       #  - add test driver executable
-      testdriverdecl =  """
-                        add_executable(otb%sTestDriver ${OTB%sTests})
-                        target_link_libraries(otb%sTestDriver ${OTB%s-Test_LIBRARIES})
-                        """ % (mod, mod, mod, mod)
+      testdriverdecl =  """\
+add_executable(otb%sTestDriver ${OTB%sTests})
+target_link_libraries(otb%sTestDriver ${OTB%s-Test_LIBRARIES})
+""" % (mod, mod, mod, mod)
       fd.write(testdriverdecl);
       
       #  - add other executables
       for srcName in testMains:
-        testdriverdecl =  """
-                          add_executable(%s %s)
-                          target_link_libraries(%s ${OTB%s-Test_LIBRARIES})
-                          """ % (testMains[srcName], srcName, testMains[srcName], mod)
+        testdriverdecl =  """\
+add_executable(%s %s)
+target_link_libraries(%s ${OTB%s-Test_LIBRARIES})
+""" % (testMains[srcName], srcName, testMains[srcName], mod)
 
-    fd.write("\n# Tests Declaration\n")
+    fd.write("\n# Tests Declaration\n\n")
     
     # add tests
     for srcName in testCode:
@@ -385,7 +388,16 @@ def main(argv):
               exeNameReplaced = True  
         else:
           tCmakeCode = testCode[srcName][tName]["code"]
-        fd.writelines(tCmakeCode)
+        
+        tCmakeCodeFinal = []
+        # TODO mise en forme
+        for i, line in zip(range(len(tCmakeCode)), tCmakeCode):
+          outputline = line.strip(' \t')
+          if i != 0:
+            outputline = '%s%s' % (' ' * len('add_test('), line)
+          tCmakeCodeFinal.append(outputline)
+
+        fd.writelines(tCmakeCodeFinal)
         fd.write("\n")
         
     
