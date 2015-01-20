@@ -453,14 +453,15 @@ for  moduleName in moduleList:
         dependTagPos = line.find("DEPENDS_TO_BE_REPLACED")
         if dependTagPos >= 0:
           replacementStr = "DEPENDS"
+          indentStr = ""
+          for it in range(dependTagPos+2):
+            indentStr = indentStr + " "
           if len(dependencies[moduleName]) > 0:
-            indentStr = ""
-            for it in range(dependTagPos+2):
-              indentStr = indentStr + " "
-            for dep in dependencies[moduleName]:
-              replacementStr = replacementStr + "\n" + indentStr +"  OTB"+ dep
+            deplist = dependencies[moduleName]
           else:
-            replacementStr = replacementStr + "\n" + indentStr + "  OTBCommon"
+            deplist = "Common"
+          for dep in dependencies[moduleName]:
+            replacementStr = replacementStr + "\n" + indentStr +"OTB"+ dep
           line = line.replace('DEPENDS_TO_BE_REPLACED',replacementStr)
         # replace test_depend list
         testDependTagPos = line.find("TESTDEP_TO_BE_REPLACED")

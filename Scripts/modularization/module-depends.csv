@@ -104,6 +104,7 @@ EdisonMeanShift,Edison
 EdisonMeanShift,Common
 EdisonMeanShift,ObjectList
 QtWidget,ApplicationEngine
+QtWidget,Qt4
 VectorDataManipulation,VectorDataBase
 VectorDataManipulation,ImageManipulation
 VectorDataManipulation,Transform

@@ -244,6 +244,9 @@ def findExternalDep(include):
     depName = "OpenThread"
   elif (include == "ConfigFile.h"):
     depName = "ConfigFile"
+  elif (include.find("QtCore") >= 0 or include.find("QtGui") >= 0):
+    print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + include 
+    depName = "Qt4"
   else:
     depName = "Other"
   
