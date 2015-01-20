@@ -331,7 +331,7 @@ def main(argv):
     testCmakefile = op.join(targetDir,"CMakeLists.txt")
     fd = open(testCmakefile,'wb')
     
-    fd.write("otb_module_test()\n")
+    fd.write("otb_module_test()\n\n")
     
     if len(testFunctions)>0:
       #  - declare source files for test driver
