@@ -459,7 +459,7 @@ for  moduleName in moduleList:
           if len(dependencies[moduleName]) > 0:
             deplist = dependencies[moduleName]
           else:
-            deplist = "Common"
+            deplist = ["Common"]
           for dep in deplist:
             replacementStr = replacementStr + "\n" + indentStr +"OTB"+ dep
           line = line.replace('DEPENDS_TO_BE_REPLACED',replacementStr)
