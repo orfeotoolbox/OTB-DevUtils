@@ -1,11 +1,11 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
-set(CTEST_DASHBOARD_ROOT "/home/otbtesting/")
+set(CTEST_DASHBOARD_ROOT "/home/otbtesting")
 set(CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Fedora20-64bits-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -i -k")
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
+set(CTEST_BUILD_COMMAND "/usr/bin/make -i -k")
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
 set(CTEST_TEST_TIMEOUT 1500)
 
 set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-SuperBuild")
@@ -54,7 +54,7 @@ ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 # before testing, set the LD_LIBRARY_PATH
 set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}/OTB/build" ${CTEST_TEST_ARGS})
+ctest_test(BUILD "${CTEST_BINARY_DIRECTORY}/OTB/build" ${CTEST_TEST_ARGS})
 ctest_submit ()
 
 
