@@ -344,8 +344,8 @@ def main(argv):
       #  - add test driver executable
       testdriverdecl =  """\
 add_executable(otb%sTestDriver ${OTB%sTests})
-otb_module_target_label(otb%sTestDriver)
 target_link_libraries(otb%sTestDriver ${OTB%s-Test_LIBRARIES})
+otb_module_target_label(otb%sTestDriver)
 """ % (mod, mod, mod, mod, mod)
       fd.write(testdriverdecl);
       
@@ -353,8 +353,8 @@ target_link_libraries(otb%sTestDriver ${OTB%s-Test_LIBRARIES})
       for srcName in testMains:
         testdriverdecl =  """\
 add_executable(%s %s)
-otb_module_target_label(otb%sTestDriver)
 target_link_libraries(%s ${OTB%s-Test_LIBRARIES})
+otb_module_target_label(otb%sTestDriver)
 """ % (testMains[srcName], srcName, testMains[srcName], testMains[srcName], mod)
 
     fd.write("\n# Tests Declaration\n\n")
