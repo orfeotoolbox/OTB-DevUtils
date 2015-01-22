@@ -71,9 +71,9 @@ def parseTestCxx(path):
   
   main_search = r'^int main\(.*\)'
   #TODO : support otbGenericGDALImageIOTest(int,char*[])
-  func_search = r'^int ([A-Za-z0-9_]+)\(int[^,]+,char.*\[\]\)'
-  shortFunc_search = r'^([A-Za-z0-9_]+)\(int[^,]+,char.*\[\]\)'
-  template_search = r'template<.*>'
+  func_search = r'^int ([A-Za-z0-9_]+)\(int[^,]*,char.*\[\]\)'
+  shortFunc_search = r'^([A-Za-z0-9_]+)\(int[^,]*,char.*\[\]\)'
+  template_search = r'template<.+>'
   
   mainRe = re.compile(main_search)
   funcRe = re.compile(func_search)
