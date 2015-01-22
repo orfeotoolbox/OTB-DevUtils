@@ -381,23 +381,30 @@ otb_module_target_label(otb%sTestDriver)
         tCmakeCode = []
         if srcName in testFunctions:
           exeNameReplaced = False
-          for line in testCode[srcName][tName]["code"]:
-            line=line.replace("add_test", "otb_add_test")
+          for i, line in zip(range(len(testCode[srcName][tName]["code"])), testCode[srcName][tName]["code"]):
+            line=line.strip(' \t')
+            if i == 0:
+              if "NAME" not in line:
+                line=line.replace(" ", " COMMAND ", 1)
+                line=line.replace("add_test(", "otb_add_test(NAME ")
+              else:
+                line=line.replace("add_test(", "otb_add_test(")
+
             if exeNameReplaced:
               tCmakeCode.append(line)
             else:
               tCmakeCode.append(line.replace(testCode[srcName][tName]["exeName"],"otb"+mod+"TestDriver",1))
             if line.find(testCode[srcName][tName]["exeName"]) >= 0:
-              exeNameReplaced = True  
+              exeNameReplaced = True
         else:
           tCmakeCode = testCode[srcName][tName]["code"]
         
         tCmakeCodeFinal = []
-        # TODO mise en forme
+        # indent
         for i, line in zip(range(len(tCmakeCode)), tCmakeCode):
-          outputline = line.strip(' \t')
+          outputline = line
           if i != 0:
-            outputline = '%s%s' % (' ' * len('otb_add_test('), outputline)
+            outputline = '%s%s' % ('  ', outputline)
           tCmakeCodeFinal.append(outputline)
 
         fd.writelines(tCmakeCodeFinal)
