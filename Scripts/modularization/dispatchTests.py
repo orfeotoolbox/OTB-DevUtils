@@ -274,10 +274,6 @@ def main(argv):
         currentGrp = grp
         break
     
-    # prepare output directory
-    targetDir = op.join(op.join(op.join(op.join(outputDir,"Modules"),currentGrp),mod),"test")
-    call(["mkdir","-p",targetDir])
-    
     testMains = {}
     testFunctions = {}
     testCode = {}
@@ -306,13 +302,15 @@ def main(argv):
         testFunctions[srcName] = res["testFunctions"]
         testCode[srcName] = findTestFromExe(currentCMake,exeName,exeAlias,res["testFunctions"])
     
-      # copy (move) test sources
-      # TODO : should be done by modulizer.py
-      #command = ["cp",fullSrcPath,op.join(targetDir,srcName)]
-      #call(command)
-      
+    if len(testCode) == 0:
+      continue
+    
+    targetDir = op.join(op.join(op.join(op.join(outputDir,"Modules"),currentGrp),mod),"test")
     if op.exists(op.join(targetDir,"CMakeLists.txt")):
       continue
+    
+    # prepare output directory
+    call(["mkdir","-p",targetDir])
     
     if len(testFunctions)>0:
       # generate the test driver source code
