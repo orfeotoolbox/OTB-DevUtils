@@ -19,21 +19,27 @@ TEST_DEPENDS=$OTB_MODULAR_RESULT/test-depends.csv
 CODE_APPS_DEPENDS=$OTB_MODULAR_RESULT/code_apps_depends.csv
 FULL_MANIFEST=$OTB_MODULAR_RESULT/full-manifest.csv
 
+# log file for modularization script
+LOG_FILE=$OTB_MODULAR_RESULT/output_modularization.log
+
 # clean result directory
 rm -rf $OTB_MODULAR_RESULT/*
 
 # Create test manifest and specific dependencies
-python $DEVUTILS/createTestManifest.py $CODE_MANIFEST $CODE_DEPENDS $OTB_TRUNK $TEST_MANIFEST $TEST_DEPENDS
+echo "# -----  createTestManifest.py  ----------" >$LOG_FILE
+python $DEVUTILS/createTestManifest.py $CODE_MANIFEST $CODE_DEPENDS $OTB_TRUNK $TEST_MANIFEST $TEST_DEPENDS >$LOG_FILE 2>&1
 cat $CODE_MANIFEST $TEST_MANIFEST $APP_MANIFEST > $FULL_MANIFEST
 
 # Create dependencies for application modules
-python $DEVUTILS/analyseAppManifest.py $CODE_MANIFEST $CODE_DEPENDS $OTB_TRUNK $APP_MANIFEST $APP_DEPENDS
+echo "# -----  analyseAppManifest.py  ----------" >$LOG_FILE
+python $DEVUTILS/analyseAppManifest.py $CODE_MANIFEST $CODE_DEPENDS $OTB_TRUNK $APP_MANIFEST $APP_DEPENDS >$LOG_FILE 2>&1
 
 cat $CODE_DEPENDS $APP_DEPENDS > $CODE_APPS_DEPENDS
 
 # Call modulizer script
+echo "# -----  modulizer.py  -------------------" >$LOG_FILE
 python $DEVUTILS/modulizer.py $OTB_TRUNK $OTB_MODULAR_RESULT \
-  $FULL_MANIFEST  $CODE_APPS_DEPENDS $TEST_DEPENDS $DEVUTILS/module-descriptions.csv
+  $FULL_MANIFEST  $CODE_APPS_DEPENDS $TEST_DEPENDS $DEVUTILS/module-descriptions.csv >$LOG_FILE 2>&1
 
 # Build and test modular OTB
 ctest -S $DASHBOARD_ROOT/src/OTB-DevUtils/Config/hulk/hulk-Nightly-OTB-Modular.cmake -V >$DASHBOARD_ROOT/build/Modularity/log.txt 2>&1

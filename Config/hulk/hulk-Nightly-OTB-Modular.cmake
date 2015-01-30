@@ -35,6 +35,15 @@ MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparser
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
 ")
 
+set (CTEST_NOTES_FILES
+${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
+${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
+)
+
+if(EXISTS "${CTEST_DASHBOARD_ROOT}/src/Modularity/output_modularization.log")
+list(APPEND CTEST_NOTES_FILES "${CTEST_DASHBOARD_ROOT}/src/Modularity/output_modularization.log")
+endif()
+
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 ctest_empty_binary_directory (${CTEST_INSTALL_DIRECTORY})
 
