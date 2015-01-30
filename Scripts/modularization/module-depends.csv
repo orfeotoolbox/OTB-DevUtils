@@ -430,3 +430,4 @@ SARCalibration,ITKPendingPatches
 SARCalibration,Common
 SARCalibration,OSSIMAdapters
 SARCalibration,Metadata
+ITKPendingPatches,ITK
