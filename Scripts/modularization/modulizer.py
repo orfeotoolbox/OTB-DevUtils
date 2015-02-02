@@ -97,8 +97,8 @@ def parseDescriptions(path):
     words = line.split(sep)
     if len(words) != nbFields:
       continue
-    moduleName = words[0].strip(" \t\n\r")
-    description = words[1].strip(" \t\n\r")
+    moduleName = words[0].strip(" \"\t\n\r")
+    description = words[1].strip(" \"\t\n\r")
     output[moduleName] = description
   fd.close()
   
