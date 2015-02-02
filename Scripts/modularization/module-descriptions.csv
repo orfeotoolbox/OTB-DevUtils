@@ -1,113 +1,113 @@
-AnomalyDetection              | TODO
-AppChangeDetection            | TODO
-AppClassification             | TODO
-AppDescriptors                | TODO
-AppDimensionalityReduction    | TODO
-AppEdge                       | TODO
-AppFiltering                  | TODO
-AppFusion                     | TODO
-AppHyperspectral              | TODO
-AppImageUtils                 | TODO
-AppIndices                    | TODO
-ApplicationEngine             | TODO
-AppMoments                    | TODO
-AppMorphology                 | TODO
-AppOpticalCalibration         | TODO
-AppProjection                 | TODO
-AppSARCalibration             | TODO
-AppSegmentation               | TODO
-AppStereo                     | TODO
-AppTest                       | TODO
-AppTextures                   | TODO
-AppVectorDataTranslation      | TODO
-AppVectorUtils                | TODO
-BoostAdapters                 | TODO
-Carto                         | TODO
-CCOBIA                        | TODO
-ChangeDetection               | TODO
-CloudDetection                | TODO
-ColorMap                      | TODO
-CommandLine                   | TODO
-Common                        | TODO
-Conversion                    | TODO
-Convolution                   | TODO
-Corner                        | TODO
-CurlAdapters                  | TODO
-DempsterShafer                | TODO
-Density                       | TODO
-Descriptors                   | TODO
-DimensionalityReduction       | TODO
-DisparityMap                  | TODO
-DisplacementField             | TODO
-Edge                          | TODO
-EdisonMeanShift               | TODO
-EndmembersExtraction          | TODO
-ExtendedFilename              | TODO
-Fuzzy                         | TODO
-GdalAdapters                  | TODO
-ImageBase                     | TODO
-ImageIO                       | TODO
-ImageManipulation             | TODO
-ImageNoise                    | TODO
-Indices                       | TODO
-Interpolation                 | TODO
-IOBSQ                         | TODO
-IOGDAL                        | TODO
-IOJPEG2000                    | TODO
-IOKML                         | TODO
-IOLUM                         | TODO
-IOMSTAR                       | TODO
-IOMW                          | TODO
-IOONERA                       | TODO
-IORAD                         | TODO
-IOTileMap                     | TODO
-IOXML                         | TODO
-ITKPendingPatches             | TODO
-KMZWriter                     | TODO
-Labelling                     | TODO
-LabelMap                      | TODO
-LearningBase                  | TODO
-MajorityVoting                | TODO
-Markov                        | TODO
-MathParser                    | TODO
-MeanShift                     | TODO
-Metadata                      | TODO
-Metrics                       | TODO
-Moments                       | TODO
-MorphologicalProfiles         | TODO
-MorphologicalPyramid          | TODO
-ObjectDetection               | TODO
-ObjectList                    | TODO
-OGRProcessing                 | TODO
-OpenCVAdapters                | TODO
-OpenThreadsAdapters           | TODO
-OpticalCalibration            | TODO
-OSSIMAdapters                 | TODO
-PanSharpening                 | TODO
-Path                          | TODO
-PointSet                      | TODO
-Polarimetry                   | TODO
-Projection                    | TODO
-QtWidget                      | TODO
-RCC8                          | TODO
-RoadExtraction                | TODO
-SARCalibration                | TODO
-SeamCarving                   | TODO
-Simulation                    | TODO
-Smoothing                     | TODO
-SOM                           | TODO
-SpatialObjects                | TODO
-Statistics                    | TODO
-Stereo                        | TODO
-Streaming                     | TODO
-SVMLearning                   | TODO
-TestKernel                    | TODO
-Textures                      | TODO
-Transform                     | TODO
-Unmixing                      | TODO
-UrbanArea                     | TODO
-VectorDataBase                | TODO
-VectorDataIO                  | TODO
-VectorDataManipulation        | TODO
-Watersheds                    | TODO
-Wavelet                       | TODO
+"AnomalyDetection              ","Anomalies are composed of a set of isolated pixels with anomalous signatures (when compared to the image background) which represents a very small piece of the full image, and they only occur in the image with low probabilities. This module contains classes related to well-known approaches for anomaly detection which have shown success for multispectral and hyperspectral images (for example Local-RX detector)."
+"AppChangeDetection            ","Change detection application (see also ChangeDetection module)."
+"AppClassification             ","Classification application."
+"AppDescriptors                ","Descritors application( see also Descriptors module)."
+"AppDimensionalityReduction    ","Dimensionality reduction application( see also DimensionalityReduction module)."
+"AppEdge                       ","Edge detection and extraction application (see also Edge module)."
+"AppFiltering                  ","Basic filters application."
+"AppFusion                     ","Fusion of classifications application."
+"AppHyperspectral              ","Unmixing application."
+"AppImageUtils                 ","Image utils and handling application."
+"AppIndices                    ","Classical indices (NDVI, NDWI,) application."
+"ApplicationEngine             ","This module contains classes that ease the implementation of applications (see chapter 'How to write an application' of the SoftwareGuide)."
+"AppMoments                    ","Geometric moments (for pattern recognition) application."
+"AppMorphology                 ","Morphomath application."
+"AppOpticalCalibration         ","Optical calibration application."
+"AppProjection                 ","Projection application (see also Projection module)."
+"AppSARCalibration             ","SAR Calibration application."
+"AppSegmentation               ","Segmentation application."
+"AppStereo                     ","Stereo application (see also Stereo module)."
+"AppTest                       ","Test application."
+"AppTextures                   ","Textures application (see also Textures module)."
+"AppVectorDataTranslation      ","VectorDataTranslation application (translation, rotation and scale)."
+"AppVectorUtils                ","VectorUtils application."
+"BoostAdapters                 ","Adapters for the Boost library."
+"Carto                         ","Cartography related module. For instance, users can retrieve geographical information for longitude and latitude coordinates; compute the extent of the input image and use it to fill the bbox for the OSM request; produce Map file product (ie a file .map, the tiles to draw in a mapserver, and finally a shapefile); request OSM Server using the OSM API 0.6 to get the xml file storing the vector elements available; retrieve Longitude and Latitude coordinates from a place name. And so on."
+"CCOBIA                        ","This module contains classes that implement the Connected Component algorithm (segmentation)."
+"ChangeDetection               ","Change detection techniques try to detect and locate areas which have changed between two or more observations of the same scene. These changes can be of different types, with different origins and of different temporal length. This module contains algorithms that can be used for different situations: abrupt changes in an image pair, abrupt changes within an image series and a known date, abrupt changes within an image series and an unknown date, progressive changes within an image series."
+"CloudDetection                ","This module contains classes to estimate and detect clouds. The implemented filters rely on the spectral angle principle to measure the radiometric gap between a reference pixel and the other pixels of the image."
+"ColorMap                      "," In some situation, it is desirable to represent a gray level image in color for easier interpretation. This is particularly the case if pixel values in the image are used to represent some data such as elevation, deformation map, interferogram. In this case, it is important to ensure that similar values will get similar colors. This module contains classes that can meet these requirements."
+"CommandLine                   ","Required to launch applications from command line."
+"Common                        ","This module contains OTB core classes."
+"Conversion                    ","This module contains tools that allow switching between different segment representations (labelImage, labelMap, OGR Layer, QGIS table). Rasterization and vectorization are important features of this module."
+"Convolution                   "," This module contains classes to compute an image which is the convolution of the input image with a given kernel. Note that two methods are used: classical convolution and convolution based on the Overlap-save algorithm."
+"Corner                        ","This module contains classes that implement classical corner detection algorithms (Harris for instance). It also contains classes to detect right angle by exploiting the output of a line detection algorithm."
+"CurlAdapters                  ","Adapters for the Curl library."
+"DempsterShafer                ","Data fusion needs a common theoretical framework to manipulate and combine data sources having different natures. The mathematical theory of dempster-Shafer, which is based on belief function and plausible reasoning, can be used for this purpose. This module contains classes related to this theory (see also majority voting module)."
+"Density                       ","This module contains tools to computes a local density of keypoints (SIFT or SURF, for instance). Many estimators are implemented (Epanechnikov / simple cut off / gaussian function, ratio of the number of keypoints over the total number of pixels within a region). Note that the estimated density can be represented as an image or quiered at particular points (function)."
+"Descriptors                   ","The output of a descriptor algorithm is usually a short vector of numbers which is invariant to common image transformations. Descriptors are then compared according to some criterion in order to be matched. This module contains different descriptors such as Fourrier-Mellin, SIFT, SURF, HOG, and so on."
+"DimensionalityReduction       ","Dimension reduction is a statistical process, which concentrates the amount of information in multivariate data into a fewer number of variables (or dimensions). This module implements methods such as Principal Component Analysis (PCA), Noise-Adjusted Principal Components Analysis (NAPCA), Maximum Noise Fraction (MNF), Fast Independant Component Analysis (FICA), Maximum Autocorrelation Factor (MAF), and so on."
+"DisparityMap                  ","This module contains tools related to geometric disparities between images. Following functionalities are implemented: estimation, regularization (median filter), 3D points projection, production of DEM at regular sampling in the chosen map projection system, resampling of a disparity map computed in epipolar geometry into a disparity map relative to sensor geometry, sub-pixel precision."
+"DisplacementField             "," This module contains filters that generate a deformation field by using some interpolation criterion on the deformation values from the point set. Several interpolation methods are available (Nearest neighbours, linear, BSpline). The class otb::StereorectificationDisplacementFieldSource is specialized in generating a deformation field between two images in epipolar geometry (horizontal shifts)."
+"Edge                          ","This module contains tools related to edge / line extraction; users can find classes that implement tools such as Sobel Detector, Touzi or Line Ratio Detector (SAR images), Hough Transform, and so on."
+"EdisonMeanShift               ","This module implements the mean shift segmentation algorithm (EDISON library)."
+"EndmembersExtraction          ","This module contains classes related to he extraction of end members (see also 'unmixing' module)."
+"ExtendedFilename              ","Extended filenames provide a way to influence how data are read and written by Orfeo ToolBox. They can be used to specify an external geom file for sensor modeling, tell  that a TILED GeoTiff is to be written, read a different subdataset or resolution (for multi-resolution data), or manage ortho-ready product by skipping either geographic or sensor-model information."
+"Fuzzy                         ","A fuzzy variable is defined as a set of qualitative values for a magnitude. These values are ordered, as for instance Low, Medium, High. This module contains classes able to hold a vector where each component is the membership value for each one of the qualitative values; it also contains classes able to handle xml files where are stored several statistics."
+"GdalAdapters                  ","Adapters for the Gdal Library ( for reading and writing  )."
+"ImageBase                     ","This module contains base classes that allow the representation of mono- and multiband images."
+"ImageIO                       ","This module contains classes related to the reading and the writing of remote sensing images."
+"ImageManipulation             ","This module contains everything users may need handle images : clamping, shifting, scaling, rescaling intensities, concatenating of images into one vector image, splitting a vector image into many images, and so on. Among nice other features, let's mention: applying a standard  (or a functor)  per band, evaluating a ImageFunction onto a source image, generating an image from DEM data."
+"ImageNoise                    ","This module is related to noise estimation and reduction."
+"Indices                       ","With multispectral sensors, several indices can be computed combining several spectral bands to show features that are not obvious using only one band. This module contains filters that can compute classical indices, such as NDVI (Normalized Difference Vegetation Index), NDWI (Normalized DifferenceWater Index) and so on."
+"Interpolation                 ","This module contains additional interpolation functions (compared to the ones already available in itk -see itk::InterpolateImageFunction-)."
+"IOBSQ                         ","This module contains features to read BSQ format images."
+"IOGDAL                        ","This module contains features to read and write images with GDAL."
+"IOJPEG2000                    ","This module contains features to read and write JPEG2000 format images."
+"IOKML                         ","This module contains features to read and write KML format vector data."
+"IOLUM                         ","This module contains features to read LUM format images."
+"IOMSTAR                       ","This module contains features to read and write MSTAR format images."
+"IOMW                          ","This module contains features to read MW format images."
+"IOONERA                       ","This module contains features to read ONERA format images."
+"IORAD                         ","This module contains features to read RAD format images."
+"IOTileMap                     ","This module contains features to read and write TileMap format images."
+"IOXML                         ","This module contains features to read and write Read a xml files."
+"ITKPendingPatches             ","Pending patches (itk) module."
+"KMZWriter                     ","This module contains features to write kmz files (supported by Google Earth)."
+"Labelling                     ","This module contains useful tools for the task of labelling images. It is possible to label with similar statistics using connectivity, to include pixels in a growing region is to evaluate intensity value inside a specific interval, or to label pixels that are connected to a seed and lie within a neighbourhood. Remaping the labels is also possible, so that that the label numbers are consecutive with no gaps between the label numbers used. Finally, it is also possible to sort the labels based on the size of the object."
+"LabelMap                      ","This module contains classes that allow label images manipulation based on object attributes. They are useful for Object-Based Image Analysis (OBIA) (analyzing images at the object level instead of working at the pixel level)."
+"LearningBase                  ","This module contains OTB generic Machine Learning framework mainly based on OpenCV."
+"MajorityVoting                ","Majority voting takes the more representative label of all the pixels identified by the structuring element and then sets the center pixel to this label value (see also DempsterShafer module)."
+"Markov                        ","Markov Random Fields are probabilistic models that use the statistical dependency between pixels in a neighborhood to infeer the value of a given pixel. This module contains the OTB framework, considered as more flexible than the ITK one."
+"MathParser                    ","This module contains filters that can apply any mathematical expression to the pixels of an image. Note that classes based on MuParserX have better capabilities than the ones based on MuParser."
+"MeanShift                     ","This Module contains classes that implement the MeanShift segmentation algorithm."
+"Metadata                      ","This module contains a set of classes that allow parsing metadata files from different types of sensor (both optical and radar sensor types are supported; for instance: Pleiades, SPOT6, TerraSar, and so on)."
+"Metrics                       ","This module contains classes that allow measuring the differences between two segmentations."
+"Moments                       ","Geometric moments are widely used in image processing and pattern recognition. This module contains classes that implement many moments: Hu, Flusser, and so on. Note that some of them can be evaluated along a path, instead of an image."
+"MorphologicalProfiles         "," This module contains mono and multi-scale convex/concave image classification based on geodesic morphology characteristics."
+"MorphologicalPyramid          ","If the smoothing filter used in the pyramidal analysis is a morphological filter, one cannot safely subsample the filtered image without loss of information. However, by keeping the details possibly lost in the down-sampling operation, such a decomposition can be used. The Morphological Pyramid is an approach to such a decomposition. This module contains classes useful in meeting that goal."
+"ObjectDetection               ","This module contains useful classes for object detection."
+"ObjectList                    ","This module contains classes that allow manipulating an ITK/OTB object list with the appropriate formalism. For instance, it is possible to apply a given scalar image filter to a list of images; or to produce an output corresponding to the elements selected from an image list; and so on. "
+"OGRProcessing                 ","This module contains a class that allow the fusion of geometries in a layer (OGRLayer) along streaming lines, and a class that allow stream segmentation and vectorization of the output label image."
+"OpenCVAdapters                ","Adapters for the famous OpenCV library. This module contains a generic machine learning framework for supervised classification. "
+"OpenThreadsAdapters           ","Adapters for the OpenThreads library (thread interface for C++)."
+"OpticalCalibration            ","Digital number to luminance correction; luminance to refletance image conversion; atmospheric correction for TOA (top of atmosphere) to TOC (top of canopy) reflectance estimation; correction of the adjacency effects taking into account the neighborhood contribution."
+"OSSIMAdapters                 ","Adapters for the OSSIM library (geospatial library used to process imagery, maps, terrain, and vector data). It is used inside OTB for several purposes: sensor models (especially RPC), metadata parsers, DEM handlers, and so on."
+"PanSharpening                 ","Most of the fusion methods in the remote sensing community deal with the pansharpening technique. This fusion combines the image from the PANchromatic sensor of one satellite (high spatial resolution data) with the multispectral (XS) data (lower resolution in several spectral bands) to generate images with a high resolution and several spectral bands. This module provides classes related to this purpose."
+"Path                          ","This module is related to the handling of paths. For instance, it contains the base class 'otbImageToPathFilter' for filters taking an image as input, and producing an output of type Path; another interesting class is 'otbPathFunction', which is the base class for all objects that evaluate a function of an image using a path list (computation of histograms for instance). And so on."
+"PointSet                      ","This module is related to the handling of point sets. For instance, it contains the base class 'otb::ImageToPointSetFilter' from which inherit detectors such as Harris (note that contrary to the 'corner' module, here the harris detector outputs a point set instead of an image.). With this module, users will be able to apply a transform to all the points of a PointSet, extract all the points of a PointSet that are in a given region, generate a random point set, and so on."
+"Polarimetry                   ","This module is concerned with Synthetic Aperture Radar images. The ability of radar polarimetry to obtain more information about physical properties of the surface than single-channel SAR data has led to a wide range of applications. Here, the user can find (for instance) classes to handle different representations of a polarisation state, to perform polarimetry synthesis, and so on."
+"Projection                    ","Map projections describe the link between geographic coordinates and cartographic ones. So map projections allow representing a 2-dimensional manifold of a 3-dimensional space (the Earth surface) in a 2-dimensional space (a map which used to be a sheet of paper!). This module provides classes generically related to this purpose; for instance, user can handle OGR data type, find RPC solvers, re-project input vector data over input images, and so on."
+"QtWidget                      ","QT wrappers."
+"RCC8                          ","The region connection calculus (RCC) is used for qualitative spatial representation and . RCC abstractly describes regions by their possible relations to each other (8 basic relations are possible between two regions). The RCC8 constraint language has been popularly adopted by the GIS communities. This module provides classes related to this purpose."
+"RoadExtraction                ","Everything users need to extract roads."
+"SARCalibration                ","This module contains tools related to SAR calibration (classes to compute the backscatter or the brigthness of a given pixel and so on)."
+"SeamCarving                   ","This module contains necessary components to apply the seam carving algorithm published by Shai Avidan, Ariel Shamir, Seam Carving for Content-Aware  Resizing, ACM Transactions on Graphics, Volume 26, Number 3, SIGGRAPH 2007."
+"Simulation                    ","This module deals with image simulation algorithm. Using objects transmittance and reflectance and sensor characteristics, it can be possible to generate realistic hyperspectral synthetic set of data. This module includes PROSPECT (leaf optical properties) and SAIL (canopy bidirectional reflectance) models, as well as PROSAIL, which is the combination of the two previous ones. "
+"Smoothing                     ","This module contains classes that allow image smoothing (it contains mean shift smoothing for instance)."
+"SOM                           ","The Self Organizing Map, SOM, introduced by Kohonen is a non-supervised neural learning algorithm. The map is composed of neighboring cells which are in competition by means of mutual interactions and they adapt in order to match characteristic patterns of the examples given during the learning. The SOM is usually on a plane (2D)."
+"SpatialObjects                ","Geometric shapes are represented in OTB using the ITK spatial object hierarchy. These classes are intended to support modelling of anatomical structures in ITK. OTB uses them in order to model cartographic elements. Using a common basic interface, the spatial objects are capable of representing regions of space in a variety of different ways. For example: mesh structures, image masks, and implicit equations may be used as the underlying representation scheme. Spatial objects are a natural data structure for communicating the results of segmentation methods and for introducing geometrical priors in both segmentation and registration methods."
+"Statistics                    ","This module contains classes related to statistical calculation. One part of them is dedicated to the handling of ListSample (measurements stored in a list type structure -as opposed to -). For instance, it is possible to concatenate several sample lists into a single one, to generate a noised version of the input sample list, and so on. The other part works on images and labelMaps and allows the calculation of classical statistics (min max mean histogram)."
+"Stereo                        ","This module contains tools related to stereo-reconstruction. Classes that allow block matching, fine registration, adherence correction, elevation map construction are available."
+"Streaming                     ","This module contains classes related to streaming functionalities: only the data of a particular requested region are produced. This is useful when big images must be processed: processing is done piecewise, which prevents the system from running out of memory."
+"SVMLearning                   ","OTB implementation of the Support Vector Machine."
+"TestKernel                    ","This module is concerned with running the tests and submitting them to the dashboard. For each class, at minimum there is a test which tries to instantiate it and another one which uses the class. The output of each test (image, text file, binary file) is controlled against a baseline to make sure that the result hasn't changed."
+"Textures                      ","This module is concerned with texture analysis. Co-occurrence matrix, Haralick are examples of what can be found in this module."
+"Transform                     ","This module contains additional geometric transformations that are more suitable to remote sensing (compared to the ones already available in itk -see itk::Transform-); this mainly concerns transformations of coordinates from any map projection or sensor model to any map projection or sensor model."
+"Unmixing                      ","In hyperspectral imagery one pixel typically consists of a mixture of the reflectance spectra of several materials, where the mixture coefficients correspond to the abundances of the constituting materials. The process of unmixing one of these 'mixed' pixels is called hyperspectral image unmixing or simply hyperspectral unmixing. This module contains classes useful in meeting that goal."
+"UrbanArea                     ","This module is concerned with the detection of urban area."
+"VectorDataBase                ","This module contains base classes for representing vector data (see also VectorDataIO and VectorDataManipulation modules)."
+"VectorDataIO                  ","This module contains classes related to the reading and the writing of vector data (see also VectorDataBase and VectorDataManipulation modules)."
+"VectorDataManipulation        ","This module contains classes related to the handling of vector data (see also VectorDataBase and VectorDataManipulation modules)."
+"Watersheds                    ","OTB implementation of Watersheds segmentation algorithm."
+"Wavelet                       ","This module contains classes for wavelet analysis."
