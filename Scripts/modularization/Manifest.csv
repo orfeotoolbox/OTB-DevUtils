@@ -1492,7 +1492,7 @@
 ./Code/Common/otbVectorDataToImageFilter.txx,Common,Filtering,VectorDataRendering,include,
 ./Code/Common/otbVectorDataToLabelMapFilter.h,Common,Segmentation,Conversion,include,Move to VectorDataTranslation
 ./Code/Common/otbVectorDataToLabelMapFilter.txx,Common,Segmentation,Conversion,include,Move to VectorDataTranslation
-./Code/Common/otbMapnikAdapter.h,Common,Filtering,VectorDataManipulation,include,
+./Code/Common/otbMapnikAdapter.h,Common,Filtering,VectorDataRendering,include,
 ./Code/Common/otbVectorDataToMapFilter.h,Common,Filtering,VectorDataRendering,include,
 ./Code/Common/otbVectorDataToMapFilter.txx,Common,Filtering,VectorDataRendering,include,
 ./Code/Common/otbVectorDataToVectorDataFilter.h,Common,Filtering,VectorDataManipulation,include,Creates a coupling with VectorDataBase. Should be moved to VectorDataBase
