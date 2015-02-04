@@ -10,15 +10,6 @@ diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h 
  #include "itksys/FundamentalType.h"
  
  namespace otb
-diff -ur OTB_Modular-nopatch/Modules/Filtering/VectorDataRendering/otb-module.cmake OTB_Modular/Modules/Filtering/VectorDataRendering/otb-module.cmake
---- OTB_Modular-nopatch/Modules/Filtering/VectorDataRendering/otb-module.cmake	2015-02-04 18:14:11.985286819 +0100
-+++ OTB_Modular/Modules/Filtering/VectorDataRendering/otb-module.cmake	2015-02-04 18:18:04.358472911 +0100
-@@ -12,4 +12,5 @@
-   
-   DESCRIPTION
-     "${DOCUMENTATION}"
-+  EXCLUDE_FROM_DEFAULT
-   )
 diff -ur OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx
 --- OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2013-11-15 15:47:35.118019000 +0100
 +++ OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2015-02-04 18:14:22.401519288 +0100
