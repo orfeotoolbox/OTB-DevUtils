@@ -237,8 +237,8 @@
 ./Code/Common/otbVectorDataProperties.txx,Common,Core,VectorDataBase,include,Maybe move the base VectorData classes to VectorDataBase
 ./Code/Common/otbVectorDataSource.h,Common,Core,VectorDataBase,include,Maybe move the base VectorData classes to VectorDataBase
 ./Code/Common/otbVectorDataSource.txx,Common,Core,VectorDataBase,include,Maybe move the base VectorData classes to VectorDataBase
-./Code/Common/otbVectorDataStyle.cxx,Common,Core,VectorDataBase,src,Maybe move the base VectorData classes to VectorDataBase
-./Code/Common/otbVectorDataStyle.h,Common,Core,VectorDataBase,include,Maybe move the base VectorData classes to VectorDataBase
+./Code/Common/otbVectorDataStyle.cxx,Common,Filtering,VectorDataRendering,src,Maybe move the base VectorData classes to VectorDataBase
+./Code/Common/otbVectorDataStyle.h,Common,Filtering,VectorDataRendering,include,Maybe move the base VectorData classes to VectorDataBase
 ./Code/Common/otbVectorData.txx,Common,Core,VectorDataBase,include,Maybe move the base VectorData classes to VectorDataBase
 ./Code/Common/otbVectorImageToASImageAdaptor.h,Common,Core,Common,include,
 ./Code/Common/otbVectorImageToASPixelAccessor.h,Common,Core,Common,include,
@@ -1488,13 +1488,13 @@
 ./Code/Common/otbVectorDataExtractROI.txx,Common,Filtering,VectorDataManipulation,include,
 ./Code/Common/otbVectorDataToGISTableFilter.h,Common,Segmentation,Conversion,include,Move to VectorDataTranslation
 ./Code/Common/otbVectorDataToGISTableFilter.txx,Common,Segmentation,Conversion,include,Move to VectorDataTranslation
-./Code/Common/otbVectorDataToImageFilter.h,Common,Filtering,VectorDataManipulation,include,
-./Code/Common/otbVectorDataToImageFilter.txx,Common,Filtering,VectorDataManipulation,include,
+./Code/Common/otbVectorDataToImageFilter.h,Common,Filtering,VectorDataRendering,include,
+./Code/Common/otbVectorDataToImageFilter.txx,Common,Filtering,VectorDataRendering,include,
 ./Code/Common/otbVectorDataToLabelMapFilter.h,Common,Segmentation,Conversion,include,Move to VectorDataTranslation
 ./Code/Common/otbVectorDataToLabelMapFilter.txx,Common,Segmentation,Conversion,include,Move to VectorDataTranslation
 ./Code/Common/otbMapnikAdapter.h,Common,Filtering,VectorDataManipulation,include,
-./Code/Common/otbVectorDataToMapFilter.h,Common,Filtering,VectorDataManipulation,include,
-./Code/Common/otbVectorDataToMapFilter.txx,Common,Filtering,VectorDataManipulation,include,
+./Code/Common/otbVectorDataToMapFilter.h,Common,Filtering,VectorDataRendering,include,
+./Code/Common/otbVectorDataToMapFilter.txx,Common,Filtering,VectorDataRendering,include,
 ./Code/Common/otbVectorDataToVectorDataFilter.h,Common,Filtering,VectorDataManipulation,include,Creates a coupling with VectorDataBase. Should be moved to VectorDataBase
 ./Code/Common/otbVectorDataToVectorDataFilter.txx,Common,Filtering,VectorDataManipulation,include,Creates a coupling with VectorDataBase. Should be moved to VectorDataBase
 ./Code/Segmentation/otbWatershedSegmentationFilter.h,Segmentation,Segmentation,Watersheds,include,

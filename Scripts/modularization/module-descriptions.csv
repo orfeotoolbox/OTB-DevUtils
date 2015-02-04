@@ -109,5 +109,6 @@
 "VectorDataBase                "|"This module contains base classes for representing vector data (see also VectorDataIO and VectorDataManipulation modules)."
 "VectorDataIO                  "|"This module contains classes related to the reading and the writing of vector data (see also VectorDataBase and VectorDataManipulation modules)."
 "VectorDataManipulation        "|"This module contains classes related to the handling of vector data (see also VectorDataBase and VectorDataManipulation modules)."
+"VectorDataRendering           "|"This module contains classes related to the rasterization of OpenStreetMap vector data onto images"
 "Watersheds                    "|"OTB implementation of Watersheds segmentation algorithm."
 "Wavelet                       "|"This module contains classes for wavelet analysis."

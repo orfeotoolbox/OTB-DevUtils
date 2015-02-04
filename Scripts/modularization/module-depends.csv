@@ -112,8 +112,10 @@ VectorDataManipulation,OSSIMAdapters
 VectorDataManipulation,Common
 VectorDataManipulation,GDAL
 VectorDataManipulation,Path
-VectorDataManipulation,Mapnik
 VectorDataManipulation,ObjectList
+VectorDataRendering,Mapnik
+VectorDataRendering,VectorDataBase
+VectorDataRendering,VectorDataManipulation
 Streaming,ImageBase
 Streaming,OSSIMAdapters
 Streaming,Common
