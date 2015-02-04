@@ -128,7 +128,6 @@ Corner,VectorDataManipulation
 Corner,PointSet
 Corner,ImageManipulation
 Corner,Common
-VectorDataBase,Mapnik
 VectorDataBase,Common
 VectorDataBase,OSSIMAdapters
 VectorDataBase,GDAL
