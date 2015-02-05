@@ -374,18 +374,13 @@ for  moduleName in moduleList:
         o.write(")\n")
         
         for appli in appList:
-          content =  "\nOTB_CREATE_APPLICATION(NAME           " + appli + "\n"
-          content += "                       SOURCES        " + appList[appli]["source"] + "\n"
-          content += "                       LINK_LIBRARIES ${"+cmakeModName+"_LINK_LIBS})\n"
+          content =  "\notb_create_application(\n"
+          content += "  NAME           " + appli + "\n"
+          content += "  SOURCES        " + appList[appli]["source"] + "\n"
+          content += "  LINK_LIBRARIES ${${otb-module}_LIBRARIES}})\n"
           o.write(content)
         
         o.write("\nif( BUILD_TESTING )\n")
-        o.write("set(OTBAPP_BASELINE ${OTB_DATA_ROOT}/Baseline/OTB-Applications/Images)\n")
-        o.write("set(OTBAPP_BASELINE_FILES ${OTB_DATA_ROOT}/Baseline/OTB-Applications/Files)\n")
-        o.write("set(INPUTDATA ${OTB_DATA_ROOT}/Input)\n")
-        o.write("set(EXAMPLEDATA ${OTB_DATA_ROOT}/Examples)\n")
-        o.write("set(TEMP ${OTB_BINARY_DIR}/Testing/Temporary)\n")
-        
         for appli in appList:
           if not appList[appli].has_key("test"):
             continue
@@ -394,7 +389,10 @@ for  moduleName in moduleList:
             if test.count("${"):
               print "Warning : test name contains a variable : "+test
               continue
-            o.writelines(appList[appli]["test"][test])
+            
+            testcode=appList[appli]["test"][test]
+            testcode=[s.replace('OTB_TEST_APPLICATION', 'otb_test_application') for s in testcode]
+            o.writelines(testcode)
             o.write("\n")
         
         o.write("endif()\n")
