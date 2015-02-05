@@ -1,3 +1,14 @@
+diff -ur OTB_Modular-nopatch/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h OTB_Modular/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h
+--- OTB_Modular-nopatch/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h	2015-02-05 16:48:37.346756588 +0100
++++ OTB_Modular/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h	2015-02-05 18:05:32.208099690 +0100
+@@ -14,6 +14,7 @@
+  PURPOSE.  See the above copyright notices for more information.
+ 
+  =========================================================================*/
++#define OTB_USE_OPENCV
+ 
+ #include "otbWrapperApplicationFactory.h"
+ 
 diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h
 --- OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h	2015-02-04 18:14:11.317271910 +0100
 +++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2015-02-04 18:14:22.401519288 +0100
