@@ -377,7 +377,7 @@ for  moduleName in moduleList:
           content =  "\notb_create_application(\n"
           content += "  NAME           " + appli + "\n"
           content += "  SOURCES        " + appList[appli]["source"] + "\n"
-          content += "  LINK_LIBRARIES ${${otb-module}_LIBRARIES}})\n"
+          content += "  LINK_LIBRARIES ${${otb-module}_LIBRARIES})\n"
           o.write(content)
         
         o.write("\nif( BUILD_TESTING )\n")
