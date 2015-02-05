@@ -333,6 +333,7 @@ for  moduleName in moduleList:
 
     # write app/CMakeLists.txt
     if op.isdir(moduleDir+'/app'):
+      os.mkdir(moduleDir+'/test')
       srcFiles = glob.glob(moduleDir+'/app/*.cxx')
       srcFiles += glob.glob(moduleDir+'/app/*.h')
       appList = {}
@@ -379,8 +380,12 @@ for  moduleName in moduleList:
           content += "  SOURCES        " + appList[appli]["source"] + "\n"
           content += "  LINK_LIBRARIES ${${otb-module}_LIBRARIES})\n"
           o.write(content)
-        
-        o.write("\nif( BUILD_TESTING )\n")
+        o.close()
+      
+      filepath = moduleDir+'/test/CMakeLists.txt'
+      if not op.isfile(filepath):
+        o = open(filepath,'w')
+        o.write("otb_module_test()")
         for appli in appList:
           if not appList[appli].has_key("test"):
             continue
@@ -394,12 +399,8 @@ for  moduleName in moduleList:
             testcode=[s.replace('OTB_TEST_APPLICATION', 'otb_test_application') for s in testcode]
             o.writelines(testcode)
             o.write("\n")
-        
-        o.write("endif()\n")
         o.close()
-        
-    
-    
+
     # write  test/CMakeLists.txt : done by dispatchTests.py
     """
     if op.isdir(moduleDir+'/test'):
@@ -464,17 +465,27 @@ for  moduleName in moduleList:
         # replace test_depend list
         testDependTagPos = line.find("TESTDEP_TO_BE_REPLACED")
         if testDependTagPos >= 0:
-          if len(testDependencies[moduleName]) > 0:
+          if moduleName.startswith("App"):
+            # for application : hardcode TestKernel and CommandLine
             indentStr = ""
-            replacementStr = "TEST_DEPENDS"
             for it in range(testDependTagPos+2):
-              indentStr = indentStr + " "
-            for dep in testDependencies[moduleName]:
-              replacementStr = replacementStr + "\n" + indentStr +"OTB"+ dep  
+                indentStr = indentStr + " "
+            replacementStr = "TEST_DEPENDS\n" + indentStr + "OTBTestKernel\n" + indentStr + "OTBCommandLine"
             line = line.replace('TESTDEP_TO_BE_REPLACED',replacementStr)
           else:
-            line = line.replace('TESTDEP_TO_BE_REPLACED','')
-        
+            # standard case
+
+            if len(testDependencies[moduleName]) > 0:
+              indentStr = ""
+              replacementStr = "TEST_DEPENDS"
+              for it in range(testDependTagPos+2):
+                indentStr = indentStr + " "
+              for dep in testDependencies[moduleName]:
+                replacementStr = replacementStr + "\n" + indentStr +"OTB"+ dep  
+              line = line.replace('TESTDEP_TO_BE_REPLACED',replacementStr)
+            else:
+              line = line.replace('TESTDEP_TO_BE_REPLACED','')
+          
         # replace example_depend list
         exDependTagPos = line.find("EXDEP_TO_BE_REPLACED")
         if exDependTagPos >= 0:
