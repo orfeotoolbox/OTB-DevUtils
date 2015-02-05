@@ -3,7 +3,7 @@ set(CTEST_SITE "otb-debian-nightly.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Debian-sid-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
 set(CTEST_TEST_TIMEOUT 500)
 

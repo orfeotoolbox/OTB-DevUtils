@@ -3,7 +3,7 @@ set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
