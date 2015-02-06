@@ -11,7 +11,7 @@ set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/experimental/OTB-SuperBuild
 set(CTEST_BINARY_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/experimental/OTB-SuperBuild/build")
 set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/experimental/OTB-SuperBuild/install")
 
-set(CTEST_HG_COMMAND          "/usr/bin/hg")
+set(CTEST_HG_COMMAND          "/opt/local/bin/hg")
 set(CTEST_HG_UPDATE_OPTIONS   "-C")
 
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
