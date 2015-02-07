@@ -375,7 +375,7 @@ otb_module_target_label(otb%sTestDriver)
 
         if skip:
           continue
-        
+
         tCmakeCode = []
         if srcName in testFunctions:
           exeNameReplaced = False
@@ -388,15 +388,39 @@ otb_module_target_label(otb%sTestDriver)
               else:
                 line=line.replace("add_test(", "otb_add_test(")
 
+            # replace large input references
+            if line.find('${OTB_DATA_LARGEINPUT_ROOT}') != -1:
+              yolo=False
+              if line.find('IKONOS/PARIS/po_79039_red_0000000.tif') != -1:
+                print line
+                yolo=True
+              start = line.find('${OTB_DATA_LARGEINPUT_ROOT}')
+              end1 = line.find(' ', start)
+              end2 = line.find(')', start)
+              if end1 == -1:
+                end1=end2
+              if end2 == -1:
+                end2=end1
+              end = min(end1,end2)
+              before = line[:start]
+              after = line[end:]
+              largepath = line[start + len('${OTB_DATA_LARGEINPUT_ROOT}/'):end]
+              line = before + "LARGEINPUT{" + largepath + "}" + after
+              if yolo:
+                print line
+                yolo=False
+              
+
             if exeNameReplaced:
               tCmakeCode.append(line)
             else:
               tCmakeCode.append(line.replace(testCode[srcName][tName]["exeName"],"otb"+mod+"TestDriver",1))
+
             if line.find(testCode[srcName][tName]["exeName"]) >= 0:
               exeNameReplaced = True
         else:
           tCmakeCode = testCode[srcName][tName]["code"]
-        
+
         tCmakeCodeFinal = []
         # indent
         for i, line in zip(range(len(tCmakeCode)), tCmakeCode):
@@ -407,8 +431,7 @@ otb_module_target_label(otb%sTestDriver)
 
         fd.writelines(tCmakeCodeFinal)
         fd.write("\n")
-        
-    
+
     fd.close()
   
   return  
