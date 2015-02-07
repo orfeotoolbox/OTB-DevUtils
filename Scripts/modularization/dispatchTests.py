@@ -366,13 +366,6 @@ otb_module_target_label(otb%sTestDriver)
           print "Warning : test name contains a variable : "+tName
           skip=True
 
-        # TODO
-        # temporary : remove test with generator expression $<...>
-        for codeline in testCode[srcName][tName]["code"]:
-          if '$<' in codeline:
-            print "Warning : (temporary) test name contains a generator expression. skipping : "+tName
-            skip=True
-
         if skip:
           continue
 
@@ -390,10 +383,6 @@ otb_module_target_label(otb%sTestDriver)
 
             # replace large input references
             if line.find('${OTB_DATA_LARGEINPUT_ROOT}') != -1:
-              yolo=False
-              if line.find('IKONOS/PARIS/po_79039_red_0000000.tif') != -1:
-                print line
-                yolo=True
               start = line.find('${OTB_DATA_LARGEINPUT_ROOT}')
               end1 = line.find(' ', start)
               end2 = line.find(')', start)
@@ -406,10 +395,6 @@ otb_module_target_label(otb%sTestDriver)
               after = line[end:]
               largepath = line[start + len('${OTB_DATA_LARGEINPUT_ROOT}/'):end]
               line = before + "LARGEINPUT{" + largepath + "}" + after
-              if yolo:
-                print line
-                yolo=False
-              
 
             if exeNameReplaced:
               tCmakeCode.append(line)
