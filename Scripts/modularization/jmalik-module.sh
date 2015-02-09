@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TSOCKS=tsocks
-TSOCKS=
+#TSOCKS=
 
 DEVUTILS=/home/jmalik/dev/src/OTB-DevUtils/Scripts/modularization
 OTB_TRUNK=/home/jmalik/dev/src/OTB
