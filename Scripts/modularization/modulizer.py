@@ -513,6 +513,20 @@ if op.isfile(exDependPath):
   dispatchExamples.main(["dispatchExamples.py",ManifestPath,HeadOfOTBTree,HeadOfModularOTBTree,exDependPath])
 """
 
+# examples
+for i in sorted(os.listdir(HeadOfTempTree + "/Examples")):
+  if i == "CMakeLists.txt" or i == "README.txt":
+    continue
+
+  for j in sorted(os.listdir(HeadOfTempTree + "/Examples/" + i)):
+    if j == "CMakeLists.txt":
+      continue
+    print j
+    
+    command = "cp %s/Examples/%s/%s %s/Examples/%s/%s" % ( HeadOfTempTree, i, j,  HeadOfModularOTBTree, i, j) 
+    os.system(command)
+
+
 # save version without patches (so that we can regenerate patches later)
 os.system( "cp -ar " + op.join(OutputDir,"OTB_Modular") + " " + op.join(OutputDir,"OTB_Modular-nopatch") )
 
