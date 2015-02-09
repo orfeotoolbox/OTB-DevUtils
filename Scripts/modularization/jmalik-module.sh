@@ -41,5 +41,6 @@ cmake $OTB_MODULAR_RESULT/OTB_Modular \
  -DCMAKE_INSTALL_PREFIX:PATH=/home/jmalik/dev/build/OTB-modular-test/InstallTest \
  -DOTB_WRAP_PYTHON:BOOL=ON \
  -DOTB_WRAP_JAVA:BOOL=ON \
- -DOTB_DATA_ROOT:BOOL=/home/jmalik/dev/src/OTB-Data
+ -DOTB_DATA_ROOT:BOOL=/home/jmalik/dev/src/OTB-Data \
+ -DBUILD_EXAMPLES:BOOL=ON
 
