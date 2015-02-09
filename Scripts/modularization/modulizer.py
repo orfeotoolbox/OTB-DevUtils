@@ -519,9 +519,8 @@ for i in sorted(os.listdir(HeadOfTempTree + "/Examples")):
     continue
 
   for j in sorted(os.listdir(HeadOfTempTree + "/Examples/" + i)):
-    if j == "CMakeLists.txt":
+    if j == "CMakeLists.txt" or j.startswith("otb"):
       continue
-    print j
     
     command = "cp %s/Examples/%s/%s %s/Examples/%s/%s" % ( HeadOfTempTree, i, j,  HeadOfModularOTBTree, i, j) 
     os.system(command)
