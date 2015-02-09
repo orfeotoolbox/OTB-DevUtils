@@ -525,6 +525,17 @@ for i in sorted(os.listdir(HeadOfTempTree + "/Examples")):
     command = "cp %s/Examples/%s/%s %s/Examples/%s/%s" % ( HeadOfTempTree, i, j,  HeadOfModularOTBTree, i, j) 
     os.system(command)
 
+for i in sorted(os.listdir(HeadOfTempTree + "/Examples/DataRepresentation")):
+  if i == "CMakeLists.txt" or i == "README.txt":
+    continue
+
+  for j in sorted(os.listdir(HeadOfTempTree + "/Examples/DataRepresentation/" + i)):
+    if j == "CMakeLists.txt" or j.startswith("otb"):
+      continue
+    
+    command = "cp %s/Examples/DataRepresentation/%s/%s %s/Examples/DataRepresentation/%s/%s" % ( HeadOfTempTree, i, j,  HeadOfModularOTBTree, i, j) 
+    os.system(command)
+
 
 # save version without patches (so that we can regenerate patches later)
 os.system( "cp -ar " + op.join(OutputDir,"OTB_Modular") + " " + op.join(OutputDir,"OTB_Modular-nopatch") )
