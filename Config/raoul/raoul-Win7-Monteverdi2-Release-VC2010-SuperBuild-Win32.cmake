@@ -40,8 +40,8 @@ CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}")
 
 ##pull from OTB, Ice, Monteverdi2
 #execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB/build)
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_BINARY_DIRECTORY}/ICE/build)
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_BINARY_DIRECTORY}/MONTEVERDI2/build)
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_BINARY_DIRECTORY}/ICE)
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_BINARY_DIRECTORY}/MONTEVERDI2)
 
 ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
