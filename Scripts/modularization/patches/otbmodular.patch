@@ -10,6 +10,270 @@ diff -ur OTB_Modular-nopatch/Modules/Applications/AppClassification/app/otbTrain
  
  #include "otbWrapperApplicationFactory.h"
  
+diff -ur OTB_Modular-nopatch/Modules/Applications/AppClassification/test/CMakeLists.txt OTB_Modular/Modules/Applications/AppClassification/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Applications/AppClassification/test/CMakeLists.txt	2015-02-11 17:03:35.579140904 +0100
++++ OTB_Modular/Modules/Applications/AppClassification/test/CMakeLists.txt	2015-02-11 18:08:07.502862935 +0100
+@@ -37,6 +37,129 @@
+ 
+ 
+ #----------- ImageClassifier TESTS ----------------
++
++# Input file types
++set(raster_input_format ".tif")
++set(vector_input_format ".shp")
++set(stat_input_format ".xml")
++
++# Input file depending on classifier
++set(libsvm_input "")
++set(svm_input "")
++set(boost_input "Water_Vegetation")
++set(dt_input "")
++set(gbt_input "")
++set(ann_input "")
++set(bayes_input "")
++set(rf_input "")
++set(knn_input "")
++
++# Output type
++set(raster_output_format ".tif")
++set(raster_output_option "uint8")
++
++# Output model type depending on classifier
++set(libsvm_output_format ".libsvm")
++set(svm_output_format ".svm")
++set(boost_output_format ".boost")
++set(dt_output_format ".dt")
++set(gbt_output_format ".gbt")
++set(ann_output_format ".ann")
++set(bayes_output_format ".bayes")
++set(rf_output_format ".rf")
++set(knn_output_format ".knn")
++
++# Training algorithms parameters
++set(libsvm_parameters "-classifier.libsvm.opt" "true")
++set(svm_parameters "-classifier.svm.opt" "true")
++set(boost_parameters "")
++set(dt_parameters "")
++set(gbt_parameters "")
++set(ann_parameters "-classifier.ann.sizes" "100")
++set(bayes_parameters "")
++set(rf_parameters "")
++set(knn_parameters "")
++
++# Validation depending on mode
++set(ascii_comparison --compare-ascii ${NOTOL})
++set(raster_comparison --compare-image ${NOTOL})
++
++# Reference ffiles depending on modes
++set(ascii_ref_path ${OTBAPP_BASELINE_FILES})
++set(raster_ref_path ${OTBAPP_BASELINE})
++
++# Loop on classifiers
++foreach(classifier "LIBSVM" "SVM" "BOOST" "DT" "GBT" "ANN" "BAYES" "RF" "KNN")
++  string(TOLOWER ${classifier} lclassifier)
++
++  # Derive output file name
++  set(OUTMODELFILE cl${classifier}_ModelQB1${${lclassifier}_output_format})
++  set(OUTRASTER cl${classifier}LabeledImageQB1${raster_output_format})
++
++  otb_test_application(
++                       NAME     apTvClTrainMethod${classifier}ImagesClassifierQB1
++                       APP      TrainImagesClassifier
++                       OPTIONS  -io.il ${INPUTDATA}/Classification/QB_1_ortho${raster_input_format}
++                                -io.vd ${INPUTDATA}/Classification/VectorData_${${lclassifier}_input}QB1${vector_input_format}
++                                -io.imstat ${ascii_ref_path}/clImageStatisticsQB1${stat_input_format}
++                                -classifier ${lclassifier}
++                                ${${lclassifier}_parameters}
++                                -io.out ${TEMP}/${OUTMODELFILE}
++                                -rand 121212
++
++                       VALID    ${ascii_comparison}
++                                ${ascii_ref_path}/${OUTMODELFILE}
++                                ${TEMP}/${OUTMODELFILE}
++                       )
++
++  otb_test_application(
++                       NAME     apTvClTrainMethod${classifier}ImagesClassifierQB1_OutXML1
++                       APP      TrainImagesClassifier
++                       OPTIONS  -io.il ${INPUTDATA}/Classification/QB_1_ortho${raster_input_format}
++                                -io.vd ${INPUTDATA}/Classification/VectorData_${${lclassifier}_input}QB1${vector_input_format}
++                                -io.imstat ${ascii_ref_path}/clImageStatisticsQB1${stat_input_format}
++                                -classifier ${lclassifier}
++                                ${${lclassifier}_parameters}
++                                -io.out ${TEMP}/OutXML1_${OUTMODELFILE}
++                                -rand 121212
++                                -outxml ${TEMP}/cl${classifier}_OutXML1.xml
++
++                       VALID    ${ascii_comparison}
++                                ${ascii_ref_path}/${OUTMODELFILE}
++                                ${TEMP}/OutXML1_${OUTMODELFILE}
++                       )
++
++  otb_test_application(
++                       NAME     apTvClTrainMethod${classifier}ImagesClassifierQB1_InXML1
++                       APP      TrainImagesClassifier
++                       OPTIONS  -inxml ${INPUTDATA}/cl${classifier}_OutXML1.xml
++                                -io.il ${INPUTDATA}/Classification/QB_1_ortho${raster_input_format}
++                                -io.vd ${INPUTDATA}/Classification/VectorData_${${lclassifier}_input}QB1${vector_input_format}
++                                -io.imstat ${ascii_ref_path}/clImageStatisticsQB1${stat_input_format}
++                                -io.out ${TEMP}/OutXML2_${OUTMODELFILE}
++
++                       VALID    ${ascii_comparison}
++                                ${ascii_ref_path}/${OUTMODELFILE}
++                                ${TEMP}/OutXML2_${OUTMODELFILE}
++                       )
++
++                     #set_tests_properties(apTvClTrainMethod${classifier}ImagesClassifierQB1_InXML1 PROPERTIES DEPENDS apTvClTrainMethod${classifier}ImagesClassifierQB1_OutXML1)
++
++  otb_test_application(
++                       NAME     apTvClMethod${classifier}ImageClassifierQB1
++                       APP      ImageClassifier
++                       OPTIONS  -in ${INPUTDATA}/Classification/QB_1_ortho${raster_input_format}
++                                -model ${ascii_ref_path}/${OUTMODELFILE}
++                                -imstat ${ascii_ref_path}/clImageStatisticsQB1${stat_input_format}
++                                -out ${TEMP}/${OUTRASTER} ${raster_output_option}
++
++                       VALID    ${raster_comparison}
++                                ${raster_ref_path}/${OUTRASTER}
++                                ${TEMP}/${OUTRASTER}
++                       )
++
++endforeach()
++
+ otb_test_application(NAME apTvClImageSVMClassifierQB2
+                       APP  ImageClassifier
+                       OPTIONS -in      ${INPUTDATA}/Classification/QB_2_ortho.tif
+diff -ur OTB_Modular-nopatch/Modules/Applications/AppSegmentation/test/CMakeLists.txt OTB_Modular/Modules/Applications/AppSegmentation/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Applications/AppSegmentation/test/CMakeLists.txt	2015-02-11 17:03:35.663142807 +0100
++++ OTB_Modular/Modules/Applications/AppSegmentation/test/CMakeLists.txt	2015-02-11 18:21:59.309708292 +0100
+@@ -1,6 +1,127 @@
+ otb_module_test()
+ #----------- Segmentation TESTS ----------------
+ 
++# Segmentation algorithms parameters
++set(cc_parameters "-filter.cc.expr" "distance<25")
++set(edison_parameters "-filter.edison.spatialr" "5" "-filter.edison.ranger" "50" "-filter.edison.minsize" "10")
++set(meanshift_parameters "-filter.meanshift.spatialr" "5" "-filter.meanshift.ranger" "50" "-filter.meanshift.minsize" "10")
++set(vector_parameters "-mode.vector.tilesize" "500" "-mode.vector.minsize" "50" "-mode.vector.simplify" "0.1" "-mode.vector.outmode" "ovw")
++
++# validation option
++set(meanshift_option "--without-threads")
++
++# Output type dependning on mode
++set(raster_output_format ".tif")
++set(raster_output_option "uint16")
++set(vector_output_format ".sqlite")
++
++# Validation depending on mode
++set(vector_comparison --compare-ogr ${NOTOL})
++set(raster_comparison --compare-image ${NOTOL})
++
++# Reference ffiles depending on modes
++set(vector_ref_path ${BASELINE_FILES})
++set(raster_ref_path ${BASELINE})
++
++# Loop on modes
++foreach(mode "Raster" "Vector")
++string(TOLOWER ${mode} lmode)
++
++# Loop on filters
++foreach(filter "Edison" "Meanshift" "CC" "Watershed")
++string(TOLOWER ${filter} lfilter)
++
++# Derive output file name
++set(OUTFILE apTvSeSegmentation${filter}${mode}${${lmode}_output_format})
++
++OTB_TEST_APPLICATION(NAME     apTvSeSegmentation${filter}${mode}
++                     APP      Segmentation
++                     OPTIONS  -in ${EXAMPLEDATA}/qb_RoadExtract2.tif
++                              -filter ${lfilter}
++                              ${${lfilter}_parameters}
++                              -mode ${lmode}
++                              -mode.${lmode}.out ${TEMP}/${OUTFILE} ${${lmode}_output_option}
++                              ${${lmode}_parameters}
++                     VALID    ${${lfilter}_option}
++                              ${${lmode}_comparison}
++                              ${${lmode}_ref_path}/${OUTFILE}
++                              ${TEMP}/${OUTFILE}
++                     )
++
++endforeach()
++endforeach()
++
++set(filter "CC")
++set(mode "Vector")
++
++string(TOLOWER ${filter} lfilter)
++
++# Add a test for ULOVW
++set(vector_parameters "-mode.vector.tilesize" "500" "-mode.vector.minsize" "50" "-mode.vector.simplify" "0.1" "-mode.vector.outmode" "ulovw")
++
++set(OUTFILE apTvSeSegmentation${filter}${mode}${${lmode}_output_format})
++
++OTB_TEST_APPLICATION(NAME     apTvSeSegmentation${filter}${mode}_ULOVW
++                     APP      Segmentation
++                     OPTIONS  -in ${EXAMPLEDATA}/qb_RoadExtract2.tif
++                              -filter ${lfilter}
++                              ${${lfilter}_parameters}
++                              -mode ${lmode}
++                              -mode.${lmode}.out ${TEMP}/${OUTFILE} ${${lmode}_output_option}
++                              ${${lmode}_parameters}
++                     VALID    ${${lfilter}_option}
++                              ${${lmode}_comparison}
++                              ${${lmode}_ref_path}/${OUTFILE}
++                              ${TEMP}/${OUTFILE}
++                     )
++
++set_tests_properties(apTvSeSegmentation${filter}${mode}_ULOVW
++                     PROPERTIES DEPENDS apTvSeSegmentation${filter}${mode}
++                                RESOURCE_LOCK ${OUTFILE})
++
++# Add a test for ULU
++set(vector_parameters "-mode.vector.tilesize" "500" "-mode.vector.minsize" "50" "-mode.vector.simplify" "0.1" "-mode.vector.outmode" "ulu")
++
++OTB_TEST_APPLICATION(NAME     apTvSeSegmentation${filter}${mode}_ULU
++                     APP      Segmentation
++                     OPTIONS  -in ${EXAMPLEDATA}/qb_RoadExtract2.tif
++                              -filter ${lfilter}
++                              ${${lfilter}_parameters}
++                              -mode ${lmode}
++                              -mode.${lmode}.out ${TEMP}/${OUTFILE} ${${lmode}_output_option}
++                              ${${lmode}_parameters}
++                     VALID    ${${lfilter}_option}
++                              ${${lmode}_comparison}
++                              ${${lmode}_ref_path}/${OUTFILE}_ULU
++                              ${TEMP}/${OUTFILE}
++                     )
++
++set_tests_properties(apTvSeSegmentation${filter}${mode}_ULU
++                     PROPERTIES DEPENDS apTvSeSegmentation${filter}${mode}
++                                RESOURCE_LOCK ${OUTFILE})
++
++# Add a test for ULCO
++set(vector_parameters "-mode.vector.tilesize" "500" "-mode.vector.minsize" "50" "-mode.vector.simplify" "0.1" "-mode.vector.outmode" "ulco")
++
++OTB_TEST_APPLICATION(NAME     apTvSeSegmentation${filter}${mode}_ULCO
++                     APP      Segmentation
++                     OPTIONS  -in ${EXAMPLEDATA}/qb_RoadExtract2.tif
++                              -filter ${lfilter}
++                              ${${lfilter}_parameters}
++                              -mode ${lmode}
++                              -mode.${lmode}.out ${TEMP}/${OUTFILE} ${${lmode}_output_option}
++                              ${${lmode}_parameters}
++                     VALID    ${${lfilter}_option}
++                              ${${lmode}_comparison}
++                              ${${lmode}_ref_path}/${OUTFILE}
++                              ${TEMP}/${OUTFILE}
++                     )
++
++set_tests_properties(apTvSeSegmentation${filter}${mode}_ULCO
++                     PROPERTIES DEPENDS apTvSeSegmentation${filter}${mode}
++                                WILL_FAIL TRUE
++                                RESOURCE_LOCK ${OUTFILE})
++
+ #----------- ConnectedComponentSegmentation TESTS ----------------
+ otb_test_application(NAME  apTvCcConnectedComponentSegmentationMaskMuParserShp
+                      APP  ConnectedComponentSegmentation
 diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h
 --- OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h	2015-02-11 17:03:34.931126222 +0100
 +++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2015-02-11 17:03:46.875396831 +0100
@@ -22,6 +286,62 @@ diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h 
  #include "itksys/FundamentalType.h"
  
  namespace otb
+diff -ur OTB_Modular-nopatch/Modules/Core/Metadata/test/CMakeLists.txt OTB_Modular/Modules/Core/Metadata/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Core/Metadata/test/CMakeLists.txt	2015-02-11 17:03:36.623164558 +0100
++++ OTB_Modular/Modules/Core/Metadata/test/CMakeLists.txt	2015-02-11 18:29:31.311948821 +0100
+@@ -302,3 +302,52 @@
+   ${TEMP}/ioTvImageMetadataInterface.txt
+   )
+ 
++set( GenericTestPHR_TESTNB 0)
++foreach( current_file ${GenericTestPHR_DATA_INPUTS} )
++  list(GET GenericTestPHR_DATA_TYPES   ${GenericTestPHR_TESTNB} current_type   )
++  math(EXPR GenericTestPHR_TESTNB "${GenericTestPHR_TESTNB} + 1")
++
++  otb_add_test(NAME ioTvImageMetadataInterfaceBaseTest_${current_type} COMMAND otbMetadataTestDriver
++    --compare-ascii ${NOTOL}
++      ${BASELINE_FILES}/ioTvImageMetadataInterfaceBase_${current_type}.txt
++      ${TEMP}/ioTvImageMetadataInterfaceBase_${current_type}_OUT.txt
++    otbImageMetadataInterfaceBaseTest
++      ${current_file}
++      ${TEMP}/ioTvImageMetadataInterfaceBase_${current_type}_OUT.txt
++    )
++
++  otb_add_test(NAME ioTvOpticalImageMetadataInterfaceTest_${current_type} COMMAND otbMetadataTestDriver
++    --compare-ascii ${NOTOL}
++      ${BASELINE_FILES}/ioTvOpticalImageMetadataInterface_${current_type}.txt
++      ${TEMP}/ioTvOpticalImageMetadataInterface_${current_type}_OUT.txt
++    otbOpticalImageMetadataInterfaceTest
++      ${current_file}
++      ${TEMP}/ioTvOpticalImageMetadataInterface_${current_type}_OUT.txt
++    )
++endforeach()
++
++# SPOT 6
++set( GenericTestSPOT6_TESTNB 0)
++
++foreach( current_file ${GenericTestSPOT6_DATA_INPUTS} )
++  list(GET GenericTestSPOT6_DATA_TYPES   ${GenericTestSPOT6_TESTNB} current_type )
++  math(EXPR GenericTestSPOT6_TESTNB "${GenericTestSPOT6_TESTNB} + 1")
++
++  otb_add_test(NAME ioTvImageMetadataInterfaceBaseTest_${current_type} COMMAND otbMetadataTestDriver
++    --compare-ascii ${NOTOL}
++      ${BASELINE_FILES}/ioTvImageMetadataInterfaceBase_${current_type}.txt
++      ${TEMP}/ioTvImageMetadataInterfaceBase_${current_type}_OUT.txt
++    otbImageMetadataInterfaceBaseTest
++      ${current_file}
++      ${TEMP}/ioTvImageMetadataInterfaceBase_${current_type}_OUT.txt
++    )
++
++  otb_add_test(NAME ioTvOpticalImageMetadataInterfaceTest_${current_type} COMMAND otbMetadataTestDriver
++    --compare-ascii ${NOTOL}
++      ${BASELINE_FILES}/ioTvOpticalImageMetadataInterface_${current_type}.txt
++      ${TEMP}/ioTvOpticalImageMetadataInterface_${current_type}_OUT.txt
++    otbOpticalImageMetadataInterfaceTest
++      ${current_file}
++      ${TEMP}/ioTvOpticalImageMetadataInterface_${current_type}_OUT.txt
++    )
++endforeach()
 diff -ur OTB_Modular-nopatch/Modules/Feature/Edge/test/CMakeLists.txt OTB_Modular/Modules/Feature/Edge/test/CMakeLists.txt
 --- OTB_Modular-nopatch/Modules/Feature/Edge/test/CMakeLists.txt	2015-02-11 17:03:43.435318893 +0100
 +++ OTB_Modular/Modules/Feature/Edge/test/CMakeLists.txt	2015-02-11 17:03:46.879396922 +0100
