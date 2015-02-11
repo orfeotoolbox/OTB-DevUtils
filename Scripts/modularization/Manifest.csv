@@ -621,7 +621,6 @@
 ./Code/Radiometry/otbVegetationIndicesFunctor.h,Radiometry,Radiometry,Indices,include,
 ./Code/Radiometry/otbWaterIndicesFunctor.h,Radiometry,Radiometry,Indices,include,
 ./Code/Radiometry/otbWaterSqrtSpectralAngleImageFilter.h,Radiometry,Radiometry,Indices,include,
-./Code/UtilitiesAdapters/ITKPendingPatches/foo.cxx,UtilitiesAdapters/ITKPendingPatches,Adapters,ITKPendingPatches,src,
 ./Code/UtilitiesAdapters/ITKPendingPatches/itkFFTComplexToComplexImageFilter.h,UtilitiesAdapters/ITKPendingPatches,Adapters,ITKPendingPatches,include,
 ./Code/UtilitiesAdapters/ITKPendingPatches/itkFFTWComplexToComplexImageFilter.h,UtilitiesAdapters/ITKPendingPatches,Adapters,ITKPendingPatches,include,
 ./Code/UtilitiesAdapters/ITKPendingPatches/itkImageRegionMultidimensionalSplitter.h,UtilitiesAdapters/ITKPendingPatches,Adapters,ITKPendingPatches,include,
@@ -1503,7 +1502,6 @@
 ./Code/ObjectDetection/otbStatisticsXMLFileReader.txx,ObjectDetection,IO,IOXML,include,
 ./Code/ObjectDetection/otbStatisticsXMLFileWriter.h,ObjectDetection,IO,IOXML,include,
 ./Code/ObjectDetection/otbStatisticsXMLFileWriter.txx,ObjectDetection,IO,IOXML,include,
-./Code/BasicFilters/foo.cxx,BasicFilters,Filtering,ImageManipulation,src,remove foo.cxx
 ./Code/BasicFilters/otbAlphaBlendingFunctor.h,BasicFilters,Filtering,ImageManipulation,include,
 ./Code/BasicFilters/otbAmplitudeFunctor.h,BasicFilters,Filtering,ImageManipulation,include,
 ./Code/BasicFilters/otbAmplitudePhaseToRGBFunctor.h,BasicFilters,Filtering,ColorMap,include,Move to ColorMap to reduce dependencies
@@ -1619,10 +1617,6 @@
 ./Code/BasicFilters/otbVectorImageToIntensityImageFilter.txx,BasicFilters,Filtering,Statistics,include,
 ./Code/BasicFilters/otbVectorImageToMatrixImageFilter.h,BasicFilters,Filtering,Statistics,include,
 ./Code/BasicFilters/otbVectorImageToMatrixImageFilter.txx,BasicFilters,Filtering,Statistics,include,
-./Code/ChangeDetection/foo.cxx,ChangeDetection,Hyperspectral,AnomalyDetection,src,remove foo.cxx?
-./Code/Common/foo.cxx,Common,Core,Common,src,remove foo.cxx?
-./Code/DisparityMap/foo.cxx,DisparityMap,Registration,Stereo,src,remove foo.cxx
-./Code/FeatureExtraction/foo.cxx,FeatureExtraction,Feature,Textures,src,remove foo.cxx
 ./Code/FeatureExtraction/otbHuPathFunction.h,FeatureExtraction,Feature,Moments,include,
 ./Code/FeatureExtraction/otbHuPathFunction.txx,FeatureExtraction,Feature,Moments,include,
 ./Code/FeatureExtraction/otbMultiplyByScalarImageFilter.h,FeatureExtraction,Filtering,ImageManipulation,include,could be replaced by BandMath
@@ -1635,13 +1629,8 @@
 ./Code/FeatureExtraction/otbThresholdImageToPointSetFilter.txx,FeatureExtraction,Core,PointSet,include,
 ./Code/FeatureExtraction/otbUrbanAreaDetectionImageFilter.h,FeatureExtraction,Detection,UrbanArea,include,Move to ObjectDetection
 ./Code/FeatureExtraction/otbUrbanAreaDetectionImageFilter.txx,FeatureExtraction,Detection,UrbanArea,include,Move to ObjectDetection
-./Code/Fusion/foo.cxx,Fusion,Fusion,PanSharpening,src,remove foo.cxx?
-./Code/Fuzzy/foo.cxx,Fuzzy,Fusion,Fuzzy,src,remove foo.cxx?
 ./Code/Fuzzy/otbVectorDataToSpecificDescriptionFilterBase.h,Fuzzy,Filtering,VectorDataManipulation,include,
 ./Code/Fuzzy/otbVectorDataToSpecificDescriptionFilterBase.txx,Fuzzy,Filtering,VectorDataManipulation,include,
-./Code/Hyperspectral/foo.cxx,Hyperspectral,Hyperspectral,Unmixing,src,remove foo.cxx?
-./Code/IO/foo.cxx,IO,Core,ImageBase,src,remove foo.cxx?
-./Code/Learning/foo.cxx,Learning,Learning,DempsterShafer,src,remove foo.cxx
 ./Code/Learning/otbChangeProfileKernelFunctor.cxx,Learning,Learning,SVMLearning,src,Move to LibSVM to remove coupling
 ./Code/Learning/otbChangeProfileKernelFunctor.h,Learning,Learning,SVMLearning,include,Move to LibSVM to remove coupling
 ./Code/Learning/otbExhaustiveExponentialOptimizer.cxx,Learning,Learning,SVMLearning,src,Move to LibSVM to remove coupling
@@ -1650,21 +1639,9 @@
 ./Code/Learning/otbKMeansImageClassificationFilter.txx,Learning,Learning,LearningBase,include,
 ./Code/Learning/otbSEMClassifier.h,Learning,Learning,LearningBase,include,
 ./Code/Learning/otbSEMClassifier.txx,Learning,Learning,LearningBase,include,
-./Code/Markov/foo.cxx,Markov,Learning,Markov,src,remove foo.cxx
-./Code/MultiScale/foo.cxx,MultiScale,Filtering,Wavelet,src,remove foo.cxx
-./Code/MultiTemporal/foo.cxx,MultiTemporal,Filtering,Smoothing,src,remove foo.cxx
-./Code/OBIA/foo.cxx,OBIA,Core,LabelMap,src,remove foo.cxx
-./Code/ObjectDetection/foo.cxx,ObjectDetection,Detection,ObjectDetection,src,remove foo.cxx
-./Code/Projections/foo.cxx,Projections,Filtering,Projection,src,remove foo.cxx
-./Code/Radiometry/foo.cxx,Radiometry,Radiometry,OpticalCalibration,src,remove foo.cxx
 ./Code/Radiometry/otbDEMCaracteristicsExtractor.h,Radiometry,Filtering,Statistics,include,
 ./Code/Radiometry/otbDEMCaracteristicsExtractor.txx,Radiometry,Filtering,Statistics,include,
 ./Code/Radiometry/otbLandsatTMSpectralRuleBasedClassifier.h,Radiometry,Radiometry,OpticalCalibration,include,
-./Code/SARPolarimetry/foo.cxx,SARPolarimetry,Filtering,Polarimetry,src,remove foo.cxx
-./Code/Segmentation/foo.cxx,Segmentation,Segmentation,Conversion,src,remove foo.cxx
-./Code/SpatialReasoning/foo.cxx,SpatialReasoning,OBIA,RCC8,src,remove foo.cxx
-./Code/Testing/foo.cxx,Testing,IO,TestKernel,src,remove foo.cxx
-./Code/UtilitiesAdapters/OpenCVAdapters/foo.cxx,UtilitiesAdapters/OpenCVAdapters,Adapters,OpenCVAdapters,src,remove foo.cxx
 ./Code/UtilitiesAdapters/ITKPendingPatches/itkFFTComplexToComplexImageFilter.hxx,UtilitiesAdapters/ITKPendingPatches,Adapters,ITKPendingPatches,include,
 ./Code/UtilitiesAdapters/ITKPendingPatches/itkFFTWComplexToComplexImageFilter.hxx,UtilitiesAdapters/ITKPendingPatches,Adapters,ITKPendingPatches,include,
 ./Code/UtilitiesAdapters/ITKPendingPatches/itkImageRegionMultidimensionalSplitter.hxx,UtilitiesAdapters/ITKPendingPatches,Adapters,ITKPendingPatches,include,
