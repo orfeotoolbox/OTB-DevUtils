@@ -107,7 +107,8 @@ def parseDescriptions(path):
 
 if len(sys.argv) < 4:
     print("USAGE:  {0}  monolithic_OTB_PATH  OUTPUT_DIR  Manifest_Path  [module_dep [test_dep [mod_description]]]".format(sys.argv[0]))
-    print("  monolithic_OTB_PATH : checkout of OTB repository (will not be modified)")
+    print("  monolithic_OTB_PATH : checkout of OTB repository ")
+    print("                        (will not be modified, unless the MIGRATION is enabled)")
     print("  OUTPUT_DIR          : output directory where OTB_Modular and OTB_remaining will be created ")
     print("  Manifest_Path       : path to manifest file, in CSV-like format. Fields are :")
     print("                          source_path/current_subDir/group/module/subDir/comment")
@@ -545,4 +546,26 @@ curdir = op.abspath(op.dirname(__file__))
 command =  "cd " + op.join(OutputDir,"OTB_Modular") + " && patch -p1 < " + curdir + "/patches/otbmodular.patch"
 print "Executing " + command
 os.system( command )
+
+# PREPARE MIGRATION COMMIT ON ORIGINAL CHECKOUT
+
+# walk through OTB_Remaining and delete corresponding files in OTB checkout
+#   hg remove
+#   ...
+# hg commit
+
+# walk through manifest and rename files
+#   hg rename
+#   ...
+# hg commit
+
+# add new files from OTB_Modular (files from OTB-Modular repo + generated files)
+#   hg add
+#   ...
+# hg commit
+
+# apply patches on OTB Checkout
+# patch
+# hg commit
+
 
