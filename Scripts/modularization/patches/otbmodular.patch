@@ -342,6 +342,207 @@ diff -ur OTB_Modular-nopatch/Modules/Core/Metadata/test/CMakeLists.txt OTB_Modul
 +      ${TEMP}/ioTvOpticalImageMetadataInterface_${current_type}_OUT.txt
 +    )
 +endforeach()
+diff -ur OTB_Modular-nopatch/Modules/Core/Transform/test/CMakeLists.txt OTB_Modular/Modules/Core/Transform/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Core/Transform/test/CMakeLists.txt	2015-02-11 17:03:41.867283368 +0100
++++ OTB_Modular/Modules/Core/Transform/test/CMakeLists.txt	2015-02-13 18:19:28.104932976 +0100
+@@ -293,3 +293,197 @@
+ 
+ otb_add_test(NAME prTuGenericMapProjectionNew COMMAND otbTransformTestDriver  otbGenericMapProjectionNew )
+ 
++# Generic Testing
++set(GenericConversionChecking_INPUTS
++  LARGEINPUT{QUICKBIRD/TOULOUSE/000000128955_01_P001_PAN/02APR01105228-P1BS-000000128955_01_P001.TIF
++  #LARGEINPUT{SPOT4/RIO_DE_JANEIRO/IMAG_01.DAT
++  LARGEINPUT{SPOT5/TEHERAN/IMAGERY.TIF
++  LARGEINPUT{RADARSAT1/GOMA2/SCENE01/DAT_01.001
++  LARGEINPUT{RADARSAT2/ALTONA/Fine_Quad-Pol_Dataset/PK6621_DK406_FQ9_20080405_124900_HH_VV_HV_VH_SLC_Altona/imagery_HH.tif
++  LARGEINPUT{FORMOSAT/Sudouest_20071013_MS_fmsat/IMAGERY.TIF
++  #LARGEINPUT{GEOEYE/LES_ROCHES/po_350134_bgrn_0000000.tif
++  #LARGEINPUT{IKONOS/BLOSSEVILLE/po_2619900_pan_0000000.tif
++  #LARGEINPUT{PALSAR/ALOS-H1_1__A-ORBIT__ALPSRP037120700.tif
++  #LARGEINPUT{WORLDVIEW2/ROME/WV-2_standard_8band_bundle_16bit/052298844010_01_P001_PAN/09DEC10103019-P2AS-052298844010_01_P001.TIF
++  LARGEINPUT{TERRASARX/PANGKALANBUUN/TSX1_SAR__SSC______SM_D_SRA_20080313T221955_20080313T222003.xml
++  LARGEINPUT{ENVISAT_ASAR_SCENE01/ASA_APS_1PNDPA20030821_7713.N1
++  #LARGEINPUT{COSMOSKYMED/Toulouse_spotlight/CSKS3_GTC_B_S2_08_HH_RD_SF_20110418180325_20110418180332.h5
++  #LARGEINPUT{MODIS/MOD13Q1/MOD13Q1.A2010001.h17v05.005.2010028003734.hdf
++  #LARGEINPUT{ONERA/spa3_0215_rad.dat
++  #LARGEINPUT{RAPIDEYE/level3A/2008-12-25T005918_RE3_3A-NAC_752656_40091.tif
++  )
++
++set(GenericConversionChecking_TYPES
++	QUICKBIRD
++	#SPOT4
++	SPOT5
++	RADARSAT1
++	RADARSAT2
++	FORMOSAT
++	#GEOEYE
++	#IKONOS
++	#PALSAR
++	#WORLDVIEW2
++	TERRASARX
++	ENVISAT
++	#COSMOSKYMED
++	#MODIS
++	#ONERA
++	#RAPIDEYE
++	)
++
++set(GenericConversionChecking_TOL_PIX
++	24 # according to DigitalGlobe specification
++	#30
++	30
++	30
++	30
++	30
++	#30
++	#30
++	#30
++	#30
++	30
++	30
++	#30
++	#30
++	#30
++	#30
++	)
++
++set(GenericConversionChecking_TOL_M
++	23 # according to DigitalGlobe specification
++	#30
++	30
++	30
++	30
++	30
++	#30
++	#30
++	#30
++	#30
++	#30
++	30
++	30
++	#30
++	#30
++	#30
++	)
++
++set( GenericConversionChecking_TESTNB 0)
++
++foreach( file ${GenericConversionChecking_INPUTS} )
++  list(GET GenericConversionChecking_TYPES   ${GenericConversionChecking_TESTNB} current_type   )
++  list(GET GenericConversionChecking_TOL_PIX ${GenericConversionChecking_TESTNB} current_tol_pix)
++  list(GET GenericConversionChecking_TOL_M   ${GenericConversionChecking_TESTNB} current_tol_m  )
++  math(EXPR GenericConversionChecking_TESTNB "${GenericConversionChecking_TESTNB} + 1")
++  
++  otb_add_test(NAME prTvGenericRSTransformGenericConversionCheckingFromGCP_${current_type} COMMAND otbTransformTestDriver
++    otbGenericRSTransformGenericConversionCheckingFromGCP
++      ${file}
++      ${INPUTDATA}/DEM/srtm_directory/
++      ${INPUTDATA}/DEM/egm96.grd #Not used
++      ${current_tol_pix} # Tolerance in pixels
++      ${current_tol_m}   # Tolerance in meters
++      1                  # Verbose
++  )
++endforeach()
++
++# Forward / Backward projection consistency checking
++
++set(FWDBWDChecking_INPUTS
++  LARGEINPUT{QUICKBIRD/TOULOUSE/000000128955_01_P001_PAN/02APR01105228-P1BS-000000128955_01_P001.TIF}
++  #LARGEINPUT{SPOT4/RIO_DE_JANEIRO/IMAG_01.DAT}
++  LARGEINPUT{SPOT5/TEHERAN/IMAGERY.TIF}
++  LARGEINPUT{RADARSAT1/GOMA2/SCENE01/DAT_01.001}
++  LARGEINPUT{RADARSAT2/ALTONA/Fine_Quad-Pol_Dataset/PK6621_DK406_FQ9_20080405_124900_HH_VV_HV_VH_SLC_Altona/imagery_HH.tif}
++  LARGEINPUT{FORMOSAT/Sudouest_20071013_MS_fmsat/IMAGERY.TIF}
++  #LARGEINPUT{GEOEYE/LES_ROCHES/po_350134_bgrn_0000000.tif}
++  #LARGEINPUT{IKONOS/BLOSSEVILLE/po_2619900_pan_0000000.tif}
++  #LARGEINPUT{PALSAR/ALOS-H1_1__A-ORBIT__ALPSRP037120700.tif}
++  #LARGEINPUT{WORLDVIEW2/ROME/WV-2_standard_8band_bundle_16bit/052298844010_01_P001_PAN/09DEC10103019-P2AS-052298844010_01_P001.TIF}
++  LARGEINPUT{TERRASARX/2008-03-10_GrandCanyon_SSC/TSX1_SAR__SSC______SM_S_SRA_20080310T133220_20080310T133228/IMAGEDATA/IMAGE_HH_SRA_strip_011.cos}
++  LARGEINPUT{ENVISAT_ASAR_SCENE01/ASA_APS_1PNDPA20030821_7713.N1}
++  #LARGEINPUT{COSMOSKYMED/Toulouse_spotlight/CSKS3_GTC_B_S2_08_HH_RD_SF_20110418180325_20110418180332.h5}
++  #LARGEINPUT{MODIS/MOD13Q1/MOD13Q1.A2010001.h17v05.005.2010028003734.hdf}
++  #LARGEINPUT{ONERA/spa3_0215_rad.dat}
++  #LARGEINPUT{RAPIDEYE/level3A/2008-12-25T005918_RE3_3A-NAC_752656_40091.tif}
++  )
++
++set(FWDBWDChecking_TYPES
++  QUICKBIRD
++  #SPOT4
++  SPOT5
++  RADARSAT1
++  RADARSAT2
++  FORMOSAT
++  #GEOEYE
++  #IKONOS
++  #PALSAR
++  #WORLDVIEW2
++  TERRASARX
++  ENVISAT
++  #COSMOSKYMED
++  #MODIS
++  #ONERA
++  #RAPIDEYE
++  )
++set( FWDBWDChecking_TESTNB 0)
++
++foreach( file ${FWDBWDChecking_INPUTS} )
++  list(GET FWDBWDChecking_TYPES   ${FWDBWDChecking_TESTNB} current_type   )
++  math(EXPR FWDBWDChecking_TESTNB "${FWDBWDChecking_TESTNB} + 1")
++  
++  otb_add_test(NAME prTvForwardBackwardProjectionConsistency_${current_type} COMMAND otbTransformTestDriver
++    otbForwardBackwardProjectionConsistency
++      ${file}
++      ${INPUTDATA}/DEM/srtm_directory/
++      ${INPUTDATA}/DEM/egm96.grd #Not used
++      20 # nb Tested Points
++      1  # Tolerance in pixels
++      1  # Verbose
++  )
++endforeach()
++
++
++
++
++set(SARSENSORMODEL_TYPES
++  "RADARSAT1/GOMA/SCENE01/"
++  "RADARSAT2/ALTONA/Fine_Quad-Pol_Dataset/PK6621_DK406_FQ9_20080405_124900_HH_VV_HV_VH_SLC_Altona/product.xml"
++  "ENVISAT_ASAR_SCENE01/ASA_APS_1PNDPA20030821_7713.N1"
++  "PALSAR/200801280007/l1data/VOL-ALPSRP037120700-H1.1__A"
++  "TERRASARX/PANGKALANBUUN/IMAGEDATA/IMAGE_HH_SRA_stripFar_008.cos"
++)
++
++foreach( file ${SARSENSORMODEL_TYPES})
++  # Get the sensor name
++  set(sharp_regexp "([0-9A-Za-z_]*)[ ]*/[ ]*(.*)")
++  string(REGEX REPLACE "${sharp_regexp}" "\\1" sensor_name "${file}")
++  # Tests
++  otb_add_test(NAME prTvSensorModelGrid_${sensor_name} COMMAND otbTransformTestDriver
++    --compare-n-images ${EPSILON_6} 2
++           ${BASELINE}/prTvSensorModelGridDeltaX_${sensor_name}.tif
++           ${TEMP}/prTvSensorModelGridDeltaX_${sensor_name}.tif
++           ${BASELINE}/prTvSensorModelGridDeltaY_${sensor_name}.tif
++           ${TEMP}/prTvSensorModelGridDeltaY_${sensor_name}.tif
++      otbSensorModelGrid
++           LARGEINPUT{${file}}
++           ${TEMP}/prTvSensorModelGridDeltaX_${sensor_name}.tif
++           ${TEMP}/prTvSensorModelGridDeltaY_${sensor_name}.tif
++           10 10
++          )
++
++  otb_add_test(NAME prTvForwardSensorModelGrid_${sensor_name} COMMAND otbTransformTestDriver
++    --compare-n-images ${EPSILON_6} 2
++           ${BASELINE}/prTvForwardSensorModelGridX_${sensor_name}.tif
++           ${TEMP}/prTvForwardSensorModelGridX_${sensor_name}.tif
++           ${BASELINE}/prTvForwardSensorModelGridY_${sensor_name}.tif
++           ${TEMP}/prTvForwardSensorModelGridY_${sensor_name}.tif
++      otbForwardSensorModelGrid
++           LARGEINPUT{${file}}
++           ${TEMP}/prTvForwardSensorModelGridX_${sensor_name}.tif
++           ${TEMP}/prTvForwardSensorModelGridY_${sensor_name}.tif
++           10 10
++          )
++endforeach()
 diff -ur OTB_Modular-nopatch/Modules/Feature/Edge/test/CMakeLists.txt OTB_Modular/Modules/Feature/Edge/test/CMakeLists.txt
 --- OTB_Modular-nopatch/Modules/Feature/Edge/test/CMakeLists.txt	2015-02-11 17:03:43.435318893 +0100
 +++ OTB_Modular/Modules/Feature/Edge/test/CMakeLists.txt	2015-02-11 17:03:46.879396922 +0100
@@ -367,6 +568,44 @@ diff -ur OTB_Modular-nopatch/Modules/Filtering/Path/test/CMakeLists.txt OTB_Modu
  
  otb_add_test(NAME feTvBreakAngularPathListFilter COMMAND otbPathTestDriver
    --compare-ascii ${NOTOL}  ${BASELINE_FILES}/feBreakAngularPathListOutput.txt
+diff -ur OTB_Modular-nopatch/Modules/Filtering/Statistics/test/CMakeLists.txt OTB_Modular/Modules/Filtering/Statistics/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Filtering/Statistics/test/CMakeLists.txt	2015-02-11 17:03:38.687211320 +0100
++++ OTB_Modular/Modules/Filtering/Statistics/test/CMakeLists.txt	2015-02-12 18:21:37.486214102 +0100
+@@ -292,6 +292,34 @@
+   otbStreamingStatisticsImageFilter
+   ${INPUTDATA}/small_poupees_1canal.hd
+   ${TEMP}/bfStreamingStatisticsImageFilterResults.txt)
++  
++foreach(inputFileType "UINT8" "UINT16" "INT16" "UINT32" "INT32" "FLOAT" "DOUBLE")
++  foreach(sizeType "LARGE" "SMALL")
++    string(TOLOWER ${sizeType} lsizeType)
++
++    if( sizeType STREQUAL "LARGE" )
++      set(size "2048")
++    else()
++      set(size "256")
++    endif()
++
++    # Derive output file names
++    set(OUTFILENAME RGBSquares${inputFileType}_${lsizeType}.tif)
++    set(OUTLABELFILENAME RGBSquares${inputFileType}_${lsizeType}_Labels.tif)
++
++    set(writeOutputImagesRq "0")
++
++    otb_add_test(NAME bfTvStreamingStatisticsMapFromLabelImageFilterTest${inputFileType}${lsizeType} COMMAND otbStatisticsTestDriver
++         otbStreamingStatisticsMapFromLabelImageFilterTest
++               ${inputFileType}
++               ${size}
++               ${size}
++               ${writeOutputImagesRq}
++               ${TEMP}/${OUTFILENAME}
++               ${TEMP}/${OUTLABELFILENAME}
++    )
++  endforeach()
++endforeach()
+ 
+ otb_add_test(NAME leTuListSampleToBalancedListSampleFilterNew COMMAND otbStatisticsTestDriver
+   otbListSampleToBalancedListSampleFilterNew)
 diff -ur OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx
 --- OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2015-02-06 11:31:35.306648000 +0100
 +++ OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2015-02-11 17:03:46.879396922 +0100
@@ -415,6 +654,33 @@ diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx OTB_M
  #include "otbCurlHelper.h"
  
  namespace otb
+diff -ur OTB_Modular-nopatch/Modules/IO/ImageIO/test/CMakeLists.txt OTB_Modular/Modules/IO/ImageIO/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/IO/ImageIO/test/CMakeLists.txt	2015-02-11 17:03:41.703279652 +0100
++++ OTB_Modular/Modules/IO/ImageIO/test/CMakeLists.txt	2015-02-12 18:18:43.406209927 +0100
+@@ -62,6 +62,23 @@
+ otb_module_target_label(otbImageIOTestDriver)
+ 
+ # Tests Declaration
++foreach(streaming_type "Tiled" "Stripped")
++  foreach(streaming_sizemode "Auto" "Nbsplits" "Height")
++    string(TOLOWER ${streaming_type} type)
++    string(TOLOWER ${streaming_sizemode} sizemode)
++
++    set(_test_name "ioTvImageFileWriterExtendedFileName_Streaming${streaming_type}${streaming_sizemode}")
++
++    otb_add_test(NAME ${_test_name} COMMAND otbImageIOTestDriver
++      --compare-image ${NOTOL}
++               ${INPUTDATA}/maur_rgb_24bpp.tif
++               ${TEMP}/${test_name}.tif
++      otbImageFileWriterWithExtendedFilename
++              ${INPUTDATA}/maur_rgb_24bpp.tif
++              ${TEMP}/${test_name}.tif?&streaming:type=${type}&streaming:sizemode=${sizemode}&streaming:sizevalue=${streaming_sizevalue_${sizemode}}
++    )
++  endforeach()
++endforeach()
+ 
+ otb_add_test(NAME ioTvImageFileWriterExtendedFileName_Box COMMAND otbImageIOTestDriver
+   otbImageFileWriterWithExtendedOptionBox
 diff -ur OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx
 --- OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2015-02-06 11:31:36.282670000 +0100
 +++ OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2015-02-11 17:03:46.883397013 +0100
@@ -557,6 +823,29 @@ diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMModel.h 
  
  namespace otb
  {
+diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/test/CMakeLists.txt OTB_Modular/Modules/Learning/SVMLearning/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/test/CMakeLists.txt	2015-02-11 17:03:39.187222649 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/test/CMakeLists.txt	2015-02-12 18:23:48.449226504 +0100
+@@ -73,6 +73,19 @@
+   otbSVMModelCopyTest
+   ${INPUTDATA}/svm_model
+   ${TEMP}/svmcopymodel_test)
++  
++foreach(kernelType RANGE 0 18)
++  otb_add_test(NAME leTvSVMKernelTest${kernelType} COMMAND otbSVMLearningTestDriver
++    --compare-ascii ${EPSILON_9}
++      ${BASELINE_FILES}/leTvSVMKernelTest${kernelType}.txt
++      ${TEMP}/leTvSVMKernelTest${kernelType}.txt
++    otbSVMKernelsTest
++      ${EXAMPLEDATA}/qb_RoadExtract.tif
++      ${EXAMPLEDATA}/qb_RoadExtract_easyClassification.shp
++      ${TEMP}/leTvSVMKernelTest${kernelType}.txt
++      ${kernelType}
++  )
++endforeach()
+ 
+ otb_add_test(NAME leTvSVMPointSetModelEstimatorTrain COMMAND otbSVMLearningTestDriver
+   --compare-ascii ${EPSILON_3}  ${BASELINE_FILES}/leTvsvm_model_pointset
 diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h
 --- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2015-02-11 17:03:34.911125770 +0100
 +++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2015-02-11 17:03:46.911397647 +0100
