@@ -1,7 +1,7 @@
 Binary files OTB_Modular-nopatch/.hg/dirstate and OTB_Modular/.hg/dirstate differ
 diff -ur OTB_Modular-nopatch/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h OTB_Modular/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h
---- OTB_Modular-nopatch/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h	2015-02-11 17:03:35.199132294 +0100
-+++ OTB_Modular/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h	2015-02-11 17:03:46.875396831 +0100
+--- OTB_Modular-nopatch/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h	2015-02-17 10:05:40.634338260 +0100
++++ OTB_Modular/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h	2015-02-17 10:05:51.986578566 +0100
 @@ -14,6 +14,7 @@
   PURPOSE.  See the above copyright notices for more information.
  
@@ -11,8 +11,8 @@ diff -ur OTB_Modular-nopatch/Modules/Applications/AppClassification/app/otbTrain
  #include "otbWrapperApplicationFactory.h"
  
 diff -ur OTB_Modular-nopatch/Modules/Applications/AppClassification/test/CMakeLists.txt OTB_Modular/Modules/Applications/AppClassification/test/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/Applications/AppClassification/test/CMakeLists.txt	2015-02-11 17:03:35.579140904 +0100
-+++ OTB_Modular/Modules/Applications/AppClassification/test/CMakeLists.txt	2015-02-11 18:08:07.502862935 +0100
+--- OTB_Modular-nopatch/Modules/Applications/AppClassification/test/CMakeLists.txt	2015-02-17 10:05:41.030346643 +0100
++++ OTB_Modular/Modules/Applications/AppClassification/test/CMakeLists.txt	2015-02-17 10:05:51.986578566 +0100
 @@ -37,6 +37,129 @@
  
  
@@ -144,8 +144,8 @@ diff -ur OTB_Modular-nopatch/Modules/Applications/AppClassification/test/CMakeLi
                        APP  ImageClassifier
                        OPTIONS -in      ${INPUTDATA}/Classification/QB_2_ortho.tif
 diff -ur OTB_Modular-nopatch/Modules/Applications/AppSegmentation/test/CMakeLists.txt OTB_Modular/Modules/Applications/AppSegmentation/test/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/Applications/AppSegmentation/test/CMakeLists.txt	2015-02-11 17:03:35.663142807 +0100
-+++ OTB_Modular/Modules/Applications/AppSegmentation/test/CMakeLists.txt	2015-02-11 18:21:59.309708292 +0100
+--- OTB_Modular-nopatch/Modules/Applications/AppSegmentation/test/CMakeLists.txt	2015-02-17 10:05:41.114348422 +0100
++++ OTB_Modular/Modules/Applications/AppSegmentation/test/CMakeLists.txt	2015-02-17 10:05:51.986578566 +0100
 @@ -1,6 +1,127 @@
  otb_module_test()
  #----------- Segmentation TESTS ----------------
@@ -275,8 +275,8 @@ diff -ur OTB_Modular-nopatch/Modules/Applications/AppSegmentation/test/CMakeList
  otb_test_application(NAME  apTvCcConnectedComponentSegmentationMaskMuParserShp
                       APP  ConnectedComponentSegmentation
 diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h
---- OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h	2015-02-11 17:03:34.931126222 +0100
-+++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2015-02-11 17:03:46.875396831 +0100
+--- OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h	2015-02-17 10:05:40.374332757 +0100
++++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2015-02-17 10:05:51.986578566 +0100
 @@ -22,7 +22,7 @@
  
  #include "itkObject.h"
@@ -287,8 +287,8 @@ diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h 
  
  namespace otb
 diff -ur OTB_Modular-nopatch/Modules/Core/Metadata/test/CMakeLists.txt OTB_Modular/Modules/Core/Metadata/test/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/Core/Metadata/test/CMakeLists.txt	2015-02-11 17:03:36.623164558 +0100
-+++ OTB_Modular/Modules/Core/Metadata/test/CMakeLists.txt	2015-02-11 18:29:31.311948821 +0100
+--- OTB_Modular-nopatch/Modules/Core/Metadata/test/CMakeLists.txt	2015-02-17 10:05:42.082368913 +0100
++++ OTB_Modular/Modules/Core/Metadata/test/CMakeLists.txt	2015-02-17 10:05:51.990578650 +0100
 @@ -302,3 +302,52 @@
    ${TEMP}/ioTvImageMetadataInterface.txt
    )
@@ -343,8 +343,8 @@ diff -ur OTB_Modular-nopatch/Modules/Core/Metadata/test/CMakeLists.txt OTB_Modul
 +    )
 +endforeach()
 diff -ur OTB_Modular-nopatch/Modules/Core/Transform/test/CMakeLists.txt OTB_Modular/Modules/Core/Transform/test/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/Core/Transform/test/CMakeLists.txt	2015-02-11 17:03:41.867283368 +0100
-+++ OTB_Modular/Modules/Core/Transform/test/CMakeLists.txt	2015-02-13 18:19:28.104932976 +0100
+--- OTB_Modular-nopatch/Modules/Core/Transform/test/CMakeLists.txt	2015-02-17 10:05:47.274478819 +0100
++++ OTB_Modular/Modules/Core/Transform/test/CMakeLists.txt	2015-02-17 10:05:51.990578650 +0100
 @@ -293,3 +293,197 @@
  
  otb_add_test(NAME prTuGenericMapProjectionNew COMMAND otbTransformTestDriver  otbGenericMapProjectionNew )
@@ -544,8 +544,8 @@ diff -ur OTB_Modular-nopatch/Modules/Core/Transform/test/CMakeLists.txt OTB_Modu
 +          )
 +endforeach()
 diff -ur OTB_Modular-nopatch/Modules/Feature/Edge/test/CMakeLists.txt OTB_Modular/Modules/Feature/Edge/test/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/Feature/Edge/test/CMakeLists.txt	2015-02-11 17:03:43.435318893 +0100
-+++ OTB_Modular/Modules/Feature/Edge/test/CMakeLists.txt	2015-02-11 17:03:46.879396922 +0100
+--- OTB_Modular-nopatch/Modules/Feature/Edge/test/CMakeLists.txt	2015-02-17 10:05:48.838511928 +0100
++++ OTB_Modular/Modules/Feature/Edge/test/CMakeLists.txt	2015-02-17 10:05:51.990578650 +0100
 @@ -273,6 +273,9 @@
  otb_add_test(NAME bfTuVerticalSobelVectorImageFilterNew COMMAND otbEdgeTestDriver
    otbVerticalSobelVectorImageFilterNewTest)
@@ -557,8 +557,8 @@ diff -ur OTB_Modular-nopatch/Modules/Feature/Edge/test/CMakeLists.txt OTB_Modula
    --compare-ogr  ${EPSILON_8}
    ${BASELINE_FILES}/feTvStreamingLineSegmentDetectorOutput10.shp
 diff -ur OTB_Modular-nopatch/Modules/Filtering/Path/test/CMakeLists.txt OTB_Modular/Modules/Filtering/Path/test/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/Filtering/Path/test/CMakeLists.txt	2015-02-11 17:03:36.975172533 +0100
-+++ OTB_Modular/Modules/Filtering/Path/test/CMakeLists.txt	2015-02-11 17:03:46.879396922 +0100
+--- OTB_Modular-nopatch/Modules/Filtering/Path/test/CMakeLists.txt	2015-02-17 10:05:42.434376364 +0100
++++ OTB_Modular/Modules/Filtering/Path/test/CMakeLists.txt	2015-02-17 10:05:51.990578650 +0100
 @@ -184,8 +184,6 @@
    ${TEMP}/feRectangle.txt
    0.9 #fit score
@@ -569,8 +569,8 @@ diff -ur OTB_Modular-nopatch/Modules/Filtering/Path/test/CMakeLists.txt OTB_Modu
  otb_add_test(NAME feTvBreakAngularPathListFilter COMMAND otbPathTestDriver
    --compare-ascii ${NOTOL}  ${BASELINE_FILES}/feBreakAngularPathListOutput.txt
 diff -ur OTB_Modular-nopatch/Modules/Filtering/Statistics/test/CMakeLists.txt OTB_Modular/Modules/Filtering/Statistics/test/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/Filtering/Statistics/test/CMakeLists.txt	2015-02-11 17:03:38.687211320 +0100
-+++ OTB_Modular/Modules/Filtering/Statistics/test/CMakeLists.txt	2015-02-12 18:21:37.486214102 +0100
+--- OTB_Modular-nopatch/Modules/Filtering/Statistics/test/CMakeLists.txt	2015-02-17 10:05:44.070410996 +0100
++++ OTB_Modular/Modules/Filtering/Statistics/test/CMakeLists.txt	2015-02-17 10:05:51.994578734 +0100
 @@ -292,6 +292,34 @@
    otbStreamingStatisticsImageFilter
    ${INPUTDATA}/small_poupees_1canal.hd
@@ -608,7 +608,7 @@ diff -ur OTB_Modular-nopatch/Modules/Filtering/Statistics/test/CMakeLists.txt OT
    otbListSampleToBalancedListSampleFilterNew)
 diff -ur OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx
 --- OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2015-02-06 11:31:35.306648000 +0100
-+++ OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2015-02-11 17:03:46.879396922 +0100
++++ OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2015-02-17 10:05:51.994578734 +0100
 @@ -19,7 +19,7 @@
  #include "otbFuzzyDescriptorsModelManager.h"
  #include "itkMacro.h"
@@ -620,7 +620,7 @@ diff -ur OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelMa
  
 diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbCoordinateToName.cxx OTB_Modular/Modules/IO/Carto/src/otbCoordinateToName.cxx
 --- OTB_Modular-nopatch/Modules/IO/Carto/src/otbCoordinateToName.cxx	2015-02-06 11:31:36.450674000 +0100
-+++ OTB_Modular/Modules/IO/Carto/src/otbCoordinateToName.cxx	2015-02-11 17:03:46.879396922 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbCoordinateToName.cxx	2015-02-17 10:05:51.994578734 +0100
 @@ -23,7 +23,7 @@
  #include "otbMacro.h"
  #include "otbUtils.h"
@@ -632,7 +632,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbCoordinateToName.cxx OTB_Mo
  #include "itkMersenneTwisterRandomVariateGenerator.h"
 diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx OTB_Modular/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx
 --- OTB_Modular-nopatch/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx	2015-02-06 11:31:36.462674000 +0100
-+++ OTB_Modular/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx	2015-02-11 17:03:46.879396922 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx	2015-02-17 10:05:51.994578734 +0100
 @@ -22,7 +22,7 @@
  #include "itkDataObject.h"
  #include "itkMacro.h"
@@ -644,7 +644,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerato
  {
 diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx OTB_Modular/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx
 --- OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx	2015-02-06 11:31:36.502675000 +0100
-+++ OTB_Modular/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx	2015-02-11 17:03:46.879396922 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx	2015-02-17 10:05:51.994578734 +0100
 @@ -17,7 +17,7 @@
  =========================================================================*/
  
@@ -654,11 +654,11 @@ diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx OTB_M
  #include "otbCurlHelper.h"
  
  namespace otb
-diff -ur OTB_Modular-nopatch/Modules/IO/ImageIO/test/CMakeLists.txt OTB_Modular/Modules/IO/ImageIO/test/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/IO/ImageIO/test/CMakeLists.txt	2015-02-11 17:03:41.703279652 +0100
-+++ OTB_Modular/Modules/IO/ImageIO/test/CMakeLists.txt	2015-02-12 18:18:43.406209927 +0100
-@@ -62,6 +62,23 @@
- otb_module_target_label(otbImageIOTestDriver)
+diff -ur OTB_Modular-nopatch/Modules/IO/ExtendedFilename/test/CMakeLists.txt OTB_Modular/Modules/IO/ExtendedFilename/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/IO/ExtendedFilename/test/CMakeLists.txt	2015-02-17 10:05:43.286394400 +0100
++++ OTB_Modular/Modules/IO/ExtendedFilename/test/CMakeLists.txt	2015-02-17 10:44:21.099457873 +0100
+@@ -12,6 +12,23 @@
+ otb_module_target_label(otbExtendedFilenameTestDriver)
  
  # Tests Declaration
 +foreach(streaming_type "Tiled" "Stripped")
@@ -668,7 +668,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/ImageIO/test/CMakeLists.txt OTB_Modular/
 +
 +    set(_test_name "ioTvImageFileWriterExtendedFileName_Streaming${streaming_type}${streaming_sizemode}")
 +
-+    otb_add_test(NAME ${_test_name} COMMAND otbImageIOTestDriver
++    otb_add_test(NAME ${_test_name} COMMAND otbExtendedFilenameTestDriver
 +      --compare-image ${NOTOL}
 +               ${INPUTDATA}/maur_rgb_24bpp.tif
 +               ${TEMP}/${test_name}.tif
@@ -679,11 +679,11 @@ diff -ur OTB_Modular-nopatch/Modules/IO/ImageIO/test/CMakeLists.txt OTB_Modular/
 +  endforeach()
 +endforeach()
  
- otb_add_test(NAME ioTvImageFileWriterExtendedFileName_Box COMMAND otbImageIOTestDriver
-   otbImageFileWriterWithExtendedOptionBox
+ otb_add_test(NAME ioTvExtendedFilenameToReaderOptions_FullOptions COMMAND otbExtendedFilenameTestDriver
+   --compare-ascii ${NOTOL}
 diff -ur OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx
 --- OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2015-02-06 11:31:36.282670000 +0100
-+++ OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2015-02-11 17:03:46.883397013 +0100
++++ OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2015-02-17 10:05:51.998578819 +0100
 @@ -24,7 +24,7 @@
  #include "otbSystem.h"
  #include "itksys/SystemTools.hxx"
@@ -695,7 +695,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx OTB_Modula
  #include "itkMetaDataObject.h"
 diff -ur OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx OTB_Modular/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx
 --- OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx	2015-02-06 11:31:36.334671000 +0100
-+++ OTB_Modular/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx	2015-02-11 17:03:46.883397013 +0100
++++ OTB_Modular/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx	2015-02-17 10:05:51.998578819 +0100
 @@ -31,7 +31,7 @@
  
  extern "C"
@@ -716,7 +716,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx OT
  #include "itkMutexLockHolder.h"
 diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx
 --- OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx	2015-02-06 11:31:33.886615000 +0100
-+++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx	2015-02-11 17:03:46.883397013 +0100
++++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx	2015-02-17 10:05:51.998578819 +0100
 @@ -21,7 +21,7 @@
  #include "otbStatisticsXMLFileReader.h"
  #include "itkMacro.h"
@@ -728,7 +728,7 @@ diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileReader
  
 diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx
 --- OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx	2015-02-06 11:31:33.886615000 +0100
-+++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx	2015-02-11 17:03:46.883397013 +0100
++++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx	2015-02-17 10:05:51.998578819 +0100
 @@ -21,7 +21,7 @@
  #include "otbStatisticsXMLFileWriter.h"
  #include "itkMacro.h"
@@ -739,8 +739,8 @@ diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter
  namespace otb {
  
 diff -ur OTB_Modular-nopatch/Modules/Learning/LearningBase/src/CMakeLists.txt OTB_Modular/Modules/Learning/LearningBase/src/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/Learning/LearningBase/src/CMakeLists.txt	2015-02-11 17:03:35.475138548 +0100
-+++ OTB_Modular/Modules/Learning/LearningBase/src/CMakeLists.txt	2015-02-11 17:54:57.092955463 +0100
+--- OTB_Modular-nopatch/Modules/Learning/LearningBase/src/CMakeLists.txt	2015-02-17 10:05:40.926344442 +0100
++++ OTB_Modular/Modules/Learning/LearningBase/src/CMakeLists.txt	2015-02-17 10:05:51.998578819 +0100
 @@ -6,7 +6,7 @@
  target_link_libraries(OTBLearningBase 
    ${OTBCommon_LIBRARIES}
@@ -751,8 +751,8 @@ diff -ur OTB_Modular-nopatch/Modules/Learning/LearningBase/src/CMakeLists.txt OT
  
  otb_module_target(OTBLearningBase)
 diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbChangeProfileKernelFunctor.h OTB_Modular/Modules/Learning/SVMLearning/include/otbChangeProfileKernelFunctor.h
---- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbChangeProfileKernelFunctor.h	2015-02-11 17:03:35.183131932 +0100
-+++ OTB_Modular/Modules/Learning/SVMLearning/include/otbChangeProfileKernelFunctor.h	2015-02-11 17:03:46.887397103 +0100
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbChangeProfileKernelFunctor.h	2015-02-17 10:05:40.622338008 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbChangeProfileKernelFunctor.h	2015-02-17 10:05:52.002578904 +0100
 @@ -20,7 +20,7 @@
  #ifndef __otbChangeProfileKernelFunctor_h
  #define __otbChangeProfileKernelFunctor_h
@@ -763,8 +763,8 @@ diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbChangeProfi
  namespace otb
  {
 diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbMixturePolyRBFKernelFunctor.h OTB_Modular/Modules/Learning/SVMLearning/include/otbMixturePolyRBFKernelFunctor.h
---- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbMixturePolyRBFKernelFunctor.h	2015-02-11 17:03:35.031128489 +0100
-+++ OTB_Modular/Modules/Learning/SVMLearning/include/otbMixturePolyRBFKernelFunctor.h	2015-02-11 17:03:46.907397556 +0100
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbMixturePolyRBFKernelFunctor.h	2015-02-17 10:05:40.474334874 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbMixturePolyRBFKernelFunctor.h	2015-02-17 10:05:52.002578904 +0100
 @@ -20,7 +20,7 @@
  #ifndef __otbMixturePolyRBFKernelFunctor_h
  #define __otbMixturePolyRBFKernelFunctor_h
@@ -775,8 +775,8 @@ diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbMixturePoly
  namespace otb
  {
 diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbNonGaussianRBFKernelFunctor.h OTB_Modular/Modules/Learning/SVMLearning/include/otbNonGaussianRBFKernelFunctor.h
---- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbNonGaussianRBFKernelFunctor.h	2015-02-11 17:03:35.031128489 +0100
-+++ OTB_Modular/Modules/Learning/SVMLearning/include/otbNonGaussianRBFKernelFunctor.h	2015-02-11 17:03:46.907397556 +0100
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbNonGaussianRBFKernelFunctor.h	2015-02-17 10:05:40.474334874 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbNonGaussianRBFKernelFunctor.h	2015-02-17 10:05:52.002578904 +0100
 @@ -20,7 +20,7 @@
  #ifndef __otbNonGaussianRBFKernelFunctor_h
  #define __otbNonGaussianRBFKernelFunctor_h
@@ -787,8 +787,8 @@ diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbNonGaussian
  //FIXME: shouldn't it be in the Functor namespace?
  namespace otb
 diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSpectralAngleKernelFunctor.h OTB_Modular/Modules/Learning/SVMLearning/include/otbSpectralAngleKernelFunctor.h
---- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSpectralAngleKernelFunctor.h	2015-02-11 17:03:34.951126676 +0100
-+++ OTB_Modular/Modules/Learning/SVMLearning/include/otbSpectralAngleKernelFunctor.h	2015-02-11 17:03:46.907397556 +0100
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSpectralAngleKernelFunctor.h	2015-02-17 10:05:40.394333180 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbSpectralAngleKernelFunctor.h	2015-02-17 10:05:52.002578904 +0100
 @@ -20,7 +20,7 @@
  #ifndef __otbSpectralAngleKernelFunctor_h
  #define __otbSpectralAngleKernelFunctor_h
@@ -799,8 +799,8 @@ diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSpectralAng
  namespace otb
  {
 diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMKernels.h OTB_Modular/Modules/Learning/SVMLearning/include/otbSVMKernels.h
---- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMKernels.h	2015-02-11 17:03:35.031128489 +0100
-+++ OTB_Modular/Modules/Learning/SVMLearning/include/otbSVMKernels.h	2015-02-11 17:03:46.911397647 +0100
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMKernels.h	2015-02-17 10:05:40.478334959 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbSVMKernels.h	2015-02-17 10:05:52.002578904 +0100
 @@ -31,7 +31,7 @@
  #include "otbNonGaussianRBFKernelFunctor.h"
  #include "otbMixturePolyRBFKernelFunctor.h"
@@ -811,8 +811,8 @@ diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMKernels.
  namespace otb
  {
 diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMModel.h OTB_Modular/Modules/Learning/SVMLearning/include/otbSVMModel.h
---- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMModel.h	2015-02-11 17:03:35.035128579 +0100
-+++ OTB_Modular/Modules/Learning/SVMLearning/include/otbSVMModel.h	2015-02-11 17:03:46.911397647 +0100
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMModel.h	2015-02-17 10:05:40.478334959 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbSVMModel.h	2015-02-17 10:05:52.002578904 +0100
 @@ -21,8 +21,8 @@
  #include "itkObjectFactory.h"
  #include "itkDataObject.h"
@@ -824,8 +824,8 @@ diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMModel.h 
  namespace otb
  {
 diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/test/CMakeLists.txt OTB_Modular/Modules/Learning/SVMLearning/test/CMakeLists.txt
---- OTB_Modular-nopatch/Modules/Learning/SVMLearning/test/CMakeLists.txt	2015-02-11 17:03:39.187222649 +0100
-+++ OTB_Modular/Modules/Learning/SVMLearning/test/CMakeLists.txt	2015-02-12 18:23:48.449226504 +0100
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/test/CMakeLists.txt	2015-02-17 10:05:44.582421834 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/test/CMakeLists.txt	2015-02-17 10:05:52.002578904 +0100
 @@ -73,6 +73,19 @@
    otbSVMModelCopyTest
    ${INPUTDATA}/svm_model
@@ -847,8 +847,8 @@ diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/test/CMakeLists.txt OT
  otb_add_test(NAME leTvSVMPointSetModelEstimatorTrain COMMAND otbSVMLearningTestDriver
    --compare-ascii ${EPSILON_3}  ${BASELINE_FILES}/leTvsvm_model_pointset
 diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h
---- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2015-02-11 17:03:34.911125770 +0100
-+++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2015-02-11 17:03:46.911397647 +0100
+--- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2015-02-17 10:05:40.354332334 +0100
++++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2015-02-17 10:05:52.002578904 +0100
 @@ -1,7 +1,7 @@
  #ifndef __otbWrapperInputProcessXMLParameter_h
  #define __otbWrapperInputProcessXMLParameter_h
@@ -859,8 +859,8 @@ diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapp
  
  namespace otb
 diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h
---- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2015-02-11 17:03:34.915125860 +0100
-+++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2015-02-11 17:03:46.911397647 +0100
+--- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2015-02-17 10:05:40.358332418 +0100
++++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2015-02-17 10:05:52.006578989 +0100
 @@ -1,7 +1,7 @@
  #ifndef __otbWrapperOutputProcessXMLParameter_h
  #define __otbWrapperOutputProcessXMLParameter_h
@@ -872,7 +872,7 @@ diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapp
  {
 diff -ur OTB_Modular-nopatch/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx OTB_Modular/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx
 --- OTB_Modular-nopatch/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx	2015-02-06 11:31:35.618655000 +0100
-+++ OTB_Modular/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx	2015-02-11 17:03:46.911397647 +0100
++++ OTB_Modular/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx	2015-02-17 10:05:52.006578989 +0100
 @@ -17,7 +17,7 @@
   =========================================================================*/
  
