@@ -48,6 +48,7 @@ import documentationCheck
 import analyseAppManifest
 import dispatchTests
 import dispatchExamples
+from subprocess import call
 
 def parseFullManifest(path):
   sourceList = []
@@ -107,14 +108,14 @@ def parseDescriptions(path):
 
 if len(sys.argv) < 4:
     print("USAGE:  {0}  monolithic_OTB_PATH  OUTPUT_DIR  Manifest_Path  [module_dep [test_dep [mod_description]]]".format(sys.argv[0]))
-    print("  monolithic_OTB_PATH : checkout of OTB repository ")
-    print("                        (will not be modified, unless the MIGRATION is enabled)")
+    print("  monolithic_OTB_PATH : checkout of OTB repository (will not be modified)")
     print("  OUTPUT_DIR          : output directory where OTB_Modular and OTB_remaining will be created ")
     print("  Manifest_Path       : path to manifest file, in CSV-like format. Fields are :")
     print("                          source_path/current_subDir/group/module/subDir/comment")
     print("  module_dep          : dependencies between modules")
     print("  test_dep            : additional dependencies for tests")
     print("  mod_description     : description for each module")
+    print("  migration_password  : password to enable MIGRATION")
     sys.exit(-1)
 
 scriptDir = op.dirname(op.abspath(sys.argv[0]))
@@ -139,6 +140,12 @@ if len(sys.argv) >= 6:
 modDescriptionPath = ""
 if len(sys.argv) >= 7:
   modDescriptionPath = sys.argv[6]
+
+enableMigration = False
+if len(sys.argv) >= 8:
+  migrationPass = sys.argv[7]
+  if migrationPass == "redbutton":
+    enableMigration = True
 
 # copy the whole OTB tree over to a temporary dir
 HeadOfTempTree = op.join(OutputDir,"OTB_remaining")
@@ -547,25 +554,80 @@ command =  "cd " + op.join(OutputDir,"OTB_Modular") + " && patch -p1 < " + curdi
 print "Executing " + command
 os.system( command )
 
-# PREPARE MIGRATION COMMIT ON ORIGINAL CHECKOUT
-
-# walk through OTB_Remaining and delete corresponding files in OTB checkout
-#   hg remove
-#   ...
-# hg commit
-
-# walk through manifest and rename files
-#   hg rename
-#   ...
-# hg commit
-
-# add new files from OTB_Modular (files from OTB-Modular repo + generated files)
-#   hg add
-#   ...
-# hg commit
-
-# apply patches on OTB Checkout
-# patch
-# hg commit
+# PREPARE MIGRATION COMMIT ON A CLONE OF ORIGINAL CHECKOUT
+if enableMigration:
+  print("Executing migration on a clone of original checkout")
+  HeadOfTempTree = op.abspath(HeadOfTempTree)
+  OutputDir = op.abspath(OutputDir)
+  
+  # clone original checkout
+  outputModular = op.join(OutputDir,"OTB_Modular")
+  outputMigration = op.join(OutputDir,"OTB_Migration")
+  if op.exists(outputMigration):
+    os.removedirs(outputMigration)
+  command = ["cp","-ar",HeadOfOTBTree,outputMigration]
+  call(command)
+  os.chdir(outputMigration)
+  
+  # walk through OTB_Remaining and delete corresponding files in OTB checkout
+  print("DELETE STEP...")
+  for dirPath, dirNames, fileNames in os.walk(HeadOfTempTree):
+    currentSourceDir = dirPath.replace(HeadOfTempTree,'.')
+    for fileName in fileNames:
+      if op.exists(op.join(currentSourceDir,fileName)):
+        command = ["hg","remove",op.join(currentSourceDir,fileName)]
+        call(command)
+      else:
+        print("Unknown file : "+op.join(currentSourceDir,fileName))
+  command = ['hg','commit','-m','RMV: remove files not handled by modularization']
+  call(command)
+  
+  # walk through manifest and rename files
+  print("MOVE STEP...")
+  for source in sourceList:
+    outputPath = op.join("./Modules",op.join(source["group"],op.join(source["module"],source["subDir"])))
+    command = ['hg','rename',source["path"],op.join(outputPath,op.basename(source["path"]))]
+    call(command)
+  command = ['hg','commit','-m','MOV: move source files into modules']
+  call(command)
+  
+  # add new files from OTB_Modular (files from OTB-Modular repo + generated files)
+  print("ADD STEP...")
+  for dirPath, dirNames, fileNames in os.walk(outputModular):
+    currentSourceDir = dirPath.replace(outputModular,'.')
+    if currentSourceDir.startswith("./.hg"):
+      print("skip .hg")
+      continue
+    for fileName in fileNames:
+      # skip hg files
+      if fileName.startswith(".hg"):
+        continue
+      targetFile = op.join(currentSourceDir,fileName)
+      if not op.exists(targetFile):
+        if not op.exists(currentSourceDir):
+          command = ["mkdir","-p",currentSourceDir]
+          call(command)
+        shutil.copy(op.join(dirPath,fileName),targetFile)
+  command = ['hg','add']
+  call(command)
+  command = ['hg','commit','-m','ADD: add new files for modular build system']
+  call(command)
+  
+  # apply patches on OTB Checkout
+  print("PATCH STEP...")
+  for dirPath, dirNames, fileNames in os.walk(outputModular):
+    currentSourceDir = dirPath.replace(outputModular,'.')
+    if currentSourceDir.startswith("./.hg"):
+      continue
+    for fileName in fileNames:
+      # skip hg files
+      if fileName.startswith(".hg"):
+        continue
+      targetFile = op.join(currentSourceDir,fileName)
+      if op.exists(targetFile):
+        command = ['cp',op.join(dirPath,fileName),targetFile]
+        call(command)
+  command = ['hg','commit','-m','ENH: patches and file modifications']
+  call(command)
 
 
