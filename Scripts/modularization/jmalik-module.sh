@@ -13,12 +13,13 @@ APP_MANIFEST=$DEVUTILS/otb_app_manifest.csv
 APP_DEPENDS=$DEVUTILS/otb_app_depends.csv
 TEST_MANIFEST=$DEVUTILS/TestManifest.csv
 TEST_DEPENDS=$DEVUTILS/test-depends.csv
+ADDITIONNAL_MANIFEST=$DEVUTILS/additionnalManifest.csv
 
 CODE_APPS_DEPENDS=$DEVUTILS/code_apps_depends.csv
 FULL_MANIFEST=$DEVUTILS/full-manifest.csv
 
 $TSOCKS $DEVUTILS/createTestManifest.py $DEVUTILS/Manifest.csv $DEVUTILS/module-depends.csv $OTB_TRUNK $TEST_MANIFEST $TEST_DEPENDS
-cat $DEVUTILS/Manifest.csv $TEST_MANIFEST $APP_MANIFEST > $FULL_MANIFEST
+cat $DEVUTILS/Manifest.csv $TEST_MANIFEST $APP_MANIFEST $ADDITIONNAL_MANIFEST > $FULL_MANIFEST
 
 $DEVUTILS/analyseAppManifest.py $DEVUTILS/Manifest.csv $DEVUTILS/module-depends.csv $OTB_TRUNK $APP_MANIFEST $APP_DEPENDS
 
@@ -27,7 +28,7 @@ cat $DEVUTILS/module-depends.csv $APP_DEPENDS > $CODE_APPS_DEPENDS
 rm -rf $OTB_MODULAR_RESULT
 
 $TSOCKS $DEVUTILS/modulizer.py $OTB_TRUNK $OTB_MODULAR_RESULT \
-  $FULL_MANIFEST  $CODE_APPS_DEPENDS $DEVUTILS/test-depends.csv $DEVUTILS/module-descriptions.csv
+  $FULL_MANIFEST  $CODE_APPS_DEPENDS $DEVUTILS/test-depends.csv $DEVUTILS/module-descriptions.csv redbutton
 
 rm -rf $OTB_MODULAR_BUILD/*
 mkdir -p $OTB_MODULAR_BUILD

@@ -530,7 +530,7 @@ for i in sorted(os.listdir(HeadOfTempTree + "/Examples")):
     if j == "CMakeLists.txt" or j.startswith("otb"):
       continue
     
-    command = "cp %s/Examples/%s/%s %s/Examples/%s/%s" % ( HeadOfTempTree, i, j,  HeadOfModularOTBTree, i, j) 
+    command = "mv %s/Examples/%s/%s %s/Examples/%s/%s" % ( HeadOfTempTree, i, j,  HeadOfModularOTBTree, i, j) 
     os.system(command)
 
 for i in sorted(os.listdir(HeadOfTempTree + "/Examples/DataRepresentation")):
@@ -541,7 +541,7 @@ for i in sorted(os.listdir(HeadOfTempTree + "/Examples/DataRepresentation")):
     if j == "CMakeLists.txt" or j.startswith("otb"):
       continue
     
-    command = "cp %s/Examples/DataRepresentation/%s/%s %s/Examples/DataRepresentation/%s/%s" % ( HeadOfTempTree, i, j,  HeadOfModularOTBTree, i, j) 
+    command = "mv %s/Examples/DataRepresentation/%s/%s %s/Examples/DataRepresentation/%s/%s" % ( HeadOfTempTree, i, j,  HeadOfModularOTBTree, i, j) 
     os.system(command)
 
 
@@ -553,6 +553,11 @@ curdir = op.abspath(op.dirname(__file__))
 command =  "cd " + op.join(OutputDir,"OTB_Modular") + " && patch -p1 < " + curdir + "/patches/otbmodular.patch"
 print "Executing " + command
 os.system( command )
+
+# remove Copyright files we don't want to touch later
+os.system( "rm -rf %s"  % (op.join(HeadOfTempTree,"Copyright") ) )
+os.system( "rm -rf %s"  % (op.join(HeadOfTempTree,"RELEASE_NOTES.txt") ) )
+os.system( "rm -rf %s"  % (op.join(HeadOfTempTree,"README") ) )
 
 # PREPARE MIGRATION COMMIT ON A CLONE OF ORIGINAL CHECKOUT
 if enableMigration:
