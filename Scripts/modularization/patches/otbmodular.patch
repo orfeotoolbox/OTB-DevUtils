@@ -344,109 +344,12 @@ diff -ur OTB_Modular-nopatch/Modules/Core/Metadata/test/CMakeLists.txt OTB_Modul
 +endforeach()
 diff -ur OTB_Modular-nopatch/Modules/Core/Transform/test/CMakeLists.txt OTB_Modular/Modules/Core/Transform/test/CMakeLists.txt
 --- OTB_Modular-nopatch/Modules/Core/Transform/test/CMakeLists.txt	2015-02-17 10:05:47.274478819 +0100
-+++ OTB_Modular/Modules/Core/Transform/test/CMakeLists.txt	2015-02-17 10:05:51.990578650 +0100
-@@ -293,3 +293,197 @@
++++ OTB_Modular/Modules/Core/Transform/test/CMakeLists.txt	2015-02-17 15:34:23.459831096 +0100
+@@ -293,3 +293,100 @@
  
  otb_add_test(NAME prTuGenericMapProjectionNew COMMAND otbTransformTestDriver  otbGenericMapProjectionNew )
  
-+# Generic Testing
-+set(GenericConversionChecking_INPUTS
-+  LARGEINPUT{QUICKBIRD/TOULOUSE/000000128955_01_P001_PAN/02APR01105228-P1BS-000000128955_01_P001.TIF
-+  #LARGEINPUT{SPOT4/RIO_DE_JANEIRO/IMAG_01.DAT
-+  LARGEINPUT{SPOT5/TEHERAN/IMAGERY.TIF
-+  LARGEINPUT{RADARSAT1/GOMA2/SCENE01/DAT_01.001
-+  LARGEINPUT{RADARSAT2/ALTONA/Fine_Quad-Pol_Dataset/PK6621_DK406_FQ9_20080405_124900_HH_VV_HV_VH_SLC_Altona/imagery_HH.tif
-+  LARGEINPUT{FORMOSAT/Sudouest_20071013_MS_fmsat/IMAGERY.TIF
-+  #LARGEINPUT{GEOEYE/LES_ROCHES/po_350134_bgrn_0000000.tif
-+  #LARGEINPUT{IKONOS/BLOSSEVILLE/po_2619900_pan_0000000.tif
-+  #LARGEINPUT{PALSAR/ALOS-H1_1__A-ORBIT__ALPSRP037120700.tif
-+  #LARGEINPUT{WORLDVIEW2/ROME/WV-2_standard_8band_bundle_16bit/052298844010_01_P001_PAN/09DEC10103019-P2AS-052298844010_01_P001.TIF
-+  LARGEINPUT{TERRASARX/PANGKALANBUUN/TSX1_SAR__SSC______SM_D_SRA_20080313T221955_20080313T222003.xml
-+  LARGEINPUT{ENVISAT_ASAR_SCENE01/ASA_APS_1PNDPA20030821_7713.N1
-+  #LARGEINPUT{COSMOSKYMED/Toulouse_spotlight/CSKS3_GTC_B_S2_08_HH_RD_SF_20110418180325_20110418180332.h5
-+  #LARGEINPUT{MODIS/MOD13Q1/MOD13Q1.A2010001.h17v05.005.2010028003734.hdf
-+  #LARGEINPUT{ONERA/spa3_0215_rad.dat
-+  #LARGEINPUT{RAPIDEYE/level3A/2008-12-25T005918_RE3_3A-NAC_752656_40091.tif
-+  )
-+
-+set(GenericConversionChecking_TYPES
-+	QUICKBIRD
-+	#SPOT4
-+	SPOT5
-+	RADARSAT1
-+	RADARSAT2
-+	FORMOSAT
-+	#GEOEYE
-+	#IKONOS
-+	#PALSAR
-+	#WORLDVIEW2
-+	TERRASARX
-+	ENVISAT
-+	#COSMOSKYMED
-+	#MODIS
-+	#ONERA
-+	#RAPIDEYE
-+	)
-+
-+set(GenericConversionChecking_TOL_PIX
-+	24 # according to DigitalGlobe specification
-+	#30
-+	30
-+	30
-+	30
-+	30
-+	#30
-+	#30
-+	#30
-+	#30
-+	30
-+	30
-+	#30
-+	#30
-+	#30
-+	#30
-+	)
-+
-+set(GenericConversionChecking_TOL_M
-+	23 # according to DigitalGlobe specification
-+	#30
-+	30
-+	30
-+	30
-+	30
-+	#30
-+	#30
-+	#30
-+	#30
-+	#30
-+	30
-+	30
-+	#30
-+	#30
-+	#30
-+	)
-+
-+set( GenericConversionChecking_TESTNB 0)
-+
-+foreach( file ${GenericConversionChecking_INPUTS} )
-+  list(GET GenericConversionChecking_TYPES   ${GenericConversionChecking_TESTNB} current_type   )
-+  list(GET GenericConversionChecking_TOL_PIX ${GenericConversionChecking_TESTNB} current_tol_pix)
-+  list(GET GenericConversionChecking_TOL_M   ${GenericConversionChecking_TESTNB} current_tol_m  )
-+  math(EXPR GenericConversionChecking_TESTNB "${GenericConversionChecking_TESTNB} + 1")
-+  
-+  otb_add_test(NAME prTvGenericRSTransformGenericConversionCheckingFromGCP_${current_type} COMMAND otbTransformTestDriver
-+    otbGenericRSTransformGenericConversionCheckingFromGCP
-+      ${file}
-+      ${INPUTDATA}/DEM/srtm_directory/
-+      ${INPUTDATA}/DEM/egm96.grd #Not used
-+      ${current_tol_pix} # Tolerance in pixels
-+      ${current_tol_m}   # Tolerance in meters
-+      1                  # Verbose
-+  )
-+endforeach()
-+
 +# Forward / Backward projection consistency checking
-+
 +set(FWDBWDChecking_INPUTS
 +  LARGEINPUT{QUICKBIRD/TOULOUSE/000000128955_01_P001_PAN/02APR01105228-P1BS-000000128955_01_P001.TIF}
 +  #LARGEINPUT{SPOT4/RIO_DE_JANEIRO/IMAG_01.DAT}
@@ -568,6 +471,107 @@ diff -ur OTB_Modular-nopatch/Modules/Filtering/Path/test/CMakeLists.txt OTB_Modu
  
  otb_add_test(NAME feTvBreakAngularPathListFilter COMMAND otbPathTestDriver
    --compare-ascii ${NOTOL}  ${BASELINE_FILES}/feBreakAngularPathListOutput.txt
+diff -ur OTB_Modular-nopatch/Modules/Filtering/Projection/test/CMakeLists.txt OTB_Modular/Modules/Filtering/Projection/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Filtering/Projection/test/CMakeLists.txt	2015-02-17 10:05:49.438524628 +0100
++++ OTB_Modular/Modules/Filtering/Projection/test/CMakeLists.txt	2015-02-17 15:34:11.835585033 +0100
+@@ -1211,3 +1211,97 @@
+   ${TEMP}/bfTvImportGeoInformationKeywordListOutput.txt
+   )
+ 
++set(GenericConversionChecking_INPUTS
++  LARGEINPUT{QUICKBIRD/TOULOUSE/000000128955_01_P001_PAN/02APR01105228-P1BS-000000128955_01_P001.TIF
++  #LARGEINPUT{SPOT4/RIO_DE_JANEIRO/IMAG_01.DAT
++  LARGEINPUT{SPOT5/TEHERAN/IMAGERY.TIF
++  LARGEINPUT{RADARSAT1/GOMA2/SCENE01/DAT_01.001
++  LARGEINPUT{RADARSAT2/ALTONA/Fine_Quad-Pol_Dataset/PK6621_DK406_FQ9_20080405_124900_HH_VV_HV_VH_SLC_Altona/imagery_HH.tif
++  LARGEINPUT{FORMOSAT/Sudouest_20071013_MS_fmsat/IMAGERY.TIF
++  #LARGEINPUT{GEOEYE/LES_ROCHES/po_350134_bgrn_0000000.tif
++  #LARGEINPUT{IKONOS/BLOSSEVILLE/po_2619900_pan_0000000.tif
++  #LARGEINPUT{PALSAR/ALOS-H1_1__A-ORBIT__ALPSRP037120700.tif
++  #LARGEINPUT{WORLDVIEW2/ROME/WV-2_standard_8band_bundle_16bit/052298844010_01_P001_PAN/09DEC10103019-P2AS-052298844010_01_P001.TIF
++  LARGEINPUT{TERRASARX/PANGKALANBUUN/TSX1_SAR__SSC______SM_D_SRA_20080313T221955_20080313T222003.xml
++  LARGEINPUT{ENVISAT_ASAR_SCENE01/ASA_APS_1PNDPA20030821_7713.N1
++  #LARGEINPUT{COSMOSKYMED/Toulouse_spotlight/CSKS3_GTC_B_S2_08_HH_RD_SF_20110418180325_20110418180332.h5
++  #LARGEINPUT{MODIS/MOD13Q1/MOD13Q1.A2010001.h17v05.005.2010028003734.hdf
++  #LARGEINPUT{ONERA/spa3_0215_rad.dat
++  #LARGEINPUT{RAPIDEYE/level3A/2008-12-25T005918_RE3_3A-NAC_752656_40091.tif
++  )
++
++set(GenericConversionChecking_TYPES
++	QUICKBIRD
++	#SPOT4
++	SPOT5
++	RADARSAT1
++	RADARSAT2
++	FORMOSAT
++	#GEOEYE
++	#IKONOS
++	#PALSAR
++	#WORLDVIEW2
++	TERRASARX
++	ENVISAT
++	#COSMOSKYMED
++	#MODIS
++	#ONERA
++	#RAPIDEYE
++	)
++
++set(GenericConversionChecking_TOL_PIX
++	24 # according to DigitalGlobe specification
++	#30
++	30
++	30
++	30
++	30
++	#30
++	#30
++	#30
++	#30
++	30
++	30
++	#30
++	#30
++	#30
++	#30
++	)
++
++set(GenericConversionChecking_TOL_M
++	23 # according to DigitalGlobe specification
++	#30
++	30
++	30
++	30
++	30
++	#30
++	#30
++	#30
++	#30
++	#30
++	30
++	30
++	#30
++	#30
++	#30
++	)
++
++set( GenericConversionChecking_TESTNB 0)
++
++foreach( file ${GenericConversionChecking_INPUTS} )
++  list(GET GenericConversionChecking_TYPES   ${GenericConversionChecking_TESTNB} current_type   )
++  list(GET GenericConversionChecking_TOL_PIX ${GenericConversionChecking_TESTNB} current_tol_pix)
++  list(GET GenericConversionChecking_TOL_M   ${GenericConversionChecking_TESTNB} current_tol_m  )
++  math(EXPR GenericConversionChecking_TESTNB "${GenericConversionChecking_TESTNB} + 1")
++  
++  otb_add_test(NAME prTvGenericRSTransformGenericConversionCheckingFromGCP_${current_type} COMMAND otbTransformTestDriver
++    otbGenericRSTransformGenericConversionCheckingFromGCP
++      ${file}
++      ${INPUTDATA}/DEM/srtm_directory/
++      ${INPUTDATA}/DEM/egm96.grd #Not used
++      ${current_tol_pix} # Tolerance in pixels
++      ${current_tol_m}   # Tolerance in meters
++      1                  # Verbose
++  )
++endforeach()
 diff -ur OTB_Modular-nopatch/Modules/Filtering/Statistics/test/CMakeLists.txt OTB_Modular/Modules/Filtering/Statistics/test/CMakeLists.txt
 --- OTB_Modular-nopatch/Modules/Filtering/Statistics/test/CMakeLists.txt	2015-02-17 10:05:44.070410996 +0100
 +++ OTB_Modular/Modules/Filtering/Statistics/test/CMakeLists.txt	2015-02-17 10:05:51.994578734 +0100
