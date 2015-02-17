@@ -287,8 +287,7 @@ def findTestProperties(cmakefile,testList):
         if (testName in testList) and len(words) == 4:
           if not testName in output:
             output[testName] = []
-          output[testName].append("set_property(TEST "+testName+"\n")
-          output[testName].append("  PROPERTY "+words[2]+" "+words[3]+")\n")
+          output[testName].append("set_property(TEST "+testName+" PROPERTY "+words[2]+" "+words[3]+")\n")
         isInSetProp = False
         lineBuffer = ""
         lineList = []
