@@ -245,6 +245,57 @@ def findTestFromExe(cmakefile,exeName,exeAlias,functionNames=[]):
   fd.close()
   return output
 
+def findTestProperties(cmakefile,testList):
+  output = {}
+  isInSetProp = False
+  lineBuffer = ""
+  lineList = []
+  
+  fd = open(cmakefile,'rb')
+  for line in fd:
+    cleanLine = (line.replace("\t"," ")).strip(" \n\r")
+    
+    # skip commented line
+    idx=cleanLine.find('#')
+    if idx != -1:
+      cleanLine=cleanLine[0:idx]
+    
+    if not cleanLine:
+      continue
+    
+    # collapse multi-spaces
+    sizeChanged = True
+    while (sizeChanged):
+      sizeBefore = len(cleanLine)
+      cleanLine = cleanLine.replace('  ',' ')
+      sizeAfter = len(cleanLine)
+      if (sizeBefore == sizeAfter):
+        sizeChanged = False
+    
+    if cleanLine.startswith("set_tests_properties("):
+      isInSetProp = True
+    
+    if isInSetProp:
+      lineBuffer = lineBuffer + cleanLine + " "
+      lineList.append(line)
+    
+    if cleanLine.endswith(')'):
+      # parse buffer
+      if isInSetProp:
+        words = (lineBuffer[21:-2]).split(' ')
+        testName = words[0]
+        if (testName in testList) and len(words) == 4:
+          if not testName in output:
+            output[testName] = []
+          output[testName].append("set_property(TEST "+testName+"\n")
+          output[testName].append("  PROPERTY "+words[2]+" "+words[3]+")\n")
+        isInSetProp = False
+        lineBuffer = ""
+        lineList = []
+  
+  fd.close()
+  return output
+
 
 def main(argv):
   manifest = op.expanduser(argv[1])
@@ -277,6 +328,7 @@ def main(argv):
     testMains = {}
     testFunctions = {}
     testCode = {}
+    testProp = {}
     
     # parse all test files to extract the functions and mains
     for src in moduleList[mod]:
@@ -301,6 +353,9 @@ def main(argv):
       else:
         testFunctions[srcName] = res["testFunctions"]
         testCode[srcName] = findTestFromExe(currentCMake,exeName,exeAlias,res["testFunctions"])
+        
+      # get set_test_properties()
+      testProp[srcName] = findTestProperties(currentCMake,testCode[srcName].keys())
     
     if len(testCode) == 0:
       continue
@@ -413,6 +468,10 @@ otb_module_target_label(otb%sTestDriver)
           if i != 0:
             outputline = '%s%s' % ('  ', outputline)
           tCmakeCodeFinal.append(outputline)
+        
+        # add set_property if any
+        if testProp[srcName].has_key(tName):
+          tCmakeCodeFinal += testProp[srcName][tName]
 
         fd.writelines(tCmakeCodeFinal)
         fd.write("\n")
