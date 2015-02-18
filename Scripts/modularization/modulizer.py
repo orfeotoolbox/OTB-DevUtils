@@ -523,14 +523,14 @@ if op.isfile(exDependPath):
 
 # examples
 for i in sorted(os.listdir(HeadOfTempTree + "/Examples")):
-  if i == "CMakeLists.txt" or i == "README.txt":
+  if i == "CMakeLists.txt" or i == "README.txt" or i.startswith("DataRepresentation"):
     continue
 
   for j in sorted(os.listdir(HeadOfTempTree + "/Examples/" + i)):
     if j == "CMakeLists.txt" or j.startswith("otb"):
       continue
     
-    command = "mv %s/Examples/%s/%s %s/Examples/%s/%s" % ( HeadOfTempTree, i, j,  HeadOfModularOTBTree, i, j) 
+    command = "mv %s/Examples/%s/%s %s/Examples/%s/%s" % ( HeadOfTempTree, i, j,  HeadOfModularOTBTree, i, j)
     os.system(command)
 
 for i in sorted(os.listdir(HeadOfTempTree + "/Examples/DataRepresentation")):
@@ -584,7 +584,7 @@ if enableMigration:
         call(command)
       else:
         print("Unknown file : "+op.join(currentSourceDir,fileName))
-  command = ['hg','commit','-m','RMV: remove files not handled by modularization']
+  command = ['hg','commit','-m','ENH: Remove files not necessary after modularization']
   call(command)
   
   # walk through manifest and rename files
@@ -593,7 +593,7 @@ if enableMigration:
     outputPath = op.join("./Modules",op.join(source["group"],op.join(source["module"],source["subDir"])))
     command = ['hg','rename',source["path"],op.join(outputPath,op.basename(source["path"]))]
     call(command)
-  command = ['hg','commit','-m','MOV: move source files into modules']
+  command = ['hg','commit','-m','ENH: Move source and test files into their respective module']
   call(command)
   
   # add new files from OTB_Modular (files from OTB-Modular repo + generated files)
@@ -615,7 +615,7 @@ if enableMigration:
         shutil.copy(op.join(dirPath,fileName),targetFile)
   command = ['hg','add']
   call(command)
-  command = ['hg','commit','-m','ADD: add new files for modular build system']
+  command = ['hg','commit','-m','ENH: Add new files for modular build system']
   call(command)
   
   # apply patches on OTB Checkout
@@ -632,7 +632,7 @@ if enableMigration:
       if op.exists(targetFile):
         command = ['cp',op.join(dirPath,fileName),targetFile]
         call(command)
-  command = ['hg','commit','-m','ENH: patches and file modifications']
+  command = ['hg','commit','-m','ENH: Apply patches necessary after modularization']
   call(command)
 
 
