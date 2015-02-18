@@ -23,7 +23,6 @@ macro(dashboard_hook_init)
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
-BUILD_APPLICATIONS:BOOL=ON
 
 CMAKE_C_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang
 CMAKE_CXX_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang++
