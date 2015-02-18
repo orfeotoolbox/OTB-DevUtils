@@ -34,7 +34,6 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install/lib/otb
 
-OTB_USE_EXTERNAL_ITK:BOOL=ON
 ITK_DIR:PATH=$ENV{HOME}/Dashboard/experimental/build/ITKv4-RelWithDebInfo
 
 BUILD_TESTING:BOOL=ON
@@ -49,7 +48,8 @@ CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTES
 #DAL_CONFIG:FILEPATH=${OTB_GDAL_INSTALL_DIR}/bin/gdal-config
 #DAL_INCLUDE_DIR:STRING=${OTB_GDAL_INSTALL_DIR}/include
 #DAL_LIBRARY:FILEPATH=${OTB_GDAL_INSTALL_DIR}/lib/libgdal.so
-
+MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/muparserx/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/muparserx/include
 ")
 
 
