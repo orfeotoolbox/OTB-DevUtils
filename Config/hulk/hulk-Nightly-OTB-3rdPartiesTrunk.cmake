@@ -63,6 +63,8 @@ OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/ossim-trunk/lib/libossim.
 
 GDAL_INCLUDE_DIR:STRING=${CTEST_DASHBOARD_ROOT}/install/gdal-trunk/include
 GDAL_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/gdal-trunk/lib/libgdal.so
+MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
     ")
 endmacro()
 

@@ -53,6 +53,8 @@ OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_OPENCV:BOOL=ON
 OpenCV_DIR:PATH=/usr/share/OpenCV
 BOOST_ROOT:PATH=$ENV{HOME}/tools/install/boost-1.49.0
+MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
 
     ")
 endmacro()
