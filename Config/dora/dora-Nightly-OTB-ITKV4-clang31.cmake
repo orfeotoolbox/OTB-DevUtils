@@ -47,8 +47,8 @@ OTB_USE_DEPRECATED:BOOL=OFF
 
 OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_OPENCV:BOOL=ON
-MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/muparserx/lib/libmuparserx.so
-MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/muparserx/include
+MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
     ")
 endmacro()
 

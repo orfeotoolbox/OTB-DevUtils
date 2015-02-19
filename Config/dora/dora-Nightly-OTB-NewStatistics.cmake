@@ -52,8 +52,8 @@ GDALCONFIG_EXECUTABLE:FILEPATH=${OTB_GDAL_INSTALL_DIR}/bin/gdal-config
 GDAL_CONFIG:FILEPATH=${OTB_GDAL_INSTALL_DIR}/bin/gdal-config
 GDAL_INCLUDE_DIR:STRING=${OTB_GDAL_INSTALL_DIR}/include
 GDAL_LIBRARY:FILEPATH=${OTB_GDAL_INSTALL_DIR}/lib/libgdal.so
-MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/muparserx/lib/libmuparserx.so
-MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/muparserx/include
+MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
 ")
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
