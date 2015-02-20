@@ -299,6 +299,31 @@ def cleanDepList(depList,fullDepList):
       if not dep in depListToRemove:
         cleanDepList[mod][dep] = 1
   return cleanDepList
+  
+def updateSourceList(path,moduleName,added,removed):  
+  fd = open(path,'rb')
+  newContent = []
+  isInSetSrc = False
+  for line in fd:
+    cleanLine = line.strip(' \n\t\r')
+    if isInSetSrc and line.count(')') == 1:
+      for item in added:
+        newContent.append("  "+item+"\n")
+      isInSetSrc = False
+    
+    if isInSetSrc:
+      if cleanLine in removed:
+        continue
+    
+    if line.startswith("set(OTB"+moduleName+"_SRC"):
+      isInSetSrc = True
+    newContent.append(line)
+  fd.close()
+  
+  fd = open(path,'wb')
+  fd.writelines(newContent)
+  fd.close()
+  
 
 def main(argv):
   otbDir = argv[1]
@@ -427,27 +452,60 @@ def main(argv):
         cleanTestDepends[mod][dep1] = 1
   
   for mod in newDepList:
+    curGroup = manifestParser.getGroup(mod,newGroups)
     if mod in depList:
       print "Module "+mod+" already present"
       if bool(sorted(newCleanDepList[mod].keys()) != sorted(oldCleanDepList[mod].keys())):
         print "  -> DEPENDS differ : "+str(oldCleanDepList[mod].keys())+" then "+str(newCleanDepList[mod].keys())
     if mod in cleanTestDepends and mod in testDepList:
       if bool(sorted(cleanTestDepends[mod].keys()) != sorted(testDepList[mod].keys())):
-        print "  -> TEST_DEPENDS differ : "+str(cleanTestDepends[mod].keys())+" then "+str(testDepList[mod].keys())
+        print "  -> TEST_DEPENDS differ : "+str(testDepList[mod].keys())+" then "+str(cleanTestDepends[mod].keys())
     else:
       print "Module "+mod+" new !"
-      
-      
-    #  - fix the otb-module.cmake
+      if mod in newCleanDepList:
+        print "  -> DEPENDS : "+str(newCleanDepList[mod].keys())
+      if mod in cleanTestDepends:
+        print "  -> TEST_DEPENDS : "+str(cleanTestDepends[mod].keys())
+    
+    #  - fix the otb-module.cmake ? TODO
+    
+    #  - fix the target_link_libraries ? TODO
+    
+    #  - for input files in 'src' : adapt OTBModule_SRC
+    removed = []
+    added = []
+    for srcFile in srcFiles:
+      cleanFile = srcFile.strip('./')
+      words = cleanFile.split('/')
+      srcMod = words[2]
+      srcGrp = words[1]
+      srcSub = words[3]
+      if srcSub != "src" or len(words) != 5:
+        continue
+      if mod == targetModule:
+        added.append(op.basename(srcFile))
+      if mod == srcMod:
+        removed.append(op.basename(srcFile))
+    if len(added) or len(removed):
+      cmakelistPath = op.join(modulesRoot,op.join(curGroup,op.join(mod,"src/CMakeLists.txt")))
+      updateSourceList(cmakelistPath,mod,added,removed)
+    #  - move test declaration
     
   
-  # Fix build system :
-  #  - for input files in 'src' : adapt OTBModule_SRC
-  #  - fix the target_link_libraries
-  #  - fix the otb-module.cmake
-  
   # perform hg rename -A and hg commit
-  
+  """
+  for srcFile in srcFiles:
+    cleanFile = srcFile.strip('./')
+    words = cleanFile.split('/')
+    srcMod = words[2]
+    srcGrp = words[1]
+    targetFile = cleanFile.replace(srcGrp+'/'+srcMod,destinationPrefix,1)
+    
+    targetPath = op.join(otbDir,op.dirname(targetFile))
+    if not op.isdir(targetPath):
+      os.makedirs(targetPath)
+    shutil.move(op.join(otbDir,cleanFile),targetPath)
+  """
   
   
 
