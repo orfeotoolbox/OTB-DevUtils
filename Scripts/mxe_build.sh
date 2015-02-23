@@ -29,4 +29,4 @@ echo 'MXE_TARGET='$MXE_TARGET
 echo 'Sarting build of mxe and dependencies right now.'
 #now start building
 echo 'LIST OF GOALS=gdal ossim itk qt opencv glfw3 glew freeglut boost qwt5_qt4 fltk'
-make MXE_TARGETS="$MXE_TARGET" gdal ossim itk qt opencv glfw3 glew freeglut boost qwt5_qt4 fltk
+make MXE_TARGETS="$MXE_TARGET" gdal ossim itk qt opencv glfw3 glew freeglut boost qwt5_qt4 fltk tinyxml muparser
