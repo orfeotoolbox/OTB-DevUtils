@@ -6,7 +6,7 @@
 # **
 # 25-10-2014: update mxe sources.
 # ** use mingw-w64 toolchain for x86 target
-# ** clean mxe. rebuild all 
+# ** clean mxe. rebuild all
 
 MXE_DIR='/home/otbtesting/win-sources/mxe'
 if [ $# -eq 3 ]; then
@@ -29,4 +29,4 @@ echo 'MXE_TARGET='$MXE_TARGET
 echo 'Sarting build of mxe and dependencies right now.'
 #now start building
 echo 'LIST OF GOALS=gdal ossim itk qt opencv glfw3 glew freeglut boost qwt5_qt4 fltk'
-make MXE_TARGETS="$MXE_TARGET" gdal ossim itk qt opencv glfw3 glew freeglut boost qwt5_qt4 fltk tinyxml muparser
+make MXE_TARGETS="$MXE_TARGET" gdal ossim itk qt opencv glfw3 glew freeglut boost qwt5_qt4 fltk tinyxml muparser muparserx
