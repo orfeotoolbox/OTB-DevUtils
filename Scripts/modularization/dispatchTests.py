@@ -173,7 +173,7 @@ def getTestFunctionFromCode(code):
   
   return code[currentPos]
 
-def findTestFromExe(cmakefile,exeName,exeAlias,functionNames=[]):
+def findTestFromExe(cmakefile,exeName,exeAlias,functionNames=[],prefix=''):
   output = {}
   isInAddTest = False
   lineBuffer = ""
@@ -182,7 +182,7 @@ def findTestFromExe(cmakefile,exeName,exeAlias,functionNames=[]):
   if exeAlias != "":
     exePattern.append(exeAlias)
   
-  addTestSearch = r'^add_test\( *([^ ]+) +([^ ]+) +(.+) *\) *'
+  addTestSearch = r'^'+prefix+'add_test\( *([^ ]+) +([^ ]+) +(.+) *\) *'
   reAddTest = re.compile(addTestSearch)
   
   fd = open(cmakefile,'rb')
@@ -210,7 +210,7 @@ def findTestFromExe(cmakefile,exeName,exeAlias,functionNames=[]):
       if (sizeBefore == sizeAfter):
         sizeChanged = False
     
-    if cleanLine.startswith("add_test("):
+    if cleanLine.startswith(prefix+"add_test("):
       isInAddTest = True
     
     if isInAddTest:

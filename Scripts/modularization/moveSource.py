@@ -11,7 +11,7 @@ import createTestManifest
 import re
 import shutil
 from subprocess import call, PIPE
-
+import dispatchTests
 
 def showHelp():
   print "Script to move a source file from an OTB tree (after modularization)"+\
@@ -25,11 +25,12 @@ def showHelp():
 
 def parseModuleDefinition(path):
   depList = {}
+  optDepList = {}
   testDepList = {}
   isInModDef = False
   lineBuffer = ""
   lineList = []
-  keywords = ["DEPENDS","TEST_DEPENDS","EXAMPLE_DEPENDS","DESCRIPTION"]
+  keywords = ["DEPENDS", "OPTIONAL_DEPENDS", "TEST_DEPENDS","EXAMPLE_DEPENDS","DESCRIPTION"]
   
   fd = open(path,'rb')
   for line in fd:
@@ -74,6 +75,14 @@ def parseModuleDefinition(path):
             curDep = (words[pos])[3:]
             depList[curDep] = []
             pos += 1
+        if "OPTIONAL_DEPENDS" in words:
+          pos = words.index("OPTIONAL_DEPENDS") + 1
+          while (pos < len(words)):
+            if words[pos] in keywords:
+              break
+            curDep = (words[pos])[3:]
+            optDepList[curDep] = []
+            pos += 1
         if "TEST_DEPENDS" in words:
           pos = words.index("TEST_DEPENDS") + 1
           while (pos < len(words)):
@@ -87,10 +96,11 @@ def parseModuleDefinition(path):
         lineList = []
   
   fd.close()
-  return [depList , testDepList]
+  return [depList , optDepList, testDepList]
 
 def parseOTBModuleCmake(path):
   depends = {}
+  optDepends = {}
   testDepends = {}
   for grpDir in os.listdir(path):
     grpPath = op.join(path,grpDir)
@@ -105,10 +115,11 @@ def parseOTBModuleCmake(path):
         # not a valid OTB module
         continue
       # parse module declaration
-      [depList , testDepList] = parseModuleDefinition(otbModuleCmake)
+      [depList , optDepList, testDepList] = parseModuleDefinition(otbModuleCmake)
       depends[modDir] = depList
+      optDepends[modDir] = optDepList
       testDepends[modDir] = testDepList
-  return [depends , testDepends]
+  return [depends , optDepends, testDepends]
 
 def parseModuleRoot(path):
   sourceList = {}
@@ -400,11 +411,41 @@ def initializeTestDriver(path):
   fd.close()
 
 def moveTestCode(srcPath,dstPath,testCode):
-  # srcPath : CMakeLists defining tests in previous module
-  # dstPath : CMakeLists defining tests in target module
-  # testCode: map with test names and associated code
-  # TODO : remove test code from previous srcPath, add it in dstPath
-  pass
+  
+  # First, process destination CMakeLists.txt
+  dst = open(dstPath,'rb')
+  new_dst_content = dst.readlines()
+  
+  for test,test_body in testCode.iteritems():
+    for line in test_body['code']:
+      new_dst_content.append(line)
+  dst.close()
+
+  dst = open(dstPath,'w')
+  dst.writelines(new_dst_content)
+  dst.close()
+
+  # Second, process source CMakeLists.txt
+
+  src = open(srcPath,'rb')
+  new_src_content = src.readlines()
+
+  for test,test_body in testCode.iteritems():
+    id = 0
+    start = -1
+    for line in new_src_content:
+      if line == test_body['code'][0]:
+        start = id
+        break
+      id+=1
+    if start > 0:
+      del new_src_content[start:start+len(test_body['code'])]
+  
+  src.close()
+
+  src = open(srcPath,'w')
+  src.writelines(new_src_content)
+  src.close()
 
 
 #----------------- MAIN ---------------------------------------------------
@@ -434,10 +475,9 @@ def main(argv):
   #  - module dependency graph from otb-module.cmake
   modulesRoot = op.join(otbDir,"Modules")
   
-  [depList, testDepList] = parseOTBModuleCmake(modulesRoot)
+  [depList, optDepList, testDepList] = parseOTBModuleCmake(modulesRoot)
   fullDepList = manifestParser.buildFullDep(depList)
   oldCleanDepList = cleanDepList(depList,fullDepList)
-  
   
   [groups,moduleList,sourceList,testList] = parseModuleRoot(modulesRoot)
   
@@ -491,7 +531,7 @@ def main(argv):
   else:
     print "Check for cyclic dependency : OK"
   
-  newCleanDepList = cleanDepList(newDepList,newFullDepList)
+  newCleanDepList = newDepList #cleanDepList(newDepList,newFullDepList)
   
   # Analyse tests
   testCxx = {}
@@ -534,12 +574,12 @@ def main(argv):
   for mod in newDepList:
     curGroup = manifestParser.getGroup(mod,newGroups)
     if mod in depList:
-      print "Module "+mod+" already present"
-      if bool(sorted(newCleanDepList[mod].keys()) != sorted(oldCleanDepList[mod].keys())):
-        print "  -> DEPENDS differ : "+str(oldCleanDepList[mod].keys())+" then "+str(newCleanDepList[mod].keys())
+      if 'ITK' in newDepList[mod]: del newDepList[mod]['ITK']
+      if bool(sorted(newDepList[mod].keys()) != sorted(depList[mod].keys())):
+        print "Module "+mod+"  -> DEPENDS differ : "+str(depList[mod].keys())+" then "+str(newDepList[mod].keys())
       if mod in cleanTestDepends and mod in testDepList:
         if bool(sorted(cleanTestDepends[mod].keys()) != sorted(testDepList[mod].keys())):
-          print "  -> TEST_DEPENDS differ : "+str(testDepList[mod].keys())+" then "+str(cleanTestDepends[mod].keys())
+          print "Module "+mod+"  -> TEST_DEPENDS differ : "+str(testDepList[mod].keys())+" then "+str(cleanTestDepends[mod].keys())
     else:
       print "Module "+mod+" new !"
       if mod in newCleanDepList:
@@ -602,13 +642,12 @@ def main(argv):
         updateTestDriver(testDriverPath,added,removed)
         
         #  - move test declaration
-        testCode = dispatchTests.findTestFromExe(oldCmakelistPath,"otb"+srcMod+"TestDriver","",testCxx[targetFile]["res"]["testFunctions"])
+        testCode = dispatchTests.findTestFromExe(oldCmakelistPath,"otb"+srcMod+"TestDriver","",testCxx[targetFile]["res"]["testFunctions"],'otb_')
+
+        print "Found "+str(len(testCode))+" tests to move"
+
         moveTestCode(oldCmakelistPath,cmakelistPath,testCode)
     
-    
-    
-    
-      
   
   # perform hg rename -A
   for srcFile in srcFiles:
