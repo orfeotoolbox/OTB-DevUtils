@@ -300,22 +300,28 @@ def cleanDepList(depList,fullDepList):
         cleanDepList[mod][dep] = 1
   return cleanDepList
   
-def updateSourceList(path,moduleName,added,removed):  
+def updateSourceList(path,varName,added,removed):  
   fd = open(path,'rb')
   newContent = []
+  indent = "  "
   isInSetSrc = False
   for line in fd:
     cleanLine = line.strip(' \n\t\r')
     if isInSetSrc and line.count(')') == 1:
+      # detect indentation
+      pos = line.find(cleanLine)
+      if indent != line[0:pos]:
+        indent = line[0:pos]
+      # append new entries
       for item in added:
-        newContent.append("  "+item+"\n")
+        newContent.append(indent+item+"\n")
       isInSetSrc = False
     
     if isInSetSrc:
       if cleanLine in removed:
         continue
     
-    if line.startswith("set(OTB"+moduleName+"_SRC"):
+    if line.startswith("set("+varName):
       isInSetSrc = True
     newContent.append(line)
   fd.close()
@@ -323,11 +329,87 @@ def updateSourceList(path,moduleName,added,removed):
   fd = open(path,'wb')
   fd.writelines(newContent)
   fd.close()
-  
 
-def main(argv):
-  otbDir = argv[1]
+def updateTestDriver(path,added,removed):
+  fd = open(path,'rb')
+  newContent = []
+  indent = "  "
+  isInRegister = False
+  previousLine = ""
+  for line in fd:
+    cleanLine = line.strip(' \n\t\r')
+    if isInRegister and line.count('}') == 1:
+      # append new entries
+      for item in added:
+        registerItem = item.replace(".cxx","")
+        registerItem = "REGISTER_TEST("+registerItem+");"
+        newContent.append(indent+registerItem+"\n")
+      isInRegister = False
+    
+    if isInRegister:
+      curSourceTest = cleanLine.replace("REGISTER_TEST(","")
+      curSourceTest = curSourceTest.replace(");","")
+      curSourceTest = curSourceTest+".cxx"
+      if curSourceTest in removed:
+        continue
+    
+    if line.count('{') and \
+      (("RegisterTests()" in line) or ("RegisterTests()" in previousLine)):
+      isInRegister = True
+    
+    previousLine = line
+    newContent.append(line)
+  fd.close()
   
+  fd = open(path,'wb')
+  fd.writelines(newContent)
+  fd.close()
+
+
+def initializeSrcCMakeLists(path,modName):
+  fd = open(path,'wb')
+  fd.write("set(OTB"+modName+"_SRC\n")
+  fd.write("  )\n")
+  fd.write("\n")
+  fd.write("add_library(OTB"+modName+" ${OTB"+modName+"_SRC})\n")
+  fd.write("target_link_libraries(OTB"+modName+"\n")
+  fd.write("# Fill with libraries from DEPENDS list")
+  fd.write(")\n")
+  fd.write("\n")
+  fd.write("otb_module_target(OTB"+modName+")\n")
+  fd.close()
+
+def initializeTestCMakeLists(path,modName):
+  fd = open(path,'wb')
+  fd.write("otb_module_test()\n")
+  fd.write("set(OTB"+modName+"Tests\n")
+  fd.write("  otb"+modName+"TestDriver.cxx")
+  fd.write("  )\n")
+  fd.write("\n")
+  fd.write("add_executable(otb"+modName+"TestDriver ${OTB"+modName+"Tests})\n")
+  fd.write("target_link_libraries(otb"+modName+"TestDriver ${OTB"+modName+"-Test_LIBRARIES})\n")
+  fd.write("otb_module_target_label(otb"+modName+"TestDriver)\n")
+  fd.close()
+
+def initializeTestDriver(path):
+  fd = open(path,'wb')
+  fd.write("#include \"otbTestMain.h\"\n")
+  fd.write("void RegisterTests()\n")
+  fd.write("{\n")
+  fd.write("}\n")
+  fd.close()
+
+def moveTestCode(srcPath,dstPath,testCode):
+  # srcPath : CMakeLists defining tests in previous module
+  # dstPath : CMakeLists defining tests in target module
+  # testCode: map with test names and associated code
+  # TODO : remove test code from previous srcPath, add it in dstPath
+  pass
+
+
+#----------------- MAIN ---------------------------------------------------
+def main(argv):
+  otbDir = op.abspath(argv[1])
   targetModule = argv[2]
   targetGroup = "TBD"
   if targetModule.count('/') == 1:
@@ -353,8 +435,8 @@ def main(argv):
   modulesRoot = op.join(otbDir,"Modules")
   
   [depList, testDepList] = parseOTBModuleCmake(modulesRoot)
-  fullDepListOld = manifestParser.buildFullDep(depList)
-  oldCleanDepList = cleanDepList(depList,fullDepListOld)
+  fullDepList = manifestParser.buildFullDep(depList)
+  oldCleanDepList = cleanDepList(depList,fullDepList)
   
   
   [groups,moduleList,sourceList,testList] = parseModuleRoot(modulesRoot)
@@ -371,7 +453,7 @@ def main(argv):
     if targetGroup == 'TBD':
       print "Error : group name must be specified for new modules (use group/module syntax)"
       return 1
-    
+  
   destinationPrefix = op.join(targetGroup,targetModule)
   for srcFile in srcFiles:
     cleanFile = srcFile.strip('./')
@@ -379,7 +461,6 @@ def main(argv):
     srcMod = words[2]
     srcGrp = words[1]
     targetFile = cleanFile.replace(srcGrp+'/'+srcMod,destinationPrefix,1)
-    
     targetPath = op.join(otbDir,op.dirname(targetFile))
     if not op.isdir(targetPath):
       os.makedirs(targetPath)
@@ -387,30 +468,30 @@ def main(argv):
   
   # Compute new modules dependencies
   [newGroups,newModuleList,newSourceList,newTestList] = parseModuleRoot(modulesRoot)
-  
   newDepList = buildModularDep(otbDir,newModuleList,newSourceList)
   
   # DEBUG
-  manifestParser.printDepList(newDepList)
+  #manifestParser.printDepList(newDepList)
   
   # compute full dependencies
-  fullDepList = manifestParser.buildFullDep(newDepList)
+  newFullDepList = manifestParser.buildFullDep(newDepList)
   
   # detect cyclic dependencies
   cyclicDependentModules = []
-  for mod in fullDepList.keys():
-    if mod in fullDepList[mod]:
+  for mod in newFullDepList.keys():
+    if mod in newFullDepList[mod]:
       if not mod in cyclicDependentModules:
         cyclicDependentModules.append(mod)
   if len(cyclicDependentModules) > 0:
     print "Check for cyclic dependency :"
     for mod in cyclicDependentModules:
-      print "  -> "+mod
+      print "  -> "+mod+" depends on : "
+      print "      "+str(newFullDepList[mod])
     return 1
   else:
     print "Check for cyclic dependency : OK"
   
-  newCleanDepList = cleanDepList(newDepList,fullDepList)
+  newCleanDepList = cleanDepList(newDepList,newFullDepList)
   
   # Analyse tests
   testCxx = {}
@@ -421,20 +502,18 @@ def main(argv):
       # no need to dispatch test drivers, they can be generated again
       continue
     [newTestDepList,newThirdPartyDep] = createTestManifest.getTestDependencies(res["includes"],newSourceList)
-    
     curGroup = manifestParser.getGroup(newTestList[test],newGroups)
-  
     if not res["hasMain"]:
       # manually add dependency to TestKernel for cxx using a test driver
       # the include to otbTestMain.h header is not located in the cxx
       newTestDepList["TestKernel"] = {"from":test ,"to":"Modules/IO/TestKernel/include/otbTestMain.h"}
-    
     testCxx[test] = {"depList":newTestDepList , \
                      "thirdPartyDep":newThirdPartyDep, \
                      "group":curGroup, \
-                     "module":newTestList[test]}
+                     "module":newTestList[test], \
+                     "res":res}
   
-  allTestDepends = createTestManifest.gatherTestDepends(testCxx,fullDepList)
+  allTestDepends = createTestManifest.gatherTestDepends(testCxx,newFullDepList)
   
   # clean the test depends (i.e. ImageIO is dragged by TestKernel)
   cleanTestDepends = {}
@@ -445,21 +524,22 @@ def main(argv):
       for dep2 in allTestDepends[mod]:
         if dep1 == dep2:
           continue
-        if dep1 in fullDepList[dep2]:
+        if dep1 in newFullDepList[dep2]:
           isClean = False
           break
       if isClean:
         cleanTestDepends[mod][dep1] = 1
   
+  # give hints on modifications to perform on DEPENDS and TEST_DEPENDS
   for mod in newDepList:
     curGroup = manifestParser.getGroup(mod,newGroups)
     if mod in depList:
       print "Module "+mod+" already present"
       if bool(sorted(newCleanDepList[mod].keys()) != sorted(oldCleanDepList[mod].keys())):
         print "  -> DEPENDS differ : "+str(oldCleanDepList[mod].keys())+" then "+str(newCleanDepList[mod].keys())
-    if mod in cleanTestDepends and mod in testDepList:
-      if bool(sorted(cleanTestDepends[mod].keys()) != sorted(testDepList[mod].keys())):
-        print "  -> TEST_DEPENDS differ : "+str(testDepList[mod].keys())+" then "+str(cleanTestDepends[mod].keys())
+      if mod in cleanTestDepends and mod in testDepList:
+        if bool(sorted(cleanTestDepends[mod].keys()) != sorted(testDepList[mod].keys())):
+          print "  -> TEST_DEPENDS differ : "+str(testDepList[mod].keys())+" then "+str(cleanTestDepends[mod].keys())
     else:
       print "Module "+mod+" new !"
       if mod in newCleanDepList:
@@ -467,45 +547,79 @@ def main(argv):
       if mod in cleanTestDepends:
         print "  -> TEST_DEPENDS : "+str(cleanTestDepends[mod].keys())
     
-    #  - fix the otb-module.cmake ? TODO
-    
-    #  - fix the target_link_libraries ? TODO
-    
-    #  - for input files in 'src' : adapt OTBModule_SRC
-    removed = []
-    added = []
-    for srcFile in srcFiles:
-      cleanFile = srcFile.strip('./')
-      words = cleanFile.split('/')
-      srcMod = words[2]
-      srcGrp = words[1]
-      srcSub = words[3]
-      if srcSub != "src" or len(words) != 5:
-        continue
-      if mod == targetModule:
-        added.append(op.basename(srcFile))
-      if mod == srcMod:
-        removed.append(op.basename(srcFile))
-    if len(added) or len(removed):
-      cmakelistPath = op.join(modulesRoot,op.join(curGroup,op.join(mod,"src/CMakeLists.txt")))
-      updateSourceList(cmakelistPath,mod,added,removed)
-    #  - move test declaration
-    
+    #  - fix the otb-module.cmake ?
+    #  - fix the target_link_libraries ?
   
-  # perform hg rename -A and hg commit
-  """
+  # fix srcList and test declaration
+  os.chdir(otbDir)
+  for srcFile in srcFiles:
+    cleanFile = srcFile.strip('./')
+    words = cleanFile.split('/')
+    srcMod = words[2]
+    srcGrp = words[1]
+    srcSub = words[3]
+    targetFile = cleanFile.replace(srcGrp+"/"+srcMod,destinationPrefix,1)
+    #  - for input files in 'src' : adapt OTBModule_SRC
+    if srcSub == "src" and len(words) == 5:
+      # remove entry in previous module
+      removed = [op.basename(srcFile)]
+      added = []
+      cmakelistPath = op.join(modulesRoot,op.join(srcGrp,op.join(srcMod,"src/CMakeLists.txt")))
+      updateSourceList(cmakelistPath,"OTB"+srcMod+"_SRC",added,removed)
+      # add entry in target module
+      removed = []
+      added = [op.basename(srcFile)]
+      cmakelistPath = op.join(modulesRoot,op.join(destinationPrefix,"src/CMakeLists.txt"))
+      if not op.exists(cmakelistPath):
+        initializeSrcCMakeLists(cmakelistPath,targetModule)
+        call(["hg","add",cmakelistPath.replace(otbDir,".")])
+      updateSourceList(cmakelistPath,"OTB"+targetModule+"_SRC",added,removed)
+    if srcSub == "test" and len(words) == 5:
+      if testCxx[targetFile]["res"]["hasMain"]:
+        print "Test with main ("+targetFile+") : not handled for now"
+      else:
+        # remove entry in previous module source list
+        removed = [op.basename(srcFile)]
+        added = []
+        oldCmakelistPath = op.join(modulesRoot,op.join(srcGrp,op.join(srcMod,"test/CMakeLists.txt")))
+        oldTestDriverPath = op.join(modulesRoot,op.join(srcGrp,op.join(srcMod,"test/otb"+srcMod+"TestDriver.cxx")))
+        updateSourceList(oldCmakelistPath,"OTB"+srcMod+"Tests",added,removed)
+        updateTestDriver(oldTestDriverPath,added,removed)
+        # add entry in target module source list
+        removed = []
+        added = [op.basename(srcFile)]
+        cmakelistPath = op.join(modulesRoot,op.join(destinationPrefix,"test/CMakeLists.txt"))
+        testDriverPath = op.join(modulesRoot,op.join(destinationPrefix,"test/otb"+targetModule+"TestDriver.cxx"))
+        if not op.exists(cmakelistPath):
+          # there was no test before : initialize CMakeLists.txt
+          initializeTestCMakeLists(cmakelistPath,targetModule)
+          call(["hg","add",cmakelistPath.replace(otbDir,".")])
+        if not op.exists(testDriverPath):
+          # there was no test before : initialize test driver
+          initializeTestDriver(testDriverPath)
+          call(["hg","add",testDriverPath.replace(otbDir,".")])
+        updateSourceList(cmakelistPath,"OTB"+targetModule+"Tests",added,removed)
+        updateTestDriver(testDriverPath,added,removed)
+        
+        #  - move test declaration
+        testCode = dispatchTests.findTestFromExe(oldCmakelistPath,"otb"+srcMod+"TestDriver","",testCxx[targetFile]["res"]["testFunctions"])
+        moveTestCode(oldCmakelistPath,cmakelistPath,testCode)
+    
+    
+    
+    
+      
+  
+  # perform hg rename -A
   for srcFile in srcFiles:
     cleanFile = srcFile.strip('./')
     words = cleanFile.split('/')
     srcMod = words[2]
     srcGrp = words[1]
     targetFile = cleanFile.replace(srcGrp+'/'+srcMod,destinationPrefix,1)
+    call(["hg","rename","-A",cleanFile,targetFile])
     
-    targetPath = op.join(otbDir,op.dirname(targetFile))
-    if not op.isdir(targetPath):
-      os.makedirs(targetPath)
-    shutil.move(op.join(otbDir,cleanFile),targetPath)
-  """
+  # TODO : hg commit by the user
   
   
 
