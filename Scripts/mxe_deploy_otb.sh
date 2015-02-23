@@ -18,9 +18,16 @@ MXE_TARGET_DIR=${MXE_TARGET_DIR/i686-pc*./i686-w64-mingw32.}
 MXE_TARGET=$(basename $MXE_TARGET_DIR)
 LOG_FILE=$HOME'/logs/mxe_deploy_otb_'$MXE_TARGET'.log'
 exec 1> $LOG_FILE
-
 #print log file name first
 echo $LOG_FILE
+
+MXE_TARGET=$(basename $MXE_TARGET_DIR)
+
+ARCH_VAR=x86
+if [[ $MXE_TARGET == *"x86_64"* ]]; then
+    ARCH_VAR=x64
+fi;
+
 
 CP='/bin/cp -rv'
 RM='/bin/rm -f'
@@ -28,7 +35,6 @@ MKDIR='/bin/mkdir -p'
 PYTHON='/usr/bin/python'
 
 COPYDLLS_SCRIPT='/home/otbtesting/sources/orfeo/OTB-DevUtils/Scripts/copydlls.py'
-
 MVD2_SRC_DIR='/home/otbtesting/sources/orfeo/trunk/Monteverdi2'
 DEPLOY_DIR='/tmp/OTB-mingw32'
 COPYDLLS_DIR='/tmp/OTB-mingw32-copydlls/'
@@ -64,7 +70,7 @@ fi
 $CP $MXE_TARGET_DIR/qt/bin/Qt*.dll $MXE_TARGET_DIR/bin/
 $CP $MXE_TARGET_DIR/qwt/lib/qwt5.dll $MXE_TARGET_DIR/bin/
 $CP $MXE_TARGET_DIR/lib/glfw3.dll $MXE_TARGET_DIR/bin/
-$CP $MXE_TARGET_DIR/x86/mingw/bin/libopencv_*.dll $MXE_TARGET_DIR/bin/
+$CP $MXE_TARGET_DIR/$ARCH_VAR/mingw/bin/libopencv_*.dll $MXE_TARGET_DIR/bin/
 
 echo 'Prepare deploy directory for copydlls.py script'
 $CP $MXE_TARGET_DIR/lib/otb/applications/otbapp_*.dll $COPYDLLS_DIR
