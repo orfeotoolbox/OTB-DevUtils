@@ -46,13 +46,12 @@ def updateModuleDependencies(path,dep,opt_dep,test_dep):
         if "DESCRIPTION" in words:
           pos = words.index("DESCRIPTION") + 1
           desc = words[pos]
-          isInModDef = False
     if not isInModDef:
       lineList.append(line)
 
   fd.close()
 
-  lineList.append("otb_module("+modname+"\n")
+  lineList.append("\notb_module("+modname+"\n")
   if len(dep) > 0:
     lineList.append("  DEPENDS"+"\n")
     for d in dep:
