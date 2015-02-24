@@ -574,9 +574,20 @@ def main(argv):
   for mod in newDepList:
     curGroup = manifestParser.getGroup(mod,newGroups)
     if mod in depList:
-      if 'ITK' in newDepList[mod]: del newDepList[mod]['ITK']
+      #if 'ITK' in newDepList[mod]: del newDepList[mod]['ITK']
       if bool(sorted(newDepList[mod].keys()) != sorted(depList[mod].keys())):
-        print "Module "+mod+"  -> DEPENDS differ : "+str(depList[mod].keys())+" then "+str(newDepList[mod].keys())
+        newSet = set(newDepList[mod].keys())
+        oldSet = set(depList[mod].keys())
+        
+        print "Module "+mod+"  -> DEPENDS differ : Added: "+str(list(newSet-oldSet))+", Removed: "+str(list(oldSet-newSet))
+        
+        for dep in (newSet-oldSet):
+          print "Dependencies added to "+dep+":"
+          for link in newDepList[mod][dep]:
+            print link['from']+" -> "+link['to']
+
+        
+        #print "Module "+mod+"  -> DEPENDS differ : "+str(depList[mod].keys())+" then "+str(newDepList[mod].keys())
       if mod in cleanTestDepends and mod in testDepList:
         if bool(sorted(cleanTestDepends[mod].keys()) != sorted(testDepList[mod].keys())):
           print "Module "+mod+"  -> TEST_DEPENDS differ : "+str(testDepList[mod].keys())+" then "+str(cleanTestDepends[mod].keys())
