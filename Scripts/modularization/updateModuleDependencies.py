@@ -27,15 +27,9 @@ class bcolors:
 import sourceAPI
 
 def showHelp():
-  print "Script to move a source file from an OTB tree (after modularization)"+\
-    ". Allows to move source files from a module to an other and operate the "+\
-    "corresponding modifications in the build system."
-  print "Usage : moveSource.py  OTB_SRC_DIRECTORY  TARGET_MODULE  SOURCES_FILES"
-  print "  OTB_SRC_DIRECTORY : checkout of modular OTB (will be modified)"
-  print "  TARGET_MODULE     : destination module"
-  print "                      use 'group/module' in case of a new module"
-  print "  SOURCES_FILES     : list of source files"
-
+  print "This script will check and update module dependencies so that each module exactly include what it uses."
+  print "Usage : moveSource.py  OTB_SRC_DIRECTORY"
+  print "  OTB_SRC_DIRECTORY : checkout of OTB (will be modified)"
 
 
 #----------------- MAIN ---------------------------------------------------
@@ -45,7 +39,7 @@ def main(argv):
   
   # Modules in this list will only be updated with additional
   # dependencies, nod dependencies will be removed
-  blacklist_for_removal = ["CommandLine", "TestKernel", "ApplicationEngine"]
+  blacklist_for_removal = ["CommandLine", "TestKernel", "ApplicationEngine", "OSSIMAdapters"]
 
   # Parse otb-module.cmake to get declared dependencies
   [depList, optDepList, testDepList] = sourceAPI.parseOTBModuleCmake(modulesRoot)
@@ -113,7 +107,7 @@ def main(argv):
         if "CommandLine" in test_deps_to_remove : test_deps_to_remove.remove("CommandLine")
     
       if module in blacklist_for_removal:
-        print fancy_module+" - Module in black-listed, only additions will be made to dependencies"
+        print fancy_module+" - Module is black-listed, only additions will be made to dependencies"
         to_remove.clear()
         opt_to_remove.clear()
         test_deps_to_remove.clear()
@@ -148,7 +142,7 @@ def main(argv):
 
   print "\n"+str(changes_required)+" modules were updated, "+str(no_changes_required)+" were not changed."
 
-  print "\n"+bcolors.OKGREEN+"To commit thoses changes, run: "+ bcolors.ENDC +"hg commit -m \"COMP: Automatic updated of modules dependencies\"\n"
+  print "\n"+bcolors.OKGREEN+"To commit thoses changes, run: "+ bcolors.ENDC +"hg commit -m \"COMP: Automatic update of modules dependencies\"\n"
   
 
 if __name__ == "__main__":
