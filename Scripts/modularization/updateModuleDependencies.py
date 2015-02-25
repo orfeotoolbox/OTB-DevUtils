@@ -28,13 +28,32 @@ import sourceAPI
 
 def showHelp():
   print "This script will check and update module dependencies so that each module exactly include what it uses."
-  print "Usage : moveSource.py  OTB_SRC_DIRECTORY"
+  print "Usage : moveSource.py  OTB_SRC_DIRECTORY [--dry-run --verbose]"
   print "  OTB_SRC_DIRECTORY : checkout of OTB (will be modified)"
 
 
 #----------------- MAIN ---------------------------------------------------
 def main(argv):
+  
+  dry_run = False
+  verbose = False
+   
   otbDir = op.abspath(argv[1])
+  
+  for i in range(2,4):
+    print argv[i]
+    if len(argv)>i:
+      if argv[i] == "--dry-run":
+        print "Running in dry-run mode"
+        dry_run = True
+      elif argv[i] == "--verbose":
+        verbose = True
+        print "Running in verbose mode"
+      else:
+        print "Unknown option: "+argv[i]
+        showHelp()
+        return
+
   modulesRoot = op.join(otbDir,"Modules")
   
   # Modules in this list will only be updated with additional
@@ -69,7 +88,8 @@ def main(argv):
 
     # Do not process third parties
     if module in groups['ThirdParty']:
-      print fancy_module +" - Ignoring third party module"
+      if verbose:
+        print fancy_module +" - Ignoring third party module"
     else:
       current_deps = set(depList[module].keys())
       current_actualdeps = set(actualDepList[module].keys())
@@ -80,7 +100,8 @@ def main(argv):
       # Handling optional dependencies
       for opt in optDepList[module].keys():
         if opt in to_add:
-          print fancy_module +" - Ignoring optional dependency: "+opt
+          if verbose:
+            print fancy_module +" - Ignoring optional dependency: "+opt
           to_add.remove(opt)
 
       current_opt_deps = set(optDepList[module].keys())
@@ -102,24 +123,30 @@ def main(argv):
       test_deps_to_remove = current_test_deps - current_actual_test_deps
 
       if group == "Applications":
-        print fancy_module+" - Module in Applications group, TestKernel and CommandLine modules will not be removed from tests dependencies"
+        if verbose:
+          print fancy_module+" - Module in Applications group, TestKernel and CommandLine modules will not be removed from tests dependencies"
         if "TestKernel" in test_deps_to_remove : test_deps_to_remove.remove("TestKernel")
         if "CommandLine" in test_deps_to_remove : test_deps_to_remove.remove("CommandLine")
     
       if module in blacklist_for_removal:
-        print fancy_module+" - Module is black-listed, only additions will be made to dependencies"
+        if verbose:
+          print fancy_module+" - Module is black-listed, only additions will be made to dependencies"
         to_remove.clear()
         opt_to_remove.clear()
         test_deps_to_remove.clear()
 
       if len(to_add) == 0 and len(to_remove) == 0 and len(opt_to_remove) == 0 and len(test_deps_to_add) == 0 and len(test_deps_to_remove) == 0:
-        print fancy_module+ bcolors.OKGREEN + " - No changes required"+ bcolors.ENDC
+        if verbose:
+          print fancy_module+ bcolors.OKGREEN + " - No changes required"+ bcolors.ENDC
         no_changes_required+=1
       else:
         changes_required+=1
         if len(to_add) > 0:
           print fancy_module+bcolors.OKBLUE +" - Additional dependencies required: "+str(list(to_add))+ bcolors.ENDC
-        
+          if verbose:
+            for dep_to_add in to_add:
+              for dep_include in actualDepList[module][dep_to_add]:
+                print fancy_module+" - needs "+dep_to_add+" because "+dep_include["from"]+" includes "+dep_include["to"]
         if len(to_remove) > 0:
           print fancy_module+bcolors.OKRED + " - Dependencies to remove: "+str(list(to_remove))+ bcolors.ENDC
        
@@ -128,21 +155,27 @@ def main(argv):
 
         if len(test_deps_to_add):
            print fancy_module+bcolors.OKBLUE+" - Additional test dependencies required: "+str(list(test_deps_to_add))+ bcolors.ENDC
+           if verbose:
+             for dep_to_add in test_deps_to_add:
+               for dep_include in actualTestDepList[module][dep_to_add]:
+                 print fancy_module+" - needs "+dep_to_add+" because "+dep_include["from"]+" includes "+dep_include["to"]
         if len(test_deps_to_remove):
            print fancy_module+bcolors.OKRED + " - Test dependencies to remove: "+str(list(test_deps_to_remove))+ bcolors.ENDC
 
         final_dep = (current_deps | to_add) - to_remove
         final_opt_dep = current_opt_deps - opt_to_remove
         final_test_dep = (current_test_deps | test_deps_to_add) - test_deps_to_remove
-
-        cmake_mod_file_path=op.join(otbDir,"Modules",group,module,"otb-module.cmake")      
-        print fancy_module+" - Patching file "+cmake_mod_file_path
-        sourceAPI.updateModuleDependencies(cmake_mod_file_path,final_dep,final_opt_dep, final_test_dep)
-        #call(["hg","diff",op.join("Modules",group,module,"otb-module.cmake")])
-
-  print "\n"+str(changes_required)+" modules were updated, "+str(no_changes_required)+" were not changed."
-
-  print "\n"+bcolors.OKGREEN+"To commit thoses changes, run: "+ bcolors.ENDC +"hg commit -m \"COMP: Automatic update of modules dependencies\"\n"
+        
+        if not dry_run:
+          cmake_mod_file_path=op.join(otbDir,"Modules",group,module,"otb-module.cmake")      
+          print fancy_module+" - Patching file "+cmake_mod_file_path
+          sourceAPI.updateModuleDependencies(cmake_mod_file_path,final_dep,final_opt_dep, final_test_dep)
+          
+  if not dry_run:
+    print "\n"+str(changes_required)+" modules were updated, "+str(no_changes_required)+" were not changed."
+    print "\n"+bcolors.OKGREEN+"To commit thoses changes, run: "+ bcolors.ENDC +"hg commit -m \"COMP: Automatic update of modules dependencies\"\n"
+  else:
+    print "\n"+str(changes_required)+" modules should be updated, "+str(no_changes_required)+" are consistent."
   
 
 if __name__ == "__main__":
