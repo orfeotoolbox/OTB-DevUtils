@@ -41,7 +41,6 @@ def main(argv):
   otbDir = op.abspath(argv[1])
   
   for i in range(2,4):
-    print argv[i]
     if len(argv)>i:
       if argv[i] == "--dry-run":
         print "Running in dry-run mode"
