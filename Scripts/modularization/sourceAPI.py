@@ -390,7 +390,7 @@ def cleanDepList(depList,fullDepList):
         cleanDepList[mod][dep] = 1
   return cleanDepList
   
-def updateSourceList(path,varName,added,removed):  
+def updateSourceList(path,varName,added,removed,fname="set"):  
   fd = open(path,'rb')
   newContent = []
   indent = "  "
@@ -411,8 +411,9 @@ def updateSourceList(path,varName,added,removed):
       if cleanLine in removed:
         continue
     
-    if line.startswith("set("+varName):
+    if line.startswith(fname+"("+varName):
       isInSetSrc = True
+    
     newContent.append(line)
   fd.close()
   
@@ -455,6 +456,32 @@ def updateTestDriver(path,added,removed):
   fd.writelines(newContent)
   fd.close()
 
+def setTargetLinkLibs(path,varName,depList):
+  fd = open(path,'rb')
+  newContent = []
+  indent = "  "
+  isInSetSrc = False
+  for line in fd:
+    cleanLine = line.strip(' \n\t\r')
+    if line.startswith("target_link_libraries("+varName):
+      isInSetSrc = True
+    
+    if not isInSetSrc:
+      newContent.append(line)
+    
+    if isInSetSrc and line.count(')') == 1:
+      # set target_link bloc
+      newContent.append("target_link_libraries("+varName+"\n")
+      for item in depList:
+        newContent.append(indent+"${OTB"+item+"_LIBRARIES}\n")
+      newContent.append(indent+")\n")
+      isInSetSrc = False
+    
+  fd.close()
+  
+  fd = open(path,'wb')
+  fd.writelines(newContent)
+  fd.close()
 
 def initializeSrcCMakeLists(path,modName):
   fd = open(path,'wb')
@@ -489,7 +516,17 @@ def initializeTestDriver(path):
   fd.write("}\n")
   fd.close()
 
-def moveTestCode(srcPath,dstPath,testCode):
+def initializeOTBModuleCmake(path,modName):
+  fd = open(path,'wb')
+  fd.write("set(DOCUMENTATION \"TODO\")\n")
+  fd.write("\n")
+  fd.write("otb_module(OTB"+modName+"\n")
+  fd.write("  DESCRIPTION\n")
+  fd.write("    \"${DOCUMENTATION}\"\n")
+  fd.write("  )\n")
+  fd.close()
+
+def moveTestCode(srcPath,dstPath,testCode,testProp={}):
   
   # First, process destination CMakeLists.txt
   dst = open(dstPath,'rb')
@@ -498,6 +535,9 @@ def moveTestCode(srcPath,dstPath,testCode):
   for test,test_body in testCode.iteritems():
     for line in test_body['code']:
       new_dst_content.append(line)
+    if testProp.has_key(test):
+      for prop in testProp[test]:
+        new_dst_content.append(prop)
   dst.close()
 
   dst = open(dstPath,'w')
@@ -519,6 +559,18 @@ def moveTestCode(srcPath,dstPath,testCode):
       id+=1
     if start > 0:
       del new_src_content[start:start+len(test_body['code'])]
+  
+  for test,test_prop in testProp.iteritems():
+    for prop in test_prop:
+      id = 0
+      start = -1
+      for line in new_src_content:
+        if line == prop:
+          start = id
+          break
+        id+=1
+      if start > 0:
+        del new_src_content[start:start+1]
   
   src.close()
 
