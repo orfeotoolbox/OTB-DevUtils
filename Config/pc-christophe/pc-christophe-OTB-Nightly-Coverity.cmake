@@ -24,6 +24,10 @@ SET(ITK_DIR "/home/otbtesting/install/itk/stable/Release/lib/cmake/ITK-4.6" CACH
 SET(OSSIM_INCLUDE_DIR "/home/otbtesting/install/ossim/stable/include" CACHE STRING "" FORCE)
 SET(OSSIM_LIBRARY "/home/otbtesting/install/ossim/stable/lib64/libossim.so" CACHE STRING "" FORCE)
 
+##external muparserx
+SET(MUPARSERX_LIBRARY "/home/otbtesting/install/muparserx/lib/libmuparserx.so" CACHE STRING "" FORCE)
+SET(MUPARSERX_INCLUDE_DIR "/home/otbtesting/install/muparserx/include" CACHE STRING "" FORCE)
+
 # These options are not available anymore
 SET(OTB_USE_PATENTED ON CACHE BOOL "" FORCE)
 SET(OTB_USE_CURL ON CACHE BOOL "" FORCE)
@@ -32,7 +36,7 @@ SET(OTB_USE_MAPNIK OFF CACHE BOOL "" FORCE)
 SET(OTB_USE_OPENCV ON CACHE BOOL "" FORCE)
 SET(OTB_USE_QT4 ON CACHE BOOL "" FORCE)
 SET(OTB_USE_MUPARSER ON CACHE BOOL "" FORCE)
-SET(OTB_USE_MUPARSERX OFF CACHE BOOL "" FORCE)
+SET(OTB_USE_MUPARSERX ON CACHE BOOL "" FORCE)
 SET(OTB_USE_LIBKML ON CACHE BOOL "" FORCE)
 SET(OTB_USE_6S ON CACHE BOOL "" FORCE)
 SET(OTB_USE_EDISON ON CACHE BOOL "" FORCE)

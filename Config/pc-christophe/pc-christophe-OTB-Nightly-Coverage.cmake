@@ -38,6 +38,10 @@ ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.6
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/stable/include
 OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/stable/lib64/libossim.so
 
+##external muparserx
+MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
+
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=ON

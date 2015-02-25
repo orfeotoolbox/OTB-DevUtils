@@ -52,6 +52,10 @@ OpenCV_DIR=${INSTALLROOT}/opencv/trunk/share/OpenCV/
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/trunk/include
 OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/trunk/lib64/libossim.so
 
+##external muparserx
+MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
+
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
