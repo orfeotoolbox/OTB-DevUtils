@@ -50,12 +50,11 @@ def main(argv):
   # First, analyse current OTB tree, retrieve :
   #  - module list
   #  - group vs module association
-  #  - module dependency graph from otb-module.cmake
   modulesRoot = op.join(otbDir,"Modules")
   
   [depList, optDepList, testDepList] = sourceAPI.parseOTBModuleCmake(modulesRoot)
-  fullDepList = manifestParser.buildFullDep(depList)
-  oldCleanDepList = sourceAPI.cleanDepList(depList,fullDepList)
+  #fullDepList = manifestParser.buildFullDep(depList)
+  #oldCleanDepList = sourceAPI.cleanDepList(depList,fullDepList)
   
   [groups,moduleList,sourceList,testList] = sourceAPI.parseModuleRoot(modulesRoot)
   
@@ -87,9 +86,7 @@ def main(argv):
   # Compute new modules dependencies
   [newGroups,newModuleList,newSourceList,newTestList] = sourceAPI.parseModuleRoot(modulesRoot)
   newDepList = sourceAPI.buildModularDep(otbDir,newModuleList,newSourceList)
-  
-  # DEBUG
-  #manifestParser.printDepList(newDepList)
+  newTestDepList = sourceAPI.buildModularDep(otbDir,newTestList,newSourceList)
   
   # compute full dependencies
   newFullDepList = manifestParser.buildFullDep(newDepList)
@@ -101,83 +98,11 @@ def main(argv):
       if not mod in cyclicDependentModules:
         cyclicDependentModules.append(mod)
   if len(cyclicDependentModules) > 0:
-    print "Check for cyclic dependency :"
-    for mod in cyclicDependentModules:
-      print "  -> "+mod+" depends on : "
-      print "      "+str(newFullDepList[mod])
+    print "Check for cyclic dependency : Failed"
+    manifestParser.printDepList(newDepList,cyclicDependentModules)
     return 1
   else:
-    print "Check for cyclic dependency : OK"
-  
-  newCleanDepList = newDepList #cleanDepList(newDepList,newFullDepList)
-  
-  # Analyse tests
-  testCxx = {}
-  for test in newTestList:
-    testPath = op.join(otbDir,test)
-    res = createTestManifest.parseTestCxx(testPath)
-    if res["isTestDriver"]:
-      # no need to dispatch test drivers, they can be generated again
-      continue
-    [newTestDepList,newThirdPartyDep] = createTestManifest.getTestDependencies(res["includes"],newSourceList)
-    curGroup = manifestParser.getGroup(newTestList[test],newGroups)
-    if not res["hasMain"]:
-      # manually add dependency to TestKernel for cxx using a test driver
-      # the include to otbTestMain.h header is not located in the cxx
-      newTestDepList["TestKernel"] = {"from":test ,"to":"Modules/IO/TestKernel/include/otbTestMain.h"}
-    testCxx[test] = {"depList":newTestDepList , \
-                     "thirdPartyDep":newThirdPartyDep, \
-                     "group":curGroup, \
-                     "module":newTestList[test], \
-                     "res":res}
-  
-  allTestDepends = createTestManifest.gatherTestDepends(testCxx,newFullDepList)
-  
-  # clean the test depends (i.e. ImageIO is dragged by TestKernel)
-  cleanTestDepends = {}
-  for mod in allTestDepends:
-    cleanTestDepends[mod] = {}
-    for dep1 in allTestDepends[mod]:
-      isClean = True
-      for dep2 in allTestDepends[mod]:
-        if dep1 == dep2:
-          continue
-        if dep1 in newFullDepList[dep2]:
-          isClean = False
-          break
-      if isClean:
-        cleanTestDepends[mod][dep1] = 1
-  
-  # give hints on modifications to perform on DEPENDS and TEST_DEPENDS
-  for mod in newDepList:
-    curGroup = manifestParser.getGroup(mod,newGroups)
-    if mod in depList:
-      #if 'ITK' in newDepList[mod]: del newDepList[mod]['ITK']
-      if bool(sorted(newDepList[mod].keys()) != sorted(depList[mod].keys())):
-        newSet = set(newDepList[mod].keys())
-        oldSet = set(depList[mod].keys())
-        
-        print "Module "+mod+"  -> DEPENDS differ : Added: "+str(list(newSet-oldSet))+", Removed: "+str(list(oldSet-newSet))
-        
-        for dep in (newSet-oldSet):
-          print "Dependencies added to "+dep+":"
-          for link in newDepList[mod][dep]:
-            print link['from']+" -> "+link['to']
-
-        
-        #print "Module "+mod+"  -> DEPENDS differ : "+str(depList[mod].keys())+" then "+str(newDepList[mod].keys())
-      if mod in cleanTestDepends and mod in testDepList:
-        if bool(sorted(cleanTestDepends[mod].keys()) != sorted(testDepList[mod].keys())):
-          print "Module "+mod+"  -> TEST_DEPENDS differ : "+str(testDepList[mod].keys())+" then "+str(cleanTestDepends[mod].keys())
-    else:
-      print "Module "+mod+" new !"
-      if mod in newCleanDepList:
-        print "  -> DEPENDS : "+str(newCleanDepList[mod].keys())
-      if mod in cleanTestDepends:
-        print "  -> TEST_DEPENDS : "+str(cleanTestDepends[mod].keys())
-    
-    #  - fix the otb-module.cmake ?
-    #  - fix the target_link_libraries ?
+    print "Check for cyclic dependency : Passed"
   
   # fix srcList and test declaration
   os.chdir(otbDir)
@@ -188,6 +113,8 @@ def main(argv):
     srcGrp = words[1]
     srcSub = words[3]
     targetFile = cleanFile.replace(srcGrp+"/"+srcMod,destinationPrefix,1)
+    # call hg rename -A
+    call(["hg","rename","-A",cleanFile,targetFile])
     #  - for input files in 'src' : adapt OTBModule_SRC
     if srcSub == "src" and len(words) == 5:
       # remove entry in previous module
@@ -204,7 +131,10 @@ def main(argv):
         call(["hg","add",cmakelistPath.replace(otbDir,".")])
       sourceAPI.updateSourceList(cmakelistPath,"OTB"+targetModule+"_SRC",added,removed)
     if srcSub == "test" and len(words) == 5:
-      if testCxx[targetFile]["res"]["hasMain"]:
+      # analyse test
+      res = createTestManifest.parseTestCxx(op.join(otbDir,targetFile))
+      
+      if res["hasMain"]:
         print "Test with main ("+targetFile+") : not handled for now"
       else:
         # remove entry in previous module source list
@@ -231,22 +161,80 @@ def main(argv):
         sourceAPI.updateTestDriver(testDriverPath,added,removed)
         
         #  - move test declaration
-        testCode = dispatchTests.findTestFromExe(oldCmakelistPath,"otb"+srcMod+"TestDriver","",testCxx[targetFile]["res"]["testFunctions"],'otb_')
-
+        testCode = dispatchTests.findTestFromExe(oldCmakelistPath,"otb"+srcMod+"TestDriver","",res["testFunctions"],'otb_')
+        
+        # get set_test_properties()
+        testProp = dispatchTests.findTestProperties(oldCmakelistPath,testCode.keys())
+        
         print "Found "+str(len(testCode))+" tests to move"
 
-        sourceAPI.moveTestCode(oldCmakelistPath,cmakelistPath,testCode)
-    
+        sourceAPI.moveTestCode(oldCmakelistPath,cmakelistPath,testCode,testProp)
   
-  # perform hg rename -A
-  for srcFile in srcFiles:
-    cleanFile = srcFile.strip('./')
-    words = cleanFile.split('/')
-    srcMod = words[2]
-    srcGrp = words[1]
-    targetFile = cleanFile.replace(srcGrp+'/'+srcMod,destinationPrefix,1)
-    call(["hg","rename","-A",cleanFile,targetFile])
+  
+  # Modules in this list will only be updated with additional
+  # dependencies, nod dependencies will be removed
+  blacklist_for_removal = ["CommandLine", "TestKernel", "ApplicationEngine", "OSSIMAdapters"]
+  finalDep = {}
+  finalTestDep = {}
+  for mod in newModuleList:
+    curGroup = manifestParser.getGroup(mod,newGroups)
     
+    # detect third party and skip
+    if mod in newGroups['ThirdParty']:
+      continue
+    
+    # handle new modules
+    if not mod in depList:
+      depList[mod] = {}
+    if not mod in optDepList:
+      optDepList[mod] = {}
+    if not mod in testDepList:
+      testDepList[mod] = {}
+    
+    depBefore = set(depList[mod].keys())
+    depAfter = set([])
+    if mod in newDepList:
+      for dep in newDepList[mod]:
+        if not dep in optDepList[mod]:
+          depAfter.add(dep)
+    if mod in blacklist_for_removal:
+      depAfter.update(depBefore)
+    if depBefore != depAfter:
+      print "Module "+mod+" : DEPENDS : removed : "+str(list(depBefore-depAfter))+" ; added : "+str(list(depAfter-depBefore))
+    
+    tDepBefore = set(testDepList[mod].keys())
+    tDepAfter = set([])
+    if mod in newTestDepList:
+      for tdep in newTestDepList[mod]:
+        if not tdep in (list(depAfter) + optDepList[mod].keys()):
+          tDepAfter.add(tdep)
+    if mod in blacklist_for_removal:
+      tDepAfter.update(tDepBefore)
+    if mod in newGroups['Applications']:
+      if "TestKernel" in tDepBefore:
+        tDepAfter.add("TestKernel")
+      if "CommandLine" in tDepBefore:
+        tDepAfter.add("CommandLine")
+    if tDepBefore != tDepAfter:
+      print "Module "+mod+" : TEST_DEPENDS : removed : "+str(list(tDepBefore-tDepAfter))+" ; added : "+str(list(tDepAfter-tDepBefore))
+    
+    finalDep[mod] = depAfter
+    finalTestDep[mod] = tDepAfter
+    
+    # fix the otb-module.cmake
+    cmake_module_path = op.join(modulesRoot,op.join(curGroup,op.join(mod,"otb-module.cmake")))
+    if (not op.exists(cmake_module_path)) and (mod == targetModule):
+      # initialize new otb-module.cmake if new module
+      sourceAPI.initializeOTBModuleCmake(cmake_module_path,mod)
+      call(["hg","add",cmake_module_path.replace(otbDir,".")])
+    if (depBefore != depAfter) or (tDepBefore != tDepAfter):
+      sourceAPI.updateModuleDependencies(cmake_module_path,sorted(depAfter),sorted(optDepList[mod]),sorted(tDepAfter))
+    
+    #  - fix the target_link_libraries
+    sub_src_CMakeList = op.join(modulesRoot,op.join(curGroup,op.join(mod,"src/CMakeLists.txt")))
+    if op.isfile(sub_src_CMakeList) and (depBefore != depAfter):
+      sourceAPI.setTargetLinkLibs(sub_src_CMakeList,"OTB"+mod,sorted(depAfter))
+  
   # TODO : hg commit by the user
   
   
