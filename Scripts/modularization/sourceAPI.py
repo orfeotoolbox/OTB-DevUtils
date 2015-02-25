@@ -268,7 +268,7 @@ def analyseInclude(inc,sourceList):
     result = "Ossim"
   elif (inc.find("opencv") == 0):
     result = "OpenCV"
-  elif (inc.find("muParser") == 0):
+  elif (inc == "otb_muparser.h" or inc.find("muParser") == 0):
     result = "MuParser"
   elif (inc.find("mpParser") == 0):
     result = "MuParserX"
