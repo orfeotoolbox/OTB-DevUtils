@@ -3,7 +3,7 @@ set(dashboard_model Continuous)
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
 set(CTEST_SITE "leod.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "MacOSX10.8-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_CMAKE_COMMAND "cmake" )
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
@@ -64,6 +64,9 @@ OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install/lib64/libossim.dyli
 
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/muparserx/install/include
 MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/muparserx/install/lib/libmuparserx.dylib
+
+Java_JAVA_EXECUTABLE:FILEPATH=/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java
+ 
 ")
 
 SET (CTEST_NOTES_FILES
