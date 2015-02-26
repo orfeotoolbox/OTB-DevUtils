@@ -42,10 +42,13 @@ def main(argv):
   
   srcFiles = []
   for item in argv[3:]:
-    if op.isfile(op.join(otbDir,item)):
-      srcFiles.append(item.strip('./'))
+    src = item
+    if not src.startswith("Modules/"):
+      src = "Modules/"+src
+    if op.isfile(op.join(otbDir,src)):
+      srcFiles.append(src.strip('./'))
     else:
-      print "Input source file not found, will be skipped : "+item
+      print "Input source file not found, will be skipped : "+src
   
   # First, analyse current OTB tree, retrieve :
   #  - module list
@@ -236,7 +239,7 @@ def main(argv):
       sourceAPI.setTargetLinkLibs(sub_src_CMakeList,"OTB"+mod,sorted(depAfter))
   
   # TODO : hg commit by the user
-  
+  print "To commit those changes, run: hg commit -m \"COMP: Automatic move of files to module "+targetModule+"\"\n"
   
 
 
