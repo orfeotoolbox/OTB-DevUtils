@@ -175,6 +175,10 @@ def main(argv):
               if op.isfile(sub_src_CMakeList):
                   print fancy_module+" - Patching file "+sub_src_CMakeList
                   sourceAPI.setTargetLinkLibs(sub_src_CMakeList,"OTB"+module,sorted(to_add))
+      if not dry_run and module not in ['SWIG'] and module not in groups["ThirdParty"] and sourceAPI.UpdateLibraryExport(group,module,otbDir):
+              print fancy_module+" - Patching main CMakeLists.txt to fix library export"
+
+        
 
           
   if not dry_run:

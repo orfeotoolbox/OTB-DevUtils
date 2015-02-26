@@ -276,7 +276,6 @@ def findTestProperties(cmakefile,testList):
         
     if cleanLine.startswith("set_tests_properties(") or cleanLine.startswith("set_property(TEST"):
       if  cleanLine.startswith("set_property(TEST"):
-        print "set_property"
         set_property = True
       isInSetProp = True
     
@@ -291,7 +290,6 @@ def findTestProperties(cmakefile,testList):
         if set_property:
           words = (lineBuffer[18:-2]).split(' ')
         testName = words[0]
-        print testName
         if (testName in testList) and len(words) == 4:
           if not testName in output:
             output[testName] = []

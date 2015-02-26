@@ -495,7 +495,7 @@ def initializeSrcCMakeLists(path,modName):
   fd.write("\n")
   fd.write("add_library(OTB"+modName+" ${OTB"+modName+"_SRC})\n")
   fd.write("target_link_libraries(OTB"+modName+"\n")
-  fd.write("# Fill with libraries from DEPENDS list")
+  fd.write("# Fill with libraries from DEPENDS list\n")
   fd.write(")\n")
   fd.write("\n")
   fd.write("otb_module_target(OTB"+modName+")\n")
@@ -529,6 +529,16 @@ def initializeOTBModuleCmake(path,modName):
   fd.write("  DESCRIPTION\n")
   fd.write("    \"${DOCUMENTATION}\"\n")
   fd.write("  )\n")
+  fd.close()
+
+def initializeOTBModuleCMakeLists(path,modName,with_lib = False):
+  fd = open(path,'wb')
+  fd.write("project(OTB"+modName+")\n\n")
+  
+  if with_lib:
+    fd.write("set(OTB"+modName+"_LIBRARIES OTB"+modName+")\n\n")
+
+  fd.write("otb_module_impl()\n")
   fd.close()
 
 def moveTestCode(srcPath,dstPath,testCode,testProp={}):
@@ -582,3 +592,73 @@ def moveTestCode(srcPath,dstPath,testCode,testProp={}):
   src = open(srcPath,'w')
   src.writelines(new_src_content)
   src.close()
+
+def getCyclicDep(mod,depList):
+  paths = []
+  max_iter = 1000
+  it = 0
+
+  for m in depList[mod]:
+    if m == mod:
+      return [m]
+    paths.append([m])
+
+  while it < max_iter:
+    new_paths = []
+    for path in paths:
+      for m in depList[path[-1]]:
+        if m == mod:
+          return path+[m]
+        new_paths.append(path+[m])
+    paths = new_paths
+    it+=1
+    
+    return []
+  
+def ModuleHasLibrary(group,module,otb_root):
+  if op.isdir(op.join(otb_root,"Modules",group,module,"src")):
+    return True
+  else:
+    return False
+
+def UpdateLibraryExport(group,module,otb_root):
+  has_library =  ModuleHasLibrary(group,module,otb_root)
+
+  cmake = op.join(otb_root,"Modules",group,module,"CMakeLists.txt")
+
+  fd = open(cmake,'rb')
+  lines = fd.readlines()
+  fd.close()
+
+  has_library_export = False
+    
+  for line in lines:
+    if line.startswith("set(OTB"+module):
+      has_library_export = True
+  
+  if not has_library_export and has_library:
+
+    out_lines = []
+      
+    for line in lines:
+      cleanline = line.strip(' \n\t\r')
+      if cleanline.startswith("otb_module_impl()"):
+        out_lines.append("\nset(OTB"+module+"_LIBRARIES OTB"+module+")\n\n")
+      out_lines.append(line)
+    fd = open(cmake,'w')
+    fd.writelines(out_lines)
+    fd.close()
+    return True
+
+  elif has_library_export and not has_library:
+    out_lines = []
+    for line in lines:
+      if not line.find("set(OTB"+module+"_LIBRARIES"):
+        out_lines.append(line)
+    fd = open(cmake,'w')
+    fd.writelines(out_lines)
+    fd.close()
+    return True
+
+  return False
+  

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #coding=utf8
-
+import glob
 import sys
 import string
 import os
@@ -39,7 +39,9 @@ def main(argv):
     print "Wrong module name, check input argument : "+argv[2]
   if targetGroup == "":
     print "Wrong group name, check input argument : "+argv[2]
-  
+
+  print "Target module: "+targetGroup+"/"+targetModule
+
   srcFiles = []
   for item in argv[3:]:
     src = item
@@ -102,7 +104,19 @@ def main(argv):
         cyclicDependentModules.append(mod)
   if len(cyclicDependentModules) > 0:
     print "Check for cyclic dependency : Failed"
-    manifestParser.printDepList(newDepList,cyclicDependentModules)
+    for m in cyclicDependentModules:
+      cycle = sourceAPI.getCyclicDep(m,newDepList)
+      print "Cycle for module "+m+": "+str(cycle)
+      if len(cycle) > 0:
+        a = m
+        for c in cycle:
+          b = c
+          print a+" -> "+b+": "
+          for dep in newDepList[a][b]:
+            print "\t"+dep["from"]+" -> "+dep["to"]
+          a = c
+    
+    #manifestParser.printDepList(newDepList,cyclicDependentModules)
     return 1
   else:
     print "Check for cyclic dependency : Passed"
@@ -124,7 +138,14 @@ def main(argv):
       removed = [op.basename(srcFile)]
       added = []
       cmakelistPath = op.join(modulesRoot,op.join(srcGrp,op.join(srcMod,"src/CMakeLists.txt")))
-      sourceAPI.updateSourceList(cmakelistPath,"OTB"+srcMod+"_SRC",added,removed)
+      # Check that there are some source file remaining in src dir
+      source_files = filter(os.path.isfile, glob.glob(op.join(modulesRoot,srcGrp,srcMod,'src')+'/*.c*'))
+      if len(source_files) >0 :
+        sourceAPI.updateSourceList(cmakelistPath,"OTB"+srcMod+"_SRC",added,removed)
+      else:
+        # There are no more sources here, the whole src module can be removed
+        print "Removing src dir in "+srcGrp+"/"+srcMod+", since it does not contain source files anymore"
+        call(["hg","remove",op.join(modulesRoot,srcGrp,srcMod,'src')+"/*"])
       # add entry in target module
       removed = []
       added = [op.basename(srcFile)]
@@ -226,20 +247,30 @@ def main(argv):
     
     # fix the otb-module.cmake
     cmake_module_path = op.join(modulesRoot,op.join(curGroup,op.join(mod,"otb-module.cmake")))
+    cmakel_module_path = op.join(modulesRoot,op.join(curGroup,op.join(mod,"CMakeLists.txt")))
     if (not op.exists(cmake_module_path)) and (mod == targetModule):
       # initialize new otb-module.cmake if new module
       sourceAPI.initializeOTBModuleCmake(cmake_module_path,mod)
+      with_lib = False
+      if op.exists(op.join(curGroup,op.join(mod,"src"))):
+        with_lib = True
+      sourceAPI.initializeOTBModuleCMakeLists(cmakel_module_path,mod,with_lib)
+      call(["hg","add",cmakel_module_path.replace(otbDir,".")])
+      
       call(["hg","add",cmake_module_path.replace(otbDir,".")])
     if (depBefore != depAfter) or (tDepBefore != tDepAfter):
       sourceAPI.updateModuleDependencies(cmake_module_path,sorted(depAfter),sorted(optDepList[mod]),sorted(tDepAfter))
     
     #  - fix the target_link_libraries
+    src_dir = op.join(modulesRoot,curGroup,mod,"src")
+
     sub_src_CMakeList = op.join(modulesRoot,op.join(curGroup,op.join(mod,"src/CMakeLists.txt")))
     if op.isfile(sub_src_CMakeList) and (depBefore != depAfter):
       sourceAPI.setTargetLinkLibs(sub_src_CMakeList,"OTB"+mod,sorted(depAfter))
   
   # TODO : hg commit by the user
-  print "To commit those changes, run: hg commit -m \"ENH: Automatic move of files to module "+targetModule+"\"\n"
+  print "\nTo commit those changes, run: hg commit -m \"ENH: Automatic move of files to module "+targetGroup+"/"+targetModule+"\"\n"
+  print "It is advised to run updateModuleDependencies.py script beforehand.\n"
   
 
 
