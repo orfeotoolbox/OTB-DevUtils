@@ -28,7 +28,7 @@ import sourceAPI
 
 def showHelp():
   print "This script will check and update module dependencies so that each module exactly include what it uses."
-  print "Usage : moveSource.py  OTB_SRC_DIRECTORY [--dry-run --verbose]"
+  print "Usage: updateModuleDependencies.py OTB_SRC_DIRECTORY [--dry-run --verbose]"
   print "  OTB_SRC_DIRECTORY : checkout of OTB (will be modified)"
 
 

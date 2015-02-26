@@ -32,7 +32,7 @@ def parserHeader(srcPath, mod):
       lineBuffer.append(line)
       if cleanLine.count("\class ") == 1:
         hasClassKeyword = True
-      if cleanLine.count("\ingroup ") == 1:
+      if cleanLine.count("\ingroup OTB") == 1:
         groupKeywordPos.append(len(lineBuffer) -1)
     else:
       content.append(line)
@@ -41,10 +41,11 @@ def parserHeader(srcPath, mod):
       # check this is really a class documentation bloc
       if hasClassKeyword:
         # Always add group keyword at the end
-        #if len(groupKeywordPos) > 0:
-        if 0:
+        if len(groupKeywordPos) > 0:
+        #if 0:
           # a group keyword is already present (or more) : modify the lines
-          linePos = lineBuffer[groupKeywordPos[0]].find("\ingroup ")
+          print lineBuffer[groupKeywordPos[0]]
+          linePos = lineBuffer[groupKeywordPos[0]].find("\ingroup OTB")
           lineBuffer[groupKeywordPos[0]] = lineBuffer[groupKeywordPos[0]][0:linePos+9]+"OTB"+mod+"\n"
           # remove additionnal group keywords
           for otherPos in groupKeywordPos[1:]:
