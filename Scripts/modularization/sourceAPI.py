@@ -304,6 +304,10 @@ def analyseInclude(inc,sourceList):
     result = "ConfigFile"
   elif inc in ["QtCore","QtGui","QString","QObject"]:
     result = "Qt4"
+  elif inc in ["geovalues.h"]:
+    result = "GeoTIFF"
+  elif inc in ["Python.h","lua.h","lualib.h","lauxlib.h"]:
+    result = "SWIG"
   elif baseInc in sourceList:
     result = sourceList[baseInc]
   
