@@ -239,7 +239,7 @@ def main(argv):
       sourceAPI.setTargetLinkLibs(sub_src_CMakeList,"OTB"+mod,sorted(depAfter))
   
   # TODO : hg commit by the user
-  print "To commit those changes, run: hg commit -m \"COMP: Automatic move of files to module "+targetModule+"\"\n"
+  print "To commit those changes, run: hg commit -m \"ENH: Automatic move of files to module "+targetModule+"\"\n"
   
 
 
