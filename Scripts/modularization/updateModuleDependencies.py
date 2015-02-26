@@ -168,7 +168,14 @@ def main(argv):
         if not dry_run:
           cmake_mod_file_path=op.join(otbDir,"Modules",group,module,"otb-module.cmake")      
           print fancy_module+" - Patching file "+cmake_mod_file_path
-          sourceAPI.updateModuleDependencies(cmake_mod_file_path,final_dep,final_opt_dep, final_test_dep)
+          sourceAPI.updateModuleDependencies(cmake_mod_file_path,sorted(final_dep),sorted(final_opt_dep), sorted(final_test_dep))
+          
+          if len(to_add)>0:
+              sub_src_CMakeList = op.join(modulesRoot,op.join(otbDir,"Modules",group,module,"src/CMakeLists.txt"))
+              if op.isfile(sub_src_CMakeList):
+                  print fancy_module+" - Patching file "+sub_src_CMakeList
+                  sourceAPI.setTargetLinkLibs(sub_src_CMakeList,"OTB"+module,sorted(to_add))
+
           
   if not dry_run:
     print "\n"+str(changes_required)+" modules were updated, "+str(no_changes_required)+" were not changed."
