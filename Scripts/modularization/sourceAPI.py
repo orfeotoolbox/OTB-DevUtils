@@ -238,7 +238,8 @@ def analyseInclude(inc,sourceList):
     "string","iostream","vector","fstream","map","algorithm","typeinfo",\
     "cassert","iterator","complex","numeric","iomanip","cmath","stdio",\
     "cstdlib","cstdio","iosfwd","sstream","limits","utility","exception",\
-    "list","deque","set","cstring","stdexcept","clocale","ostream"]
+    "list","deque","set","cstring","stdexcept","clocale","ostream","cfloat",\
+    "cstddef","stdarg.h","cctype","malloc.h"]
   
   baseInc = op.basename(inc)
   hasUnderScore = bool(baseInc.count("_"))
@@ -298,7 +299,7 @@ def analyseInclude(inc,sourceList):
   elif ((inc.lower()).find("6s") >= 0):
     result = "6S"
   elif (inc.find("openthread") == 0) or inc.startswith("OpenThreads/"):
-    result = "OpenThread"
+    result = "OpenThreads"
   elif (baseInc == "ConfigFile.h"):
     result = "ConfigFile"
   elif inc in ["QtCore","QtGui","QString","QObject"]:
