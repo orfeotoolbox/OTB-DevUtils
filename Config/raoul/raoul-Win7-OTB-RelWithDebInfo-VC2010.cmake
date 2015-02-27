@@ -36,6 +36,12 @@ PYTHON_EXECUTABLE:FILEPATH=${OSGEO4W_ROOT}/bin/python.exe
 PYTHON_INCLUDE_DIR:PATH=${OSGEO4W_ROOT}/apps/Python27/include
 PYTHON_LIBRARY:FILEPATH=${OSGEO4W_ROOT}/apps/Python27/libs/python27.lib
 
+TINYXML_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/tinyxml-2.6.2-vc10-${OTB_ARCH}/include
+TINYXML_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/tinyxml-2.6.2-vc10-${OTB_ARCH}/lib/tinyxml.lib
+
+MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparserx-vc10-${OTB_ARCH}/include
+MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparserx-vc10-${OTB_ARCH}/lib/muparserx.lib
+
     ")
 endmacro()
 
