@@ -44,7 +44,6 @@ def parserHeader(srcPath, mod):
         if len(groupKeywordPos) > 0:
         #if 0:
           # a group keyword is already present (or more) : modify the lines
-          print lineBuffer[groupKeywordPos[0]]
           linePos = lineBuffer[groupKeywordPos[0]].find("\ingroup OTB")
           lineBuffer[groupKeywordPos[0]] = lineBuffer[groupKeywordPos[0]][0:linePos+9]+"OTB"+mod+"\n"
           # remove additionnal group keywords

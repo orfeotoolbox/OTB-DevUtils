@@ -32,27 +32,8 @@ def showHelp():
   print "  OTB_SRC_DIRECTORY : checkout of OTB (will be modified)"
 
 
-#----------------- MAIN ---------------------------------------------------
-def main(argv):
+def update(otbDir,dry_run = False,verbose = False):
   
-  dry_run = False
-  verbose = False
-   
-  otbDir = op.abspath(argv[1])
-  
-  for i in range(2,4):
-    if len(argv)>i:
-      if argv[i] == "--dry-run":
-        print "Running in dry-run mode"
-        dry_run = True
-      elif argv[i] == "--verbose":
-        verbose = True
-        print "Running in verbose mode"
-      else:
-        print "Unknown option: "+argv[i]
-        showHelp()
-        return
-
   modulesRoot = op.join(otbDir,"Modules")
   
   # Modules in this list will only be updated with additional
@@ -70,7 +51,8 @@ def main(argv):
   changes_required = 0
   no_changes_required = 0
 
-  for module in moduleList:
+  for module in moduleList.keys():
+  
     # Find group
     group = ""
     
@@ -90,24 +72,31 @@ def main(argv):
       if verbose:
         print fancy_module +" - Ignoring third party module"
     else:
-      current_deps = set(depList[module].keys())
+      current_deps = set([])
+      if module in depList.keys():
+        current_deps = set(depList[module].keys())
       current_actualdeps = set(actualDepList[module].keys())
 
       to_add = current_actualdeps - current_deps
       to_remove = current_deps - current_actualdeps
 
       # Handling optional dependencies
-      for opt in optDepList[module].keys():
-        if opt in to_add:
-          if verbose:
-            print fancy_module +" - Ignoring optional dependency: "+opt
-          to_add.remove(opt)
+      current_opt_deps = set([])
+      if module in optDepList.keys():
+        for opt in optDepList[module].keys():
+          if opt in to_add:
+            if verbose:
+              print fancy_module +" - Ignoring optional dependency: "+opt
+            to_add.remove(opt)
 
-      current_opt_deps = set(optDepList[module].keys())
+        current_opt_deps = set(optDepList[module].keys())
+
       opt_to_remove = current_opt_deps - current_actualdeps
 
       # Handling test dependencies
-      current_test_deps = set(testDepList[module].keys())
+      current_test_deps = set([])
+      if module in testDepList.keys():
+          current_test_deps = set(testDepList[module].keys())
       current_actual_test_deps = set(actualTestDepList[module].keys())
 
       # Do not self link
@@ -178,14 +167,37 @@ def main(argv):
       if not dry_run and module not in ['SWIG'] and module not in groups["ThirdParty"] and sourceAPI.UpdateLibraryExport(group,module,otbDir):
               print fancy_module+" - Patching main CMakeLists.txt to fix library export"
 
-        
+  return changes_required
 
-          
+#----------------- MAIN ---------------------------------------------------
+def main(argv):
+  
+  dry_run = False
+  verbose = False
+   
+  otbDir = op.abspath(argv[1])
+  
+  for i in range(2,4):
+    if len(argv)>i:
+      if argv[i] == "--dry-run":
+        print "Running in dry-run mode"
+        dry_run = True
+      elif argv[i] == "--verbose":
+        verbose = True
+        print "Running in verbose mode"
+      else:
+        print "Unknown option: "+argv[i]
+        showHelp()
+        return
+              
+    # Call the update function
+    changes_required = update(otbDir,dry_run,verbose)
+  
   if not dry_run:
-    print "\n"+str(changes_required)+" modules were updated, "+str(no_changes_required)+" were not changed."
+    print "\n"+str(changes_required)+" modules were updated."
     print "\n"+bcolors.OKGREEN+"To commit thoses changes, run: "+ bcolors.ENDC +"hg commit -m \"COMP: Automatic update of modules dependencies\"\n"
   else:
-    print "\n"+str(changes_required)+" modules should be updated, "+str(no_changes_required)+" are consistent."
+    print "\n"+str(changes_required)+" modules should be updated."
   
 
 if __name__ == "__main__":

@@ -426,6 +426,69 @@ def updateSourceList(path,varName,added,removed,fname="set"):
   fd.writelines(newContent)
   fd.close()
 
+def ParseTestCode(path):
+  functions = []
+  fd = open(path,'rb')
+  #search_string1=" *\( *int +(itkNotUsed\()? *(/\*)? *(argc)? *(\*/)? *\)? *, *char *\*+ *(itkNotUsed\()? *(/\*)? *(argv)? *(\*/)? *\)? *(\[ *\])? *\)"
+  search_string1=" *\( *int *[A-Za-z0-9_ /\*\(\)]*, *char *\*[A-Za-z0-9_ /\*\(\)\[\]]*\) *"
+  regex1 = re.compile(search_string1)
+  searcg_string2=" *int +"
+  regex2 = re.compile(searcg_string2)
+  for line in fd:
+    cleanline = (line.replace("\t"," ")).strip(" \n\r")
+    if regex1.search(cleanline) and regex2.match(cleanline):
+      # avoid commented lines
+      if not re.match("^ *//",cleanline):
+        name = regex2.sub('',regex1.sub('',cleanline))
+        functions.append(name)
+  fd.close()  
+  return functions
+
+def updateTestDriver2(path,functions):
+  fd = open(path,'rb')
+  registered_tests = []
+  indent = "  "
+  content = []
+  isInRegister = False
+
+  search_string1=" *REGISTER_TEST *\( *";
+  regex1 = re.compile(search_string1)
+
+  for line in fd:
+    cleanLine = line.strip(' \n\t\r')
+    if regex1.match(cleanLine):
+      name = re.sub(" *\) *;",'',regex1.sub('',cleanLine))
+      registered_tests.append(name)
+
+  fd.close()
+
+  in_set = set(functions)
+  cur_set = set(registered_tests)
+
+  to_add = in_set - cur_set
+  to_remove = cur_set - in_set
+
+  if len(to_add) == 0 and len(to_remove) == 0:
+    return False
+
+  for f in to_remove:
+    registered_tests.remove(f)
+  registered_tests+=sorted(to_add)
+
+  content.append("#include \"otbTestMain.h\"\n")
+  content.append("void RegisterTests()\n")
+  content.append("{\n")
+  
+  for t in registered_tests:
+    content.append(indent+"REGISTER_TEST("+t+");\n")
+  content.append("}\n")
+
+  fd = open(path,'wb')
+  fd.writelines(content)
+  fd.close()
+  
+  return True
+  
 def updateTestDriver(path,added,removed):
   fd = open(path,'rb')
   newContent = []
@@ -661,4 +724,28 @@ def UpdateLibraryExport(group,module,otb_root):
     return True
 
   return False
+
+def CheckTestDriverInTestCMakeLists(path,module):
+  fd = open(path,'rb')
+  lines = fd.readlines()
+  fd.close()
+
+  out_lines = []
+
+  search_string = "otb[A-Za-z0-9]*TestDriver"
   
+  patched = False
+
+  for line in lines:
+    if re.search(search_string,line):
+      out_lines.append(re.sub(search_string,"otb"+module+"TestDriver",line))
+      if line.count("otb"+module+"TestDriver") == 0:
+        patched = True
+    else:
+      out_lines.append(line)
+
+  fd = open(path,'wb')
+  fd.writelines(out_lines)
+  fd.close()
+
+  return patched

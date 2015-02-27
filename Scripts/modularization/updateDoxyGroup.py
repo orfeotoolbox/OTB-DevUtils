@@ -28,16 +28,13 @@ class bcolors:
 import sourceAPI
 
 def showHelp():
-  print "This script will check and update module dependencies so that each module exactly include what it uses."
-  print "Usage : moveSource.py  OTB_SRC_DIRECTORY [--dry-run --verbose]"
+  print "This script will check and update group declaration in doxygen tags."
+  print "Usage : updateDoxyGroup.py  OTB_SRC_DIRECTORY"
   print "  OTB_SRC_DIRECTORY : checkout of OTB (will be modified)"
 
 
 #----------------- MAIN ---------------------------------------------------
-def main(argv):
-    
-    otbDir = op.abspath(argv[1])
-
+def update(otbDir):
     modulesRoot = op.join(otbDir,"Modules")
 
     [groups,moduleList,sourceList,testList] = sourceAPI.parseModuleRoot(modulesRoot)
@@ -45,11 +42,16 @@ def main(argv):
     for (m,files) in moduleList.iteritems():
         for f in files:
             if f.endswith(".h"):
-                print op.join(otbDir,f)
                 content = documentationCheck.parserHeader(op.join(otbDir,f),m)
                 fd = open(op.join(otbDir,f),'wb')
                 fd.writelines(content)
                 fd.close()
+
+def main(argv):
+    
+    otbDir = op.abspath(argv[1])
+
+    update(otbDir)
                         
 
 if __name__ == "__main__":
