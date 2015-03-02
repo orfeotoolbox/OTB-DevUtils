@@ -735,8 +735,8 @@ def CheckTestDriverInTestCMakeLists(path,module):
 
   out_lines = []
 
-  search_string = "otb[A-Za-z0-9]*TestDriver"
-  
+  search_string = "otb[A-Za-z0-9]+TestDriver"
+
   patched = False
 
   for line in lines:
