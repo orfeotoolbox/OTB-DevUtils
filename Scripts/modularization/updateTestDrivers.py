@@ -33,14 +33,18 @@ def update(otbDir):
     for m in modules:
       functions = []
       for f in testList[m]:
-        if f.endswith(".cxx"):
-          functions+=sourceAPI.ParseTestCode(f)
+        if f.endswith(".cxx") and not f.endswith("TestDriver.cxx"):
+          new_functions = sourceAPI.ParseTestCode(f)
+          if len(new_functions) == 0:
+            print "No functions found in "+f
+          else:
+            functions+=new_functions
           
       # Some filtering to avoid corner cases
       # filter main functions
-      functions = [func for func in functions if func != "main"]
+      functions = [func.strip(' \n\t\r') for func in functions if func != "main"]
       # filter *_generic and generic_* functions because they are likely to be called by real tests functions
-      functions = [func for func in functions if not func.startswith("generic_") and not func.endswith("_generic")]
+      functions = [func for func in functions if not func.startswith("generic_") and not func.startswith("generic_") and not func.endswith("_generic")]
             
       if m == "ImageBase":
         # In this module, there is buch of functions ending by TestRegion which are not real tests functions
@@ -65,11 +69,11 @@ def update(otbDir):
       if len(functions) > 0:
         if not op.isfile(test_driver):
           sourceAPI.initializeTestDriver(test_driver)
-          if sourceAPI.updateTestDriver2(test_driver,functions):
-            patch_count+=1
-          else:
-            if os.path.isfile(test_driver):
-              print g+"/"+m+": no tests were found but a test driver exists"
+        if sourceAPI.updateTestDriver2(test_driver,functions):
+          patch_count+=1
+      else:
+        if os.path.isfile(test_driver):
+          print g+"/"+m+": no tests were found but a test driver exists"
                     
   return patch_count
 

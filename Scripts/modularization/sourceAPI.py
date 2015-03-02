@@ -434,12 +434,15 @@ def ParseTestCode(path):
   regex1 = re.compile(search_string1)
   searcg_string2=" *int +"
   regex2 = re.compile(searcg_string2)
+  searcg_string3=" *void +"
+  regex3 = re.compile(searcg_string3)
+  
   for line in fd:
     cleanline = (line.replace("\t"," ")).strip(" \n\r")
-    if regex1.search(cleanline) and regex2.match(cleanline):
+    if regex1.search(cleanline):
       # avoid commented lines
       if not re.match("^ *//",cleanline):
-        name = regex2.sub('',regex1.sub('',cleanline))
+        name = regex3.sub('',regex2.sub('',regex1.sub('',cleanline)))
         functions.append(name)
   fd.close()  
   return functions
