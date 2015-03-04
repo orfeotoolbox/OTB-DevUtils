@@ -25,11 +25,15 @@ endif()
 
 if (NOT DEFINED CTEST_CMAKE_GENERATOR)
 if (${OTB_ARCH} STREQUAL "x86")
-  set(CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
+  #set(CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
+  set(CTEST_CMAKE_GENERATOR "NMake Makefiles")
 elseif(${OTB_ARCH} STREQUAL "amd64")
-  set(CTEST_CMAKE_GENERATOR  "Visual Studio 10 Win64" )
+  #set(CTEST_CMAKE_GENERATOR  "Visual Studio 10 Win64" )
+  set(CTEST_CMAKE_GENERATOR "NMake Makefiles")
 endif()
 endif()
+# switch to Nmake Jom builders instead of Visual Studio projects
+set(CTEST_BUILD_COMMAND "jom install")
 
 if (NOT DEFINED CTEST_TEST_ARGS)
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
