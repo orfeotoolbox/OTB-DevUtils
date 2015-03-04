@@ -32,6 +32,8 @@ set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
+
+CMAKE_INSTALL_PREFIX:PATH=${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install
   
 #CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
 #CMAKE_INCLUDE_PATH:PATH=/opt/local/include
