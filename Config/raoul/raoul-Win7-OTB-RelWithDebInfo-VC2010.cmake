@@ -54,6 +54,10 @@ LIBKML_XSD_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-v
 MUPARSER_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparser-2.2.3-vc10-${OTB_ARCH}/include
 MUPARSER_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparser-2.2.3-vc10-${OTB_ARCH}/lib/muparser.lib
 
+Boost_DIR:PATH="C:/Program Files (x86)/boost/boost_1_50"
+Boost_INCLUDE_DIR:PATH="C:/Program Files (x86)/boost/boost_1_50"
+Boost_LIBRARY_DIR:PATH="C:/Program Files (x86)/boost/boost_1_50/lib"
+
     ")
 endmacro()
 
