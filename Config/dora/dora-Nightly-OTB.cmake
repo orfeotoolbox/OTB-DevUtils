@@ -55,6 +55,16 @@ OTB_USE_OPENCV:BOOL=ON
 MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
 
+# use custom libkml install because official package has undefined symbols
+LIBKML_INCLUDE_DIR:PATH=/home/otbval/Tools/libkml/install/include
+LIBKML_BASE_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlbase.so
+LIBKML_CONVENIENCE_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlconvenience.so
+LIBKML_DOM_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmldom.so
+LIBKML_ENGINE_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlengine.so
+LIBKML_MINIZIP_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libminizip.so
+LIBKML_REGIONATOR_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlregionator.so
+LIBKML_XSD_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlxsd.so
+
     ")
 endmacro()
 
