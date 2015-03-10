@@ -1,72 +1,69 @@
-SET (CTEST_SOURCE_DIRECTORY "/home/otbtesting/OTB/trunk/Continuous/OTB/")
-SET (CTEST_BINARY_DIRECTORY "/home/otbtesting/OTB/bin/Continuous/OTB/")
-
-SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
-SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -i -k" )
+# Client maintainer: manuel.grizonnet@cnes.fr
+set(dashboard_model Continuous)
+set (dashboard_loop 64800 )
+set(CTEST_DASHBOARD_ROOT "/home/otbtesting/")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
-SET (CTEST_BUILD_NAME "ArchLinux-64bits-Release")
-SET (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_HG_COMMAND "/usr/bin/hg")
-SET (CTEST_HG_UPDATE_OPTIONS "-C")
-SET (CTEST_USE_LAUNCHERS ON)
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "Fedora20-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+set(CTEST_TEST_TIMEOUT 1500)
+set(CTEST_HG_COMMAND "/usr/bin/hg")
 
-#SET (ENV{DISPLAY} ":0")
+set(dashboard_root_name "tests")
+set(dashboard_source_name "sources/orfeo/trunk/OTB-Continuous")
+set(dashboard_binary_name "build/orfeo/trunk/OTB-Continuous/${CTEST_BUILD_CONFIGURATION}")
 
-SET (CTEST_INITIAL_CACHE "
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-SITE:STRING=${CTEST_SITE}
-OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
-OTB_DATA_ROOT:STRING=/home/otbtesting/OTB/trunk/OTB-Data
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-CMAKE_BUILD_TYPE:STRING=Release
+#set(dashboard_fresh_source_checkout TRUE)
+set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB")
+set(dashboard_hg_branch "default")
+
+#set(ENV{DISPLAY} ":0.0")
+
+set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
+set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Continuous/${CTEST_BUILD_CONFIGURATION}")
+
+macro(dashboard_hook_init)
+set(dashboard_cache "${dashboard_cache}
+
+CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-but-set-variable
+CMAKE_CXX_FLAGS:STRING=-Wno-cpp -Wextra
+CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+
+BUILD_APPLICATIONS:BOOL=ON
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
-OTB_USE_CURL:BOOL=ON
-OTB_USE_PQXX:BOOL=OFF
-ITK_USE_PATENTED:BOOL=ON
-OTB_USE_PATENTED:BOOL=ON
-OTB_USE_EXTERNAL_BOOST:BOOL=ON
-OTB_USE_EXTERNAL_EXPAT:BOOL=ON
-USE_FFTWD:BOOL=OFF
-USE_FFTWF:BOOL=OFF
-OTB_GL_USE_ACCEL:BOOL=ON
-ITK_USE_REVIEW:BOOL=ON 
-ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
-OTB_USE_MAPNIK:BOOL=OFF
-OTB_USE_VISU_GUI:BOOL=OFF 
-BUILD_APPLICATIONS:BOOL=ON
+
+OTB_DATA_USE_LARGEINPUT:BOOL=ON
+OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
+OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
+
+## ITK
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}build/itk/stable/Release
+
+## OSSIM
+OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/stable/include
+OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/stable/lib64/libossim.so
+
+##external muparserx
+MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
+
+PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 OTB_WRAP_PYTHON:BOOL=ON
-PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2.7
-OTB_WRAP_QT:BOOL=ON
-#OTB_WRAP_PYQT:BOOL=ON
-")
+OTB_WRAP_JAVA:BOOL=ON
 
-SET( PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
+OTB_USE_MUPARSER:BOOL=ON
+OTB_USE_MUPARSERX:BOOL=ON
+OTB_USE_MAPNIK:BOOL=OFF
+OTB_USE_OPENCV:BOOL=ON
+OTB_USE_QT4=ON
+OTB_USE_LIBKML=ON
+OTB_USE_6S=ON
+OTB_USE_EDISON=ON
+OTB_USE_SIFTFAST=ON
+ ")
 
-SET (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${PULL_RESULT_FILE}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
-
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   PULL_RESULT
-                 ERROR_VARIABLE    PULL_RESULT )
-file(WRITE ${PULL_RESULT_FILE} ${PULL_RESULT} )
-
-ctest_start(Continuous)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}" RETURN_VALUE count)
-message("Found ${count} changed files")
-
-if (count GREATER 0)
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 1)
-ctest_submit ()
-endif()
-
+endmacro()
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

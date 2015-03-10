@@ -25,7 +25,7 @@ fi
 export DEBFULLNAME
 export DEBEMAIL
 
-TMPDIR="/tmp"
+TMPDIR=$(mktemp -d /tmp/monteverdi.XXXXXX)
 DIRNAME=$(dirname $0)
 if [ "${DIRNAME:0:1}" == "/" ] ; then
     CMDDIR=$DIRNAME
@@ -67,17 +67,25 @@ Options:
 
   -d directory  Top directory of the local repository clone
 
-  -r tag        Revision to extract.
+  -r tag        Revision to extract ('tip', rev. number, tag name). By default,
+                the last tagged version (after tip) is used.
 
-  -m version    External version of the Monteverdi workshop (ex. 1.6.0)
+  -m version    External version of the Monteverdi workshop (ex. 1.6.0).
+                By default the last version in changelog.in is used.
 
   -o version    External version of the OTB library (ex. 3.8.0)
 
-  -p version    Version of the package (ex. 2)
+  -p version    Version of the package (ex. 2). Default is 1.
 
-  -c message    Changelog message
+  -c message    Changelog message : using a custom changelog message will
+                also overide the external version of Monteverdi
 
   -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
+
+  -a archive    Use a source archive ('orig') instead of a local repository
+                (-d) and a revision (-r). It can be used in case a previous
+                version of the package is already on the ppa. The source
+                archive won't be uploaded again.
 
 Example:
   ./make_ubuntu_packages.sh -d ~/otb/src/Monteverdi -r 1551 -o 3.8-RC1 -m 1.6-RC1 -p 2
@@ -111,16 +119,16 @@ check_src_top_dir ()
 
 check_src_revision ()
 {
-    if [ -z "$revision" ] ; then
-        echo "*** ERROR: missing revision identifier of the repository (option -r)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
-    fi
     olddir=`pwd`
     cd "$topdir"
-    if ! hg log -r "$revision" &>/dev/null ; then
-        echo "*** ERROR: Revision $revision unknown"
-        exit 2
+    if [ -z "$revision" ] ; then
+        revision=`hg tags | head -n 2 | tail -n 1 | awk '{print $1}'`
+        echo "Using last tagged revision : $revision"
+    else
+        if ! hg log -r "$revision" &>/dev/null ; then
+          echo "*** ERROR: Revision $revision unknown"
+          exit 2
+        fi
     fi
     cd "$olddir"
 }
@@ -129,9 +137,8 @@ check_src_revision ()
 check_external_version ()
 {
     if [ -z "$src_version_full" ] ; then
-        echo "*** ERROR: missing version number of Monteverdi (option -m)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
+        src_version_full=$changelog_version
+        echo "Using last version in changelog.in : $src_version_full"
     fi
     if [ "`echo $src_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
         echo "*** ERROR: Monteverdi full version ($src_version_full) has an unexpected format"
@@ -171,9 +178,39 @@ check_gpgkeyid ()
 }
 
 
+check_src_archive ()
+{
+    if [ ! -f "$source_archive" ] ; then
+        echo "*** ERROR: archive '$source_archive' doesn't exist"
+        exit 2
+    fi
+    extract_cmd="tar -xf"
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.gz$')" ] ; then
+      extract_cmd="tar -xzf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tgz$')" ] ; then
+      extract_cmd="tar -xzf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.xz$')" ] ; then
+      extract_cmd="tar -xJf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.bz2$')" ] ; then
+      extract_cmd="tar -xjf"
+    fi
+}
+
+
 set_ubuntu_code_name ()
 {
     case "$1" in
+        "trusty" )
+            ubuntu_codename="Trusty Tahr"
+            ubuntu_version="14.04"
+            ;;
+        "saucy" )
+            ubuntu_codename="Saucy Salamander"
+            ubuntu_version="13.10"
+            ;;
         "raring" )
             ubuntu_codename="Raring Ringtail"
             ubuntu_version="13.04"
@@ -217,8 +254,12 @@ set_ubuntu_code_name ()
     esac
 }
 
+pkg_version=1
+# -sa : force original source inclusion
+# -sd : force original source exclusion, only produce diff
+include_src_option="-sa"
 
-while getopts ":r:d:m:o:p:c:g:hv" option
+while getopts ":r:d:m:o:p:c:g:a:hv" option
 do
     case $option in
         d ) topdir=$OPTARG
@@ -234,6 +275,9 @@ do
         c ) changelog_message=$OPTARG
             ;;
         g ) gpgkeyid=$OPTARG
+            ;;
+        a ) source_archive=$OPTARG
+            include_src_option="-sd"
             ;;
         v ) display_version
             exit 0
@@ -253,49 +297,61 @@ if [ "$OPTIND" -eq 1 ] ; then
     exit 1
 fi
 
+# find last version in changelog.in
+changelog_version=`grep monteverdi "$DEBDIR/changelog.in" | head -n 1 | cut -d '(' -f 2 | cut -d '-' -f 1`
+
 echo "Command line checking..."
-check_src_top_dir
-check_src_revision
+if [ -n "$source_archive" ] ; then
+  echo "Using source archive"
+  check_src_archive
+else
+  echo "Using local repository"
+  check_src_top_dir
+  check_src_revision
+fi
+
 check_external_version
 check_gpgkeyid
 
-echo "Archive export..."
-cd "$topdir"
-hg archive -r "$revision" -t tgz "$TMPDIR/monteverdi-$src_version_full.tar.gz"
+if [ -n "$source_archive" ] ; then
+  echo "Archive extraction..."
+  cp "$source_archive" "$TMPDIR"
+  cd "$TMPDIR"
+  $extract_cmd `basename "$source_archive"`
+else
+  echo "Archive export..."
+  cd "$topdir"
+  hg archive -r "$revision" -t tgz "$TMPDIR/monteverdi-$src_version_full.tar.gz"
 
-echo "Archive extraction..."
-cd "$TMPDIR"
-tar xzf "monteverdi-$src_version_full.tar.gz"
-mv "monteverdi-$src_version_full.tar.gz" "monteverdi_$src_version_full.orig.tar.gz"
+  echo "Archive extraction..."
+  cd "$TMPDIR"
+  tar xzf "monteverdi-$src_version_full.tar.gz"
+  mv "monteverdi-$src_version_full.tar.gz" "monteverdi_$src_version_full.orig.tar.gz"
+fi
 
 echo "Debian scripts import..."
 cd "$TMPDIR/monteverdi-$src_version_full"
 cp -a "$DEBDIR" .
-cd debian
-for f in control rules ; do
-    sed -e "s/@SRC_VERSION_MAJOR@/$src_version_major/g" \
-        -e "s/@SRC_VERSION_MINOR@/$src_version_minor/g" \
-        -e "s/@SRC_VERSION_PATCH@/$src_version_patch/g" \
-        -e "s/@SRC_VERSION_FULL@/$src_version_full/g" \
-        -e "s/@OTB_VERSION_MAJOR@/$otb_version_major/g" \
-        -e "s/@OTB_VERSION_SONAME@/$otb_version_soname/g" \
-        -e "s/@OTB_VERSION_FULL@/$otb_version_full/g" \
-        < "$f.in" > "$f"
-    rm -f "$f.in"
-done
+
+make -f debian/rules control-file OTB_VERSION_MINIMAL=$otb_version_full
+rm -f debian/control.in
 
 echo "Source package generation..."
-cd "$TMPDIR/monteverdi-$src_version_full"
-for target in precise quantal raring ; do
+for target in precise trusty ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
-    cp -f "$DEBDIR/changelog" debian
+    cp -f "$DEBDIR/changelog.in" debian
+    make -f debian/rules changelog-file DIST=$target PKGVERSION=$pkg_version
+    rm -f debian/changelog.in
     if [ -n "$changelog_message" ] ; then
-        dch_message="$changelog_message"
+        dch --force-distribution --distribution "$target" \
+          -v "${src_version_full}-0ppa~${target}${pkg_version}" "$changelog_message"
     else
-        dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
+        if [ "${src_version_full}" != "${changelog_version}" ] ; then
+           echo "*** ERROR: changelog version (${changelog_version}) differs from external version (${src_version_full})"
+           echo "*** Use option (-c) to overide the changelog message and version"
+           exit 1
+        fi
     fi
-    dch --force-distribution --distribution "$target" \
-        -v "${src_version_full}-0ppa~${target}${pkg_version}" "$dch_message"
-    debuild -k$gpgkeyid -S -sa --lintian-opts -i
+    debuild -k$gpgkeyid -S $include_src_option --lintian-opts -i
 done

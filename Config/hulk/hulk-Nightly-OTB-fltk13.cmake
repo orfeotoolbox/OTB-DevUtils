@@ -3,7 +3,7 @@ set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
-set(CTEST_BUILD_NAME "FLTK13-Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "FLTK13-Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -17,8 +17,6 @@ set(dashboard_binary_name "build/OTB-fltk13")
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
-
-set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}

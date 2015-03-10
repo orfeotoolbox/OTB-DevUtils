@@ -1,0 +1,2 @@
+project(otb-template-module)
+otb_module_impl()

@@ -1,0 +1,11 @@
+--- InsightToolkit-4.4.2.orig/Modules/ThirdParty/HDF5/CMakeLists.txt	2013-09-07 23:19:16.836120367 +0200
++++ InsightToolkit-4.4.2/Modules/ThirdParty/HDF5/CMakeLists.txt	2013-09-07 23:20:27.476727552 +0200
+@@ -11,7 +11,7 @@
+     ${HDF5_INCLUDE_DIRS}
+     ${HDF5_INCLUDE_DIR_CPP}
+     )
+-  set(ITKHDF5_LIBRARIES ${HDF5_LIBRARIES})
++  set(ITKHDF5_LIBRARIES ${HDF5_LIBRARIES_RELEASE})
+   set(ITKHDF5_NO_SRC 1)
+ else()
+   set(ITKHDF5_INCLUDE_DIRS

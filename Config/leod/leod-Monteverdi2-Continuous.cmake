@@ -42,6 +42,9 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB/build
 ITK_DIR:PATH=$ENV{HOME}/Dashboard/itkv4/build
 
+ICE_INCLUDE_DIR:PATH=/Users/otbval/Dashboard/nightly/Ice-Release/src/Code
+ICE_LIBRARY:FILEPATH=/Users/otbval/Dashboard/nightly/Ice-Release/build/bin/libOTBIce.dylib
+
 ")
 
 

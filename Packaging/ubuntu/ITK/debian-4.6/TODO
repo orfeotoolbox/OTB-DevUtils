@@ -1,0 +1,9 @@
+TODO List for ITK Debian Package
+--------------------------------
+
+- install FindWrapITK.cmake
+- Test Examples?
+- Run tests during build
+- package doxygen tarball available from itk.org
+- package The ITK Software Guide
+

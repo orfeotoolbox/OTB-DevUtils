@@ -1,5 +1,3 @@
-SET (ENV{DISPLAY} ":0.0")
-
 SET (CTEST_SOURCE_DIRECTORY  "$ENV{HOME}/Dashboard/src/Monteverdi2")
 SET (CTEST_BINARY_DIRECTORY  "$ENV{HOME}/Dashboard/build/Monteverdi2")
 SET (CTEST_INSTALL_DIRECTORY "$ENV{HOME}/Dashboard/install/Monteverdi2")
@@ -9,7 +7,7 @@ SET (CTEST_CMAKE_COMMAND       "cmake" )
 SET (CTEST_BUILD_COMMAND       "/usr/bin/make -j10 -i -k install" )
 SET (CTEST_SITE                "hulk.c-s.fr" )
 SET (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+SET (CTEST_BUILD_NAME          "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 SET (CTEST_HG_COMMAND          "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS   "-C")
 SET (CTEST_USE_LAUNCHERS ON)
@@ -33,7 +31,7 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB-RelWithDebInfo
 ITK_DIR:PATH=$ENV{HOME}/Dashboard/build/ITKv4-upstream-RelWithDebInfo
-OpenCV_DIR:PATH=$ENV{HOME}/tools/install/opencv-2.4.5/share/OpenCV
+OpenCV_DIR:PATH=/usr/share/OpenCV
 #ICE_DIR:PATH=$ENV{HOME}/Dashboard/install/Ice-Release
 ICE_INCLUDE_DIR=$ENV{HOME}/Dashboard/install/Ice-Release/include/otb
 ICE_LIBRARY=$ENV{HOME}/Dashboard/install/Ice-Release/lib/otb/libOTBIce.so

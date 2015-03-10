@@ -1,0 +1,901 @@
+diff -ur OTB_Modular-nopatch/Modules/Adapters/OSSIMAdapters/test/CMakeLists.txt OTB_Modular/Modules/Adapters/OSSIMAdapters/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Adapters/OSSIMAdapters/test/CMakeLists.txt	2015-02-17 16:08:48.851551314 +0100
++++ OTB_Modular/Modules/Adapters/OSSIMAdapters/test/CMakeLists.txt	2015-02-17 16:09:41.040656054 +0100
+@@ -592,7 +592,9 @@
+   ${INPUTDATA}/DEM/srtm_directory/
+   ${INPUTDATA}/DEM/egm96.grd
+   )
+-set_property(TEST uaTvRPCSolverAdapterNotEnoughPointsTest PROPERTY WILL_FAIL TRUE)
++if (OTB_DATA_LARGEINPUT_ROOT)
++  set_property(TEST uaTvRPCSolverAdapterNotEnoughPointsTest PROPERTY WILL_FAIL TRUE)
++endif()
+ 
+ otb_add_test(NAME uaTvRPCSolverAdapterOutGeomTest COMMAND otbOSSIMAdaptersTestDriver
+   --compare-ascii ${EPSILON_9}
+diff -ur OTB_Modular-nopatch/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h OTB_Modular/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h
+--- OTB_Modular-nopatch/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h	2015-02-17 16:08:38.675335904 +0100
++++ OTB_Modular/Modules/Applications/AppClassification/app/otbTrainImagesClassifier.h	2015-02-17 16:08:53.431648265 +0100
+@@ -14,6 +14,7 @@
+  PURPOSE.  See the above copyright notices for more information.
+ 
+  =========================================================================*/
++#define OTB_USE_OPENCV
+ 
+ #include "otbWrapperApplicationFactory.h"
+ 
+diff -ur OTB_Modular-nopatch/Modules/Applications/AppClassification/test/CMakeLists.txt OTB_Modular/Modules/Applications/AppClassification/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Applications/AppClassification/test/CMakeLists.txt	2015-02-17 16:08:38.999342763 +0100
++++ OTB_Modular/Modules/Applications/AppClassification/test/CMakeLists.txt	2015-02-17 16:08:53.431648265 +0100
+@@ -37,6 +37,129 @@
+ 
+ 
+ #----------- ImageClassifier TESTS ----------------
++
++# Input file types
++set(raster_input_format ".tif")
++set(vector_input_format ".shp")
++set(stat_input_format ".xml")
++
++# Input file depending on classifier
++set(libsvm_input "")
++set(svm_input "")
++set(boost_input "Water_Vegetation")
++set(dt_input "")
++set(gbt_input "")
++set(ann_input "")
++set(bayes_input "")
++set(rf_input "")
++set(knn_input "")
++
++# Output type
++set(raster_output_format ".tif")
++set(raster_output_option "uint8")
++
++# Output model type depending on classifier
++set(libsvm_output_format ".libsvm")
++set(svm_output_format ".svm")
++set(boost_output_format ".boost")
++set(dt_output_format ".dt")
++set(gbt_output_format ".gbt")
++set(ann_output_format ".ann")
++set(bayes_output_format ".bayes")
++set(rf_output_format ".rf")
++set(knn_output_format ".knn")
++
++# Training algorithms parameters
++set(libsvm_parameters "-classifier.libsvm.opt" "true")
++set(svm_parameters "-classifier.svm.opt" "true")
++set(boost_parameters "")
++set(dt_parameters "")
++set(gbt_parameters "")
++set(ann_parameters "-classifier.ann.sizes" "100")
++set(bayes_parameters "")
++set(rf_parameters "")
++set(knn_parameters "")
++
++# Validation depending on mode
++set(ascii_comparison --compare-ascii ${NOTOL})
++set(raster_comparison --compare-image ${NOTOL})
++
++# Reference ffiles depending on modes
++set(ascii_ref_path ${OTBAPP_BASELINE_FILES})
++set(raster_ref_path ${OTBAPP_BASELINE})
++
++# Loop on classifiers
++foreach(classifier "LIBSVM" "SVM" "BOOST" "DT" "GBT" "ANN" "BAYES" "RF" "KNN")
++  string(TOLOWER ${classifier} lclassifier)
++
++  # Derive output file name
++  set(OUTMODELFILE cl${classifier}_ModelQB1${${lclassifier}_output_format})
++  set(OUTRASTER cl${classifier}LabeledImageQB1${raster_output_format})
++
++  otb_test_application(
++                       NAME     apTvClTrainMethod${classifier}ImagesClassifierQB1
++                       APP      TrainImagesClassifier
++                       OPTIONS  -io.il ${INPUTDATA}/Classification/QB_1_ortho${raster_input_format}
++                                -io.vd ${INPUTDATA}/Classification/VectorData_${${lclassifier}_input}QB1${vector_input_format}
++                                -io.imstat ${ascii_ref_path}/clImageStatisticsQB1${stat_input_format}
++                                -classifier ${lclassifier}
++                                ${${lclassifier}_parameters}
++                                -io.out ${TEMP}/${OUTMODELFILE}
++                                -rand 121212
++
++                       VALID    ${ascii_comparison}
++                                ${ascii_ref_path}/${OUTMODELFILE}
++                                ${TEMP}/${OUTMODELFILE}
++                       )
++
++  otb_test_application(
++                       NAME     apTvClTrainMethod${classifier}ImagesClassifierQB1_OutXML1
++                       APP      TrainImagesClassifier
++                       OPTIONS  -io.il ${INPUTDATA}/Classification/QB_1_ortho${raster_input_format}
++                                -io.vd ${INPUTDATA}/Classification/VectorData_${${lclassifier}_input}QB1${vector_input_format}
++                                -io.imstat ${ascii_ref_path}/clImageStatisticsQB1${stat_input_format}
++                                -classifier ${lclassifier}
++                                ${${lclassifier}_parameters}
++                                -io.out ${TEMP}/OutXML1_${OUTMODELFILE}
++                                -rand 121212
++                                -outxml ${TEMP}/cl${classifier}_OutXML1.xml
++
++                       VALID    ${ascii_comparison}
++                                ${ascii_ref_path}/${OUTMODELFILE}
++                                ${TEMP}/OutXML1_${OUTMODELFILE}
++                       )
++
++  otb_test_application(
++                       NAME     apTvClTrainMethod${classifier}ImagesClassifierQB1_InXML1
++                       APP      TrainImagesClassifier
++                       OPTIONS  -inxml ${INPUTDATA}/cl${classifier}_OutXML1.xml
++                                -io.il ${INPUTDATA}/Classification/QB_1_ortho${raster_input_format}
++                                -io.vd ${INPUTDATA}/Classification/VectorData_${${lclassifier}_input}QB1${vector_input_format}
++                                -io.imstat ${ascii_ref_path}/clImageStatisticsQB1${stat_input_format}
++                                -io.out ${TEMP}/OutXML2_${OUTMODELFILE}
++
++                       VALID    ${ascii_comparison}
++                                ${ascii_ref_path}/${OUTMODELFILE}
++                                ${TEMP}/OutXML2_${OUTMODELFILE}
++                       )
++
++                     #set_tests_properties(apTvClTrainMethod${classifier}ImagesClassifierQB1_InXML1 PROPERTIES DEPENDS apTvClTrainMethod${classifier}ImagesClassifierQB1_OutXML1)
++
++  otb_test_application(
++                       NAME     apTvClMethod${classifier}ImageClassifierQB1
++                       APP      ImageClassifier
++                       OPTIONS  -in ${INPUTDATA}/Classification/QB_1_ortho${raster_input_format}
++                                -model ${ascii_ref_path}/${OUTMODELFILE}
++                                -imstat ${ascii_ref_path}/clImageStatisticsQB1${stat_input_format}
++                                -out ${TEMP}/${OUTRASTER} ${raster_output_option}
++
++                       VALID    ${raster_comparison}
++                                ${raster_ref_path}/${OUTRASTER}
++                                ${TEMP}/${OUTRASTER}
++                       )
++
++endforeach()
++
+ otb_test_application(NAME apTvClImageSVMClassifierQB2
+                       APP  ImageClassifier
+                       OPTIONS -in      ${INPUTDATA}/Classification/QB_2_ortho.tif
+diff -ur OTB_Modular-nopatch/Modules/Applications/AppSegmentation/test/CMakeLists.txt OTB_Modular/Modules/Applications/AppSegmentation/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Applications/AppSegmentation/test/CMakeLists.txt	2015-02-17 16:08:39.079344456 +0100
++++ OTB_Modular/Modules/Applications/AppSegmentation/test/CMakeLists.txt	2015-02-17 16:08:53.431648265 +0100
+@@ -1,6 +1,127 @@
+ otb_module_test()
+ #----------- Segmentation TESTS ----------------
+ 
++# Segmentation algorithms parameters
++set(cc_parameters "-filter.cc.expr" "distance<25")
++set(edison_parameters "-filter.edison.spatialr" "5" "-filter.edison.ranger" "50" "-filter.edison.minsize" "10")
++set(meanshift_parameters "-filter.meanshift.spatialr" "5" "-filter.meanshift.ranger" "50" "-filter.meanshift.minsize" "10")
++set(vector_parameters "-mode.vector.tilesize" "500" "-mode.vector.minsize" "50" "-mode.vector.simplify" "0.1" "-mode.vector.outmode" "ovw")
++
++# validation option
++set(meanshift_option "--without-threads")
++
++# Output type dependning on mode
++set(raster_output_format ".tif")
++set(raster_output_option "uint16")
++set(vector_output_format ".sqlite")
++
++# Validation depending on mode
++set(vector_comparison --compare-ogr ${NOTOL})
++set(raster_comparison --compare-image ${NOTOL})
++
++# Reference ffiles depending on modes
++set(vector_ref_path ${BASELINE_FILES})
++set(raster_ref_path ${BASELINE})
++
++# Loop on modes
++foreach(mode "Raster" "Vector")
++string(TOLOWER ${mode} lmode)
++
++# Loop on filters
++foreach(filter "Edison" "Meanshift" "CC" "Watershed")
++string(TOLOWER ${filter} lfilter)
++
++# Derive output file name
++set(OUTFILE apTvSeSegmentation${filter}${mode}${${lmode}_output_format})
++
++OTB_TEST_APPLICATION(NAME     apTvSeSegmentation${filter}${mode}
++                     APP      Segmentation
++                     OPTIONS  -in ${EXAMPLEDATA}/qb_RoadExtract2.tif
++                              -filter ${lfilter}
++                              ${${lfilter}_parameters}
++                              -mode ${lmode}
++                              -mode.${lmode}.out ${TEMP}/${OUTFILE} ${${lmode}_output_option}
++                              ${${lmode}_parameters}
++                     VALID    ${${lfilter}_option}
++                              ${${lmode}_comparison}
++                              ${${lmode}_ref_path}/${OUTFILE}
++                              ${TEMP}/${OUTFILE}
++                     )
++
++endforeach()
++endforeach()
++
++set(filter "CC")
++set(mode "Vector")
++
++string(TOLOWER ${filter} lfilter)
++
++# Add a test for ULOVW
++set(vector_parameters "-mode.vector.tilesize" "500" "-mode.vector.minsize" "50" "-mode.vector.simplify" "0.1" "-mode.vector.outmode" "ulovw")
++
++set(OUTFILE apTvSeSegmentation${filter}${mode}${${lmode}_output_format})
++
++OTB_TEST_APPLICATION(NAME     apTvSeSegmentation${filter}${mode}_ULOVW
++                     APP      Segmentation
++                     OPTIONS  -in ${EXAMPLEDATA}/qb_RoadExtract2.tif
++                              -filter ${lfilter}
++                              ${${lfilter}_parameters}
++                              -mode ${lmode}
++                              -mode.${lmode}.out ${TEMP}/${OUTFILE} ${${lmode}_output_option}
++                              ${${lmode}_parameters}
++                     VALID    ${${lfilter}_option}
++                              ${${lmode}_comparison}
++                              ${${lmode}_ref_path}/${OUTFILE}
++                              ${TEMP}/${OUTFILE}
++                     )
++
++set_tests_properties(apTvSeSegmentation${filter}${mode}_ULOVW
++                     PROPERTIES DEPENDS apTvSeSegmentation${filter}${mode}
++                                RESOURCE_LOCK ${OUTFILE})
++
++# Add a test for ULU
++set(vector_parameters "-mode.vector.tilesize" "500" "-mode.vector.minsize" "50" "-mode.vector.simplify" "0.1" "-mode.vector.outmode" "ulu")
++
++OTB_TEST_APPLICATION(NAME     apTvSeSegmentation${filter}${mode}_ULU
++                     APP      Segmentation
++                     OPTIONS  -in ${EXAMPLEDATA}/qb_RoadExtract2.tif
++                              -filter ${lfilter}
++                              ${${lfilter}_parameters}
++                              -mode ${lmode}
++                              -mode.${lmode}.out ${TEMP}/${OUTFILE} ${${lmode}_output_option}
++                              ${${lmode}_parameters}
++                     VALID    ${${lfilter}_option}
++                              ${${lmode}_comparison}
++                              ${${lmode}_ref_path}/${OUTFILE}_ULU
++                              ${TEMP}/${OUTFILE}
++                     )
++
++set_tests_properties(apTvSeSegmentation${filter}${mode}_ULU
++                     PROPERTIES DEPENDS apTvSeSegmentation${filter}${mode}
++                                RESOURCE_LOCK ${OUTFILE})
++
++# Add a test for ULCO
++set(vector_parameters "-mode.vector.tilesize" "500" "-mode.vector.minsize" "50" "-mode.vector.simplify" "0.1" "-mode.vector.outmode" "ulco")
++
++OTB_TEST_APPLICATION(NAME     apTvSeSegmentation${filter}${mode}_ULCO
++                     APP      Segmentation
++                     OPTIONS  -in ${EXAMPLEDATA}/qb_RoadExtract2.tif
++                              -filter ${lfilter}
++                              ${${lfilter}_parameters}
++                              -mode ${lmode}
++                              -mode.${lmode}.out ${TEMP}/${OUTFILE} ${${lmode}_output_option}
++                              ${${lmode}_parameters}
++                     VALID    ${${lfilter}_option}
++                              ${${lmode}_comparison}
++                              ${${lmode}_ref_path}/${OUTFILE}
++                              ${TEMP}/${OUTFILE}
++                     )
++
++set_tests_properties(apTvSeSegmentation${filter}${mode}_ULCO
++                     PROPERTIES DEPENDS apTvSeSegmentation${filter}${mode}
++                                WILL_FAIL TRUE
++                                RESOURCE_LOCK ${OUTFILE})
++
+ #----------- ConnectedComponentSegmentation TESTS ----------------
+ otb_test_application(NAME  apTvCcConnectedComponentSegmentationMaskMuParserShp
+                      APP  ConnectedComponentSegmentation
+diff -ur OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h
+--- OTB_Modular-nopatch/Modules/Core/Common/include/otbConfigurationFile.h	2015-02-17 16:08:38.427330654 +0100
++++ OTB_Modular/Modules/Core/Common/include/otbConfigurationFile.h	2015-02-17 16:08:53.431648265 +0100
+@@ -22,7 +22,7 @@
+ 
+ #include "itkObject.h"
+ #include "itkObjectFactory.h"
+-#include "ConfigFile.h"
++#include "otb_configfile.h"
+ #include "itksys/FundamentalType.h"
+ 
+ namespace otb
+diff -ur OTB_Modular-nopatch/Modules/Core/Metadata/test/CMakeLists.txt OTB_Modular/Modules/Core/Metadata/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Core/Metadata/test/CMakeLists.txt	2015-02-17 16:08:40.299370282 +0100
++++ OTB_Modular/Modules/Core/Metadata/test/CMakeLists.txt	2015-02-17 16:08:53.431648265 +0100
+@@ -302,3 +302,52 @@
+   ${TEMP}/ioTvImageMetadataInterface.txt
+   )
+ 
++set( GenericTestPHR_TESTNB 0)
++foreach( current_file ${GenericTestPHR_DATA_INPUTS} )
++  list(GET GenericTestPHR_DATA_TYPES   ${GenericTestPHR_TESTNB} current_type   )
++  math(EXPR GenericTestPHR_TESTNB "${GenericTestPHR_TESTNB} + 1")
++
++  otb_add_test(NAME ioTvImageMetadataInterfaceBaseTest_${current_type} COMMAND otbMetadataTestDriver
++    --compare-ascii ${NOTOL}
++      ${BASELINE_FILES}/ioTvImageMetadataInterfaceBase_${current_type}.txt
++      ${TEMP}/ioTvImageMetadataInterfaceBase_${current_type}_OUT.txt
++    otbImageMetadataInterfaceBaseTest
++      ${current_file}
++      ${TEMP}/ioTvImageMetadataInterfaceBase_${current_type}_OUT.txt
++    )
++
++  otb_add_test(NAME ioTvOpticalImageMetadataInterfaceTest_${current_type} COMMAND otbMetadataTestDriver
++    --compare-ascii ${NOTOL}
++      ${BASELINE_FILES}/ioTvOpticalImageMetadataInterface_${current_type}.txt
++      ${TEMP}/ioTvOpticalImageMetadataInterface_${current_type}_OUT.txt
++    otbOpticalImageMetadataInterfaceTest
++      ${current_file}
++      ${TEMP}/ioTvOpticalImageMetadataInterface_${current_type}_OUT.txt
++    )
++endforeach()
++
++# SPOT 6
++set( GenericTestSPOT6_TESTNB 0)
++
++foreach( current_file ${GenericTestSPOT6_DATA_INPUTS} )
++  list(GET GenericTestSPOT6_DATA_TYPES   ${GenericTestSPOT6_TESTNB} current_type )
++  math(EXPR GenericTestSPOT6_TESTNB "${GenericTestSPOT6_TESTNB} + 1")
++
++  otb_add_test(NAME ioTvImageMetadataInterfaceBaseTest_${current_type} COMMAND otbMetadataTestDriver
++    --compare-ascii ${NOTOL}
++      ${BASELINE_FILES}/ioTvImageMetadataInterfaceBase_${current_type}.txt
++      ${TEMP}/ioTvImageMetadataInterfaceBase_${current_type}_OUT.txt
++    otbImageMetadataInterfaceBaseTest
++      ${current_file}
++      ${TEMP}/ioTvImageMetadataInterfaceBase_${current_type}_OUT.txt
++    )
++
++  otb_add_test(NAME ioTvOpticalImageMetadataInterfaceTest_${current_type} COMMAND otbMetadataTestDriver
++    --compare-ascii ${NOTOL}
++      ${BASELINE_FILES}/ioTvOpticalImageMetadataInterface_${current_type}.txt
++      ${TEMP}/ioTvOpticalImageMetadataInterface_${current_type}_OUT.txt
++    otbOpticalImageMetadataInterfaceTest
++      ${current_file}
++      ${TEMP}/ioTvOpticalImageMetadataInterface_${current_type}_OUT.txt
++    )
++endforeach()
+diff -ur OTB_Modular-nopatch/Modules/Core/Transform/test/CMakeLists.txt OTB_Modular/Modules/Core/Transform/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Core/Transform/test/CMakeLists.txt	2015-02-17 16:08:47.251517445 +0100
++++ OTB_Modular/Modules/Core/Transform/test/CMakeLists.txt	2015-02-17 16:08:53.435648351 +0100
+@@ -293,3 +293,100 @@
+ 
+ otb_add_test(NAME prTuGenericMapProjectionNew COMMAND otbTransformTestDriver  otbGenericMapProjectionNew )
+ 
++# Forward / Backward projection consistency checking
++set(FWDBWDChecking_INPUTS
++  LARGEINPUT{QUICKBIRD/TOULOUSE/000000128955_01_P001_PAN/02APR01105228-P1BS-000000128955_01_P001.TIF}
++  #LARGEINPUT{SPOT4/RIO_DE_JANEIRO/IMAG_01.DAT}
++  LARGEINPUT{SPOT5/TEHERAN/IMAGERY.TIF}
++  LARGEINPUT{RADARSAT1/GOMA2/SCENE01/DAT_01.001}
++  LARGEINPUT{RADARSAT2/ALTONA/Fine_Quad-Pol_Dataset/PK6621_DK406_FQ9_20080405_124900_HH_VV_HV_VH_SLC_Altona/imagery_HH.tif}
++  LARGEINPUT{FORMOSAT/Sudouest_20071013_MS_fmsat/IMAGERY.TIF}
++  #LARGEINPUT{GEOEYE/LES_ROCHES/po_350134_bgrn_0000000.tif}
++  #LARGEINPUT{IKONOS/BLOSSEVILLE/po_2619900_pan_0000000.tif}
++  #LARGEINPUT{PALSAR/ALOS-H1_1__A-ORBIT__ALPSRP037120700.tif}
++  #LARGEINPUT{WORLDVIEW2/ROME/WV-2_standard_8band_bundle_16bit/052298844010_01_P001_PAN/09DEC10103019-P2AS-052298844010_01_P001.TIF}
++  LARGEINPUT{TERRASARX/2008-03-10_GrandCanyon_SSC/TSX1_SAR__SSC______SM_S_SRA_20080310T133220_20080310T133228/IMAGEDATA/IMAGE_HH_SRA_strip_011.cos}
++  LARGEINPUT{ENVISAT_ASAR_SCENE01/ASA_APS_1PNDPA20030821_7713.N1}
++  #LARGEINPUT{COSMOSKYMED/Toulouse_spotlight/CSKS3_GTC_B_S2_08_HH_RD_SF_20110418180325_20110418180332.h5}
++  #LARGEINPUT{MODIS/MOD13Q1/MOD13Q1.A2010001.h17v05.005.2010028003734.hdf}
++  #LARGEINPUT{ONERA/spa3_0215_rad.dat}
++  #LARGEINPUT{RAPIDEYE/level3A/2008-12-25T005918_RE3_3A-NAC_752656_40091.tif}
++  )
++
++set(FWDBWDChecking_TYPES
++  QUICKBIRD
++  #SPOT4
++  SPOT5
++  RADARSAT1
++  RADARSAT2
++  FORMOSAT
++  #GEOEYE
++  #IKONOS
++  #PALSAR
++  #WORLDVIEW2
++  TERRASARX
++  ENVISAT
++  #COSMOSKYMED
++  #MODIS
++  #ONERA
++  #RAPIDEYE
++  )
++set( FWDBWDChecking_TESTNB 0)
++
++foreach( file ${FWDBWDChecking_INPUTS} )
++  list(GET FWDBWDChecking_TYPES   ${FWDBWDChecking_TESTNB} current_type   )
++  math(EXPR FWDBWDChecking_TESTNB "${FWDBWDChecking_TESTNB} + 1")
++  
++  otb_add_test(NAME prTvForwardBackwardProjectionConsistency_${current_type} COMMAND otbTransformTestDriver
++    otbForwardBackwardProjectionConsistency
++      ${file}
++      ${INPUTDATA}/DEM/srtm_directory/
++      ${INPUTDATA}/DEM/egm96.grd #Not used
++      20 # nb Tested Points
++      1  # Tolerance in pixels
++      1  # Verbose
++  )
++endforeach()
++
++
++
++
++set(SARSENSORMODEL_TYPES
++  "RADARSAT1/GOMA/SCENE01/"
++  "RADARSAT2/ALTONA/Fine_Quad-Pol_Dataset/PK6621_DK406_FQ9_20080405_124900_HH_VV_HV_VH_SLC_Altona/product.xml"
++  "ENVISAT_ASAR_SCENE01/ASA_APS_1PNDPA20030821_7713.N1"
++  "PALSAR/200801280007/l1data/VOL-ALPSRP037120700-H1.1__A"
++  "TERRASARX/PANGKALANBUUN/IMAGEDATA/IMAGE_HH_SRA_stripFar_008.cos"
++)
++
++foreach( file ${SARSENSORMODEL_TYPES})
++  # Get the sensor name
++  set(sharp_regexp "([0-9A-Za-z_]*)[ ]*/[ ]*(.*)")
++  string(REGEX REPLACE "${sharp_regexp}" "\\1" sensor_name "${file}")
++  # Tests
++  otb_add_test(NAME prTvSensorModelGrid_${sensor_name} COMMAND otbTransformTestDriver
++    --compare-n-images ${EPSILON_6} 2
++           ${BASELINE}/prTvSensorModelGridDeltaX_${sensor_name}.tif
++           ${TEMP}/prTvSensorModelGridDeltaX_${sensor_name}.tif
++           ${BASELINE}/prTvSensorModelGridDeltaY_${sensor_name}.tif
++           ${TEMP}/prTvSensorModelGridDeltaY_${sensor_name}.tif
++      otbSensorModelGrid
++           LARGEINPUT{${file}}
++           ${TEMP}/prTvSensorModelGridDeltaX_${sensor_name}.tif
++           ${TEMP}/prTvSensorModelGridDeltaY_${sensor_name}.tif
++           10 10
++          )
++
++  otb_add_test(NAME prTvForwardSensorModelGrid_${sensor_name} COMMAND otbTransformTestDriver
++    --compare-n-images ${EPSILON_6} 2
++           ${BASELINE}/prTvForwardSensorModelGridX_${sensor_name}.tif
++           ${TEMP}/prTvForwardSensorModelGridX_${sensor_name}.tif
++           ${BASELINE}/prTvForwardSensorModelGridY_${sensor_name}.tif
++           ${TEMP}/prTvForwardSensorModelGridY_${sensor_name}.tif
++      otbForwardSensorModelGrid
++           LARGEINPUT{${file}}
++           ${TEMP}/prTvForwardSensorModelGridX_${sensor_name}.tif
++           ${TEMP}/prTvForwardSensorModelGridY_${sensor_name}.tif
++           10 10
++          )
++endforeach()
+diff -ur OTB_Modular-nopatch/Modules/Feature/Edge/test/CMakeLists.txt OTB_Modular/Modules/Feature/Edge/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Feature/Edge/test/CMakeLists.txt	2015-02-17 16:08:49.335561559 +0100
++++ OTB_Modular/Modules/Feature/Edge/test/CMakeLists.txt	2015-02-17 16:08:53.435648351 +0100
+@@ -273,6 +273,9 @@
+ otb_add_test(NAME bfTuVerticalSobelVectorImageFilterNew COMMAND otbEdgeTestDriver
+   otbVerticalSobelVectorImageFilterNewTest)
+ 
++otb_add_test(NAME feTuStreamingLineSegmentDetectorNew COMMAND otbEdgeTestDriver
++  otbStreamingLineSegmentDetectorNew)
++
+ otb_add_test(NAME feTvStreamingLineSegmentDetector10 COMMAND otbEdgeTestDriver
+   --compare-ogr  ${EPSILON_8}
+   ${BASELINE_FILES}/feTvStreamingLineSegmentDetectorOutput10.shp
+diff -ur OTB_Modular-nopatch/Modules/Filtering/Path/test/CMakeLists.txt OTB_Modular/Modules/Filtering/Path/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Filtering/Path/test/CMakeLists.txt	2015-02-17 16:08:40.767380188 +0100
++++ OTB_Modular/Modules/Filtering/Path/test/CMakeLists.txt	2015-02-17 16:08:53.435648351 +0100
+@@ -184,8 +184,6 @@
+   ${TEMP}/feRectangle.txt
+   0.9 #fit score
+   10)  #minimum size
+-  add_test(feTuStreamingLineSegmentDetectorNew ${FEATUREEXTRACTION_TESTS15}
+-  otbStreamingLineSegmentDetectorNew)
+ 
+ otb_add_test(NAME feTvBreakAngularPathListFilter COMMAND otbPathTestDriver
+   --compare-ascii ${NOTOL}  ${BASELINE_FILES}/feBreakAngularPathListOutput.txt
+diff -ur OTB_Modular-nopatch/Modules/Filtering/Projection/test/CMakeLists.txt OTB_Modular/Modules/Filtering/Projection/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Filtering/Projection/test/CMakeLists.txt	2015-02-17 16:08:50.115578071 +0100
++++ OTB_Modular/Modules/Filtering/Projection/test/CMakeLists.txt	2015-02-17 16:08:53.435648351 +0100
+@@ -1211,3 +1211,97 @@
+   ${TEMP}/bfTvImportGeoInformationKeywordListOutput.txt
+   )
+ 
++set(GenericConversionChecking_INPUTS
++  LARGEINPUT{QUICKBIRD/TOULOUSE/000000128955_01_P001_PAN/02APR01105228-P1BS-000000128955_01_P001.TIF
++  #LARGEINPUT{SPOT4/RIO_DE_JANEIRO/IMAG_01.DAT
++  LARGEINPUT{SPOT5/TEHERAN/IMAGERY.TIF
++  LARGEINPUT{RADARSAT1/GOMA2/SCENE01/DAT_01.001
++  LARGEINPUT{RADARSAT2/ALTONA/Fine_Quad-Pol_Dataset/PK6621_DK406_FQ9_20080405_124900_HH_VV_HV_VH_SLC_Altona/imagery_HH.tif
++  LARGEINPUT{FORMOSAT/Sudouest_20071013_MS_fmsat/IMAGERY.TIF
++  #LARGEINPUT{GEOEYE/LES_ROCHES/po_350134_bgrn_0000000.tif
++  #LARGEINPUT{IKONOS/BLOSSEVILLE/po_2619900_pan_0000000.tif
++  #LARGEINPUT{PALSAR/ALOS-H1_1__A-ORBIT__ALPSRP037120700.tif
++  #LARGEINPUT{WORLDVIEW2/ROME/WV-2_standard_8band_bundle_16bit/052298844010_01_P001_PAN/09DEC10103019-P2AS-052298844010_01_P001.TIF
++  LARGEINPUT{TERRASARX/PANGKALANBUUN/TSX1_SAR__SSC______SM_D_SRA_20080313T221955_20080313T222003.xml
++  LARGEINPUT{ENVISAT_ASAR_SCENE01/ASA_APS_1PNDPA20030821_7713.N1
++  #LARGEINPUT{COSMOSKYMED/Toulouse_spotlight/CSKS3_GTC_B_S2_08_HH_RD_SF_20110418180325_20110418180332.h5
++  #LARGEINPUT{MODIS/MOD13Q1/MOD13Q1.A2010001.h17v05.005.2010028003734.hdf
++  #LARGEINPUT{ONERA/spa3_0215_rad.dat
++  #LARGEINPUT{RAPIDEYE/level3A/2008-12-25T005918_RE3_3A-NAC_752656_40091.tif
++  )
++
++set(GenericConversionChecking_TYPES
++	QUICKBIRD
++	#SPOT4
++	SPOT5
++	RADARSAT1
++	RADARSAT2
++	FORMOSAT
++	#GEOEYE
++	#IKONOS
++	#PALSAR
++	#WORLDVIEW2
++	TERRASARX
++	ENVISAT
++	#COSMOSKYMED
++	#MODIS
++	#ONERA
++	#RAPIDEYE
++	)
++
++set(GenericConversionChecking_TOL_PIX
++	24 # according to DigitalGlobe specification
++	#30
++	30
++	30
++	30
++	30
++	#30
++	#30
++	#30
++	#30
++	30
++	30
++	#30
++	#30
++	#30
++	#30
++	)
++
++set(GenericConversionChecking_TOL_M
++	23 # according to DigitalGlobe specification
++	#30
++	30
++	30
++	30
++	30
++	#30
++	#30
++	#30
++	#30
++	#30
++	30
++	30
++	#30
++	#30
++	#30
++	)
++
++set( GenericConversionChecking_TESTNB 0)
++
++foreach( file ${GenericConversionChecking_INPUTS} )
++  list(GET GenericConversionChecking_TYPES   ${GenericConversionChecking_TESTNB} current_type   )
++  list(GET GenericConversionChecking_TOL_PIX ${GenericConversionChecking_TESTNB} current_tol_pix)
++  list(GET GenericConversionChecking_TOL_M   ${GenericConversionChecking_TESTNB} current_tol_m  )
++  math(EXPR GenericConversionChecking_TESTNB "${GenericConversionChecking_TESTNB} + 1")
++  
++  otb_add_test(NAME prTvGenericRSTransformGenericConversionCheckingFromGCP_${current_type} COMMAND otbTransformTestDriver
++    otbGenericRSTransformGenericConversionCheckingFromGCP
++      ${file}
++      ${INPUTDATA}/DEM/srtm_directory/
++      ${INPUTDATA}/DEM/egm96.grd #Not used
++      ${current_tol_pix} # Tolerance in pixels
++      ${current_tol_m}   # Tolerance in meters
++      1                  # Verbose
++  )
++endforeach()
+diff -ur OTB_Modular-nopatch/Modules/Filtering/Statistics/test/CMakeLists.txt OTB_Modular/Modules/Filtering/Statistics/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Filtering/Statistics/test/CMakeLists.txt	2015-02-17 16:08:42.879424896 +0100
++++ OTB_Modular/Modules/Filtering/Statistics/test/CMakeLists.txt	2015-02-17 16:08:53.435648351 +0100
+@@ -292,6 +292,34 @@
+   otbStreamingStatisticsImageFilter
+   ${INPUTDATA}/small_poupees_1canal.hd
+   ${TEMP}/bfStreamingStatisticsImageFilterResults.txt)
++  
++foreach(inputFileType "UINT8" "UINT16" "INT16" "UINT32" "INT32" "FLOAT" "DOUBLE")
++  foreach(sizeType "LARGE" "SMALL")
++    string(TOLOWER ${sizeType} lsizeType)
++
++    if( sizeType STREQUAL "LARGE" )
++      set(size "2048")
++    else()
++      set(size "256")
++    endif()
++
++    # Derive output file names
++    set(OUTFILENAME RGBSquares${inputFileType}_${lsizeType}.tif)
++    set(OUTLABELFILENAME RGBSquares${inputFileType}_${lsizeType}_Labels.tif)
++
++    set(writeOutputImagesRq "0")
++
++    otb_add_test(NAME bfTvStreamingStatisticsMapFromLabelImageFilterTest${inputFileType}${lsizeType} COMMAND otbStatisticsTestDriver
++         otbStreamingStatisticsMapFromLabelImageFilterTest
++               ${inputFileType}
++               ${size}
++               ${size}
++               ${writeOutputImagesRq}
++               ${TEMP}/${OUTFILENAME}
++               ${TEMP}/${OUTLABELFILENAME}
++    )
++  endforeach()
++endforeach()
+ 
+ otb_add_test(NAME leTuListSampleToBalancedListSampleFilterNew COMMAND otbStatisticsTestDriver
+   otbListSampleToBalancedListSampleFilterNew)
+diff -ur OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx
+--- OTB_Modular-nopatch/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2015-02-06 11:31:35.306648000 +0100
++++ OTB_Modular/Modules/Fusion/Fuzzy/src/otbFuzzyDescriptorsModelManager.cxx	2015-02-17 16:08:53.439648436 +0100
+@@ -19,7 +19,7 @@
+ #include "otbFuzzyDescriptorsModelManager.h"
+ #include "itkMacro.h"
+ #include "itksys/SystemTools.hxx"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ namespace otb {
+ 
+diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbCoordinateToName.cxx OTB_Modular/Modules/IO/Carto/src/otbCoordinateToName.cxx
+--- OTB_Modular-nopatch/Modules/IO/Carto/src/otbCoordinateToName.cxx	2015-02-06 11:31:36.450674000 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbCoordinateToName.cxx	2015-02-17 16:08:53.439648436 +0100
+@@ -23,7 +23,7 @@
+ #include "otbMacro.h"
+ #include "otbUtils.h"
+ 
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ #include "otbCurlHelper.h"
+ 
+ #include "itkMersenneTwisterRandomVariateGenerator.h"
+diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx OTB_Modular/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx
+--- OTB_Modular-nopatch/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx	2015-02-06 11:31:36.462674000 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbOSMDataToVectorDataGenerator.cxx	2015-02-17 16:08:53.439648436 +0100
+@@ -22,7 +22,7 @@
+ #include "itkDataObject.h"
+ #include "itkMacro.h"
+ 
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx OTB_Modular/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx
+--- OTB_Modular-nopatch/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx	2015-02-06 11:31:36.502675000 +0100
++++ OTB_Modular/Modules/IO/Carto/src/otbPlaceNameToLonLat.cxx	2015-02-17 16:08:53.439648436 +0100
+@@ -17,7 +17,7 @@
+ =========================================================================*/
+ 
+ #include "otbPlaceNameToLonLat.h"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ #include "otbCurlHelper.h"
+ 
+ namespace otb
+diff -ur OTB_Modular-nopatch/Modules/IO/ExtendedFilename/test/CMakeLists.txt OTB_Modular/Modules/IO/ExtendedFilename/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/IO/ExtendedFilename/test/CMakeLists.txt	2015-02-17 16:08:41.871403558 +0100
++++ OTB_Modular/Modules/IO/ExtendedFilename/test/CMakeLists.txt	2015-02-17 16:08:53.439648436 +0100
+@@ -12,6 +12,23 @@
+ otb_module_target_label(otbExtendedFilenameTestDriver)
+ 
+ # Tests Declaration
++foreach(streaming_type "Tiled" "Stripped")
++  foreach(streaming_sizemode "Auto" "Nbsplits" "Height")
++    string(TOLOWER ${streaming_type} type)
++    string(TOLOWER ${streaming_sizemode} sizemode)
++
++    set(_test_name "ioTvImageFileWriterExtendedFileName_Streaming${streaming_type}${streaming_sizemode}")
++
++    otb_add_test(NAME ${_test_name} COMMAND otbExtendedFilenameTestDriver
++      --compare-image ${NOTOL}
++               ${INPUTDATA}/maur_rgb_24bpp.tif
++               ${TEMP}/${test_name}.tif
++      otbImageFileWriterWithExtendedFilename
++              ${INPUTDATA}/maur_rgb_24bpp.tif
++              ${TEMP}/${test_name}.tif?&streaming:type=${type}&streaming:sizemode=${sizemode}&streaming:sizevalue=${streaming_sizevalue_${sizemode}}
++    )
++  endforeach()
++endforeach()
+ 
+ otb_add_test(NAME ioTvExtendedFilenameToReaderOptions_FullOptions COMMAND otbExtendedFilenameTestDriver
+   --compare-ascii ${NOTOL}
+diff -ur OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx
+--- OTB_Modular-nopatch/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2015-02-06 11:31:36.282670000 +0100
++++ OTB_Modular/Modules/IO/IOGDAL/src/otbGDALImageIO.cxx	2015-02-17 16:08:53.443648520 +0100
+@@ -24,7 +24,7 @@
+ #include "otbSystem.h"
+ #include "itksys/SystemTools.hxx"
+ #include "otbImage.h"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ #include "otbImageKeywordlist.h"
+ 
+ #include "itkMetaDataObject.h"
+diff -ur OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx OTB_Modular/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx
+--- OTB_Modular-nopatch/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx	2015-02-06 11:31:36.334671000 +0100
++++ OTB_Modular/Modules/IO/IOJPEG2000/src/otbJPEG2000ImageIO.cxx	2015-02-17 16:08:53.443648520 +0100
+@@ -31,7 +31,7 @@
+ 
+ extern "C"
+ {
+-#include "openjpeg.h"
++#include "otb_openjpeg.h"
+ }
+ 
+ #include "gdal.h"
+@@ -42,7 +42,7 @@
+ 
+ #include "itksys/SystemTools.hxx"
+ 
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ #include "itkMutexLock.h"
+ #include "itkMutexLockHolder.h"
+diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx
+--- OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx	2015-02-06 11:31:33.886615000 +0100
++++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileReader.txx	2015-02-17 16:08:53.443648520 +0100
+@@ -21,7 +21,7 @@
+ #include "otbStatisticsXMLFileReader.h"
+ #include "itkMacro.h"
+ #include "itksys/SystemTools.hxx"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ namespace otb {
+ 
+diff -ur OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx
+--- OTB_Modular-nopatch/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx	2015-02-06 11:31:33.886615000 +0100
++++ OTB_Modular/Modules/IO/IOXML/include/otbStatisticsXMLFileWriter.txx	2015-02-17 16:08:53.443648520 +0100
+@@ -21,7 +21,7 @@
+ #include "otbStatisticsXMLFileWriter.h"
+ #include "itkMacro.h"
+ #include "itksys/SystemTools.hxx"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ namespace otb {
+ 
+diff -ur OTB_Modular-nopatch/Modules/Learning/LearningBase/src/CMakeLists.txt OTB_Modular/Modules/Learning/LearningBase/src/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Learning/LearningBase/src/CMakeLists.txt	2015-02-17 16:08:38.899340646 +0100
++++ OTB_Modular/Modules/Learning/LearningBase/src/CMakeLists.txt	2015-02-17 16:08:53.443648520 +0100
+@@ -6,7 +6,7 @@
+ target_link_libraries(OTBLearningBase 
+   ${OTBCommon_LIBRARIES}
+   ${OTBSVMLearning_LIBRARIES}
+-
++  ${OTBOpenCVAdapters_LIBRARIES}
+   )
+ 
+ otb_module_target(OTBLearningBase)
+diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbChangeProfileKernelFunctor.h OTB_Modular/Modules/Learning/SVMLearning/include/otbChangeProfileKernelFunctor.h
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbChangeProfileKernelFunctor.h	2015-02-17 16:08:38.663335650 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbChangeProfileKernelFunctor.h	2015-02-17 16:08:53.443648520 +0100
+@@ -20,7 +20,7 @@
+ #ifndef __otbChangeProfileKernelFunctor_h
+ #define __otbChangeProfileKernelFunctor_h
+ 
+-#include "svm.h"
++#include "otb_libsvm.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbMixturePolyRBFKernelFunctor.h OTB_Modular/Modules/Learning/SVMLearning/include/otbMixturePolyRBFKernelFunctor.h
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbMixturePolyRBFKernelFunctor.h	2015-02-17 16:08:38.519332602 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbMixturePolyRBFKernelFunctor.h	2015-02-17 16:08:53.443648520 +0100
+@@ -20,7 +20,7 @@
+ #ifndef __otbMixturePolyRBFKernelFunctor_h
+ #define __otbMixturePolyRBFKernelFunctor_h
+ 
+-#include "svm.h"
++#include "otb_libsvm.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbNonGaussianRBFKernelFunctor.h OTB_Modular/Modules/Learning/SVMLearning/include/otbNonGaussianRBFKernelFunctor.h
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbNonGaussianRBFKernelFunctor.h	2015-02-17 16:08:38.519332602 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbNonGaussianRBFKernelFunctor.h	2015-02-17 16:08:53.443648520 +0100
+@@ -20,7 +20,7 @@
+ #ifndef __otbNonGaussianRBFKernelFunctor_h
+ #define __otbNonGaussianRBFKernelFunctor_h
+ 
+-#include "svm.h"
++#include "otb_libsvm.h"
+ 
+ //FIXME: shouldn't it be in the Functor namespace?
+ namespace otb
+diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSpectralAngleKernelFunctor.h OTB_Modular/Modules/Learning/SVMLearning/include/otbSpectralAngleKernelFunctor.h
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSpectralAngleKernelFunctor.h	2015-02-17 16:08:38.443330993 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbSpectralAngleKernelFunctor.h	2015-02-17 16:08:53.443648520 +0100
+@@ -20,7 +20,7 @@
+ #ifndef __otbSpectralAngleKernelFunctor_h
+ #define __otbSpectralAngleKernelFunctor_h
+ 
+-#include "svm.h"
++#include "otb_libsvm.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMKernels.h OTB_Modular/Modules/Learning/SVMLearning/include/otbSVMKernels.h
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMKernels.h	2015-02-17 16:08:38.519332602 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbSVMKernels.h	2015-02-17 16:08:53.443648520 +0100
+@@ -31,7 +31,7 @@
+ #include "otbNonGaussianRBFKernelFunctor.h"
+ #include "otbMixturePolyRBFKernelFunctor.h"
+ 
+-#include "svm.h"
++#include "otb_libsvm.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMModel.h OTB_Modular/Modules/Learning/SVMLearning/include/otbSVMModel.h
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/include/otbSVMModel.h	2015-02-17 16:08:38.523332686 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/include/otbSVMModel.h	2015-02-17 16:08:53.443648520 +0100
+@@ -21,8 +21,8 @@
+ #include "itkObjectFactory.h"
+ #include "itkDataObject.h"
+ #include "itkVariableLengthVector.h"
+-#include "svm.h"
+ #include "itkTimeProbe.h"
++#include "otb_libsvm.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Learning/SVMLearning/test/CMakeLists.txt OTB_Modular/Modules/Learning/SVMLearning/test/CMakeLists.txt
+--- OTB_Modular-nopatch/Modules/Learning/SVMLearning/test/CMakeLists.txt	2015-02-17 16:08:43.523438529 +0100
++++ OTB_Modular/Modules/Learning/SVMLearning/test/CMakeLists.txt	2015-02-17 16:08:53.447648604 +0100
+@@ -73,6 +73,19 @@
+   otbSVMModelCopyTest
+   ${INPUTDATA}/svm_model
+   ${TEMP}/svmcopymodel_test)
++  
++foreach(kernelType RANGE 0 18)
++  otb_add_test(NAME leTvSVMKernelTest${kernelType} COMMAND otbSVMLearningTestDriver
++    --compare-ascii ${EPSILON_9}
++      ${BASELINE_FILES}/leTvSVMKernelTest${kernelType}.txt
++      ${TEMP}/leTvSVMKernelTest${kernelType}.txt
++    otbSVMKernelsTest
++      ${EXAMPLEDATA}/qb_RoadExtract.tif
++      ${EXAMPLEDATA}/qb_RoadExtract_easyClassification.shp
++      ${TEMP}/leTvSVMKernelTest${kernelType}.txt
++      ${kernelType}
++  )
++endforeach()
+ 
+ otb_add_test(NAME leTvSVMPointSetModelEstimatorTrain COMMAND otbSVMLearningTestDriver
+   --compare-ascii ${EPSILON_3}  ${BASELINE_FILES}/leTvsvm_model_pointset
+diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h
+--- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2015-02-17 16:08:38.403330146 +0100
++++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h	2015-02-17 16:08:53.447648604 +0100
+@@ -1,7 +1,7 @@
+ #ifndef __otbWrapperInputProcessXMLParameter_h
+ #define __otbWrapperInputProcessXMLParameter_h
+ #include "otbWrapperApplication.h"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ #include <sstream>
+ 
+ namespace otb
+diff -ur OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h
+--- OTB_Modular-nopatch/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2015-02-17 16:08:38.407330231 +0100
++++ OTB_Modular/Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h	2015-02-17 16:08:53.447648604 +0100
+@@ -1,7 +1,7 @@
+ #ifndef __otbWrapperOutputProcessXMLParameter_h
+ #define __otbWrapperOutputProcessXMLParameter_h
+ #include "otbWrapperApplication.h"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ 
+ namespace otb
+ {
+diff -ur OTB_Modular-nopatch/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx OTB_Modular/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx
+--- OTB_Modular-nopatch/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx	2015-02-06 11:31:35.618655000 +0100
++++ OTB_Modular/Modules/Wrappers/CommandLine/src/otbApplicationLauncherCommandLine.cxx	2015-02-17 16:08:53.447648604 +0100
+@@ -17,7 +17,7 @@
+  =========================================================================*/
+ 
+ #include "otbWrapperCommandLineLauncher.h"
+-#include "otbTinyXML.h"
++#include "otb_tinyxml.h"
+ #include <vector>
+ 
+ const std::string GetChildNodeTextOf(TiXmlElement *parentElement, std::string key);

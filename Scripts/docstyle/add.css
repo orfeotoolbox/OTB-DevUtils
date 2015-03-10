@@ -1,0 +1,320 @@
+@font-face {
+    font-family: 'ChunkFiveRegular';
+    src: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/chunkfive/Chunkfive-webfont.eot');
+    src: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/chunkfive/Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/chunkfive/Chunkfive-webfont.woff') format('woff'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/chunkfive/Chunkfive-webfont.ttf') format('truetype'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/chunkfive/Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'TitilliumText22LRegular';
+    src: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/titillium/TitilliumText22L003-webfont.eot');
+    src: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/titillium/TitilliumText22L003-webfont.eot?#iefix') format('embedded-opentype'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/titillium/TitilliumText22L003-webfont.woff') format('woff'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/titillium/TitilliumText22L003-webfont.ttf') format('truetype'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/titillium/TitilliumText22L003-webfont.svg#TitilliumText22LRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'TitilliumText22LMedium';
+    src: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/titillium/TitilliumText22L004-webfont.eot');
+    src: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/titillium/TitilliumText22L004-webfont.eot?#iefix') format('embedded-opentype'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/titillium/TitilliumText22L004-webfont.woff') format('woff'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/titillium/TitilliumText22L004-webfont.ttf') format('truetype'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/titillium/TitilliumText22L004-webfont.svg#TitilliumText22LMedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'NobileRegular';
+    src: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/nobile/nobile-webfont.eot');
+    src: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/nobile/nobile-webfont.eot?#iefix') format('embedded-opentype'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/nobile/nobile-webfont.woff') format('woff'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/nobile/nobile-webfont.ttf') format('truetype'),
+         url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/nobile/nobile-webfont.svg#NobileRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'otb-icon-font';
+  src: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/otb-icon/otb-icon-font.eot?57055487');
+  src: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/otb-icon/otb-icon-font.eot?57055487#iefix') format('embedded-opentype'),
+       url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/otb-icon/otb-icon-font.woff?57055487') format('woff'),
+       url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/otb-icon/otb-icon-font.ttf?57055487') format('truetype'),
+       url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/fonts/otb-icon/otb-icon-font.svg?57055487#otb-icon-font') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+body {
+    background-image: url('https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/images/alexandria/page_bg.png');
+    background-repeat: repeat;
+    background-position: top left;
+    background-attachment: scroll;
+
+    margin:0px;
+    padding:0px;
+    font-family: NobileRegular, sans-serif !important;
+    line-height:1.3em;
+}
+
+
+.site-header {
+	width: 100%;
+	background: rgb(30, 31, 34);
+	text-align: center;
+	padding:10px;
+}
+
+.site-header li {
+display: inline;
+padding: 0 22px;
+}
+
+.site-header  li a{
+color:#FFF !important;
+}
+
+.site-branding h1 {
+color: rgb(255, 255, 255);
+font-size: 50px;
+line-height: 54.5px;
+padding: 0;
+margin: 0;
+}
+
+.site-branding h2 {
+color: rgb(255, 255, 255);
+font-family: 'NobileRegular', sans-serif;
+font-size: 17px;
+margin: 0;
+padding: 0;
+font-weight: 100;
+}
+
+.site-branding {
+background: url(https://www.orfeo-toolbox.org/wp-content/themes/alexandria/skins/images/otb/logoOTB2.png) 6% 4px no-repeat;
+background-size: contain;
+padding: 0 0 0 142px;
+width: 30%;
+margin: 12px 6px 12px 21px;
+float: left;
+text-align: left;
+}
+
+.site-header-half-width-logo .site-title {
+color: rgb(255, 255, 255);
+font-size: 50px;
+line-height: 54.5px;
+}
+
+.skip-link {
+ display : none; 
+}
+
+.main-navigation li li {
+display:none;
+}
+
+.main-navigation li {
+display: inline-block;
+padding: 0.3em 1em;
+margin: 0;
+
+}
+
+.main-navigation a {
+display: inline-block;
+text-decoration: none;
+color: rgb(255, 255, 255);
+font-size:16px;
+width: 122px;
+vertical-align: baseline;
+text-decoration: none;
+text-align: center;
+padding: 0px;
+margin: 0px;
+line-height: 28px;
+height: 28px;
+font-weight: normal;
+font-family: NobileRegular, sans-serif;
+}
+
+.main-navigation a:hover {
+background-color :#000;
+}
+
+nav {
+text-align: center;
+width: 58%;
+float: left;
+margin: 0;
+margin-top: 18px;
+}
+
+.maketitle, .minipage {
+ display:none;
+}
+
+img.graphics {
+  float: left;
+}
+
+.tableofcontents {
+    width: 80%;
+    margin: 21px auto;
+}
+
+
+a {
+    text-decoration:none !important;
+	color: rgb(91, 123, 153);
+}
+
+
+ul {
+list-style: none !important;
+}
+
+footer {
+	width: 100% !important;
+	background: rgb(31, 32, 34) !important;
+	 color: rgb(81, 82, 84) !important;	
+	text-align: center !important;
+	padding-bottom:30px;
+}
+
+footer .footer-social-icons {
+padding: 15px 0 40px 0 !important;
+margin: 0 5% !important;
+}
+
+footer .footer-social-icons li {
+display: inline-block;
+}
+
+
+footer #titreotb {
+color: rgb(140, 140, 140) !important;
+font-family: ChunkFiveRegular !important;
+font-size: 50px !important;
+display: block;
+height: 49px;
+line-height: 78px;
+margin-top: 41px;
+	
+}
+
+ [class^="icon-"], [class*=" icon-"]{
+	font-family: "otb-icon-font" !important;
+	font-size: 63px;
+	color: rgba(149, 171, 195, 0.68);
+	line-height: 0;
+ }
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before, .accordion-title:before {  
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+   
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+     
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.content {
+margin: 0 18px;
+}
+
+.content a {
+    color: #5B7B99 !important;  
+}
+
+.content .noindent {
+display: inline-block;
+}
+
+.content .noindent br {
+clear: both;
+}
+
+.ptmr7t-x-x-50 {
+	font-size:15px !important;	
+}
+
+.pcrr7tn-x-x-80 {
+	font-size:15px !important;	
+}
+
+
+.site-info {
+margin: 0;
+width: 100%;
+}
+
+.site-info h3 {
+width: 86%;
+margin: 0 7%;
+text-align: center;
+}
+
+.site-info h3 a {
+color: rgb(140, 140, 140);
+text-decoration: none;
+font-weight: normal;
+font-size: 24px;
+font-family: ChunkFiveRegular;
+}
+
+.site-info p {
+width: 84%;
+margin: 0 8% 5px 8%;
+color: rgb(81, 82, 84);
+line-height: 1.3;
+text-align: center;
+}
+
+.icon-puzzle:before { content: '\e800'; } /* '?' */
+.icon-galon:before { content: '\e801'; } /* '?' */
+.icon-light:before { content: '\e802'; } /* '?' */
+.icon-gplus:before { content: '\e803'; } /* '?' */
+.icon-code:before { content: '\e804'; } /* '?' */
+.icon-bug:before { content: '\e805'; } /* '?' */
+.icon-twitter:before { content: '\e806'; } /* '?' */
+.icon-pc:before { content: '\e807'; } /* '?' */
+.icon-trio:before { content: '\e808'; } /* '?' */
+.icon-addlink:before { content: '\e809'; } /* '?' */
+.icon-star:before { content: '\e80a'; } /* '?' */
+.icon-mail:before { content: '\e80b'; } /* '?' */
+.icon-play:before { content: '\e80c'; } /* '?' */
+.icon-right-open:before { content: '\e80d'; } /* '?' */
+.icon-book:before { content: '\e80e'; } /* '?' */
+.icon-down-open:before { content: '\e80f'; } /* '?' */

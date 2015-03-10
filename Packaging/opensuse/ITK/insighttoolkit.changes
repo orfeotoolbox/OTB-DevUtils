@@ -1,0 +1,14 @@
+----------------------------------------------------------------------------
+* Fri Feb 27 21:24:00 UTC 2015 Angelos Tzotsos <tzotsos@opensuse.org>
+
+- Renamed package to insighttoolkit
+
+----------------------------------------------------------------------------
+* Wed Jan 14 01:14:00 UTC 2015 Angelos Tzotsos <tzotsos@opensuse.org> - 4.6.0
+
+- Update to 4.6.0
+
+----------------------------------------------------------------------------
+* Sat Mar 01 23:03:00 UTC 2014 Angelos Tzotsos <tzotsos@opensuse.org> - 4.5.1
+
+- Initial build

@@ -1,0 +1,796 @@
+insighttoolkit4 (4.6.0-3otb2~@DIST@@PKGVERSION@) @DIST@; urgency=medium
+
+  [ Julien Malik ]
+  * patches : removed emmintrincic patch
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 09 Sep 2014 07:40:02 +0200
+
+insighttoolkit4 (4.6.0-3otb1~@DIST@@PKGVERSION@) @DIST@; urgency=medium
+
+  * rules: disable Module_ITKDeprecated
+  * rules: disable python wrapping
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Fri, 29 Aug 2014 14:30:02 +0200
+
+insighttoolkit4 (4.6.0-3) unstable; urgency=medium
+
+  * rules: Build Module_ITKDeprecated as Elastix 4.7 needs now-deprecated
+    itkTransformToDisplacementFieldSource.h.  See #757589.
+
+ -- Steve M. Robbins <smr@debian.org>  Mon, 18 Aug 2014 18:39:28 -0500
+
+insighttoolkit4 (4.6.0-2) unstable; urgency=medium
+
+  * control.in: add libhdf5-dev dep to -dev package.  Closes: #757594.
+  Migrate previous control fixes to control.in.
+
+ -- Steve M. Robbins <smr@debian.org>  Mon, 11 Aug 2014 21:55:42 -0500
+
+insighttoolkit4 (4.6.0-1) unstable; urgency=medium
+
+  [ Gert Wollny ]
+  * Remove dependency on libdouble-conversion-dev, since it currently 
+    can not be used (#756480).
+  * Enable use of system hdf5 library.  Closes: #756015
+  * Change gccxml dep to 0.9.0+git20140716 to silence lintian warning.
+  * Remove patch to increase OtsuThreshold computation precision 
+    (added upstream).
+  * Remove patch to increase itkVoronoiPartitioningImageFilterTest1 tolerance 
+    (added upstream).
+  * Revise patch to avoid including emmintr.h when __SSE2__ is not defined.
+  * Add debug package.
+  * Add patch to not check for the swig_version since it was done before 
+    find_package(swig).
+
+  [ Steve M. Robbins ]
+  * Prepare upload.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 02 Aug 2014 10:37:24 -0500
+
+insighttoolkit4 (4.5.2-1otb3~@DIST@@PKGVERSION@) @DIST@; urgency=medium
+
+  * Tests disabled on all platforms
+  * FFTW enabled on amd64 platforms and disabled on i386 platforms
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 02 May 2014 11:01:10 +0200
+
+insighttoolkit4 (4.5.2-1otb2~@DIST@@PKGVERSION@) @DIST@; urgency=medium
+
+  * Tests disabled on all platforms
+  * FFTW enabled on all platforms
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 01 May 2014 21:57:44 +0200
+
+insighttoolkit4 (4.5.2-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=medium
+
+  * Python wrapping removed
+  * On Quantal, Raring and Saucy, ITK is built against internal TIFF
+    library because it does not work with version 4.0.2 of external
+    TIFF library available on these Ubuntu versions.
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Wed, 30 Apr 2014 13:59:30 +0200
+
+insighttoolkit4 (4.5.2-1) unstable; urgency=medium
+
+  * New upstream.
+
+  * patches/0001-BUG-Wrap-TransformFileReader-TransformFileWriter.patch:
+  * patches/0002-COMP-Fixed-itkQuasiNewtonOptimizerv4-wrapping-warnin.patch:
+  * patches/0003-COMP-Fixed-itkGradientDescentOptimizerv4-wrapping-wa.patch:
+  * patches/0004-COMP-Warp-OptimizerParameterScalesEstimatorTemplate.patch:
+    Remove; applied upstream.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 13 Apr 2014 07:31:59 -0500
+
+insighttoolkit4 (4.5.1-1) unstable; urgency=medium
+
+  [Gert Wollny]
+  * new uptream
+  * enable python2.7 bindings
+  * update build dependencies to new wrapping method
+  * Add linker flags --as-needed to reduce dependencies
+  * make ITKGDCM a static library since it is only a dependency stub
+
+  [ Steve M. Robbins ]
+  * Merged Gert's patches to main trunk for release.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 30 Mar 2014 15:43:57 -0500
+
+insighttoolkit4 (4.5.0-3) unstable; urgency=low
+
+  * Team upload.
+  * Prefer system install GDCM. Closes: #728121
+  * Depends on dcmtk headers. Closes: #734590
+  * Use Depends: libtiff-dev. Closes: #736128
+
+ -- Mathieu Malaterre <malat@debian.org>  Wed, 12 Feb 2014 12:49:24 +0100
+
+insighttoolkit4 (4.5.0-2) unstable; urgency=low
+
+  * rules: Enable module ITKDCMTK (using system DCMTK).  Enable
+    module Review (closes: #733602).
+  * control.in: Build-depend on libdcmtk2-dev.
+  * patches/nrrdio-linking.patch: New.  Link libITKNrrdIO with -lm.
+    Closes: #733628.
+
+ -- Steve M. Robbins <smr@debian.org>  Thu, 02 Jan 2014 22:56:27 -0600
+
+insighttoolkit4 (4.5.0-1) unstable; urgency=low
+
+  * New upstream.
+
+  * control.in: Remove libvxl1-dev build-dep.  Update to Standards-Version
+    3.9.5.
+
+  * rules: Remove obsoleted options ITK_USE_MINC2 and ITK_USE_REVIEW.
+
+  * watch: Change pattern from .tar.gz --> .tar.xz.
+
+  * copyright: Replaced with new upstream license text.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 29 Dec 2013 00:36:24 -0600
+
+insighttoolkit4 (4.4.2-4) unstable; urgency=low
+
+  * control.in: Remove gdcm depdendency from -dev package.
+
+ -- Steve M. Robbins <smr@debian.org>  Fri, 20 Sep 2013 20:50:08 -0500
+
+insighttoolkit4 (4.4.2-3) unstable; urgency=low
+
+  * control.in: Remove build-dep on libgdcm2-dev.
+
+ -- Steve M. Robbins <smr@debian.org>  Fri, 20 Sep 2013 04:05:19 -0500
+
+insighttoolkit4 (4.4.2-2) unstable; urgency=low
+
+  * control.in: Restrict to architectures amd64 and i386.
+  * rules: Configure with select system libraries.
+
+ -- Steve M. Robbins <smr@debian.org>  Tue, 17 Sep 2013 19:39:27 -0500
+
+insighttoolkit4 (4.4.2-1) unstable; urgency=low
+
+  * New upstream.
+  * rules: remove ITKv3 compatability code.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 08 Sep 2013 23:55:58 -0500
+
+insighttoolkit4 (4.4.0-1) unstable; urgency=low
+
+  * New upstream.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 09 Jun 2013 22:31:44 -0500
+
+insighttoolkit4 (4.3.2-1) unstable; urgency=low
+
+  * New upstream.
+    - patches/lsm-with-system-tiff.patch: Removed.  Applied upstream.
+
+ -- Steve M. Robbins <smr@debian.org>  Tue, 30 Apr 2013 23:09:50 -0500
+
+insighttoolkit4 (4.3.1-3) UNRELEASED; urgency=low
+
+  * Remove obsolete DMUA flag
+  * Remove self from Uploaders
+
+ -- Mathieu Malaterre <malat@debian.org>  Thu, 11 Apr 2013 12:03:49 +0200
+
+insighttoolkit4 (4.3.1-2) unstable; urgency=low
+
+  * rules: Build using system TIFF.  Closes: #701888 because no longer
+    uses included TIFF source.
+  * control.in: Build-depend on libtiff5-alt-dev because libvtk5-dev still
+    depends on libtiff4-dev.
+  * patches/lsm-with-system-tiff.patch: Fix needed when using system TIFF.
+
+  * rules: install itkTestDriver.  Closes: #700723.
+
+ -- Steve M. Robbins <smr@debian.org>  Mon, 18 Mar 2013 23:12:13 -0500
+
+insighttoolkit4 (4.3.1-1) unstable; urgency=low
+
+  * New upstream.
+
+  * patches/DRtest-1.diff:
+  * patches/DRtest-2.diff: Remove.  Applied upstream.
+
+  * patches/bsd-hdf5.patch: Fix test to use "STREQUAL".
+
+ -- Steve M. Robbins <smr@debian.org>  Mon, 31 Dec 2012 01:34:50 -0600
+
+insighttoolkit4 (4.2.1-2) unstable; urgency=low
+
+  * patches/DRtest-1.diff:
+  * patches/DRtest-2.diff: New.  Fixes DigitallyReconstructedRadiograph
+    generation on i386.
+
+  * patches/bsd-hdf5.patch: New.  Workaround for #686402.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 27 Oct 2012 09:15:12 -0500
+
+insighttoolkit4 (4.2.1-1) unstable; urgency=low
+
+  * New upstream version.
+
+  * rules: Disable FFTW, due to test failures (in v4.2.0).
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 13 Oct 2012 23:07:09 -0500
+
+insighttoolkit4 (4.2.0-1) unstable; urgency=low
+
+  * New upstream version.
+    - build with gcc 4.7.
+    - set ITK_USE_REVIEW = ON.
+    - upstream tarball no longer contains directories that must be
+      deleted; remove target get-orig-source.
+
+  * patches/gcc4.7.patch:
+  * patches/tiff-big-endian.patch: Removed.  Applied upstream.
+
+ -- Steve M. Robbins <steve@sumost.ca>  Sat, 25 Aug 2012 00:14:06 -0500
+
+insighttoolkit4 (4.1.0-2) experimental; urgency=low
+
+  * control.in: Dev package conflicts with libinsighttoolkit3-dev.
+    Closes: #670609.
+
+  * patches/tiff-big-endian.patch: New.  Fix build failure on big-endian
+    machines.
+
+  * patches/gcc4.7.patch: New.  Fixes for gcc 4.7 issues.
+
+  * rules: Do not use system fftw.
+
+  * control.in:
+  * rules: Build using gcc 4.6.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 09 Jun 2012 23:12:22 -0500
+
+insighttoolkit4 (4.1.0-1) experimental; urgency=low
+
+  * New upstream release.
+    patches/gzgetc.patch: Remove.  Applied upstream.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 03 Mar 2012 20:31:43 -0600
+
+insighttoolkit4 (4.0.0-1) experimental; urgency=low
+
+  * New upstream, major release.  Removed all patches.
+
+  * rules: Reworked CMAKE_FLAGS from scratch.  Update for new install
+    practice: libs in /usr/lib, includes in /usr/include/ITK-4.0.
+
+  * patches/gzgetc.patch: New.  Fix to build with zlib where gzgetc is a
+    macro.
+
+ -- Steve M. Robbins <smr@debian.org>  Thu, 26 Jan 2012 20:42:39 -0600
+
+insighttoolkit (3.20.1-2) unstable; urgency=low
+
+  [ Mathieu Malaterre ]
+
+  * rules: Use system installed VXL
+  * control.in: Add myself as uploader.
+
+  [ Steve M. Robbins ]
+
+  * control.in: -dev package depends on libgdcm2-dev.  Closes: #587589
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 21 Jan 2012 12:23:58 -0600
+
+insighttoolkit (3.20.1-1) unstable; urgency=low
+
+  * New upstream.
+    - patches/metaio-test-vtk_source.patch:
+    - patches/ptrdiff.patch: Remove.  Applied upstream.
+
+ -- Steve M. Robbins <smr@debian.org>  Thu, 27 Oct 2011 22:24:59 -0500
+
+insighttoolkit (3.20.0-17) unstable; urgency=low
+
+  * rules: Make example files permission fix conditional on installing
+    $(pkg_examples).
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 17 Sep 2011 22:21:18 -0500
+
+insighttoolkit (3.20.0-16) unstable; urgency=low
+
+  * Remove language wrappings.  New source packages, one per wrapped
+    language will be introduced to build the wrappings.
+  * Build in Release mode for full -O3 optimization.
+  * Build in parallel.
+  * Use debhelper instead of cdbs.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 17 Sep 2011 12:31:22 -0500
+
+insighttoolkit (3.20.0-15) unstable; urgency=low
+
+  * control.in: Restore build-dependency on libtiff4-dev (fails to
+  build with libtiff5).
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 11 Sep 2011 18:02:04 -0500
+
+insighttoolkit (3.20.0-14) experimental; urgency=low
+
+  * control.in:
+  * rules: Follow upstream to install python wrapping into
+    /usr/lib/InsightToolkit, with WrapITK.pth in dist-packages.  Switch to
+    dh_python2.
+
+  * rules: Change build type from RELEASE to RelWithDebInfo.  This reduces
+    optimization from -O3 to -O2 which should help with excessive memory
+    usage during build (see #640667).
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 10 Sep 2011 14:45:13 -0500
+
+insighttoolkit (3.20.0-13) unstable; urgency=low
+
+  * Remove absolute paths to required libraries from
+    /usr/lib/InsightToolkit/ITKLibraryDepends.cmake after building,
+    closes: #635300.  Due to the multiarch transition, the original
+    behavior frequently causes reverse build-deps to FTBFS.  This change
+    should probably be reverted once all required libraries are
+    multiarched.
+
+ -- Michael Schutte <michi@debian.org>  Tue, 16 Aug 2011 20:52:58 +0200
+
+insighttoolkit (3.20.0-12) unstable; urgency=low
+
+  * patches/itkImageToImageFilterC.patch: Remove.
+  * patches/wrap-iifilter-split.patch: New; replaces above patch.  Split
+    itkImageToImageFilterB into 3 files, introducing FilterC and FilterD.
+
+ -- Steve M. Robbins <smr@debian.org>  Fri, 12 Aug 2011 20:08:27 -0500
+
+insighttoolkit (3.20.0-11) unstable; urgency=low
+
+  * control: Build-depend on newer gccxml that removes "inline namespace"
+    from c++config.h.  Closes: #632582.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 24 Jul 2011 00:16:22 -0500
+
+insighttoolkit (3.20.0-10) unstable; urgency=low
+
+  * patches/ptrdiff.patch.  New.  Include <stddef.h> to ensure ptrdiff_t
+    is defined.  Closes: #625077, #624941, #625090.
+
+  * rules: Enable optimized registration methods and transform IO
+    factories.  Closes: #614519.
+
+  * patches/tcl-install.patch: Set WRAP_ITK_PACKAGE_DIR to /usr/lib.
+    Closes: #618736.
+
+  * control: Build-depend on newer gccxml.
+
+ -- Steve M. Robbins <smr@debian.org>  Fri, 06 May 2011 01:31:04 -0500
+
+insighttoolkit (3.20.0-9) unstable; urgency=low
+
+  * control: Build-depend on newer gccxml and cableswig.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 06 Mar 2011 15:11:09 -0600
+
+insighttoolkit (3.20.0-8) unstable; urgency=low
+
+  * rules: Remove parallel build.
+
+ -- Steve M. Robbins <smr@debian.org>  Wed, 16 Feb 2011 00:44:55 -0600
+
+insighttoolkit (3.20.0-7) unstable; urgency=low
+
+  * patches/itkImageToImageFilterC.patch: New.  Split the
+    ImageToImageFilter into smaller modules to avoid compiler table
+    overflow (build failure).
+
+  * rules: Try parallel build again.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 12 Feb 2011 20:04:44 -0600
+
+insighttoolkit (3.20.0-6) unstable; urgency=low
+
+  [Paul Novotny]
+  * control:
+  * rules:
+  * patches/wrapitk-externalprojects.patch: New.  Add two External
+    Projects to the WrapITK build. PyBuffer provides easy interoperability
+    with numpy. ItkVtkGlue makes it easy to convert from and to VTK.
+
+  * rules: Turn off wrapping 4D images, fix wrap setting misspellings.
+
+  * patches/add-registration-optimizers.patch: New.  Add a couple new
+    registration optimizers, including LBFGSBOptimizer used for B-spline
+    3D registration.  Add a few array types to use the optimizers
+    correctly.
+
+  [Steve Robbins]
+  * control: Add build-deps on libvtk5-dev, python-vtk for ItkVtkGlue.
+    Remove unnecessary build-deps libjpeg62-dev, libtiff4-dev,
+    libfreetype6-dev, libopenjpeg-dev, graphviz, libxext-dev, libxss-dev,
+    libxft-dev, libpoppler-dev, libssl-dev.  Closes: #608394.
+
+ -- Steve M. Robbins <smr@debian.org>  Mon, 07 Feb 2011 01:35:06 -0600
+
+insighttoolkit (3.20.0-5) experimental; urgency=low
+
+  * patches/wrapitk.patch: New.  Use ITK_LIBRARY_PROPERTIES to properly
+    version libSwigRuntime{Python,Java,Tcl} and the Tcl shared libs (which
+    are installed in /usr/lib).
+
+  * rules: Install libSwigJava into /usr/lib.
+
+ -- Steve M. Robbins <smr@debian.org>  Wed, 22 Dec 2010 23:32:20 -0600
+
+insighttoolkit (3.20.0-4) experimental; urgency=low
+
+  * rules: Really remove parallel build (don't set DEB_BUILD_PARALLEL).
+
+  * insighttoolkit_3.20.0.orig-review.tar.bz2: New.  Contains contents of
+    upstream "Code/Review" directory, heretofore removed from the .orig
+    tarball.
+  * rules: Build using Review and Review/Statistics.
+
+  * rules: Switch from CSWIG wrapping to WrapITK wrapping for java,
+    python, and tcl.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 19 Dec 2010 22:47:03 -0600
+
+insighttoolkit (3.20.0-3) experimental; urgency=low
+
+  * rules: Remove parallel build; still broken with cswig wrapping.  See
+    https://buildd.debian.org/fetch.cgi?pkg=insighttoolkit;ver=3.20.0-1;arch=i386;stamp=1288336939
+
+  * control: Bump Standards-Version to 3.9.1.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 30 Oct 2010 22:34:32 -0500
+
+insighttoolkit (3.20.0-2) experimental; urgency=low
+
+  * Switch to source package 3.0 (quilt) format.
+
+  * rules: Embed SOVERSION in valgrind suppression files to avoid file
+    conflicts on upgrade to new versions of insighttoolkit.  Closes:
+    #600867.  Merge from branches/3.18.0
+
+  * patches/metaio-test-vtk_source.patch: New.  Upstream fix for build
+    error (thanks, Mathieu Malaterre).  Closes: #600677.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 30 Oct 2010 16:55:30 -0500
+
+insighttoolkit (3.20.0-1) experimental; urgency=low
+
+  * New upstream.
+    - patches/itkTkImageViewer2D.patch: Remove.  Applied upstream.
+    - patches/nifti-memleak.patch: Remove.  Applied upstream.
+
+  * control.in: Adjust gccxml version dependency to match what used to be
+    in control.
+
+  * rules: Set version variables to 3.20.
+  * control: Re-generate for libinsighttoolkit3.20.
+
+  * patches/gccxml-workaround.patch: Remove.  Workaround no longer
+    required as gccxml was fixed as of 2008-06-02.
+
+  * rules: Use "make install/fast" to avoid a rebuild at install time.
+    Closes: #587184.
+
+  * rules: Enable parallel building (fixed upstream in May).  Closes:
+    #578313.
+
+ -- Steve M. Robbins <smr@debian.org>  Wed, 18 Aug 2010 22:03:06 -0500
+
+insighttoolkit (3.18.0-4) unstable; urgency=low
+
+  * rules: Use cmake.mk instead of makefile.mk; drop common-configure-arch
+    rule.
+
+  * CMakeCache.txt.debian: Remove.
+  * rules: Move contents of CMakeCache.txt.debian into rules as "-D"
+    options to cmake.
+
+  * patches/nifti-memleak.patch: New.  Fix memory leak in itkNiftiImageIO.
+    Closes: #587200.
+
+  * rules: install InsightValgrind.supp and InsightVxlValgrind.supp.
+    Closes: #586928.
+
+ -- Steve M. Robbins <smr@debian.org>  Fri, 30 Jul 2010 23:42:36 -0500
+
+insighttoolkit (3.18.0-3) unstable; urgency=low
+
+  * patches/hppa-complex-long-double.patch: New (thanks, Denis
+    Barbier). Remove conditional that prevented building long double
+    datastructures on HPPA.  Closes: #558998.
+
+  * patches/remove-cmake-export-build-settings.patch: New.  Remove
+    deprecated CMAKE_EXPORT_BUILD_SETTINGS from CMakeLists.txt.  Closes:
+    #580816.
+
+ -- Steve M. Robbins <smr@debian.org>  Wed, 09 Jun 2010 22:40:32 -0500
+
+insighttoolkit (3.18.0-2) unstable; urgency=low
+
+  * control.in: Remove version restriction (>= 1.6) from default-jdk.
+    Closes: #580527.
+
+ -- Steve M. Robbins <smr@debian.org>  Fri, 07 May 2010 02:35:03 -0500
+
+insighttoolkit (3.18.0-1) unstable; urgency=low
+
+  * New upstream.
+    - patches/use_system_vxl.patch: Remove, applied upstream.
+
+  * rules: Override lintian errors embedded-libjpeg and
+    embedded-libopenjpeg.  ITK has extensively modified versions of these
+    libraries, including building libjpeg in 8, 12, and 16-bit versions.
+    Need to investigate feasibility of incorporating such changes into
+    system libjpeg before removing.
+
+  * rules: Override lintian warnings postinst-has-useless-call-to-ldconfig
+    and postrm-has-useless-call-to-ldconfig for the JNI package, until bug
+    #205142 is fixed.
+
+  * copyright: Note that ITK is GPL v2, due to linking with FFTW.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 02 May 2010 11:16:41 -0500
+
+insighttoolkit (3.16.0-2) unstable; urgency=low
+
+  * Add Java bindings (thanks, Michal Suchanek).  Closes: #572132.
+    Build-depend on default-jdk and javahelper (>= 0.18 to use CDBS
+    class).
+  * patches/jni-dir.patch: New.  Load JNI from /usr/lib/jni.
+
+  * Build with Tcl version 8.5.  Closes: #572131.
+  * patches/itkTkImageViewer2D.patch: New.  Patch to build with tcl 8.5.
+
+  * control.in: New packages libinsighttoolkit3-java and
+    libinsighttoolkit3-jni.
+
+  * patches/use_system_vxl.patch: New.  Preparation for using system VXL;
+    however, presently the CMake variable ITK_USE_SYSTEM_VXL is OFF.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 11 Apr 2010 17:52:07 -0500
+
+insighttoolkit (3.16.0-1) unstable; urgency=low
+
+  * New upstream.
+    - patches/vnl-math-asm.patch:
+    - patches/sharedforward.patch:
+    - patches/pythonfiles-install.patch:
+    - patches/netlib-slatec-soname.patch: Remove.  Applied upstream.
+
+  * README.source: New.  Refer to quilt README.
+
+  * control.in: Build depend on current versions of both cableswig and
+    gccxml.
+
+  * Python-Numarray is removed from Debian.
+    - CMakeCache.txt.debian: Remove ITK_USE_PYTHON_NUMARRAY=ON.
+    - rules: Remove PYTHON_NUMARRAY_INCLUDE_DIR from CMakeCache.txt.
+    - control.in: Remove build-depend on python-numarray.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 26 Sep 2009 12:08:01 -0500
+
+insighttoolkit (3.14.0-2) unstable; urgency=low
+
+  * patches/vnl-math-asm.patch: New.  Enable assembly implementation of
+    rounding only on i386 and amd64, as it seems to be x86-specific
+    assembly code.
+
+  * control:
+  * CMakeCache.txt.debian: Build with system gdcm.
+
+ -- Steve M. Robbins <smr@debian.org>  Wed, 22 Jul 2009 01:17:32 -0500
+
+insighttoolkit (3.14.0-1) unstable; urgency=low
+
+  * New upstream.
+    - patches/netlib-slatec-soname.patch: New.  Ensure new slatec library
+      is built with a SOVERSION.
+
+  * control.in: New.  Template file to generate control using
+    "control-file" rule.
+
+  * control.in (libinsighttoolkit3-dev): Add Recommends dependency on uuid-dev.
+    Closes: #519724.  Change dependency on libfftw3-dev from Depends to
+    Recommends.
+
+  * rules: Remove parallel build, since it is broken.  Closes: #536999.
+
+  * itkwish.1: New.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 19 Jul 2009 13:01:40 -0500
+
+insighttoolkit (3.12.0-1) unstable; urgency=low
+
+  * New upstream.
+
+  * rules: Install python module and extensions into
+    /usr/lib/pythonX.Y/site-packages on advice of Josselin Mouette.
+    Closes: #516766.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 07 Mar 2009 23:04:10 -0600
+
+insighttoolkit (3.10.1-1) unstable; urgency=low
+
+  * New upstream version.
+    - patches/nifti-versioning.patch: Remove.  Applied upstream.
+    - control:
+    - rules: Update version numbers, package names.
+
+  * control: Build-depend on uuid-dev (gdcm uses it).
+
+  * copyright: Update download URL.
+
+  * rules: Adhere to parallel=N in DEB_BUILD_OPTIONS by setting MAKEFLAGS.
+
+  * compat: Set to 7.
+  * control: Update build-dep on debhelper to version >= 7.
+
+  * CMakeCache.txt.debian: Set CMAKE_BUILD_TYPE to "RELEASE" so that we
+    build with -O3 (not -O2), necessary to optimize the templated code.
+
+ -- Steve M. Robbins <smr@debian.org>  Fri, 19 Dec 2008 20:16:49 -0600
+
+insighttoolkit (3.8.0-1) unstable; urgency=low
+
+  * New upstream release.
+    - patches/gcc43.patch: Remove; incorporated upstream.
+    - control: Update Standards-Version to 3.8.0 (no changes req'd).
+
+  * rules: Add get-orig-source target.  Parameterize all version numbers.
+
+  * patches/nifti-versioning.patch: New.  Ensure all shared libraries
+    built under Utilities/nifti follow the ITK SOVERSION.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 24 Aug 2008 07:41:34 -0500
+
+insighttoolkit (3.6.0-4) UNRELEASED; urgency=low
+
+  [Steve M. Robbins]
+  * debian/patches/gcc43.patch: Include <cstring> in itkColorTable.txx and
+    itkMetaDataObject.h.  Qualify typedefs in itkAutomaticTopologyMeshSource.
+
+  * debian/control: Update dependency on debhelper to (>=6.0.7) to account
+    for use of dh_lintian.  Account for changes insighttoolkit-examples to
+    insighttoolkit3-examples, and libinsighttoolkit-dev to
+    libinsighttoolkit3-dev.
+
+  [Charles Plessy]
+  * debian/control: added `Vcs-Browser' and `Vcs-Svn' fields.
+
+ -- Steve M. Robbins <smr@debian.org>  Tue, 08 Jul 2008 23:20:16 -0500
+
+insighttoolkit (3.6.0-3) unstable; urgency=low
+
+  * debian/patches/gccxml-workaround.patch: New.  Work around gccxml issue
+    with #include_next; c.f. http://www.gccxml.org/Bug/view.php?id=7134.
+  * debian/patches/gcc43.patch: include <cstring> in itkNeighbourhood.h.
+    This only showed up in the tcl wrapping step.
+
+  * Above two entries fix FTBFS for GCC 4.3-based systems.
+    Closes: #478500.
+
+  * debian/patches/sharedforward.patch: New.  Ensure that linux/sparc
+    systems are not also configured as a SUN sparc system, which requires
+    SUN header sys/isa_defs.h.  Closes: #478940, #483312.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 31 May 2008 12:07:29 -0500
+
+insighttoolkit (3.6.0-2) unstable; urgency=low
+
+  * debian/patches/pythonfiles-install.patch: New.  Remove argument
+    "COMPONENTS" from FILE(INSTALL command that cmake 2.6 has started
+    complaining about.  There seems to be no ill effects as the python
+    files are still installed properly.
+
+  * debian/control: Add versioned build-dep for gccxml, to ensure version
+    with support for gcc 4.3 builtins.
+
+ -- Steve M. Robbins <smr@debian.org>  Mon, 26 May 2008 00:25:21 -0500
+
+insighttoolkit (3.6.0-1) unstable; urgency=low
+
+  * New upstream.
+
+  * debian/control:
+  * debian/rules: Add major version ('3') to all package names,
+    in order to support two major versions in the Debian archive.
+
+  * debian/control:
+  * debian/rules:
+  * debian/CMakeCache.txt.debian: New package tcl8.4-insighttoolkit3 for
+    Tcl bindings.
+  * debian/patches/tcl-install.patch: New.  Patch pkgIndex.tcl to search
+    for extension modules (shared libs) in /usr/lib.
+  * debian/patches/series: Add above.
+
+ -- Steve M. Robbins <smr@debian.org>  Fri, 16 May 2008 01:01:16 -0500
+
+insighttoolkit (3.4.0-4) unstable; urgency=low
+
+  * rules:
+  * control:
+  * patches/series: Switch from simple patchsys to quilt.
+
+  * patches/gcc43.patch: New.  Fix GCC 4.3 build errors.  Closes: #474537.
+
+  * rules: Install libSwigPythonRuntime.so.  Closes: #476632.
+
+ -- Steve M. Robbins <smr@debian.org>  Fri, 25 Apr 2008 20:07:00 -0500
+
+insighttoolkit (3.4.0-3) unstable; urgency=low
+
+  * CMakeCache.txt.debian: Set ITK_USE_PYTHON_NUMARRAY=ON.
+  * rules: Add PYTHON_NUMARRAY_INCLUDE_DIR to CMakeCache.txt.
+  * control: Build-depend on python-numarray.
+
+  * CMakeCache.txt.debian: Set USE_FFTWD=ON and USE_FFTWF=ON.
+  * control: Add libfftw3-dev to Build-deps and -dev deps.
+
+  * debian/libinsighttoolkit3.4.lintian-overrides:
+  * debian/python-insighttoolkit.lintian-overrides: New.  Override
+    package-name-doesnt-match-sonames.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 05 Apr 2008 09:36:46 -0500
+
+insighttoolkit (3.4.0-2) unstable; urgency=low
+
+  [ Steve M. Robbins ]
+  * control: Remove the homepage url from each package description.
+
+  * control: New build-depends on cdbs version (for python-support),
+    cableswig, python-support, and python-dev.  New package
+    python-insighttoolkit.
+  * rules: Add PYTHON_EXECUTABLE, PYTHON_INCLUDE_PATH, and PYTHON_LIBRARY
+    to generated CMakeCache.txt.  New rule install/python-insighttoolkit.
+  * CMakeCache.txt.debian: Enable ITK_CSWIG_PYTHON.
+
+  * insightoolkit.1: Rename to insightoolkit.3.
+  * rules: Adjust accordingly.
+
+  * control (libinsighttoolkit-dev): Change section from lib to libdevel.
+    Change libinsighttoolkit3.4 dependency version from obsolete
+    ${Source-Version} to ${binary:Version}.
+
+  [ David Paleino ]
+  * debian/control:
+    - Standards-Version bumped to 3.7.3
+  * debian/watch added
+
+ -- Steve M. Robbins <smr@debian.org>  Tue, 12 Feb 2008 21:17:27 -0600
+
+insighttoolkit (3.4.0-1) unstable; urgency=low
+
+  * New upstream version.
+    - Obsoletes patches: 01_itkPowellOptimizer.patch,
+    02_itkAnalyzeDbh.patch, 04_ITKConfig.patch,
+    05_itkIncludeDirectories.patch
+
+  * control: Change maintainer to team mailing list.  Add homepage.
+
+  * control:
+  * rules: Rename shared library package from libinsighttoolkit3.0 to
+    libinsighttoolkit3.4.
+
+  * CMakeCache.txt.debian: Enable concept checking.
+
+ -- Steve M. Robbins <smr@debian.org>  Thu, 03 Jan 2008 01:21:55 -0600
+
+insighttoolkit (3.2.0-2) unstable; urgency=low
+
+  * debian/patches/04_ITKConfig.patch: Don't export ITK_SOURCE_DIR.
+    Closes: #424132.
+
+  * debian/patches/05_itkIncludeDirectories.patch: Correct include path
+    for gdcm.  Closes: #424134.
+
+ -- Steve M. Robbins <smr@debian.org>  Wed, 13 Jun 2007 00:59:13 -0500
+
+insighttoolkit (3.2.0-1) unstable; urgency=low
+
+  * Initial upload.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 29 Apr 2007 20:19:27 -0500

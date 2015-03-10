@@ -23,6 +23,14 @@ ifndef PKGVERSION
     PKGVERSION=1
 endif
 
+ifeq ($(DIST),$(filter $(DIST), saucy trusty utopic))
+    PYTHON_HELPER_PKG = dh-python
+    PYTHON_HELPER_VER = 1.20131003
+else
+    PYTHON_HELPER_PKG = python-central
+    PYTHON_HELPER_VER = 0.6.11
+endif
+
 OTB_VERSION_MAJOR  = $(shell sed -ne 's/set(OTB_VERSION_MAJOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
 OTB_VERSION_MINOR  = $(shell sed -ne 's/set(OTB_VERSION_MINOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
 OTB_VERSION_PATCH  = $(shell sed -ne 's/set(OTB_VERSION_PATCH "\([0-9]*\)")/\1/p' CMakeLists.txt)
@@ -64,6 +72,8 @@ control-file:
 	    -e "s/@OTB_VERSION_PATCH@/$(OTB_VERSION_PATCH)/g" \
 	    -e "s/@OTB_VERSION_SONAME@/$(OTB_VERSION_SONAME)/g" \
 	    -e "s/@OTB_VERSION_FULL@/$(OTB_VERSION_FULL)/g" \
+	    -e "s/@PYTHON_HELPER_PKG@/$(PYTHON_HELPER_PKG)/g" \
+	    -e "s/@PYTHON_HELPER_VER@/$(PYTHON_HELPER_VER)/g" \
 	    < debian/control.in > debian/control
 
 changelog-file:

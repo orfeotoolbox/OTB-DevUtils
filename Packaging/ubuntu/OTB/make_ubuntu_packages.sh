@@ -67,13 +67,20 @@ Options:
 
   -d directory  Top directory of the local repository clone
 
-  -r tag        Revision to extract.
+  -r tag        Revision to extract ('tip', rev. number, tag name). By default,
+                the last tagged version (after tip) is used.
 
-  -o version    External version of the OTB library (ex. 3.8.0)
+  -o version    External version of the OTB library (ex. 3.8.0). By default,
+                the last version in changelog.in is used
 
-  -p version    Version of the package (ex. 2)
+  -p version    Version of the package (ex. 2). Default is 1.
 
   -c message    Changelog message
+
+  -a archive    Use a source archive ('orig') instead of a local repository
+                (-d) and a revision (-r). It can be used in case a previous
+                version of the package is already on the ppa. The source
+                archive won't be uploaded again.
 
   -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
 
@@ -109,16 +116,16 @@ check_src_top_dir ()
 
 check_src_revision ()
 {
-    if [ -z "$revision" ] ; then
-        echo "*** ERROR: missing revision identifier of the repository (option -r)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
-    fi
     olddir=$(pwd)
     cd "$topdir"
-    if ! hg log -r "$revision" &>/dev/null ; then
+    if [ -z "$revision" ] ; then
+        revision=`hg tags | head -n 2 | tail -n 1 | awk '{print $1}'`
+        echo "Using last tagged revision : $revision"
+    else
+      if ! hg log -r "$revision" &>/dev/null ; then
         echo "*** ERROR: Revision $revision unknown"
         exit 2
+      fi
     fi
     cd "$olddir"
 }
@@ -126,27 +133,42 @@ check_src_revision ()
 
 check_external_version ()
 {
-    # If OTB version is not given on command line, this script parse the top
-    # level CMakeLists.txt file to find it.
-    if [ -n "$otb_version_full" ] ; then
-        if [ "$(echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/')" != "OK" ] ; then
-            echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
-            exit 3
-        fi
-        otb_version_major=$(echo $otb_version_full | sed -e 's/^\([0-9]\+\)\..*$/\1/')
-        otb_version_minor=$(echo $otb_version_full | sed -e 's/^[^\.]\+\.\([0-9]\+\)[\.-].*$/\1/')
-        otb_version_patch=$(echo $otb_version_full | sed -e 's/^.*[\.-]\(\(RC\)\?[0-9]\+\)$/\1/')
-    else
-        otb_version_major=$(sed -n -e 's/SET(OTB_VERSION_MAJOR "\([0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
-        otb_version_minor=$(sed -n -e 's/SET(OTB_VERSION_MINOR "\([0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
-        otb_version_patch=$(sed -n -e 's/SET(OTB_VERSION_PATCH "\(\(RC\)\?[0-9]\+\)")/\1/p' $topdir/CMakeLists.txt)
-        if [ "${otb_version_patch:0:2}" == "RC" ] ; then
-            otb_version_full=${otb_version_major}.${otb_version_minor}-${otb_version_patch}
-        else
-            otb_version_full=${otb_version_major}.${otb_version_minor}.${otb_version_patch}
-        fi
+    # If OTB version is not given on command line, the head version in
+    # changelog.in file is used.
+    if [ -z "$otb_version_full" ] ; then
+        otb_version_full=$changelog_version
+        echo "Using last version in changelog.in : $otb_version_full"
     fi
+    if [ "$(echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/')" != "OK" ] ; then
+        echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
+        exit 3
+    fi
+    otb_version_major=$(echo $otb_version_full | sed -e 's/^\([0-9]\+\)\..*$/\1/')
+    otb_version_minor=$(echo $otb_version_full | sed -e 's/^[^\.]\+\.\([0-9]\+\)[\.-].*$/\1/')
+    otb_version_patch=$(echo $otb_version_full | sed -e 's/^.*[\.-]\(\(RC\)\?[0-9]\+\)$/\1/')
     otb_version_soname="${otb_version_major}.${otb_version_minor}"
+}
+
+
+check_src_archive ()
+{
+    if [ ! -f "$source_archive" ] ; then
+        echo "*** ERROR: archive '$source_archive' doesn't exist"
+        exit 2
+    fi
+    extract_cmd="tar -xf"
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.gz$')" ] ; then
+      extract_cmd="tar -xzf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tgz$')" ] ; then
+      extract_cmd="tar -xzf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.xz$')" ] ; then
+      extract_cmd="tar -xJf"
+    fi
+    if [ -n "$(echo "${source_archive}" | grep -E -e '\.tar\.bz2$')" ] ; then
+      extract_cmd="tar -xjf"
+    fi
 }
 
 
@@ -193,8 +215,12 @@ set_ubuntu_code_name ()
     esac
 }
 
+pkg_version=1
+# -sa : force original source inclusion
+# -sd : force original source exclusion, only produce diff
+include_src_option="-sa"
 
-while getopts ":r:d:o:p:c:g:hv" option
+while getopts ":r:d:o:p:c:g:a:hv" option
 do
     case $option in
         d ) topdir=$OPTARG
@@ -208,6 +234,9 @@ do
         c ) changelog_message=$OPTARG
             ;;
         g ) gpgkeyid=$OPTARG
+            ;;
+        a ) source_archive=$OPTARG
+            include_src_option="-sd"
             ;;
         v ) display_version
             exit 0
@@ -227,47 +256,75 @@ if [ "$OPTIND" -eq 1 ] ; then
     exit 1
 fi
 
+# find last version in changelog.in
+changelog_version=`grep -E -e 'otb \(.+-.+\)' "$DEBDIR/changelog.in" | head -n 1 | cut -d '(' -f 2 | cut -d '-' -f 1`
+
 echo "Command line checking..."
-check_src_top_dir
-check_src_revision
+if [ -n "$source_archive" ] ; then
+  echo "Using source archive"
+  check_src_archive
+else
+  echo "Using local repository"
+  check_src_top_dir
+  check_src_revision
+fi
+
 check_external_version
 check_gpgkeyid
 
-echo "Archive export..."
-cd "$topdir"
-hg archive -r "$revision" -t tgz -p "otb-$otb_version_full" "$TMPDIR/otb_${otb_version_full}.orig.tar.gz"
+if [ -n "$source_archive" ] ; then
+  echo "Archive extraction..."
+  cp "$source_archive" "$TMPDIR"
+  cd "$TMPDIR"
+  $extract_cmd `basename "$source_archive"`
+else
+  echo "Archive export..."
+  cd "$topdir"
+  hg archive -r "$revision" -t tgz -p "otb-$otb_version_full" "$TMPDIR/otb_${otb_version_full}.orig.tar.gz"
 
-echo "Archive extraction..."
-cd "$TMPDIR"
-tar xzf "otb_${otb_version_full}.orig.tar.gz"
+  echo "Archive extraction..."
+  cd "$TMPDIR"
+  tar xzf "otb_${otb_version_full}.orig.tar.gz"
+fi
 
 echo "Debian scripts import..."
 cd "$TMPDIR/otb-${otb_version_full}"
 cp -a "$DEBDIR" debian
-cd debian
-sed -e "s/@OTB_VERSION_SONAME@/${otb_version_soname}/g" < control.in > control
-rm -f control.in
 
 echo "Source package generation..."
-cd "$TMPDIR/otb-${otb_version_full}"
 first_pkg=1
-for target in precise quantal saucy trusty ; do
+for target in precise trusty ; do
     set_ubuntu_code_name "$target"
-    echo "Package for $ubuntu_codename ($ubuntu_version)"
-    cp -f "$DEBDIR/changelog" debian
+    echo "Configure scripts for $ubuntu_codename"
+    cp -f "$DEBDIR/control.in" ./debian
+    cp -f "$DEBDIR/changelog.in" ./debian
+    make -f debian/rules control-file DIST=$target
+    make -f debian/rules changelog-file DIST=$target PKGVERSION=$pkg_version
+    rm -f debian/control.in
+    rm -f debian/changelog.in
+
     if [ -n "$changelog_message" ] ; then
         dch_message="$changelog_message"
+        dch --force-distribution --distribution "$target" \
+          -v "${otb_version_full}-1otb~${target}${pkg_version}" "$dch_message"
     else
-        dch_message="Automated update for $ubuntu_codename ($ubuntu_version)."
+        if [ "${otb_version_full}" != "${changelog_version}" ] ; then
+           echo "*** ERROR: changelog version (${changelog_version}) differs from external version (${otb_version_full})"
+           echo "*** Use option (-c) to overide the changelog message and version"
+           exit 1
+        fi
     fi
-    dch --force-distribution --distribution "$target" \
-        -v "${otb_version_full}-1otb~${target}${pkg_version}" "$dch_message"
+
+    echo "Package for $ubuntu_codename ($ubuntu_version)"
+    debuild -k$gpgkeyid -S $include_src_option --lintian-opts -i
+
     if [ $first_pkg -eq 1 ] ; then
-        debuild -k$gpgkeyid -S -sa --lintian-opts -i
         first_pkg=0
-    else
-        debuild -k$gpgkeyid -S --lintian-opts -i
+        if [ "$include_src_option" = "-sa" ] ; then
+          include_src_option=""
+        fi
     fi
+
     echo "OTB source package for Ubuntu $ubuntu_codename is available in $TMPDIR"
     echo "You might want to run 'cp \"$TMPDIR/otb-${otb_version_full}/debian/changelog\" \"$DEBDIR/changelog\"' and commit"
 done

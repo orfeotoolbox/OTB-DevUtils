@@ -1,0 +1,9 @@
+insighttoolkit (3.20.0-4) experimental; urgency=low
+
+  Language bindings for java, python, and tcl now use the new-style
+    "WrapITK" method rather than the venerable "cswig" wrapping.  WrapITK
+    has a number of advantages over cswig, as described in the paper
+    http://hdl.handle.net/1926/188; however, this is a breaking change
+    for all code using these languages.
+
+ -- Steve M. Robbins <smr@debian.org>  Sat, 06 Nov 2010 14:38:04 -0500

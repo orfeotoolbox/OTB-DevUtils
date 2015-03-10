@@ -48,15 +48,10 @@ BuildRequires:  python-base
 BuildRequires:  fdupes 
 BuildRequires:  libOpenThreads-devel 
 BuildRequires:  boost-devel
-BuildRequires:	curl 
+BuildRequires:	libcurl-devel 
 BuildRequires:  libqt4-devel 
 BuildRequires:  fftw3-devel
 BuildRequires:	fltk-devel
-Requires:       gdal 
-Requires:       expat 
-Requires:       libgdal1 
-Requires:       libgeotiff 
-Requires:       libpng 
 Requires:       python
 
 
@@ -67,16 +62,17 @@ The %{name} is a library of image processing algorithms developed by CNES in the
 Summary:        Development files for %{name}
 Group:          Development/Libraries
 Requires:       %{name} = %{version}
-Requires: 	cmake 
+Requires:       cmake 
 Requires:       gcc-c++ 
 Requires:       gcc 
 Requires:       freeglut-devel 
 Requires:       libgeotiff-devel 
 Requires:       libgdal-devel
-Requires:       libpng-devel 
+Requires:       libpng-devel
 Requires:       boost-devel 
 Requires:       fftw3-devel
-Requires:	fltk-devel
+Requires:       fltk-devel
+Requires:       libcurl-devel
 
 %description    devel
 Development files for the %{name} library. The %{name} is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program
@@ -84,6 +80,7 @@ Development files for the %{name} library. The %{name} is a library of image pro
 
 %prep
 %setup -q
+
 
 %build
 cd ..

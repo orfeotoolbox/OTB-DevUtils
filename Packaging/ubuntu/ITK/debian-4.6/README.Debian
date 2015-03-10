@@ -1,0 +1,119 @@
+                                                             .. -*- rst -*-
+
+======================================================================
+The Insight Segmentation and Registration Toolkit for Debian GNU/Linux
+======================================================================
+
+
+The Insight Toolkit (ITK) homepage is at:
+
+    http://www.itk.org/
+
+
+
+Examples Package
+----------------
+
+The ``insighttoolkit-examples`` package contains a set of C++ samples that
+illustrate how to use various aspects of the toolkit.  The source is located
+in ``/usr/share/doc/insighttoolkit-examples/src``.  The examples come from
+the *ITK Software Guide*.
+
+To build the examples:
+
+1. Create a working directory; e.g. in your home directory::
+
+    % mkdir ~/itk-examples
+    % cd ~/itk-examples
+
+2. Copy and uncompress the sources::
+
+    % cp -a /usr/share/doc/insighttoolkit-examples/examples/* .
+    % find . -name '*.gz' | xargs gunzip
+
+3. Run ``cmake`` in source directory::
+
+    % cmake .
+
+4. Run ``make`` and go make some coffee::
+
+    % make
+
+5. Run the examples, examine the code, read the book, enjoy coffee
+
+The examples should be read in conjunction with the *ITK Developers Guide*.
+The -apps package has some more sophisticated examples, including demos of
+how to integrate ITK with a GUI and 2D/3D visualisation.
+
+
+Related Packages
+~~~~~~~~~~~~~~~~
+
+The Insight Toolkit is normally used in conjunction with other packages
+that provide a GUI, visualisation, and other facilities.
+
+
+  * Graphical User Interface Toolkits
+
+      - FLTK (``libfltk1.1``) : http://www.fltk.org/
+      - GTK+ (``libgtk2``) : http://www.gtk.org/
+      - wxWindows (``libwxgtk2.2``) : http://www.wxwindows.org/
+
+  * Visualisation
+
+      - The Visualisation Toolkit (``libvtk4``) : http://www.vtk.org/
+
+
+Resources
+~~~~~~~~~
+
+The official ITK website is http://www.itk.org/ where other information
+relating to ITK is provided.
+
+From here you can join the mailing list:
+
+  insight-users@www.itk.org
+  http://www.itk.org/mailman/listinfo/insight-users
+
+
+Development
+~~~~~~~~~~~
+
+It is strongly recommended that you use CMake for building ITK applications.
+It greatly simplifies the task of writing Makefiles, and avoids complications
+of compiler settings, paths, and so on.  It is provided in the package
+``cmake``.
+
+When building with CMake, ``ITK_DIR`` should be detected automatically.
+``ITK_DIR`` is still the same as the default ``/usr/lib/InsightToolkit``.
+
+You can add the following code to your CMakeLists.txt file::
+
+    FIND_PACKAGE(ITK)
+    IF(ITK_FOUND)
+      INCLUDE(${ITK_USE_FILE})
+    ELSE(ITK_FOUND)
+      MESSAGE(FATAL_ERROR "Cannot build without ITK.  Please set ITK_DIR.")
+    ENDIF(ITK_FOUND)
+
+
+Valgrind
+~~~~~~~~
+
+To facilitate using valgrind with ITK-using packages, two valgrind
+suppression files are shipped with the library package.  To avoid
+conflicts, these files have been renamed.
+
+    CMake/InsightValgrind.supp becomes Insight$(SOVERSION)Valgrind.supp
+    Utilities/vxl/config/valgrind.supp becomes Insight$(SOVERSION)VxlValgrind.supp
+
+Both may be found in /usr/lib/valgrind.
+
+
+
+.. This document is written in reStructuredText, and can be processed
+   to generate HTML, LaTeX and other rich output formats.  See the
+   http://docutils.sourceforge.net/ project for more information.
+
+
+ -- Steve M. Robbins <smr@debian.org>  Thu, 21 Oct 2010 03:55:00 -0500

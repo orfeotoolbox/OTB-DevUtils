@@ -1,5 +1,3 @@
-SET (ENV{DISPLAY} ":0.0")
-
 SET (CTEST_SOURCE_DIRECTORY  "$ENV{HOME}/Dashboard/src/OTB-Applications")
 SET (CTEST_BINARY_DIRECTORY  "$ENV{HOME}/Dashboard/build/OTB-Applications")
 SET (CTEST_INSTALL_DIRECTORY "$ENV{HOME}/Dashboard/install/OTB-Applications")
@@ -8,7 +6,7 @@ SET( CTEST_CMAKE_GENERATOR     "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND       "cmake" )
 SET (CTEST_BUILD_COMMAND       "/usr/bin/make -j10 -i -k install" )
 SET (CTEST_SITE                "hulk.c-s.fr" )
-SET (CTEST_BUILD_NAME          "Ubuntu10.04-64bits-Release")
+SET (CTEST_BUILD_NAME          "Ubuntu14.04-64bits-Release")
 SET (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_HG_COMMAND          "/usr/bin/hg")
 SET (CTEST_HG_UPDATE_OPTIONS   "-C")
@@ -32,7 +30,7 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB
-OpenCV_DIR:PATH=/home/otbval/tools/install/opencv-2.4.5/share/OpenCV
+OpenCV_DIR:PATH=/usr/share/OpenCV
 
 ")
 
