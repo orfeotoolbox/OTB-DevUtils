@@ -39,7 +39,7 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 ITK_DIR:PATH=/home/otbval/Dashboard/experimental/install/ITK-4.5.0
 
 # OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build
-OTB_DIR:PATH=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/lib/cmake/OTB-4.5
+OTB_DIR:PATH=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install/lib/cmake/OTB-4.5
 
 BUILD_TESTING:BOOL=ON
 
