@@ -25,25 +25,24 @@ set (ICE_INSTALL_PREFIX "$ENV{HOME}/dev/install/Ice")
 set (ICE_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
-CTEST_USE_LAUNCHERS:BOOL=ON
+# CTEST_USE_LAUNCHERS:BOOL=ON
 
 CMAKE_C_FLAGS:STRING=-Wall
 CMAKE_CXX_FLAGS:STRING=-Wall
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
+# ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
+ITK_DIR:PATH=/home/otbval/Dashboard/experimental/install/ITK-4.5.0
 
 # OTB_DIR:STRING=/home/otbval/Dashboard/nightly/OTB-Release/install/lib/otb
-# OTB_DIR:STRING=~/dev/install/OTB-stable/lib/otb
-OTB_DIR:STRING=~/dev/install/OTB/lib/otb
+# OTB_DIR:STRING=$ENV{HOME}/dev/install/OTB-stable/lib/otb
+# OTB_DIR:STRING=$ENV{HOME}/dev/install/OTB/lib/otb
+OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-4.5
 # OTB_DIR:STRING=~/dev/build/OTB/bin
 
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=${ICE_INSTALL_PREFIX}
-
-# MERGE_TS:BOOL=OFF
-# GENERATE_SQL:BOOL=ON
 
 # GLFW_INCLUDE_DIR=/home/salbert/local/include
 # GLFW_LIBRARY=/home/salbert/local/lib/libglfw3.so

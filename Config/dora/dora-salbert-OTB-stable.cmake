@@ -4,8 +4,9 @@ set (ENV{LANG} "C")
 set (CHANGESET_3_18_1 "296c1e1532fd")
 set (CHANGESET_3_20_0 "3e7a91d3fbe5")
 set (CHANGESET_4_0_0  "8c14c4efeaec")
+set (CHANGESET_4_4_0  "baf740ee2113")
 
-set (CHANGESET ${CHANGESET_4_0_0})
+set (CHANGESET ${CHANGESET_4_4_0})
 set (VERSION "4.0.0")
 
 set (CTEST_BUILD_CONFIGURATION "Debug")
@@ -56,7 +57,8 @@ OTB_USE_EXTERNAL_BOOST:BOOL=ON
 OTB_USE_EXTERNAL_FLTK:BOOL=OFF
 OTB_USE_EXTERNAL_ITK:BOOK=ON
 
-ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
+# ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
+ITK_DIR:PATH=/home/otbval/Dashboard/experimental/install/ITK-4.5.0
 #FLTK_DIR:PATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.9
 
 USE_FFTWD:BOOL=OFF

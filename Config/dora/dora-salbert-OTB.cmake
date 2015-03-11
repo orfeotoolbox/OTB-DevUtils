@@ -32,28 +32,30 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
 BUILD_TESTING:BOOL=OFF
 BUILD_EXAMPLES:BOOL=OFF
-BUILD_APPLICATIONS:BOOL=ON
+#OTB-5# BUILD_APPLICATIONS:BOOL=ON
 
-OTB_WRAP_QT:BOOL=ON
+#OTB-5# OTB_WRAP_QT:BOOL=ON
+OTB_USE_QT4:BOOL=ON
 OTB_USE_CURL:BOOL=ON
-OTB_USE_PQXX:BOOL=OFF
-# ITK_USE_PATENTED:BOOL=ON
-#OTB_USE_PATENTED:BOOL=ON
+#OTB-5# OTB_USE_PQXX:BOOL=OFF
+#OTB-5# ITK_USE_PATENTED:BOOL=ON
+#OTB-5# OTB_USE_PATENTED:BOOL=ON
 #BOOST_ROOT:PATH=$ENV{HOME}/OTB-OUTILS/boost/install_1_49_0
 
-OTB_USE_EXTERNAL_BOOST:BOOL=ON
-OTB_USE_EXTERNAL_EXPAT:BOOL=ON
-OTB_USE_EXTERNAL_FLTK:BOOL=OFF
-OTB_USE_EXTERNAL_ITK:BOOL=ON
+#OTB-5# OTB_USE_EXTERNAL_BOOST:BOOL=ON
+#OTB-5# OTB_USE_EXTERNAL_EXPAT:BOOL=ON
+#OTB-5# OTB_USE_EXTERNAL_FLTK:BOOL=OFF
+#OTB-5# OTB_USE_EXTERNAL_ITK:BOOL=ON
 
-ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
-#FLTK_DIR:PATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.9
+# ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
+ITK_DIR:PATH=/home/otbval/Dashboard/experimental/install/ITK-4.5.0
+#OTB-5# FLTK_DIR:PATH=$ENV{HOME}/OTB-OUTILS/fltk/binaries-linux-shared-release-fltk-1.1.9
 
-USE_FFTWD:BOOL=OFF
-USE_FFTWF:BOOL=OFF
-# OTB_GL_USE_ACCEL:BOOL=ON
-# ITK_USE_REVIEW:BOOL=ON
-# ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
+#OTB-5# USE_FFTWD:BOOL=OFF
+#OTB-5# USE_FFTWF:BOOL=OFF
+#OTB-5# OTB_GL_USE_ACCEL:BOOL=ON
+#OTB-5# ITK_USE_REVIEW:BOOL=ON
+#OTB-5# ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
 # OTB_USE_MAPNIK:BOOL=OFF
 
 # MAPNIK_INCLUDE_DIR:PATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/include
@@ -65,6 +67,21 @@ CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
 # GDAL_CONFIG:FILEPATH=${OTB_GDAL_INSTALL_DIR}/bin/gdal-config
 # GDAL_INCLUDE_DIR:STRING=${OTB_GDAL_INSTALL_DIR}/include
 # GDAL_LIBRARY:FILEPATH=${OTB_GDAL_INSTALL_DIR}/lib/libgdal.so
+
+## OTB-5
+
+MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
+
+# use custom libkml install because official package has undefined symbols
+LIBKML_INCLUDE_DIR:PATH=/home/otbval/Tools/libkml/install/include
+LIBKML_BASE_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlbase.so
+LIBKML_CONVENIENCE_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlconvenience.so
+LIBKML_DOM_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmldom.so
+LIBKML_ENGINE_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlengine.so
+LIBKML_MINIZIP_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libminizip.so
+LIBKML_REGIONATOR_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlregionator.so
+LIBKML_XSD_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlxsd.so
 ")
 
 set (CTEST_NOTES_FILES

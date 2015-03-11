@@ -29,22 +29,28 @@ CMAKE_CXX_FLAGS:STRING=-Wall
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
+# ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
+ITK_DIR:PATH=/home/otbval/Dashboard/experimental/install/ITK-4.5.0
 
 # OTB_DIR:STRING=/home/otbval/Dashboard/nightly/OTB-Release/install/lib/otb
-# OTB_DIR:STRING=~/dev/install/OTB-stable/lib/otb
-OTB_DIR:STRING=~/dev/install/OTB/lib/otb
+# OTB_DIR:STRING=$ENV{HOME}/dev/install/OTB-stable/lib/otb
+# OTB_DIR:STRING=~/dev/install/OTB/lib/otb
+OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-4.5
 # OTB_DIR:STRING=~/dev/build/OTB/bin
 
-# ICE_DIR:STRING=$ENV{HOME}/dev/install/ice
-ICE_INCLUDE_DIR=$ENV{HOME}/dev/install/Ice/include/otb
-ICE_LIBRARY=$ENV{HOME}/dev/install/Ice/lib/otb/libOTBIce.so
+ICE_INCLUDE_DIR:STRING=$ENV{HOME}/dev/install/Ice/include
+# ICE_INCLUDE_DIR=$ENV{HOME}/dev/install/Ice/include/otb
+# ICE_LIBRARY=$ENV{HOME}/dev/install/Ice/lib/otb/libOTBIce.so
+ICE_LIBRARY=$ENV{HOME}/dev/install/Ice/lib/libOTBIce.so
 
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=${MVD2_INSTALL_PREFIX}
 
 MERGE_TS:BOOL=OFF
 GENERATE_SQL:BOOL=ON
+
+# Temporary workaround
+OTB_USE_QT4:BOOL=ON
 ")
 
 set (CTEST_NOTES_FILES
@@ -57,7 +63,7 @@ execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${MVD2_INSTALL
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 ctest_start (Experimental)
-#ctest_update (SOURCE "${CTEST_SOURCE_DIRECTORY}")
+# ctest_update (SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file (WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${MVD2_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files (${CTEST_BINARY_DIRECTORY})
