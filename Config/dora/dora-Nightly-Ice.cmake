@@ -25,9 +25,11 @@ CMAKE_CXX_FLAGS:STRING=-Wall
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
+# ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
+ITK_DIR:PATH=/home/otbval/Dashboard/experimental/install/ITK-4.5.0
 
-OTB_DIR:PATH=/home/otbval/Dashboard/nightly/OTB-Release/install/lib/otb
+# OTB_DIR:PATH=/home/otbval/Dashboard/nightly/OTB-Release/install/lib/otb
+OTB_DIR:PATH=$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/cmake/OTB-4.5
 
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=${ICE_INSTALL_PREFIX}
