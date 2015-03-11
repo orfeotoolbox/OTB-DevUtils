@@ -25,6 +25,9 @@ if [ "$DO_PULL" == "yes" ]; then
 $GIT_PULL_MASTER
 fi;
 
+#force clean
+make clean
+
 echo 'MXE_TARGET='$MXE_TARGET
 echo 'Sarting build of mxe and dependencies right now.'
 #now start building
