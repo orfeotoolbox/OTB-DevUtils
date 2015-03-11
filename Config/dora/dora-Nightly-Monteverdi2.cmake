@@ -43,8 +43,8 @@ OTB_DIR:PATH=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGU
 
 BUILD_TESTING:BOOL=ON
 
-ICE_INCLUDE_DIR=$ENV{HOME}/Dashboard/nightly/Ice/install/include/otb
-ICE_LIBRARY=$ENV{HOME}/Dashboard/nightly/Ice/install/lib/otb/libOTBIce.so
+ICE_INCLUDE_DIR=$ENV{HOME}/Dashboard/nightly/Ice/install/include
+ICE_LIBRARY=$ENV{HOME}/Dashboard/nightly/Ice/install/lib/libOTBIce.so
 
 CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
 ")
