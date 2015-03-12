@@ -7,9 +7,9 @@ set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
-set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/experimental/OTB-SuperBuild/src")
-set(CTEST_BINARY_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/experimental/OTB-SuperBuild/build")
-set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/experimental/OTB-SuperBuild/install")
+set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/nightly/OTB-Release/src/Superbuild")
+set(CTEST_BINARY_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/build")
+set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/install")
 
 set(CTEST_HG_COMMAND          "/opt/local/bin/hg")
 set(CTEST_HG_UPDATE_OPTIONS   "-C")
