@@ -43,7 +43,7 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIR
 #empty otb build directory
 ctest_empty_binary_directory ( ${CTEST_BINARY_DIRECTORY}/OTB/build/ )
 
-ctest_start(Experimental)
+ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${SUPERBUILD_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
