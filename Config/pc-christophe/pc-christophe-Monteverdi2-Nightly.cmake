@@ -34,7 +34,7 @@ ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/stable/Release
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
-OTB_DATA_LARGEINPUT_ROOT:STRING=/media/ssh/pc-inglada/media/TeraDisk2/LargeInput
+OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-Nightly/Release/lib/otb/
 
 #Qwt

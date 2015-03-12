@@ -7,7 +7,7 @@ SET(BUILDNAME "Fedora20-64bits-Coverity-Debug" CACHE STRING "" FORCE)
 SET(SITE "pc-christophe.cst.cnes.fr" CACHE STRING "" FORCE)
 # LargeInput
 SET(OTB_DATA_USE_LARGEINPUT ON CACHE BOOL "" FORCE)
-SET(OTB_DATA_LARGEINPUT_ROOT "/media/ssh/pc-inglada/media/TeraDisk2/LargeInput" CACHE STRING "" FORCE)
+SET(OTB_DATA_LARGEINPUT_ROOT "/media/TeraDisk2/LargeInput" CACHE STRING "" FORCE)
 # Data root
 SET(OTB_DATA_ROOT "/home/otbtesting/sources/orfeo/OTB-Data" CACHE STRING "" FORCE)
 # Set up the build options
