@@ -8,7 +8,7 @@ set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -k")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
 set(CTEST_TEST_TIMEOUT 1500)
 
-set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nightly/Superbuild")
+set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nightly/SuperBuild")
 set(CTEST_BINARY_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-SuperBuild-ALL_LOCAL_LIBS")
 set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/install/orfeo/trunk/OTB-SuperBuild-ALL_LOCAL_LIBS")
 
