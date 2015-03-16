@@ -6,7 +6,7 @@ set(CTEST_DASHBOARD_ROOT "C:/SuperBuild")
 set(CTEST_CMAKE_GENERATOR "NMake Makefiles")
 set(CTEST_TEST_TIMEOUT 1500)
 
-set(CTEST_SOURCE_DIRECTORY  "C:/Users/jmalik/Dashboard/src/OTB/Superbuild")
+set(CTEST_SOURCE_DIRECTORY  "C:/Users/jmalik/Dashboard/src/OTB/SuperBuild")
 set(CTEST_BINARY_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/build/")
 set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/install/")
 set(CTEST_GIT_COMMAND "C:/Program Files (x86)/Git/bin/git.exe")

@@ -7,7 +7,7 @@ set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
-set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/nightly/OTB-Release/src/Superbuild")
+set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/nightly/OTB-Release/src/SuperBuild")
 set(CTEST_BINARY_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/build")
 set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/install")
 
