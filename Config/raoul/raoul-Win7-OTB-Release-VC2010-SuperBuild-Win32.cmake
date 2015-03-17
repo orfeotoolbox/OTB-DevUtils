@@ -4,6 +4,7 @@ set(CTEST_BUILD_NAME "Win7-${BUILD_DIR_NAME}")
 set(CTEST_SITE "raoul.c-s.fr" )
 set(CTEST_DASHBOARD_ROOT "C:/SuperBuild")
 set(CTEST_CMAKE_GENERATOR "NMake Makefiles")
+set(CTEST_BUILD_COMMAND "jom install")
 set(CTEST_TEST_TIMEOUT 1500)
 
 set(CTEST_SOURCE_DIRECTORY  "C:/Users/jmalik/Dashboard/src/OTB/SuperBuild")
