@@ -40,19 +40,28 @@ BUILD_ICE_APPLICATION:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:PATH=${DATA_ROOT}/OTB-LargeInput
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}")
 
-# ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
 #clear otb install
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY}/include/otb)
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY}/lib/otb)
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/lib)
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/bin)
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/include)
+#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY}/include/otb)
+#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY}/lib/otb)
 
+ctest_empty_binary_directory ( ${CTEST_BINARY_DIRECTORY} )
 #empty otb build directory
-ctest_empty_binary_directory ( ${CTEST_BINARY_DIRECTORY}/OTB/build/ )
+#ctest_empty_binary_directory ( ${CTEST_BINARY_DIRECTORY}/OTB )
 
 ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${SUPERBUILD_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
+
+# copy some source archives already on disk
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
+Z:/otb/DataForTests/SuperBuild-archives
+${CTEST_BINARY_DIRECTORY})
 
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 
