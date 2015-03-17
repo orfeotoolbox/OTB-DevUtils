@@ -51,7 +51,7 @@ ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 
 # copy some source archives already on disk
 execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
-${CTEST_DASHBOARD_ROOT}/src/archives-superbuild
+/media/otbnas/otb/DataForTests/SuperBuild-archives
 ${CTEST_BINARY_DIRECTORY})
 
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
@@ -61,6 +61,12 @@ ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}/OTB/build" ${CTEST_TEST_ARGS})
+
+set(CTEST_NOTES_FILES
+${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
+${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
+${CTEST_BINARY_DIRECTORY}/OTB/build/CMakeCache.txt
+${CTEST_BINARY_DIRECTORY}/OTB/build/otbConfigure.h
+)
+
 ctest_submit ()
-
-
