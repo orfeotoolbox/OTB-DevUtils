@@ -28,6 +28,7 @@ CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/install/orfeo/trunk/OTB-SuperB
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
+DOWNLOAD_LOCATION:PATH=${CTEST_DASHBOARD_ROOT}/sources/archives-superbuild
 ")
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
@@ -42,11 +43,6 @@ ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-
-# copy some source archives already on disk
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
-${CTEST_DASHBOARD_ROOT}/sources/archives-superbuild
-${CTEST_BINARY_DIRECTORY})
 
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
