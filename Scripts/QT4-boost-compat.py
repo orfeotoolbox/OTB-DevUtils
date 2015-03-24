@@ -21,10 +21,16 @@ def RecursiveDirectoriesListing(top="."):
 			
 	yield top,files
 	
-
-
+		
 def Test(line,tag):
-	if '#' in line and 'include' in line and '//' not in line[0:2] and line != '\n' and tag not in line and 'QtGui' not in line and 'QString' not in line and 'QObject' not in line :
+	
+	QTHeaders = ['QtGui','QString','QObject','QPixmap','QSplashScreen','QtOpenGL','QtCore','QtSql','QtXml'] #To be completed
+	boolQTHeaders=True
+	for qthead in QTHeaders :
+			if qthead in line:
+				boolQTHeaders=False
+	
+	if '#' in line and 'include' in line and '//' not in line[0:2] and line != '\n' and tag not in line and boolQTHeaders :
 		return True
 	else:
 		return False
