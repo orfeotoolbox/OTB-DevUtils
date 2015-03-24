@@ -64,7 +64,10 @@ OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install/lib/libossim.dylib
 
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/muparserx/install/include
 MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/muparserx/install/lib/libmuparserx.dylib
- 
+
+LIBSVM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/libsvm/install/include
+LIBSVM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/libsvm/install/lib/liblibsvm.dylib
+
 ")
 
 SET (CTEST_NOTES_FILES
