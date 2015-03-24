@@ -58,6 +58,9 @@ MUPARSER_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparser-2.2.3-v
 Boost_INCLUDE_DIR:PATH=C:/Program\ Files\ (x86)/boost/boost_1_50
 Boost_LIBRARY_DIR:PATH=C:/Program\ Files\ (x86)/boost/boost_1_50/lib64
 
+LIBSVM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/libsvm-3.20-vc10-${OTB_ARCH}/include
+LIBSVM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libsvm-3.20-vc10-${OTB_ARCH}/lib/libsvm.lib
+
     ")
 endmacro()
 
