@@ -26,6 +26,7 @@ set(OTB_INITIAL_CACHE "
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
+DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 ENABLE_QT4:BOOL=ON
 USE_SYSTEM_QT4:BOOL=ON
@@ -48,11 +49,6 @@ ctest_start(Nightly)
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-
-# copy some source archives already on disk
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
-/media/otbnas/otb/DataForTests/SuperBuild-archives
-${CTEST_BINARY_DIRECTORY})
 
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
