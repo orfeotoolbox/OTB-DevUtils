@@ -56,7 +56,8 @@ OTB_DOXYGEN_ITK_DOXYGEN_URL:STRING=\"http://www.itk.org/Doxygen46/html\"
 endmacro()
 
 macro(dashboard_hook_end)
-  ctest_build(TARGET Documentation)
+  unset(CTEST_BUILD_COMMAND)
+  ctest_build(TARGET "Documentation")
 endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
