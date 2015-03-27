@@ -20,7 +20,7 @@ set(dashboard_hg_branch "default")
 
 #set(ENV{DISPLAY} ":0.0")
 
-set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
+set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}")
 
 macro(dashboard_hook_init)
