@@ -579,6 +579,13 @@ def initializeTestCMakeLists(path,modName):
   fd.write("otb_module_target_label(otb"+modName+"TestDriver)\n")
   fd.close()
 
+def initializeAppCMakeLists(path,modName):
+  fd = open(path,'wb')
+  fd.write("set(OTB"+modName+"_LINK_LIBS\n")
+  fd.write("  )\n")
+  fd.write("\n")
+  fd.close()
+
 def initializeTestDriver(path):
   fd = open(path,'wb')
   fd.write("#include \"otbTestMain.h\"\n")
@@ -658,6 +665,128 @@ def moveTestCode(srcPath,dstPath,testCode,testProp={}):
   src = open(srcPath,'w')
   src.writelines(new_src_content)
   src.close()
+
+def moveAppBloc(srcPath,dstPath,srcName):
+  src = open(srcPath,'rb')
+  dst = open(dstPath,'ab')
+  newContent = []
+  tmpAppBloc = []
+  appName = ""
+  tmpAppName = ""
+  isInOTBCreateApp = False
+  blocFound = False
+  for line in src:
+    pos = line.find('#')
+    cleanLine = line
+    if pos >= 0:
+      cleanLine=cleanLine[0:pos]
+    cleanLine = cleanLine.strip(' \n\t\r')
+    cleanLine = cleanLine.replace('\t',' ')
+    
+    # collapse multi-spaces
+    sizeChanged = True
+    while (sizeChanged):
+      sizeBefore = len(cleanLine)
+      cleanLine = cleanLine.replace('  ',' ')
+      sizeAfter = len(cleanLine)
+      if (sizeBefore == sizeAfter):
+        sizeChanged = False
+    
+    if cleanLine.startswith('otb_create_application('):
+      isInOTBCreateApp = True
+    
+    if isInOTBCreateApp:
+      tmpAppBloc.append(line)
+      words = cleanLine.split(' ')
+      if srcName in words:
+        blocFound = True
+      if "NAME" in words:
+        tmpAppName = words[words.index("NAME")+1]
+    else:
+      newContent.append(line)
+    
+    if isInOTBCreateApp and cleanLine.endswith(')'):
+      if blocFound:
+        appName = tmpAppName
+        dst.write('\n')
+        dst.writelines(tmpAppBloc)
+      else:
+        newContent += tmpAppBloc
+      blocFound = False
+      isInOTBCreateApp = False
+      tmpAppBloc = []
+      tmpAppName = ""
+  
+  src.close()
+  dst.close()
+  
+  src = open(srcPath,'w')
+  src.writelines(newContent)
+  src.close()
+  
+  return appName
+
+def extractAppTestBlocs(path,appName):
+  res = {}
+  newContent = []
+  tmpAppBloc = []
+  isInOTBTestApp = False
+  blocFound = False
+  testName = ""
+  fd = open(path,'rb')
+  for line in fd:
+    pos = line.find('#')
+    cleanLine = line
+    if pos >= 0:
+      cleanLine=cleanLine[0:pos]
+    cleanLine = cleanLine.strip(' \n\t\r')
+    cleanLine = cleanLine.replace('\t',' ')
+    
+    # collapse multi-spaces
+    sizeChanged = True
+    while (sizeChanged):
+      sizeBefore = len(cleanLine)
+      cleanLine = cleanLine.replace('  ',' ')
+      sizeAfter = len(cleanLine)
+      if (sizeBefore == sizeAfter):
+        sizeChanged = False
+    
+    if cleanLine.startswith('otb_test_application('):
+      isInOTBTestApp = True
+    
+    if isInOTBTestApp:
+      tmpAppBloc.append(line)
+      words = cleanLine.split(' ')
+      if "APP" in words:
+        curApp = words[words.index("APP")+1]
+        if curApp in appName:
+          blocFound = True
+      if "NAME" in words:
+        testName = words[words.index("NAME")+1]
+    else:
+      if line.startswith('#') and line.find(appName+" TESTS") >= 0:
+        # skip this comment
+        pass
+      else:
+        newContent.append(line)
+    
+    if isInOTBTestApp and cleanLine.endswith(')'):
+      if blocFound:
+        res[testName] = tmpAppBloc
+      else:
+        newContent += tmpAppBloc
+      blocFound = False
+      isInOTBTestApp = False
+      testName = ""
+      tmpAppBloc = []
+  
+  fd.close()
+  
+  fd = open(path,'w')
+  fd.writelines(newContent)
+  fd.close()
+  
+  return res
 
 def getCyclicDep(mod,depList):
   paths = []
@@ -752,3 +881,33 @@ def CheckTestDriverInTestCMakeLists(path,module):
   fd.close()
 
   return patched
+
+def removeApplicationSource(path,srcName):
+  appName = ""
+  fd = open(path,'rb')
+  newContent = []
+  indent = "  "
+  isInSetSrc = False
+  for line in fd:
+    cleanLine = line.strip(' \n\t\r')
+    if line.startswith("target_link_libraries("+varName):
+      isInSetSrc = True
+    
+    if not isInSetSrc:
+      newContent.append(line)
+    
+    if isInSetSrc and line.count(')') == 1:
+      # set target_link bloc
+      newContent.append("target_link_libraries("+varName+"\n")
+      for item in depList:
+        newContent.append(indent+"${OTB"+item+"_LIBRARIES}\n")
+      newContent.append(indent+")\n")
+      isInSetSrc = False
+    
+  fd.close()
+  
+  fd = open(path,'wb')
+  fd.writelines(newContent)
+  fd.close()
+  return appName
+  
