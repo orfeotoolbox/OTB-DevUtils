@@ -21,11 +21,11 @@ SITE:STRING=${CTEST_SITE}
 
 
 CMAKE_C_FLAGS:STRING=-Wall
-CMAKE_CXX_FLAGS:STRING=-Wall
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-\\#warnings
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-ITK_DIR:PATH=/Users/otbval/Dashboard/itkv4/build 
+ITK_DIR:PATH=/Users/otbval/Dashboard/itkv4/build
 OTB_DIR:PATH=/Users/otbval/Dashboard/nightly/OTB-Release/build
 
 BUILD_TESTING:BOOL=ON
@@ -51,4 +51,3 @@ ctest_read_custom_files (${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
 ctest_submit ()
-
