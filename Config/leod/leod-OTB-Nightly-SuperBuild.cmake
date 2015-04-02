@@ -56,8 +56,8 @@ ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 
-# before testing, set the LD_LIBRARY_PATH
-set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
+# before testing, set the DYLD_LIBRARY_PATH
+set(ENV{DYLD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}/OTB/build" ${CTEST_TEST_ARGS})
 
