@@ -4,6 +4,7 @@ set(OTB_ARCH x86) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 set(CTEST_BUILD_TARGET INSTALL)
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
+set(CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -11,10 +12,11 @@ macro(dashboard_hook_init)
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/install/${OTB_PROJECT}-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}
 
 BUILD_TESTING:BOOL=ON
+CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_EXAMPLES:BOOL=OFF
-
+BUILD_SHARED_LIBS:BOOL=OFF
 OTB_WRAP_PYTHON:BOOL=ON
-OTB_WRAP_JAVA:BOOL=ON
+OTB_WRAP_JAVA:BOOL=OFF
 OTB_WRAP_QT:BOOL=ON
 
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
@@ -28,7 +30,7 @@ OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_OPENCV:BOOL=ON
 OpenCV_DIR:PATH=${OSGEO4W_ROOT}/share/OpenCV
 
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ITK-x86-RelDeb/lib/cmake/ITK-4.5
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ITK-x86-RelDeb/
 
 SWIG_EXECUTABLE:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/swigwin-3.0.5/swig.exe
 
@@ -55,15 +57,14 @@ OTB_USE_LIBKML:BOOL=OFF
 MUPARSER_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparser-2.2.3-vc10-${OTB_ARCH}/include
 MUPARSER_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparser-2.2.3-vc10-${OTB_ARCH}/lib/muparser.lib
 
-Boost_INCLUDE_DIR:PATH=C:/Program\ Files\ (x86)/boost/boost_1_50
-Boost_LIBRARY_DIR:PATH=C:/Program\ Files\ (x86)/boost/boost_1_50/lib
+Boost_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/boost_1_50
+Boost_LIBRARY_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/boost_1_50/lib
 
 LIBSVM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/libsvm-3.20-vc10-${OTB_ARCH}/include
 LIBSVM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libsvm-3.20-vc10-${OTB_ARCH}/lib/libsvm.lib
 
     ")
 endmacro()
-
 #remove install dir
 execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_DASHBOARD_ROOT}/install/${OTB_PROJECT}-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION})
 
