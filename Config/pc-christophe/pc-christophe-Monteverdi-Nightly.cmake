@@ -39,7 +39,7 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-cpp
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=ON
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/stable/Release
-OTB_DIR:STRING=${CTEST_DASHBOARD_ROOT}/install/orfeo/trunk/OTB-Nightly/Release/lib/otb
+OTB_DIR:STRING=${CTEST_DASHBOARD_ROOT}/install/orfeo/trunk/OTB-Nightly/Release
 ")
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
