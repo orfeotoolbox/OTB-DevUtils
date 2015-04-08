@@ -14,8 +14,8 @@ SET(OTB_DIR "/home/otbtesting/install/orfeo/trunk/OTB-Nightly/Release/lib/otb/" 
 SET(BUILD_TESTING ON CACHE BOOL "" FORCE)
 
 #otbIce
-SET(ICE_INCLUDE_DIR "/home/otbtesting/install/orfeo/trunk/Ice/Release/include/otb/" CACHE STRING "" FORCE)
-SET(ICE_LIBRARY "/home/otbtesting/install/orfeo/trunk/Ice/Release/lib/otb/libOTBIce.so" CACHE STRING "" FORCE)
+SET(ICE_INCLUDE_DIR "${INSTALLROOT}/orfeo/trunk/Ice/${CTEST_BUILD_CONFIGURATION}/include/" CACHE STRING "" FORCE)
+SET(ICE_LIBRARY "/home/otbtesting/install/orfeo/trunk/Ice/Release/lib/libOTBIce.so" CACHE STRING "" FORCE)
 
 SET(OTB_DATA_USE_LARGEINPUT ON CACHE BOOL "" FORCE)
 SET(OTB_DATA_ROOT "/home/otbtesting/sources/orfeo/OTB-Data" CACHE STRING "" FORCE)
