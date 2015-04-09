@@ -8,10 +8,10 @@ set(CTEST_CMAKE_GENERATOR  "Visual Studio 10" )
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-  
+
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/install/${OTB_PROJECT}-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}
 
-BUILD_TESTING:BOOL=OFF
+BUILD_TESTING:BOOL=ON
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_EXAMPLES:BOOL=OFF
 BUILD_SHARED_LIBS:BOOL=OFF
@@ -28,7 +28,6 @@ CMAKE_PREFIX_PATH:PATH=${OSGEO4W_ROOT}
 OTB_USE_MAPNIK:BOOL=OFF
 
 OTB_USE_OPENCV:BOOL=ON
-OpenCV_DIR:PATH=${OSGEO4W_ROOT}/share/OpenCV
 
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ITK-x86-RelDeb/lib/cmake/ITK-4.7
 
@@ -63,7 +62,9 @@ Boost_LIBRARY_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/boost_1_50/lib
 LIBSVM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/libsvm-3.20-vc10-${OTB_ARCH}/include
 LIBSVM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libsvm-3.20-vc10-${OTB_ARCH}/lib/libsvm.lib
 
-    ")
+OpenCV_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/opencv-2.4.10-vc10-x86/share/OpenCV
+
+")
 endmacro()
 #remove install dir
 set(dashboard_no_test TRUE)
