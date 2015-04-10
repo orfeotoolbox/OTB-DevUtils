@@ -39,8 +39,5 @@ PYTHON_LIBRARY:FILEPATH=${OSGEO4W_ROOT}/apps/Python27/libs/python27.lib
     ")
 endmacro()
 
-#remove install dir
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_DASHBOARD_ROOT}/install/${OTB_PROJECT}-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION})
-
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
 

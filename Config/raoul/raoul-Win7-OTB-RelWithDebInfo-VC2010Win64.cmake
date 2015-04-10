@@ -64,7 +64,4 @@ LIBSVM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libsvm-3.20-vc10-$
     ")
 endmacro()
 
-#remove install dir
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_DASHBOARD_ROOT}/install/${OTB_PROJECT}-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION})
-
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
