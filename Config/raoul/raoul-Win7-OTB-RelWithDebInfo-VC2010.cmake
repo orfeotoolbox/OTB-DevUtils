@@ -66,7 +66,6 @@ OpenCV_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/opencv-2.4.10-vc10-x86/sha
 ")
 endmacro()
 #remove install dir
-set(dashboard_no_test TRUE)
 execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_DASHBOARD_ROOT}/install/${OTB_PROJECT}-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
