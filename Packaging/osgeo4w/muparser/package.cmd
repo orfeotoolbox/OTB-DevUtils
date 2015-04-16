@@ -1,7 +1,10 @@
 :: muparser
 :: 
 :: Source http://sourceforge.net/projects/muparser/files/muparser/Version%202.2.3/muparser_v2_2_3.zip/download
-:: prerequisite: none
+:: prerequisite:
+::   - wget  (see GNUWin32 binaries)
+::   - unzip, tar  (in OSGeo4W)
+
 set CURRENT_SCRIPT_DIR=%~dp0
 
 if NOT DEFINED OSGEO4W_ROOT (
