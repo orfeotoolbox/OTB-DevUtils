@@ -1,0 +1,5 @@
+sdesc: "muParserX"
+ldesc: "muParserX"
+category: Libs
+requires: shell
+maintainer: JulienMalik
