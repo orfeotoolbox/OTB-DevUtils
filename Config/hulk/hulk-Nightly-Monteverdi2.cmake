@@ -30,7 +30,6 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB-RelWithDebInfo
-ITK_DIR:PATH=$ENV{HOME}/Dashboard/build/ITKv4-upstream-RelWithDebInfo
 #ICE_DIR:PATH=$ENV{HOME}/Dashboard/install/Ice-Release
 ICE_INCLUDE_DIR=$ENV{HOME}/Dashboard/install/Ice-Release/include/
 ICE_LIBRARY=$ENV{HOME}/Dashboard/install/Ice-Release/lib/libOTBIce.so

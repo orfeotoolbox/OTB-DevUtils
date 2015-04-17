@@ -24,7 +24,6 @@ CMAKE_CXX_FLAGS:STRING=-Wall
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-ITK_DIR:PATH=/home/otbval/Dashboard/build/ITKv4-upstream-RelWithDebInfo 
 OTB_DIR:PATH=/home/otbval/Dashboard/build/OTB-Debug-Coverage
 OpenCV_DIR:PATH=/usr/share/OpenCV 
 
