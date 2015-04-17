@@ -25,7 +25,6 @@ CMAKE_CXX_FLAGS:STRING=-Wall -Wno-\\\\#warnings
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-ITK_DIR:PATH=/Users/otbval/Dashboard/itkv4/build
 OTB_DIR:PATH=/Users/otbval/Dashboard/nightly/OTB-Release/build
 
 #use glut from XQuartz - http://hg.orfeo-toolbox.org/Ice/rev/2686f7776582

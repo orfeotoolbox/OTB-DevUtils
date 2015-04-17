@@ -40,7 +40,6 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build
-ITK_DIR:PATH=$ENV{HOME}/Dashboard/itkv4/build
 
 OTB_USE_CPACK:BOOL=ON
 
