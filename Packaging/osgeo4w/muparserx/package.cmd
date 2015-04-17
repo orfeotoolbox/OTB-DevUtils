@@ -25,6 +25,9 @@ set B=1
 set W=%OSGEO4W_ROOT%\usr\src\osgeo4w\%P%
 set R=../../release/%P%
 mkdir "%W%"
+rmdir "%W%\%P%-%V%" /s /q
+rmdir "%W%\%P%-%V%-build" /s /q
+rmdir "%W%\%P%-%V%-install" /s /q
 mkdir "%W%\%P%-%V%-build"
 mkdir "%OSGEO4W_ROOT%\usr\src\release\%P%"
 
@@ -49,6 +52,8 @@ cmake "../%P%-%V%" -G "NMake Makefiles" ^
     -DCMAKE_BUILD_TYPE:STRING=Release ^
     -DBUILD_SHARED_LIBS:BOOL=ON ^
     -DBUILD_SAMPLES:BOOL=OFF
+cmake --build . --config Release --target INSTALL
+cmake . -DBUILD_SHARED_LIBS:BOOL=OFF
 cmake --build . --config Release --target INSTALL
 cd ..
 
