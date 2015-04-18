@@ -74,9 +74,13 @@ OTB_USE_SIFTFAST=ON
  ")
 endmacro()
 
+#mxe_*.log are not from the yesterday's build.
+#This is because OTB-Nightly-clang build is submitted before MXE
 SET(CTEST_NOTES_FILES
     "${CTEST_DASHBOARD_ROOT}/logs/gdal_weekly_out.log"
     "${CTEST_DASHBOARD_ROOT}/logs/ossim_weekly_out.log"
+    "${CTEST_DASHBOARD_ROOT}/logs/mxe_i686-w64-mingw32.shared_build.log"
+    "${CTEST_DASHBOARD_ROOT}/logs/mxe_x86_64-w64-mingw32.shared_build.log" 
     "${CTEST_DASHBOARD_ROOT}/logs/opencv_weekly_out.log" )
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
