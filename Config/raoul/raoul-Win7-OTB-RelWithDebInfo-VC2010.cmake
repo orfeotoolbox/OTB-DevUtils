@@ -48,7 +48,7 @@ LIBKML_BASE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-
 LIBKML_CONVENIENCE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlconvenience.lib
 LIBKML_DOM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmldom.lib
 LIBKML_ENGINE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlengine.lib
-LIBKML_MINIZIP_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/minizip.lib
+LIBKML_MINIZIP_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/minizip.lib;${OSGEO4W_ROOT}/lib/zlib.lib
 LIBKML_REGIONATOR_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlregionator.lib
 LIBKML_XSD_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlxsd.lib
 
