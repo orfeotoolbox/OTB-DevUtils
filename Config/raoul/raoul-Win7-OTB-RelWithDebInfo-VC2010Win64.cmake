@@ -42,15 +42,15 @@ TINYXML_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/tinyxml-2.6.2-vc1
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparserx-vc10-${OTB_ARCH}/include
 MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparserx-vc10-${OTB_ARCH}/lib/muparserx.lib
 
-OTB_USE_LIBKML:BOOL=OFF
-#LIBKML_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/include
-#LIBKML_BASE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlbase.lib
-#LIBKML_CONVENIENCE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlconvenience.lib
-#LIBKML_DOM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmldom.lib
-#LIBKML_ENGINE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlengine.lib
-#LIBKML_MINIZIP_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/minizip.lib
-#LIBKML_REGIONATOR_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlregionator.lib
-#LIBKML_XSD_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlxsd.lib
+#OTB_USE_LIBKML:BOOL=OFF
+LIBKML_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/include
+LIBKML_BASE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlbase.lib;${OSGEO4W_ROOT}/lib/libexpat.lib
+LIBKML_CONVENIENCE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlconvenience.lib
+LIBKML_DOM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmldom.lib
+LIBKML_ENGINE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlengine.lib
+LIBKML_MINIZIP_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/minizip.lib;${OSGEO4W_ROOT}/lib/zlib.lib
+LIBKML_REGIONATOR_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlregionator.lib
+LIBKML_XSD_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlxsd.lib
 
 MUPARSER_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparser-2.2.3-vc10-${OTB_ARCH}/include
 MUPARSER_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparser-2.2.3-vc10-${OTB_ARCH}/lib/muparser.lib
