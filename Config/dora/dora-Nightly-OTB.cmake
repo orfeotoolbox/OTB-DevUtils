@@ -48,7 +48,7 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/experimental/build/ITKv4-RelWithDebInfo
+ITK_DIR:PATH=/home/otbval/Tools/ITK-4.7.1/install/lib/cmake/ITK-4.7
 
 OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_OPENCV:BOOL=ON
@@ -65,6 +65,7 @@ LIBKML_MINIZIP_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libminizip
 LIBKML_REGIONATOR_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlregionator.so
 LIBKML_XSD_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlxsd.so
 
+OpenJPEG_DIR:PATH=/home/otbval/Tools/OpenJpeg_2.1/install/lib/openjpeg-2.1
     ")
 endmacro()
 

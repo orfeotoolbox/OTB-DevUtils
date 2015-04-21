@@ -56,6 +56,9 @@ OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/trunk/lib64/libossim.so
 MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
 
+#external openjpeg
+OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/trunk/lib/openjpeg-2.1
+
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
@@ -70,14 +73,17 @@ OTB_USE_OPENCV:BOOL=ON
 OTB_USE_QT4=ON
 OTB_USE_LIBKML=ON
 OTB_USE_6S=ON
-OTB_USE_EDISON=ON
 OTB_USE_SIFTFAST=ON
  ")
 endmacro()
 
-SET(CTEST_NOTES_FILES
-    "${CTEST_DASHBOARD_ROOT}/logs/gdal_weekly_out.log"
-    "${CTEST_DASHBOARD_ROOT}/logs/ossim_weekly_out.log"
-    "${CTEST_DASHBOARD_ROOT}/logs/opencv_weekly_out.log" )
+#mxe_*.log are not from the yesterday's build.
+#This is because OTB-Nightly-clang build is submitted before MXE
+# SET(CTEST_NOTES_FILES
+#     "${CTEST_DASHBOARD_ROOT}/logs/gdal_weekly_out.log"
+#     "${CTEST_DASHBOARD_ROOT}/logs/ossim_weekly_out.log"
+#     "${CTEST_DASHBOARD_ROOT}/logs/mxe_i686-w64-mingw32.shared_build.log"
+#     "${CTEST_DASHBOARD_ROOT}/logs/mxe_x86_64-w64-mingw32.shared_build.log" 
+#     "${CTEST_DASHBOARD_ROOT}/logs/opencv_weekly_out.log" )
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

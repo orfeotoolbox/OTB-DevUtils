@@ -34,13 +34,13 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
 CMAKE_INSTALL_PREFIX:PATH=${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install
-  
+
 #CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
 #CMAKE_INCLUDE_PATH:PATH=/opt/local/include
 CMAKE_PREFIX_PATH:PATH=/opt/local
-  
+
 CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual -Wno-\\\\#warnings
 
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
 OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON
@@ -64,7 +64,7 @@ PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python2.7
 PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers
 PYTHON_LIBRARY:FILEPATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python
 
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/itkv4/build
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/itkv4/install/lib/cmake/ITK-4.8
 
 OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/ossim/install/include
 OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install/lib/libossim.dylib
@@ -72,8 +72,8 @@ OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install/lib/libossim.dylib
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/muparserx/install/include
 MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/muparserx/install/lib/libmuparserx.dylib
 
-LIBSVM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/libsvm/install/include
-LIBSVM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/libsvm/install/lib/liblibsvm.dylib
+LIBSVM_INCLUDE_DIR:PATH=/opt/local/include
+LIBSVM_LIBRARY:FILEPATH=/opt/local/lib/libsvm.dylib
 
     ")
 endmacro()

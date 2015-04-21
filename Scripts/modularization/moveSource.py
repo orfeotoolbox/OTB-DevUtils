@@ -140,23 +140,64 @@ def main(argv):
       # remove entry in previous module
       removed = [op.basename(srcFile)]
       added = []
-      cmakelistPath = op.join(modulesRoot,op.join(srcGrp,op.join(srcMod,"src/CMakeLists.txt")))
+      cmakelistPath = op.join(modulesRoot,srcGrp,srcMod,srcSub,"CMakeLists.txt")
       # Check that there are some source file remaining in src dir
-      source_files = filter(os.path.isfile, glob.glob(op.join(modulesRoot,srcGrp,srcMod,'src')+'/*.c*'))
+      source_files = filter(os.path.isfile, glob.glob(op.join(modulesRoot,srcGrp,srcMod,srcSub)+'/*.c*'))
       if len(source_files) >0 :
         sourceAPI.updateSourceList(cmakelistPath,"OTB"+srcMod+"_SRC",added,removed)
       else:
         # There are no more sources here, the whole src module can be removed
-        print "Removing src dir in "+srcGrp+"/"+srcMod+", since it does not contain source files anymore"
-        call(["hg","remove",op.join(modulesRoot,srcGrp,srcMod,'src')+"/*"])
+        print "Removing "+srcSub+" dir in "+srcGrp+"/"+srcMod+", since it does not contain source files anymore"
+        call(["hg","remove",op.join(modulesRoot,srcGrp,srcMod,srcSub)+"/*"])
       # add entry in target module
       removed = []
       added = [op.basename(srcFile)]
-      cmakelistPath = op.join(modulesRoot,op.join(destinationPrefix,"src/CMakeLists.txt"))
+      cmakelistPath = op.join(modulesRoot,destinationPrefix,srcSub,"CMakeLists.txt")
       if not op.exists(cmakelistPath):
         sourceAPI.initializeSrcCMakeLists(cmakelistPath,targetModule)
         call(["hg","add",cmakelistPath.replace(otbDir,".")])
       sourceAPI.updateSourceList(cmakelistPath,"OTB"+targetModule+"_SRC",added,removed)
+
+    #  -for input files in 'app'
+    if srcSub == "app" and len(words) == 5:
+      cmakelistPath = op.join(modulesRoot,srcGrp,srcMod,srcSub,"CMakeLists.txt")
+      nextCmakelistPath = op.join(modulesRoot,destinationPrefix,srcSub,"CMakeLists.txt")
+      if not op.exists(nextCmakelistPath):
+        sourceAPI.initializeAppCMakeLists(nextCmakelistPath,targetModule)
+        call(["hg","add",nextCmakelistPath.replace(otbDir,".")])
+      # move the 'otb_create_application' bloc
+      appName = sourceAPI.moveAppBloc(cmakelistPath,nextCmakelistPath,op.basename(srcFile))
+      
+      source_files = filter(os.path.isfile, glob.glob(op.join(modulesRoot,srcGrp,srcMod,srcSub)+'/*.c*'))
+      if len(source_files) == 0 :
+        # There are no more sources here, the whole src module can be removed
+        print "Removing "+srcSub+" dir in "+srcGrp+"/"+srcMod+", since it does not contain source files anymore"
+        call(["hg","remove",op.join(modulesRoot,srcGrp,srcMod,srcSub)+"/*"])
+      
+      # move tests
+      testCmakelistPath = op.join(modulesRoot,srcGrp,srcMod,"test","CMakeLists.txt")
+      nextTestCmakelistPath = op.join(modulesRoot,destinationPrefix,"test","CMakeLists.txt")
+      appTestBlocs = {}
+      if op.exists(testCmakelistPath):
+        appTestBlocs = sourceAPI.extractAppTestBlocs(testCmakelistPath,appName)
+      
+      if len(appTestBlocs) > 0:
+        if not op.exists(nextTestCmakelistPath):
+          if not op.exists(op.dirname(nextTestCmakelistPath)):
+            os.makedirs(op.dirname(nextTestCmakelistPath))
+          fd = open(nextTestCmakelistPath,'w')
+          fd.write("otb_module_test()\n")
+          fd.write("\n")
+          fd.close()
+          call(["hg","add",nextTestCmakelistPath.replace(otbDir,".")])
+        
+        fd = open(nextTestCmakelistPath,'a')
+        fd.write("#----------- "+appName+" TESTS ----------------\n")
+        for tname in appTestBlocs:
+          fd.writelines(appTestBlocs[tname])
+          fd.write("\n")
+        fd.close()
+    
     if srcSub == "test" and len(words) == 5:
       # analyse test
       res = createTestManifest.parseTestCxx(op.join(otbDir,targetFile))

@@ -36,11 +36,10 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual -Wno-\\\\#warnings
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build
-ITK_DIR:PATH=$ENV{HOME}/Dashboard/itkv4/build
 
 #ICE_INCLUDE_DIR=$ENV{HOME}/Dashboard/nightly/Ice-Release/install/include/otb
 #ICE_LIBRARY=$ENV{HOME}/Dashboard/nightly/Ice-Release/install/lib/otb/libOTBIce.dylib
@@ -66,4 +65,3 @@ ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}" TARGET package)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()
-

@@ -6,7 +6,7 @@ MXE_SOURCE_DIR=$2
 MXE_TARGET=$3
 else
 echo 'Usage: '$0'<OTB-DevUtils-dir> <mxe-dir> <mxe-target>'
-echo 'Ex: '$0' /home/rashad/sources/orfeo/OTB-DevUtils /home/rashad/sources/mxe i686-pc-mingw32.shared'
+echo 'Ex: '$0' /home/rashad/sources/orfeo/OTB-DevUtils /home/rashad/sources/mxe i686-w64-mingw32.shared'
 exit 1
 fi
 
@@ -57,23 +57,23 @@ DEVUTILS_CONFIG_DIR="${DEVUTILS_DIRECTORY}/Config/pc-christophe"
 MXE_BUILD_SCRIPT=${DEVUTILS_DIRECTORY}/Scripts/mxe_build.sh
 # # OTB Nightly MXE Cross Compile
 $MXE_BUILD_SCRIPT "$MXE_SOURCE_DIR" "$MXE_TARGET" "yes" >> $LOG_FILE
-if [ "$?" -eq "0" ]; then
-  echo 'MXE is up-to-date.'
-  #32bit
-  if [ "$MXE_TARGET" == "i686-w64-mingw32.shared" ]; then
-     ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-OTB-MinGW32_MXE_CROSS_COMPILE.cmake
-     ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Ice-MinGW32_MXE_CROSS_COMPILE.cmake
-     ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Monteverdi-MinGW32_MXE_CROSS_COMPILE.cmake
-     ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Monteverdi2-MinGW32_MXE_CROSS_COMPILE.cmake
-  fi
-  #64bit
-  if [ "$MXE_TARGET" == "x86_64-w64-mingw32.shared" ]; then
-     ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-OTB-MinGW64_MXE_CROSS_COMPILE.cmake
-     ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Ice-MinGW64_MXE_CROSS_COMPILE.cmake
-     ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Monteverdi-MinGW64_MXE_CROSS_COMPILE.cmake
-     ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Monteverdi2-MinGW64_MXE_CROSS_COMPILE.cmake
-  fi
-else
-echo 'MXE build failed..'
-exit 1
+#if [ "$?" -eq "0" ]; then
+echo 'MXE is up-to-date.'
+#32bit
+if [ "$MXE_TARGET" == "i686-w64-mingw32.shared" ]; then
+    ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-OTB-MinGW32_MXE_CROSS_COMPILE.cmake
+    ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Ice-MinGW32_MXE_CROSS_COMPILE.cmake
+    ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Monteverdi-MinGW32_MXE_CROSS_COMPILE.cmake
+    ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Monteverdi2-MinGW32_MXE_CROSS_COMPILE.cmake
 fi
+#64bit
+if [ "$MXE_TARGET" == "x86_64-w64-mingw32.shared" ]; then
+    ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-OTB-MinGW64_MXE_CROSS_COMPILE.cmake
+    ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Ice-MinGW64_MXE_CROSS_COMPILE.cmake
+    ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Monteverdi-MinGW64_MXE_CROSS_COMPILE.cmake
+    ctest -VV -S $DEVUTILS_CONFIG_DIR/mxe/pc-christophe-Monteverdi2-MinGW64_MXE_CROSS_COMPILE.cmake
+fi
+# else
+#     echo 'MXE build failed..'
+#     exit 1
+# fi

@@ -44,6 +44,9 @@ ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.6
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/stable/include
 OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/stable/lib64/libossim.so
 
+#external openjpeg
+OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/trunk/lib/openjpeg-2.1
+
 OTB_COMPILE_WITH_FULL_WARNING:BOOL=ON
 
 ##OTB_FULL_WARNING_LIST_PARAMETERS:STRING=-Weverything -Wall

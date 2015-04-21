@@ -20,7 +20,7 @@ set(dashboard_hg_branch "default")
 
 #set(ENV{DISPLAY} ":0.0")
 
-set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
+set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}")
 
 macro(dashboard_hook_init)
@@ -49,6 +49,9 @@ OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/stable/lib64/libossim.so
 MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
 
+#external openjpeg
+OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/trunk/lib/openjpeg-2.1
+
 PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 OTB_WRAP_PYTHON:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
@@ -60,7 +63,6 @@ OTB_USE_OPENCV:BOOL=ON
 OTB_USE_QT4=ON
 OTB_USE_LIBKML=ON
 OTB_USE_6S=ON
-OTB_USE_EDISON=ON
 OTB_USE_SIFTFAST=ON
  ")
 

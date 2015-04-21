@@ -30,12 +30,9 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB-RelWithDebInfo
-ITK_DIR:PATH=$ENV{HOME}/Dashboard/build/ITKv4-upstream-RelWithDebInfo
-OpenCV_DIR:PATH=/usr/share/OpenCV
 #ICE_DIR:PATH=$ENV{HOME}/Dashboard/install/Ice-Release
-ICE_INCLUDE_DIR=$ENV{HOME}/Dashboard/install/Ice-Release/include/otb
-ICE_LIBRARY=$ENV{HOME}/Dashboard/install/Ice-Release/lib/otb/libOTBIce.so
-
+ICE_INCLUDE_DIR=$ENV{HOME}/Dashboard/install/Ice-Release/include/
+ICE_LIBRARY=$ENV{HOME}/Dashboard/install/Ice-Release/lib/libOTBIce.so
 ")
 
 SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
@@ -64,4 +61,3 @@ ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
 ctest_submit ()
-
