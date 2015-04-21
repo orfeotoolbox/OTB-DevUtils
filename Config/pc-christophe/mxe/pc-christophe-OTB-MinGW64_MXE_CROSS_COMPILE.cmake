@@ -18,7 +18,7 @@ set(CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nigh
 set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-MinGW-x86_64-MXE/${CTEST_BUILD_CONFIGURATION}")
 
 ##cross compile specific
-set(MXE_ROOT "/home/otbtesting/win-sources/mxe")
+set(MXE_ROOT "${CTEST_DASHBOARD_ROOT}/win-sources/mxe")
 set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/x86_64-w64-mingw32.shared")
 set(CTEST_USE_LAUNCHERS OFF)
 ##cross compile specific
@@ -42,12 +42,14 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
 CMAKE_USE_PTHREADS:BOOL=OFF
 CMAKE_USE_WIN32_THREADS:BOOL=ON
+CMAKE_PREFIX_PATH=${MXE_TARGET_ROOT}
 
-GDAL_CONFIG:FILEPATH='${MXE_TARGET_ROOT}/bin/gdal-config'
+
+#GDAL_CONFIG:FILEPATH='${MXE_TARGET_ROOT}/bin/gdal-config'
 #ITK et al :- auto detected from MXE_TARGET_ROOT
 
 #auto detects only ossim.dll.a. But we need openthreads to prevent build failure.#TODO: make this change in source CMakeLists.txt?
-OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
+#OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
 
 OTB_COMPILE_WITH_FULL_WARNING:BOOL=OFF
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
@@ -86,6 +88,6 @@ ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
 # append mxe build script and log as notes for validation
 list(APPEND CTEST_NOTES_FILES
-  "${CTEST_DASHBOARD_ROOT}/logs/mxe_x86_64-w64-mingw32.shared_build.log" 
+  "${CTEST_DASHBOARD_ROOT}/logs/mxe_x86_64-w64-mingw32.shared_build.log"
   "${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-DevUtils/Scripts/mxe_build.sh")
 ctest_submit ()
