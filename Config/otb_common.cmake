@@ -186,7 +186,7 @@ execute_process(
   set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
   set(CTEST_DROP_SITE_CDASH TRUE)
 else()
-  list(APPEND CTEST_HG_UPDATE_OPTIONS "-r" ${dashboard_hg_branch})
+  set(CTEST_HG_UPDATE_OPTIONS "${CTEST_HG_UPDATE_OPTIONS} -r ${dashboard_hg_branch}")
 endif()
 
 #-----------------------------------------------------------------------------
