@@ -1,11 +1,20 @@
 set (ENV{DISPLAY} ":0.0")
 set (ENV{LANG} "C")
 
+set (CHANGESET_3_18_1 "296c1e1532fd")
+set (CHANGESET_3_20_0 "3e7a91d3fbe5")
+set (CHANGESET_4_0_0  "8c14c4efeaec")
+set (CHANGESET_4_4_0  "baf740ee2113")
+set (CHANGESET_TEMP   "cbb1e17450ee") # Just before OpenJPEG-2.1 API change.
+
+set (CHANGESET ${CHANGESET_TEMP})
+set (VERSION "5.0.0")
+
 set (CTEST_BUILD_CONFIGURATION "Debug")
 # set (CTEST_BUILD_CONFIGURATION "Release")
 
-set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/OTB")
-set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/OTB")
+set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/OTB-stable")
+set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/OTB-stable")
 
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 set (CTEST_CMAKE_COMMAND "cmake" )
@@ -13,10 +22,10 @@ set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 set (CTEST_SITE "po9573.c-s.fr" )
 set (CTEST_BUILD_NAME "Ubuntu-14.04_x86_64_${CTEST_BUILD_CONFIGURATION}-${USER}")
 set (CTEST_HG_COMMAND "/usr/bin/hg")
-set (CTEST_HG_UPDATE_OPTIONS "")
+set (CTEST_HG_UPDATE_OPTIONS "-r ${CHANGESET}")
 set (CTEST_USE_LAUNCHERS ON)
 
-set (OTB_INSTALL_PREFIX "$ENV{HOME}/dev/install/OTB")
+set (OTB_INSTALL_PREFIX "$ENV{HOME}/dev/install/OTB-stable")
 
 set (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
@@ -38,8 +47,7 @@ OTB_USE_QT4:BOOL=ON
 OTB_USE_CURL:BOOL=ON
 #BOOST_ROOT:PATH=$ENV{HOME}/OTB-OUTILS/boost/install_1_49_0
 
-# ITK_DIR:PATH=/usr/lib/cmake/ITK-4.6
-ITK_DIR:PATH=$ENV{HOME}/local/lib/cmake/ITK-4.8
+ITK_DIR:PATH=/usr/lib/cmake/ITK-4.6
 
 # OTB_USE_MAPNIK:BOOL=OFF
 
@@ -68,7 +76,7 @@ MUPARSERX_INCLUDE_DIR:PATH=$ENV{HOME}/local/include
 # LIBKML_REGIONATOR_LIBRARY:FILEPATH=$ENV{HOME}/Tools/libkml/install/lib/libkmlregionator.so
 # LIBKML_XSD_LIBRARY:FILEPATH=$ENV{HOME}/Tools/libkml/install/lib/libkmlxsd.so
 
-OpenJPEG_DIR:PATH=$ENV{HOME}/local/lib/openjpeg-2.1
+# OpenJPEG_DIR:PATH=$ENV{HOME}/local/lib/openjpeg-2.1
 ")
 
 set (CTEST_NOTES_FILES

@@ -32,13 +32,11 @@ CMAKE_CXX_FLAGS:STRING=-Wall
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-ITK_DIR:PATH=/usr/lib/cmake/ITK-4.6
+# ITK_DIR:PATH=/usr/lib/cmake/ITK-4.6
+ITK_DIR:PATH=$ENV{HOME}/local/lib/cmake/ITK-4.8
 
-# OTB_DIR:STRING=/home/otbval/Dashboard/nightly/OTB-Release/install/lib/otb
-# OTB_DIR:STRING=$ENV{HOME}/dev/install/OTB-stable/lib/otb
-# OTB_DIR:STRING=$ENV{HOME}/dev/install/OTB/lib/otb
 OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-4.5
-# OTB_DIR:STRING=~/dev/build/OTB/bin
+# OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB-stable/lib/cmake/OTB-4.5
 
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=${ICE_INSTALL_PREFIX}
