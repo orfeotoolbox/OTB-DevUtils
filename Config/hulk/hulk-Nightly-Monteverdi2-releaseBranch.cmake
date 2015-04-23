@@ -7,9 +7,9 @@ SET (CTEST_CMAKE_COMMAND       "cmake" )
 SET (CTEST_BUILD_COMMAND       "/usr/bin/make -j10 -i -k install" )
 SET (CTEST_SITE                "hulk.c-s.fr" )
 SET (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_BUILD_NAME          "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+SET (CTEST_BUILD_NAME          "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}-ReleaseBranch")
 SET (CTEST_HG_COMMAND          "/usr/bin/hg")
-SET (CTEST_HG_UPDATE_OPTIONS   "-C default")
+SET (CTEST_HG_UPDATE_OPTIONS   "-C mvd2_release")
 SET (CTEST_USE_LAUNCHERS ON)
 
 SET (OTB_INITIAL_CACHE "

@@ -2,7 +2,7 @@ SET (dashboard_model Nightly)
 SET (CTEST_DASHBOARD_ROOT "C:/Users/jmalik/Dashboard")
 
 SET (OTB_PROJECT Monteverdi2) # OTB / Monteverdi / Monteverdi2
-SET (OTB_ARCH amd64) # x86 / amd64
+SET (OTB_ARCH x86) # x86 / amd64
 
 SET (CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 
@@ -13,9 +13,9 @@ SET (CTEST_CMAKE_GENERATOR  "NMake Makefiles")
 SET (CTEST_BUILD_COMMAND  "jom install")
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE "raoul.c-s.fr" )
-SET (CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-Static")
+SET (CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-Static-ReleaseBranch")
 SET (CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
-SET (CTEST_HG_UPDATE_OPTIONS "default")
+SET (CTEST_HG_UPDATE_OPTIONS "mvd2_release")
 
 SET (OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/${OTB_PROJECT}-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION})
 
@@ -38,8 +38,13 @@ OTB_DATA_LARGEINPUT_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/src/OTB-LargeInput
 Monteverdi2_USE_CPACK:BOOL=ON
 
 OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OTB-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/lib/cmake/OTB-4.5
-ICE_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/Ice-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/include
+ICE_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/Ice-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/include/
 ICE_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/Ice-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/lib/OTBIce.lib
+
+ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
+ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
+LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
+LTDL_LIBRARY:FILEPATH=C:/Program Files (x86)/GnuWin32/lib/ltdl.lib
 ")
 
 #Remove install dir
