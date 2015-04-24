@@ -49,6 +49,8 @@ GDAL_CONFIG:FILEPATH='${MXE_TARGET_ROOT}/bin/gdal-config'
 #auto detects only ossim.dll.a. But we need openthreads to prevent build failure.#TODO: make this change in source CMakeLists.txt?
 OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
 
+OpenJPEG_DIR:PATH=${MXE_TARGET_ROOT}/lib/openjpeg-2.1
+
 OTB_COMPILE_WITH_FULL_WARNING:BOOL=OFF
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
@@ -58,7 +60,6 @@ OTB_USE_CURL:BOOL=ON
 OTB_WRAP_PYTHON:BOOL=OFF
 OTB_WRAP_JAVA:BOOL=OFF
 
-OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_OPENCV:BOOL=ON
 OTB_USE_QT4=ON
