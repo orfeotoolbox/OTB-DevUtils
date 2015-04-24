@@ -48,7 +48,7 @@ CMAKE_PREFIX_PATH=${MXE_TARGET_ROOT}
 #ITK et al :- auto detected from MXE_TARGET_ROOT
 
 #auto detects only ossim.dll.a. But we need openthreads to prevent build failure.#TODO: make this change in source CMakeLists.txt?
-#OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
+OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
 
 OTB_COMPILE_WITH_FULL_WARNING:BOOL=OFF
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
