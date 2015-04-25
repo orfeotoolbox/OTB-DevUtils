@@ -49,6 +49,12 @@ GDAL_CONFIG:FILEPATH='${MXE_TARGET_ROOT}/bin/gdal-config'
 #auto detects only ossim.dll.a. But we need openthreads to prevent build failure.#TODO: make this change in source CMakeLists.txt?
 OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
 
+MUPARSER_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libmuparser.dll.a'
+MUPARSERX_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libmuparserx.dll.a'
+
+MUPARSER_INCLUDE_DIR:PATH='${MXE_TARGET_ROOT}/include/'
+MUPARSERX_INCLUDE_DIR:PATH='${MXE_TARGET_ROOT}/include/'
+
 OpenJPEG_DIR:PATH=${MXE_TARGET_ROOT}/lib/openjpeg-2.1
 
 OTB_COMPILE_WITH_FULL_WARNING:BOOL=OFF
