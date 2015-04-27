@@ -61,7 +61,7 @@ Boost_LIBRARY_DIR:PATH=C:/Program\ Files\ (x86)/boost/boost_1_50/lib64
 LIBSVM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/libsvm-3.20-vc10-${OTB_ARCH}/include
 LIBSVM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libsvm-3.20-vc10-${OTB_ARCH}/lib/libsvm.lib
 
-OpenJPEG_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/openjpeg-2.1.0-vc10-amd64/lib/openjpeg-2.1
+OpenJPEG_DIR:PATH=${OSGEO4W_ROOT}/lib/openjpeg-2.0
     ")
 endmacro()
 

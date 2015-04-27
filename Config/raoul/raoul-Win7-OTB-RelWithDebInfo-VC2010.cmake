@@ -63,7 +63,7 @@ LIBSVM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libsvm-3.20-vc10-$
 
 OpenCV_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/opencv-2.4.10-vc10-x86/share/OpenCV
 
-OpenJPEG_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/openjpeg-2.1.0-vc10-x86/lib/openjpeg-2.1
+OpenJPEG_DIR:PATH=${OSGEO4W_ROOT}/lib/openjpeg-2.0
 ")
 endmacro()
 #remove install dir
