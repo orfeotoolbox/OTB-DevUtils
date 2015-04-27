@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # 07-10-2014: merge commits from parent
 # ** clean mxe
 # ** disable pull
