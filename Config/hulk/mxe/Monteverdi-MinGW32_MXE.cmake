@@ -49,4 +49,4 @@ endmacro()
 
 set(dashboard_no_test 1)
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../../otb_common.cmake)
