@@ -26,8 +26,6 @@ set(MXE_ROOT "/home/otbval/tools/mxe")
 set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-w64-mingw32.shared")
 set(CTEST_USE_LAUNCHERS OFF)
 
-set(OTB_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/install/MXE-32bit-${CTEST_BUILD_CONFIGURATION}")
-
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
@@ -36,18 +34,9 @@ CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-vari
 
 BUILD_TESTING:BOOL=OFF
 
-OTB_DIR:PATH=${OTB_INSTALL_PREFIX}/lib/otb
+CMAKE_INSTALL_PREFIX:PATH=${MXE_TARGET_ROOT}
+CMAKE_PREFIX_PATH:PATH=${MXE_TARGET_ROOT}
 
-ICE_INCLUDE_DIR=${OTB_INSTALL_PREFIX}/include/otb
-ICE_LIBRARY=${OTB_INSTALL_PREFIX}/bin/libOTBIce.dll
-
-#Using linux executable for generating translation files on Windows.
-QT_LRELEASE_EXECUTABLE=/usr/bin/lrelease-qt4
-
-QWT_INCLUDE_DIR:PATH=${MXE_TARGET_ROOT}/qwt/include/
-QWT_LIBRARY:FILEPATH=${MXE_TARGET_ROOT}/qwt/lib/qwt5.dll
-
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
 CMAKE_USE_PTHREADS:BOOL=OFF
