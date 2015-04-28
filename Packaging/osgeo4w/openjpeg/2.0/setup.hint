@@ -1,0 +1,4 @@
+sdesc: "OpenJPEG"
+ldesc: "OpenJPEG : Open source C-Library for JPEG2000"
+category: Libs
+requires: msvcrt libtiff zlib
