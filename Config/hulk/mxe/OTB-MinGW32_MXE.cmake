@@ -23,14 +23,14 @@ set(dashboard_hg_branch "default")
 
 ##cross compile parameters
 set(MXE_ROOT "/home/otbval/tools/mxe")
-set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-pc-mingw32.shared")
+set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-w64-mingw32.shared")
 set(CTEST_USE_LAUNCHERS OFF)
 
 set(OTB_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/install/MXE-32bit-${CTEST_BUILD_CONFIGURATION}")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-  
+
 CMAKE_C_FLAGS:STRING=-Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
