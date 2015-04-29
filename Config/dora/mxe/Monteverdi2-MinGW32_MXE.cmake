@@ -7,8 +7,8 @@ set(CTEST_BUILD_CONFIGURATION Release)
 set(MXE_ROOT "/home/otbval/Tools/mxe")
 set(MXE_TARGET_ARCH "x86_64")
 set(PROJECT "Monteverdi2")
-set(dashboard_source_name "src/Monteverdi2")
-set(dashboard_binary_name "build/${PROJECT}-${MXE_TARGET_ARCH}-MXE")
+set(dashboard_source_name "nighlty/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
+set(dashboard_binary_name "nighlty/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
 
