@@ -2,12 +2,12 @@
 # Cross compilation of OTB library using MXE (M cross environment)
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
-set(CTEST_SITE "hulk.c-s.fr")
+set(CTEST_SITE "dora.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Windows-32bit-Shared-${CTEST_BUILD_CONFIGURATION}-MXE_CROSS_COMPILE")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k install" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+
+
 set(CTEST_TEST_TIMEOUT 500)
 
 set(CTEST_HG_COMMAND "/usr/bin/hg")
