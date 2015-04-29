@@ -117,18 +117,6 @@ set(CTEST_USE_LAUNCHERS OFF)
 
 set(otb_cache_common 
 "
-CMAKE_INSTALL_PREFIX:PATH=${MXE_TARGET_ROOT}
-
-CMAKE_PREFIX_PATH:PATH=${MXE_TARGET_ROOT}
-
-CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-
-CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
-
-CMAKE_USE_PTHREADS:BOOL=OFF
-
-CMAKE_USE_WIN32_THREADS:BOOL=ON
-
 #why these values below? because we know..
 OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS_EXITCODE:INTERNAL=1
 
@@ -159,7 +147,6 @@ OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}
 RUN_RESULT_VERSION:INTERNAL=1.11.2"
 )
 
-
 # Choose CTest reporting mode.
 if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make")
   # Launchers work only with Makefile generators.
@@ -180,7 +167,7 @@ endif()
 
 # Select Git source to use.
 if(NOT DEFINED dashboard_hg_url)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
+set(dashboard_hg_url "http://hg.orfeo-toolbox.org/${PROJECT}")
 endif()
 if(NOT DEFINED dashboard_hg_branch)
   set(dashboard_hg_branch default)
@@ -201,7 +188,7 @@ if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
   if(DEFINED dashboard_source_name)
     set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_source_name})
   else()
-    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/OTB)
+    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/src/${PROJECT})
   endif()
 endif()
 
@@ -262,11 +249,18 @@ list(APPEND CTEST_NOTES_FILES
   "${CMAKE_CURRENT_LIST_FILE}"
   )
 
+if(NOT DEFINED CTEST_BUILD_NAME)
+set(CTEST_BUILD_NAME "Windows-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}")
+endif()
+
 # Check for required variables.
 foreach(req
     CTEST_CMAKE_GENERATOR
     CTEST_SITE
     CTEST_BUILD_NAME
+    MXE_ROOT
+    MXE_TARGET_ARCH
+    PROJECT    
     )
   if(NOT DEFINED ${req})
     message(FATAL_ERROR "The containing script must set ${req}")
@@ -277,6 +271,9 @@ endforeach(req)
 foreach(v
     CTEST_SITE
     CTEST_BUILD_NAME
+    MXE_ROOT
+    MXE_TARGET_ARCH
+    PROJECT
     CTEST_SOURCE_DIRECTORY
     CTEST_BINARY_DIRECTORY
     CTEST_CMAKE_GENERATOR
@@ -311,6 +308,18 @@ DART_TESTING_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
 ${cache_build_type}
 ${cache_make_program}
 ${dashboard_cache}
+CMAKE_INSTALL_PREFIX:PATH=${MXE_TARGET_ROOT}
+
+CMAKE_PREFIX_PATH:PATH=${MXE_TARGET_ROOT}
+
+CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+
+CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
+
+CMAKE_USE_PTHREADS:BOOL=OFF
+
+CMAKE_USE_WIN32_THREADS:BOOL=ON
+
 ")
 endmacro(write_cache)
 

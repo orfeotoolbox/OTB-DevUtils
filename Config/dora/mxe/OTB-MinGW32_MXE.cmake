@@ -8,7 +8,6 @@ set(MXE_ROOT "/home/otbval/Tools/mxe")
 set(MXE_TARGET_ARCH "i686")
 set(PROJECT "OTB")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
-set(dashboard_source_name "src/${PROJECT}")
 set(CTEST_BUILD_NAME "Windows-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}")
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
 

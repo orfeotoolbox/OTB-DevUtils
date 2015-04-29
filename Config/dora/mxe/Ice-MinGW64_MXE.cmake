@@ -4,52 +4,27 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "dora.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Windows-64bit-Shared-${CTEST_BUILD_CONFIGURATION}-MXE_CROSS_COMPILE")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 500)
-
-set(CTEST_HG_COMMAND "/usr/bin/hg")
-set(CTEST_HG_UPDATE_OPTIONS "-C")
-
-set(dashboard_root_name "tests")
+set(MXE_ROOT "/home/otbval/Tools/mxe")
+set(MXE_TARGET_ARCH "x86_64")
+set(PROJECT "Ice")
 set(dashboard_source_name "src/Ice")
-set(dashboard_binary_name "build/Ice-MXE-64bit-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_binary_name "build/${PROJECT}-${MXE_TARGET_ARCH}-MXE")
 
-#set(dashboard_fresh_source_checkout OFF)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/Ice")
-set(dashboard_hg_branch "default")
 
-##cross compile parameters
-set(MXE_ROOT "/home/otbval/tools/mxe")
-set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/x86_64-w64-mingw32.shared")
-set(CTEST_USE_LAUNCHERS OFF)
+include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
 
 macro(dashboard_hook_init)
-  set(dashboard_cache "${dashboard_cache}
+set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-Wall
+
 CMAKE_CXX_FLAGS:STRING=-Wall
 
 BUILD_TESTING:BOOL=OFF
+
 BUILD_ICE_APPLICATION:BOOL=ON
 
-CMAKE_INSTALL_PREFIX:PATH=${MXE_TARGET_ROOT}
-CMAKE_PREFIX_PATH:PATH=${MXE_TARGET_ROOT}
-CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-
-CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
-CMAKE_USE_PTHREADS:BOOL=OFF
-CMAKE_USE_WIN32_THREADS:BOOL=ON
-
-OTB_DIR:PATH=${OTB_INSTALL_PREFIX}/lib/otb
-
-GLFW_LIBRARY:PATH=${MXE_TARGET_ROOT}/lib/glfw3.dll
-
-    ")
+")
 endmacro()
 
 set(dashboard_no_test 1)
-
-include(${CTEST_SCRIPT_DIRECTORY}/../../otb_common.cmake)
