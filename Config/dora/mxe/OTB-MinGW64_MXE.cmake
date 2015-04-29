@@ -2,59 +2,32 @@
 # Cross compilation of OTB library using MXE (M cross environment)
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
-set(CTEST_SITE "hulk.c-s.fr")
+set(CTEST_SITE "dora.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Windows-64bit-Shared-${CTEST_BUILD_CONFIGURATION}-MXE_CROSS_COMPILE")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k install" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 500)
-
-set(CTEST_HG_COMMAND "/usr/bin/hg")
-set(CTEST_HG_UPDATE_OPTIONS "-C")
-
-set(dashboard_root_name "tests")
-set(dashboard_source_name "src/OTB")
-set(dashboard_binary_name "build/OTB-MXE-64bit-${CTEST_BUILD_CONFIGURATION}")
-
-#set(dashboard_fresh_source_checkout OFF)
+set(MXE_ROOT "/home/otbval/Tools/mxe")
+set(MXE_TARGET_ARCH "i686")
+set(PROJECT "OTB")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
-set(dashboard_hg_branch "default")
-
-##cross compile parameters
-set(MXE_ROOT "/home/otbval/tools/mxe")
-set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/x86_64-w64-mingw32.shared")
-set(CTEST_USE_LAUNCHERS OFF)
-
-#set(OTB_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/install/MXE-64bit-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_source_name "src/${PROJECT}")
+set(CTEST_BUILD_NAME "Windows-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}")
+include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
 
 macro(dashboard_hook_init)
-  set(dashboard_cache "${dashboard_cache}
+set(dashboard_cache "
+${otb_cache_common}
+
+OTB_DATA_USE_LARGEINPUT:BOOL=OFF
+OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
+OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 
 CMAKE_C_FLAGS:STRING=-Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
 BUILD_TESTING:BOOL=OFF
 BUILD_EXAMPLES:BOOL=OFF
-
 OTB_WRAP_PYTHON:BOOL=OFF
 OTB_WRAP_JAVA:BOOL=OFF
 OTB_USE_QT4=ON
-
-OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
-OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
-
-CMAKE_INSTALL_PREFIX:PATH=${MXE_TARGET_ROOT}
-CMAKE_PREFIX_PATH:PATH=${MXE_TARGET_ROOT}
-CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
-CMAKE_USE_PTHREADS:BOOL=OFF
-CMAKE_USE_WIN32_THREADS:BOOL=ON
-
-GDAL_CONFIG:FILEPATH='${MXE_TARGET_ROOT}/bin/gdal-config'
-
-OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
 
 OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_OPENCV:BOOL=ON
@@ -62,24 +35,10 @@ OTB_USE_SIFTFAST:BOOL=OFF
 OTB_USE_OPENJPEG:BOOL=OFF
 OTB_USE_LIBKML=OFF
 OTB_USE_LIBSVM=OFF
-OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS_EXITCODE=1
+
 CHECK_HDF4OPEN_SYMBOL_EXITCODE:STRING=FAILED_TO_RUN
-#why these values below? because we know..
-OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS_EXITCODE=1
-GDAL_HAS_J2K_ECW:INTERNAL=0
-GDAL_HAS_J2K_JG2000:INTERNAL=1
-GDAL_HAS_J2K_KAK:INTERNAL=0
-GDAL_HAS_J2K_OPJG:INTERNAL=0
-GDAL_HAS_JPEG:INTERNAL=1
-GDAL_HAS_GTIF:INTERNAL=1
-GDAL_CAN_CREATE_GEOTIFF:INTERNAL=1
-GDAL_CAN_CREATE_BIGTIFF:INTERNAL=1
-GDAL_CAN_CREATE_JPEG:INTERNAL=1
-GDAL_CAN_CREATE_JPEG2000:INTERNAL=1
-RUN_RESULT_VERSION:INTERNAL=1.11.2
+
 ")
 endmacro()
 
 set(dashboard_no_test 1)
-
-include(${CTEST_SCRIPT_DIRECTORY}/../../otb_common.cmake)
