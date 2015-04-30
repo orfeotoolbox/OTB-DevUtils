@@ -44,7 +44,7 @@ MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/muparserx-vc10-
 
 #OTB_USE_LIBKML:BOOL=OFF
 LIBKML_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/include
-LIBKML_BASE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlbase.lib;${OSGEO4W_ROOT}/lib/libexpat.lib
+LIBKML_BASE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlbase.lib;${OSGEO4W_ROOT}/lib/expat.lib
 LIBKML_CONVENIENCE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlconvenience.lib
 LIBKML_DOM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmldom.lib
 LIBKML_ENGINE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/tools/install/libkml-1.3.0-vc10-${OTB_ARCH}/lib/kmlengine.lib
