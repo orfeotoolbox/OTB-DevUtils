@@ -24,8 +24,8 @@ macro(dashboard_hook_init)
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 
-CMAKE_C_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang
-CMAKE_CXX_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang++
+CMAKE_C_COMPILER=/usr/bin/clang
+CMAKE_CXX_COMPILER=/usr/bin/clang++
 
 CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual

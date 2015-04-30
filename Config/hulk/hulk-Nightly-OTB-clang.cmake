@@ -20,11 +20,11 @@ set(dashboard_binary_name "build/OTB-clang-${CTEST_BUILD_CONFIGURATION}")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
-set(ENV{CC} "$ENV{HOME}/tools/install/llvm/bin/clang")
-set(ENV{CXX} "$ENV{HOME}/tools/install/llvm/bin/clang++")
-
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
+
+CMAKE_C_COMPILER=/usr/bin/clang
+CMAKE_CXX_COMPILER=/usr/bin/clang++
   
 CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
