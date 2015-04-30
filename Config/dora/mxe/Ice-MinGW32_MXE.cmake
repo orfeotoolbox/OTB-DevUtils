@@ -10,8 +10,6 @@ set(PROJECT "Ice")
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
 
-include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
-
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
 
@@ -26,6 +24,6 @@ BUILD_ICE_APPLICATION:BOOL=ON
 ")
 endmacro()
 
-set(dashboard_no_test 1)
+include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
 
 

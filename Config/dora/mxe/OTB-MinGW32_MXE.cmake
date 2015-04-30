@@ -11,7 +11,8 @@ set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 
-include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
+set(CMAKE_COMMAND "${CTEST_DASHBOARD_ROOT}/Tools/cmake-git/bin/cmake")
+set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
@@ -24,7 +25,7 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 CMAKE_C_FLAGS:STRING=-Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
-BUILD_TESTING:BOOL=OFF
+BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=OFF
 OTB_WRAP_PYTHON:BOOL=OFF
 OTB_WRAP_JAVA:BOOL=OFF
@@ -43,6 +44,4 @@ CHECK_HDF4OPEN_SYMBOL_EXITCODE:STRING=FAILED_TO_RUN
 
 endmacro()
 
-set(dashboard_no_test 1)
-
-
+include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
