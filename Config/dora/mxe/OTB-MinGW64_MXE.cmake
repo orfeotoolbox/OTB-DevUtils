@@ -19,7 +19,7 @@ set(dashboard_cache "
 ${otb_cache_common}
 
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
+OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 
 CMAKE_C_FLAGS:STRING=-Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
