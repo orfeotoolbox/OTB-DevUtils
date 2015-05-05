@@ -15,33 +15,25 @@ fi
 
 if [ $# -gt 2 ]; then
     BUILDROOT=$3
-fi
-
-#default on pc-christophe. because we cant modify cronjob there
-INSTALLROOT=$HOME/install
-if [ $# -gt 3 ]; then
-    INSTALLROOT=$4
+    BUILDDIR=$BUILDROOT/ossim-$BRANCH
+    SOURCEDIR=$SRCROOT/ossim-$BRANCH
+else
+    BUILDROOT=$HOME/build
+    BUILDDIR=$BUILDROOT/ossim/$BRANCH
+    SOURCEDIR=$SRCROOT/ossim/$BRANCH
 fi
 
 #hulk
 #OSSIM_VERSION=dev
-SOURCEDIR=$SRCROOT/ossim-$BRANCH
-BUILDDIR=$BUILDROOT/ossim-$BRANCH
-INSTALLDIR=$INSTALLROOT/ossim-$BRANCH
 
-if [ -d "$SOURCEDIR" ]; then
-    # update sources
-    cd $SOURCEDIR/ossim
-    svn up
+#default on pc-christophe. because we cant modify cronjob on that pc
 
-    cd $SOURCEDIR/ossim_package_support
-    svn up
+if [ $# -gt 3 ]; then
+    INSTALLROOT=$4
+    INSTALLDIR=$INSTALLROOT/ossim-$BRANCH
 else
-    #create source dir.
-    mkdir -p $SOURCEDIR
-    cd $SOURCEDIR
-    svn co http://svn.osgeo.org/ossim/trunk/ossim
-    svn co http://svn.osgeo.org/ossim/trunk/ossim_package_support
+    INSTALLROOT=$HOME/install
+    INSTALLDIR=$INSTALLROOT/ossim/$BRANCH    
 fi
 
 if [ -d "$BUILDDIR" ]; then
@@ -58,9 +50,20 @@ else
     mkdir -p $INSTALLDIR
 fi
 
-echo "SOURCEDIR=$SOURCEDIR"
-echo "BUILDDIR=$BUILDDIR"
-echo "INSTALLDIR=$INSTALLDIR"
+if [ -d "$SOURCEDIR" ]; then
+    # update sources
+    cd $SOURCEDIR/ossim
+    svn up
+
+    cd $SOURCEDIR/ossim_package_support
+    svn up
+else
+    #create source dir.
+    mkdir -p $SOURCEDIR
+    cd $SOURCEDIR
+    svn co http://svn.osgeo.org/ossim/trunk/ossim
+    svn co http://svn.osgeo.org/ossim/trunk/ossim_package_support
+fi
 
 #configure. all ossimplanet and gui related are disabled
 #mpi support is also disabled
@@ -81,3 +84,8 @@ make -j8
 
 #install to $INSTALLDIR
 make install
+
+#just echo
+echo "SOURCEDIR=$SOURCEDIR"
+echo "BUILDDIR=$BUILDDIR"
+echo "INSTALLDIR=$INSTALLDIR"

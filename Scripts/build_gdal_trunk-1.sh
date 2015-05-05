@@ -9,17 +9,30 @@ if [ $# -ne 2 ]; then
 fi
 
 SRCROOT=$1 #default is /home/otbtesting/sources
-TYPE=$2 #default: trunk
+BRANCH='trunk' #default: trunk
 
-SOURCEDIR=$SRCROOT/gdal/$TYPE
+if [ $# -gt 1 ]; then
+    BRANCH=$2
+fi
+
+SOURCEDIR=$SRCROOT/gdal/$BRANCH
 INSTALLROOT=$HOME/install
 
 cd $SOURCEDIR/gdal
 #FIXME: update to gdal trunk. Why branch 1.11? Refer mantis:937
 svn switch http://svn.osgeo.org/gdal/branches/1.11/gdal/
 
+INSTALLDIR=$INSTALLROOT/gdal/$BRANCH
+
+if [ -d "$INSTALLDIR" ]; then
+    # clean up install dir
+    /bin/rm -fr $INSTALLDIR
+else
+    mkdir -p $INSTALLDIR
+fi
+
 make distclean
-./configure --prefix=$INSTALLROOT/gdal/$TYPE \
+./configure --prefix=$INSTALLDIR \
     --with-openjpeg=$INSTALLROOT/openjpeg/stable/ \
     --with-libkml=/usr/local
     --with-libkml-inc=/usr/local/include \
