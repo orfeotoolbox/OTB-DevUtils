@@ -26,7 +26,7 @@ INSTALLDIR=$INSTALLROOT/gdal/$BRANCH
 
 if [ -d "$INSTALLDIR" ]; then
     # clean up install dir
-    /bin/rm -fr $INSTALLDIR
+    /bin/rm -fr $INSTALLDIR/*
 else
     mkdir -p $INSTALLDIR
 fi

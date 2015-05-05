@@ -38,14 +38,14 @@ fi
 
 if [ -d "$BUILDDIR" ]; then
     # clean up build dir
-    /bin/rm -fr $BUILDDIR
+    /bin/rm -fr $BUILDDIR/*
 else
     mkdir -p $BUILDDIR
 fi
 
 if [ -d "$INSTALLDIR" ]; then
     # clean up install dir
-    /bin/rm -fr $INSTALLDIR
+    /bin/rm -fr $INSTALLDIR/*
 else
     mkdir -p $INSTALLDIR
 fi
