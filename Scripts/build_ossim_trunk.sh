@@ -1,38 +1,73 @@
 #!/bin/bash
 
-if [ $# -ne 2 ]; then
+if [ $# -lt 2 ]; then
  echo 'Usage: '$0' <path/to/source>  <type>'
  echo 'Usage: '$0' /home/user/sources/ trunk'
  exit;
 fi
 
-SRCROOT=$1 #default is /home/otbtesting/sources
-TYPE=$2 #default: trunk
+BRANCH='trunk' #default
+SRCROOT=$1 #ossim trunk sources will be sourceroot/ossim-$branch
 
-SOURCEDIR=$SRCROOT/ossim/$TYPE
-BUILDDIR=$HOME/build/ossim/$TYPE
+if [ $# -gt 1 ]; then
+    BRANCH=$2
+fi
+
+if [ $# -gt 2 ]; then
+    BUILDROOT=$3
+fi
+
+#default on pc-christophe. because we cant modify cronjob there
 INSTALLROOT=$HOME/install
+if [ $# -gt 3 ]; then
+    INSTALLROOT=$4
+fi
 
-cd $SOURCEDIR/ossim
-svn up
+#hulk
+#OSSIM_VERSION=dev
+SOURCEDIR=$SRCROOT/ossim-$BRANCH
+BUILDDIR=$BUILDROOT/ossim-$BRANCH
+INSTALLDIR=$INSTALLROOT/ossim-$BRANCH
 
-cd $SOURCEDIR/ossim_package_support
-svn up
+if [ -d "$SOURCEDIR" ]; then
+    # update sources
+    cd $SOURCEDIR/ossim
+    svn up
 
+    cd $SOURCEDIR/ossim_package_support
+    svn up
+else
+    #create source dir.
+    mkdir -p $SOURCEDIR
+    cd $SOURCEDIR
+    svn co http://svn.osgeo.org/ossim/trunk/ossim
+    svn co http://svn.osgeo.org/ossim/trunk/ossim_package_support
+fi
 
 if [ -d "$BUILDDIR" ]; then
     # clean up build dir
-    /bin/rm -fr $BUILDDIR/*
+    /bin/rm -fr $BUILDDIR
 else
-    mkdir $BUILDDIR
+    mkdir -p $BUILDDIR
 fi
+
+if [ -d "$INSTALLDIR" ]; then
+    # clean up install dir
+    /bin/rm -fr $INSTALLDIR
+else
+    mkdir -p $INSTALLDIR
+fi
+
+echo "SOURCEDIR=$SOURCEDIR"
+echo "BUILDDIR=$BUILDDIR"
+echo "INSTALLDIR=$INSTALLDIR"
 
 #configure. all ossimplanet and gui related are disabled
 #mpi support is also disabled
 cd $BUILDDIR
 cmake $SOURCEDIR/ossim \
     -DCMAKE_MODULE_PATH=$SOURCEDIR/ossim_package_support/cmake/CMakeModules \
-    -DCMAKE_INSTALL_PREFIX:STRING=$INSTALLROOT/ossim/$TYPE \
+    -DCMAKE_INSTALL_PREFIX:STRING=$INSTALLDIR \
     -DCMAKE_BUILD_TYPE:STRING=Release \
     -DBUILD_OSSIM_FRAMEWORKS:BOOL=ON \
     -DBUILD_OSSIM_FREETYPE_SUPPORT:BOOL=ON \
@@ -44,5 +79,5 @@ cmake $SOURCEDIR/ossim \
 #build
 make -j8
 
-#install to $INSTALLROOT
+#install to $INSTALLDIR
 make install

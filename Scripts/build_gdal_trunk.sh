@@ -27,7 +27,10 @@ cd $GDAL_BUILD
 --with-geotiff=internal \
 --with-hide-internal-symbols=yes \
 --with-rename-internal-libtiff-symbols=yes \
---with-rename-internal-libgeotiff-symbols=yes
+--with-rename-internal-libgeotiff-symbols=yes \
+--without-ogdi \
+--without-jasper
+
 
 #build
 make -j8
