@@ -65,6 +65,11 @@ else
     svn co http://svn.osgeo.org/ossim/trunk/ossim_package_support
 fi
 
+#get the svn info and later attach in dashboard submission script 
+cd $SOURCEDIR/ossim
+svn info > $BUILDDIR/ossim_svn_info.txt
+
+
 #configure. all ossimplanet and gui related are disabled
 #mpi support is also disabled
 cd $BUILDDIR

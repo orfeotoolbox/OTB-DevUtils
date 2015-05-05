@@ -63,8 +63,8 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
 
-OTB_WRAP_PYTHON:BOOL=OFF
-OTB_WRAP_JAVA:BOOL=OFF
+OTB_WRAP_PYTHON:BOOL=ON
+OTB_WRAP_JAVA:BOOL=ON
 
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
@@ -79,11 +79,9 @@ endmacro()
 
 #mxe_*.log are not from the yesterday's build.
 #This is because OTB-Nightly-clang build is submitted before MXE
-# SET(CTEST_NOTES_FILES
-#     "${CTEST_DASHBOARD_ROOT}/logs/gdal_weekly_out.log"
-#     "${CTEST_DASHBOARD_ROOT}/logs/ossim_weekly_out.log"
-#     "${CTEST_DASHBOARD_ROOT}/logs/mxe_i686-w64-mingw32.shared_build.log"
-#     "${CTEST_DASHBOARD_ROOT}/logs/mxe_x86_64-w64-mingw32.shared_build.log" 
-#     "${CTEST_DASHBOARD_ROOT}/logs/opencv_weekly_out.log" )
+ SET(CTEST_NOTES_FILES
+     "${CTEST_DASHBOARD_ROOT}/install/gdal/trunk/gdal_svn_info.txt"
+     "${CTEST_DASHBOARD_ROOT}/build/ossim/trunk/ossim_svn_info.txt"
+     "${CTEST_DASHBOARD_ROOT}/build/opencv/trunk/opencv_git_show.txt" )
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

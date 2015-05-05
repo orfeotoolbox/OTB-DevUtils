@@ -31,6 +31,8 @@ else
     mkdir -p $INSTALLDIR
 fi
 
+svn info > $INSTALLDIR/gdal_svn_info.txt
+
 make distclean
 ./configure --prefix=$INSTALLDIR \
     --with-openjpeg=$INSTALLROOT/openjpeg/stable/ \
