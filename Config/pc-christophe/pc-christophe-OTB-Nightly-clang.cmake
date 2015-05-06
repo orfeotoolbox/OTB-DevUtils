@@ -79,9 +79,10 @@ endmacro()
 
 #mxe_*.log are not from the yesterday's build.
 #This is because OTB-Nightly-clang build is submitted before MXE
- SET(CTEST_NOTES_FILES
-     "${CTEST_DASHBOARD_ROOT}/install/gdal/trunk/gdal_svn_info.txt"
-     "${CTEST_DASHBOARD_ROOT}/build/ossim/trunk/ossim_svn_info.txt"
-     "${CTEST_DASHBOARD_ROOT}/build/opencv/trunk/opencv_git_show.txt" )
+list(APPEND CTEST_NOTES_FILES
+  "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt"
+  "${CTEST_DASHBOARD_ROOT}/install/gdal/trunk/gdal_svn_info.txt"
+  "${CTEST_DASHBOARD_ROOT}/build/ossim/trunk/ossim_svn_info.txt"
+  "${CTEST_DASHBOARD_ROOT}/build/opencv/trunk/opencv_git_show.txt" )
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
