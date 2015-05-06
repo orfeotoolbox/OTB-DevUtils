@@ -87,6 +87,16 @@ $CP $OTB_BIN_DIR/lib/otb/applications/otbapp_*.dll $COPYDLLS_CHECK_DIR
 $CP $OTB_BIN_DIR/bin/otbApplicationLauncher* $COPYDLLS_CHECK_DIR
 $CP $OTB_BIN_DIR/bin/otbTestDriver.exe* $COPYDLLS_CHECK_DIR
 
+#copy ice dlls
+$CP $OTB_BIN_DIR/bin/*ICE*dll $COPYDLLS_CHECK_DIR
+#copy iceviewer
+$CP $OTB_BIN_DIR/bin/otbiceviewer.exe $COPYDLLS_CHECK_DIR
+
+#copy monteverdi dlls
+$CP $$OTB_BIN_DIR/bin/libMonteverdi2_*.dll $COPYDLLS_CHECK_DIR
+#copy monteverdi executable
+$CP $$OTB_BIN_DIR/bin/montever*.exe $COPYDLLS_CHECK_DIR
+
 #execute copydlls script
 echo "Running mxe/tools/copydlls.py"
 $PYTHON_INTREP $COPYDLLS_SCRIPT $COPYDLLS_TARGET_DIR/bin -C $COPYDLLS_CHECK_DIR -L $MXE_TARGET_BIN_DIR/bin $OTB_BIN_DIR/bin $MXE_TARGET_BIN_DIR/qt/bin
@@ -103,13 +113,6 @@ $MV $COPYDLLS_CHECK_DIR/*.exe $COPYDLLS_TARGET_DIR/bin/
 
 # #/usr/share/gdal
 $CP $MXE_TARGET_BIN_DIR/share/gdal $COPYDLLS_TARGET_DIR/share/gdal
-
-
-# $CP $MXE_TARGET_DIR/bin/libMonteverdi2_*.dll $COPYDLLS_DIR
-# #copy monteverdi executable
-# $CP $MXE_TARGET_DIR/bin/montever*.exe $COPYDLLS_DIR
-# #copy iceviewer executable
-# $CP $MXE_TARGET_DIR/bin/otbiceviewer.exe $COPYDLLS_DIR
 
 
 # #copy translation and sqlite.dll for monteverdi2
