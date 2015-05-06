@@ -39,7 +39,7 @@ MXE_TARGET_BIN_DIR=$MXE_SOURCE_DIR/usr/$MXE_TARGET_DIR
 
 if [ -d "$MXE_TARGET_BIN_DIR" ]; then
     # error
-    echo "MXE_TARGET_BIN_DIR check - Ok "
+    echo "MXE_TARGET_BIN_DIR check - OK"
 else
     echo "MXE_TARGET_BIN_DIR does not exist. cannot continue.."
     exit -1

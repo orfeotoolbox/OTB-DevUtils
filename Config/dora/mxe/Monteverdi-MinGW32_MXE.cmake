@@ -17,7 +17,8 @@ CMAKE_C_FLAGS:STRING=-Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
-CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/install-MinGW-${MXE_TARGET_ARCH}
+#install otb, ice, monteverdi in the same directory for ease of searching dll and exes
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}
 
 BUILD_TESTING:BOOL=OFF
 
