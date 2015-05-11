@@ -10,6 +10,8 @@ set(PROJECT "Ice")
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
 
+set(CTEST_USE_LAUNCHERS OFF)
+
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
 
@@ -19,6 +21,7 @@ CMAKE_CXX_FLAGS:STRING=-Wall
 
 #install otb, ice, monteverdi in the same directory for ease of searching dll and exes
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}
+OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/lib/cmake/OTB-4.5
 
 BUILD_TESTING:BOOL=OFF
 

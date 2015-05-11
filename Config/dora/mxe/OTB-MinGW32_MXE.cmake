@@ -14,6 +14,8 @@ set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(CMAKE_COMMAND "${CTEST_DASHBOARD_ROOT}/Tools/cmake-git/bin/cmake")
 set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
 
+set(CTEST_USE_LAUNCHERS ON)
+
 macro(dashboard_hook_init)
 set(dashboard_cache "
 ${otb_cache_common}
@@ -28,7 +30,7 @@ CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-vari
 #install otb, ice, monteverdi in the same directory for ease of searching dll and exes
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}
 
-BUILD_TESTING:BOOL=ON
+BUILD_TESTING:BOOL=OFF
 BUILD_EXAMPLES:BOOL=OFF
 OTB_WRAP_PYTHON:BOOL=OFF
 OTB_WRAP_JAVA:BOOL=OFF

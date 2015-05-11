@@ -14,6 +14,8 @@ set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(CMAKE_COMMAND "${CTEST_DASHBOARD_ROOT}/Tools/cmake-git/bin/cmake")
 set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
 
+set(CTEST_USE_LAUNCHERS ON)
+
 macro(dashboard_hook_init)
 set(dashboard_cache "
 ${otb_cache_common}
