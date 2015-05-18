@@ -13,15 +13,26 @@ Orfeo-Toolbox (OTB).
 
 Internal dependencies (included third-party works):
 
+* SiftFast (http://libsift.sourceforge.net/),
+  distributed under the GNU LGPL 3.0 license
+  (see Utilities/otbsiftfast/LICENSE or /usr/share/common-licenses/LGPL-3)
+
+* 6S (http://6s.ltdri.org/)
+  No license information available on the website but the authors gave CNES
+  the permission to use 6S code inside OTB and to release it under CeCILL v2
+  license. FIXME: add a link to the authorization.
+
+* OSSIM Plugins (see OSSIM in next section)
+
+* Some ITK classes patched. (Modules/ThirdParty/ITK/include)
+
+
+External dependencies (not included third-party works):
+
 * ITK (http://www.itk.org/),
   distributed under the Apache 2.0 license
   (see Copyright/ITKCopyright.txt or
        http://www.itk.org/ITK/project/license.html)
-
-* VTK (http://www.vtk.org/),
-  distributed under the revised BSD license
-  (see Copyright/VTKCopyright.txt or
-       http://www.vtk.org/Wiki/VTK/License)
 
 * VXL (http://vxl.sourceforge.net/),
   distributed under a specific license (simplified BSD-like)
@@ -47,33 +58,6 @@ Internal dependencies (included third-party works):
   wxWindows Library License
   (see Copyright/OpenThreadsCopyright.txt)
 
-* SiftFast (http://libsift.sourceforge.net/),
-  distributed under the GNU LGPL 3.0 license
-  (see Utilities/otbsiftfast/LICENSE or /usr/share/common-licenses/LGPL-3)
-
-* ConfigFile (http://www-personal.umich.edu/~wagnerr/ConfigFile.html),
-  distributed under the MIT license
-  (see Copyright/ConfigFileCopyright.txt)
-
-* Insight Journal Publications (http://www.insight-journal.org/browse/publications),
-  distributed under the revised BSD license
-  (see Copyright/ITKCopyright.txt or
-       http://www.itk.org/ITK/project/license.html)
-
-* ISO C9x compliant inttypes.h and stdint.h for Microsoft Visual Studio
-  Utilities/otbmsinttypes/inttypes.h
-  Utilities/otbmsinttypes/stdint.h
-  distributed under the revised BSD license
-  (see header of above files)
-
-* 6S (http://6s.ltdri.org/)
-  No license information available on the website but the authors gave CNES
-  the permission to use 6S code inside OTB and to release it under CeCILL v2
-  license. FIXME: add a link to the authorization.
-
-
-External dependencies (not included third-party works):
-
 * GDAL (http://www.gdal.org/),
   distributed under the X/MIT license
 
@@ -84,20 +68,8 @@ External dependencies (not included third-party works):
   distributed under the GNU GPL 2 license
   NB: FFTW is optional. OTB is not linked against it by default.
 
-* zlib (http://www.zlib.net/)
-  distributed under the zlib/libpng license
-
-* libpng (http://www.libpng.org/)
-  distributed under the zlib/libpng license
-
-* libtiff (http://www.libtiff.org/)
-  distributed under BSD license
-
 * libgeotiff (http://trac.osgeo.org/geotiff/)
   distributed under the MIT-like license
-
-* libjpeg (http://www.ijg.org/)
-  distributed under a specific license (simplified BSD-like)
 
 * Boost (http://www.boost.org/)
   distributed under the Boost Software License 1.0
@@ -114,9 +86,9 @@ External dependencies (not included third-party works):
   distributed under the MIT license
   (see Copyright/MuParserCopyright.txt)
 
-* Expat (http://expat.sourceforge.net/),
-  distributed under the MIT license
-  (see Copyright/EXPATCopyright.txt)
+* MuParserX (http://muparserx.beltoforion.de),
+  distributed under simplified BSD license
+  See MuParserXCopyright.txt for details.
 
 * Qt (http://qt.digia.com/)
   distributed under the GNU LGPL 2.1 license
@@ -125,6 +97,9 @@ External dependencies (not included third-party works):
   distributed under the revised BSD License
   (see Copyright/OpenCVCopyright.txt)
 
+* Mapnik (http://mapnik.org),
+  distrubuted under GNU LGPL version 2.1
+  Copyright : Artem Pavlenko
 
 Upstream Author(s):
 
