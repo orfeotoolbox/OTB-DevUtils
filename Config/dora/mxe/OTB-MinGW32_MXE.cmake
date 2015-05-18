@@ -30,7 +30,7 @@ CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-vari
 #install otb, ice, monteverdi in the same directory for ease of searching dll and exes
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}
 
-BUILD_TESTING:BOOL=OFF
+BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=OFF
 OTB_WRAP_PYTHON:BOOL=OFF
 OTB_WRAP_JAVA:BOOL=OFF
