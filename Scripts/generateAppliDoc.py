@@ -17,7 +17,7 @@ def main(argv):
 
   otbbin = argv[1]
   outDir = argv[2] + "/" 
-  docExe = otbbin + "/bin/otbWrapperTests otbWrapperApplicationHtmlDocGeneratorTest1 "
+  docExe = otbbin + "/bin/otbApplicationEngineTestDriver otbWrapperApplicationHtmlDocGeneratorTest1 "
   cmakeFile = otbbin + "/CMakeCache.txt"  
 
   ## open CMakeCache.txt
@@ -63,12 +63,12 @@ def main(argv):
  
 
   ## Find the list of subdir Application to sort them
-  appDir =  otbDir + "/Applications/"
+  appDir =  otbDir + "/Modules/Applications/"
   fileList = os.listdir(appDir)
   dirList = []
   for fname in fileList:
     if os.path.isdir(appDir+fname):
-      if fname != "Test":
+      if fname != "AppTest":
         dirList.append(fname)
   #print "Subdir in Application:"
   #print dirList 
@@ -81,8 +81,11 @@ def main(argv):
 
   count = 0
   for dirName in dirList:
-    fout.write("<h2>"+dirName+"</h2>")
-    fList = os.listdir(appDir+dirName)
+    group = dirName
+    if dirName.startswith("App") and len(dirName) > 4:
+      group = dirName[3:]
+    fout.write("<h2>"+group+"</h2>")
+    fList = os.listdir(appDir+dirName+"/app")
     for app in appSorted :
        for fname in fList:
          # We assume that the class source file nane is otb#app#.cxx
@@ -90,7 +93,7 @@ def main(argv):
            print ("Generating " + app + " ...")
            filename = outDir + app + ".html"
            filename_without_path = app + ".html"
-           commandLine = docExe + " " + app + " " + otbbin + "/bin " + filename + " 1"
+           commandLine = docExe + " " + app + " " + otbbin + "/lib/otb/applications " + filename + " 1"
            os.system(commandLine)
     
            outLine = "<a href=\"" + filename_without_path + "\">" + app + "</a><br />"
