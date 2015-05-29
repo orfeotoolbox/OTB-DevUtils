@@ -39,6 +39,7 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual -Wno-\\\\#warnings
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
+CMAKE_MACOSX_RPATH:BOOL=1
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build
 
