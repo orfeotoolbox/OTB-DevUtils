@@ -1,0 +1,5 @@
+sdesc: "The Boost library."
+ldesc: "Boost provides free peer-reviewed portable C++ source libraries."
+maintainer: JulienMalik
+category: Libs
+requires: msvcrt2012
