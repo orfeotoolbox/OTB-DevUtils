@@ -56,7 +56,7 @@ cmake "../%P%-%V%" -G "NMake Makefiles" ^
  -DEXPAT_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/libexpat.lib ^
  -DZLIB_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include ^
  -DZLIB_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/zlib.lib ^
- -DBoost_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include
+ -DBoost_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include/boost-1_56
 
 cmake --build . --config Release --target INSTALL
 
