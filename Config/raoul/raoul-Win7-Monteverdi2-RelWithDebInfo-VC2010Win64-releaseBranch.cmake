@@ -11,7 +11,7 @@ SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/${OTB_PROJECT}-Releas
 
 SET (CTEST_CMAKE_GENERATOR  "NMake Makefiles")
 # avoid redefinition of build command to build target 'PACKAGE'
-#SET (CTEST_BUILD_COMMAND  "jom install")
+SET (CTEST_BUILD_COMMAND  "jom")
 SET (CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 SET (CTEST_SITE "raoul.c-s.fr" )
 SET (CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-Static-ReleaseBranch")
@@ -60,6 +60,7 @@ file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+unset(CTEST_BUILD_COMMAND)
 ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}" TARGET PACKAGES)
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_submit ()
