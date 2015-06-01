@@ -1,9 +1,10 @@
-:: tinyXML
+:: ITK
 :: 
-:: Source http://sourceforge.net/projects/tinyxml/files/tinyxml/2.6.2/tinyxml_2_6_2.tar.gz/download
+:: Source http://sourceforge.net/projects/itk/files/itk/4.7/InsightToolkit-4.7.2.tar.gz/download
 :: prerequisite:
 ::   - wget  (see GNUWin32 binaries)
 ::   - unzip, tar  (in OSGeo4W)
+::   - setup.hint
 
 set CURRENT_SCRIPT_DIR=%~dp0
 cd %CURRENT_SCRIPT_DIR%
