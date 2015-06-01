@@ -2,7 +2,7 @@
 # Cross compilation of OTB library using MXE (M cross environment)
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
-set(CTEST_SITE "dora.c-s.fr")
+set(CTEST_SITE "bumblebee.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(MXE_ROOT "/home/otbval/Tools/mxe")
 set(MXE_TARGET_ARCH "i686")
@@ -10,10 +10,7 @@ set(PROJECT "OTB")
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
-
-set(CMAKE_COMMAND "${CTEST_DASHBOARD_ROOT}/Tools/cmake-git/bin/cmake")
 set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
-
 set(CTEST_USE_LAUNCHERS ON)
 
 macro(dashboard_hook_init)

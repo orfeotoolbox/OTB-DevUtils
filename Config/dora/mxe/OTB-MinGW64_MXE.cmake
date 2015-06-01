@@ -2,7 +2,7 @@
 # Cross compilation of OTB library using MXE (M cross environment)
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
-set(CTEST_SITE "dora.c-s.fr")
+set(CTEST_SITE "bumblebee.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(MXE_ROOT "/home/otbval/Tools/mxe")
 set(MXE_TARGET_ARCH "x86_64")
