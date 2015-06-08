@@ -16,9 +16,9 @@ def main(argv):
     return
 
   otbbin = argv[1]
-  outDir = argv[2] + "/" 
+  outDir = argv[2] + "/"
   docExe = otbbin + "/bin/otbApplicationEngineTestDriver otbWrapperApplicationHtmlDocGeneratorTest1 "
-  cmakeFile = otbbin + "/CMakeCache.txt"  
+  cmakeFile = otbbin + "/CMakeCache.txt"
 
   ## open CMakeCache.txt
   f = open(cmakeFile, 'r')
@@ -43,8 +43,8 @@ def main(argv):
 
 
   ## close CMakeCache.txt
-  f.close() 
-  
+  f.close()
+
   # Extract the OTB_DIR_SOURCE path form CMakeCache.txt
   ## open CMakeCache.txt
   f = open(cmakeFile, 'r')
@@ -57,10 +57,10 @@ def main(argv):
       otbDir = otbDir.split("=")[1]
       break
   #print "OTB_SOURCE_DIR:" + otbDir
-  
+
   ## close CMakeCache.txt
   f.close()
- 
+
 
   ## Find the list of subdir Application to sort them
   appDir =  otbDir + "/Modules/Applications/"
@@ -71,9 +71,9 @@ def main(argv):
       if fname != "AppTest":
         dirList.append(fname)
   #print "Subdir in Application:"
-  #print dirList 
+  #print dirList
 
-  
+
   fout = open(outDir+"index.html", 'w')
   fout.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd\"><html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\"></style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">")
   fout.write("<h1>The following applications are distributed with OTB.</h1>")
@@ -95,7 +95,7 @@ def main(argv):
            filename_without_path = app + ".html"
            commandLine = docExe + " " + app + " " + otbbin + "/lib/otb/applications " + filename + " 1"
            os.system(commandLine)
-    
+
            outLine = "<a href=\"" + filename_without_path + "\">" + app + "</a><br />"
            fout.write(outLine)
            count = count+1
@@ -108,7 +108,7 @@ def main(argv):
      print str(count) + " application documentations have been generated..."
 
   fout.write("</body")
-  fout.write("</html>") 
+  fout.write("</html>")
   fout.close()
 
 if __name__ == "__main__":
