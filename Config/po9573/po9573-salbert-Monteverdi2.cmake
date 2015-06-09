@@ -32,7 +32,8 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 # ITK_DIR:PATH=/usr/lib/cmake/ITK-4.6
 ITK_DIR:PATH=$ENV{HOME}/local/lib/cmake/ITK-4.8
 
-OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-4.5
+# OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-4.5
+OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-5.0
 # OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB-stable/lib/cmake/OTB-4.5
 
 ICE_INCLUDE_DIR:STRING=$ENV{HOME}/dev/install/Ice/include
