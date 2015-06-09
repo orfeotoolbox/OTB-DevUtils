@@ -1,0 +1,4 @@
+sdesc: "Ossim"
+ldesc: "Open Source Software Image Map"
+category: Libs
+requires: msvcrt curl expat geos libtiff libjpeg libgeotiff osg-libs
