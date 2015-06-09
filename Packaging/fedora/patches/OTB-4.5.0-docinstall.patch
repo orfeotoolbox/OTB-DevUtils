@@ -1,0 +1,12 @@
+diff -burN OTB-4.5.0.orig/CMakeLists.txt OTB-4.5.0/CMakeLists.txt
+--- OTB-4.5.0.orig/CMakeLists.txt	2015-04-28 09:18:25.740494451 +0200
++++ OTB-4.5.0/CMakeLists.txt	2015-04-28 09:18:39.088418352 +0200
+@@ -374,7 +374,7 @@
+ 
+ # TODO : install release notes, copyright notice, ...
+ # install(FILES "LICENSE" "NOTICE" "README.txt" DESTINATION ${OTB_INSTALL_DOC_DIR} COMPONENT Runtime)
+-install(FILES "LICENSE" DESTINATION ${OTB_INSTALL_DOC_DIR} COMPONENT Runtime)
++#install(FILES "LICENSE" DESTINATION ${OTB_INSTALL_DOC_DIR} COMPONENT Runtime)
+ 
+ if(BUILD_TESTING)
+   add_subdirectory(Utilities/InstallTest)

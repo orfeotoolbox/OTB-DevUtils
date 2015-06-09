@@ -1,0 +1,117 @@
+diff -rupN openjpeg-2.0.0/CMakeLists.txt openjpeg-2.0.0-new/CMakeLists.txt
+--- openjpeg-2.0.0/CMakeLists.txt	2012-11-19 15:26:08.000000000 +0100
++++ openjpeg-2.0.0-new/CMakeLists.txt	2014-04-16 22:39:57.624505784 +0200
+@@ -287,3 +287,39 @@ endif()
+ install(FILES LICENSE DESTINATION ${OPENJPEG_INSTALL_DOC_DIR})
+ 
+ include (cmake/OpenJPEGCPack.cmake)
++
++#-----------------------------------------------------------------------------
++# pkgconfig support
++if(UNIX)
++  # install in lib and not share (see multi-arch note above)
++  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/lib/openjp2/libopenjp2.pc.cmake.in
++    ${CMAKE_CURRENT_BINARY_DIR}/libopenjp2.pc @ONLY)
++  install( FILES  ${CMAKE_CURRENT_BINARY_DIR}/libopenjp2.pc DESTINATION
++    ${OPENJPEG_INSTALL_LIB_DIR}/pkgconfig )
++#
++  if(BUILD_JPWL)
++  # install in lib and not share (see multi-arch note above)
++  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/lib/openjpwl/libopenjpwl.pc.cmake.in
++    ${CMAKE_CURRENT_BINARY_DIR}/libopenjpwl.pc @ONLY)
++  install( FILES  ${CMAKE_CURRENT_BINARY_DIR}/libopenjpwl.pc DESTINATION
++    ${OPENJPEG_INSTALL_LIB_DIR}/pkgconfig )
++  endif()
++#
++  if(BUILD_JPIP)
++  # install in lib and not share (see multi-arch note above)
++  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/lib/openjpip/libopenjpip.pc.cmake.in
++    ${CMAKE_CURRENT_BINARY_DIR}/libopenjpip.pc @ONLY)
++  install( FILES  ${CMAKE_CURRENT_BINARY_DIR}/libopenjpip.pc DESTINATION
++    ${OPENJPEG_INSTALL_LIB_DIR}/pkgconfig )
++  endif()
++#
++  if(BUILD_JP3D)
++  # install in lib and not share (see multi-arch note above)
++  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/lib/openjp3d/libopenjp3d.pc.cmake.in
++    ${CMAKE_CURRENT_BINARY_DIR}/libopenjp3d.pc @ONLY)
++  install( FILES  ${CMAKE_CURRENT_BINARY_DIR}/libopenjp3d.pc DESTINATION
++    ${OPENJPEG_INSTALL_LIB_DIR}/pkgconfig )
++  endif()
++endif()
++
++#-----------------------------------------------------------------------------
+diff -rupN openjpeg-2.0.0/src/lib/openjp2/libopenjp2.pc.cmake.in openjpeg-2.0.0-new/src/lib/openjp2/libopenjp2.pc.cmake.in
+--- openjpeg-2.0.0/src/lib/openjp2/libopenjp2.pc.cmake.in	1970-01-01 01:00:00.000000000 +0100
++++ openjpeg-2.0.0-new/src/lib/openjp2/libopenjp2.pc.cmake.in	2014-04-16 22:39:20.356926842 +0200
+@@ -0,0 +1,14 @@
++prefix=@CMAKE_INSTALL_PREFIX@
++bindir=${prefix}/@OPENJPEG_INSTALL_BIN_DIR@
++mandir=${prefix}/@OPENJPEG_INSTALL_MAN_DIR@
++docdir=${prefix}/@OPENJPEG_INSTALL_DOC_DIR@
++libdir=${prefix}/@OPENJPEG_INSTALL_LIB_DIR@
++includedir=${prefix}/@OPENJPEG_INSTALL_INCLUDE_DIR@
++
++Name: openjp2
++Description: JPEG2000 library (Part 1 and 2)
++URL: http://www.openjpeg.org/
++Version: @OPENJPEG_VERSION@
++Libs: -L${libdir} -lopenjp2
++Libs.private: -lm
++Cflags: -I${includedir}
+diff -rupN openjpeg-2.0.0/src/lib/openjp3d/libopenjp3d.pc.cmake.in openjpeg-2.0.0-new/src/lib/openjp3d/libopenjp3d.pc.cmake.in
+--- openjpeg-2.0.0/src/lib/openjp3d/libopenjp3d.pc.cmake.in	1970-01-01 01:00:00.000000000 +0100
++++ openjpeg-2.0.0-new/src/lib/openjp3d/libopenjp3d.pc.cmake.in	2014-04-16 22:39:20.359926889 +0200
+@@ -0,0 +1,14 @@
++prefix=@CMAKE_INSTALL_PREFIX@
++bindir=${prefix}/@OPENJPEG_INSTALL_BIN_DIR@
++mandir=${prefix}/@OPENJPEG_INSTALL_MAN_DIR@
++docdir=${prefix}/@OPENJPEG_INSTALL_DOC_DIR@
++libdir=${prefix}/@OPENJPEG_INSTALL_LIB_DIR@
++includedir=${prefix}/@OPENJPEG_INSTALL_INCLUDE_DIR@
++
++Name: openjp3d
++Description: JPEG2000 Extensions for three-dimensional data (Part 10)
++URL: http://www.openjpeg.org/
++Version: @OPENJPEG_VERSION@
++Libs: -L${libdir} -lopenjp3d
++Libs.private: -lm
++Cflags: -I${includedir}
+diff -rupN openjpeg-2.0.0/src/lib/openjpip/libopenjpip.pc.cmake.in openjpeg-2.0.0-new/src/lib/openjpip/libopenjpip.pc.cmake.in
+--- openjpeg-2.0.0/src/lib/openjpip/libopenjpip.pc.cmake.in	1970-01-01 01:00:00.000000000 +0100
++++ openjpeg-2.0.0-new/src/lib/openjpip/libopenjpip.pc.cmake.in	2014-04-16 22:39:20.363926951 +0200
+@@ -0,0 +1,15 @@
++prefix=@CMAKE_INSTALL_PREFIX@
++bindir=${prefix}/@OPENJPEG_INSTALL_BIN_DIR@
++mandir=${prefix}/@OPENJPEG_INSTALL_MAN_DIR@
++docdir=${prefix}/@OPENJPEG_INSTALL_DOC_DIR@
++libdir=${prefix}/@OPENJPEG_INSTALL_LIB_DIR@
++includedir=${prefix}/@OPENJPEG_INSTALL_INCLUDE_DIR@
++
++Name: openjpip
++Description: JPEG2000 Interactivity tools, APIs and protocols (Part 9)
++URL: http://www.openjpeg.org/
++Version: @OPENJPEG_VERSION@
++Requires: openjp2
++Libs: -L${libdir} -lopenjpip
++Libs.private: -lm -lcurl -lfcgi -lpthread
++Cflags: -I${includedir}
+diff -rupN openjpeg-2.0.0/src/lib/openjpwl/libopenjpwl.pc.cmake.in openjpeg-2.0.0-new/src/lib/openjpwl/libopenjpwl.pc.cmake.in
+--- openjpeg-2.0.0/src/lib/openjpwl/libopenjpwl.pc.cmake.in	1970-01-01 01:00:00.000000000 +0100
++++ openjpeg-2.0.0-new/src/lib/openjpwl/libopenjpwl.pc.cmake.in	2014-04-16 22:39:20.367927013 +0200
+@@ -0,0 +1,15 @@
++prefix=@CMAKE_INSTALL_PREFIX@
++bindir=${prefix}/@OPENJPEG_INSTALL_BIN_DIR@
++mandir=${prefix}/@OPENJPEG_INSTALL_MAN_DIR@
++docdir=${prefix}/@OPENJPEG_INSTALL_DOC_DIR@
++libdir=${prefix}/@OPENJPEG_INSTALL_LIB_DIR@
++includedir=${prefix}/@OPENJPEG_INSTALL_INCLUDE_DIR@
++
++Name: openjpwl
++Description: JPEG2000 Wireless library (Part 11)
++URL: http://www.openjpeg.org/
++Version: @OPENJPEG_VERSION@
++Requires: openjp2
++Libs: -L${libdir} -lopenjpwl
++Libs.private: -lm
++Cflags: -I${includedir}

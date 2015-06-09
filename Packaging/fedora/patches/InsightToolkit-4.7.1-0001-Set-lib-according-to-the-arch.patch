@@ -1,0 +1,12 @@
+diff -burN InsightToolkit-4.7.1.orig/CMakeLists.txt InsightToolkit-4.7.1/CMakeLists.txt
+--- InsightToolkit-4.7.1.orig/CMakeLists.txt	2015-04-22 13:39:31.094622668 +0200
++++ InsightToolkit-4.7.1/CMakeLists.txt	2015-04-22 13:39:54.126545696 +0200
+@@ -76,7 +76,7 @@
+   set(ITK_INSTALL_DOC_DIR share/doc/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
+ endif()
+ if(NOT ITK_INSTALL_PACKAGE_DIR)
+-  set(ITK_INSTALL_PACKAGE_DIR "lib/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
++  set(ITK_INSTALL_PACKAGE_DIR "lib${LIB_SUFFIX}/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
+ endif()
+ 
+ # Override CMake's built-in add_* commands: assign LABELS to tests and targets

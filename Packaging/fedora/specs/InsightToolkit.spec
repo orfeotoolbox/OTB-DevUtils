@@ -1,5 +1,5 @@
 %define _ver_major      4
-%define _ver_minor      6
+%define _ver_minor      8
 %define _ver_release    1
 %define sname    ITK-%{_ver_major}.%{_ver_minor}
 
@@ -9,16 +9,18 @@
 %endif
 
 Name:           InsightToolkit
-Summary:        Insight Toolkit library for medical image processing
+Summary:        Insight Segmentation and Registration Toolkit (ITK)
 Version:        %{_ver_major}.%{_ver_minor}.%{_ver_release}
-Release:        2%{?dist}
+Release:        1%{?dist}
 License:        ASL 2.0
 Group:          Applications/Engineering
+#the source tar.xz used to build ITK is actual release from 'Source0' - InsightToolkit/.ExternalData
+##This is a snapshot version. commit hash is 999bf63dc19db7d3c586b3f299bd3db150e514f9
 Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/%{name}-%{version}.tar.xz
-Source1:        http://downloads.sourceforge.net/project/itk/itk/4.6/InsightSoftwareGuide-Book1-4.6.0.pdf
-Source2:        http://downloads.sourceforge.net/project/itk/itk/4.6/InsightSoftwareGuide-Book2-4.6.0.pdf
+#Source1:        http://downloads.sourceforge.net/project/itk/itk/4.7/InsightSoftwareGuide-Book1-4.7.1.pdf
+#Source2:        http://downloads.sourceforge.net/project/itk/itk/4.7/InsightSoftwareGuide-Book2-4.7.1.pdf
 URL:            http://www.itk.org/
-Patch0:         %{name}-0001-Set-lib-lib64-according-to-the-architecture.patch
+Patch0:         %{name}-4.7.1-0001-Set-lib-according-to-the-arch.patch
 #Patch1:         %{name}-Fix_HDF5_Libraries.patch
 
 BuildRequires:  cmake
@@ -45,18 +47,18 @@ BuildRequires:  jsoncpp-devel
 BuildRequires:  expat-devel
 
 %description
-ITK is an open-source software toolkit for performing registration and 
+ITK is an open-source software toolkit for performing registration and
 segmentation. Segmentation is the process of identifying and classifying data
 found in a digitally sampled representation. Typically the sampled
 representation is an image acquired from such medical instrumentation as CT or
-MRI scanners. Registration is the task of aligning or developing 
+MRI scanners. Registration is the task of aligning or developing
 correspondences between data. For example, in the medical environment, a CT
 scan may be aligned with a MRI scan in order to combine the information
 contained in both.
 
-ITK is implemented in C++ and its implementation style is referred to as 
+ITK is implemented in C++ and its implementation style is referred to as
 generic programming (i.e.,using templated code). Such C++ templating means
-that the code is highly efficient, and that many software problems are 
+that the code is highly efficient, and that many software problems are
 discovered at compile-time, rather than at run-time during program execution.
 
 %package        devel
@@ -112,7 +114,7 @@ Provides an interface between ITK and VTK
 #%patch1 -p1
 
 # copy guide into the appropriate directory
-cp -a %{SOURCE1} %{SOURCE2} .
+#cp -a %{SOURCE1} %{SOURCE2} .
 
 # remove applications: they are shipped separately now
 rm -rf Applications/
@@ -131,7 +133,7 @@ pushd %{_target_platform}
 %cmake .. \
        -DBUILD_SHARED_LIBS:BOOL=ON \
        -DBUILD_EXAMPLES:BOOL=OFF \
-       -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
+       -DCMAKE_BUILD_TYPE:STRING="Release"\
        -DCMAKE_VERBOSE_MAKEFILE=OFF \
        -DBUILD_TESTING=OFF \
        -DITKV3_COMPATIBILITY:BOOL=ON \
@@ -140,7 +142,6 @@ pushd %{_target_platform}
        -DITK_WRAP_PYTHON:BOOL=OFF \
        -DITK_WRAP_JAVA:BOOL=OFF \
        -DBUILD_DOCUMENTATION:BOOL=OFF \
-       -DModule_ITKReview:BOOL=ON \
        -DITK_USE_SYSTEM_HDF5=ON \
        -DITK_USE_SYSTEM_JPEG=ON \
        -DITK_USE_SYSTEM_TIFF=ON \
@@ -185,7 +186,6 @@ make test -C %{_target_platform} || exit 0
 
 %postun vtk -p /sbin/ldconfig
 
-
 %files
 %{_docdir}/%{sname}/
 %{_libdir}/*.so.*
@@ -203,13 +203,23 @@ make test -C %{_target_platform} || exit 0
 %files doc
 %dir %{_docdir}/%{sname}/
 %{_docdir}/%{sname}/*
-%doc InsightSoftwareGuide-Book1-4.6.0.pdf
-%doc InsightSoftwareGuide-Book2-4.6.0.pdf
+#%doc InsightSoftwareGuide-Book1-4.7.1.pdf
+#%doc InsightSoftwareGuide-Book2-4.7.1.pdf
 
 %files vtk
 %{_libdir}/libITKVtkGlue*.so.*
 
 %changelog
+* Fri Apr 24 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 4.8.1-1
+- update to ITK 4.8.1
+- commit hash 999bf63dc19db7d3c586b3f299bd3db150e514f9
+
+* Wed Apr 22 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 4.7.1-2
+- update to ITK 4.7.1
+- deactivate ITK_Review
+- Do not embed PDF inside RPM files
+- removed unwanted patches
+
 * Wed Nov 26 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 4.6.1-2
 - original spec from pkgs.fedoraproject.org/cgit/InsightToolkit.git
 - deactivate compilation of testing
@@ -217,7 +227,7 @@ make test -C %{_target_platform} || exit 0
 
 * Fri Oct 03 2014 Sebastian Pölsterl <sebp@k-d-w.org> - 4.6.1-1
 - Update to 4.6.1
-- Don't compile with -fpermissive
+- Dont compile with -fpermissive
 
 * Fri Aug 15 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.6.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
@@ -399,5 +409,3 @@ make test -C %{_target_platform} || exit 0
 
 * Tue Nov 17 2009 Mario Ceresa mrceresa@gmail.com InsightToolkit 3.16.0-1
 - Initial RPM Release
-
-

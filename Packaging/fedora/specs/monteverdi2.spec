@@ -1,38 +1,39 @@
 # spec file for Monteverdi2
-%global sname Monteverdi2
-%global mvdbin monteverdi2.bin
+%global _uname Monteverdi2
+
 Name:  monteverdi2
-Version:  0.8.0
+Version:  0.9.0
 Release:  1%{?dist}
-Summary:  A GUI application developed around OTB library and Qt
+Summary:  %{sname} is the GUI interface built with OTB library and Qt
 Group:    Applications/Engineering
 License:  CeCILL
 URL:	  http://www.orfeo-toolbox.org
-Source0:  http://orfeo-toolbox.org/packages/%{sname}-%{version}.tgz
+Source0:  http://orfeo-toolbox.org/packages/%{_uname}-%{version}.tgz
 BuildRequires:  fltk-devel
 BuildRequires:  fltk-fluid
 BuildRequires:  cmake
-BuildRequires:  otb-devel
+BuildRequires:  otb-devel >= 4.5.0
 BuildRequires:  glfw-devel
 BuildRequires:  glew-devel
 BuildRequires:  freeglut-devel
 BuildRequires:  libXmu-devel
-BuildRequires:  gdal-devel 
+BuildRequires:  gdal-devel >= 1.11.2
 BuildRequires:  boost-devel
-BuildRequires:  InsightToolkit-devel
-BuildRequires:  ossim-devel
-BuildRequires: libgeotiff-devel 
-BuildRequires: libpng-devel 
+BuildRequires:  InsightToolkit-devel >= 4.7
+BuildRequires:  ossim-devel >= 1.8.18
+BuildRequires: libgeotiff-devel
+BuildRequires: libpng-devel
 BuildRequires: boost-devel
-BuildRequires: expat-devel 
+BuildRequires: expat-devel
 BuildRequires: curl-devel
-BuildRequires: tinyxml-devel 
+BuildRequires: tinyxml-devel
 BuildRequires: muParser-devel
 BuildRequires: OpenThreads-devel
-BuildRequires: libjpeg-devel
-BuildRequires: openjpeg2-devel
+BuildRequires: libjpeg-turbo-devel
+BuildRequires: openjpeg2-devel >= 2.1.0-4
+BuildRequires: openjpeg2-tools >= 2.1.0-4
 ### test package to install only jpeg plugin
-###BuildRequires: gdal-openjpeg 
+###BuildRequires: gdal-openjpeg
 #for generating man pages from help
 BuildRequires: help2man
 BuildRequires: opencv-devel
@@ -41,77 +42,71 @@ BuildRequires:  zlib-devel
 BuildRequires:  gdcm-devel
 BuildRequires:  vxl-devel
 BuildRequires:  python2-devel
-BuildRequires:  otb-Ice-devel
+BuildRequires:  otb-ice-devel >= 0.2.0
 BuildRequires:  qwt5-qt4-devel
-BuildRequires:  desktop-file-utils
 
 %description
-This package provides %{sname} GUI application developed 
-in Qt4 around the OTB library.
+%{sname} is the GUI interface built with OTB library and Qt
 
 %prep
-%setup -q -n %{sname}-%{version} -D
+%setup -q -n %{_uname}-%{version}
 
 %build
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake .. \
-    -DQWT_LIBRARY:FILEPATH=%{_libdir}/libqwt5-qt4.so \
-    -DQWT_INCLUDE_DIR:PATH=%{_includedir}/qwt5-qt4/ \
-    -DMonteverdi2_INSTALL_LIB_DIR:PATH=%{_lib}/otb \
-    -DMONTEVERDI2_OUTPUT_NAME:STRING="%{mvdbin}"
+       -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
+       -DBUILD_TESTING:BOOL=OFF \
+       -DQWT_LIBRARY:FILEPATH=%{_libdir}/libqwt5-qt4.so \
+       -DQWT_INCLUDE_DIR:PATH=%{_includedir}/qwt5-qt4/ \
+       -DMonteverdi2_INSTALL_LIB_DIR:PATH=%{_lib}/otb \
+       -DMONTEVERDI2_OUTPUT_NAME:STRING="monteverdi2.bin"
 popd
 make %{?_smp_mflags} -C %{_target_platform}
 
 %install
+rm -rf %{buildroot}
 %make_install -C %{_target_platform}
-desktop-file-install                                    \
---add-category="Science"                          \
---delete-original                                       \
---dir=%{buildroot}%{_datadir}/applications              \
-%{buildroot}%{_datadir}/applications/monteverdi2.desktop
 
-%check
-desktop-file-validate %{buildroot}/%{_datadir}/applications/monteverdi2.desktop
-cat > %{buildroot}%{_bindir}/monteverdi2 <<EOF
-ITK_AUTOLOAD_PATH=%{_libdir}/otb/applications
-export ITK_AUTOLOAD_PATH
-%{_bindir}/%{mvdbin} "$@"
-EOF
-chmod +x %{buildroot}%{_bindir}/monteverdi2
+
 %post
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
+cat > /usr/bin/monteverdi2 <<EOF
+export ITK_AUTOLOAD_PATH=%{_libdir}/otb/applications
+/usr/bin/monteverdi2.bin $@
+EOF
+
 /sbin/ldconfig
 
-%postun
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-/sbin/ldconfig
-
-%posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+%postun -p /sbin/ldconfig
 
 %files
-%{_libdir}/otb/libMonteverdi2*.so.*
+%{_libdir}/otb/libMonteverdi2*
 %{_bindir}/monteverdi2.bin
-%{_bindir}/monteverdi2
+%{_bindir}/mapla
 %{_datadir}/otb/*
 %{_datadir}/icons/*
 %{_datadir}/pixmaps/*
-%{_datadir}/applications/monteverdi2.desktop
-%exclude %{_libdir}/otb/libMonteverdi2*.so
-%exclude %{_datadir}/applications/mvd2-viewer.desktop
+%{_datadir}/applications/*
+%dir %{_libdir}/otb
+%dir %{_datadir}/icons
+%dir %{_datadir}/pixmaps
+%dir %{_datadir}/applications
+%dir %{_datadir}/icons/hicolor
+%dir %{_datadir}/icons/hicolor/16x16
+%dir %{_datadir}/icons/hicolor/32x32
+%dir %{_datadir}/icons/hicolor/48x48
+%dir %{_datadir}/icons/hicolor/128x128
+
 
 %changelog
-* Wed Dec 10 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.8.0-1
-- add launcher script to set ITK_AUTOLOAD_PATH
+* Wed Apr 29 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.9.0-1
+- use _datadir/share instead of adding _sharedir variable
 
-* Mon Dec 1 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.8.0-1
-- update for Fedora Guidelines as suggested by Volter
-- install and validate .desktop file. 
-- updating icon cache in post and postun
+* Tue Apr 28 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.9.0-1
+- update for OTB-4.5.0
 
-* Tue Nov 25 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.8.0-1
+* Tue Dec 23 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.8.0-1
 - Initial package for Monteverdi2
+
+* Wed Nov 19 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.8.0-1
+- add launcher script to set ITK_AUTOLOAD_PATH
