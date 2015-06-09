@@ -1,0 +1,5 @@
+sdesc: "GEOS"
+ldesc: " Gepmetry Engine Open Source (C++ and C libs)"
+category: Libs
+requires: msvcrt
+maintainer: JulienMalik
