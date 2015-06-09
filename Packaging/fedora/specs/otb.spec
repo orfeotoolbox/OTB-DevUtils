@@ -20,7 +20,7 @@ URL:	       http://www.orfeo-toolbox.org
 Source0:       http://orfeo-toolbox.org/packages/%{_uname}-%{version}.tgz
 #File will be merged with upstream - http://bugs.orfeo-toolbox.org/view.php?id=987
 Source1:       README.txt
-#Source2:       otb.conf
+Source2:       otb.conf
 Patch0:        %{_uname}-4.5.0-docinstall.patch
 #Patch0:	       %{_uname}-4.2.1-6S_main.patch
 #Patch1:	       %{_uname}-4.2.1-dm_CMakeLists.patch
@@ -107,10 +107,10 @@ This package provides python bindings for %{name}
 cp -a %{SOURCE1} .
 
 #ld.so.conf.d/otb.conf
-#cp -a %{SOURCE2} .
+cp -a %{SOURCE2} .
 
 #prep otb.conf
-#sed -i 's,prefix,%{_libdir},g' otb.conf
+sed -i 's,prefix,%{_libdir},g' otb.conf
 
 %patch0 -p1
 #%patch1 -p1
@@ -136,13 +136,18 @@ pushd %{_target_platform}
     -DBUILD_APPLICATIONS:BOOL=ON \
     -DBoost_NO_BOOST_CMAKE=ON \
     -DOTB_USE_CURL:BOOL=ON \
-    -DOTB_USE_MAPNIK:BOOL=OFF \
     -DOTB_USE_OPENCV:BOOL=ON \
-    -DOTB_USE_LIBSVM:BOOL=OFF \
-    -DOTB_USE_LIBKML:BOOL=OFF \
     -DOTB_WRAP_QT4:BOOL=ON \
     -DOTB_WRAP_PYTHON:BOOL=ON \
+    -DOTB_USE_6S:BOOL=ON \
+    -DOTB_USE_MUPARSER:BOOL=ON \
+    -DOTB_USE_MUPARSERX:BOOL=ON \
+    -DOTB_USE_OPENCV:BOOL=ON \
+    -DOTB_USE_SIFTFAST:BOOL=ON \
     -DOTB_WRAP_JAVA:BOOL=OFF \
+    -DOTB_USE_MAPNIK:BOOL=OFF \
+    -DOTB_USE_LIBSVM:BOOL=OFF \
+    -DOTB_USE_LIBKML:BOOL=OFF \
     -DOpenJPEG_DIR:PATH=%{_libdir}/openjpeg-2.1 \
     -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
     -DOTB_INSTALL_LIBRARY_DIR:STRING=%{_lib} \
@@ -172,8 +177,8 @@ for file in `ls %{buildroot}%{_bindir}/otbgui*` ; do
     help2man `basename $file` --no-discard-stderr --help-option=' ' --version-string=%{version} -o %{buildroot}%{_mandir}/man1/`basename $file`.1;
 done
 
-#mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
-#install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
+mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 
 %post -p /sbin/ldconfig
 
@@ -187,7 +192,7 @@ done
 %{_libdir}/libotb*.so*
 %{_libdir}/otb/applications/otbapp_*
 %{_mandir}/man1/otbcli*.1*
-#%{_sysconfdir}/ld.so.conf.d/otb.conf
+%{_sysconfdir}/ld.so.conf.d/otb.conf
 %{_mandir}/man1/otbApplicationLauncherCommandLine.1*
 %{_mandir}/man1/otbTestDriver.1*
 %{_bindir}/otb*Qt
