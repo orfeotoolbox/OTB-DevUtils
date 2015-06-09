@@ -10,9 +10,9 @@ set(libkml_VERSION_PATCH "0")
 # enough to distinguish available features of the library.
 set(libkml_VERSION_STRING "${libkml_VERSION_MAJOR}.${libkml_VERSION_MINOR}.${libkml_VERSION_PATCH}")
 
-set(BUILD_SHARED_LIBS ON)
+option(BUILD_SHARED_LIBS "Build shared" ON)
 if(MSVC)
-set(BUILD_SHARED_LIBS OFF) #force off
+ add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
 # Allow sources in subdirectories to see the include files.

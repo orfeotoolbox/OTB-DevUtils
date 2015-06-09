@@ -19,7 +19,7 @@ set B=1
 set W=%OSGEO4W_ROOT%\usr\src\osgeo4w\%P%
 set R=../../release/%P%
 mkdir "%W%"
-rmdir "%W%\%P%-%V%" /s /q
+
 rmdir "%W%\%P%-%V%-install" /s /q
 mkdir "%OSGEO4W_ROOT%\usr\src\release\%P%"
 
@@ -27,6 +27,7 @@ copy %CURRENT_SCRIPT_DIR%package.cmd "%W%"
 copy %CURRENT_SCRIPT_DIR%setup.hint "%W%"
 
 cd %W%
+rmdir "%W%\%P%-%V%" /s /q
 wget http://ftp.de.debian.org/debian/pool/main/libk/libkml/libkml_1.3.0~r863.orig.tar.gz
 if errorlevel 1 (echo Download error & goto exit)
 
@@ -45,24 +46,27 @@ copy %CURRENT_SCRIPT_DIR%file_posix.cc "%W%\%P%-%V%\src\kml\base\"
 
 
 :: build
+rmdir "%P%-%V%-build" /s /q
 mkdir "%P%-%V%-build"
 
 cd %P%-%V%-build
 cmake "../%P%-%V%" -G "NMake Makefiles" ^
  -DCMAKE_BUILD_TYPE:STRING=Release ^
- -DBUILD_SHARED_LIBS:BOOL=ON ^
+ -DBUILD_SHARED_LIBS:BOOL=OFF ^
  -DCMAKE_INSTALL_PREFIX:STRING="../%P%-%V%-install" ^
  -DEXPAT_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include ^
  -DEXPAT_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/libexpat.lib ^
  -DZLIB_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include ^
  -DZLIB_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/zlib.lib ^
- -DBoost_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include/boost-1_56
+ -DBoost_DIR:PATH=%OSGEO4W_ROOT%\\usr\\src\\osgeo4w\\boost\\boost-1.56.0-install
+::-DBoost_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%//include/boost-1_56
 
 cmake --build . --config Release --target INSTALL
 
+cd ..
 
 :: package
- tar -C %P%-%V%-install -cjf "%R%/%P%-%V%-%B%.tar.bz2" include lib share
+ tar -C %P%-%V%-install -cjf "%R%/%P%-%V%-%B%.tar.bz2" include lib
 tar -C ../.. -cjf "%R%/%P%-%V%-%B%-src.tar.bz2"  osgeo4w/%P%/package.cmd osgeo4w/%P%/setup.hint osgeo4w/%P%/%P%-%V%/CMakeLists.txt  osgeo4w/%P%/%P%-%V%/src/kml/base/file_posix.cc osgeo4w/%P%/%P%-%V%/src/kml/base/util.h
 
 
@@ -70,4 +74,5 @@ tar -jtf "%R%/%P%-%V%-%B%.tar.bz2" | sed "s@\\\@/@g" | sed "s@//@/@g" > "%R%\%P%
 copy setup.hint "%R%"
 copy %P%-%V%\LICENSE "%R%\%P%-%V%-%B%.txt"
 
+cd %CURRENT_SCRIPT_DIR%
 :exit

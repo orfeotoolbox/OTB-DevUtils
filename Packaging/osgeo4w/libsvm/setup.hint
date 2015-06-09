@@ -1,0 +1,5 @@
+sdesc: "libsvm"
+ldesc: " libsvm"
+category: Libs
+requires: msvcrt
+maintainer: JulienMalik

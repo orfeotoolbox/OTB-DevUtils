@@ -1,6 +1,6 @@
-:: Boost
+:: libKML
 :: 
-:: Source http://sourceforge.net/projects/boost/files/boost/1.56.0/boost_1_56_0.tar.bz2/download
+:: Source http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-3.20.tar.gz
 :: prerequisite: setup.hint
 
 set CURRENT_SCRIPT_DIR=%~dp0
@@ -12,55 +12,53 @@ pause
 goto exit
 )
 
-set P=boost
-set V=1.56.0
-set SV=1_56_0
+set P=libsvm
+set V=3.20
 set B=1
 
 set W=%OSGEO4W_ROOT%\usr\src\osgeo4w\%P%
 set R=../../release/%P%
 mkdir "%W%"
-
+rmdir "%W%\%P%-%V%" /s /q
 rmdir "%W%\%P%-%V%-install" /s /q
 mkdir "%OSGEO4W_ROOT%\usr\src\release\%P%"
 
 copy %CURRENT_SCRIPT_DIR%package.cmd "%W%"
 copy %CURRENT_SCRIPT_DIR%setup.hint "%W%"
 
-
 cd %W%
-rmdir "%W%\%P%-%V%" /s /q
-wget http://sourceforge.net/projects/%P%/files/%P%/%V%/%P%_1_56_0.tar.bz2/download
+wget http://www.csie.ntu.edu.tw/~cjlin/%P%/%P%-%V%.tar.gz
 if errorlevel 1 (echo Download error & goto exit)
 
-tar xvf %P%_%SV%.tar.bz2
+tar xvzf %P%-%V%.tar.gz
 if errorlevel 1 (echo Untar error & goto exit)
 
-
-rename %P%_%SV% "%P%-%V%"
 
 :: build
 rmdir "%P%-%V%-build" /s /q
 mkdir "%P%-%V%-build"
+cd "%P%-%V%-build"
 
-cd "%W%\%P%-%V%"
-CALL bootstrap.bat
+xcopy /Y "%W%\\%P%-%V%" /E
+if errorlevel 1 (echo Download error & goto exit)
+nmake -f Makefile.win
 
-CALL b2 link=shared threading=multi variant=release --build-dir="%W%\%P%-%V%-build" --prefix="%W%\%P%-%V%-install" install
+cd  %W%
+mkdir "%P%-%V%-install"
+cd "%P%-%V%-install"
+mkdir bin lib include
+copy %W%\\%P%-%V%-build\\windows\*.exe bin
+copy %W%\\%P%-%V%-build\\windows\*.dll bin
+copy %W%\\%P%-%V%-build\\windows\*.lib lib
+copy %W%\\%P%-%V%-build\\\svm.h include
+cd ..
 
-::package
-
-::move .dlls into bin aka follow unix directory naming conventions
-cd "%W%\%P%-%V%-install"
-mkdir bin
-move lib\\*.dll bin\\
-
-cd %W%
+:: package
 tar -C %P%-%V%-install -cjf "%R%/%P%-%V%-%B%.tar.bz2" bin lib include
-tar -C ../.. -cjf "%R%/%P%-%V%-%B%-src.tar.bz2"  osgeo4w/%P%/package.cmd osgeo4w/%P%/setup.hint
+tar -C ../.. -cjf "%R%/%P%-%V%-%B%-src.tar.bz2" osgeo4w/%P%/package.cmd osgeo4w/%P%/setup.hint 
 tar -jtf "%R%/%P%-%V%-%B%.tar.bz2" | sed "s@\\\@/@g" | sed "s@//@/@g" > "%R%\%P%-%V%-%B%.manifest"
 copy setup.hint "%R%"
-copy %W%\%P%-%V%\LICENSE_1_0.txt "%R%\%P%-%V%-%B%.txt"
+copy %P%-%V%\\COPYRIGHT "%R%\\%P%-%V%-%B%.txt"
 
 cd %CURRENT_SCRIPT_DIR%
 :exit
