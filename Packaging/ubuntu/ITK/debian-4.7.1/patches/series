@@ -1,0 +1,4 @@
+nrrdio-linking.patch
+bsd-hdf5.patch
+0005-make-gdcm-helper-library-static.patch
+dl-close-fix.patch

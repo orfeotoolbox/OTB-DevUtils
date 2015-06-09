@@ -35,7 +35,7 @@ elif [ "${DIRNAME:0:1}" == "." ] ; then
 else
     CMDDIR=$(pwd)/$DIRNAME
 fi
-DEBDIR=$CMDDIR/debian-4.6
+DEBDIR=$CMDDIR/debian-4.7.1
 DEFAULT_GPGKEYID=0xAEB3D22F
 
 
@@ -69,13 +69,7 @@ Options:
 
   -a archive    Archive containing ITK orig sources
 
-  -r tag        Revision to extract.
-
-  -o version    External version of the ITK library (ex. 4.6.0)
-
   -p version    Version of the package (ex. 2)
-
-  -c message    Changelog message
 
   -g id         GnuPG key id used for signing (default ${DEFAULT_GPGKEYID})
 
@@ -83,20 +77,6 @@ Example:
   ./make_ubuntu_packages.sh -d ~/src/InsightToolkit-4.6.0 -p 2
 
 EOF
-}
-
-
-check_external_version ()
-{
-    if [ -z "$otb_version_full" ] ; then
-        echo "*** ERROR: missing version number of OTB (option -o)"
-        echo "*** Use ./make_ubuntu_packages.sh -h to show command line syntax"
-        exit 3
-    fi
-    if [ "`echo $otb_version_full | sed -e 's/^[0-9]\+\.[0-9]\+\(\.[0-9]\+\|-RC[0-9]\+\)$/OK/'`" != "OK" ] ; then
-        echo "*** ERROR: OTB full version ($otb_version_full) has an unexpected format"
-        exit 3
-    fi
 }
 
 
@@ -166,7 +146,7 @@ set_ubuntu_code_name ()
 }
 
 
-while getopts ":a:o:p:c:g:hv" option
+while getopts ":a:p:g:hv" option
 do
     case $option in
         a ) source_archive=$OPTARG
@@ -199,7 +179,6 @@ changelog_version=`grep -E -e 'insighttoolkit4 \(.+-.+\)' "$DEBDIR/changelog.in"
 echo "Command line checking..."
 check_src_archive
 
-check_external_version
 check_gpgkeyid
 
 echo "Archive extraction..."
