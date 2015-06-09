@@ -58,8 +58,7 @@ cmake "../%P%-%V%" -G "NMake Makefiles" ^
  -DEXPAT_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/libexpat.lib ^
  -DZLIB_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include ^
  -DZLIB_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/zlib.lib ^
- -DBoost_DIR:PATH=%OSGEO4W_ROOT%\\usr\\src\\osgeo4w\\boost\\boost-1.56.0-install
-::-DBoost_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%//include/boost-1_56
+ -DBoost_DIR:PATH=%OSGEO4W_ROOT%/include/boost-1_56
 
 cmake --build . --config Release --target INSTALL
 
