@@ -39,6 +39,7 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual -Wno-\\\\#warnings
 #CMAKE_OSX_ARCHITECTURES:STRING=i386
+CMAKE_MACOSX_RPATH:BOOL=1
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build
 
@@ -63,6 +64,8 @@ ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}" TARGET package)
+ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
+unset(CTEST_BUILD_COMMAND)
+ctest_build(TARGET "packages")
 ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
 ctest_submit ()

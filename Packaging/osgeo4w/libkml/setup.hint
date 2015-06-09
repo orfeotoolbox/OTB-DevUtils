@@ -1,0 +1,5 @@
+sdesc: "LibKML"
+ldesc: " LibKML"
+category: Libs
+requires: msvcrt zlib expat boost  boost-libs
+maintainer: JulienMalik

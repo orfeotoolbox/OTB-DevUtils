@@ -77,6 +77,10 @@ if(NOT "${dashboard_model}" MATCHES "^(Nightly|Experimental|Continuous|CrossComp
   message(FATAL_ERROR "dashboard_model must be Nightly, Experimental, or Continuous")
 endif()
 
+if(EXISTS "$ENV{CTEST33}")
+  set(CMAKE_COMMAND "$ENV{CTEST33}")
+endif()
+
 # Default to a Debug build.
 if(NOT DEFINED CTEST_CONFIGURATION_TYPE AND DEFINED CTEST_BUILD_CONFIGURATION)
   set(CTEST_CONFIGURATION_TYPE ${CTEST_BUILD_CONFIGURATION})
@@ -108,29 +112,29 @@ set(CTEST_HG_UPDATE_OPTIONS "-C")
 if(MXE_TARGET_ARCH MATCHES "i686")
   set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-w64-mingw32.shared")
 endif()
-if(MXE_TARGET_ARCH MATCHES "x86_64") 
+if(MXE_TARGET_ARCH MATCHES "x86_64")
   set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/x86_64-w64-mingw32.shared")
 endif()
 
-set(CTEST_USE_LAUNCHERS OFF)
 
-
-set(otb_cache_common 
+set(otb_cache_common
 "
 #why these values below? because we know..
-OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS_EXITCODE:INTERNAL=1
+OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS_EXITCODE:INTERNAL=0
 
 GDAL_HAS_J2K_ECW:INTERNAL=0
 
-GDAL_HAS_J2K_JG2000:INTERNAL=1
+GDAL_HAS_J2K_JG2000:INTERNAL=0
 
 GDAL_HAS_J2K_KAK:INTERNAL=0
 
-GDAL_HAS_J2K_OPJG:INTERNAL=0
+GDAL_HAS_J2K_OPJG:INTERNAL=1
 
 GDAL_HAS_JPEG:INTERNAL=1
 
 GDAL_HAS_GTIF:INTERNAL=1
+
+GDAL_HAS_HDF5:INTERNAL=1
 
 GDAL_CAN_CREATE_GEOTIFF:INTERNAL=1
 
@@ -144,7 +148,14 @@ GDAL_CONFIG:FILEPATH='${MXE_TARGET_ROOT}/bin/gdal-config'
 
 OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
 
+CHECK_HDF4OPEN_SYMBOL_EXITCODE:INTERNAL=0
+
+HAS_SSE2_EXTENSIONS_EXITCODE:INTERNAL=0
+
+HAS_SSE_EXTENSIONS_EXITCODE:INTERNAL=0
+
 RUN_RESULT_VERSION:INTERNAL=1.11.2"
+
 )
 
 # Choose CTest reporting mode.
@@ -222,7 +233,7 @@ if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}"
 
     # Generate an initial checkout script.
     set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
-    file(WRITE ${ctest_checkout_script} 
+    file(WRITE ${ctest_checkout_script}
 "# hg repo init script for ${_name}
 execute_process(
   COMMAND \"${CTEST_HG_COMMAND}\" clone -r ${dashboard_hg_branch}  \"${dashboard_hg_url}\"
@@ -260,7 +271,7 @@ foreach(req
     CTEST_BUILD_NAME
     MXE_ROOT
     MXE_TARGET_ARCH
-    PROJECT    
+    PROJECT
     )
   if(NOT DEFINED ${req})
     message(FATAL_ERROR "The containing script must set ${req}")
@@ -274,6 +285,7 @@ foreach(v
     MXE_ROOT
     MXE_TARGET_ARCH
     PROJECT
+    CMAKE_COMMAND
     CTEST_SOURCE_DIRECTORY
     CTEST_BINARY_DIRECTORY
     CTEST_CMAKE_GENERATOR
@@ -308,9 +320,6 @@ DART_TESTING_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
 ${cache_build_type}
 ${cache_make_program}
 ${dashboard_cache}
-CMAKE_INSTALL_PREFIX:PATH=${MXE_TARGET_ROOT}
-
-CMAKE_PREFIX_PATH:PATH=${MXE_TARGET_ROOT}
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
@@ -388,14 +397,14 @@ while(NOT dashboard_done)
       dashboard_hook_build()
     endif()
     ctest_build()
-    
+
     if(NOT dashboard_no_test)
       if(COMMAND dashboard_hook_test)
         dashboard_hook_test()
       endif()
       ctest_test(${CTEST_TEST_ARGS})
     endif()
-    
+
     set(safe_message_skip 1) # Block furhter messages
 
     if(dashboard_do_coverage)

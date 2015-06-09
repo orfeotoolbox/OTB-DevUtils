@@ -32,7 +32,7 @@ CMAKE_C_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage  -Wall -Wno-uninitial
 CMAKE_CXX_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage -Wall -Wno-deprecated -Wno-uninitialized -Wno-cpp
 
 ## ITK
-ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.6
+ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.7
 
 ## OSSIM
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/stable/include
@@ -43,7 +43,7 @@ MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
 
 #external openjpeg
-OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/trunk/lib/openjpeg-2.1
+OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/stable/lib/openjpeg-2.0
 
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
@@ -57,13 +57,17 @@ PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 OTB_WRAP_PYTHON:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
 
+#OTB_USE_XXX
+OTB_USE_6S=ON
+OTB_USE_CURL=ON
+OTB_USE_LIBKML=ON
+OTB_USE_LIBSVM=ON
+OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
-OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_OPENCV:BOOL=ON
+OTB_USE_OPENJPEG=ON
 OTB_USE_QT4=ON
-OTB_USE_LIBKML=ON
-OTB_USE_6S=ON
 OTB_USE_SIFTFAST=ON
 ")
 

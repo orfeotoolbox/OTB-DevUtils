@@ -24,8 +24,8 @@ macro(dashboard_hook_init)
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 
-CMAKE_C_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang
-CMAKE_CXX_COMPILER=$ENV{HOME}/tools/install/llvm/bin/clang++
+CMAKE_C_COMPILER=/usr/bin/clang
+CMAKE_CXX_COMPILER=/usr/bin/clang++
 
 CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
@@ -40,7 +40,15 @@ ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON
 USE_FFTWD:BOOL=ON
 USE_FFTWF:BOOL=ON
 OTB_GL_USE_ACCEL:BOOL=OFF
-OTB_USE_MAPNIK:BOOL=OFF
+
+OTB_USE_CURL:BOOL=ON
+OTB_USE_LIBKML:BOOL=ON
+OTB_USE_LIBSVM:BOOL=ON
+OTB_USE_MUPARSER:BOOL=ON
+OTB_USE_MUPARSERX:BOOL=ON
+OTB_USE_OPENCV:BOOL=ON
+OTB_USE_OPENJPEG:BOOL=ON
+OTB_USE_QT4:BOOL=ON
 
 BOOST_ROOT:PATH=$ENV{HOME}/tools/install/boost-1.49.0
 

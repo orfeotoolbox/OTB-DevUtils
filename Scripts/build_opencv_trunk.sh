@@ -32,6 +32,10 @@ echo 'Source Dir='$SOURCEDIR
 echo 'Build Dir='$BUILDDIR
 echo 'Install Dir='$INSTALLROOT
 
+cd $SOURCEDIR
+git show > $BUILDDIR/opencv_git_show.txt
+
+
 #configure opencv
 cd $BUILDDIR
 cmake $SOURCEDIR \

@@ -10,7 +10,7 @@ set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
-set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB/src/SuperBuild")
+set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-Release/src/SuperBuild")
 set(CTEST_BINARY_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/build")
 set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/install")
 

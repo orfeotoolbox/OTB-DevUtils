@@ -20,11 +20,11 @@ set(dashboard_binary_name "build/OTB-clang-${CTEST_BUILD_CONFIGURATION}")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
 set(dashboard_hg_branch "default")
 
-set(ENV{CC} "$ENV{HOME}/tools/install/llvm/bin/clang")
-set(ENV{CXX} "$ENV{HOME}/tools/install/llvm/bin/clang++")
-
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
+
+CMAKE_C_COMPILER=/usr/bin/clang
+CMAKE_CXX_COMPILER=/usr/bin/clang++
   
 CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
@@ -42,8 +42,15 @@ OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
 
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ITK-4.7.1/lib/cmake/ITK-4.7
 
-OTB_USE_MAPNIK:BOOL=OFF
+OTB_USE_CURL:BOOL=ON
+OTB_USE_LIBKML:BOOL=ON
+OTB_USE_LIBSVM:BOOL=ON
+OTB_USE_MUPARSER:BOOL=ON
+OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
+OTB_USE_OPENJPEG:BOOL=ON
+OTB_USE_QT4:BOOL=ON
+
 OpenCV_DIR:PATH=/usr/share/OpenCV
 BOOST_ROOT:PATH=$ENV{HOME}/tools/install/boost-1.49.0
 MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
