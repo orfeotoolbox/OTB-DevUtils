@@ -1,24 +1,17 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
-import sys
+"""
+This script provides an easy way to generate the application documentation in
+html format. It uses the class otbWrapperApplicationHtmlDocGenerator class to
+do so.
+"""
+
 import os
 
-def help():
-    print """
-  This script provides an easy way to generate the application documentation in html format.
-  It uses the class otbWrapperApplicationHtmlDocGenerator class to do so.
-  Waits as input the OTB_Binary path and the output directory where the doc will be generated.
-  """
 
-def main(argv):
-    argc = len(argv)
-    if (argc < 2):
-        help()
-        return
-
-    otbbin = argv[1]
-    outDir = argv[2] + "/"
+def main(otbbin, outDir):
+    outDir = outDir + "/"
     docExe = otbbin + "/bin/otbApplicationEngineTestDriver otbWrapperApplicationHtmlDocGeneratorTest1 "
     cmakeFile = otbbin + "/CMakeCache.txt"
 
@@ -114,4 +107,11 @@ def main(argv):
     fout.close()
 
 if __name__ == "__main__":
-    main(sys.argv)
+    from argparse import ArgumentParser
+    parser = ArgumentParser(description="Documentation generator script",
+                            epilog=__doc__)
+    parser.add_argument("otb_bin_path", help="Path to the otb binary directory")
+    parser.add_argument("output_path", help="Path to the output directory")
+    args = parser.parse_args()
+
+    main(args.otb_bin_path, args.output_path)
