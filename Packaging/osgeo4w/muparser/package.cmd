@@ -26,10 +26,10 @@ copy %CURRENT_SCRIPT_DIR%package.cmd "%W%"
 copy %CURRENT_SCRIPT_DIR%setup.hint "%W%"
 
 cd %W%
-wget "http://sourceforge.net/projects/%P%/files/%P%/Version %V%/%P%_v2_2_3.zip/download"
+wget --no-check-certificate "https://docs.google.com/uc?export=download&id=0BzuB-ydOOoduLUNRanpDNV9iVk0" -O %P%-%V%.zip
 if errorlevel 1 (echo Download error & goto exit)
 
-unzip %P%_v2_2_3.zip
+unzip %P%-%V%.zip
 if errorlevel 1 (echo Unzip error & goto exit)
 
 rename %P%_v2_2_3 "%P%-%V%"
