@@ -26,7 +26,7 @@ def main(argv):
     appliKey = "OTB_APPLICATIONS_NAME_LIST"
     appSorted = []
     for line in f:
-        if line.find(appliKey) != -1 :
+        if line.find(appliKey) != -1:
             # supress white space if any
             line2 = line.strip()
             # supress line return
@@ -34,8 +34,8 @@ def main(argv):
             appList = line.split("=")[1]
             appSortedTmp = appList.split(";")
             appSortedTmp.sort()
-            for app in appSortedTmp :
-                if app != "TestApplication" :
+            for app in appSortedTmp:
+                if app != "TestApplication":
                     appSorted.append(app)
             break
     #print "Found applications:"
@@ -49,7 +49,7 @@ def main(argv):
     ## open CMakeCache.txt
     f = open(cmakeFile, 'r')
     for line in f:
-        if line.find("OTB_SOURCE_DIR") != -1 :
+        if line.find("OTB_SOURCE_DIR") != -1:
             # supress white space if any
             otbDir = line.strip()
             # supress line return
@@ -86,7 +86,7 @@ def main(argv):
             group = dirName[3:]
         fout.write("<h2>"+group+"</h2>")
         fList = os.listdir(appDir+dirName+"/app")
-        for app in appSorted :
+        for app in appSorted:
             for fname in fList:
                 # We assume that the class source file nane is otb#app#.cxx
                 if fname.find("otb"+app+".cxx") != -1:
