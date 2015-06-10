@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import sys, string, shutil, os
+import sys
+import string
+import shutil
+import os
 
 def help():
     print """
