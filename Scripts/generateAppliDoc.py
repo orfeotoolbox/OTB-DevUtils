@@ -11,9 +11,13 @@ import os
 
 
 def main(otbbin, outDir):
-    outDir = outDir + "/"
-    docExe = otbbin + "/bin/otbApplicationEngineTestDriver otbWrapperApplicationHtmlDocGeneratorTest1 "
-    cmakeFile = otbbin + "/CMakeCache.txt"
+    test_driver_path = os.path.join(otbbin, "bin",
+                                    "otbApplicationEngineTestDriver")
+
+    docExe = " ".join((test_driver_path,
+                       "otbWrapperApplicationHtmlDocGeneratorTest1"))
+
+    cmakeFile = os.path.join(otbbin, "CMakeCache.txt")
 
     ## open CMakeCache.txt
     f = open(cmakeFile, 'r')
@@ -58,18 +62,18 @@ def main(otbbin, outDir):
 
 
     ## Find the list of subdir Application to sort them
-    appDir = otbDir + "/Modules/Applications/"
+    appDir = os.path.join(otbDir, "Modules", "Applications")
     fileList = os.listdir(appDir)
     dirList = []
     for fname in fileList:
-        if os.path.isdir(appDir + fname):
+        if os.path.isdir(os.path.join(appDir, fname)):
             if fname != "AppTest":
                 dirList.append(fname)
     #print "Subdir in Application:"
     #print dirList
 
 
-    fout = open(outDir + "index.html", 'w')
+    fout = open(os.path.join(outDir, "index.html"), 'w')
     fout.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd\"><html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\"></style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">")
     fout.write("<h1>The following applications are distributed with OTB.</h1>")
     fout.write("List of available applications:<br /><br />")
@@ -80,18 +84,22 @@ def main(otbbin, outDir):
         if dirName.startswith("App") and len(dirName) > 4:
             group = dirName[3:]
         fout.write("<h2>" + group + "</h2>")
-        fList = os.listdir(appDir + dirName + "/app")
+        fList = os.listdir(os.path.join(appDir, dirName, "app"))
         for app in appSorted:
             for fname in fList:
                 # We assume that the class source file nane is otb#app#.cxx
                 if fname.find("otb" + app + ".cxx") != -1:
                     print ("Generating " + app + " ...")
-                    filename = outDir + app + ".html"
-                    filename_without_path = app + ".html"
-                    commandLine = docExe + " " + app + " " + otbbin + "/lib/otb/applications " + filename + " 1"
+                    filename = '.'.join((app, "html"))
+                    filepath = os.path.join(outDir, filename)
+                    application_path = os.path.join(otbbin, "lib", "otb",
+                                                    "applications")
+
+                    commandLine = " ".join((docExe, app, application_path,
+                                            filepath, "1"))
                     os.system(commandLine)
 
-                    outLine = "<a href=\"" + filename_without_path + "\">" + app + "</a><br />"
+                    outLine = "<a href=\"" + filename + "\">" + app + "</a><br />"
                     fout.write(outLine)
                     count = count + 1
                     break
