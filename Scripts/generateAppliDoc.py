@@ -63,18 +63,18 @@ def main(argv):
 
 
     ## Find the list of subdir Application to sort them
-    appDir =  otbDir + "/Modules/Applications/"
+    appDir = otbDir + "/Modules/Applications/"
     fileList = os.listdir(appDir)
     dirList = []
     for fname in fileList:
-        if os.path.isdir(appDir+fname):
+        if os.path.isdir(appDir + fname):
             if fname != "AppTest":
                 dirList.append(fname)
     #print "Subdir in Application:"
     #print dirList
 
 
-    fout = open(outDir+"index.html", 'w')
+    fout = open(outDir + "index.html", 'w')
     fout.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd\"><html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\"></style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">")
     fout.write("<h1>The following applications are distributed with OTB.</h1>")
     fout.write("List of available applications:<br /><br />")
@@ -84,12 +84,12 @@ def main(argv):
         group = dirName
         if dirName.startswith("App") and len(dirName) > 4:
             group = dirName[3:]
-        fout.write("<h2>"+group+"</h2>")
-        fList = os.listdir(appDir+dirName+"/app")
+        fout.write("<h2>" + group + "</h2>")
+        fList = os.listdir(appDir + dirName + "/app")
         for app in appSorted:
             for fname in fList:
                 # We assume that the class source file nane is otb#app#.cxx
-                if fname.find("otb"+app+".cxx") != -1:
+                if fname.find("otb" + app + ".cxx") != -1:
                     print ("Generating " + app + " ...")
                     filename = outDir + app + ".html"
                     filename_without_path = app + ".html"
@@ -98,7 +98,7 @@ def main(argv):
 
                     outLine = "<a href=\"" + filename_without_path + "\">" + app + "</a><br />"
                     fout.write(outLine)
-                    count = count+1
+                    count = count + 1
                     break
 
     if count != len(appSorted):
