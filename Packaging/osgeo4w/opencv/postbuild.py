@@ -52,20 +52,26 @@ def make_package():
     "${OpenCV_CONFIG_PATH}/include",
     "${OpenCV_CONFIG_PATH}/../../include")
 
-    
-	shutil.move(os.path.join(dstdir, "lib", "OpenCVModules.cmake"), cmakefiles_dir)
-  
-	# copy_replace_onthefly(
-    # os.path.join(dstdir, "lib", "OpenCVModules.cmake") , 
-    # os.path.join(cmakefiles_dir, "OpenCVModules.cmake"), 
-    # "add_library(opencv_videostab SHARED IMPORTED)",
-    # "add_library(opencv_videostab SHARED IMPORTED) get_filename_component(_IMPORT_PREFIX \\${CMAKE_CURRENT_LIST_FILE}\\ PATH)  get_filename_component(_IMPORT_PREFIX \\${_IMPORT_PREFIX}\\ PATH)  get_filename_component(_IMPORT_PREFIX \\${_IMPORT_PREFIX}\\ PATH)")    
+	copy_replace_onthefly(
+    os.path.join(dstdir, "lib", "OpenCVModules.cmake") , 
+    os.path.join(cmakefiles_dir, "OpenCVModules.cmake"), 
+   "add_library(opencv_videostab SHARED IMPORTED)", 
+   "add_library(opencv_videostab SHARED IMPORTED)" + os.linesep +
+   "get_filename_component(_IMPORT_PREFIX \"${CMAKE_CURRENT_LIST_FILE}\" PATH)" + os.linesep +
+   "get_filename_component(_IMPORT_PREFIX \"${_IMPORT_PREFIX}\" PATH)" + os.linesep +
+   "get_filename_component(_IMPORT_PREFIX \"${_IMPORT_PREFIX}\" PATH)")    
     
 	copy_replace_onthefly(
     os.path.join(dstdir, "lib", "OpenCVModules-release.cmake") , 
     os.path.join(cmakefiles_dir, "OpenCVModules-release.cmake"), 
     "${_IMPORT_PREFIX}/"+ buildarch +"/vc10/",
     "${_IMPORT_PREFIX}/")
+    
+	os.remove( os.path.join(dstdir, "lib", "OpenCVConfig.cmake"))
+	os.remove( os.path.join(dstdir, "lib", "OpenCVModules.cmake"))
+	os.remove( os.path.join(dstdir, "lib", "OpenCVModules-release.cmake"))
+
+  
 
 if __name__ == "__main__" :
 	make_package()

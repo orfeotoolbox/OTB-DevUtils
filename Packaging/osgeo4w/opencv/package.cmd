@@ -29,9 +29,12 @@ copy %CURRENT_SCRIPT_DIR%package.cmd "%W%"
 copy %CURRENT_SCRIPT_DIR%postbuild.py "%W%"
 copy %CURRENT_SCRIPT_DIR%setup.hint "%W%"
 
-
 cd %W%
 rmdir "%W%\%P%-%V%" /s /q
+rmdir "%P%-%V%-build" /s /q
+rmdir "%P%-%V%-install" /s /q
+mkdir "%P%-%V%-build" 
+
 wget http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/%V%/%P%-%V%.zip
 if errorlevel 1 (echo Download error & goto exit)
 
@@ -43,10 +46,6 @@ copy %OSGEO4W_ROOT%\\lib\\libpng13.lib %OSGEO4W_ROOT%\\lib\\libpng.lib /Y
 copy %OSGEO4W_ROOT%\\lib\\libpng16.lib %OSGEO4W_ROOT%\\lib\\libpng.lib /Y
 
 :: build
-rmdir "%P%-%V%-build" /s /q
-mkdir "%P%-%V%-build" 
-
-rmdir %P%-%V%-install /s /q
 
 cd %P%-%V%-build
 cmake "../%P%-%V%" -G "NMake Makefiles" ^
