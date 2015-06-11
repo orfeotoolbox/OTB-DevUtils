@@ -25,7 +25,7 @@ rmdir "%R%" /s /q
 mkdir "%W%"
 mkdir "%OSGEO4W_ROOT%\usr\src\release\%P%"
 
-copy %CURRENT_SCRIPT_DIR%package.cmd "%W%"
+copy %CURRENT_SCRIPT_DIR%package_x64.cmd "%W%\package.cmd"
 copy %CURRENT_SCRIPT_DIR%setup.hint "%W%"
 
 cd %W%
@@ -55,11 +55,11 @@ cmake "../%P%-%V%" -G "NMake Makefiles" ^
  -DBUILD_SHARED_LIBS:BOOL=OFF ^
  -DCMAKE_INSTALL_PREFIX:STRING="../%P%-%V%-install" ^
  -DEXPAT_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include ^
- -DEXPAT_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/libexpat.lib ^
+ -DEXPAT_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/expat.lib ^
  -DZLIB_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include ^
  -DZLIB_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/zlib.lib ^
- -DBoost_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/../TEST_PKG_x86/include/boost-1_56 ^
- -DBoost_LIBRARY_DIR:PATH=%OSGEO4W_ROOT%/../TEST_PKG_x86/lib
+ -DBoost_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include/boost-1_56 ^
+ -DBoost_LIBRARY_DIR:PATH=%OSGEO4W_ROOT%/lib
 
 cmake --build . --config Release --target INSTALL
 cmake . -DBUILD_SHARED_LIBS:BOOL=ON
