@@ -1,0 +1,6 @@
+# OTB libraries (binaries and versioned symlinks)
+usr/lib/libotb*.so.*
+usr/lib/libOTB!(QtWidget)-*.so.*
+
+# Executables
+usr/bin/otbTestDriver

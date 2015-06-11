@@ -1,0 +1,7 @@
+# OTB libraries (symlinks)
+
+# OTB headers
+usr/include/OTB-*
+
+# CMake helper scripts
+usr/lib/cmake/OTB-*

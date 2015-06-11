@@ -34,7 +34,7 @@ elif [ "${DIRNAME:0:1}" == "." ] ; then
 else
     CMDDIR=$(pwd)/$DIRNAME
 fi
-DEBDIR=$CMDDIR/debian.4
+DEBDIR=$CMDDIR/debian.5
 DEFAULT_GPGKEYID=0xAEB3D22F
 
 

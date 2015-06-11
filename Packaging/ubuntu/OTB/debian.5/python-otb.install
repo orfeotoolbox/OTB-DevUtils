@@ -1,0 +1,3 @@
+# OTB python library and wrappers
+usr/lib/otb/python/*.py
+usr/lib/otb/python/*.so

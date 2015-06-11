@@ -1,0 +1,86 @@
+#!/usr/bin/make -f
+#
+# Copyright (C) 2010-2014 CNES - Centre National d'Etudes Spatiales
+# Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
+#
+# The OTB is distributed under the CeCILL license version 2. See files
+# Licence_CeCILL_V2-en.txt (english version) or Licence_CeCILL_V2-fr.txt
+# (french version) in 'Copyright' directory for details. This licenses are
+# also available online:
+# http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+# http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_LDFLAGS_MAINT_APPEND = "-Wl,--as-needed"
+
+ifndef DIST
+    DIST=$(shell /usr/bin/lsb_release -s -c)
+endif
+
+ifndef PKGVERSION
+    PKGVERSION=1
+endif
+
+ifeq ($(DIST),$(filter $(DIST), saucy trusty utopic))
+    PYTHON_HELPER_PKG = dh-python
+    PYTHON_HELPER_VER = 1.20131003
+else
+    PYTHON_HELPER_PKG = python-central
+    PYTHON_HELPER_VER = 0.6.11
+endif
+
+OTB_VERSION_MAJOR  = $(shell sed -ne 's/set(OTB_VERSION_MAJOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
+OTB_VERSION_MINOR  = $(shell sed -ne 's/set(OTB_VERSION_MINOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
+OTB_VERSION_PATCH  = $(shell sed -ne 's/set(OTB_VERSION_PATCH "\([0-9]*\)")/\1/p' CMakeLists.txt)
+OTB_VERSION_SONAME = "$(OTB_VERSION_MAJOR).$(OTB_VERSION_MINOR)"
+OTB_VERSION_FULL   = "$(OTB_VERSION_MAJOR).$(OTB_VERSION_MINOR).$(OTB_VERSION_PATCH)"
+
+CMAKE_FLAGS = \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+	-DCMAKE_BUILD_TYPE:STRING=Release \
+	-DCMAKE_SKIP_RPATH:BOOL=ON \
+	-DBUILD_SHARED_LIBS:BOOL=ON \
+	-DBUILD_EXAMPLES:BOOL=OFF \
+	-DBUILD_TESTING:BOOL=OFF \
+	-DOTB_USE_6S:BOOL=ON \
+	-DOTB_USE_CURL:BOOL=ON \
+	-DOTB_USE_LIBKML:BOOL=ON \
+	-DOTB_USE_LIBSVM:BOOL=ON \
+	-DOTB_USE_MAPNIK:BOOL=OFF \
+	-DOTB_USE_MUPARSER:BOOL=ON \
+	-DOTB_USE_MUPARSERX:BOOL=ON \
+	-DOTB_USE_OPENCV:BOOL=ON \
+	-DOTB_USE_OPENJPEG:BOOL=ON \
+	-DOTB_USE_QT4:BOOL=ON \
+	-DOTB_USE_SIFTFAST:BOOL=ON \
+	-DOTB_WRAP_JAVA:BOOL=OFF \
+	-DOTB_WRAP_PYTHON:BOOL=ON \
+	-DOpenJPEG_DIR:PATH=/usr/lib/openjpeg-2.1
+
+OTB_LIB_DIRS = /usr/lib/otb
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(CMAKE_FLAGS)
+
+override_dh_shlibdeps:
+	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OTB_LIB_DIRS) dh_shlibdeps
+
+control-file:
+	sed -e "s/@OTB_VERSION_MAJOR@/$(OTB_VERSION_MAJOR)/g" \
+	    -e "s/@OTB_VERSION_MINOR@/$(OTB_VERSION_MINOR)/g" \
+	    -e "s/@OTB_VERSION_PATCH@/$(OTB_VERSION_PATCH)/g" \
+	    -e "s/@OTB_VERSION_SONAME@/$(OTB_VERSION_SONAME)/g" \
+	    -e "s/@OTB_VERSION_FULL@/$(OTB_VERSION_FULL)/g" \
+	    -e "s/@PYTHON_HELPER_PKG@/$(PYTHON_HELPER_PKG)/g" \
+	    -e "s/@PYTHON_HELPER_VER@/$(PYTHON_HELPER_VER)/g" \
+	    < debian/control.in > debian/control
+
+changelog-file:
+	sed -e "s/@DIST@/$(DIST)/g" \
+	    -e "s/@PKGVERSION@/$(PKGVERSION)/g" \
+	    < debian/changelog.in > debian/changelog

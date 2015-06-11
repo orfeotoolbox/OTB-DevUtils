@@ -1,0 +1,7 @@
+# OTB specific libraries (binaries and all symlinks)
+usr/lib/libOTBQtWidget-*.so*
+
+# Executables
+usr/bin/otbApplicationLauncherQt
+usr/bin/otbgui_*
+usr/bin/otbgui
