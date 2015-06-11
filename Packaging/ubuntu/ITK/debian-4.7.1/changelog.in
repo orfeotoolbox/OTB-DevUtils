@@ -3,7 +3,7 @@ insighttoolkit4 (4.7.1-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=medium
   [ Guillaume Pasero ]
   * update to ITK 4.7.1
 
- -- OTB Team <contact@orfeo-toolbox.org>  Tue, 09 Sep 2014 07:40:02 +0200
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 09 Jun 2015 07:40:02 +0200
 
 insighttoolkit4 (4.6.0-3otb2~@DIST@@PKGVERSION@) @DIST@; urgency=medium
 
