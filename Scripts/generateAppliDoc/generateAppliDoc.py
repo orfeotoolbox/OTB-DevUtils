@@ -10,6 +10,41 @@ do so.
 import os
 
 
+def get_applications_from_CMakeCache(cmakefile):
+    """ Give list of applications listed in CMakeFile """
+    unsplited = get_value_from_CMakeCache(cmakefile,
+                                          "OTB_APPLICATIONS_NAME_LIST")
+    applications = unsplited.split(';')
+
+    try:
+        applications.remove("TestApplication")  # supposed their is only one
+    except ValueError:
+        pass
+
+    applications.sort()
+    return applications
+
+
+def get_value_from_CMakeCache(filename, key):
+    """ Extract from a CMakeCache file the value corresponding to the key given
+    as argument.
+
+    Raise a KeyError exception if key is not in the file.
+    """
+    key_found = False
+    value = None
+    line = True
+    with open(filename, 'r') as f:
+        while line and not key_found:
+            line = f.readline()  # Do NOT strip to avoid infinite loop
+            if line.strip().startswith(key):
+                key_found = True
+                value = line.strip().split('=')[1]
+    if not key_found:
+        raise KeyError('No key "{}" in "{}".'.format(key, filename))
+    return value
+
+
 def main(otbbin, outDir):
     test_driver_path = os.path.join(otbbin, "bin",
                                     "otbApplicationEngineTestDriver")
@@ -19,47 +54,8 @@ def main(otbbin, outDir):
 
     cmakeFile = os.path.join(otbbin, "CMakeCache.txt")
 
-    ## open CMakeCache.txt
-    f = open(cmakeFile, 'r')
-    # Extract the list of modules from CMakeCache.txt
-    appliKey = "OTB_APPLICATIONS_NAME_LIST"
-    appSorted = []
-    for line in f:
-        if line.find(appliKey) != -1:
-            # supress white space if any
-            line2 = line.strip()
-            # supress line return
-            line = line.strip(" \n")
-            appList = line.split("=")[1]
-            appSortedTmp = appList.split(";")
-            appSortedTmp.sort()
-            for app in appSortedTmp:
-                if app != "TestApplication":
-                    appSorted.append(app)
-            break
-    #print "Found applications:"
-    #print appSorted
-
-
-    ## close CMakeCache.txt
-    f.close()
-
-    # Extract the OTB_DIR_SOURCE path form CMakeCache.txt
-    ## open CMakeCache.txt
-    f = open(cmakeFile, 'r')
-    for line in f:
-        if line.find("OTB_SOURCE_DIR") != -1:
-            # supress white space if any
-            otbDir = line.strip()
-            # supress line return
-            otbDir = line.strip(" \n")
-            otbDir = otbDir.split("=")[1]
-            break
-    #print "OTB_SOURCE_DIR:" + otbDir
-
-    ## close CMakeCache.txt
-    f.close()
-
+    applications = get_applications_from_CMakeCache(cmakeFile)
+    otbDir = get_value_from_CMakeCache(cmakeFile, "OTB_SOURCE_DIR")
 
     ## Find the list of subdir Application to sort them
     appDir = os.path.join(otbDir, "Modules", "Applications")
@@ -85,7 +81,7 @@ def main(otbbin, outDir):
             group = dirName[3:]
         fout.write("<h2>" + group + "</h2>")
         fList = os.listdir(os.path.join(appDir, dirName, "app"))
-        for app in appSorted:
+        for app in applications:
             for fname in fList:
                 # We assume that the class source file nane is otb#app#.cxx
                 if fname.find("otb" + app + ".cxx") != -1:
@@ -104,9 +100,9 @@ def main(otbbin, outDir):
                     count = count + 1
                     break
 
-    if count != len(appSorted):
+    if count != len(applications):
         print "Some application doc may haven't been generated:"
-        print "Waited for " + str(len(appSorted)) + " doc, only " + str(count) + " generated..."
+        print "Waited for " + str(len(applications)) + " doc, only " + str(count) + " generated..."
     else:
         print str(count) + " application documentations have been generated..."
 
