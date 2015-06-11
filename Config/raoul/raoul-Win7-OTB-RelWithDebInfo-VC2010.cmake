@@ -7,7 +7,6 @@ include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
 set(OSGE04W_TESTING "C:/TEST_PKG_x86") 
 
-
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
@@ -43,11 +42,10 @@ OTB_USE_LIBKML:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_MUPARSER:BOOL=ON
 
+OpenJPEG_DIR:PATH=${OSGEO4W_ROOT}/lib/openjpeg-2.0
 
 Boost_INCLUDE_DIR:PATH=${OSGE04W_TESTING}/include/boost-1_56
 Boost_LIBRARY_DIR:PATH=${OSGE04W_TESTING}/lib
-
-OpenJPEG_DIR:PATH=${OSGEO4W_ROOT}/lib/openjpeg-2.0
 
 ITK_DIR:PATH=${OSGE04W_TESTING}/lib/cmake/ITK-4.7
 

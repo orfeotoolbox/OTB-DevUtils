@@ -19,9 +19,11 @@ set B=1
 
 set W=%OSGEO4W_ROOT%\usr\src\osgeo4w\%P%
 set R=../../release/%P%
-mkdir "%W%"
 
-rmdir "%W%\%P%-%V%-install" /s /q
+rmdir "%W%" /s /q
+rmdir "%R%" /s /q
+
+mkdir "%W%"
 mkdir "%OSGEO4W_ROOT%\usr\src\release\%P%"
 
 copy %CURRENT_SCRIPT_DIR%package.cmd "%W%"
@@ -36,11 +38,9 @@ if errorlevel 1 (echo Download error & goto exit)
 tar xvf %P%_%SV%.tar.bz2
 if errorlevel 1 (echo Untar error & goto exit)
 
-
 rename %P%_%SV% "%P%-%V%"
 
 :: build
-rmdir "%P%-%V%-build" /s /q
 mkdir "%P%-%V%-build"
 
 cd "%W%\%P%-%V%"

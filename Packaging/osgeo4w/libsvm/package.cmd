@@ -18,9 +18,11 @@ set B=1
 
 set W=%OSGEO4W_ROOT%\usr\src\osgeo4w\%P%
 set R=../../release/%P%
+
+rmdir "%W%" /s /q
+rmdir "%R%" /s /q
+
 mkdir "%W%"
-rmdir "%W%\%P%-%V%" /s /q
-rmdir "%W%\%P%-%V%-install" /s /q
 mkdir "%OSGEO4W_ROOT%\usr\src\release\%P%"
 
 copy %CURRENT_SCRIPT_DIR%package.cmd "%W%"
@@ -35,7 +37,6 @@ if errorlevel 1 (echo Untar error & goto exit)
 
 
 :: build
-rmdir "%P%-%V%-build" /s /q
 mkdir "%P%-%V%-build"
 cd "%P%-%V%-build"
 

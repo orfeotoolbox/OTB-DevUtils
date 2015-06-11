@@ -22,9 +22,10 @@ set B=1
 
 set W=%OSGEO4W_ROOT%\usr\src\osgeo4w\%P%
 set R=../../release/%P%
+rmdir "%W%" /s /q
+rmdir "%R%" /s /q
+
 mkdir "%W%"
-rmdir "%W%\%P%-%V%" /s /q
-rmdir "%W%\%P%-%V%-install" /s /q
 mkdir "%OSGEO4W_ROOT%\usr\src\release\%P%"
 
 copy %CURRENT_SCRIPT_DIR%package.cmd "%W%"
@@ -43,7 +44,7 @@ rmdir /s /q InsightToolkit-%V%\.ExternalData
 rename InsightToolkit-%V% "%P%-%V%"
 
 :: build
-mkdir "%P%-%V%-build" /s /q
+mkdir "%P%-%V%-build"
 
 cd %P%-%V%-build
 cmake "../%P%-%V%" -G "NMake Makefiles" ^
@@ -128,18 +129,10 @@ cmake "../%P%-%V%" -G "NMake Makefiles" ^
  -DITK_USE_SYSTEM_ZLIB:BOOL=ON ^
  -DITK_USE_SYSTEM_TIFF:BOOL=ON ^
  -DITK_USE_SYSTEM_PNG:BOOL=ON ^
- -DITK_USE_SYSTEM_FFTW:BOOL=ON ^
- -DUSE_FFTWF:BOOL=ON ^
- -DUSE_FFTWD:BOOL=ON ^
- -DFFTW_INCLUDE_PATH:PATH=%OSGEO4W_ROOT%/include ^
- -DFFTWF_LIB:FILEPATH=%OSGEO4W_ROOT%/lib/fftw3.lib ^
- -DFFTWD_LIB:FILEPATH=%OSGEO4W_ROOT%/lib/fftw3.lib ^
- -DTIFF_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include ^
- -DTIFF_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/libtiff_i.lib ^
- -DEXPAT_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include ^
- -DEXPAT_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/libexpat.lib ^
- -DPNG_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include/libpng16 ^
- -DPNG_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/libpng16.lib ^
+ -DITK_USE_SYSTEM_HDF:BOOL=ON ^
+ -DITK_USE_SYSTEM_FFTW:BOOL=OFF ^
+ -DUSE_FFTWF:BOOL=OFF ^
+ -DUSE_FFTWD:BOOL=OFF ^
  -DZLIB_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include ^
  -DZLIB_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/zlib.lib
 

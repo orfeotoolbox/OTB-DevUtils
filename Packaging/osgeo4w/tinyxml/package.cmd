@@ -22,9 +22,10 @@ set W=%OSGEO4W_ROOT%\usr\src\osgeo4w\%P%
 set R=../../release/%P%
 mkdir "%W%"
 
-rmdir "%W%\%P%-%V%" /s /q
-rmdir "%W%\%P%-%V%-install" /s /q
-rmdir "%W%\%P%-%V%-build" /s /q
+rmdir "%W%" /s /q
+rmdir "%R%" /s /q
+
+mkdir "%W%"
 mkdir %W%\%P%-%V%-build
 
 mkdir "%OSGEO4W_ROOT%\usr\src\release\%P%"
