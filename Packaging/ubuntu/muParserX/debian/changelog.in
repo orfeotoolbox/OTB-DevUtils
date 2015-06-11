@@ -1,0 +1,5 @@
+muparserx (3.0.5-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * Initial release.
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Wed, 10 Jun 2015 15:21:41 +0200

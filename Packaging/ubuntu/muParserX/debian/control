@@ -1,0 +1,42 @@
+Source: muparserx
+Priority: extra
+Maintainer: OTB Team <contact@orfeo-toolbox.org>
+Build-Depends: 
+  debhelper (>= 9),
+  cmake (>= 2.8.3)
+Standards-Version: 3.9.5
+Section: contrib/science
+Homepage: http://www.orfeo-toolbox.org/
+
+Package: libmuparserx
+Section: contrib/libs
+Architecture: any
+Provides: libmuparserx
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends}
+Suggests: libmuparserx-dev
+Description: Mathematical expression parser - runtime
+  MuParserX is a fast parser for mathematical expressions. It supports multiple
+  data types (double, integer, complex, boolean, string, array). It has an 
+  extensible set of operators (binary, infix, postfix)
+  .
+  This package contains the libraries.
+
+Package: libmuparserx-dev
+Section: contrib/libdevel
+Architecture: any
+Provides: libmuparserx-dev
+Depends:
+ libmuparserx (= ${binary:Version}),
+ cmake (>= 2.8.3),
+ libc6-dev (>= 2.4),
+ libgcc1 (>= 1:4.1),
+ libstdc++6 (>= 4.4),
+ ${misc:Depends}
+Description: Mathematical expression parser - development
+  MuParserX is a fast parser for mathematical expressions. It supports multiple
+  data types (double, integer, complex, boolean, string, array). It has an 
+  extensible set of operators (binary, infix, postfix)
+  .
+  This package contains the development files.

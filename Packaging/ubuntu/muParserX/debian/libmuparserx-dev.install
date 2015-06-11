@@ -1,0 +1,5 @@
+# library (symlinks)
+usr/lib/libmuparserx*.so
+
+# headers
+usr/include/*.h
