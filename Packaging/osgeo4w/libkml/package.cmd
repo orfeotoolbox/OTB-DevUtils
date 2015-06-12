@@ -58,8 +58,8 @@ cmake "../%P%-%V%" -G "NMake Makefiles" ^
  -DEXPAT_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/libexpat.lib ^
  -DZLIB_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include ^
  -DZLIB_LIBRARY:FILEPATH=%OSGEO4W_ROOT%/lib/zlib.lib ^
- -DBoost_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/../TEST_PKG_x86/include/boost-1_56 ^
- -DBoost_LIBRARY_DIR:PATH=%OSGEO4W_ROOT%/../TEST_PKG_x86/lib
+ -DBoost_INCLUDE_DIR:PATH=%OSGEO4W_ROOT%/include/boost-1_56 ^
+ -DBoost_LIBRARY_DIR:PATH=%OSGEO4W_ROOT%/lib
 
 cmake --build . --config Release --target INSTALL
 cmake . -DBUILD_SHARED_LIBS:BOOL=ON

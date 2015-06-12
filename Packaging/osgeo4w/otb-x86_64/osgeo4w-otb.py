@@ -26,6 +26,19 @@ def get_version(cmakelistpath, id):
                 PATCH = line.split()[1].split('"')[1]
     return "%s.%s.%s" % (MAJOR, MINOR, PATCH)
 
+def get_short_version(cmakelistpath, id):
+    with open(cmakelistpath) as cmakelist:
+      for line in cmakelist:
+        for set in ["set", "SET"]:
+            if set + "(" + id + "_VERSION_MAJOR" in line:
+                MAJOR = line.split()[1].split('"')[1]
+
+            if set + "(" + id + "_VERSION_MINOR" in line:
+                MINOR = line.split()[1].split('"')[1]
+                
+    return "%s.%s" % (MAJOR, MINOR)
+    
+OTB_SHORT_VERSION = get_short_version( os.path.join(OTB_SRC, "CMakeLists.txt"), "OTB" )    
 OTB_VERSION = get_version( os.path.join(OTB_SRC, "CMakeLists.txt"), "OTB" )
 print "OTB version : %s" % OTB_VERSION
 
@@ -88,7 +101,7 @@ def make_otb_bin():
     #shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbViewer.exe"), outputbindir )
     
     # copy ossim and ossimplugin dll in the otbbin package for now
-    shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbossimplugins.dll"), outputbindir )
+    shutil.copy( os.path.join(OTB_INSTALL, "bin",  "otbossimplugins-" + OTB_SHORT_VERSION + ".dll"), outputbindir )
     
     make_tarbz2(package_versioned_name)
                    
