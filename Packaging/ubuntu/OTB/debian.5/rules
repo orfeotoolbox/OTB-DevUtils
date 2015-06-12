@@ -26,9 +26,13 @@ endif
 ifeq ($(DIST),$(filter $(DIST), saucy trusty utopic))
     PYTHON_HELPER_PKG = dh-python
     PYTHON_HELPER_VER = 1.20131003
+    USE_LIBKML = ON
+    LIBKML_DEP = libkml-dev
 else
     PYTHON_HELPER_PKG = python-central
     PYTHON_HELPER_VER = 0.6.11
+    USE_LIBKML = OFF
+    LIBKML_DEP = 
 endif
 
 OTB_VERSION_MAJOR  = $(shell sed -ne 's/set(OTB_VERSION_MAJOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
@@ -46,7 +50,7 @@ CMAKE_FLAGS = \
 	-DBUILD_TESTING:BOOL=OFF \
 	-DOTB_USE_6S:BOOL=ON \
 	-DOTB_USE_CURL:BOOL=ON \
-	-DOTB_USE_LIBKML:BOOL=ON \
+	-DOTB_USE_LIBKML:BOOL=$(USE_LIBKML) \
 	-DOTB_USE_LIBSVM:BOOL=ON \
 	-DOTB_USE_MAPNIK:BOOL=OFF \
 	-DOTB_USE_MUPARSER:BOOL=ON \
@@ -78,6 +82,7 @@ control-file:
 	    -e "s/@OTB_VERSION_FULL@/$(OTB_VERSION_FULL)/g" \
 	    -e "s/@PYTHON_HELPER_PKG@/$(PYTHON_HELPER_PKG)/g" \
 	    -e "s/@PYTHON_HELPER_VER@/$(PYTHON_HELPER_VER)/g" \
+	    -e "s/@LIBKML_DEP@/$(LIBKML_DEP)/g" \
 	    < debian/control.in > debian/control
 
 changelog-file:
