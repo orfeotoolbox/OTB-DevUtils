@@ -8,6 +8,11 @@ do so.
 """
 
 import os
+import re
+
+from glob import iglob
+from collections import namedtuple
+from itertools import ifilter
 
 
 def get_applications_from_CMakeCache(cmakefile):
@@ -43,6 +48,52 @@ def get_value_from_CMakeCache(filename, key):
     if not key_found:
         raise KeyError('No key "{}" in "{}".'.format(key, filename))
     return value
+
+
+def associate_group_to_applications(src_dir, apps):
+    """ Associate applications names with the group it belongs to.
+
+    Search for source files in the source directory tree and compares their
+    names to those in the list of applications given in argument. If a name
+    match, the name of the group it belongs to is deduced from its path.
+
+    Returns a list of namedtuples with the name of each application and its
+    group.
+
+    Assumptions are:
+        - source filename is of the form of ``otbAPPLICATIONNAME.cxx``
+        - group names can be prefixed by ``App``. This prefix is ignored
+        - source filepath is ``src_dir/Modules/Applications/GROUPNAME/app/``
+        - module named ``Test`` is ignored
+
+    Args:
+        src_dir (str): source directory of otb
+        apps (list): list of applications to document
+
+    Returns:
+        list: list of namedtuples
+
+        namedtuples are defined as `namedtuple('AppProp', ['name', 'group'])`
+    """
+    apps_dir = os.path.join(src_dir, 'Modules', 'Applications')
+    glob_pattern = os.path.join(apps_dir, '**', 'app', '*.cxx')
+    match_pattern = re.compile(os.path.join(apps_dir, "(?:App)?(?P<group>.+)",
+                                            'app', 'otb(?P<name>.+).cxx'))
+
+    AppProp = namedtuple('AppProp', ['name', 'group'])
+
+    def match_filter_condition(match):
+        if match:
+            group, name = match.groups()
+            if name in apps and group != 'Test':
+                return True
+        return False
+
+    files = iglob(glob_pattern)
+    matches = ifilter(match_filter_condition,
+                      (re.match(match_pattern, f) for f in files))
+    output = [AppProp(**m.groupdict()) for m in matches]
+    return output
 
 
 def main(otbbin, outDir):
