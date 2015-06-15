@@ -9,10 +9,13 @@ do so.
 
 import os
 import re
+import subprocess
 
 from glob import iglob
 from collections import namedtuple
-from itertools import ifilter
+from itertools import ifilter, groupby
+from operator import attrgetter
+from textwrap import dedent
 
 
 def get_applications_from_CMakeCache(cmakefile):
@@ -96,70 +99,103 @@ def associate_group_to_applications(src_dir, apps):
     return output
 
 
-def main(otbbin, outDir):
-    test_driver_path = os.path.join(otbbin, "bin",
+def generate_html_pages(otb_bin_path, output_dir, applications):
+    """ Generate html pages in output_dir.
+
+    Args:
+        otb_bin_path (str): path to otb binaries
+        output_dir (str): directory where to write html pages
+        applications (namedtuple): name of applications associated to their
+                                   group
+
+    Returns: list of namedtuples
+
+             namedtuples are defined as:
+
+             ``namedtuple('AppProp', ['name', 'group', 'htmlfile'])``
+
+             Where ``name`` refers to the name of the application, ``group`` to
+             the group it belongs to and ``htmlfile`` is the path to the
+             generated htmlfile corresponding to the application.
+
+    """
+
+    test_driver_path = os.path.join(otb_bin_path, "bin",
                                     "otbApplicationEngineTestDriver")
 
-    docExe = " ".join((test_driver_path,
-                       "otbWrapperApplicationHtmlDocGeneratorTest1"))
+    test_app = "otbWrapperApplicationHtmlDocGeneratorTest1"
 
+    applications_path = os.path.join(otb_bin_path, "lib", "otb", "applications")
+
+    AppProp = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
+
+    updtated_applications = []
+    for app in applications:
+        basename = '.'.join((app.name, "html"))
+        htmlfile = os.path.join(output_dir, basename)
+
+        updtated_applications.append(AppProp(*app, htmlfile=htmlfile))
+
+        command_line = (test_driver_path, test_app, app.name,
+                        applications_path, htmlfile, "1")
+        subprocess.call(command_line)
+
+    return updtated_applications
+
+
+def generate_html_index(output_dir, applications):
+    """ Generate an html page index with links to html pages given in argument
+
+    Args:
+        output_dir (str): directory where to write the html index page
+        applications (list): name of applications associated to their group and
+                             htmlfile in a namedtuple of the form of
+                             ``namedtuple('AppProp', ['name', 'group',
+                                                      'htmlfile'])``
+
+    Returns: None
+
+    """
+    entries = []
+    applications.sort(key=attrgetter('group'))  # needed to use groupby
+    for group, apps in groupby(applications, attrgetter('group')):
+        entries.append("<h2>{group}</h2>".format(group=group))
+        for app in sorted(apps):
+            entries.append('\t<a href="{htmlfile}">{app}</a><br />'.format(htmlfile=app.htmlfile, app=app.name))
+
+    index_content = """\
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd">
+    <html>
+    \t<head>
+    \t\t<meta name="qrichtext" content="1" />
+    \t\t<style type="text/css">p, li {{ white-space: pre-wrap; }}</style>
+    \t</head>
+    \t<body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
+    \t\t<h1>The following applications are distributed with OTB.</h1>
+    \t\t\tList of available applications:<br /><br />
+    \t\t\t{entries}
+    \t</body>
+    </html>""".format(entries='\n    \t\t\t'.join(entries))
+
+    with open(os.path.join(output_dir, "index.html"), 'w') as fout:
+        fout.write(dedent(index_content))
+
+
+def main(otbbin, output_dir):
     cmakeFile = os.path.join(otbbin, "CMakeCache.txt")
-
-    applications = get_applications_from_CMakeCache(cmakeFile)
     otbDir = get_value_from_CMakeCache(cmakeFile, "OTB_SOURCE_DIR")
 
-    ## Find the list of subdir Application to sort them
-    appDir = os.path.join(otbDir, "Modules", "Applications")
-    fileList = os.listdir(appDir)
-    dirList = []
-    for fname in fileList:
-        if os.path.isdir(os.path.join(appDir, fname)):
-            if fname != "AppTest":
-                dirList.append(fname)
-    #print "Subdir in Application:"
-    #print dirList
+    applications = get_applications_from_CMakeCache(cmakeFile)
+    apps_and_groups = associate_group_to_applications(otbDir, applications)
+    apps_groups_html = generate_html_pages(otbbin, output_dir, apps_and_groups)
+    generate_html_index(output_dir, apps_groups_html)
 
-
-    fout = open(os.path.join(outDir, "index.html"), 'w')
-    fout.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd\"><html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\"></style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">")
-    fout.write("<h1>The following applications are distributed with OTB.</h1>")
-    fout.write("List of available applications:<br /><br />")
-
-    count = 0
-    for dirName in dirList:
-        group = dirName
-        if dirName.startswith("App") and len(dirName) > 4:
-            group = dirName[3:]
-        fout.write("<h2>" + group + "</h2>")
-        fList = os.listdir(os.path.join(appDir, dirName, "app"))
-        for app in applications:
-            for fname in fList:
-                # We assume that the class source file nane is otb#app#.cxx
-                if fname.find("otb" + app + ".cxx") != -1:
-                    print ("Generating " + app + " ...")
-                    filename = '.'.join((app, "html"))
-                    filepath = os.path.join(outDir, filename)
-                    application_path = os.path.join(otbbin, "lib", "otb",
-                                                    "applications")
-
-                    commandLine = " ".join((docExe, app, application_path,
-                                            filepath, "1"))
-                    os.system(commandLine)
-
-                    outLine = "<a href=\"" + filename + "\">" + app + "</a><br />"
-                    fout.write(outLine)
-                    count = count + 1
-                    break
 
     if count != len(applications):
         print "Some application doc may haven't been generated:"
         print "Waited for " + str(len(applications)) + " doc, only " + str(count) + " generated..."
     else:
         print str(count) + " application documentations have been generated..."
-
-    fout.write("</body")
-    fout.write("</html>")
-    fout.close()
 
 if __name__ == "__main__":
     from argparse import ArgumentParser

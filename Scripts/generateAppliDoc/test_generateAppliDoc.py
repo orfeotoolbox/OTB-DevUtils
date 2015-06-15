@@ -119,3 +119,93 @@ def test_associate_group_to_applications(sources_tree, fx_apps):
                 ]
 
     assert sorted(output) == sorted(expected)
+
+
+def test_generate_html_pages(tmpdir, monkeypatch):  # TODO: insert mocker fixture
+    from generateAppliDoc import generate_html_pages
+    monkeypatch.setattr('subprocess.call', lambda args: args)
+    # TODO:
+    # replace by:
+    # mocked_call = mocker.patch('subprocess.call')
+
+    AppProp = namedtuple('AppProp', ['name', 'group'])
+    Expected = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
+
+    applications = [AppProp('aa', 'a'),
+                    AppProp('cc', 'c'),
+                    AppProp('ab', 'b'),
+                    AppProp('bc', 'c'),
+                    AppProp('cb', 'b'),
+                    AppProp('ac', 'c'),
+                    AppProp('ba', 'a'),
+                    AppProp('bb', 'b'),
+                    AppProp('ca', 'a'),
+                    ]
+
+    expected_apps = [Expected('aa', 'a', tmpdir.join('out', 'aa.html').strpath),
+                     Expected('cc', 'c', tmpdir.join('out', 'cc.html').strpath),
+                     Expected('ab', 'b', tmpdir.join('out', 'ab.html').strpath),
+                     Expected('bc', 'c', tmpdir.join('out', 'bc.html').strpath),
+                     Expected('cb', 'b', tmpdir.join('out', 'cb.html').strpath),
+                     Expected('ac', 'c', tmpdir.join('out', 'ac.html').strpath),
+                     Expected('ba', 'a', tmpdir.join('out', 'ba.html').strpath),
+                     Expected('bb', 'b', tmpdir.join('out', 'bb.html').strpath),
+                     Expected('ca', 'a', tmpdir.join('out', 'ca.html').strpath),
+                     ]
+
+    updtated_applications = generate_html_pages(tmpdir.strpath,
+                                                tmpdir.join('out').strpath,
+                                                applications)
+
+    # TODO:
+    # I don't know how to test this call without reimplement the function
+    # itself into the test: bad design?
+    # mocked_call.assert_has_calls()
+    assert updtated_applications == expected_apps
+
+
+def test_generate_html_index(tmpdir):
+    from generateAppliDoc import generate_html_index
+    AppProp = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
+
+    applications = [AppProp('aa', 'a', tmpdir.join('out', 'aa.html').strpath),
+                    AppProp('cc', 'c', tmpdir.join('out', 'cc.html').strpath),
+                    AppProp('ab', 'b', tmpdir.join('out', 'ab.html').strpath),
+                    AppProp('bc', 'c', tmpdir.join('out', 'bc.html').strpath),
+                    AppProp('cb', 'b', tmpdir.join('out', 'cb.html').strpath),
+                    AppProp('ac', 'c', tmpdir.join('out', 'ac.html').strpath),
+                    AppProp('ba', 'a', tmpdir.join('out', 'ba.html').strpath),
+                    AppProp('bb', 'b', tmpdir.join('out', 'bb.html').strpath),
+                    AppProp('ca', 'a', tmpdir.join('out', 'ca.html').strpath),
+                    ]
+
+    generate_html_index(tmpdir.strpath, applications)
+    # groups and application names are expected to appear in alphabetic order.
+    expected_content = [
+        '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd">\n',
+        '<html>\n',
+        '\t<head>\n',
+        '\t\t<meta name="qrichtext" content="1" />\n',
+        '\t\t<style type="text/css">p, li { white-space: pre-wrap; }</style>\n',
+        '\t</head>\n',
+        '\t<body style=" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;">\n',
+        '\t\t<h1>The following applications are distributed with OTB.</h1>\n',
+        '\t\t\tList of available applications:<br /><br />\n',
+        '\t\t\t<h2>a</h2>\n',
+        '\t\t\t\t<a href="{}">aa</a><br />\n'.format(tmpdir.join('out', 'aa.html')),
+        '\t\t\t\t<a href="{}">ba</a><br />\n'.format(tmpdir.join('out', 'ba.html')),
+        '\t\t\t\t<a href="{}">ca</a><br />\n'.format(tmpdir.join('out', 'ca.html')),
+        '\t\t\t<h2>b</h2>\n',
+        '\t\t\t\t<a href="{}">ab</a><br />\n'.format(tmpdir.join('out', 'ab.html')),
+        '\t\t\t\t<a href="{}">bb</a><br />\n'.format(tmpdir.join('out', 'bb.html')),
+        '\t\t\t\t<a href="{}">cb</a><br />\n'.format(tmpdir.join('out', 'cb.html')),
+        '\t\t\t<h2>c</h2>\n',
+        '\t\t\t\t<a href="{}">ac</a><br />\n'.format(tmpdir.join('out', 'ac.html')),
+        '\t\t\t\t<a href="{}">bc</a><br />\n'.format(tmpdir.join('out', 'bc.html')),
+        '\t\t\t\t<a href="{}">cc</a><br />\n'.format(tmpdir.join('out', 'cc.html')),
+        '\t</body>\n',
+        '</html>',]
+
+    with open(tmpdir.join('index.html').strpath, 'r') as f:
+        content = f.readlines()
+    assert content == expected_content
