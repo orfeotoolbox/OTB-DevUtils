@@ -180,6 +180,26 @@ def generate_html_index(output_dir, applications):
     with open(os.path.join(output_dir, "index.html"), 'w') as fout:
         fout.write(dedent(index_content))
 
+def check_number_of_htmlpages(applications, apps_and_groups):
+    """ Print if the number of pages generated correspond to the number of
+    applications.
+
+    Args:
+        applications (list): output of get_applications_from_CMakeCache
+        apps_and_groups (list): output of associate_group_to_applications
+
+    Returns: None
+
+    """
+    expected_apps_number = len(applications)
+    found_apps_number = len(apps_and_groups)
+    if expected_apps_number != found_apps_number:
+        print "Some application doc may haven't been generated:"
+        print "Waited for {} doc, only {} generated...".format(expected_apps_number,
+                                                               found_apps_number)
+    else:
+        print "{} application documentations have been generated...".format(found_apps_number)
+
 
 def main(otbbin, output_dir):
     cmakeFile = os.path.join(otbbin, "CMakeCache.txt")
@@ -189,13 +209,7 @@ def main(otbbin, output_dir):
     apps_and_groups = associate_group_to_applications(otbDir, applications)
     apps_groups_html = generate_html_pages(otbbin, output_dir, apps_and_groups)
     generate_html_index(output_dir, apps_groups_html)
-
-
-    if count != len(applications):
-        print "Some application doc may haven't been generated:"
-        print "Waited for " + str(len(applications)) + " doc, only " + str(count) + " generated..."
-    else:
-        print str(count) + " application documentations have been generated..."
+    check_number_of_htmlpages(applications, apps_and_groups)
 
 if __name__ == "__main__":
     from argparse import ArgumentParser

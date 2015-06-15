@@ -209,3 +209,40 @@ def test_generate_html_index(tmpdir):
     with open(tmpdir.join('index.html').strpath, 'r') as f:
         content = f.readlines()
     assert content == expected_content
+
+class Test_check_number_of_htmlpages:
+    def test_different_number_of_pages_than_htmlfiles(self, capsys):
+        from generateAppliDoc import check_number_of_htmlpages
+        AppProp = namedtuple('AppProp', ['name', 'group'])
+        WithHtml = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
+
+        applications = [AppProp('aa', 'a'), AppProp('cc', 'c'),
+                        AppProp('cd', 'c'),]
+
+        with_html = [WithHtml('aa', 'a', 'aa.html'),
+                     WithHtml('cc', 'c', 'cc.html'),]
+
+        check_number_of_htmlpages(applications, with_html)
+
+        expected_outprint = '\n'.join(("Some application doc may haven't been generated:",
+                                       "Waited for {} doc, only {} generated...\n".format(len(applications), len(with_html))))
+        out, err = capsys.readouterr()
+        assert out == expected_outprint
+
+    def test_same_number_of_pages_than_htmlfiles(self, capsys):
+        from generateAppliDoc import check_number_of_htmlpages
+        AppProp = namedtuple('AppProp', ['name', 'group'])
+        WithHtml = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
+
+        applications = [AppProp('aa', 'a'), AppProp('cc', 'c')]
+
+        with_html = [WithHtml('aa', 'a', 'aa.html'),
+                     WithHtml('cc', 'c', 'cc.html'),]
+
+        check_number_of_htmlpages(applications, with_html)
+
+        expected_outprint = ("{} application documentations have been "
+                            "generated...\n".format(len(applications)))
+        out, err = capsys.readouterr()
+        assert out == expected_outprint
+
