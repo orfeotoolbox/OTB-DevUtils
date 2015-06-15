@@ -1,10 +1,10 @@
 # Maintainers : OTB developers team
 # Cross compilation of OTB library using MXE (M cross environment)
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
+set(CTEST_DASHBOARD_ROOT "/data/Dashboard")
 set(CTEST_SITE "bumblebee.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(MXE_ROOT "/home/otbval/Tools/mxe")
+set(MXE_ROOT "/data/Tools/mxe")
 set(MXE_TARGET_ARCH "i686")
 set(PROJECT "OTB")
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
@@ -18,8 +18,8 @@ set(dashboard_cache "
 ${otb_cache_common}
 
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
-OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
+OTB_DATA_ROOT:STRING=/data/OTB-Data
+OTB_DATA_LARGEINPUT_ROOT:STRING=/data/OTB-LargeInput
 
 CMAKE_C_FLAGS:STRING=-Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
