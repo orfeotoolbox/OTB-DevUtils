@@ -26,7 +26,7 @@ Build-Depends:
  libmuparserx-dev,
  libopencv-dev,
  libossim-dev,
- libopenjp27-dev (>= 2.1.0),
+ libopenjp2-7-dev (>= 2.1.0),
  libfftw3-dev,
  libtinyxml-dev
 Standards-Version: 3.9.5
@@ -75,7 +75,7 @@ Depends:
  libmuparser-dev,
  libmuparserx-dev,
  libopencv-dev,
- libopenjp27-dev (>= 2.1.0),
+ libopenjp2-7-dev (>= 2.1.0),
  libossim-dev,
  libfftw3-dev,
  libcurl4-gnutls-dev,

@@ -1,6 +1,7 @@
 # OTB libraries (binaries and versioned symlinks)
 usr/lib/libotb*.so.*
-usr/lib/libOTB!(QtWidget)-*.so.*
+usr/lib/libOTB[A-P]*.so.*
+usr/lib/libOTB[R-Z]*.so.*
 
 # Executables
 usr/bin/otbTestDriver
