@@ -3,6 +3,7 @@ Priority: extra
 Maintainer: Ingo Berg <muparserx@beltoforion.de>
 Build-Depends: 
   debhelper (>= 9),
+  lsb-release,
   cmake (>= 2.8.3)
 Standards-Version: 3.9.5
 Section: contrib/science

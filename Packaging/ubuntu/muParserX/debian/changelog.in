@@ -1,5 +1,13 @@
 muparserx (3.0.5-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
 
+  * Non maintainer upload.
+  * d/control: Fix maintainer email and website link
+  * d/control: add dependency to lsb-release
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 16 Jun 2015 14:26:01 +0200
+
+muparserx (3.0.5-1otb1~@DIST@1) @DIST@; urgency=low
+
   * Initial release.
 
  -- OTB Team <contact@orfeo-toolbox.org>  Wed, 10 Jun 2015 15:21:41 +0200
