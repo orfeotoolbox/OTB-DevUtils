@@ -1,0 +1,115 @@
+#!/usr/bin/make -f
+#export DH_VERBOSE=1
+
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+# as per upstream request:
+export DEB_CFLAGS_MAINT_APPEND = -fvisibility=hidden
+
+ifndef DIST
+    DIST=$(shell /usr/bin/lsb_release -s -c)
+endif
+
+ifndef PKGVERSION
+    PKGVERSION=1
+endif
+
+ifeq ($(DIST),precise)
+		EXTRA_DH_MODULES=javahelper
+else
+		EXTRA_DH_MODULES=apache2,javahelper
+endif
+
+%:
+	dh $@ --parallel --with $(EXTRA_DH_MODULES)
+
+CMAKE_EXTRA_FLAGS += -DCMAKE_SKIP_RPATH=ON \
+  -DCMAKE_BUILD_TYPE:STRING=None \
+  -DOPENJPEG_INSTALL_LIB_DIR:STRING=lib/$(DEB_HOST_MULTIARCH) \
+  -DBUILD_CODEC:BOOL=ON \
+  -DBUILD_JPIP:BOOL=ON \
+  -DBUILD_JPIP_SERVER:BOOL=ON \
+  -DBUILD_JPWL:BOOL=OFF \
+  -DBUILD_JAVA:BOOL=OFF \
+  -DBUILD_MJ2:BOOL=OFF \
+  -DBUILD_JP3D:BOOL=ON \
+  -DBUILD_SHARED_LIBS:BOOL=ON \
+  -DBUILD_TESTING:BOOL=OFF \
+  -DBUILD_DOC:BOOL=ON \
+  -DBUILD_THIRDPARTY:BOOL=OFF
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(CMAKE_EXTRA_FLAGS)
+
+SOVERSION=7
+pkg_lib = libopenjp2-$(SOVERSION)
+pkg_dev = libopenjp2-$(SOVERSION)-dev
+pkg_dbg = libopenjp2-$(SOVERSION)-dbg
+pkg_bin = libopenjp2-tools
+pkg_lib3d = libopenjp3d$(SOVERSION)
+pkg_bin3d = libopenjp3d-tools
+pkg_jpip = libopenjpip$(SOVERSION)
+pkg_srv = libopenjpip-server
+pkg_dsrv = libopenjpip-dec-server
+
+override_dh_strip:
+	dh_strip --dbg-package=$(pkg_dbg)
+
+override_dh_install:
+	# annoying cmake-fatal-error export stuff:
+	sed -i -e "s/FATAL_ERROR/STATUS/g" debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/openjpeg-2.1/OpenJPEGTargets*.cmake
+	# install opj_dump/compress/decompress:
+	dh_install -p$(pkg_bin) --autodest -Xjp3d -Xserver -Xjpip usr/bin/*
+	dh_install -p$(pkg_bin) --autodest -Xserver -Xjpip usr/share/man/man1/*.1
+	# lib
+	dh_install -p$(pkg_lib) --autodest usr/lib/$(DEB_HOST_MULTIARCH)/libopenjp2.so.*
+	# dev:
+	dh_install -p$(pkg_dev) --autodest usr/lib/$(DEB_HOST_MULTIARCH)/libopenjp2.so
+	dh_install -p$(pkg_dev) --autodest usr/lib/$(DEB_HOST_MULTIARCH)/openjpeg-2.1/*.cmake
+	dh_install -p$(pkg_dev) --autodest usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/*.pc
+	dh_install -p$(pkg_dev) --autodest usr/include/openjpeg-2.1
+	# jp3d:
+	dh_install -p$(pkg_lib3d) --autodest usr/lib/$(DEB_HOST_MULTIARCH)/libopenjp3d.so.*
+	dh_install -p$(pkg_bin3d) --autodest usr/bin/opj_jp3d*
+	# libjpip:
+	dh_install -p$(pkg_jpip) --autodest usr/lib/$(DEB_HOST_MULTIARCH)/libopenjpip.so.*
+	# server:
+	dh_install -p$(pkg_srv) --autodest usr/bin/opj_server
+	# dec-server
+	dh_install -p$(pkg_dsrv) --autodest usr/bin/opj_dec_server
+	dh_install -p$(pkg_dsrv) --autodest usr/bin/opj_jpip*
+	dh_install --list-missing
+
+CURVER := $(shell dpkg-parsechangelog | grep ^Version | awk '{print $$2}' | cut -d- -f1 | cut -d+ -f1)
+
+get-orig-source:
+	uscan --verbose --rename \
+    --force-download \
+    --download-version $(CURVER)
+
+# create man pages:
+export LD_LIBRARY_PATH := $(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/:$(LD_LIBRARY_PATH)
+export PATH := $(CURDIR)/debian/tmp/usr/bin:$(PATH)
+
+VER_FULL=2.1.0
+
+debian/%.1: debian/opj_common.1.in
+	help2man --include=$< --output=$@ --name="Works with JPEG2000 files" \
+		--no-info --no-discard-stderr `basename $@ .1` --help-option=-h --version-string=$(VER_FULL)
+
+opj_manpages: debian/opj_jp3d_decompress.1 debian/opj_jp3d_compress.1 debian/opj_jpip_addxml.1 debian/opj_jpip_test.1 debian/opj_jpip_transcode.1
+	echo "all missing man pages done"
+# todo:
+#debian/opj_dec_server.1 
+#debian/opj_server.1 
+#debian/opj_jpip_viewer.1
+
+override_dh_installman: opj_manpages
+	dh_installman -p$(pkg_lib3d) debian/opj_jp3d_*.1
+	dh_installman -p$(pkg_dsrv) debian/opj_jpip_*.1
+	#dh_installman
+
+changelog-file:
+	sed -e "s/@DIST@/$(DIST)/g" \
+	    -e "s/@PKGVERSION@/$(PKGVERSION)/g" \
+	    < debian/changelog.in > debian/changelog

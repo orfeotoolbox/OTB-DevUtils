@@ -1,0 +1,177 @@
+Source: openjpeg2
+Priority: extra
+Maintainer: Debian PhotoTools Maintainers <pkg-phototools-devel@lists.alioth.debian.org>
+Uploaders: Mathieu Malaterre <malat@debian.org>
+Homepage: http://www.openjpeg.org
+Build-Depends: cmake (>= 2.8.2),
+               debhelper (>= 9),
+               lsb-release,
+               default-jdk,
+               apache2-dev,
+               help2man,
+               javahelper (>= 0.37~),
+               libcurl4-gnutls-dev | libcurl-ssl-dev,
+               libfcgi-dev,
+               liblcms2-dev | liblcms1-dev,
+               libpng-dev,
+               libtiff-dev,
+               libxerces2-java,
+               zlib1g-dev
+Standards-Version: 3.9.6
+Section: libs
+Vcs-Browser: http://anonscm.debian.org/viewvc/collab-maint/deb-maint/openjpeg2/trunk/
+Vcs-Svn: svn://anonscm.debian.org/collab-maint/deb-maint/openjpeg2/trunk
+
+Package: libopenjp2-7-dev
+Section: libdevel
+Architecture: any
+Depends: libopenjp2-7 (= ${binary:Version}), ${misc:Depends}
+Description: development files for OpenJPEG, a JPEG 2000 image library
+ OpenJPEG is a library for handling the JPEG 2000 image compression format.
+ JPEG 2000 is a wavelet-based image compression standard and permits progressive
+ transmission by pixel and resolution accuracy for progressive downloads of an
+ encoded image. It supports lossless and lossy compression, supports higher
+ compression than JPEG 1991, and has resilience to errors in the image.
+ .
+ This package contains the development files for openjpeg 2.x
+
+Package: libopenjp2-7
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: JPEG 2000 image compression/decompression library
+ OpenJPEG is a library for handling the JPEG 2000 image compression format.
+ JPEG 2000 is a wavelet-based image compression standard and permits progressive
+ transmission by pixel and resolution accuracy for progressive downloads of an
+ encoded image. It supports lossless and lossy compression, supports higher
+ compression than JPEG 1991, and has resilience to errors in the image.
+ .
+ This package contains the runtime files for openjpeg 2.x
+
+Package: libopenjpip7
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: JPEG 2000 Interactive Protocol
+ OpenJPEG is a library for handling the JPEG 2000 image compression format.
+ JPEG 2000 is a wavelet-based image compression standard and permits progressive
+ transmission by pixel and resolution accuracy for progressive downloads of an
+ encoded image. It supports lossless and lossy compression, supports higher
+ compression than JPEG 1991, and has resilience to errors in the image.
+ .
+ This is an implementation of the JPEG 2000 Interactive Protocol (Part-9)
+
+Package: libopenjp3d7
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: JP3D (JPEG 2000 / Part 10) image compression/decompression library
+ OpenJPEG is a library for handling the JPEG 2000 image compression format.
+ JPEG 2000 is a wavelet-based image compression standard and permits progressive
+ transmission by pixel and resolution accuracy for progressive downloads of an
+ encoded image. It supports lossless and lossy compression, supports higher
+ compression than JPEG 1991, and has resilience to errors in the image.
+ .
+ This is an implementation of the JPEG 2000 (JP3D) volumetric imaging (Part-10)
+
+Package: libopenjp2-7-dbg
+Section: debug
+Architecture: any
+Multi-Arch: same
+Depends: libopenjp2-7 (= ${binary:Version}), ${misc:Depends}
+Description: debug symbols for libopenjp2-7, a JPEG 2000 image library
+ This package contains the debug symbols to match the runtime component of the
+ OpenJPEG library, allowing debugging of a program using OpenJPEG to
+ access debugging details within the library itself.
+
+Package: libopenjpip-dec-server
+Section: graphics
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Conflicts: openjpip-dec-server
+Description: tool to allow caching of JPEG 2000 files using JPIP protocol
+ This is client side application for caching remote JPEG 2000 using the JPIP
+ protocol. This command line application needs to run on the client side to
+ allow application such as opj_viewer to view images.
+
+Package: libopenjpip-viewer
+Section: graphics
+Architecture: all
+Depends: libopenjpip-dec-server, ${java:Depends}, ${misc:Depends}
+Suggests: libopenjp2-tools
+Conflicts: openjpip-viewer
+Description: JPEG 2000 java based viewer for advanced remote JPIP access
+ Java based client to view remote JPEG 2000 using JPIP protocol.
+ This is a simple java viewer to allow:
+ .
+  - Scale up request: Enlarge the window
+  - ROI request: Select a region by mouse click and drag, then click inside the
+    red frame of the selected region
+  - Annotate image with ROI information in XML metadata: Click button "Region
+    Of Interest"
+  - Open a new window presenting an aligned image with a locally stored image:
+    Click button "Image Registration" (Under Construction)
+
+Package: libopenjpip-server
+Section: graphics
+Architecture: any
+Multi-Arch: foreign
+Depends: libwww-perl,
+         spawn-fcgi (>= 1.6.1),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: ${misc:Recommends}, libapache2-mod-fastcgi
+Conflicts: openjpip-server
+Description: JPIP server for JPEG 2000 files
+ OpenJPIP software is an implementation of JPEG 2000 Part9: Interactivity tools,
+ APIs and protocols (JPIP). For more info about JPIP, check the website:
+ http://www.jpeg.org/jpeg2000/j2kpart9.html. The current implementation uses
+ some results from the 2KAN project (http://www.2kan.org).
+ .
+ First Version covers:
+ .
+  - JPT-stream (Tile based) and JPP-stream (Precinct based) media types
+  - Session, channels, cache model managements
+  - JPIP over HTTP
+  - Indexing JPEG 2000 files
+  - Embedding XML formatted metadata
+  - Region Of Interest (ROI) requests
+
+Package: libopenjp3d-tools
+Section: graphics
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Suggests: libopenjp2-tools
+Description: command-line tools using the JPEG 2000 - 3D library
+ This package provides with command-line tools allowing for conversions between
+ several formats and also provides tools for encoding and decoding
+ jpeg 3D formats:
+ .
+  - opj_jp3d_compress: compress into JP3D volume
+  - opj_jp3d_decompress: decompress JP3D volume
+
+Package: libopenjp2-tools
+Section: graphics
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: command-line tools using the JPEG 2000 library
+ This package provides with command-line tools allowing for conversions between
+ several formats and also provides tools for encoding and decoding
+ motion-jpeg2000 video formats:
+ .
+  - opj_decompress: decodes j2k, jp2, and jpt files to pgm, ppm, pnm,
+                  pgx, and bmp.
+  - opj_compress: encodes pnm, pgm, pgx, bmp, and ppm files to j2k,
+                  and jp2.
+  - opj_dump: dump information contains in j2k and jp2.
+  - index_create: create jp2 with JPIP index file from a j2k file.
+  - frames_to_mj2: convert YUV video streams to mj2 format.
+  - mj2_to_frames: convert mj2 video streams to YUV format.
+  - wrap_j2k_in_mj2: wrap j2k codestreams into mj2 format.
+  - extract-j2k-from_mj2: extract j2k codestreams from the mj2 format.

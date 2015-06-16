@@ -1,0 +1,10 @@
+OpenJPEG 2.x for Debian
+-------------------
+
+Unless you know what you are doing, you should instead install the OpenJPEG
+(1.x) package instead.
+
+This package is meant for people to start using the new improved OpenJPEG API
+(2.x) where streaming capabilities have been added.
+
+ -- Mathieu Malaterre <malat@debian.org>  Mon, 17 Mar 2014 14:42:09 +0100

@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+APACHE_CONFIG_FILE=/etc/apache2/conf.d/libopenjpip-server.conf
+
+if [ "$1" = "remove" ] ; then
+    if [ -f "$APACHE_CONFIG_FILE" ] ; then
+        rm -f "$APACHE_CONFIG_FILE"
+    fi
+fi
+
+#DEBHELPER#

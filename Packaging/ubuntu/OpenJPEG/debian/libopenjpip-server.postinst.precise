@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+APACHE_CONFIG_FILE=/etc/apache2/conf.d/libopenjpip-server.conf
+
+if [ "$1" = "configure" ] ; then
+    cat > "$APACHE_CONFIG_FILE" <<EOF
+# This is the config file for openjpip-server
+<IfModule mod_fastcgi.c>
+FastCGIExternalServer /var/www/html/openjpip -host 127.0.0.1:3000
+</IfModule>
+EOF
+fi
+
+#DEBHELPER#

@@ -1,0 +1,16 @@
+Description: Upstream did not handle multi-arch installation path
+ It naively assumed the include location to be two levels above the lib
+ installation.
+Author: Mathieu Malaterre <malat@debian.org>
+
+--- openjpeg2-2.1.0.orig/cmake/OpenJPEGConfig.cmake.in
++++ openjpeg2-2.1.0/cmake/OpenJPEGConfig.cmake.in
+@@ -26,7 +26,7 @@ get_filename_component(SELF_DIR "${CMAKE
+ if(EXISTS ${SELF_DIR}/OpenJPEGTargets.cmake)
+   # This is an install tree
+   include(${SELF_DIR}/OpenJPEGTargets.cmake)
+-  get_filename_component(OPENJPEG_INCLUDE_ROOT "${SELF_DIR}/../../@OPENJPEG_INSTALL_INCLUDE_DIR@" ABSOLUTE)
++  get_filename_component(OPENJPEG_INCLUDE_ROOT "${SELF_DIR}/../../../@OPENJPEG_INSTALL_INCLUDE_DIR@" ABSOLUTE)
+   set(OPENJPEG_INCLUDE_DIRS ${OPENJPEG_INCLUDE_ROOT})
+ 
+ else()

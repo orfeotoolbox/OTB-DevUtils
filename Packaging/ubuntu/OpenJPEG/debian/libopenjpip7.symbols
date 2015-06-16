@@ -1,0 +1,14 @@
+libopenjpip.so.7 libopenjpip7 #MINVER#
+ accept_connection@Base 2.1.0
+ decode_jpip@Base 2.1.0
+ destroy_index@Base 2.1.0
+ destroy_jpipdecoder@Base 2.1.0
+ fread_jpip@Base 2.1.0
+ fwrite_jp2k@Base 2.1.0
+ get_index_from_JP2file@Base 2.1.0
+ handle_clientreq@Base 2.1.0
+ init_dec_server@Base 2.1.0
+ init_jpipdecoder@Base 2.1.0
+ output_index@Base 2.1.0
+ output_log@Base 2.1.0
+ terminate_dec_server@Base 2.1.0
