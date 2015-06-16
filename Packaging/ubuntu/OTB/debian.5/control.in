@@ -8,6 +8,7 @@ Build-Depends:
  libc6-dev (>= 2.4),
  libgcc1 (>= 1:4.1),
  libstdc++6 (>= 4.4),
+ lsb-release,
  libinsighttoolkit4-dev (>= 4.7.0),
  libgdal-dev (>= 1.10.0),
  libgeotiff-dev,

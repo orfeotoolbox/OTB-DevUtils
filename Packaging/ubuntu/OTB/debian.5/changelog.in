@@ -4,9 +4,9 @@ otb (5.0.0-1~@DIST@@PKGVERSION@) @DIST@; urgency=low
   * Modularization of the library
   * SuperBuild architecture
 
- -- OTB Team <contact@orfeo-toolbox.org>  Tue, 09 Jun 2015 10:07:02 +0200
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 16 Jun 2015 14:15:00 +0200
 
-otb (4.2.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+otb (4.2.0-1otb1~@DIST@2) @DIST@; urgency=low
 
   * Version 4.2.0 released
   * Fix index space conventions
