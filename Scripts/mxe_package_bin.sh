@@ -3,7 +3,7 @@
 # ** THIS IS A WORK IN PROGRESS. A better way to find the only needed files is needed deployed
 # 08-10-2014
 # ** Using copydlls.py script from -
-# ** https://github.com/performous/performous/blob/master/win32/mxe/copydlls.py
+# ** mxe/tools/copydlls.py
 
 if [ $# -eq 3 ]; then
     MXE_SOURCE_DIR=$1
@@ -86,6 +86,7 @@ echo "Copy OTB dlls and exe to $COPYDLLS_CHECK_DIR"
 $CP $OTB_BIN_DIR/lib/otb/applications/otbapp_*.dll $COPYDLLS_CHECK_DIR
 $CP $OTB_BIN_DIR/bin/otbApplicationLauncher* $COPYDLLS_CHECK_DIR
 $CP $OTB_BIN_DIR/bin/otbTestDriver.exe* $COPYDLLS_CHECK_DIR
+$CP $OTB_BIN_DIR/bin/*.dll $COPYDLLS_CHECK_DIR
 
 #copy ice dlls
 $CP $OTB_BIN_DIR/bin/*ICE*dll $COPYDLLS_CHECK_DIR
@@ -110,6 +111,7 @@ $MV $COPYDLLS_CHECK_DIR/*otbapp_*.dll $COPYDLLS_TARGET_DIR/lib/otb/applications
 
 #move previously needed exe to bin
 $MV $COPYDLLS_CHECK_DIR/*.exe $COPYDLLS_TARGET_DIR/bin/
+$MV $COPYDLLS_CHECK_DIR/*.dll $COPYDLLS_TARGET_DIR/bin/
 
 # #/usr/share/gdal
 $CP $MXE_TARGET_BIN_DIR/share/gdal $COPYDLLS_TARGET_DIR/share/gdal
