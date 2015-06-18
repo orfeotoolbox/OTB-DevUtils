@@ -1,4 +1,11 @@
-monteverdi (1.22.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+monteverdi (1.24.0-1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * Version 1.24.0 released
+  * Support OTB 5.0.0
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 16 Jun 2015 15:45:34 +0200
+
+monteverdi (1.22.0-1otb1~@DIST@1) @DIST@; urgency=low
 
   * Version 1.22.0 released
   * Switch to OTB 4.2.0

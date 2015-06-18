@@ -1,4 +1,12 @@
-monteverdi2 (0.8.0-1otb1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+monteverdi2 (0.8.1-1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * Version 0.8.1 released
+  * Switch to OTB 5.0.0
+  * New tool : Mapla (a small Qt application launcher)
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 16 Jun 2015 15:45:34 +0200
+
+monteverdi2 (0.8.0-1otb1~@DIST@5) @DIST@; urgency=low
 
   * Version 0.8.0 released
   * Switch to OTB 4.2.0
