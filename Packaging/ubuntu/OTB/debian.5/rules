@@ -74,6 +74,11 @@ override_dh_auto_configure:
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OTB_LIB_DIRS) dh_shlibdeps
 
+override_dh_install:
+	# avoid fatal-error in CMake export stuff:
+	sed -i -e "s/FATAL_ERROR/STATUS/g" debian/tmp/usr/lib/cmake/OTB-5.0/OTBTargets*.cmake
+	dh_install
+
 control-file:
 	sed -e "s/@OTB_VERSION_MAJOR@/$(OTB_VERSION_MAJOR)/g" \
 	    -e "s/@OTB_VERSION_MINOR@/$(OTB_VERSION_MINOR)/g" \

@@ -1,4 +1,10 @@
-otb (5.0.0-1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+otb (5.0.0-2~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * d/rules : Fix FATAL_ERROR in CMake export stuff
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 18 Jun 2015 18:30:08 +0200
+
+otb (5.0.0-1~@DIST@1) @DIST@; urgency=low
 
   * Version 5.0.0 released
   * Modularization of the library
