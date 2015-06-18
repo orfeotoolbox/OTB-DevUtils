@@ -24,6 +24,19 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.NullHandler())
 
 
+def main(otbbin, output_dir, verbose, quite):
+    setup_logging(verbose, quite)
+
+    cmakeFile = os.path.join(otbbin, "CMakeCache.txt")
+    otbDir = get_value_from_CMakeCache(cmakeFile, "OTB_SOURCE_DIR")
+
+    applications = get_applications_from_CMakeCache(cmakeFile)
+    apps_and_groups = associate_group_to_applications(otbDir, applications)
+    apps_groups_html = generate_html_pages(otbbin, output_dir, apps_and_groups)
+    generate_html_index(output_dir, apps_groups_html)
+    check_number_of_htmlpages(applications, apps_and_groups)
+
+
 def setup_logging(verbose=False, quite=False):
     """ Set the logging verbosity
 
@@ -233,19 +246,6 @@ def check_number_of_htmlpages(applications, apps_and_groups):
         formated = '\n\t-'.join(sorted_not_generated)
         logger.warning("Following applications documentations haven't been "
                        "generated:\n\t-{}".format(formated))
-
-
-def main(otbbin, output_dir, verbose, quite):
-    setup_logging(verbose, quite)
-
-    cmakeFile = os.path.join(otbbin, "CMakeCache.txt")
-    otbDir = get_value_from_CMakeCache(cmakeFile, "OTB_SOURCE_DIR")
-
-    applications = get_applications_from_CMakeCache(cmakeFile)
-    apps_and_groups = associate_group_to_applications(otbDir, applications)
-    apps_groups_html = generate_html_pages(otbbin, output_dir, apps_and_groups)
-    generate_html_index(output_dir, apps_groups_html)
-    check_number_of_htmlpages(applications, apps_and_groups)
 
 
 if __name__ == "__main__":
