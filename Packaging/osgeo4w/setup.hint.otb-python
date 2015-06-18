@@ -1,4 +1,0 @@
-sdesc: "Python access layer to OrfeoToolbox applications"
-ldesc: "Python access layer to OrfeoToolbox applications"
-category: Libs
-requires: otb-bin python

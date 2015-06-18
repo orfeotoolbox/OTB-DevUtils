@@ -1,0 +1,4 @@
+sdesc: "Monteverdi - Desktop application based on Orfeo ToolBox"
+ldesc: "Desktop appplication based on Orfeo ToolBox"
+category: Desktop
+requires: otb-bin fltk
