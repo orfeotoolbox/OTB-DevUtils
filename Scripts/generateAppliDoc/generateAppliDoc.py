@@ -10,12 +10,39 @@ do so.
 import os
 import re
 import subprocess
+import logging
 
 from glob import iglob
 from collections import namedtuple
 from itertools import ifilter, groupby
 from operator import attrgetter
 from textwrap import dedent
+
+
+logger = logging.getLogger("generateAppliDoc")
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.NullHandler())
+
+
+def setup_logging(verbose=False, quite=False):
+    """ Set the logging verbosity
+
+    Args:
+        verbose (bool): if True set verbosity to INFO, else to WARNING
+                        (default False)
+        quite (bool): if True disable logger "generateAppliDoc"
+
+    Returns: None
+
+    """
+    logger.disabled = True if quite else False
+    verbosity = logging.INFO if verbose else logging.WARNING
+    steam_handler = logging.StreamHandler()
+    steam_handler.set_name('console')
+    steam_handler.setLevel(verbosity)
+    formatter = logging.Formatter("%(levelname)s :: %(message)s")
+    steam_handler.setFormatter(formatter)
+    logger.addHandler(steam_handler)
 
 
 def get_applications_from_CMakeCache(cmakefile):
@@ -138,7 +165,11 @@ def generate_html_pages(otb_bin_path, output_dir, applications):
 
         command_line = (test_driver_path, test_app, app.name,
                         applications_path, htmlfile, "1")
-        subprocess.call(command_line)
+
+        with open(os.devnull, 'w') as DEVNULL:
+            # NOTE: in python3, DEVNULL is part of the subprocess module
+            logger.info('Generates "{}"'.format(htmlfile))
+            subprocess.call(command_line, stdout=DEVNULL)
 
     return updtated_applications
 
@@ -156,6 +187,8 @@ def generate_html_index(output_dir, applications):
     Returns: None
 
     """
+    output_file = os.path.join(output_dir, "index.html")
+    logger.info('Generates "{}"'.format(output_file))
     entries = []
     applications.sort(key=attrgetter('group'))  # needed to use groupby
     for group, apps in groupby(applications, attrgetter('group')):
@@ -177,12 +210,12 @@ def generate_html_index(output_dir, applications):
     \t</body>
     </html>""".format(entries='\n    \t\t\t'.join(entries))
 
-    with open(os.path.join(output_dir, "index.html"), 'w') as fout:
+    with open(output_file, 'w') as fout:
         fout.write(dedent(index_content))
 
+
 def check_number_of_htmlpages(applications, apps_and_groups):
-    """ Print if the number of pages generated correspond to the number of
-    applications.
+    """ Print list of applications whose htmlpages was not generated.
 
     Args:
         applications (list): output of get_applications_from_CMakeCache
@@ -191,17 +224,20 @@ def check_number_of_htmlpages(applications, apps_and_groups):
     Returns: None
 
     """
-    expected_apps_number = len(applications)
-    found_apps_number = len(apps_and_groups)
-    if expected_apps_number != found_apps_number:
-        print "Some application doc may haven't been generated:"
-        print "Waited for {} doc, only {} generated...".format(expected_apps_number,
-                                                               found_apps_number)
-    else:
-        print "{} application documentations have been generated...".format(found_apps_number)
+    expected = set(applications)
+    generated = set(zip(*apps_and_groups)[0])
+    not_generated = expected - generated
+
+    if not_generated:
+        sorted_not_generated = sorted(not_generated)
+        formated = '\n\t-'.join(sorted_not_generated)
+        logger.warning("Following applications documentations haven't been "
+                       "generated:\n\t-{}".format(formated))
 
 
-def main(otbbin, output_dir):
+def main(otbbin, output_dir, verbose, quite):
+    setup_logging(verbose, quite)
+
     cmakeFile = os.path.join(otbbin, "CMakeCache.txt")
     otbDir = get_value_from_CMakeCache(cmakeFile, "OTB_SOURCE_DIR")
 
@@ -211,12 +247,18 @@ def main(otbbin, output_dir):
     generate_html_index(output_dir, apps_groups_html)
     check_number_of_htmlpages(applications, apps_and_groups)
 
+
 if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser(description="Documentation generator script",
                             epilog=__doc__)
     parser.add_argument("otb_bin_path", help="Path to the otb binary directory")
     parser.add_argument("output_path", help="Path to the output directory")
+    parser.add_argument("-v", "--verbose", help="Increase output verbosity",
+                        action="store_true")
+    parser.add_argument("-q", "--quite", help="No output (even warning)",
+                        action="store_true")
+
     args = parser.parse_args()
 
-    main(args.otb_bin_path, args.output_path)
+    main(args.otb_bin_path, args.output_path, args.verbose, args.quite)

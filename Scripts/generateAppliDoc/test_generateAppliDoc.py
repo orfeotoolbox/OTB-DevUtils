@@ -1,5 +1,8 @@
 # encoding: utf-8
 
+import logging
+
+from operator import attrgetter
 from collections import namedtuple
 from textwrap import dedent
 
@@ -120,16 +123,15 @@ def test_associate_group_to_applications(sources_tree, fx_apps):
 
     assert sorted(output) == sorted(expected)
 
-
-def test_generate_html_pages(tmpdir, monkeypatch):  # TODO: insert mocker fixture
+@pytest.fixture
+def fx_htmlpages(tmpdir, monkeypatch):  # TODO: insert mocker fixture
     from generateAppliDoc import generate_html_pages
-    monkeypatch.setattr('subprocess.call', lambda args: args)
+    monkeypatch.setattr('subprocess.call', lambda *args, **kwargs: None)
     # TODO:
     # replace by:
     # mocked_call = mocker.patch('subprocess.call')
 
     AppProp = namedtuple('AppProp', ['name', 'group'])
-    Expected = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
 
     applications = [AppProp('aa', 'a'),
                     AppProp('cc', 'c'),
@@ -141,108 +143,182 @@ def test_generate_html_pages(tmpdir, monkeypatch):  # TODO: insert mocker fixtur
                     AppProp('bb', 'b'),
                     AppProp('ca', 'a'),
                     ]
-
-    expected_apps = [Expected('aa', 'a', tmpdir.join('out', 'aa.html').strpath),
-                     Expected('cc', 'c', tmpdir.join('out', 'cc.html').strpath),
-                     Expected('ab', 'b', tmpdir.join('out', 'ab.html').strpath),
-                     Expected('bc', 'c', tmpdir.join('out', 'bc.html').strpath),
-                     Expected('cb', 'b', tmpdir.join('out', 'cb.html').strpath),
-                     Expected('ac', 'c', tmpdir.join('out', 'ac.html').strpath),
-                     Expected('ba', 'a', tmpdir.join('out', 'ba.html').strpath),
-                     Expected('bb', 'b', tmpdir.join('out', 'bb.html').strpath),
-                     Expected('ca', 'a', tmpdir.join('out', 'ca.html').strpath),
-                     ]
-
     updtated_applications = generate_html_pages(tmpdir.strpath,
                                                 tmpdir.join('out').strpath,
                                                 applications)
-
-    # TODO:
-    # I don't know how to test this call without reimplement the function
-    # itself into the test: bad design?
-    # mocked_call.assert_has_calls()
-    assert updtated_applications == expected_apps
+    Output = namedtuple('htmlpages', ['applications', 'updtated_applications',
+                                      'tmpdir'])
+    return Output(applications, updtated_applications, tmpdir)
 
 
-def test_generate_html_index(tmpdir):
-    from generateAppliDoc import generate_html_index
-    AppProp = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
 
-    applications = [AppProp('aa', 'a', tmpdir.join('out', 'aa.html').strpath),
-                    AppProp('cc', 'c', tmpdir.join('out', 'cc.html').strpath),
-                    AppProp('ab', 'b', tmpdir.join('out', 'ab.html').strpath),
-                    AppProp('bc', 'c', tmpdir.join('out', 'bc.html').strpath),
-                    AppProp('cb', 'b', tmpdir.join('out', 'cb.html').strpath),
-                    AppProp('ac', 'c', tmpdir.join('out', 'ac.html').strpath),
-                    AppProp('ba', 'a', tmpdir.join('out', 'ba.html').strpath),
-                    AppProp('bb', 'b', tmpdir.join('out', 'bb.html').strpath),
-                    AppProp('ca', 'a', tmpdir.join('out', 'ca.html').strpath),
-                    ]
+class Test_generate_html_pages:
+    def test_generate_html_pages(self, fx_htmlpages):
+        Expected = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
+        expected_apps = [
+            Expected('aa', 'a',
+                     fx_htmlpages.tmpdir.join('out', 'aa.html').strpath),
+            Expected('cc', 'c',
+                     fx_htmlpages.tmpdir.join('out', 'cc.html').strpath),
+            Expected('ab', 'b',
+                     fx_htmlpages.tmpdir.join('out', 'ab.html').strpath),
+            Expected('bc', 'c',
+                     fx_htmlpages.tmpdir.join('out', 'bc.html').strpath),
+            Expected('cb', 'b',
+                     fx_htmlpages.tmpdir.join('out', 'cb.html').strpath),
+            Expected('ac', 'c',
+                     fx_htmlpages.tmpdir.join('out', 'ac.html').strpath),
+            Expected('ba', 'a',
+                     fx_htmlpages.tmpdir.join('out', 'ba.html').strpath),
+            Expected('bb', 'b',
+                     fx_htmlpages.tmpdir.join('out', 'bb.html').strpath),
+            Expected('ca', 'a',
+                     fx_htmlpages.tmpdir.join('out', 'ca.html').strpath),
+        ]
 
-    generate_html_index(tmpdir.strpath, applications)
-    # groups and application names are expected to appear in alphabetic order.
-    expected_content = [
-        '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd">\n',
-        '<html>\n',
-        '\t<head>\n',
-        '\t\t<meta name="qrichtext" content="1" />\n',
-        '\t\t<style type="text/css">p, li { white-space: pre-wrap; }</style>\n',
-        '\t</head>\n',
-        '\t<body style=" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;">\n',
-        '\t\t<h1>The following applications are distributed with OTB.</h1>\n',
-        '\t\t\tList of available applications:<br /><br />\n',
-        '\t\t\t<h2>a</h2>\n',
-        '\t\t\t\t<a href="{}">aa</a><br />\n'.format(tmpdir.join('out', 'aa.html')),
-        '\t\t\t\t<a href="{}">ba</a><br />\n'.format(tmpdir.join('out', 'ba.html')),
-        '\t\t\t\t<a href="{}">ca</a><br />\n'.format(tmpdir.join('out', 'ca.html')),
-        '\t\t\t<h2>b</h2>\n',
-        '\t\t\t\t<a href="{}">ab</a><br />\n'.format(tmpdir.join('out', 'ab.html')),
-        '\t\t\t\t<a href="{}">bb</a><br />\n'.format(tmpdir.join('out', 'bb.html')),
-        '\t\t\t\t<a href="{}">cb</a><br />\n'.format(tmpdir.join('out', 'cb.html')),
-        '\t\t\t<h2>c</h2>\n',
-        '\t\t\t\t<a href="{}">ac</a><br />\n'.format(tmpdir.join('out', 'ac.html')),
-        '\t\t\t\t<a href="{}">bc</a><br />\n'.format(tmpdir.join('out', 'bc.html')),
-        '\t\t\t\t<a href="{}">cc</a><br />\n'.format(tmpdir.join('out', 'cc.html')),
-        '\t</body>\n',
-        '</html>',]
+        # TODO:
+        # I don't know how to test this call without reimplement the function
+        # itself into the test: bad design?
+        # mocked_call.assert_has_calls()
+        assert fx_htmlpages.updtated_applications == expected_apps
 
-    with open(tmpdir.join('index.html').strpath, 'r') as f:
-        content = f.readlines()
-    assert content == expected_content
+    def test_logging(self, fx_htmlpages, caplog):
+        htmlfiles = (a.htmlfile for a in fx_htmlpages.updtated_applications)
+
+        # logger = logging.getLogger("generateAppliDoc")
+        # logger.addHandler(logging.StreamHandler)
+        assert caplog.records()
+        for record, htmlfile in zip(caplog.records(), htmlfiles):
+            expected_msg = 'Generates "{}"'.format(htmlfile)
+            assert record.getMessage() == expected_msg
+
+
+class Test_generate_html_index:
+    def test_generate_html_index(self, tmpdir):
+        from generateAppliDoc import generate_html_index
+        AppProp = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
+
+        applications = [AppProp('aa', 'a', tmpdir.join('out', 'aa.html').strpath),
+                        AppProp('cc', 'c', tmpdir.join('out', 'cc.html').strpath),
+                        AppProp('ab', 'b', tmpdir.join('out', 'ab.html').strpath),
+                        AppProp('bc', 'c', tmpdir.join('out', 'bc.html').strpath),
+                        AppProp('cb', 'b', tmpdir.join('out', 'cb.html').strpath),
+                        AppProp('ac', 'c', tmpdir.join('out', 'ac.html').strpath),
+                        AppProp('ba', 'a', tmpdir.join('out', 'ba.html').strpath),
+                        AppProp('bb', 'b', tmpdir.join('out', 'bb.html').strpath),
+                        AppProp('ca', 'a', tmpdir.join('out', 'ca.html').strpath),
+                        ]
+
+        generate_html_index(tmpdir.strpath, applications)
+        # groups and application names are expected to appear in alphabetic order.
+        expected_content = [
+            '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//ENhttp://www.w3.org/TR/REC-html40/strict.dtd">\n',
+            '<html>\n',
+            '\t<head>\n',
+            '\t\t<meta name="qrichtext" content="1" />\n',
+            '\t\t<style type="text/css">p, li { white-space: pre-wrap; }</style>\n',
+            '\t</head>\n',
+            '\t<body style=" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;">\n',
+            '\t\t<h1>The following applications are distributed with OTB.</h1>\n',
+            '\t\t\tList of available applications:<br /><br />\n',
+            '\t\t\t<h2>a</h2>\n',
+            '\t\t\t\t<a href="{}">aa</a><br />\n'.format(tmpdir.join('out', 'aa.html')),
+            '\t\t\t\t<a href="{}">ba</a><br />\n'.format(tmpdir.join('out', 'ba.html')),
+            '\t\t\t\t<a href="{}">ca</a><br />\n'.format(tmpdir.join('out', 'ca.html')),
+            '\t\t\t<h2>b</h2>\n',
+            '\t\t\t\t<a href="{}">ab</a><br />\n'.format(tmpdir.join('out', 'ab.html')),
+            '\t\t\t\t<a href="{}">bb</a><br />\n'.format(tmpdir.join('out', 'bb.html')),
+            '\t\t\t\t<a href="{}">cb</a><br />\n'.format(tmpdir.join('out', 'cb.html')),
+            '\t\t\t<h2>c</h2>\n',
+            '\t\t\t\t<a href="{}">ac</a><br />\n'.format(tmpdir.join('out', 'ac.html')),
+            '\t\t\t\t<a href="{}">bc</a><br />\n'.format(tmpdir.join('out', 'bc.html')),
+            '\t\t\t\t<a href="{}">cc</a><br />\n'.format(tmpdir.join('out', 'cc.html')),
+            '\t</body>\n',
+            '</html>',]
+
+        with open(tmpdir.join('index.html').strpath, 'r') as f:
+            content = f.readlines()
+        assert content == expected_content
+
+    def test_logging(self, tmpdir, caplog):
+        from generateAppliDoc import generate_html_index
+        AppProp = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
+
+        applications = [AppProp('aa', 'a', tmpdir.join('out', 'aa.html').strpath),
+                        AppProp('cc', 'c', tmpdir.join('out', 'cc.html').strpath),
+                        AppProp('ab', 'b', tmpdir.join('out', 'ab.html').strpath),
+                        AppProp('bc', 'c', tmpdir.join('out', 'bc.html').strpath),
+                        AppProp('cb', 'b', tmpdir.join('out', 'cb.html').strpath),
+                        AppProp('ac', 'c', tmpdir.join('out', 'ac.html').strpath),
+                        AppProp('ba', 'a', tmpdir.join('out', 'ba.html').strpath),
+                        AppProp('bb', 'b', tmpdir.join('out', 'bb.html').strpath),
+                        AppProp('ca', 'a', tmpdir.join('out', 'ca.html').strpath),
+                        ]
+
+        generate_html_index(tmpdir.strpath, applications)
+        expected = 'Generates "{}"'.format(tmpdir.join('index.html').strpath)
+
+        for record in caplog.records():
+            assert record.getMessage() == expected
+
 
 class Test_check_number_of_htmlpages:
-    def test_different_number_of_pages_than_htmlfiles(self, capsys):
+    @pytest.mark.parametrize('applications', [pytest.mark.xfail(['aa', 'cc']),
+                                              ['aa', 'cc', 'bb', 'dd']],
+                             ids=('no_log_expected', 'log_expected'))
+    def test_logging(self, applications, caplog):
         from generateAppliDoc import check_number_of_htmlpages
-        AppProp = namedtuple('AppProp', ['name', 'group'])
         WithHtml = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
-
-        applications = [AppProp('aa', 'a'), AppProp('cc', 'c'),
-                        AppProp('cd', 'c'),]
 
         with_html = [WithHtml('aa', 'a', 'aa.html'),
                      WithHtml('cc', 'c', 'cc.html'),]
 
         check_number_of_htmlpages(applications, with_html)
 
-        expected_outprint = '\n'.join(("Some application doc may haven't been generated:",
-                                       "Waited for {} doc, only {} generated...\n".format(len(applications), len(with_html))))
-        out, err = capsys.readouterr()
-        assert out == expected_outprint
+        expected_log = ("Following applications documentations haven't been "
+                        "generated:\n\t-bb\n\t-dd")
 
-    def test_same_number_of_pages_than_htmlfiles(self, capsys):
-        from generateAppliDoc import check_number_of_htmlpages
-        AppProp = namedtuple('AppProp', ['name', 'group'])
-        WithHtml = namedtuple('AppProp', ['name', 'group', 'htmlfile'])
+        assert caplog.record_tuples() == [
+            ('generateAppliDoc', logging.WARNING, expected_log),]
 
-        applications = [AppProp('aa', 'a'), AppProp('cc', 'c')]
+@pytest.yield_fixture
+def setup_logging():
+    from generateAppliDoc import setup_logging
+    logger = logging.getLogger("generateAppliDoc")
+    handlers = logger.handlers[:]
+    level = logger.level
+    disabled = logger.disabled
+    progpagate = logger.propagate
+    yield setup_logging
+    logger.handlers = handlers
+    logger.level = level
+    logger.disabled = disabled
+    logger.propagate = progpagate
 
-        with_html = [WithHtml('aa', 'a', 'aa.html'),
-                     WithHtml('cc', 'c', 'cc.html'),]
 
-        check_number_of_htmlpages(applications, with_html)
+class Test_setup_logging:
+    def test_no_option(self, setup_logging, caplog):
+        assert setup_logging.func_defaults == (False, False)
 
-        expected_outprint = ("{} application documentations have been "
-                            "generated...\n".format(len(applications)))
-        out, err = capsys.readouterr()
-        assert out == expected_outprint
+    @pytest.mark.parametrize('verbose, quite, level, disabled',
+                             [(False, False, logging.WARNING, False),
+                              (True, False, logging.INFO, False),
+                              (True, True, logging.INFO, True),
+                              (False, True, logging.WARNING, True),
+                              ],
+                             ids=("no_verbose no_quite", "verbose no_quite",
+                                  "verbose quite", "no_verbose quite"))
+    def test_quite_option(self, verbose, quite, level, disabled, setup_logging,
+                          caplog):
+        setup_logging(verbose=verbose, quite=quite)
+        logger = logging.getLogger("generateAppliDoc")
 
+        assert logger.disabled == disabled
+        assert logger.getEffectiveLevel() == logging.DEBUG
+        assert len(logger.handlers) == 2
+
+        null_handler, stream_handler = logger.handlers
+        assert isinstance(null_handler, logging.NullHandler)
+        assert isinstance(stream_handler, logging.StreamHandler)
+        assert stream_handler.name == "console"
+        assert stream_handler.level == level
