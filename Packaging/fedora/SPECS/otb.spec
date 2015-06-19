@@ -41,6 +41,7 @@ BuildRequires: libjpeg-turbo-devel
 BuildRequires: openjpeg2-devel >= 2.1.0-4
 BuildRequires: openjpeg2-tools >= 2.1.0-4
 BuildRequires: InsightToolkit-devel >= 4.7.1
+BuildRequires: InsightToolkit-vtk  >= 4.7.1
 BuildRequires: ossim-devel >= 1.8.18
 ### test package to install only jpeg plugin
 ###BuildRequires: gdal-openjpeg

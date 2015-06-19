@@ -1,0 +1,68 @@
+#!/bin/sh
+CONFIG_LIBS="-L/usr/lib64 -lgdal"
+CONFIG_DEP_LIBS=" -larmadillo -lpoppler -lfreexl -L/usr/lib64 -lgeos_c -lwebp -lodbc -lodbcinst -lexpat -lxerces-c -lpthread -ljasper -lnetcdf  -lhdf5 -L/usr/lib64/hdf -lmfhdf -ldf -lgif -ljpeg -lgeotiff -ltiff -lgta -lpng -lcfitsio -L/usr/lib64 -lpq -llzma -lz -lpthread -lm -lrt -ldl -lgrib2c -ldapclient -ldapserver -ldap  -lspatialite -lpcre   -lcurl        -lCharLS     -lxml2 -lz -lm -ldl -L/usr/lib64/mysql -lmysqlclient -lpthread -lz -lm -lssl -lcrypto -ldl"
+CONFIG_PREFIX="/usr"
+CONFIG_CFLAGS="-I/usr/include/gdal"
+CONFIG_DATA="/usr/share/gdal"
+CONFIG_VERSION="1.10.1"
+CONFIG_OGR_ENABLED=yes
+CONFIG_FORMATS="gxf gtiff hfa aigrid aaigrid ceos ceos2 iso8211 xpm sdts raw dted mem jdem envisat elas fit vrt usgsdem l1b nitf bmp pcidsk airsar rs2 ilwis rmf leveller sgi srtmhgt idrisi gsg ingr ers jaxapalsar dimap gff cosar pds adrg coasp tsx terragen blx msgn til r northwood saga xyz hf2 kmlsuperoverlay ctg e00grid zmap ngsgeoid iris map webp wcs wms dods grib jpeg2000 netcdf hdf5 hdf4 gif jpeg gta png pcraster fits  rik ozi pdf rasterlite mbtiles postgisraster jpegls arg openjpeg"
+usage()
+{
+	cat <<EOF
+Usage: gdal-config [OPTIONS]
+Options:
+	[--prefix[=DIR]]
+	[--libs]
+	[--dep-libs]
+	[--cflags]
+	[--datadir]
+	[--version]
+	[--ogr-enabled]
+	[--formats]
+EOF
+	exit $1
+}
+
+if test $# -eq 0; then
+	usage 1 1>&2
+fi
+
+case $1 in 
+  --libs)
+    echo $CONFIG_LIBS
+    ;;
+
+  --dep-libs)
+    echo $CONFIG_DEP_LIBS
+    ;;
+
+  --cflags)
+    echo $CONFIG_CFLAGS
+    ;;
+
+  --datadir)
+    echo $CONFIG_DATA
+    ;;
+
+  --prefix)
+    echo $CONFIG_PREFIX
+    ;;
+
+  --version)
+    echo $CONFIG_VERSION
+    ;;
+
+  --ogr-enabled)
+    echo $CONFIG_OGR_ENABLED
+    ;;
+
+  --formats)
+    echo $CONFIG_FORMATS
+    ;;
+
+  *)
+    usage 1 1>&2
+    ;;
+
+esac

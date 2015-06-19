@@ -1,8 +1,7 @@
 # spec file for otb-ice
 # norootforbuild
-%global _otb_version 4.5.0
 Name:  otb-ice
-Version:  0.2.0
+Version:  0.3.0
 Release:  1%{?dist}
 Summary:  %{name} is a fast OpenGL rendering engine for OTB
 Group:	       System Environment/Libraries
@@ -11,13 +10,14 @@ URL:	       http://www.orfeo-toolbox.org
 Source0:       http://orfeo-toolbox.org/packages/%{name}-%{version}.tgz
 
 BuildRequires:  cmake
-BuildRequires:  otb-devel >= 4.5.0
+BuildRequires:  otb-devel >= 5.0
 BuildRequires:  glfw-devel
 BuildRequires:  glew-devel
 BuildRequires:  freeglut-devel
 BuildRequires:  libXmu-devel
 BuildRequires:  gdal-devel >= 1.11.2
 BuildRequires:  InsightToolkit-devel >= 4.7
+BuildRequires: InsightToolkit-vtk  >= 4.7.1
 BuildRequires:  ossim-devel >= 1.8.18
 BuildRequires: libgeotiff-devel
 BuildRequires: libpng-devel
@@ -72,7 +72,7 @@ pushd %{_target_platform}
 %cmake .. \
     -DCMAKE_INSTALL_PREFIX=%{_prefix} \
     -DIce_INSTALL_LIB_DIR:PATH=%{_lib} \
-    -DOTB_DIR:PATH=%{_libdir}/cmake/OTB-%{_otb_version} \
+    -DOTB_DIR:PATH=%{_libdir}/cmake/OTB-5.0 \
     -DBUILD_ICE_APPLICATION:BOOL=ON \
     -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"
 popd
@@ -100,6 +100,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jun 15 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.3.0-1
+- update for Ice 0.3.0
 * Tue Apr 28 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.2.0-1
 - update for OTB 4.5.0
 - added a doc section with Copyright.txt and README

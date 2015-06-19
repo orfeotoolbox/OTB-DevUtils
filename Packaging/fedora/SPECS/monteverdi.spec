@@ -5,8 +5,8 @@
 %global _sharedir %{_prefix}/share
 
 Name:  monteverdi
-Version:  1.22.0
-Release:  2%{?dist}
+Version:  1.24.0
+Release:  1%{?dist}
 Summary:  %{sname} is the GUI interface built with OTB library and FLTK
 Group:    Applications/Engineering
 License:  CeCILL
@@ -15,14 +15,15 @@ Source0:  http://orfeo-toolbox.org/packages/%{sname}-%{version}.tgz
 BuildRequires:  fltk-devel
 BuildRequires:  fltk-fluid
 BuildRequires:  cmake
-BuildRequires:  otb-devel >= 4.5.0
+BuildRequires:  otb-devel = 5.0.0
 BuildRequires:  glfw-devel
 BuildRequires:  glew-devel
 BuildRequires:  freeglut-devel
 BuildRequires:  libXmu-devel
 BuildRequires:  gdal-devel
 BuildRequires:  boost-devel
-BuildRequires:  InsightToolkit-devel >= 4.6
+BuildRequires:  InsightToolkit-devel >= 4.7
+BuildRequires: InsightToolkit-vtk  >= 4.7.1
 BuildRequires:  ossim-devel >= 1.8.18
 BuildRequires: libgeotiff-devel
 BuildRequires: libpng-devel
@@ -61,8 +62,9 @@ and multi-threading capabilities.
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake .. \
-    -DCMAKE_INSTALL_PREFIX=%{_prefix} \
-    -DMonteverdi_INSTALL_LIB_DIR:PATH=%{_lib}/otb
+       -DCMAKE_INSTALL_PREFIX=%{_prefix} \
+       -DOTB_DIR:PATH=%{_libdir}/cmake/OTB-5.0 \
+    -DMonteverdi_INSTALL_LIB_DIR:PATH=%{_lib}
 
 popd
 make %{?_smp_mflags} -C %{_target_platform}
@@ -79,22 +81,22 @@ rm -rf %{buildroot}
 %files
 %{_bindir}/monteverdi
 %{_bindir}/otbViewer
-%{_libdir}/otb/libOTBVisuFLTK.so*
-%{_libdir}/otb/libOTBGuiFLTK.so*
-%{_libdir}/otb/libOTBVisuLegacyFLTK.so*
-%{_libdir}/otb/libotb*Module*
-%{_libdir}/otb/libOTBMonteverdi*.so*
-%{_libdir}/otb/libotbMonteverdi.so*
-%{_libdir}/otb/libflu.so*
+%{_libdir}/libOTBVisuFLTK.so*
+%{_libdir}/libOTBGuiFLTK.so*
+%{_libdir}/libOTBVisuLegacyFLTK.so*
+%{_libdir}/libotb*Module*
+%{_libdir}/libOTBMonteverdi*.so*
+%{_libdir}/libotbMonteverdi.so*
+%{_libdir}/libflu.so*
 %{_sharedir}/pixmaps/monteverdi.*
 %{_sharedir}/applications/monteverdi.desktop
 
-%dir %{_libdir}/otb
 %dir %{_sharedir}/pixmaps
 %dir %{_sharedir}/applications
 
-%exclude %{_libdir}/otb/Monteverd*.cmake
+%exclude %{_libdir}/Monteverd*.cmake
 %exclude %{_includedir}/
+
 
 %changelog
 * Tue Apr 28 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.22.0-2
