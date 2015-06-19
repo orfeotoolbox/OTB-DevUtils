@@ -1,2 +1,2 @@
 # OTB Ice libraries (binaries and versioned symlinks)
-usr/lib/otb/libOTBIce.so.*
+usr/lib/libOTBIce.so.*

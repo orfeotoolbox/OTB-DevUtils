@@ -1,4 +1,10 @@
-otb-ice (0.3.0-1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+otb-ice (0.3.0-2~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * Fix dh_install
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Fri, 19 Jun 2015 14:59:08 +0200
+
+otb-ice (0.3.0-1~@DIST@1) @DIST@; urgency=low
 
   * Package released along with Monteverdi 0.8.1 and OTB 5.0.0
 
