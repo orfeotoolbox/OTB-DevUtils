@@ -1,25 +1,33 @@
-To setup rpmbuild on Fedora or RHEL. you can refer to the below centos wiki page. I had used the same setup on Fedora 21
+Fedora binary packages for OTB are uploaded in FedoraCopr.
+https://copr.fedoraproject.org/coprs/orfeotoolbox/otb/monitor/
 
+Build these rpms on your system!
+===============================
+
+1. setup rmbuild
+To setup rpmbuild on Fedora or RHEL. you can refer to the below centos wiki page. I had used the same setup on Fedora 21.
 http://wiki.centos.org/HowTos/SetupRpmBuildEnvironment
 
+2. copy files from DevUtils/Packaging/fedora
 This directory contains SPECS and SOURCES directory which can be copied directly into your rpmbuild directory
 eg:
+cd DevUtils/Packaging/fedora
 cp -r SOURCES SPECS ~/rpmbuild
 
-You need to get all source files mentioned in the respective spec file for the package into ~/rpmbuild/SOURCES/ to rebuild rpms
+3. Get all sources archives.
+You need to get all source files mentioned in the respective spec file for the package into ~/rpmbuild/SOURCES/ to rebuild rpms.
+a list of files used can be found in the file SOURCES/required_source_archives.txt
 
-eg otb.spec contains "Source0:       http://orfeo-toolbox.org/packages/%{_uname}-%{version}.tgz"
-cd ~/rpmbuild/SOURCES/
-wget Source0:       http://orfeo-toolbox.org/packages/OTB-5.0.0.tgz
+4. start build with rpmbuild
 
-
-now run rpmbuild to build your own rpms. For various options for rpmbuild tool. Please refer to its documentation
+Now run rpmbuild to build your own rpms.
+For various options for rpmbuild tool, Please refer to below link
 http://www.rpm.org/max-rpm-snapshot/ch-rpm-b-command.html
 
+4.1
 cd ../SPECS
-
 rpmbuild -ba otb.spec
 
+End Note:
 After this finishes, you will have rpms in ~/rpmbuild/RPMS/<your-system-architeture>/
-
 source rpms that can be uploaded to copr for rebuilding can be visible at ~/rpmbuild/SRPMS
