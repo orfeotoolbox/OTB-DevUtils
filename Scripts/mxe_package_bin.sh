@@ -27,7 +27,7 @@ MV=`which mv`
 MKDIR="`which mkdir` -p"
 COMPRESS_COMMAND="`which zip` -r"
 PYTHON_INTREP=`which python`
-COPYDLLS_SCRIPT=$MXE_SOURCE_DIR/tools/copydlldeps.py
+COPYDLLS_SCRIPT=/data/Tools/copydlldeps.sh
 OUTPUT_ARCHIVE_NAME=OTB-Windows-MinGW-$MXE_TARGET_ARCH-bin
 
 #temp dirs
@@ -96,8 +96,11 @@ $CP $OTB_BIN_DIR/bin/mapla.exe $COPYDLLS_CHECK_DIR
 $CP $OTB_BIN_DIR/bin/mv2.exe $COPYDLLS_CHECK_DIR
 
 #execute copydlls script
-echo "Running mxe/tools/copydlls.py"
-$PYTHON_INTREP $COPYDLLS_SCRIPT $COPYDLLS_TARGET_DIR/bin -C $COPYDLLS_CHECK_DIR -L $MXE_TARGET_BIN_DIR/bin $OTB_BIN_DIR/bin $MXE_TARGET_BIN_DIR/qt/bin $MXE_TARGET_BIN_DIR/qt/lib
+echo "Running mxe/tools/copydllsdeps.sh"
+##$PYTHON_INTREP $COPYDLLS_SCRIPT $COPYDLLS_TARGET_DIR/bin -C $COPYDLLS_CHECK_DIR -L $MXE_TARGET_BIN_DIR/bin $OTB_BIN_DIR/bin $MXE_TARGET_BIN_DIR/qt/bin $MXE_TARGET_BIN_DIR/qt/lib
+
+$COPYDLLS_SCRIPT --indir $OTB_BIN_DIR/bin -d $COPYDLLS_CHECK_DIR -s $MXE_TARGET_BIN_DIR/bin
+
 
 echo "Pack OTB binaries for Windows"
 #copy otb*.bat -
@@ -151,21 +154,21 @@ cat > $COPYDLLS_TARGET_DIR/bin/mapla.bat <<EOF
 @start "Monteverdi Application Launcher" /B "%CURRENT_SCRIPT_DIR%mapla.exe" %*
 EOF
 
-cat > $COPYDLLS_TARGET_DIR/bin/mv2.bat <<EOF
+# cat > $COPYDLLS_TARGET_DIR/bin/mv2.bat <<EOF
 
-:: Get the directory of the current script
-@set CURRENT_SCRIPT_DIR=%~dp0
+# :: Get the directory of the current script
+# @set CURRENT_SCRIPT_DIR=%~dp0
 
-:: Set GDAL_DATA env. variable
-@set GDAL_DATA=%CURRENT_SCRIPT_DIR%..\share\gdal
-@set ITK_AUTOLOAD_PATH=%CURRENT_SCRIPT_DIR%..\lib\otb\applications
+# :: Set GDAL_DATA env. variable
+# @set GDAL_DATA=%CURRENT_SCRIPT_DIR%..\share\gdal
+# @set ITK_AUTOLOAD_PATH=%CURRENT_SCRIPT_DIR%..\lib\otb\applications
 
-:: Set current dir to HOME dir because Monteverdi generates temporary files and need write access
-@cd %HOMEDRIVE%%HOMEPATH%
+# :: Set current dir to HOME dir because Monteverdi generates temporary files and need write access
+# @cd %HOMEDRIVE%%HOMEPATH%
 
-:: Start Mv2
-@start "Monteverdi Viewer2" /B "%CURRENT_SCRIPT_DIR%mv2.exe" %*
-EOF
+# :: Start Mv2
+# @start "Monteverdi Viewer2" /B "%CURRENT_SCRIPT_DIR%mv2.exe" %*
+# EOF
 
 cat > $COPYDLLS_TARGET_DIR/bin/qt.conf <<EOF
 [Paths]
