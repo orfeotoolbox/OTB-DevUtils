@@ -41,7 +41,7 @@
 
 Name:      gdal
 Version:   1.11.2
-Release:   4%{?dist}
+Release:   6%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -137,6 +137,8 @@ BuildRequires: unixODBC-devel
 BuildRequires: xerces-c-devel
 BuildRequires: xz-devel
 BuildRequires: zlib-devel
+BuildRequires: openjpeg2-devel >= 2.1.0-4
+BuildRequires: openjpeg2-tools >= 2.1.0-4
 
 # Run time dependency for gpsbabel driver
 Requires: gpsbabel
@@ -407,7 +409,7 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
         --with-odbc               \
         --with-ogdi               \
         --without-msg             \
-        --without-openjpeg        \
+        --with-openjpeg        \
         --with-pcraster           \
         --with-pg                 \
         --with-png                \
@@ -764,6 +766,9 @@ popd
 #Or as before, using ldconfig
 
 %changelog
+* Fri Apr 24 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.11.2-6
+- adding openjpeg2000 support
+
 * Fri Apr 24 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.11.2-5
 - copied spec and patches from cgit
 - http://pkgs.fedoraproject.org/cgit/gdal.git/
