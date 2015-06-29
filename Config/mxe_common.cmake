@@ -101,9 +101,6 @@ if(NOT CTEST_TEST_ARGS)
   set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 endif()
 
-set(CTEST_HG_UPDATE_OPTIONS "-C")
-
-
 
 ##cross compile parameters
 #set(MXE_ROOT "/home/otbval/tools/mxe")

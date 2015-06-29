@@ -66,8 +66,8 @@ hg status > $LOG_FILE
 hg diff >> $LOG_FILE
 
 #UPDATE Dev-Utils
-#hg pull --rebase
-#hg update -C
+hg pull --rebase
+hg update -C
 
 echo "Launching $MXE_BUILD_SCRIPT $MXE_SOURCE_DIR $MXE_TARGET yes"
 $MXE_BUILD_SCRIPT "$MXE_SOURCE_DIR" "$MXE_TARGET" "yes" >> $LOG_FILE 2>&1
