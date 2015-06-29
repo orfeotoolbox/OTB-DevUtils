@@ -4,17 +4,15 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/data/Dashboard")
 set(CTEST_SITE "bumblebee.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_USE_LAUNCHERS ON)
 set(MXE_ROOT "/data/Tools/mxe")
 set(MXE_TARGET_ARCH "x86_64")
 set(PROJECT "OTB")
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
 set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
-
 set(CMAKE_COMMAND "${CTEST_DASHBOARD_ROOT}/Tools/cmake-git/bin/cmake")
 set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
-
-set(CTEST_USE_LAUNCHERS ON)
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
@@ -41,6 +39,8 @@ OTB_WRAP_JAVA:BOOL=OFF
 OTB_USE_QT4:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
 OTB_USE_SIFTFAST:BOOL=ON
+OTB_USE_MUPARSER:BOOL=ON
+OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_LIBKML:BOOL=OFF
 OTB_USE_LIBSVM:BOOL=OFF
 
