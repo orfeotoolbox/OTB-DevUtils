@@ -66,8 +66,8 @@ hg status > $LOG_FILE
 hg diff >> $LOG_FILE
 
 #UPDATE Dev-Utils
-hg pull --rebase
-hg update -C
+#hg pull --rebase
+#hg update -C
 
 echo "Launching $MXE_BUILD_SCRIPT $MXE_SOURCE_DIR $MXE_TARGET yes"
 $MXE_BUILD_SCRIPT "$MXE_SOURCE_DIR" "$MXE_TARGET" "yes" >> $LOG_FILE 2>&1
@@ -76,17 +76,17 @@ $MXE_BUILD_SCRIPT "$MXE_SOURCE_DIR" "$MXE_TARGET" "yes" >> $LOG_FILE 2>&1
 echo 'MXE is up-to-date.'
 #32bit
 if [ "$MXE_TARGET" == "i686-w64-mingw32.shared" ]; then
-    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/OTB-MinGW32_MXE.cmake
-    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Ice-MinGW32_MXE.cmake
-    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Monteverdi-MinGW32_MXE.cmake
-    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Monteverdi2-MinGW32_MXE.cmake
+    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/OTB-MinGW32_MXE.cmake > ${LOG_DIR}/'otb32.log' 2>&1
+    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Ice-MinGW32_MXE.cmake > ${LOG_DIR}/'ice32.log' 2>&1
+    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Monteverdi-MinGW32_MXE.cmake > ${LOG_DIR}/'mvd32.log' 2>&1
+    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Monteverdi2-MinGW32_MXE.cmake > ${LOG_DIR}/'mvd2_release32.log' 2>&1
 fi
 #64bit
 if [ "$MXE_TARGET" == "x86_64-w64-mingw32.shared" ]; then
-    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/OTB-MinGW64_MXE.cmake
-    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Ice-MinGW64_MXE.cmake
-    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Monteverdi-MinGW64_MXE.cmake
-    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Monteverdi2-MinGW64_MXE.cmake
+    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/OTB-MinGW64_MXE.cmake > ${LOG_DIR}/'otb64.log' 2>&1
+    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Ice-MinGW64_MXE.cmake > ${LOG_DIR}/'ice64.log' 2>&1
+    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Monteverdi-MinGW64_MXE.cmake > ${LOG_DIR}/'mvd64.log' 2>&1
+    $CTEST -VV -S ${DEVUTILS_CONFIG_DIR}/mxe/Monteverdi2-MinGW64_MXE.cmake > ${LOG_DIR}/'mvd2_release64.log' 2>&1
 fi
 
 # else
