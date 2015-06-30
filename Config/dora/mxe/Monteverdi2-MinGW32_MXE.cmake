@@ -29,4 +29,10 @@ ICE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_
 
 endmacro()
 
+macro(dashboard_hook_end)
+  unset(CTEST_BUILD_COMMAND)
+  ctest_build(TARGET "package-mingw")
+endmacro()
+
+
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)

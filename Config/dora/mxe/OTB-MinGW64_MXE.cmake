@@ -25,6 +25,8 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/data/OTB-LargeInput
 CMAKE_C_FLAGS:STRING=-Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 
+MXE_TARGET_DIR:PATH=${MXE_ROOT}/usr/${MXE_TARGET_ARCH}-w64-mingw32.shared
+
 #install otb, ice, monteverdi in the same directory for ease of searching dll and exes
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}
 
@@ -48,6 +50,11 @@ IS_X86_64_EXITCODE:INTERNAL=0
 
 ")
 
+endmacro()
+
+macro(dashboard_hook_end)
+  unset(CTEST_BUILD_COMMAND)
+  ctest_build(TARGET "package-mingw")
 endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
