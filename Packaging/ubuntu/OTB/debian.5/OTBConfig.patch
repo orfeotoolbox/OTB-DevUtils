@@ -1,0 +1,33 @@
+--- OTBConfig.cmake	2015-06-29 11:55:24.709210510 +0200
++++ OTBConfig.cmake	2015-06-29 14:31:19.436466371 +0200
+@@ -38,6 +38,30 @@
+   include("${OTB_CONFIG_TARGETS_FILE}")
+ endif()
+ 
++# filter missing targets
++list(FIND OTB_TARGETS_MISSING OTBQtWidget _OTB_QTWIDGET_MISSING)
++if(NOT _OTB_QTWIDGET_MISSING EQUAL -1)
++  list(REMOVE_ITEM OTB_MODULES_ENABLED "OTBQtWidget" "OTBQt4")
++endif()
++unset(_OTB_QTWIDGET_MISSING)
++
++set(_OTB_APP_MISSING)
++foreach(_target_missing ${OTB_TARGETS_MISSING})
++  if(${_target_missing} MATCHES "^otbapp_.*\$")
++    list(APPEND _OTB_APP_MISSING ${_target_missing})
++  endif()
++endforeach()
++list(LENGTH _OTB_APP_MISSING _OTB_NUMBER_APP_MISSING)
++if(_OTB_NUMBER_APP_MISSING EQUAL 81)
++  foreach(_otb_mod ${OTB_MODULES_ENABLED})
++    if(${_otb_mod} MATCHES "^OTBApp[A-Z].*\$")
++      list(REMOVE_ITEM OTB_MODULES_ENABLED ${_otb_mod})
++    endif()
++  endforeach()
++endif()
++unset(_OTB_APP_MISSING)
++unset(_OTB_NUMBER_APP_MISSING)
++
+ # Load module interface macros.
+ include("${OTB_INSTALL_PREFIX}/lib/cmake/OTB-5.0/OTBModuleAPI.cmake")
+ 

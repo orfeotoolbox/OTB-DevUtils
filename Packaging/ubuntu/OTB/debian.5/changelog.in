@@ -1,4 +1,10 @@
-otb (5.0.0-2~@DIST@@PKGVERSION@) @DIST@; urgency=low
+otb (5.0.0-4~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * d/rules : patch OTBConfig.cmake and OTBTargets.cmake
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Mon, 29 Jun 2015 14:55:06 +0200
+
+otb (5.0.0-2~@DIST@1) @DIST@; urgency=low
 
   * d/rules : Fix FATAL_ERROR in CMake export stuff
 

@@ -28,11 +28,13 @@ ifeq ($(DIST),$(filter $(DIST), saucy trusty utopic))
     PYTHON_HELPER_VER = 1.20131003
     USE_LIBKML = ON
     LIBKML_DEP = libkml-dev
+    TARGET_FILE_FOR_PATCH=OTBTargets
 else
     PYTHON_HELPER_PKG = python-central
     PYTHON_HELPER_VER = 0.6.11
     USE_LIBKML = OFF
     LIBKML_DEP = 
+    TARGET_FILE_FOR_PATCH=OTBTargets-release
 endif
 
 OTB_VERSION_MAJOR  = $(shell sed -ne 's/set(OTB_VERSION_MAJOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
@@ -75,8 +77,9 @@ override_dh_shlibdeps:
 	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OTB_LIB_DIRS) dh_shlibdeps
 
 override_dh_install:
-	# avoid fatal-error in CMake export stuff:
-	sed -i -e "s/FATAL_ERROR/STATUS/g" debian/tmp/usr/lib/cmake/OTB-5.0/OTBTargets*.cmake
+	# patch OTBConfig.cmake and OTBTargets.cmake to support split install tree
+	patch debian/tmp/usr/lib/cmake/OTB-5.0/OTBConfig.cmake debian/OTBConfig.patch
+	patch debian/tmp/usr/lib/cmake/OTB-5.0/$(TARGET_FILE_FOR_PATCH).cmake debian/$(TARGET_FILE_FOR_PATCH)_$(DIST).patch
 	dh_install
 
 control-file:
