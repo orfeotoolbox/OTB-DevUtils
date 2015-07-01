@@ -83,6 +83,29 @@ def remove_placeholder_files(dirname):
           if name == "placeholder":
             os.remove(os.path.join(root, name))
 
+def patch_batch_launcher(path):
+    inFile = open(path,'rb')
+    content = inFile.readlines()
+    inFile.close()
+    newContent = []
+    for line in content:
+      if line.find("../lib/otb/applications") != -1:
+        line = line.replace("../lib/otb/applications","../apps/orfeotoolbox/applications")
+      if line.startswith(":: works for install tree"):
+        newContent.append("setlocal\n")
+        newContent.append(line)
+      elif line.startswith("%OTB_CLI_LAUNCHER%"):
+        newContent.append(line)
+        newContent.append("endlocal\n")
+      elif line.startswith("%OTB_GUI_LAUNCHER%"):
+        newContent.append(line)
+        newContent.append("endlocal\n")
+      else:
+        newContent.append(line)
+    outFile = open(path,'wb')
+    outFile.writelines(newContent)
+    outFile.close()
+
 def make_tarbz2(package_versioned_name):
     current_dir = os.getcwd()
     pkg_name = "-".join(package_versioned_name.split('-')[0:2])
@@ -110,6 +133,10 @@ def make_otb_bin():
         shutil.copy( os.path.join(inputdir, fic), \
                      outputbindir )
 
+    # patch the script launchers
+    patch_batch_launcher(os.path.join(outputbindir, "otbcli.bat"))
+    patch_batch_launcher(os.path.join(outputbindir, "otbgui.bat"))
+    
     shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbApplicationLauncherCommandLine.exe"), outputbindir )
     shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbApplicationLauncherQt.exe"), outputbindir )
     #shutil.copy( os.path.join(OTB_INSTALL, "bin", "otbViewer.exe"), outputbindir )
