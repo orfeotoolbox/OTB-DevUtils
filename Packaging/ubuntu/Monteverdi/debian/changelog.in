@@ -1,4 +1,10 @@
-monteverdi (1.24.0-1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+monteverdi (1.24.0-2~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * d/monteverdi.install : fix missing libs
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Wed, 01 Jul 2015 09:39:23 +0200
+
+monteverdi (1.24.0-1~@DIST@1) @DIST@; urgency=low
 
   * Version 1.24.0 released
   * Support OTB 5.0.0
