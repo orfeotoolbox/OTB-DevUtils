@@ -3,56 +3,9 @@ usr/bin/monteverdi
 usr/bin/otbViewer
 
 # Shared libraries
-usr/lib/otb/libotbBandMathModule.so*
-usr/lib/otb/libotbBayesianFusionModule.so*
-usr/lib/otb/libotbCachingModule.so*
-usr/lib/otb/libotbChangeDetectionModule.so*
-usr/lib/otb/libotbClassificationModule.so*
-usr/lib/otb/libotbColorMappingModule.so*
-usr/lib/otb/libotbCompareImagesModule.so*
-usr/lib/otb/libotbConcatenateModule.so*
-usr/lib/otb/libotbConnectedComponentSegmentationModule.so*
-usr/lib/otb/libotbDEMToImageGeneratorModule.so*
-usr/lib/otb/libotbEdgeExtractionModule.so*
-usr/lib/otb/libotbExtractROIModule.so*
-usr/lib/otb/libotbFineCorrelationModule.so*
-usr/lib/otb/libotbGCPToSensorModelModule.so*
-usr/lib/otb/libotbHomologousPointExtractionModule.so*
-usr/lib/otb/libotbImageStatisticsModule.so*
-usr/lib/otb/libotbKMeansModule.so*
-usr/lib/otb/libotbMeanShiftModule.so*
-usr/lib/otb/libotbMorphologyExtractionModule.so*
-usr/lib/otb/libotbMosaicImagesModule.so*
-usr/lib/otb/libotbObjectCountingModule.so*
-usr/lib/otb/libotbObjectLabelingModule.so*
-usr/lib/otb/libotbOpticalCalibrationModule.so*
-usr/lib/otb/libotbPanSharpeningModule.so*
-usr/lib/otb/libotbPolarimetricSynthesisModule.so*
-usr/lib/otb/libotbProjectionModule.so*
-usr/lib/otb/libotbRadiometricIndicesExtractionModule.so*
-usr/lib/otb/libotbReaderModule.so*
-usr/lib/otb/libotbResampleModule.so*
-usr/lib/otb/libotbSarCalibrationModule.so*
-usr/lib/otb/libotbSARIntensityModule.so*
-usr/lib/otb/libotbSARPolarimetryModule.so*
-usr/lib/otb/libotbSmoothingModule.so*
-usr/lib/otb/libotbSpeckleModule.so*
-usr/lib/otb/libotbSpectrumViewerModule.so*
-usr/lib/otb/libotbSuperimpositionModule.so*
-usr/lib/otb/libotbSupervisedClassificationModule.so*
-usr/lib/otb/libotbTextureExtractionModule.so*
-usr/lib/otb/libotbThresholdModule.so*
-usr/lib/otb/libotbTileExportModule.so*
-usr/lib/otb/libotbTileMapImportModule.so*
-usr/lib/otb/libotbUncompressJpeg2000Module.so*
-usr/lib/otb/libotbVectorDataTransformModule.so*
-usr/lib/otb/libotbVectorizationModule.so*
-usr/lib/otb/libotbViewerModule.so*
-usr/lib/otb/libotbWriterModule.so*
-usr/lib/otb/libotbWriterMVCModule.so*
+usr/lib/otb/libotb[A-Z]*.so*
 usr/lib/otb/libOTBMonteverdiCommon.so*
 usr/lib/otb/libOTBMonteverdiFeatureExtraction.so*
-usr/lib/otb/libotbMonteverdi.so*
 
 # External resources
 usr/share/pixmaps/monteverdi.*

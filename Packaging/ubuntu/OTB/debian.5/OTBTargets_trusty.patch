@@ -1,0 +1,33 @@
+--- OTBTargets.cmake	2015-06-29 11:55:24.709210510 +0200
++++ OTBTargets.cmake	2015-06-29 11:56:45.573549734 +0200
+@@ -449,25 +449,21 @@
+ 
+ # Cleanup temporary variables.
+ set(_IMPORT_PREFIX)
++set(OTB_TARGETS_MISSING)
+ 
+ # Loop over all imported files and verify that they actually exist
+ foreach(target ${_IMPORT_CHECK_TARGETS} )
+   foreach(file ${_IMPORT_CHECK_FILES_FOR_${target}} )
+     if(NOT EXISTS "${file}" )
+-      message(FATAL_ERROR "The imported target \"${target}\" references the file
+-   \"${file}\"
+-but this file does not exist.  Possible reasons include:
+-* The file was deleted, renamed, or moved to another location.
+-* An install or uninstall procedure did not complete successfully.
+-* The installation package was faulty and contained
+-   \"${CMAKE_CURRENT_LIST_FILE}\"
+-but not all the files it references.
+-")
++      list(APPEND OTB_TARGETS_MISSING ${target})
+     endif()
+   endforeach()
+   unset(_IMPORT_CHECK_FILES_FOR_${target})
+ endforeach()
+ unset(_IMPORT_CHECK_TARGETS)
++if(OTB_TARGETS_MISSING)
++  list(REMOVE_DUPLICATES OTB_TARGETS_MISSING)
++endif()
+ 
+ # This file does not depend on other imported targets which have
+ # been exported from the same project but in a separate export set.

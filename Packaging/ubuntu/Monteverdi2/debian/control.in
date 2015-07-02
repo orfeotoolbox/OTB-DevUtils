@@ -16,7 +16,7 @@ Build-Depends:
  libqt4-opengl-dev,
  libqwt5-qt4-dev,
  libglew-dev
-Standards-Version: 3.9.4
+Standards-Version: 3.9.5
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/otb/monteverdi.html
 

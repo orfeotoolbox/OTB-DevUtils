@@ -60,7 +60,7 @@ echo "OTB_BIN_DIR=$OTB_BIN_DIR"
 echo "COPYDLLS_CHECK_DIR=$COPYDLLS_CHECK_DIR"
 echo "COPYDLLS_TARGET_DIR=$COPYDLLS_TARGET_DIR"
 echo "OUTPUT_ARCHIVE_FILE=$OUTPUT_ARCHIVE_FILE"
-
+echo "MVD2_SRC_DIR=$MVD2_SRC_DIR"
 #create temp dirs
 $MKDIR $COPYDLLS_CHECK_DIR
 
@@ -78,31 +78,28 @@ $MKDIR $COPYDLLS_TARGET_DIR/lib/qt4/plugins/sqldrivers
 #qt translations
 $MKDIR $COPYDLLS_TARGET_DIR/share/qt4/translations
 #gdal data
-$MKDIR $COPYDLLS_TARGET_DIR/share/gdal
-
 
 #Copy otb dll and .exe to a temp directory for copydlls.py script
 echo "Copy OTB dlls and exe to $COPYDLLS_CHECK_DIR"
 $CP $OTB_BIN_DIR/lib/otb/applications/otbapp_*.dll $COPYDLLS_CHECK_DIR
 $CP $OTB_BIN_DIR/bin/otbApplicationLauncher* $COPYDLLS_CHECK_DIR
 $CP $OTB_BIN_DIR/bin/otbTestDriver.exe* $COPYDLLS_CHECK_DIR
+#copy all dlls
 $CP $OTB_BIN_DIR/bin/*.dll $COPYDLLS_CHECK_DIR
 
-#copy ice dlls
-$CP $OTB_BIN_DIR/bin/*ICE*dll $COPYDLLS_CHECK_DIR
 #copy iceviewer
 $CP $OTB_BIN_DIR/bin/otbiceviewer.exe $COPYDLLS_CHECK_DIR
 
-#copy monteverdi dlls
-$CP $$OTB_BIN_DIR/bin/libMonteverdi2_*.dll $COPYDLLS_CHECK_DIR
 #copy monteverdi executable
-$CP $$OTB_BIN_DIR/bin/montever*.exe $COPYDLLS_CHECK_DIR
+$CP $OTB_BIN_DIR/bin/montever*.exe $COPYDLLS_CHECK_DIR
+$CP $OTB_BIN_DIR/bin/mapla.exe $COPYDLLS_CHECK_DIR
+$CP $OTB_BIN_DIR/bin/mv2.exe $COPYDLLS_CHECK_DIR
 
 #execute copydlls script
 echo "Running mxe/tools/copydlls.py"
-$PYTHON_INTREP $COPYDLLS_SCRIPT $COPYDLLS_TARGET_DIR/bin -C $COPYDLLS_CHECK_DIR -L $MXE_TARGET_BIN_DIR/bin $OTB_BIN_DIR/bin $MXE_TARGET_BIN_DIR/qt/bin
+$PYTHON_INTREP $COPYDLLS_SCRIPT $COPYDLLS_TARGET_DIR/bin -C $COPYDLLS_CHECK_DIR -L $MXE_TARGET_BIN_DIR/bin $OTB_BIN_DIR/bin $MXE_TARGET_BIN_DIR/qt/bin $MXE_TARGET_BIN_DIR/qt/lib
 
-echo "Start deploying OTB binaries for Windows"
+echo "Pack OTB binaries for Windows"
 #copy otb*.bat -
 $CP $OTB_BIN_DIR/bin/*.bat $COPYDLLS_TARGET_DIR/bin/
 
@@ -114,33 +111,80 @@ $MV $COPYDLLS_CHECK_DIR/*.exe $COPYDLLS_TARGET_DIR/bin/
 $MV $COPYDLLS_CHECK_DIR/*.dll $COPYDLLS_TARGET_DIR/bin/
 
 # #/usr/share/gdal
-$CP $MXE_TARGET_BIN_DIR/share/gdal $COPYDLLS_TARGET_DIR/share/gdal
+$CP $MXE_TARGET_BIN_DIR/share/gdal $COPYDLLS_TARGET_DIR/share/
+
+#copy translation and sqlite.dll for monteverdi2
+$CP $OTB_BIN_DIR/share/otb/i18n $COPYDLLS_TARGET_DIR/share/qt4/translations/
+$CP $OTB_BIN_DIR/share/otb $COPYDLLS_TARGET_DIR/share/
+$CP $MXE_TARGET_BIN_DIR/qt/plugins/sqldrivers/qsqlite4.dll $COPYDLLS_TARGET_DIR/lib/qt4/plugins/sqldrivers/
+
+#copy qt.conf and monteverdi2.bat
+
+cat > $COPYDLLS_TARGET_DIR/bin/monteverdi2.bat <<EOF
+:: Get the directory of the current script
+@set CURRENT_SCRIPT_DIR=%~dp0
+
+:: Set GDAL_DATA env. variable
+@set GDAL_DATA=%CURRENT_SCRIPT_DIR%..\share\gdal
+@set ITK_AUTOLOAD_PATH=%CURRENT_SCRIPT_DIR%..\lib\otb\applications
+
+:: Set current dir to HOME dir because Monteverdi generates temporary files and need write access
+@cd %HOMEDRIVE%%HOMEPATH%
+
+:: Start Monteverdi2
+@start "Monteverdi2" /B "%CURRENT_SCRIPT_DIR%monteverdi2.exe" %*
+EOF
 
 
-# #copy translation and sqlite.dll for monteverdi2
-# $CP $MXE_TARGET_DIR/share/otb/i18n $DEPLOY_DIR/share/qt4/translations/
-# $CP $MXE_TARGET_DIR/qt/plugins/sqldrivers/qsqlite4.dll $DEPLOY_DIR/lib/qt4/plugins/sqldrivers/
+cat > $COPYDLLS_TARGET_DIR/bin/mapla.bat <<EOF
+:: Get the directory of the current script
+@set CURRENT_SCRIPT_DIR=%~dp0
 
-# #copy qt.conf and monteverdi2.bat
-# $CP $MVD2_SRC_DIR/Packaging/Windows/qt.conf $DEPLOY_DIR/bin/
-# $CP $MVD2_SRC_DIR/Packaging/Windows/monteverdi2.bat $DEPLOY_DIR/bin/
+:: Set GDAL_DATA env. variable
+@set GDAL_DATA=%CURRENT_SCRIPT_DIR%..\share\gdal
+@set ITK_AUTOLOAD_PATH=%CURRENT_SCRIPT_DIR%..\lib\otb\applications
 
+:: Set current dir to HOME dir because Monteverdi generates temporary files and need write access
+@cd %HOMEDRIVE%%HOMEPATH%
+
+:: Start Mapla
+@start "Monteverdi Application Launcher" /B "%CURRENT_SCRIPT_DIR%mapla.exe" %*
+EOF
+
+cat > $COPYDLLS_TARGET_DIR/bin/mv2.bat <<EOF
+
+:: Get the directory of the current script
+@set CURRENT_SCRIPT_DIR=%~dp0
+
+:: Set GDAL_DATA env. variable
+@set GDAL_DATA=%CURRENT_SCRIPT_DIR%..\share\gdal
+@set ITK_AUTOLOAD_PATH=%CURRENT_SCRIPT_DIR%..\lib\otb\applications
+
+:: Set current dir to HOME dir because Monteverdi generates temporary files and need write access
+@cd %HOMEDRIVE%%HOMEPATH%
+
+:: Start Mv2
+@start "Monteverdi Viewer2" /B "%CURRENT_SCRIPT_DIR%mv2.exe" %*
+EOF
+
+cat > $COPYDLLS_TARGET_DIR/bin/qt.conf <<EOF
+[Paths]
+Translations=../lib/qt4/translations
+Plugins=../lib/qt4/plugins
+EOF
 
 
 # #copy gdal binaries
-# $CP $MXE_TARGET_DIR/bin/gdal*.exe $COPYDLLS_DIR
+# $CP $MXE_TARGET_DIR/bin/gdal*.exe $COPYDLLS_TARGET_DIR/bin
 
-
-
-#echo 'Binaries are ready in ' $COPYDLLS_TARGET_DIR
-echo 'Compressing files...'
+echo 'Delete existing output file $OUTPUT_ARCHIVE_FILE'
 $RM $OUTPUT_ARCHIVE_FILE
 
 cd $OTB_BIN_DIR
-
+echo 'Creating archive...'
 $COMPRESS_COMMAND "$OUTPUT_ARCHIVE_FILE" "$OUTPUT_ARCHIVE_NAME"
 
-echo "OTB mingw package is ready! : $COMPRESSED_FILE"
+echo "OTB mingw package is ready! : $OUTPUT_ARCHIVE_FILE"
 
 echo "cleaning up.."
 
