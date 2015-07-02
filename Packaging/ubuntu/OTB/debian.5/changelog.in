@@ -1,4 +1,10 @@
-otb (5.0.0-4~@DIST@@PKGVERSION@) @DIST@; urgency=low
+otb (5.0.0-5~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * d/rules : fix bug when OTB_TARGETS_MISSING is empty
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Wed, 01 Jul 2015 18:25:57 +0200
+
+otb (5.0.0-4~@DIST@1) @DIST@; urgency=low
 
   * d/rules : patch OTBConfig.cmake and OTBTargets.cmake
 
