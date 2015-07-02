@@ -1,7 +1,7 @@
 SET(ENV{DISPLAY} ":0.0")
 
-#set (CTEST_BUILD_CONFIGURATION "Debug")
-set (CTEST_BUILD_CONFIGURATION "Release")
+set (CTEST_BUILD_CONFIGURATION "Debug")
+# set (CTEST_BUILD_CONFIGURATION "Release")
 
 set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/dev")
@@ -11,11 +11,11 @@ set(CTEST_BUILD_NAME "OrfeoToolbox-Ubuntu-14.04_x86_64-${CTEST_BUILD_CONFIGURATI
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k" )
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "source/ITK")
-set(dashboard_binary_name "build/ITK-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_binary_name "build/ITK")
 
 set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "http://itk.org/ITK.git")
@@ -27,7 +27,8 @@ macro(dashboard_hook_init)
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
 
-CMAKE_INSTALL_PREFIX:PATH=$ENV{HOME}/local
+# CMAKE_INSTALL_PREFIX:PATH=$ENV{HOME}/local
+CMAKE_INSTALL_PREFIX:PATH=$ENV{HOME}/dev/install/ITK-4-debug
 
 BUILD_SHARED_LIBS:BOOL=ON
 BUILD_TESTING:BOOL=OFF

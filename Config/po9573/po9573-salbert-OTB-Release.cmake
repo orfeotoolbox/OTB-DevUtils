@@ -1,11 +1,11 @@
 set (ENV{DISPLAY} ":0.0")
 set (ENV{LANG} "C")
 
-set (CTEST_BUILD_CONFIGURATION "Debug")
-# set (CTEST_BUILD_CONFIGURATION "Release")
+#set (CTEST_BUILD_CONFIGURATION "Debug")
+set (CTEST_BUILD_CONFIGURATION "Release")
 
 set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/OTB")
-set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/OTB")
+set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/OTB-${CTEST_BUILD_CONFIGURATION}")
 
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 set (CTEST_CMAKE_COMMAND "cmake" )
@@ -16,7 +16,7 @@ set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "")
 set (CTEST_USE_LAUNCHERS ON)
 
-set (OTB_INSTALL_PREFIX "$ENV{HOME}/dev/install/OTB")
+set (OTB_INSTALL_PREFIX "$ENV{HOME}/dev/install/OTB-${CTEST_BUILD_CONFIGURATION}")
 
 set (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
@@ -47,8 +47,8 @@ OTB_USE_QT4:BOOL=ON
 #BOOST_ROOT:PATH=$ENV{HOME}/OTB-OUTILS/boost/install_1_49_0
 
 # ITK_DIR:PATH=/usr/lib/cmake/ITK-4.6
-# ITK_DIR:PATH=$ENV{HOME}/local/lib/cmake/ITK-4.8
-ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4-debug/lib/cmake/ITK-4.8
+ITK_DIR:PATH=$ENV{HOME}/local/lib/cmake/ITK-4.8
+# ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4-debug/lib/cmake/ITK-4.8
 
 # MAPNIK_INCLUDE_DIR:PATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/include
 # MAPNIK_LIBRARY:FILEPATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/lib/libmapnik.so

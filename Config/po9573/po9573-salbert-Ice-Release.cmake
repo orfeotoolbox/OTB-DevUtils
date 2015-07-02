@@ -4,13 +4,13 @@ set (ENV{LANG} "C")
 set (dashboard_model Experimental)
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
-set (CTEST_BUILD_CONFIGURATION "Debug")
-# set (CTEST_BUILD_CONFIGURATION "Release")
+# set (CTEST_BUILD_CONFIGURATION "Debug")
+set (CTEST_BUILD_CONFIGURATION "Release")
 
 #set (OTB_DASHBOARD_DIR "$ENV{HOME}/dev/install/Monteverdi2Dashboard/nightly/Monteverdi2-${CTEST_BUILD_CONFIGURATION}")
 
 set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/Ice")
-set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/Ice")
+set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/Ice-${CTEST_BUILD_CONFIGURATION}")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
@@ -20,7 +20,7 @@ set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "")
 set (CTEST_USE_LAUNCHERS ON)
 
-set (ICE_INSTALL_PREFIX "$ENV{HOME}/dev/install/Ice")
+set (ICE_INSTALL_PREFIX "$ENV{HOME}/dev/install/Ice-${CTEST_BUILD_CONFIGURATION}")
 
 set (ICE_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
@@ -33,11 +33,12 @@ CMAKE_CXX_FLAGS:STRING=-Wall
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
 # ITK_DIR:PATH=/usr/lib/cmake/ITK-4.6
-# ITK_DIR:PATH=$ENV{HOME}/local/lib/cmake/ITK-4.8
-ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4-debug/lib/cmake/ITK-4.8
+ITK_DIR:PATH=$ENV{HOME}/local/lib/cmake/ITK-4.8
+# ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4-debug/lib/cmake/ITK-4.8
 
 # OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-4.5
-OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-5.0
+# OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-5.0
+OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB-${CTEST_BUILD_CONFIGURATION}/lib/cmake/OTB-5.0
 # OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB-stable/lib/cmake/OTB-4.5
 
 BUILD_TESTING:BOOL=ON
