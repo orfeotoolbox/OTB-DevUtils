@@ -1,4 +1,10 @@
-otb (5.0.0-5~@DIST@@PKGVERSION@) @DIST@; urgency=low
+otb (5.0.0-6~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * d/libotb.postinst : fix missing ld.so.conf file (needed by other packages)
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Thu, 02 Jul 2015 10:57:56 +0200
+
+otb (5.0.0-5~@DIST@1) @DIST@; urgency=low
 
   * d/rules : fix bug when OTB_TARGETS_MISSING is empty
 
