@@ -1,0 +1,103 @@
+Source: ossim
+Section: science
+Priority: extra
+Maintainer: Debian GIS Project <pkg-grass-devel@lists.alioth.debian.org>
+Uploaders: Francesco Paolo Lovergine <frankie@debian.org>
+Build-Depends: cmake (>= 2.8)
+ , debhelper (>= 9)
+ , libopenscenegraph-dev
+ , libzzip-dev
+ , zlib1g-dev
+ , libtiff5-dev
+ , libjpeg-dev
+ , libexpat1-dev
+ , libcurl4-gnutls-dev | libcurl4-dev
+ , libpng-dev
+ , libgif-dev
+ , libgeotiff-dev
+ , libopenthreads-dev 
+ , libtar-dev
+ , libfreetype6-dev
+ , autotools-dev
+ , libtiff-dev
+ , libgeos-dev
+Standards-Version: 3.9.5
+Homepage: http://www.ossim.org/
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-grass/ossim.git
+Vcs-Git: git://anonscm.debian.org/pkg-grass/ossim.git
+
+Package: libossim1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OSSIM library -- shared library
+ Open Source Software Image Map (OSSIM) is a high performance engine for
+ remote sensing, image processing, geographical information systems and
+ photogrammetry. It has been actively developed since 1996.
+ .
+ Designed as a series of high performance software libraries, it is
+ written in C++ employing the latest techniques in object-oriented
+ software design. 
+ .
+ The library provides advanced remote sensing, image processing, and    
+ geo-spatial functionality. A quick summary of OSSIM functionality      
+ includes ortho-rectification, precision terrain correction, rigorous   
+ sensor models, very large mosaics, and cross sensor fusions, a wide    
+ range of map projections anddatums, and a large range of commercial    
+ and government data formats. The architecture of the library supports  
+ parallel processing with mpi, a dynamic plugin architecture, and       
+ dynamically connectable objects allowing rapid prototyping of custom   
+ image processing chains.                                               
+ .
+ This package includes the OSSIM shared library.
+
+Package: libossim-dev
+Architecture: any
+Section: libdevel
+Depends: libossim1 (= ${binary:Version}), ${misc:Depends}, libgeotiff-dev 
+Description: OSSIM library -- development files
+ Open Source Software Image Map (OSSIM) is a high performance engine for
+ remote sensing, image processing, geographical information systems and
+ photogrammetry. It has been actively developed since 1996.
+ .
+ Designed as a series of high performance software libraries, it is
+ written in C++ employing the latest techniques in object-oriented
+ software design. 
+ .
+ The library provides advanced remote sensing, image processing, and    
+ geo-spatial functionality. A quick summary of OSSIM functionality      
+ includes ortho-rectification, precision terrain correction, rigorous   
+ sensor models, very large mosaics, and cross sensor fusions, a wide    
+ range of map projections anddatums, and a large range of commercial    
+ and government data formats. The architecture of the library supports  
+ parallel processing with mpi, a dynamic plugin architecture, and       
+ dynamically connectable objects allowing rapid prototyping of custom   
+ image processing chains.                                               
+ .
+ This package includes the development files to build programs
+ that use the OSSIM library.
+
+Package: ossim-core
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The OSSIM core utilities
+ Open Source Software Image Map (OSSIM) is a high performance engine for
+ remote sensing, image processing, geographical information systems and
+ photogrammetry. It has been actively developed since 1996.
+ .
+ Designed as a series of high performance software libraries, it is
+ written in C++ employing the latest techniques in object-oriented
+ software design. 
+ .
+ The library provides advanced remote sensing, image processing, and    
+ geo-spatial functionality. A quick summary of OSSIM functionality      
+ includes ortho-rectification, precision terrain correction, rigorous   
+ sensor models, very large mosaics, and cross sensor fusions, a wide    
+ range of map projections anddatums, and a large range of commercial    
+ and government data formats. The architecture of the library supports  
+ parallel processing with mpi, a dynamic plugin architecture, and       
+ dynamically connectable objects allowing rapid prototyping of custom   
+ image processing chains.                                               
+ .
+ This package includes core tools that use the OSSIM library to
+ perform some basic tasks.

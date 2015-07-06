@@ -1,0 +1,217 @@
+This work was packaged for Debian by:
+
+    Francesco Paolo Lovergine <frankie@debian.org> on Fri, 16 Oct 2009 14:40:11 +0200
+
+It was downloaded from via svn from http://svn.osgeo.org/ossim/trunk
+
+Upstream Authors, as collected in the code:
+
+	Garrett Potts <gpotts@imagelinks.com>
+	David Burken <dburken@imagelinks.com>
+	David Lucas
+	Dave Hicks
+	Andrew Huang
+	Chong-Ket Chuah
+	Thomas G. Lane
+	Frank Warmerdam <warmerdam@pobox.com>
+	Frederic Claudel
+	Ken Melero (kmelero@imagelinks.com)
+	Kathy Minear
+	Matt Revelle
+	Oscar Kramer <okramer@imagelinks.com>
+	Scott Bortman
+	Walt Bunch
+    
+Copyrights:
+
+    Copyright (C) 2001-2005 Garrett Potts.
+	Copyright (C) 2000 ImageLinks Inc.
+	Copyright (C) 2005 David Burken.
+    Copyright (C) 2004 Intelligence Data Systems. 
+    Copyright (C) 2005 Oscar Kramer.
+	Copyright (C) 2003 Storage Area Networks, Inc.
+    Copyright (C) 1994-1996, Thomas G. Lane.
+    Copyright (C) 2001  Deepak Bandyopadhyay, Lutz Kettner
+    Copyright (c) 1997 TargetJr Consortium
+    Copyright (C) 2005 SANZ Inc. 
+    Copyright (c) 1990-1997 Sam Leffler
+    Copyright (c) 1991-1997 Silicon Graphics, Inc.
+    Copyright (C) 1991 Texas Instruments Incorporated.
+ 	Copyright (c) 1986 by University of Toronto.
+
+License:
+
+    This package is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3 of the License, or (at your option) any later version.
+
+    This package is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this package; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+On Debian systems, the complete text of the GNU Lesser General
+Public License can be found in `/usr/share/common-licenses/LGPL-3'.
+
+The Debian packaging is:
+
+    Copyright (C) 2009 Francesco Paolo Lovergine <frankie@debian.org>
+
+and is licensed under the GPL version 3, 
+see `/usr/share/common-licenses/GPL-3'.
+
+[
+	Other licenses for merged code, as taken from accompanying LICENSE.txt
+]
+
+The OSSIM tree embeds some code from other libraries as well new code.
+We will describe the license terms of the embedded modules as well as
+the license of the ossim core engine. All code derived or embedded
+in the ossim core engine should not restrict the use of commercial
+purposes.
+
+1. OSSIM engine abides by the LGPL license terms. We grant you the use
+of the OSSIM core engine in commercial or non commercial use without
+royalty as long as the credits for the original authors stay within the
+source code. 
+
+2. shapelib. The shape library was written by Frank Warmerdam and has an
+MIT Style license these files include:
+       dbfopen.c shpopen.c shptree.c
+and are located in src/ossim/vec directory. They have the following
+copyright
+******************************************************************************
+ * Copyright (c) 1999, Frank Warmerdam
+ *
+ * This software is available under the following "MIT Style" license,
+ * or at the option of the licensee under the LGPL (see LICENSE.LGPL).  This
+ * option is discussed in more detail in shapelib.html.
+ *
+ * --
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+
+
+
+3. The matrix library was written by Robert Davies. At the time of
+download the site was located at http://www.robertnz.net. He gives free
+use in commercial and non commercial as long as his code remains intact
+and the credits for the author are known.
+
+[ 
+
+Note from the maintainer:
+
+See http://robertnz.net/nm10.htm for current license conditions 
+and specifically :
+
+"I place no restrictions on the use of newmat except that I take no
+liability for any problems that may arise from its use, distribution or
+other dealings with it.
+
+You can use it in your commercial projects.
+
+You can make and distribute modified or merged versions. You can include
+parts of it in your own software.
+
+If you distribute modified or merged versions, please make it clear
+which parts are mine and which parts are modified.
+
+For a substantially modified version, simply note that it is, in part,
+derived from my software. A comment in the code will be sufficient.
+
+The software is provided "as is", without warranty of any kind.
+
+Please understand that there may still be bugs and errors. Use at your
+own risk. I (Robert Davies) take no responsibility for any errors or
+omissions in this package or for any misfortune that may befall you or
+others as a result of your use, distribution or other dealings with it."
+
+]
+
+4. The kbool library does polygon boolean operation and is used by the
+ossimPolyArea2d class. The license terms are based on the wxwidgets
+licensing which gives free use in commercial and non-commercial
+libraries. At the time of download the module used could be found at:
+http://boolean.klaasholwerda.nl/download/download.html
+
+5. Geotrans. The geotrans library is a set of map projections that are
+certified and hosted by NGA. They give free use in commercial and non
+commercial software packages and at the time of download the geotrans
+modules could be found at http://earth-info.nga.mil/GandG/geotrans/. We
+have embedded the datum, ellipsoid, and map projections into the ossim
+baseline and wrapped in C++ classes so to remove the global variable
+access common in the raw getorans c library.
+
+[
+
+Note from the maintainer:
+
+GEOTRANS Terms of Use:
+
+1. The GEOTRANS source code ("the software") is provided free of charge
+by the National Geospatial-Intelligence Agency (NGA) of the United
+States Department of Defense. Although NGA makes no copyright claim
+under Title 17 U.S.C., NGA claims copyrights in the source code under
+other legal regimes. NGA hereby grants to each user of the software
+a license to use and distribute the software, and develop derivative
+works.
+
+2. NGA requests that products developed using the software credit
+the source of the software with the following statement, "The
+product was developed using GEOTRANS, a product of the National
+Geospatial-Intelligence Agency (NGA) and U.S. Army Engineering Research
+and Development Center." Do not use the name GEOTRANS for any derived
+work.
+
+3. Warranty Disclaimer: The software was developed to meet only the
+internal requirements of the National Geospatial-Intelligence Agency
+(NGA). The software is provided "as is," and no warranty, express
+or implied, including but not limited to the implied warranties of
+merchantability and fitness for particular purpose or arising by statute
+or otherwise in law or from a course of dealing or usage in trade, is
+made by NGA as to the accuracy and functioning of the software.
+
+4. NGA and its personnel are not required to provide technical support
+or general assistance with respect to public use of the software.
+Government customers may contact NGA.
+
+5. Neither NGA nor its personnel will be liable for any claims,
+losses, or damages arising from or connected with the use of the
+software. The user agrees to hold harmless the United States National
+Geospatial-Intelligence Agency (NGA). The user's sole and exclusive
+remedy is to stop using the software.
+
+6. Please be advised that pursuant to the United States Code, 10
+U.S.C. 425, the name of the National Geospatial-Intelligence Agency,
+the initials "NGA", the seal of the National Geospatial-Intelligence
+Agency, or any colorable imitation thereof shall not be used to imply
+approval, endorsement, or authorization of a product without prior
+written permission from United States Secretary of Defense. Do not
+create the impression that NGA, the Secretary of Defense or the Director
+of National Intelligence has endorsed any product derived from GEOTRANS.
+
+]
+
+ 

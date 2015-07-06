@@ -1,0 +1,3363 @@
+Index: ossim/CMakeModules/FindCPPUNIT.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindCPPUNIT.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,43 @@
++# - Find CPPUNIT
++# Find the native CPPUNIT includes and library
++# This module defines
++#  CPPUNIT_INCLUDE_DIR, where to find jpeglib.h, etc.
++#  CPPUNIT_LIBRARIES, the libraries needed to use CPPUNIT.
++#  CPPUNIT_FOUND, If false, do not try to use CPPUNIT.
++# also defined, but not for general use are
++#  CPPUNIT_LIBRARY, where to find the CPPUNIT library.
++
++#=============================================================================
++# Copyright 2001-2009 Kitware, Inc.
++#
++# Distributed under the OSI-approved BSD License (the "License");
++# see accompanying file Copyright.txt for details.
++#
++# This software is distributed WITHOUT ANY WARRANTY; without even the
++# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the License for more information.
++#=============================================================================
++# (To distributed this file outside of CMake, substitute the full
++#  License text for the above reference.)
++
++FIND_PATH(CPPUNIT_INCLUDE_DIR cppunit/Test.h)
++
++SET(CPPUNIT_NAMES ${CPPUNIT_NAMES} cppunit libcppunit)
++FIND_LIBRARY(CPPUNIT_LIBRARY NAMES ${CPPUNIT_NAMES} )
++
++# handle the QUIETLY and REQUIRED arguments and set CPPUNIT_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(CPPUNIT DEFAULT_MSG CPPUNIT_LIBRARY CPPUNIT_INCLUDE_DIR)
++
++IF(CPPUNIT_FOUND)
++  SET(CPPUNIT_LIBRARIES ${CPPUNIT_LIBRARY})
++ENDIF(CPPUNIT_FOUND)
++
++# Deprecated declarations.
++SET (NATIVE_CPPUNIT_INCLUDE_PATH ${CPPUNIT_INCLUDE_DIR} )
++IF(CPPUNIT_LIBRARY)
++  GET_FILENAME_COMPONENT (NATIVE_CPPUNIT_LIB_PATH ${CPPUNIT_LIBRARY} PATH)
++ENDIF(CPPUNIT_LIBRARY)
++
++MARK_AS_ADVANCED(CPPUNIT_LIBRARY CPPUNIT_INCLUDE_DIR )
+Index: ossim/CMakeModules/FindFFTW3.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindFFTW3.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,24 @@
++# - Find fftw3 library
++# Find the native fftw3 includes and library
++# This module defines
++#  FFTW3_INCLUDE_DIR, where to find tiff.h, etc.
++#  FFTW3_LIBRARIES, libraries to link against to use FFTW3.
++#  FFTW3_FOUND, If false, do not try to use FFTW3.
++# also defined, but not for general use are
++#  FFTW3_LIBRARY, where to find the FFTW3 library.
++
++FIND_PATH(FFTW3_INCLUDE_DIR fftw3.h)
++
++SET(FFTW3_NAMES ${FFTW3_NAMES} fftw3 libfftw3)
++FIND_LIBRARY(FFTW3_LIBRARY NAMES ${FFTW3_NAMES} )
++
++# handle the QUIETLY and REQUIRED arguments and set FFTW3_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(FFTW3  DEFAULT_MSG  FFTW3_LIBRARY  FFTW3_INCLUDE_DIR)
++
++IF(FFTW3_FOUND)
++  SET( FFTW3_LIBRARIES ${FFTW3_LIBRARY} )
++ENDIF(FFTW3_FOUND)
++
++MARK_AS_ADVANCED(FFTW3_INCLUDE_DIR FFTW3_LIBRARY)
+Index: ossim/CMakeModules/FindFFmpeg.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindFFmpeg.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,190 @@
++# Locate ffmpeg
++# This module defines
++# FFMPEG_LIBRARIES
++# FFMPEG_FOUND, if false, do not try to link to ffmpeg
++# FFMPEG_INCLUDE_DIR, where to find the headers
++#
++# $FFMPEG_DIR is an environment variable that would
++# correspond to the ./configure --prefix=$FFMPEG_DIR
++#
++# Created by Robert Osfield.
++
++
++#In ffmpeg code, old version use "#include <header.h>" and newer use "#include <libname/header.h>"
++#In OSG ffmpeg plugin, we use "#include <header.h>" for compatibility with old version of ffmpeg
++
++#We have to search the path which contain the header.h (usefull for old version)
++#and search the path which contain the libname/header.h (usefull for new version)
++
++#Then we need to include ${FFMPEG_libname_INCLUDE_DIRS} (in old version case, use by ffmpeg header and osg plugin code)
++#                                                       (in new version case, use by ffmpeg header) 
++#and ${FFMPEG_libname_INCLUDE_DIRS/libname}             (in new version case, use by osg plugin code)
++
++
++# Macro to find header and lib directories
++# example: FFMPEG_FIND(AVFORMAT avformat avformat.h)
++MACRO(FFMPEG_FIND varname shortname headername)
++    # old version of ffmpeg put header in $prefix/include/[ffmpeg]
++    # so try to find header in include directory
++
++    FIND_PATH(FFMPEG_${varname}_INCLUDE_DIRS lib${shortname}/${headername}
++        PATHS
++        ${FFMPEG_ROOT}/include
++        $ENV{FFMPEG_DIR}/include
++        ~/Library/Frameworks
++        /Library/Frameworks
++        /usr/local/include
++        /usr/include
++        /sw/include # Fink
++        /opt/local/include # DarwinPorts
++        /opt/csw/include # Blastwave
++        /opt/include
++        /usr/freeware/include
++        PATH_SUFFIXES ffmpeg
++        DOC "Location of FFMPEG Headers"
++    )
++
++    if( FFMPEG_${varname}_INCLUDE_DIRS-NOTFOUND )
++       FIND_PATH(FFMPEG_${varname}_INCLUDE_DIRS ${headername}
++          PATHS
++          ${FFMPEG_ROOT}/include
++          $ENV{FFMPEG_DIR}/include
++          ~/Library/Frameworks
++          /Library/Frameworks
++          /usr/local/include
++          /usr/include
++          /sw/include # Fink
++          /opt/local/include # DarwinPorts
++          /opt/csw/include # Blastwave
++          /opt/include
++          /usr/freeware/include
++          PATH_SUFFIXES ffmpeg
++          DOC "Location of FFMPEG Headers"
++       )
++    endif ( FFMPEG_${varname}_INCLUDE_DIRS-NOTFOUND )
++
++    FIND_LIBRARY(FFMPEG_${varname}_LIBRARIES
++        NAMES ${shortname}
++        PATHS
++        ${FFMPEG_ROOT}/lib
++        $ENV{FFMPEG_DIR}/lib
++        ~/Library/Frameworks
++        /Library/Frameworks
++        /usr/local/lib
++        /usr/local/lib64
++        /usr/lib
++        /usr/lib64
++        /sw/lib
++        /opt/local/lib
++        /opt/csw/lib
++        /opt/lib
++        /usr/freeware/lib64
++        DOC "Location of FFMPEG Libraries"
++    )
++
++    IF (FFMPEG_${varname}_LIBRARIES AND FFMPEG_${varname}_INCLUDE_DIRS)
++        SET(FFMPEG_${varname}_FOUND 1)
++    ENDIF(FFMPEG_${varname}_LIBRARIES AND FFMPEG_${varname}_INCLUDE_DIRS)
++
++ENDMACRO(FFMPEG_FIND)
++
++SET(FFMPEG_ROOT "$ENV{FFMPEG_DIR}" CACHE PATH "Location of FFMPEG")
++
++# find stdint.h
++IF(WIN32)
++
++    FIND_PATH(FFMPEG_STDINT_INCLUDE_DIR stdint.h
++        PATHS
++        ${FFMPEG_ROOT}/include
++        $ENV{FFMPEG_DIR}/include
++        ~/Library/Frameworks
++        /Library/Frameworks
++        /usr/local/include
++        /usr/include
++        /sw/include # Fink
++        /opt/local/include # DarwinPorts
++        /opt/csw/include # Blastwave
++        /opt/include
++        /usr/freeware/include
++        PATH_SUFFIXES ffmpeg
++        DOC "Location of FFMPEG stdint.h Header"
++    )
++
++    IF (FFMPEG_STDINT_INCLUDE_DIR)
++        SET(STDINT_OK TRUE)
++    ENDIF()
++
++ELSE()
++
++    SET(STDINT_OK TRUE)
++
++ENDIF()
++
++FFMPEG_FIND(LIBAVFORMAT avformat avformat.h)
++FFMPEG_FIND(LIBAVDEVICE avdevice avdevice.h)
++FFMPEG_FIND(LIBAVCODEC  avcodec  avcodec.h)
++FFMPEG_FIND(LIBAVUTIL   avutil   avutil.h)
++# FFMPEG_FIND(LIBAVCORE   avcore   avcore.h)
++FFMPEG_FIND(LIBSWSCALE  swscale  swscale.h)  
++FFMPEG_FIND(LIBSWRESAMPLE  swresample swresample.h)  
++FFMPEG_FIND(LIBAVFILTER avfilter avfilter.h)
++
++SET(FFMPEG_FOUND "NO")
++# Note we don't check FFMPEG_LIBSWSCALE_FOUND here, it's optional.
++IF   (FFMPEG_LIBAVFORMAT_FOUND AND FFMPEG_LIBAVDEVICE_FOUND AND FFMPEG_LIBAVCODEC_FOUND AND FFMPEG_LIBAVUTIL_FOUND AND STDINT_OK)
++
++    SET(FFMPEG_FOUND "YES")
++
++    SET( FFMPEG_INCLUDE_DIRS
++         ${FFMPEG_LIBAVFORMAT_INCLUDE_DIRS}
++         ${FFMPEG_LIBAVDEVICE_INCLUDE_DIRS}
++         ${FFMPEG_LIBAVCODEC_INCLUDE_DIRS}
++         ${FFMPEG_LIBAVUTIL_INCLUDE_DIRS}
++         ${FFMPEG_LIBSWSCALE_INCLUDE_DIRS}
++         ${FFMPEG_LIBAVFILTER_INCLUDE_DIRS}
++         ${FFMPEG_LIBSWRESAMPLE_INCLUDE_DIRS} )
++
++    SET(FFMPEG_LIBRARY_DIRS ${FFMPEG_LIBAVFORMAT_LIBRARY_DIRS})
++
++    # Note we don't add FFMPEG_LIBSWSCALE_LIBRARIES here, it will be added if found later.
++    SET(FFMPEG_LIBRARIES
++        ${FFMPEG_LIBAVCODEC_LIBRARIES}
++        ${FFMPEG_LIBAVFORMAT_LIBRARIES}
++        ${FFMPEG_LIBAVDEVICE_LIBRARIES}
++        ${FFMPEG_LIBAVUTIL_LIBRARIES}
++        ${FFMPEG_LIBSWSCALE_LIBRARIES})
++        
++    IF(FFMPEG_LIBAVFILTER_LIBRARIES)
++      SET(FFMPEG_LIBRARIES ${FFMPEG_LIBRARIES} ${FFMPEG_LIBAVFILTER_LIBRARIES})
++    ENDIF()
++    IF(FFMPEG_LIBSWRESAMPLE_LIBRARIES)
++      SET(FFMPEG_LIBRARIES ${FFMPEG_LIBRARIES} ${FFMPEG_LIBSWRESAMPLE_LIBRARIES})
++    ENDIF()
++
++    IF (FFMPEG_LIBAVCORE_FOUND)
++        SET(FFMPEG_LIBRARIES ${FFMPEG_LIBRARIES} ${FFMPEG_LIBAVCORE_LIBRARIES} )
++        SET(FFMPEG_INCLUDE_DIRS ${FFMPEG_INCLUDE_DIRS}
++              ${FFMPEG_LIBAVCORE_INCLUDE_DIRS} ${FFMPEG_LIBAVCORE_INCLUDE_DIRS}/libavformat
++           )
++    ENDIF()
++   
++#---
++# This function sets FFMPEG_FOUND if variables are valid.
++#--- 
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args( FFMPEG DEFAULT_MSG 
++                                   FFMPEG_LIBRARIES
++                                   FFMPEG_INCLUDE_DIRS )
++
++
++#  use aPPEND instead of set.  Seems to work better
++set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__STDC_CONSTANT_MACROS")
++
++ELSE ()
++   MESSAGE(STATUS "Could not find FFMPEG")
++ENDIF()
++
++if( NOT FFMPEG_FIND_QUIETLY )
++   message( STATUS "FFMPEG_INCLUDE_DIRS = ${FFMPEG_INCLUDE_DIRS}" )
++   message( STATUS "FFMPEG_LIBRARIES = ${FFMPEG_LIBRARIES}" )
++endif( NOT FFMPEG_FIND_QUIETLY )
+Index: ossim/CMakeModules/FindFreetype.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindFreetype.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,95 @@
++# - Locate FreeType library
++# This module defines
++#  FREETYPE_LIBRARIES, the library to link against
++#  FREETYPE_FOUND, if false, do not try to link to FREETYPE
++#  FREETYPE_INCLUDE_DIRS, where to find headers.
++#  This is the concatenation of the paths:
++#  FREETYPE_INCLUDE_DIR_ft2build
++#  FREETYPE_INCLUDE_DIR_freetype2
++#
++# $FREETYPE_DIR is an environment variable that would
++# correspond to the ./configure --prefix=$FREETYPE_DIR
++# used in building FREETYPE.
++
++#=============================================================================
++# Copyright 2007-2009 Kitware, Inc.
++#
++# Distributed under the OSI-approved BSD License (the "License");
++# see accompanying file Copyright.txt for details.
++#
++# This software is distributed WITHOUT ANY WARRANTY; without even the
++# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the License for more information.
++#=============================================================================
++# (To distributed this file outside of CMake, substitute the full
++#  License text for the above reference.)
++
++# Created by Eric Wing. 
++# Modifications by Alexander Neundorf.
++# This file has been renamed to "FindFreetype.cmake" instead of the correct
++# "FindFreeType.cmake" in order to be compatible with the one from KDE4, Alex.
++
++# Ugh, FreeType seems to use some #include trickery which 
++# makes this harder than it should be. It looks like they
++# put ft2build.h in a common/easier-to-find location which
++# then contains a #include to a more specific header in a 
++# more specific location (#include <freetype/config/ftheader.h>).
++# Then from there, they need to set a bunch of #define's 
++# so you can do something like:
++# #include FT_FREETYPE_H
++# Unfortunately, using CMake's mechanisms like INCLUDE_DIRECTORIES()
++# wants explicit full paths and this trickery doesn't work too well.
++# I'm going to attempt to cut out the middleman and hope 
++# everything still works.
++FIND_PATH(FREETYPE_INCLUDE_DIR_ft2build ft2build.h 
++  HINTS
++  $ENV{FREETYPE_DIR}
++  PATH_SUFFIXES include
++  PATHS
++  /usr/local/X11R6/include
++  /usr/local/X11/include
++  /usr/X11/include
++  /sw/include
++  /opt/local/include
++  /usr/freeware/include
++)
++
++FIND_PATH(FREETYPE_INCLUDE_DIR_freetype2 freetype/config/ftheader.h 
++  HINTS
++  $ENV{FREETYPE_DIR}/include/freetype2
++  PATHS
++  /usr/local/X11R6/include
++  /usr/local/X11/include
++  /usr/X11/include
++  /sw/include
++  /opt/local/include
++  /usr/freeware/include
++  PATH_SUFFIXES freetype2
++)
++
++FIND_LIBRARY(FREETYPE_LIBRARY
++  NAMES freetype libfreetype freetype219 freetype239
++  HINTS
++  $ENV{FREETYPE_DIR}
++  PATH_SUFFIXES lib64 lib
++  PATHS
++  /usr/local/X11R6
++  /usr/local/X11
++  /usr/X11
++  /sw
++  /usr/freeware
++)
++
++# set the user variables
++IF(FREETYPE_INCLUDE_DIR_ft2build AND FREETYPE_INCLUDE_DIR_freetype2)
++  SET(FREETYPE_INCLUDE_DIRS "${FREETYPE_INCLUDE_DIR_ft2build};${FREETYPE_INCLUDE_DIR_freetype2}")
++ENDIF(FREETYPE_INCLUDE_DIR_ft2build AND FREETYPE_INCLUDE_DIR_freetype2)
++SET(FREETYPE_LIBRARIES "${FREETYPE_LIBRARY}")
++
++# handle the QUIETLY and REQUIRED arguments and set FREETYPE_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(Freetype  DEFAULT_MSG  FREETYPE_LIBRARY  FREETYPE_INCLUDE_DIRS)
++
++
++MARK_AS_ADVANCED(FREETYPE_LIBRARY FREETYPE_INCLUDE_DIR_freetype2 FREETYPE_INCLUDE_DIR_ft2build)
+Index: ossim/CMakeModules/FindGEOS.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindGEOS.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,77 @@
++#---
++# File: FindGEOS.cmake
++#
++# Find the native GEOS(Geometry Engine - Open Source) includes and libraries.
++#
++# This module defines:
++#
++# GEOS_INCLUDE_DIR, where to find geos.h, etc.
++# GEOS_LIBRARY, libraries to link against to use GEOS.  Currently there are
++# two looked for, geos and geos_c libraries.
++# GEOS_FOUND, True if found, false if one of the above are not found.
++# 
++# For ossim, typically geos will be system installed which should be found; 
++# or found in the ossim 3rd party dependencies directory from a geos build 
++# and install.  If the latter it will rely on CMAKE_INCLUDE_PATH and 
++# CMAKE_LIBRARY_PATH having the path to the party dependencies directory.
++# 
++# NOTE: 
++# This script is specialized for ossim, e.g. looking in /usr/local/ossim.
++#
++# $Id: FindGEOS.cmake 21190 2012-06-29 19:54:24Z dburken $
++#---
++
++#---
++# Find include path:
++# Note: Version < 3.3.0 do not have geos.h in the geos sub directory; hence,
++# the check for both "geos/geos.h" and "geos.h".
++#---
++find_path( GEOS_INCLUDE_DIR geos/geos.h geos.h
++           PATHS 
++           /usr/include
++           /usr/local/include
++           /usr/local/ossim/include )
++
++# Find GEOS library:
++find_library( GEOS_LIB NAMES geos 
++              PATHS 
++              /usr/lib64 
++              /usr/lib 
++              /usr/local/lib
++              /usr/local/ossim/lib )
++
++# Find GEOS C library:
++find_library( GEOS_C_LIB NAMES geos_c 
++              PATHS 
++              /usr/lib64 
++              /usr/lib 
++              /usr/local/lib
++              /usr/local/ossim/lib )
++
++# Set the GEOS_LIBRARY:
++if( GEOS_LIB AND GEOS_C_LIB )
++   set( GEOS_LIBRARY ${GEOS_LIB} ${GEOS_C_LIB} CACHE STRING INTERNAL )
++endif(GEOS_LIB AND GEOS_C_LIB )
++
++#---
++# This function sets GEOS_FOUND if variables are valid.
++#--- 
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args( GEOS DEFAULT_MSG 
++                                   GEOS_LIBRARY 
++                                   GEOS_INCLUDE_DIR )
++
++if( GEOS_FOUND )
++   if( NOT GEOS_FIND_QUIETLY )
++      message( STATUS "Found GEOS..." )
++   endif( NOT GEOS_FIND_QUIETLY )
++else( GEOS_FOUND )
++   if( NOT GEOS_FIND_QUIETLY )
++      message( WARNING "Could not find GEOS" )
++   endif( NOT GEOS_FIND_QUIETLY )
++endif( GEOS_FOUND )
++
++if( NOT GEOS_FIND_QUIETLY )
++   message( STATUS "GEOS_INCLUDE_DIR=${GEOS_INCLUDE_DIR}" )
++   message( STATUS "GEOS_LIBRARY=${GEOS_LIBRARY}" )
++endif( NOT GEOS_FIND_QUIETLY )
+Index: ossim/CMakeModules/FindGEOTIFF.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindGEOTIFF.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,24 @@
++# - Find geotiff library
++# Find the native geotiff includes and library
++# This module defines
++#  GEOTIFF_INCLUDE_DIR, where to find tiff.h, etc.
++#  GEOTIFF_LIBRARIES, libraries to link against to use GEOTIFF.
++#  GEOTIFF_FOUND, If false, do not try to use GEOTIFF.
++# also defined, but not for general use are
++#  GEOTIFF_LIBRARY, where to find the GEOTIFF library.
++
++FIND_PATH(GEOTIFF_INCLUDE_DIR geotiff.h PATHS /usr/include/geotiff /usr/include/libgeotiff /usr/local/include/libgeotiff /usr/local/include/geotiff)
++
++SET(GEOTIFF_NAMES ${GEOTIFF_NAMES} geotiff_i geotiff libgeotiff_i libgeotiff)
++FIND_LIBRARY(GEOTIFF_LIBRARY NAMES ${GEOTIFF_NAMES} )
++
++# handle the QUIETLY and REQUIRED arguments and set GEOTIFF_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(GEOTIFF  DEFAULT_MSG  GEOTIFF_LIBRARY  GEOTIFF_INCLUDE_DIR)
++
++IF(GEOTIFF_FOUND)
++  SET( GEOTIFF_LIBRARIES ${GEOTIFF_LIBRARY} )
++ENDIF(GEOTIFF_FOUND)
++
++MARK_AS_ADVANCED(GEOTIFF_INCLUDE_DIR GEOTIFF_LIBRARY)
+Index: ossim/CMakeModules/FindGPSTK.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindGPSTK.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,24 @@
++# - Find gpstk library
++# Find the native gpstk includes and library
++# This module defines
++#  GPSTK_INCLUDE_DIR, where to find tiff.h, etc.
++#  GPSTK_LIBRARIES, libraries to link against to use GPSTK.
++#  GPSTK_FOUND, If false, do not try to use GPSTK.
++# also defined, but not for general use are
++#  GPSTK_LIBRARY, where to find the GPSTK library.
++
++FIND_PATH(GPSTK_INCLUDE_DIR gpstk/Matrix.hpp)
++
++SET(GPSTK_NAMES ${GPSTK_NAMES} gpstk libgpstk)
++FIND_LIBRARY(GPSTK_LIBRARY NAMES ${GPSTK_NAMES} )
++
++# handle the QUIETLY and REQUIRED arguments and set GPSTK_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(GPSTK  DEFAULT_MSG  GPSTK_LIBRARY  GPSTK_INCLUDE_DIR)
++
++IF(GPSTK_FOUND)
++  SET( GPSTK_LIBRARIES ${GPSTK_LIBRARY} )
++ENDIF(GPSTK_FOUND)
++
++MARK_AS_ADVANCED(GPSTK_INCLUDE_DIR GPSTK_LIBRARY)
+Index: ossim/CMakeModules/FindJPEG.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindJPEG.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,47 @@
++# - Find JPEG
++# Find the native JPEG includes and library
++# This module defines
++#  JPEG_INCLUDE_DIR, where to find jpeglib.h, etc.
++#  JPEG_LIBRARIES, the libraries needed to use JPEG.
++#  JPEG_FOUND, If false, do not try to use JPEG.
++# also defined, but not for general use are
++#  JPEG_LIBRARY, where to find the JPEG library.
++
++#=============================================================================
++# Copyright 2001-2009 Kitware, Inc.
++#
++# Distributed under the OSI-approved BSD License (the "License");
++# see accompanying file Copyright.txt for details.
++#
++# This software is distributed WITHOUT ANY WARRANTY; without even the
++# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the License for more information.
++#=============================================================================
++# (To distributed this file outside of CMake, substitute the full
++#  License text for the above reference.)
++
++FIND_PATH(JPEG_INCLUDE_DIR jpeglib.h)
++
++SET(JPEG_NAMES ${JPEG_NAMES} jpeg libjpeg)
++
++# Added x86_64-linux-gnu path for Ubuntu install
++FIND_LIBRARY(JPEG_LIBRARY 
++             NAMES ${JPEG_NAMES} 
++             PATHS /usr/lib /usr/lib/x86_64-linux-gnu)
++
++# handle the QUIETLY and REQUIRED arguments and set JPEG_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(JPEG DEFAULT_MSG JPEG_LIBRARY JPEG_INCLUDE_DIR)
++
++IF(JPEG_FOUND)
++  SET(JPEG_LIBRARIES ${JPEG_LIBRARY})
++ENDIF(JPEG_FOUND)
++
++# Deprecated declarations.
++SET (NATIVE_JPEG_INCLUDE_PATH ${JPEG_INCLUDE_DIR} )
++IF(JPEG_LIBRARY)
++  GET_FILENAME_COMPONENT (NATIVE_JPEG_LIB_PATH ${JPEG_LIBRARY} PATH)
++ENDIF(JPEG_LIBRARY)
++
++MARK_AS_ADVANCED(JPEG_LIBRARY JPEG_INCLUDE_DIR )
+Index: ossim/CMakeModules/FindLASzip.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindLASzip.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,118 @@
++###############################################################################
++#
++# CMake module to search for LASzip library
++#
++# On success, the macro sets the following variables:
++# LASZIP_FOUND       = if the library found
++# LASZIP_INCLUDE_DIR = where to find the library headers also defined,
++#                       but not for general use are
++# LASZIP_LIBRARY     = where to find the laszip library.
++# LASZIP_VERSION     = version of library which was found, e.g. "1.2.5"
++#
++# Copyright (c) 2009 Mateusz Loskot <mateusz@loskot.net>
++#
++# Module source: http://github.com/mloskot/workshop/tree/master/cmake/
++#
++# Redistribution and use is allowed according to the terms of the BSD license.
++# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
++#
++###############################################################################
++MESSAGE(STATUS "Searching for LASzip ${LASzip_FIND_VERSION}+ library")
++
++IF(LASZIP_INCLUDE_DIR)
++  # Already in cache, be silent
++  SET(LASZIP_FIND_QUIETLY TRUE)
++ENDIF()
++
++IF(WIN32)
++  SET(OSGEO4W_IMPORT_LIBRARY laszip)
++  IF(DEFINED ENV{OSGEO4W_ROOT})
++    SET(OSGEO4W_ROOT_DIR $ENV{OSGEO4W_ROOT})
++    #MESSAGE(STATUS " FindLASzip: trying OSGeo4W using environment variable OSGEO4W_ROOT=$ENV{OSGEO4W_ROOT}")
++  ELSE()
++    SET(OSGEO4W_ROOT_DIR c:/OSGeo4W)
++    #MESSAGE(STATUS " FindLASzip: trying OSGeo4W using default location OSGEO4W_ROOT=${OSGEO4W_ROOT_DIR}")
++  ENDIF()
++ENDIF()
++
++
++FIND_PATH(LASZIP_INCLUDE_DIR
++  laszip.hpp
++  PATH_PREFIXES laszip
++  PATHS
++  /usr/include
++  /usr/local/include
++  /tmp/lasjunk/include
++  ${OSGEO4W_ROOT_DIR}/include)
++
++SET(LASZIP_NAMES ${OSGEO4W_IMPORT_LIBRARY} laszip)
++
++FIND_LIBRARY(LASZIP_LIBRARY
++  NAMES ${LASZIP_NAMES}
++  PATHS
++  /usr/lib64
++  /usr/lib
++  /usr/local/lib
++  /tmp/lasjunk/lib
++  ${OSGEO4W_ROOT_DIR}/lib)
++
++IF(LASZIP_INCLUDE_DIR)
++  SET(LASZIP_VERSION 0)
++
++  SET(LASZIP_VERSION_H "${LASZIP_INCLUDE_DIR}/laszip/laszip.hpp")
++  FILE(READ ${LASZIP_VERSION_H} LASZIP_VERSION_H_CONTENTS)
++
++  IF (DEFINED LASZIP_VERSION_H_CONTENTS)
++    string(REGEX REPLACE ".*#define[ \t]LASZIP_VERSION_MAJOR[ \t]+([0-9]+).*" "\\1" LASZIP_VERSION_MAJOR "${LASZIP_VERSION_H_CONTENTS}")
++    string(REGEX REPLACE ".*#define[ \t]LASZIP_VERSION_MINOR[ \t]+([0-9]+).*" "\\1" LASZIP_VERSION_MINOR "${LASZIP_VERSION_H_CONTENTS}")
++    string(REGEX REPLACE ".*#define[ \t]LASZIP_VERSION_REVISION[ \t]+([0-9]+).*"   "\\1" LASZIP_VERSION_REVISION   "${LASZIP_VERSION_H_CONTENTS}")
++
++    if(NOT ${LASZIP_VERSION_MAJOR} MATCHES "[0-9]+")
++      message(FATAL_ERROR "LASzip version parsing failed for LASZIP_VERSION_MAJOR!")
++    endif()
++    if(NOT ${LASZIP_VERSION_MINOR} MATCHES "[0-9]+")
++      message(FATAL_ERROR "LASzip version parsing failed for LASZIP_VERSION_MINOR!")
++    endif()
++    if(NOT ${LASZIP_VERSION_REVISION} MATCHES "[0-9]+")
++      message(FATAL_ERROR "LASzip version parsing failed for LASZIP_VERSION_REVISION!")
++    endif()
++
++
++    SET(LASZIP_VERSION "${LASZIP_VERSION_MAJOR}.${LASZIP_VERSION_MINOR}.${LASZIP_VERSION_REVISION}"
++      CACHE INTERNAL "The version string for LASzip library")
++
++    IF (LASZIP_VERSION VERSION_EQUAL LASzip_FIND_VERSION OR
++        LASZIP_VERSION VERSION_GREATER LASzip_FIND_VERSION)
++    ELSE()
++      MESSAGE(FATAL_ERROR "LASzip version check failed. Version ${LASZIP_VERSION} was found, at least version ${LASzip_FIND_VERSION} is required")
++    ENDIF()
++  ELSE()
++    MESSAGE(FATAL_ERROR "Failed to open ${LASZIP_VERSION_H} file")
++  ENDIF()
++
++ENDIF()
++
++#---
++# This function sets LASZIP_FOUND if variables are valid.
++#--- 
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args(LASzip DEFAULT_MSG LASZIP_LIBRARY LASZIP_INCLUDE_DIR)
++
++if( LASZIP_FOUND )
++   if( NOT LASZIP_FIND_QUIETLY )
++      message( STATUS "Found LASzip..." )
++   endif( NOT LASZIP_FIND_QUIETLY )
++else( LASZIP_FOUND )
++   if( NOT LASZIP_FIND_QUIETLY )
++      message( WARNING "Could not find LASzip" )
++   endif( NOT LASZIP_FIND_QUIETLY )
++endif( LASZIP_FOUND )
++
++#---
++# Show the caller what was found regardless of LASZIP_FOUND variable:
++#---
++if( NOT LASZIP_FIND_QUIETLY )
++   message( STATUS "LASZIP_INCLUDE_DIR=${LASZIP_INCLUDE_DIR}" )
++   message( STATUS "LASZIP_LIBRARY=${LASZIP_LIBRARY}" )
++   message( STATUS "Found LASzip version: ${LASZIP_VERSION}")
++endif( NOT LASZIP_FIND_QUIETLY )
+Index: ossim/CMakeModules/FindLIBLAS.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindLIBLAS.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,103 @@
++#---
++# File: FindLIBLAS.cmake
++#
++# Find the native LIBLAS includes and library
++#
++#  LIBLAS_INCLUDE_DIRS - where to find liblas's includes.
++#  LIBLAS_LIBRARIES    - List of libraries when using liblas.
++#  LIBLAS_FOUND        - True if liblas found.
++#---
++
++
++# Set the include dir:
++find_path(LIBLAS_INCLUDE_DIR liblas/liblas.hpp)
++
++# Macro for setting libraries:
++macro(FIND_LIBLAS_LIBRARY MYLIBRARY MYLIBRARYNAME)
++
++  find_library(
++    "${MYLIBRARY}_DEBUG"
++    NAMES "${MYLIBRARYNAME}${CMAKE_DEBUG_POSTFIX}"
++    PATHS
++    ${LIBLAS_DIR}/lib/Debug
++    ${LIBLAS_DIR}/lib64/Debug
++    ${LIBLAS_DIR}/lib
++    ${LIBLAS_DIR}/lib64
++    $ENV{LIBLAS_DIR}/lib/debug
++    $ENV{LIBLAS_DIR}/lib64/debug
++    NO_DEFAULT_PATH
++  )
++
++  find_library(
++    "${MYLIBRARY}_DEBUG"
++    NAMES "${MYLIBRARYNAME}${CMAKE_DEBUG_POSTFIX}"
++    PATHS
++    ~/Library/Frameworks
++    /Library/Frameworks
++    /usr/local/lib
++    /usr/local/lib64
++    /usr/lib
++    /usr/lib64
++    /sw/lib
++    /opt/local/lib
++    /opt/csw/lib
++    /opt/lib
++    [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;LIBLAS_ROOT]/lib
++    /usr/freeware/lib64
++  )
++    
++  find_library(
++    ${MYLIBRARY}
++    NAMES "${MYLIBRARYNAME}${CMAKE_RELEASE_POSTFIX}"
++    PATHS
++    ${LIBLAS_DIR}/lib/Release
++    ${LIBLAS_DIR}/lib64/Release
++    ${LIBLAS_DIR}/lib
++    ${LIBLAS_DIR}/lib64
++    $ENV{LIBLAS_DIR}/lib/Release
++    $ENV{LIBLAS_DIR}/lib64/Release
++    $ENV{LIBLAS_DIR}/lib
++    $ENV{LIBLAS_DIR}/lib64
++    $ENV{LIBLAS_DIR}
++    $ENV{LIBLASDIR}/lib
++    $ENV{LIBLASDIR}/lib64
++    $ENV{LIBLASDIR}
++    $ENV{LIBLAS_ROOT}/lib
++    $ENV{LIBLAS_ROOT}/lib64
++    NO_DEFAULT_PATH
++  )
++
++  find_library(
++    ${MYLIBRARY}
++    NAMES "${MYLIBRARYNAME}${CMAKE_RELEASE_POSTFIX}"
++    PATHS
++    ~/Library/Frameworks
++    /Library/Frameworks
++    /usr/local/lib
++    /usr/local/lib64
++    /usr/lib
++    /usr/lib64
++    /sw/lib
++    /opt/local/lib
++    /opt/csw/lib
++    /opt/lib
++    [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;LIBLAS_ROOT]/lib
++    /usr/freeware/lib64
++  )
++    
++  if( NOT ${MYLIBRARY}_DEBUG )
++    if( MYLIBRARY )
++      set( ${MYLIBRARY}_DEBUG ${MYLIBRARY} )
++    endif(MYLIBRARY)	
++  endif( NOT ${MYLIBRARY}_DEBUG )
++           
++endmacro(FIND_LIBLAS_LIBRARY LIBRARY LIBRARYNAME)
++
++FIND_LIBLAS_LIBRARY(LIBLAS_LIBRARY las)
++FIND_LIBLAS_LIBRARY(LIBLASC_LIBRARY las_c)
++
++set(LIBLAS_FOUND "NO")
++if(LIBLAS_LIBRARY AND LIBLASC_LIBRARY AND LIBLAS_INCLUDE_DIR)
++  set(LIBLAS_LIBRARIES ${LIBLAS_LIBRARY} ${LIBLASC_LIBRARY} )
++  set(LIBLAS_FOUND "YES")
++endif(LIBLAS_LIBRARY AND LIBLASC_LIBRARY AND LIBLAS_INCLUDE_DIR)
+Index: ossim/CMakeModules/FindMiniZip.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindMiniZip.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,26 @@
++# - Find minizip
++# Find the native MINIZIP includes and library
++#
++#  MINIZIP_INCLUDE_DIRS - where to find minizip's zip.h, etc.
++#  MINIZIP_LIBRARIES    - List of libraries when using minizip.
++#  MINIZIP_FOUND        - True if minizip found.
++
++IF (MINIZIP_INCLUDE_DIR)
++  # Already in cache, be silent
++  SET(MINIZIP_FIND_QUIETLY TRUE)
++ENDIF (MINIZIP_INCLUDE_DIR)
++
++FIND_PATH(MINIZIP_INCLUDE_DIR minizip/zip.h)
++
++SET(MINIZIP_NAMES minizip )
++FIND_LIBRARY(MINIZIP_LIBRARY NAMES ${MINIZIP_NAMES} )
++MARK_AS_ADVANCED( MINIZIP_LIBRARY MINIZIP_INCLUDE_DIR )
++
++# Per-recommendation
++SET(MINIZIP_INCLUDE_DIRS "${MINIZIP_INCLUDE_DIR}")
++SET(MINIZIP_LIBRARIES    "${MINIZIP_LIBRARY}")
++
++# handle the QUIETLY and REQUIRED arguments and set MINIZIP_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(MINIZIP DEFAULT_MSG MINIZIP_LIBRARIES MINIZIP_INCLUDE_DIRS)
+Index: ossim/CMakeModules/FindMrSid.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindMrSid.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,88 @@
++# - Find MrSid
++# Find the native MrSid includes and library
++# This module defines
++#  MRSID_INCLUDE_DIR, where to header files.
++#  MRSID_LIBRARIES, the libraries needed to use mrsid.
++#  MRSID_FOUND, If false, do not try to use mrsid.
++
++#=============================================================================
++# Copyright 2001-2009 Kitware, Inc.
++#
++# Distributed under the OSI-approved BSD License (the "License");
++# see accompanying file Copyright.txt for details.
++#
++# This software is distributed WITHOUT ANY WARRANTY; without even the
++# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the License for more information.
++#=============================================================================
++# (To distributed this file outside of CMake, substitute the full
++#  License text for the above reference.)
++
++#---
++# Find the include dirs:
++#---
++FIND_PATH( MRSID_RASTER_INCLUDE_DIR MrSIDImageReader.h
++           ${MRSID_DIR}/Raster_DSDK/include )
++
++FIND_PATH( MRSID_LIDAR_INCLUDE_DIR lidar/MG4PointReader.h
++           ${MRSID_DIR}/Lidar_DSDK/include )
++
++#---
++# Find the Geo_DSDK (decode) library.
++#----
++# SET(MRSID_RASTER_DSDK_C_NAMES lti_dsdk_cdll ltidsdk_c libltidsdkc)
++# FIND_LIBRARY( MRSID_RASTER_DSDK_C_LIBRARY 
++#	      NAMES ${MRSID_RASTER_DSDK_C_NAMES} 
++#              PATHS
++#              ${MRSID_DIR}/Raster_DSDK/lib )
++
++SET(MRSID_RASTER_DSDK_NAMES lti_dsdk ltidsdk libltidsdk)
++FIND_LIBRARY( MRSID_RASTER_DSDK_LIBRARY 
++	      NAMES ${MRSID_RASTER_DSDK_NAMES} 
++              PATHS
++              ${MRSID_DIR}/Raster_DSDK/lib )
++
++SET(MRSID_LIDAR_DSDK_NAMES lti_lidar_dsdk liblti_lidar_dsdk )
++FIND_LIBRARY( MRSID_LIDAR_DSDK_LIBRARY NAMES ${MRSID_LIDAR_DSDK_NAMES} 
++              PATHS
++              ${MRSID_DIR}/Lidar_DSDK/lib )
++
++# handle the QUIETLY and REQUIRED arguments and set MRSID_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(MRSID DEFAULT_MSG MRSID_RASTER_INCLUDE_DIR MRSID_LIDAR_INCLUDE_DIR MRSID_RASTER_DSDK_LIBRARY MRSID_LIDAR_DSDK_LIBRARY)
++
++# FIND_PACKAGE_HANDLE_STANDARD_ARGS(MRSID DEFAULT_MSG MRSID_RASTER_INCLUDE_DIR MRSID_LIDAR_INCLUDE_DIR MRSID_RASTER_DSDK_LIBRARY MRSID_RASTER_DSDK_C_LIBRARY MRSID_LIDAR_DSDK_LIBRARY)
++
++IF(MRSID_FOUND)
++   # Combine the includes into MRSID_INCLUDE_DIR variable:
++   set(MRSID_INCLUDE_DIR ${MRSID_RASTER_INCLUDE_DIR} ${MRSID_LIDAR_INCLUDE_DIR})
++
++   # Combine the libraries into MRSID_LIBRARY variable:
++   set(MRSID_LIBRARY ${MRSID_RASTER_DSDK_LIBRARY} ${MRSID_LIDAR_DSDK_LIBRARY})
++
++   # set(MRSID_LIBRARY ${MRSID_RASTER_DSDK_C_LIBRARY} ${MRSID_RASTER_DSDK_LIBRARY} ${MRSID_LIDAR_DSDK_LIBRARY})
++
++  #---
++  # Find the Geo_ESDK (encode) library.
++  #----
++  SET(MRSID_ESDK_NAMES ${MRSID_ESDK_NAMES} ltiesdk libltiesdk)
++  FIND_LIBRARY(MRSID_ESDK_LIBRARY NAMES ${MRSID_ESDK_NAMES})
++
++  #---
++  # Find the two includes need for the writer.
++  #---
++  FIND_FILE(MG2IMAGEWRITER_H MG2ImageWriter.h ${MRSID_INCLUDE_DIR})
++  FIND_FILE(MG3IMAGEWRITER_H MG3ImageWriter.h ${MRSID_INCLUDE_DIR})
++
++  FIND_PACKAGE_HANDLE_STANDARD_ARGS(MRSID_WRITE DEFAULT_MSG MRSID_ESDK_LIBRARY MG2IMAGEWRITER_H MG3IMAGEWRITER_H)  
++
++  IF(MRSID_WRITE_FOUND)
++    add_definitions(-DOSSIM_ENABLE_MRSID_WRITE)
++    SET(MRSID_LIBRARY ${MRSID_DSDK_LIBRARY} ${MRSID_ESDK_LIBRARY})
++  ENDIF(MRSID_WRITE_FOUND)
++  SET(MRSID_LIBRARIES ${MRSID_LIBRARY})
++ENDIF(MRSID_FOUND)
++
++MARK_AS_ADVANCED(MRSID_LIBRARIES MRSID_INCLUDE_DIR )
+Index: ossim/CMakeModules/FindOMS.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindOMS.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,44 @@
++# - Find ossim library
++# Find the native ossim includes and library
++# This module defines
++#  OMS_INCLUDE_DIR, where to find tiff.h, etc.
++#  OMS_LIBRARIES, libraries to link against to use OSSIM.
++#  OMS_FOUND, If false, do not try to use OSSIM.
++# also defined, but not for general use are
++#  OMS_LIBRARY, where to find the OSSIM library.
++
++SET(CMAKE_FIND_FRAMEWORK "LAST")
++FIND_PATH(OMS_INCLUDE_DIR oms/ossimVersion.h
++	HINTS 
++		$ENV{OSSIM_DEV_HOME}/oms/coms/include
++		$ENV{OSSIM_DEV_HOME}/oms/lib
++		$ENV{OSSIM_INSTALL_PREFIX}/include
++	PATHS
++		$ENV{OSSIM_DEV_HOME}/oms/coms
++		$ENV{OSSIM_INSTALL_PREFIX}
++    	PATH_SUFFIXES 
++		lib
++		include
++)
++SET(OSSIM_NAMES ${OSSIM_NAMES} oms )
++FIND_LIBRARY(OSSIM_LIBRARY NAMES ${OSSIM_NAMES}
++	HINTS 
++		$ENV{OSSIM_DEV_HOME}/ossim/lib
++	PATHS
++		$ENV{OSSIM_DEV_HOME}/ossim/lib
++		$ENV{OSSIM_INSTALL_PREFIX}
++    	PATH_SUFFIXES 
++		lib
++		Frameworks
++)
++
++# handle the QUIETLY and REQUIRED arguments and set OSSIM_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(OMS  DEFAULT_MSG  OMS_LIBRARY  OMS_INCLUDE_DIR)
++
++IF(OMS_FOUND)
++  SET( OMS_LIBRARIES ${OMS_LIBRARY} )
++ENDIF(OMS_FOUND)
++
++MARK_AS_ADVANCED(OMS_INCLUDE_DIR OMS_LIBRARY)
+Index: ossim/CMakeModules/FindOSG.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindOSG.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,124 @@
++# Locate gdal
++# This module defines
++# OSG_LIBRARY
++# OSG_FOUND, if false, do not try to link to gdal 
++# OSG_INCLUDE_DIR, where to find the headers
++#
++# $OSG_DIR is an environment variable that would
++# correspond to the ./configure --prefix=$OSG_DIR
++#
++# Created by Robert Osfield. 
++
++FIND_PATH(OSG_INCLUDE_DIR osg/Node
++    ${OSG_DIR}/include
++    $ENV{OSG_DIR}/include
++    $ENV{OSG_DIR}
++    $ENV{OSGDIR}/include
++    $ENV{OSGDIR}
++    $ENV{OSG_ROOT}/include
++    NO_DEFAULT_PATH
++)
++
++FIND_PATH(OSG_INCLUDE_DIR osg/Node)
++
++MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
++
++    FIND_LIBRARY("${MYLIBRARY}_DEBUG"
++        NAMES "${MYLIBRARYNAME}${CMAKE_DEBUG_POSTFIX}"
++        PATHS
++        ${OSG_DIR}/lib/Debug
++        ${OSG_DIR}/lib64/Debug
++        ${OSG_DIR}/lib
++        ${OSG_DIR}/lib64
++        $ENV{OSG_DIR}/lib/debug
++        $ENV{OSG_DIR}/lib64/debug
++        $ENV{OSG_DIR}/lib
++        $ENV{OSG_DIR}/lib64
++        $ENV{OSG_DIR}
++        $ENV{OSGDIR}/lib
++        $ENV{OSGDIR}/lib64
++        $ENV{OSGDIR}
++        $ENV{OSG_ROOT}/lib
++        $ENV{OSG_ROOT}/lib64
++        NO_DEFAULT_PATH
++    )
++
++    FIND_LIBRARY("${MYLIBRARY}_DEBUG"
++        NAMES "${MYLIBRARYNAME}${CMAKE_DEBUG_POSTFIX}"
++        PATHS
++        ~/Library/Frameworks
++        /Library/Frameworks
++        /usr/local/lib
++        /usr/local/lib64
++        /usr/lib
++        /usr/lib64
++        /sw/lib
++        /opt/local/lib
++        /opt/csw/lib
++        /opt/lib
++        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;OSG_ROOT]/lib
++        /usr/freeware/lib64
++    )
++    
++    FIND_LIBRARY(${MYLIBRARY}
++        NAMES "${MYLIBRARYNAME}${CMAKE_RELEASE_POSTFIX}"
++        PATHS
++        ${OSG_DIR}/lib/Release
++        ${OSG_DIR}/lib64/Release
++        ${OSG_DIR}/lib
++        ${OSG_DIR}/lib64
++        $ENV{OSG_DIR}/lib/Release
++        $ENV{OSG_DIR}/lib64/Release
++        $ENV{OSG_DIR}/lib
++        $ENV{OSG_DIR}/lib64
++        $ENV{OSG_DIR}
++        $ENV{OSGDIR}/lib
++        $ENV{OSGDIR}/lib64
++        $ENV{OSGDIR}
++        $ENV{OSG_ROOT}/lib
++        $ENV{OSG_ROOT}/lib64
++        NO_DEFAULT_PATH
++    )
++
++    FIND_LIBRARY(${MYLIBRARY}
++        NAMES "${MYLIBRARYNAME}${CMAKE_RELEASE_POSTFIX}"
++        PATHS
++        ~/Library/Frameworks
++        /Library/Frameworks
++        /usr/local/lib
++        /usr/local/lib64
++        /usr/lib
++        /usr/lib64
++        /sw/lib
++        /opt/local/lib
++        /opt/csw/lib
++        /opt/lib
++        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;OSG_ROOT]/lib
++        /usr/freeware/lib64
++    )
++    
++    IF( NOT ${MYLIBRARY}_DEBUG)
++        IF(MYLIBRARY)
++            SET(${MYLIBRARY}_DEBUG ${MYLIBRARY})
++         ENDIF(MYLIBRARY)
++    ENDIF( NOT ${MYLIBRARY}_DEBUG)
++           
++ENDMACRO(FIND_OSG_LIBRARY LIBRARY LIBRARYNAME)
++
++FIND_OSG_LIBRARY(OSG_LIBRARY osg)
++FIND_OSG_LIBRARY(OSGGA_LIBRARY osgGA)
++FIND_OSG_LIBRARY(OSGUTIL_LIBRARY osgUtil)
++FIND_OSG_LIBRARY(OSGDB_LIBRARY osgDB)
++FIND_OSG_LIBRARY(OSGTEXT_LIBRARY osgText)
++FIND_OSG_LIBRARY(OSGWIDGET_LIBRARY osgWidget)
++FIND_OSG_LIBRARY(OSGTERRAIN_LIBRARY osgTerrain)
++FIND_OSG_LIBRARY(OSGFX_LIBRARY osgFX)
++FIND_OSG_LIBRARY(OSGVIEWER_LIBRARY osgViewer)
++FIND_OSG_LIBRARY(OSGSHADOW_LIBRARY osgShadow)
++FIND_OSG_LIBRARY(OSGVOLUME_LIBRARY osgVolume)
++FIND_OSG_LIBRARY(OPENTHREADS_LIBRARY OpenThreads)
++
++SET(OSG_FOUND "NO")
++IF(OSG_LIBRARY AND OSG_INCLUDE_DIR)
++    SET(OSG_FOUND "YES")
++ENDIF(OSG_LIBRARY AND OSG_INCLUDE_DIR)
+Index: ossim/CMakeModules/FindOpenCV.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindOpenCV.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,85 @@
++#---
++# File:  FindOpenCV.cmake
++# 
++# Locate OPENCV
++#
++# This module defines:
++#
++# OPENCV_INCLUDE_DIR
++#
++# OPENCV_FOUND, 
++# OPENCV_CORE_FOUND 
++# OPENCV_HIGHGUI_FOUND
++# OPENCV_IMGPROC_FOUND
++# OPENCV_LEGACY_FOUND
++# OPENCV_ML_FOUND 
++#
++# OPENCV_CORE_LIBRARY
++# OPENCV_HIGHGUI_LIBRARY
++# OPENCV_IMGPROC_LIBRARY
++# OPENCV_LEGACY_LIBRARY
++# OPENCV_ML_LIBRARY
++# OPENCV_LIBRARIES
++#
++# Created by Garrett Potts.
++#
++# $Id: FindOpenCV.cmake 22635 2014-02-20 14:28:45Z dburken $
++
++# Find include path:
++find_path(OPENCV_INCLUDE_DIR opencv2/opencv.hpp PATHS /usr/include/opencv2 /usr/local/include)
++
++macro(FIND_OPENCV_LIBRARY MYLIBRARY MYLIBRARYNAME)
++
++   find_library( ${MYLIBRARY}
++      NAMES "${MYLIBRARYNAME}${OPENCV_RELEASE_POSTFIX}"
++      PATHS
++      /usr/lib64
++      /usr/lib
++     /usr/local/lib
++   )
++
++endmacro(FIND_OPENCV_LIBRARY MYLIBRARY MYLIBRARYNAME)
++
++FIND_OPENCV_LIBRARY(OPENCV_CALIB3D_LIBRARY opencv_calib3d)
++FIND_OPENCV_LIBRARY(OPENCV_CONTRIB_LIBRARY opencv_contrib)
++FIND_OPENCV_LIBRARY(OPENCV_CORE_LIBRARY opencv_core)
++FIND_OPENCV_LIBRARY(OPENCV_FEATURES2D_LIBRARY opencv_features2d)
++FIND_OPENCV_LIBRARY(OPENCV_FLANN_LIBRARY opencv_flann)
++FIND_OPENCV_LIBRARY(OPENCV_GPU_LIBRARY opencv_gpu)
++FIND_OPENCV_LIBRARY(OPENCV_HIGHGUI_LIBRARY opencv_highgui)
++FIND_OPENCV_LIBRARY(OPENCV_IMGPROC_LIBRARY opencv_imgproc)
++FIND_OPENCV_LIBRARY(OPENCV_LEGACY_LIBRARY opencv_legacy)
++FIND_OPENCV_LIBRARY(OPENCV_ML_LIBRARY opencv_ml)
++
++message( STATUS "OPENCV_INCLUDE_DIR        = ${OPENCV_INCLUDE_DIR}" )
++message( STATUS "OPENCV_CALIB3D_LIBRARY    = ${OPENCV_CALIB3D_LIBRARY}" )
++message( STATUS "OPENCV_CONTRIB_LIBRARY    = ${OPENCV_CONTRIB_LIBRARY}" )
++message( STATUS "OPENCV_CORE_LIBRARY       = ${OPENCV_CORE_LIBRARY}" )
++message( STATUS "OPENCV_FEATURES2D_LIBRARY = ${OPENCV_FEATURES2D_LIBRARY}" )
++message( STATUS "OPENCV_FLANN_LIBRARY      = ${OPENCV_FLANN_LIBRARY}" )
++message( STATUS "OPENCV_GPU_LIBRARY        = ${OPENCV_GPU_LIBRARY}" )
++message( STATUS "OPENCV_HIGHGUI_LIBRARY    = ${OPENCV_HIGHGUI_LIBRARY}" )
++message( STATUS "OPENCV_IMGPROC_LIBRARY    = ${OPENCV_IMGPROC_LIBRARY}" )
++message( STATUS "OPENCV_LEGACY_LIBRARY     = ${OPENCV_LEGACY_LIBRARY}" )
++message( STATUS "OPENCV_ML_LIBRARY         = ${OPENCV_ML_LIBRARY}" )
++
++
++# Removed OPENCV_GPU_LIBRARY AND (drb 20140220)
++
++set(OPENCV_FOUND "NO")
++
++if(OPENCV_INCLUDE_DIR AND OPENCV_CALIB3D_LIBRARY AND OPENCV_CONTRIB_LIBRARY AND OPENCV_CORE_LIBRARY AND OPENCV_FEATURES2D_LIBRARY AND OPENCV_FLANN_LIBRARY AND OPENCV_HIGHGUI_LIBRARY AND OPENCV_IMGPROC_LIBRARY AND OPENCV_LEGACY_LIBRARY AND OPENCV_ML_LIBRARY)
++
++   set(OPENCV_FOUND "YES")
++
++   # Removed ${OPENCV_GPU_LIBRARY} (drb 20140220)
++
++   set(OPENCV_LIBRARIES ${OPENCV_CALIB3D_LIBRARY} ${OPENCV_CONTRIB_LIBRARY} ${OPENCV_CORE_LIBRARY} ${OPENCV_FEATURES2D_LIBRARY} ${OPENCV_FLANN_LIBRARY} ${OPENCV_HIGHGUI_LIBRARY} ${OPENCV_IMGPROC_LIBRARY} ${OPENCV_LEGACY_LIBRARY} ${OPENCV_ML_LIBRARY})
++
++   message( STATUS "OPENCV_LIBRARIES        = ${OPENCV_LIBRARIES}" )
++
++else(OPENCV_INCLUDE_DIR AND OPENCV_CORE_LIBRARY AND OPENCV_HIGHGUI_LIBRARY AND OPENCV_IMGPROC_LIBRARY AND OPENCV_LEGACY_LIBRARY AND OPENCV_ML_LIBRARY)
++
++   message( WARNING "Could not find OPENCV" )
++
++endif(OPENCV_INCLUDE_DIR AND OPENCV_CALIB3D_LIBRARY AND OPENCV_CONTRIB_LIBRARY AND OPENCV_CORE_LIBRARY AND OPENCV_FEATURES2D_LIBRARY AND OPENCV_FLANN_LIBRARY AND OPENCV_HIGHGUI_LIBRARY AND OPENCV_IMGPROC_LIBRARY AND OPENCV_LEGACY_LIBRARY AND OPENCV_ML_LIBRARY)
+Index: ossim/CMakeModules/FindOpenJPEG.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindOpenJPEG.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,56 @@
++###
++# -*- cmake -*-
++#
++# File:  FindOpenJPEG.cmake
++#
++# Original script was copied from:
++# http://code.google.com/p/emeraldviewer/source/browse/indra/cmake
++#
++# $Id: FindOpenJPEG.cmake 21190 2012-06-29 19:54:24Z dburken $
++###
++
++# - Find OpenJPEG
++# Find the OpenJPEG includes and library
++# This module defines
++#  OPENJPEG_INCLUDE_DIR, where to find openjpeg.h, etc.
++#  OPENJPEG_LIBRARIES, the libraries needed to use OpenJPEG.
++#  OPENJPEG_FOUND, If false, do not try to use OpenJPEG.
++# also defined, but not for general use are
++#  OPENJPEG_LIBRARY, where to find the OpenJPEG library.
++
++FIND_PATH(OPENJPEG_INCLUDE_DIR openjpeg.h
++  PATHS
++    /usr/local/include/openjpeg
++    /usr/local/include
++    /usr/include/openjpeg
++    /usr/include
++  PATH_SUFFIXES
++    openjpeg-2.0
++  DOC "Location of OpenJPEG Headers"
++)
++
++SET(OPENJPEG_NAMES ${OPENJPEG_NAMES} openjpeg)
++FIND_LIBRARY(OPENJPEG_LIBRARY
++  NAMES ${OPENJPEG_NAMES}
++  PATHS /usr/lib /usr/local/lib
++  )
++
++IF (OPENJPEG_LIBRARY AND OPENJPEG_INCLUDE_DIR)
++    SET(OPENJPEG_LIBRARIES ${OPENJPEG_LIBRARY})
++    SET(OPENJPEG_FOUND "YES")
++ELSE (OPENJPEG_LIBRARY AND OPENJPEG_INCLUDE_DIR)
++  SET(OPENJPEG_FOUND "NO")
++ENDIF (OPENJPEG_LIBRARY AND OPENJPEG_INCLUDE_DIR)
++
++
++IF (OPENJPEG_FOUND)
++   IF (NOT OPENJPEG_FIND_QUIETLY)
++      MESSAGE(STATUS "Found OpenJPEG: ${OPENJPEG_LIBRARIES}")
++   ENDIF (NOT OPENJPEG_FIND_QUIETLY)
++ELSE (OPENJPEG_FOUND)
++   IF (OPENJPEG_FIND_REQUIRED)
++      MESSAGE(FATAL_ERROR "Could not find OpenJPEG library")
++   ENDIF (OPENJPEG_FIND_REQUIRED)
++ENDIF (OPENJPEG_FOUND)
++
++MARK_AS_ADVANCED(OPENJPEG_LIBRARY OPENJPEG_INCLUDE_DIR)
+Index: ossim/CMakeModules/FindPDAL.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindPDAL.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,57 @@
++#---
++# File: FindPDAL.cmake
++#
++# Find the native Point Data Abstractin Library(PDAL) includes and libraries.
++#
++# This module defines:
++#
++# PDAL_INCLUDE_DIR, where to find pdal.h, etc.
++# PDAL_LIBRARY, libraries to link against to use PDAL.
++# PDAL_FOUND, True if found, false if one of the above are not found.
++# 
++# NOTE: 
++# This script is specialized for ossim, e.g. looking in /usr/local/ossim.
++#
++# $Id$
++#---
++
++#---
++# Find include path:  "pdal_defines.h" installs to install "prefix" with pdal 
++# includes under "pdal" sub directory.
++#---
++find_path( PDAL_INCLUDE_DIR pdal/pdal_defines.h
++           PATHS 
++           /usr/include
++           /usr/local/include
++           /usr/local/ossim/include )
++
++# Find PDAL library:
++find_library( PDAL_LIBRARY NAMES pdalcpp pdal 
++              PATHS 
++              /usr/lib64 
++              /usr/lib 
++              /usr/local/lib
++              /usr/local/ossim/lib )
++
++#---
++# This function sets PDAL_FOUND if variables are valid.
++#--- 
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args( PDAL DEFAULT_MSG 
++                                   PDAL_LIBRARY 
++                                   PDAL_INCLUDE_DIR )
++
++if( PDAL_FOUND )
++   if( NOT PDAL_FIND_QUIETLY )
++      message( STATUS "Found PDAL..." )
++   endif( NOT PDAL_FIND_QUIETLY )
++else( PDAL_FOUND )
++   if( NOT PDAL_FIND_QUIETLY )
++      message( WARNING "Could not find PDAL" )
++   endif( NOT PDAL_FIND_QUIETLY )
++endif( PDAL_FOUND )
++
++if( NOT PDAL_FIND_QUIETLY )
++   message( STATUS "PDAL_INCLUDE_DIR=${PDAL_INCLUDE_DIR}" )
++   message( STATUS "PDAL_LIBRARY=${PDAL_LIBRARY}" )
++endif( NOT PDAL_FIND_QUIETLY )
+Index: ossim/CMakeModules/FindPodofo.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindPodofo.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,25 @@
++#---
++# File: FindPodofo.cmake
++#
++# Find the native podofo includes and library
++#
++# This module defines:
++#  PODOFO_INCLUDE_DIR, where to find tiff.h, etc.
++#  PODOFO_LIBRARY, library to link against to use PODOFO.
++#  PODOFO_FOUND, If false, do not try to use PODOFO.
++# 
++# $Id: FindPodofo.cmake 19868 2011-07-23 13:23:49Z dburken $
++#---
++
++# Find include path:
++find_path(PODOFO_INCLUDE_DIR podofo/podofo.h PATHS /usr/include /usr/local/include
++)
++
++# Find library:
++find_library(PODOFO_LIBRARY NAMES podofo PATHS /usr/lib64 /usr/lib /usr/local/lib)
++
++#---
++# This function sets PODOFO_FOUND if variables are valid.
++#--- 
++include(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(PODOFO  DEFAULT_MSG  PODOFO_LIBRARY  PODOFO_INCLUDE_DIR)
+Index: ossim/CMakeModules/FindQt5.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindQt5.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,165 @@
++# - Find Qt5
++# This module can be used to find Qt5.
++# The most important issues are that Qt5 pkgconfig files are installed with PKG_CONFIG_PATH properly
++# set, and that Qt5 qmake is available via the system path.
++# This module defines a number of key variables and macros.
++#
++#  Below is a detailed list of variables that FindQt5.cmake sets.
++#  QT_FOUND                     If false, don't try to use Qt.
++#  QT5_FOUND                    If false, don't try to use Qt5.
++#
++#  QT_VERSION_MAJOR             The major version of Qt found.
++#  QT_VERSION_MINOR             The minor version of Qt found.
++#  QT_VERSION_PATCH             The patch version of Qt found.
++#
++#  QT_BINARY_DIR                Path to "bin" of Qt4
++#  QT_DOC_DIR                   Path to "doc" of Qt4
++#
++#  QT_QTCORE_FOUND              True if QtCore was found.
++#  QT_QTGUI_FOUND               True if QtGui was found.
++#  QT_QTDBUS_FOUND              True if QtDBus was found.
++#  QT_QTNETWORK_FOUND           True if QtNetwork was found.
++#  QT_QTTEST_FOUND              True if QtTest was found.
++#  QT_QTWIDGETS_FOUND           True if QtWidgets was found.
++#  QT_QTXML_FOUND               True if QtXml was found.
++#
++#  QT_INCLUDES                  List of paths to all include directories of Qt5.
++#  QT_INCLUDE_DIR               Path to "include" of Qt4
++#  QT_QTCORE_INCLUDE_DIR        Path to "include/QtCore"
++#  QT_QTDBUS_INCLUDE_DIR        Path to "include/QtDBus"
++#  QT_QTGUI_INCLUDE_DIR         Path to "include/QtGui"
++#  QT_QTNETWORK_INCLUDE_DIR     Path to "include/QtNetwork"
++#  QT_QTTEST_INCLUDE_DIR        Path to "include/QtTest"
++#  QT_QTWIDGETS_INCLUDE_DIR     Path to "include/QtWidgets"
++#  QT_QTXML_INCLUDE_DIR         Path to "include/QtXml"
++#
++#  QT_LIBRARIES                 List of paths to all libraries of Qt5.
++#  QT_LIBRARY_DIR               Path to "lib" of Qt4
++#  QT_QTCORE_LIBRARY            The QtCore library
++#  QT_QTDBUS_LIBRARY            The QtDBus library
++#  QT_QTGUI_LIBRARY             The QtGui library
++#  QT_QTNETWORK_LIBRARY         The QtNetwork library
++#  QT_QTTEST_LIBRARY            The QtTest library
++#  QT_QTWIDGETS_LIBRARY         The QtWidgets library
++#  QT_QTXML_LIBRARY             The QtXml library
++#
++# also defined, but NOT for general use are
++#  QT_MOC_EXECUTABLE            Where to find the moc tool
++#  QT_CONFIG_FLAGS              Flags used when building Qt
++
++# Copyright (C) 2001-2009 Kitware, Inc.
++# Copyright (C) 2011 Collabora Ltd. <http://www.collabora.co.uk/>
++# Copyright (C) 2011 Nokia Corporation
++#
++# Redistribution and use is allowed according to the terms of the BSD license.
++# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
++
++IF(QT_INCLUDES AND QT_LIBRARIES AND QT_MAJOR_VERSION MATCHES 5)
++  # Already in cache, be silent
++  SET(QT_FOUND TRUE)
++  SET(QT5_FOUND TRUE)
++  RETURN()
++ENDIF(QT_INCLUDES AND QT_LIBRARIES AND QT_MAJOR_VERSION MATCHES 5)
++
++IF(NOT QT_QMAKE_EXECUTABLE)
++  FIND_PROGRAM(QT_QMAKE_EXECUTABLE_FINDQT NAMES qmake qmake5 qmake-qt5
++               PATHS "${QT_SEARCH_PATH}/bin" "$ENV{QTDIR}/bin")
++  SET(QT_QMAKE_EXECUTABLE ${QT_QMAKE_EXECUTABLE_FINDQT} CACHE PATH "Qt qmake program.")
++ENDIF(NOT QT_QMAKE_EXECUTABLE)
++
++EXEC_PROGRAM(${QT_QMAKE_EXECUTABLE} ARGS "-query QT_VERSION" OUTPUT_VARIABLE QTVERSION)
++IF(NOT QTVERSION MATCHES "5.*")
++  SET(QT_FOUND FALSE)
++  SET(QT5_FOUND FALSE)
++  IF(Qt5_FIND_REQUIRED)
++    MESSAGE(FATAL_ERROR "CMake was unable to find Qt5, put qmake in your path or set QTDIR/QT_QMAKE_EXECUTABLE.")
++  ENDIF(Qt5_FIND_REQUIRED)
++  RETURN()
++ENDIF(NOT QTVERSION MATCHES "5.*")
++
++# FIND_PACKAGE(PkgConfig REQUIRED)
++
++IF(NOT Qt5_FIND_COMPONENTS)
++  SET(_COMPONENTS QtCore QtDBus QtGui QtNetwork QtTest QtWidgets QtXml)
++ELSE(NOT Qt5_FIND_COMPONENTS)
++  SET(_COMPONENTS ${Qt5_FIND_COMPONENTS})
++ENDIF(NOT Qt5_FIND_COMPONENTS)
++
++FOREACH(_COMPONENT ${_COMPONENTS})
++  STRING(TOUPPER ${_COMPONENT} _COMPONENT_UPPER)
++  IF(NOT QT_${_COMPONENT_UPPER}_FOUND)
++    IF(Qt5_FIND_REQUIRED)
++      PKG_CHECK_MODULES(PC_${_COMPONENT} REQUIRED ${_COMPONENT}>=${QT_MIN_VERSION})
++    ELSE(Qt5_FIND_REQUIRED)
++      PKG_CHECK_MODULES(PC_${_COMPONENT} QUIET ${_COMPONENT}>=${QT_MIN_VERSION})
++    ENDIF(Qt5_FIND_REQUIRED)
++
++    SET(QT_${_COMPONENT_UPPER}_INCLUDE_DIR ${PC_${_COMPONENT}_INCLUDE_DIRS})
++
++    FIND_LIBRARY(QT_${_COMPONENT_UPPER}_LIBRARY
++                 NAMES ${_COMPONENT}
++                 HINTS
++                 ${PC_${_COMPONENT}_LIBDIR})
++
++    SET(QT_${_COMPONENT_UPPER}_FOUND ${PC_${_COMPONENT}_FOUND})
++
++    #MESSAGE(STATUS "COMPONENT ${_COMPONENT_UPPER}:")
++    #MESSAGE(STATUS "  QT_${_COMPONENT_UPPER}_LIBRARY: ${QT_${_COMPONENT_UPPER}_LIBRARY}")
++    #MESSAGE(STATUS "  QT_${_COMPONENT_UPPER}_INCLUDE_DIR: ${QT_${_COMPONENT_UPPER}_INCLUDE_DIR}")
++    #MESSAGE(STATUS "  QT_${_COMPONENT_UPPER}_FOUND: ${QT_${_COMPONENT_UPPER}_FOUND}")
++
++    SET(QT_INCLUDES ${QT_INCLUDES} ${QT_${_COMPONENT_UPPER}_INCLUDE_DIR})
++    SET(QT_LIBRARIES ${QT_LIBRARIES} ${QT_${_COMPONENT_UPPER}_INCLUDE_DIR})
++    MARK_AS_ADVANCED(QT_${_COMPONENT_UPPER}_LIBRARY QT_${_COMPONENT_UPPER}_INCLUDE_DIR)
++  ENDIF(NOT QT_${_COMPONENT_UPPER}_FOUND)
++ENDFOREACH(_COMPONENT)
++
++#MESSAGE(STATUS "QT_LIBRARIES: ${QT_LIBRARIES}")
++#MESSAGE(STATUS "QT_INCLUDES: ${QT_INCLUDES}")
++
++STRING(REGEX REPLACE "^([0-9]+)\\.[0-9]+\\.[0-9]+.*" "\\1" QT_VERSION_MAJOR "${QTVERSION}")
++STRING(REGEX REPLACE "^[0-9]+\\.([0-9])+\\.[0-9]+.*" "\\1" QT_VERSION_MINOR "${QTVERSION}")
++STRING(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" QT_VERSION_PATCH "${QTVERSION}")
++
++IF(NOT QT_INCLUDE_DIR)
++  EXEC_PROGRAM(${QT_QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_HEADERS" OUTPUT_VARIABLE QTHEADERS)
++  SET(QT_INCLUDE_DIR ${QTHEADERS} CACHE INTERNAL "" FORCE)
++ENDIF(NOT QT_INCLUDE_DIR)
++
++IF(NOT QT_LIBRARY_DIR)
++  EXEC_PROGRAM(${QT_QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_LIBS" OUTPUT_VARIABLE QTLIBS)
++  SET(QT_LIBRARY_DIR ${QTLIBS} CACHE INTERNAL "" FORCE)
++ENDIF(NOT QT_LIBRARY_DIR)
++
++IF(NOT QT_BINARY_DIR)
++  EXEC_PROGRAM(${QT_QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_BINS" OUTPUT_VARIABLE QTBINS)
++  SET(QT_BINARY_DIR ${QTBINS} CACHE INTERNAL "" FORCE)
++ENDIF(NOT QT_BINARY_DIR)
++
++IF(NOT QT_DOC_DIR)
++  EXEC_PROGRAM(${QT_QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_DOCS" OUTPUT_VARIABLE QTDOCS)
++  SET(QT_DOC_DIR ${QTDOCS} CACHE INTERNAL "" FORCE)
++ENDIF(NOT QT_DOC_DIR)
++
++IF(NOT QT_MOC_EXECUTABLE)
++  FIND_PROGRAM(QT_MOC_EXECUTABLE NAMES moc moc5 moc-qt5 PATHS ${QT_BINARY_DIR}
++               NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
++ENDIF(NOT QT_MOC_EXECUTABLE)
++
++MARK_AS_ADVANCED(QT_INCLUDES QT_INCLUDE_DIR
++                 QT_LIBRARIES QT_LIBRARY_DIR
++                 QT_BINARY_DIR
++                 QT_DOC_DIR
++                 QT_QMAKE_EXECUTABLE_FINDQT QT_QMAKE_EXECUTABLE QT_MOC_EXECUTABLE)
++
++# Invokes pkgconfig, cleans up the result and sets variables
++#EXECUTE_PROCESS(COMMAND ${PKG_CONFIG_EXECUTABLE} --variable qt_config QtCore
++#    OUTPUT_VARIABLE _pkgconfig_flags
++#    RESULT_VARIABLE _pkgconfig_failed)
++#STRING(REPLACE " " ";" QT_CONFIG_FLAGS "${_pkgconfig_flags}")
++
++INCLUDE(Qt5Macros)
++
++SET(QT_FOUND TRUE)
++SET(QT5_FOUND TRUE)
++
+Index: ossim/CMakeModules/FindRapier.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindRapier.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,47 @@
++#---
++# File: FindRapier.cmake
++#
++# Find the native rapier includes and library
++#
++# This module defines
++#  RAPIER_INCLUDE_DIR, where to find tiff.h, etc.
++#  RAPIER_LIBRARIES, libraries to link against to use RAPIER.
++#  RAPIER_FOUND, If false, do not try to use RAPIER.
++# also defined, but not for general use are
++#  RAPIER_LIBRARY, where to find the RAPIER library.
++# 
++# $Id: FindRapier.cmake 21190 2012-06-29 19:54:24Z dburken $
++#---
++
++find_path(RAPIER_INCLUDE_DIR rapier/common/rapierConstants.h
++   HINTS	
++      $ENV{OSSIM_DEV_HOME}/Rapier/include
++      $ENV{OSSIM_INSTALL_PREFIX}/include
++   PATHS
++      $ENV{OSSIM_DEV_HOME}/Rapier
++      $ENV{OSSIM_INSTALL_PREFIX}
++   PATH_SUFFIXES 
++      include
++)
++
++find_library(RAPIER_LIBRARY
++   NAMES rapier
++   HINTS 
++      $ENV{OSSIM_DEV_HOME}/Rapier/lib
++      $ENV{OSSIM_DEV_HOME}/build/lib
++   PATHS
++      $ENV{OSSIM_DEV_HOME}/Rapier/lib
++      $ENV{OSSIM_INSTALL_PREFIX}
++   PATH_SUFFIXES 
++      lib
++)
++
++#---
++# This function sets RAPIER_FOUND if variables are valid.
++#--- 
++include(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(RAPIER  DEFAULT_MSG  RAPIER_LIBRARY  RAPIER_INCLUDE_DIR)
++
++if(RAPIER_FOUND)
++  set( RAPIER_LIBRARIES ${RAPIER_LIBRARY} )
++endif(RAPIER_FOUND)
+Index: ossim/CMakeModules/FindRegex.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindRegex.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,64 @@
++#                                               -*- cmake -*-
++#
++#  FindRegex.cmake: Try to find Regex
++#
++#  Copyright (C) 2005-2013 EDF-EADS-Phimeca
++#
++#  This library is free software: you can redistribute it and/or modify
++#  it under the terms of the GNU Lesser General Public License as published by
++#  the Free Software Foundation, either version 3 of the License, or
++#  (at your option) any later version.
++#
++#  This library is distributed in the hope that it will be useful,
++#  but WITHOUT ANY WARRANTY; without even the implied warranty of
++#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++#  GNU Lesser General Public License for more details.
++#
++#  You should have received a copy of the GNU Lesser General Public
++#  along with this library.  If not, see <http://www.gnu.org/licenses/>.
++#
++#  @author dutka
++#  @date   2010-02-04 16:44:49 +0100 (Thu, 04 Feb 2010)
++#
++#
++# - Try to find Regex
++# Once done this will define
++#
++#  REGEX_FOUND - System has Regex
++#  REGEX_INCLUDE_DIR - The Regex include directory
++#  REGEX_LIBRARIES - The libraries needed to use Regex
++#  REGEX_DEFINITIONS - Compiler switches required for using Regex
++
++IF (REGEX_INCLUDE_DIR AND REGEX_LIBRARIES)
++   # in cache already
++   SET(Regex_FIND_QUIETLY TRUE)
++ENDIF (REGEX_INCLUDE_DIR AND REGEX_LIBRARIES)
++
++#IF (NOT WIN32)
++#   # use pkg-config to get the directories and then use these values
++#   # in the FIND_PATH() and FIND_LIBRARY() calls
++#   FIND_PACKAGE(PkgConfig)
++#   PKG_CHECK_MODULES(PC_REGEX regex)
++#   SET(REGEX_DEFINITIONS ${PC_REGEX_CFLAGS_OTHER})
++#ENDIF (NOT WIN32)
++
++FIND_PATH(REGEX_INCLUDE_DIR regex.h
++   HINTS
++   ${REGEX_INCLUDEDIR}
++   ${PC_LIBXML_INCLUDE_DIRS}
++   PATH_SUFFIXES regex
++   )
++
++FIND_LIBRARY(REGEX_LIBRARIES NAMES c regex
++   HINTS
++   ${PC_REGEX_LIBDIR}
++   ${PC_REGEX_LIBRARY_DIRS}
++   )
++
++INCLUDE(FindPackageHandleStandardArgs)
++
++# handle the QUIETLY and REQUIRED arguments and set REGEX_FOUND to TRUE if 
++# all listed variables are TRUE
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(Regex DEFAULT_MSG REGEX_LIBRARIES REGEX_INCLUDE_DIR)
++
++MARK_AS_ADVANCED(REGEX_INCLUDE_DIR REGEX_LIBRARIES)
+Index: ossim/CMakeModules/FindSQLITE.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindSQLITE.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,61 @@
++#---
++# File: FindSQLITE.cmake
++#
++# Find the native SQLite includes and libraries.
++#
++# This module defines:
++#
++# SQLITE_INCLUDE_DIR, where to find sqlite3.h, etc.
++# SQLITE_LIBRARY, libraries to link against to use SQLITE.
++# SQLITE_FOUND, True if found, false if one of the above are not found.
++# 
++# For ossim, typically SQLite will be system installed which should be found; 
++# or found in the ossim 3rd party dependencies directory from a SQLite build 
++# and install.  If the latter it will rely on CMAKE_INCLUDE_PATH and 
++# CMAKE_LIBRARY_PATH having the path to the party dependencies directory.
++# 
++# $Id$
++#---
++
++#---
++# Find include path:
++#---
++find_path( SQLITE_INCLUDE_DIR sqlite3.h
++           PATHS 
++           /usr/include
++           /usr/local/include )
++
++# Find SQLITE library:
++find_library( SQLITE_LIB NAMES sqlite3
++              PATHS 
++              /usr/lib64 
++              /usr/lib 
++              /usr/local/lib )
++
++# Set the SQLITE_LIBRARY:
++if( SQLITE_LIB )
++   set( SQLITE_LIBRARY ${SQLITE_LIB} CACHE STRING INTERNAL )
++endif(SQLITE_LIB )
++
++#---
++# This function sets SQLITE_FOUND if variables are valid.
++#--- 
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args( SQLITE DEFAULT_MSG 
++                                   SQLITE_LIBRARY 
++                                   SQLITE_INCLUDE_DIR )
++
++if( SQLITE_FOUND )
++   if( NOT SQLITE_FIND_QUIETLY )
++      message( STATUS "Found SQLITE..." )
++   endif( NOT SQLITE_FIND_QUIETLY )
++else( SQLITE_FOUND )
++   if( NOT SQLITE_FIND_QUIETLY )
++      message( WARNING "Could not find SQLITE" )
++   endif( NOT SQLITE_FIND_QUIETLY )
++endif( SQLITE_FOUND )
++
++if( NOT SQLITE_FIND_QUIETLY )
++   message( STATUS "SQLITE_INCLUDE_DIR=${SQLITE_INCLUDE_DIR}" )
++   message( STATUS "SQLITE_LIBRARY=${SQLITE_LIBRARY}" )
++endif( NOT SQLITE_FIND_QUIETLY )
+Index: ossim/CMakeModules/FindStlPort.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindStlPort.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,26 @@
++#---
++# $Id: FindStlPort.cmake 21190 2012-06-29 19:54:24Z dburken $
++#
++# Find the stlport includes and library
++# 
++# This module defines:
++#  STLPORT_INCLUDE_DIR, where to find iostream, string, etc.
++#  STLPORT_LIBRARIES, libraries to link against to use StlPort.
++#  STLPORT_FOUND, If false, do not try to use STLPORT.
++#---
++
++FIND_PATH(STLPORT_INCLUDE_DIR iostream PATHS C:/STLport-5.2.1/stlport D:/STLport-5.2.1/stlport)
++
++SET(STLPORT_NAMES ${STLPORT_NAMES} stlport5.2.lib)
++FIND_LIBRARY(STLPORT_LIBRARY NAMES ${STLPORT_NAMES} )
++
++# handle the QUIETLY and REQUIRED arguments and set STLPORT_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(STLPORT  DEFAULT_MSG  STLPORT_LIBRARY  STLPORT_INCLUDE_DIR)
++
++IF(STLPORT_FOUND)
++  SET( STLPORT_LIBRARIES ${STLPORT_LIBRARY} )
++ENDIF(STLPORT_FOUND)
++
++MARK_AS_ADVANCED(STLPORT_INCLUDE_DIR STLPORT_LIBRARY)
+Index: ossim/CMakeModules/FindSubversion.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindSubversion.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,148 @@
++# - Extract information from a subversion working copy
++# The module defines the following variables:
++#  Subversion_SVN_EXECUTABLE - path to svn command line client
++#  Subversion_VERSION_SVN - version of svn command line client
++#  Subversion_FOUND - true if the command line client was found
++#  SUBVERSION_FOUND - same as Subversion_FOUND, set for compatiblity reasons
++#
++# The minimum required version of Subversion can be specified using the
++# standard syntax, e.g. FIND_PACKAGE(Subversion 1.4)
++#
++# If the command line client executable is found two macros are defined:
++#  Subversion_WC_INFO(<dir> <var-prefix>)
++#  Subversion_WC_LOG(<dir> <var-prefix>)
++# Subversion_WC_INFO extracts information of a subversion working copy at
++# a given location. This macro defines the following variables:
++#  <var-prefix>_WC_URL - url of the repository (at <dir>)
++#  <var-prefix>_WC_ROOT - root url of the repository
++#  <var-prefix>_WC_REVISION - current revision
++#  <var-prefix>_WC_LAST_CHANGED_AUTHOR - author of last commit
++#  <var-prefix>_WC_LAST_CHANGED_DATE - date of last commit
++#  <var-prefix>_WC_LAST_CHANGED_REV - revision of last commit
++#  <var-prefix>_WC_INFO - output of command `svn info <dir>'
++# Subversion_WC_LOG retrieves the log message of the base revision of a
++# subversion working copy at a given location. This macro defines the
++# variable:
++#  <var-prefix>_LAST_CHANGED_LOG - last log of base revision
++# Example usage:
++#  FIND_PACKAGE(Subversion)
++#  IF(SUBVERSION_FOUND)
++#    Subversion_WC_INFO(${PROJECT_SOURCE_DIR} Project)
++#    MESSAGE("Current revision is ${Project_WC_REVISION}")
++#    Subversion_WC_LOG(${PROJECT_SOURCE_DIR} Project)
++#    MESSAGE("Last changed log is ${Project_LAST_CHANGED_LOG}")
++#  ENDIF(SUBVERSION_FOUND)
++#
++# History (yyyymmdd):
++# 20121002 - Modified to "continue on" if svn is not found. (drb) 
++#
++#=============================================================================
++# Copyright 2006-2009 Kitware, Inc.
++# Copyright 2006 Tristan Carel
++#
++# Distributed under the OSI-approved BSD License (the "License");
++# see accompanying file Copyright.txt for details.
++#
++# This software is distributed WITHOUT ANY WARRANTY; without even the
++# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the License for more information.
++#=============================================================================
++# (To distribute this file outside of CMake, substitute the full
++#  License text for the above reference.)
++
++FIND_PROGRAM(Subversion_SVN_EXECUTABLE svn
++  DOC "subversion command line client")
++MARK_AS_ADVANCED(Subversion_SVN_EXECUTABLE)
++
++IF(Subversion_SVN_EXECUTABLE)
++  # the subversion commands should be executed with the C locale, otherwise
++  # the message (which are parsed) may be translated, Alex
++  SET(_Subversion_SAVED_LC_ALL "$ENV{LC_ALL}")
++  SET(ENV{LC_ALL} C)
++
++  EXECUTE_PROCESS(COMMAND ${Subversion_SVN_EXECUTABLE} --version
++    OUTPUT_VARIABLE Subversion_VERSION_SVN
++    OUTPUT_STRIP_TRAILING_WHITESPACE)
++
++  # restore the previous LC_ALL
++  SET(ENV{LC_ALL} ${_Subversion_SAVED_LC_ALL})
++
++  STRING(REGEX REPLACE "^(.*\n)?svn, version ([.0-9]+).*"
++    "\\2" Subversion_VERSION_SVN "${Subversion_VERSION_SVN}")
++
++  MACRO(Subversion_WC_INFO dir prefix)
++    # the subversion commands should be executed with the C locale, otherwise
++    # the message (which are parsed) may be translated, Alex
++    SET(_Subversion_SAVED_LC_ALL "$ENV{LC_ALL}")
++    SET(ENV{LC_ALL} C)
++
++    EXECUTE_PROCESS(COMMAND ${Subversion_SVN_EXECUTABLE} info ${dir}
++      OUTPUT_VARIABLE ${prefix}_WC_INFO
++      ERROR_VARIABLE Subversion_svn_info_error
++      RESULT_VARIABLE Subversion_svn_info_result
++      OUTPUT_STRIP_TRAILING_WHITESPACE)
++
++    IF(NOT ${Subversion_svn_info_result} EQUAL 0)
++      MESSAGE(WARNING "Command \"${Subversion_SVN_EXECUTABLE} info ${dir}\" failed with output:\n${Subversion_svn_info_error}")
++    ELSE(NOT ${Subversion_svn_info_result} EQUAL 0)
++
++      STRING(REGEX REPLACE "^(.*\n)?URL: ([^\n]+).*"
++        "\\2" ${prefix}_WC_URL "${${prefix}_WC_INFO}")
++      STRING(REGEX REPLACE "^(.*\n)?Repository Root: ([^\n]+).*"
++        "\\2" ${prefix}_WC_ROOT "${${prefix}_WC_INFO}")
++      STRING(REGEX REPLACE "^(.*\n)?Revision: ([^\n]+).*"
++        "\\2" ${prefix}_WC_REVISION "${${prefix}_WC_INFO}")
++      STRING(REGEX REPLACE "^(.*\n)?Last Changed Author: ([^\n]+).*"
++        "\\2" ${prefix}_WC_LAST_CHANGED_AUTHOR "${${prefix}_WC_INFO}")
++      STRING(REGEX REPLACE "^(.*\n)?Last Changed Rev: ([^\n]+).*"
++        "\\2" ${prefix}_WC_LAST_CHANGED_REV "${${prefix}_WC_INFO}")
++      STRING(REGEX REPLACE "^(.*\n)?Last Changed Date: ([^\n]+).*"
++        "\\2" ${prefix}_WC_LAST_CHANGED_DATE "${${prefix}_WC_INFO}")
++
++    ENDIF(NOT ${Subversion_svn_info_result} EQUAL 0)
++
++    # restore the previous LC_ALL
++    SET(ENV{LC_ALL} ${_Subversion_SAVED_LC_ALL})
++
++  ENDMACRO(Subversion_WC_INFO)
++
++  MACRO(Subversion_WC_LOG dir prefix)
++    # This macro can block if the certificate is not signed:
++    # svn ask you to accept the certificate and wait for your answer
++    # This macro requires a svn server network access (Internet most of the time)
++    # and can also be slow since it access the svn server
++    EXECUTE_PROCESS(COMMAND
++      ${Subversion_SVN_EXECUTABLE} --non-interactive log -r BASE ${dir}
++      OUTPUT_VARIABLE ${prefix}_LAST_CHANGED_LOG
++      ERROR_VARIABLE Subversion_svn_log_error
++      RESULT_VARIABLE Subversion_svn_log_result
++      OUTPUT_STRIP_TRAILING_WHITESPACE)
++
++    IF(NOT ${Subversion_svn_log_result} EQUAL 0)
++      MESSAGE(SEND_ERROR "Command \"${Subversion_SVN_EXECUTABLE} log -r BASE ${dir}\" failed with output:\n${Subversion_svn_log_error}")
++    ENDIF(NOT ${Subversion_svn_log_result} EQUAL 0)
++  ENDMACRO(Subversion_WC_LOG)
++
++ENDIF(Subversion_SVN_EXECUTABLE)
++
++#---
++# This function sets GEOS_FOUND if variables are valid.
++#--- 	
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args( SUBVERSION DEFAULT_MSG
++                                   Subversion_SVN_EXECUTABLE 
++                                   Subversion_VERSION_SVN )
++
++if( SUBVERSION_FOUND )
++   if( NOT SUBVERSION_FIND_QUIETLY )
++      message( STATUS "Found SUBVERSION..." )
++   endif( NOT SUBVERSION_FIND_QUIETLY )
++else( SUBVERSION_FOUND )
++   if( NOT SUBVERSION_FIND_QUIETLY )
++      message( WARNING "Could not find SUBVERSION" )
++   endif( NOT SUBVERSION_FIND_QUIETLY )
++endif( SUBVERSION_FOUND )
++
++if( NOT SUBVERSION_FIND_QUIETLY )
++   message( STATUS "Subversion_VERSION_SVN=${Subversion_VERSION_SVN}" )
++endif( NOT SUBVERSION_FIND_QUIETLY )
+Index: ossim/CMakeModules/FindTIFF.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindTIFF.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,41 @@
++# - Find TIFF library
++# Find the native TIFF includes and library
++# This module defines
++#  TIFF_INCLUDE_DIR, where to find tiff.h, etc.
++#  TIFF_LIBRARIES, libraries to link against to use TIFF.
++#  TIFF_FOUND, If false, do not try to use TIFF.
++# also defined, but not for general use are
++#  TIFF_LIBRARY, where to find the TIFF library.
++
++#=============================================================================
++# Copyright 2002-2009 Kitware, Inc.
++#
++# Distributed under the OSI-approved BSD License (the "License");
++# see accompanying file Copyright.txt for details.
++#
++# This software is distributed WITHOUT ANY WARRANTY; without even the
++# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the License for more information.
++#=============================================================================
++# (To distribute this file outside of CMake, substitute the full
++#  License text for the above reference.)
++
++FIND_PATH(TIFF_INCLUDE_DIR tiff.h)
++
++SET(TIFF_NAMES ${TIFF_NAMES} tiff libtiff_i libtiff tiff3 libtiff3)
++
++# Added x86_64-linux-gnu path for Ubuntu install
++FIND_LIBRARY(TIFF_LIBRARY 
++             NAMES ${TIFF_NAMES} 
++             PATHS /usr/lib /usr/lib/x86_64-linux-gnu)
++
++# handle the QUIETLY and REQUIRED arguments and set TIFF_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(TIFF  DEFAULT_MSG  TIFF_LIBRARY  TIFF_INCLUDE_DIR)
++
++IF(TIFF_FOUND)
++  SET( TIFF_LIBRARIES ${TIFF_LIBRARY} )
++ENDIF(TIFF_FOUND)
++
++MARK_AS_ADVANCED(TIFF_INCLUDE_DIR TIFF_LIBRARY)
+Index: ossim/CMakeModules/FindWMS.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindWMS.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,48 @@
++# - Find wms library
++# Find the native wms includes and library
++# This module defines
++#  WMS_INCLUDE_DIR, where to find tiff.h, etc.
++#  WMS_LIBRARIES, libraries to link against to use WMS.
++#  WMS_FOUND, If false, do not try to use WMS.
++# also defined, but not for general use are
++#  WMS_LIBRARY, where to find the WMS library.
++SET(CMAKE_FIND_FRAMEWORK "LAST")
++FIND_PATH(WMS_INCLUDE_DIR wms/wms.h
++	HINTS 
++		$ENV{OSSIM_DEV_HOME}/libwms/include
++		$ENV{OSSIM_DEV_HOME}/libwms/lib
++		$ENV{OSSIM_INSTALL_PREFIX}/include
++	PATHS
++		$ENV{OSSIM_DEV_HOME}/libwms
++		$ENV{OSSIM_INSTALL_PREFIX}
++    	PATH_SUFFIXES 
++		lib
++		include
++
++)
++
++SET(WMS_NAMES ${WMS_NAMES} wms libwms)
++FIND_LIBRARY(WMS_LIBRARY NAMES ${WMS_NAMES} 
++	HINTS 
++		$ENV{OSSIM_DEV_HOME}/liwms/lib
++		$ENV{OSSIM_DEV_HOME}/libwms
++		$ENV{OSSIM_INSTALL_PREFIX}
++	PATHS
++		$ENV{OSSIM_DEV_HOME}/libwms/lib
++		$ENV{OSSIM_DEV_HOME}/libwms
++		$ENV{OSSIM_INSTALL_PREFIX}
++    	PATH_SUFFIXES 
++		lib
++		Frameworks
++)
++
++# handle the QUIETLY and REQUIRED arguments and set WMS_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(WMS  DEFAULT_MSG  WMS_LIBRARY  WMS_INCLUDE_DIR)
++
++IF(WMS_FOUND)
++  SET( WMS_LIBRARIES ${WMS_LIBRARY} )
++ENDIF(WMS_FOUND)
++
++MARK_AS_ADVANCED(WMS_INCLUDE_DIR WMS_LIBRARY)
+Index: ossim/CMakeModules/FindcsmApi.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindcsmApi.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,46 @@
++# - Find csmApi library
++# Find the native csmApi includes and library
++# This module defines
++#  CSMAPI_INCLUDE_DIRS, where to find cam api headers, etc.
++#  CSMAPI_LIBRARIES, libraries to link against to use csmApi.
++#  CSMAPI_FOUND, If false, do not try to use csmApi.
++# also defined, but not for general use are
++#  CSMAPI_LIBRARY, where to find the CSMAPI library.
++SET(CMAKE_FIND_FRAMEWORK "LAST")
++FIND_PATH(CSMAPI_INCLUDE_DIRS SMManager.h
++	HINTS 
++		$ENV{OSSIM_DEV_HOME}/csmApi/include
++		$ENV{OSSIM_DEV_HOME}/csmApi/include/TSM
++		$ENV{OSSIM_DEV_HOME}/csmApi/lib
++		$ENV{OSSIM_INSTALL_PREFIX}/include
++	PATHS
++		$ENV{OSSIM_DEV_HOME}/csmApi/include
++		$ENV{OSSIM_DEV_HOME}/csmApi/include/TSM
++		$ENV{OSSIM_INSTALL_PREFIX}
++    	PATH_SUFFIXES 
++		lib
++		include
++)
++
++SET(CSMAPI_NAMES ${CSMAPI_NAMES} csmApi libcsmApi)
++FIND_LIBRARY(CSMAPI_LIBRARY NAMES ${CSMAPI_NAMES}
++	HINTS 
++		$ENV{OSSIM_DEV_HOME}/csmApi/lib
++	PATHS
++		$ENV{OSSIM_DEV_HOME}/csmApi/lib
++		$ENV{OSSIM_INSTALL_PREFIX}
++    	PATH_SUFFIXES 
++		lib
++		Frameworks
++)
++
++# handle the QUIETLY and REQUIRED arguments and set CSMAPI_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(CSMAPI  DEFAULT_MSG  CSMAPI_LIBRARY  CSMAPI_INCLUDE_DIR)
++
++IF(CSMAPI_FOUND)
++  SET( CSMAPI_LIBRARIES ${CSMAPI_LIBRARY} )
++  SET(CSMAPI_INCLUDE_DIRS ${CSMAPI_INCLUDE_DIRS} ${CSMAPI_INCLUDE_DIRS}/TSM)
++ENDIF(CSMAPI_FOUND)
++MARK_AS_ADVANCED(CSMAPI_INCLUDE_DIRS CSMAPI_LIBRARY)
+Index: ossim/CMakeModules/Findossim.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/Findossim.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,68 @@
++#---
++# File: FindOSSIM.cmake
++#
++# Find OSSIM(Open Source Software Image Map) includes and libraries.
++#
++# This module defines:
++# 
++#  OSSIM_INCLUDE_DIR, Where to find ossimVersion.h, etc.
++#  OSSIM_LIBRARIES, Libraries to link against to use OSSIM.
++#  OSSIM_FOUND,  True if found, false if one of the above are not found.
++# also defined, but not for general use are
++#  OSSIM_LIBRARY, where to find the OSSIM library.
++#---
++
++#---
++# Find include path:
++#---
++set(CMAKE_FIND_FRAMEWORK "LAST")
++find_path(OSSIM_INCLUDE_DIR ossim/ossimVersion.h ossimVersion.h
++   PATHS
++      $ENV{OSSIM_DEV_HOME}/ossim/include
++      $ENV{OSSIM_DEV_HOME}/ossim/latest/include
++      $ENV{OSSIM_INSTALL_PREFIX}/include
++      $ENV{OSSIM_DEV_HOME}/ossim
++      $ENV{OSSIM_INSTALL_PREFIX}
++   PATH_SUFFIXES 
++      include
++      lib
++)
++
++set(OSSIM_NAMES ${OSSIM_NAMES} ossim libossim)
++find_library(OSSIM_LIBRARY NAMES ${OSSIM_NAMES}
++   PATHS
++      $ENV{OSSIM_INSTALL_PREFIX}/lib${LIBSUFFIX}
++      $ENV{OSSIM_BUILD_DIR}/build_ossim/lib${LIBSUFFIX}
++      $ENV{OSSIM_BUILD_DIR}/lib${LIBSUFFIX}
++      $ENV{OSSIM_DEV_HOME}/build/build_ossim/lib${LIBSUFFIX}
++      $ENV{OSSIM_DEV_HOME}/build/lib${LIBSUFFIX}
++      $ENV{OSSIM_DEV_HOME}/ossim/lib${LIBSUFFIX}
++      $ENV{OSSIM_INSTALL_PREFIX}
++   PATH_SUFFIXES 
++      lib
++      Frameworks
++)
++
++#---
++# This function sets OSSIM_FOUND if variables are valid.
++#--- 
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args( OSSIM DEFAULT_MSG 
++                                   OSSIM_LIBRARY 
++                                   OSSIM_INCLUDE_DIR )
++
++if(OSSIM_FOUND)
++   set( OSSIM_LIBRARIES ${OSSIM_LIBRARY} )
++   set( OSSIM_INCLUDES  ${OSSIM_INCLUDE_DIR} )
++else( OSSIM_FOUND )
++   if( NOT OSSIM_FIND_QUIETLY )
++      message( WARNING "Could not find OSSIM" )
++   endif( NOT OSSIM_FIND_QUIETLY )
++endif(OSSIM_FOUND)
++
++if( NOT OSSIM_FIND_QUIETLY )
++   message( STATUS "OSSIM_INCLUDE_DIR=${OSSIM_INCLUDE_DIR}" )
++   message( STATUS "OSSIM_LIBRARY=${OSSIM_LIBRARY}" )
++endif( NOT OSSIM_FIND_QUIETLY )
++
++MARK_AS_ADVANCED(OSSIM_INCLUDES OSSIM_INCLUDE_DIR OSSIM_LIBRARY)
+Index: ossim/CMakeModules/FindossimPlanet.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindossimPlanet.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,44 @@
++# - Find ossimPlanet library
++# Find the native ossimPlanet includes and library
++# This module defines
++#  OSSIMPLANET_INCLUDE_DIR, where to find tiff.h, etc.
++#  OSSIMPLANET_LIBRARIES, libraries to link against to use OSSIM.
++#  OSSIMPLANET_FOUND, If false, do not try to use OSSIM.
++# also defined, but not for general use are
++#  OSSIMPLANET_LIBRARY, where to find the OSSIM library.
++SET(CMAKE_FIND_FRAMEWORK "LAST")
++FIND_PATH(OSSIMPLANET_INCLUDE_DIR ossimPlanet/ossimPlanetExport.h ossimPlanetExport.h
++	HINTS 
++		$ENV{OSSIM_DEV_HOME}/ossimPlanet/include
++		$ENV{OSSIM_DEV_HOME}/ossimPlanet/lib
++		$ENV{OSSIM_INSTALL_PREFIX}/include
++	PATHS
++		$ENV{OSSIM_DEV_HOME}/ossimPlanet
++		$ENV{OSSIM_INSTALL_PREFIX}
++    	PATH_SUFFIXES 
++		lib
++		include
++)
++
++SET(OSSIMPLANET_NAMES ${OSSIMPLANET_NAMES} ossimPlanet )
++FIND_LIBRARY(OSSIMPLANET_LIBRARY NAMES ${OSSIMPLANET_NAMES}
++	HINTS 
++		$ENV{OSSIM_DEV_HOME}/ossimPlanet/lib
++	PATHS
++		$ENV{OSSIM_DEV_HOME}/ossimPlanet/lib
++		$ENV{OSSIM_INSTALL_PREFIX}
++    	PATH_SUFFIXES 
++		lib
++		Frameworks
++)
++
++# handle the QUIETLY and REQUIRED arguments and set OSSIMPLANET_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(OSSIMPLANET  DEFAULT_MSG  OSSIMPLANET_LIBRARY  OSSIMPLANET_INCLUDE_DIR)
++
++IF(OSSIMPLANET_FOUND)
++  SET( OSSIMPLANET_LIBRARIES ${OSSIMPLANET_LIBRARY} )
++ENDIF(OSSIMPLANET_FOUND)
++
++MARK_AS_ADVANCED(OSSIMPLANET_INCLUDE_DIR OSSIMPLANET_LIBRARY)
+Index: ossim/CMakeModules/FindossimPredator.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/FindossimPredator.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,44 @@
++# - Find ossimPredator library
++# Find the native ossimPredator includes and library
++# This module defines
++#  OSSIMPREDATOR_INCLUDE_DIR, where to find tiff.h, etc.
++#  OSSIMPREDATOR_LIBRARIES, libraries to link against to use ossimPredator.
++#  OSSIMPREDATOR_FOUND, If false, do not try to use ossimPredator.
++# also defined, but not for general use are
++#  OSSIMPREDATOR_LIBRARY, where to find the ossimPredator library.
++SET(CMAKE_FIND_FRAMEWORK "LAST")
++FIND_PATH(OSSIMPREDATOR_INCLUDE_DIR ossimPredator/ossimPredatorExport.h
++	HINTS 
++		$ENV{OSSIM_DEV_HOME}/ossimPredator/include
++		$ENV{OSSIM_DEV_HOME}/ossimPredator/lib
++		$ENV{OSSIM_INSTALL_PREFIX}/include
++	PATHS
++		$ENV{OSSIM_DEV_HOME}/ossim
++		$ENV{OSSIM_INSTALL_PREFIX}
++    	PATH_SUFFIXES 
++		lib
++		include
++)
++SET(OSSIMPREDATOR_NAMES ${OSSIMPREDATOR_NAMES} ossimPredator )
++FIND_LIBRARY(OSSIMPREDATOR_LIBRARY NAMES ${OSSIMPREDATOR_NAMES}
++	HINTS 
++		$ENV{OSSIM_DEV_HOME}/ossimPredator/lib
++	PATHS
++		$ENV{OSSIM_DEV_HOME}/ossimPredator/lib
++		$ENV{OSSIM_INSTALL_PREFIX}
++    	PATH_SUFFIXES 
++		lib
++		Frameworks
++)
++
++# handle the QUIETLY and REQUIRED arguments and set OSSIMPREDATOR_FOUND to TRUE if 
++# all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(OSSIMPREDATOR  DEFAULT_MSG  OSSIMPREDATOR_LIBRARY  OSSIMPREDATOR_INCLUDE_DIR)
++
++IF(OSSIMPREDATOR_FOUND)
++  SET( OSSIMPREDATOR_LIBRARIES ${OSSIMPREDATOR_LIBRARY} )
++  SET( OSSIMPREDATOR_INCLUDES ${OSSIMPREDATOR_INCLUDE_DIR} )
++ENDIF(OSSIMPREDATOR_FOUND)
++
++MARK_AS_ADVANCED(OSSIMPREDATOR_INCLUDE_DIR OSSIMPREDATOR_LIBRARY)
+Index: ossim/CMakeModules/OssimCPack.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/OssimCPack.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,156 @@
++# This script sets up packaging targets for each "COMPONENT" as specified in INSTALL commands
++#
++# for each component a CPackConfig-<component>.cmake is generated in the build tree
++# and a target is added to call cpack for it (e.g. package_ossim
++# A target for generating a package with everything that gets INSTALLED is generated (package_ossim-all)
++# A target for making all of the above packages is generated (package_ALL)
++#
++# package filenames are created on the form <package>-<platform>-<arch>[-<compiler>]-<build_type>[-static].tgz
++# ...where compiler optionally set using a cmake gui (OSSIM_CPACK_COMPILER). This script tries to guess compiler version for msvc generators
++# ...build_type matches CMAKE_BUILD_TYPE for all generators but the msvc ones
++
++# resolve architecture. The reason i "change" i686 to i386 is that debian packages
++# require i386 so this is for the future
++IF("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "i686")
++    SET(SYSTEM_ARCH "i386")
++ELSE()
++    SET(SYSTEM_ARCH ${CMAKE_SYSTEM_PROCESSOR})
++ENDIF()
++
++# set a default system name - use CMake setting (Linux|Windows|...)
++SET(SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
++#message(STATUS "CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}")
++#message(STATUS "CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
++
++# for msvc the SYSTEM_NAME is set win32/64 instead of "Windows"
++IF(MSVC)
++    IF(CMAKE_CL_64)
++        SET(SYSTEM_NAME "win64")
++    ELSE()
++        SET(SYSTEM_NAME "win32")
++    ENDIF()
++ENDIF()
++# Guess the compiler (is this desired for other platforms than windows?)
++IF(NOT DEFINED OSSIM_CPACK_COMPILER)
++    INCLUDE(OssimDetermineCompiler)
++ENDIF()
++
++# expose the compiler setting to the user
++SET(OSSIM_CPACK_COMPILER "${OSSIM_COMPILER}" CACHE STRING "This ia short string (vc90, vc80sp1, gcc-4.3, ...) describing your compiler. The string is used for creating package filenames")
++
++IF(OSSIM_CPACK_COMPILER)
++  SET(OSSIM_CPACK_SYSTEM_SPEC_STRING ${SYSTEM_NAME}-${SYSTEM_ARCH}-${OSSIM_CPACK_COMPILER})
++ELSE()
++  SET(OSSIM_CPACK_SYSTEM_SPEC_STRING ${SYSTEM_NAME}-${SYSTEM_ARCH})
++ENDIF()
++
++
++## variables that apply to all packages
++SET(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${OSSIM_VERSION}")
++
++IF(NOT CPACK_GENERATOR)
++   # these goes for all platforms. Setting these stops the CPack.cmake script from generating options about other package compression formats (.z .tz, etc.)
++   IF(WIN32)
++       SET(CPACK_GENERATOR "ZIP")
++       SET(CPACK_SOURCE_GENERATOR "ZIP")
++   ELSEIF(APPLE)
++#       SET(CPACK_GENERATOR "PackageMaker")
++#       SET(CPACK_SOURCE_GENERATOR "PackageMaker")
++       SET(CPACK_GENERATOR "TGZ")
++       SET(CPACK_SOURCE_GENERATOR "TGZ")
++   ELSE()
++       SET(CPACK_GENERATOR "TGZ")
++       SET(CPACK_SOURCE_GENERATOR "TGZ")
++   ENDIF()
++ENDIF(NOT CPACK_GENERATOR)
++
++# for ms visual studio we use it's internally defined variable to get the configuration (debug,release, ...) 
++IF(MSVC_IDE)
++    SET(OSSIM_CPACK_CONFIGURATION "$(OutDir)")
++    SET(PACKAGE_TARGET_PREFIX "Package ")
++ELSE()
++    # on un*x an empty CMAKE_BUILD_TYPE means release
++    IF(CMAKE_BUILD_TYPE)
++        SET(OSSIM_CPACK_CONFIGURATION ${CMAKE_BUILD_TYPE})
++    ELSE()
++        SET(OSSIM_CPACK_CONFIGURATION "Release")
++    ENDIF()
++    SET(PACKAGE_TARGET_PREFIX "package_")
++ENDIF()
++
++# Get all defined components
++GET_CMAKE_PROPERTY(CPACK_COMPONENTS_ALL COMPONENTS)
++IF(NOT CPACK_COMPONENTS_ALL)
++  # cmake 2.6.0 don't supply the COMPONENTS property.
++  # I set it manually to be the packages that can always be packaged
++  MESSAGE("When building packages please consider using cmake version 2.6.1 or above")
++  SET(CPACK_COMPONENTS_ALL ossim)
++ENDIF()
++
++# Create a target that will be used to generate all packages defined below
++SET(PACKAGE_ALL_TARGETNAME "${PACKAGE_TARGET_PREFIX}ALL")
++ADD_CUSTOM_TARGET(${PACKAGE_ALL_TARGETNAME})
++
++MACRO(GENERATE_PACKAGING_TARGET package_name)
++    SET(CPACK_PACKAGE_NAME ${package_name})
++
++    # the doc packages don't need a system-arch specification
++    IF(${package} MATCHES -doc)
++        SET(OSSIM_PACKAGE_FILE_NAME ${package_name}-${OSSIM_VERSION})
++    ELSE()
++        SET(OSSIM_PACKAGE_FILE_NAME ${package_name}-${OSSIM_VERSION}-${OSSIM_CPACK_SYSTEM_SPEC_STRING}-${OSSIM_CPACK_CONFIGURATION})
++        IF(NOT BUILD_SHARED_LIBS)
++            SET(OSSIM_PACKAGE_FILE_NAME ${OSSIM_PACKAGE_FILE_NAME}-static)
++        ENDIF()
++    ENDIF()
++
++    CONFIGURE_FILE("${${PROJECT_NAME}_SOURCE_DIR}/CMakeModules/OssimCPackConfig.cmake.in" "${${PROJECT_NAME}_BINARY_DIR}/CPackConfig-${package_name}.cmake" IMMEDIATE)
++
++    SET(PACKAGE_TARGETNAME "${PACKAGE_TARGET_PREFIX}${package_name}")
++
++    # This is naive and will probably need fixing eventually
++    IF(MSVC)
++        SET(MOVE_COMMAND "move")
++    ELSE()
++        SET(MOVE_COMMAND "mv")
++    ENDIF()
++    
++    IF(NOT ACHIVE_EXT)
++       # Set in and out archive filenames. Windows = zip, others = tgz
++       IF(WIN32)
++          SET(ARCHIVE_EXT "zip")
++       ELSEIF(APPLE)
++#           SET(ARCHIVE_EXT "dmg")
++           SET(ARCHIVE_EXT "tar.gz")
++      ELSE()
++           SET(ARCHIVE_EXT "tar.gz")
++       ENDIF()
++    ENDIF(NOT ACHIVE_EXT)
++
++    # Create a target that creates the current package
++    # and rename the package to give it proper filename
++    ADD_CUSTOM_TARGET(${PACKAGE_TARGETNAME})
++    ADD_CUSTOM_COMMAND(TARGET ${PACKAGE_TARGETNAME}
++        COMMAND ${CMAKE_CPACK_COMMAND} -C ${OSSIM_CPACK_CONFIGURATION} --config ${${PROJECT_NAME}_BINARY_DIR}/CPackConfig-${package_name}.cmake
++        COMMAND "${MOVE_COMMAND}" "${CPACK_PACKAGE_FILE_NAME}.${ARCHIVE_EXT}" "${OSSIM_PACKAGE_FILE_NAME}.${ARCHIVE_EXT}"
++        COMMAND ${CMAKE_COMMAND} -E echo "renamed ${CPACK_PACKAGE_FILE_NAME}.${ARCHIVE_EXT} -> ${OSSIM_PACKAGE_FILE_NAME}.${ARCHIVE_EXT}"
++        COMMENT "Run CPack packaging for ${package_name}..."
++    )
++    # Add the exact same custom command to the all package generating target. 
++    # I can't use add_dependencies to do this because it would allow parallel building of packages so am going brute here
++    ADD_CUSTOM_COMMAND(TARGET ${PACKAGE_ALL_TARGETNAME}
++        COMMAND ${CMAKE_CPACK_COMMAND} -C ${OSSIM_CPACK_CONFIGURATION} --config ${${PROJECT_NAME}_BINARY_DIR}/CPackConfig-${package_name}.cmake
++        COMMAND "${MOVE_COMMAND}" "${CPACK_PACKAGE_FILE_NAME}.${ARCHIVE_EXT}" "${OSSIM_PACKAGE_FILE_NAME}.${ARCHIVE_EXT}"
++        COMMAND ${CMAKE_COMMAND} -E echo "renamed ${CPACK_PACKAGE_FILE_NAME}.${ARCHIVE_EXT} -> ${OSSIM_PACKAGE_FILE_NAME}.${ARCHIVE_EXT}"
++    )
++ENDMACRO(GENERATE_PACKAGING_TARGET)
++
++# Create configs and targets for a package including all components
++SET(OSSIM_CPACK_COMPONENT ALL)
++GENERATE_PACKAGING_TARGET(ossim-all)
++
++# Create configs and targets for each component
++FOREACH(package ${CPACK_COMPONENTS_ALL})
++    SET(OSSIM_CPACK_COMPONENT ${package})
++    GENERATE_PACKAGING_TARGET(${package})
++ENDFOREACH()
+Index: ossim/CMakeModules/OssimCPackConfig.cmake.in
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/OssimCPackConfig.cmake.in	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,73 @@
++# This file will be configured to contain variables for CPack. These variables
++# should be set in the CMake list file of the project before CPack module is
++# included. Example variables are:
++#   CPACK_GENERATOR                     - Generator used to create package
++#   CPACK_INSTALL_CMAKE_PROJECTS        - For each project (path, name, component)
++#   CPACK_CMAKE_GENERATOR               - CMake Generator used for the projects
++#   CPACK_INSTALL_COMMANDS              - Extra commands to install components
++#   CPACK_INSTALL_DIRECTORIES           - Extra directories to install
++#   CPACK_PACKAGE_DESCRIPTION_FILE      - Description file for the package
++#   CPACK_PACKAGE_DESCRIPTION_SUMMARY   - Summary of the package
++#   CPACK_PACKAGE_EXECUTABLES           - List of pairs of executables and labels
++#   CPACK_PACKAGE_FILE_NAME             - Name of the package generated
++#   CPACK_PACKAGE_ICON                  - Icon used for the package
++#   CPACK_PACKAGE_INSTALL_DIRECTORY     - Name of directory for the installer
++#   CPACK_PACKAGE_NAME                  - Package project name
++#   CPACK_PACKAGE_VENDOR                - Package project vendor
++#   CPACK_PACKAGE_VERSION               - Package project version
++#   CPACK_PACKAGE_VERSION_MAJOR         - Package project version (major)
++#   CPACK_PACKAGE_VERSION_MINOR         - Package project version (minor)
++#   CPACK_PACKAGE_VERSION_PATCH         - Package project version (patch)
++
++# There are certain generator specific ones
++
++# NSIS Generator:
++#   CPACK_PACKAGE_INSTALL_REGISTRY_KEY  - Name of the registry key for the installer
++#   CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS - Extra commands used during uninstall
++#   CPACK_NSIS_EXTRA_INSTALL_COMMANDS   - Extra commands used during install
++
++
++SET(CPACK_BINARY_BUNDLE "${CPACK_BINARY_BUNDLE}")
++SET(CPACK_BINARY_CYGWIN "${CPACK_BINARY_CYGWIN}")
++SET(CPACK_BINARY_DEB "${CPACK_BINARY_DEB}")
++SET(CPACK_BINARY_NSIS "${CPACK_BINARY_NSIS}")
++SET(CPACK_BINARY_OSXX11 "${CPACK_BINARY_OSXX11}")
++SET(CPACK_BINARY_PACKAGEMAKER "${CPACK_BINARY_PACKAGEMAKER}")
++SET(CPACK_BINARY_RPM "${CPACK_BINARY_RPM}")
++SET(CPACK_BINARY_STGZ "${CPACK_BINARY_STGZ}")
++SET(CPACK_BINARY_TBZ2 "${CPACK_BINARY_TBZ2}")
++SET(CPACK_BINARY_TGZ "${CPACK_BINARY_TGZ}")
++SET(CPACK_BINARY_TZ "${CPACK_BINARY_TZ}")
++SET(CPACK_BINARY_ZIP "${CPACK_BINARY_ZIP}")
++SET(CPACK_CMAKE_GENERATOR "${CMAKE_GENERATOR}")
++SET(CPACK_COMPONENTS_ALL "${CPACK_COMPONENTS_ALL}")
++SET(CPACK_COMPONENT_UNSPECIFIED_HIDDEN "TRUE")
++SET(CPACK_COMPONENT_UNSPECIFIED_REQUIRED "TRUE")
++SET(CPACK_GENERATOR "${CPACK_GENERATOR}")
++SET(CPACK_INSTALL_CMAKE_PROJECTS "${${PROJECT_NAME}_BINARY_DIR};ossim;${OSSIM_CPACK_COMPONENT};/")
++SET(CPACK_INSTALL_PREFIX "${CPACK_INSTALL_PREFIX}")
++SET(CPACK_MODULE_PATH "${${PROJECT_NAME}_SOURCE_DIR}/CMakeModules;")
++SET(CPACK_NSIS_DISPLAY_NAME "${CMAKE_PROJECT_NAME} ${OSSIM_VERSION}")
++SET(CPACK_NSIS_INSTALLER_ICON_CODE "")
++SET(CPACK_NSIS_INSTALLER_MUI_ICON_CODE "")
++SET(CPACK_OUTPUT_CONFIG_FILE "${PROJECT_BINARY_DIR}/CPackConfig-${OSSIM_CPACK_COMPONENT}.cmake")
++SET(CPACK_PACKAGE_DEFAULT_LOCATION "/")
++SET(CPACK_PACKAGE_DESCRIPTION_FILE "${${PROJECT_NAME}_SOURCE_DIR}/README.txt")
++SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "OSSIM is an open source high performance sensor modeling and image processing library")
++SET(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}")
++SET(CPACK_PACKAGE_INSTALL_DIRECTORY "${CPACK_PACKAGE_INSTALL_DIRECTORY}")
++SET(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "${CMAKE_PROJECT_NAME}-${OSSIM_VERSION}")
++SET(CPACK_PACKAGE_NAME "${CPACK_PACKAGE_NAME}")
++SET(CPACK_PACKAGE_RELOCATABLE "true")
++SET(CPACK_PACKAGE_VENDOR "OSSIM")
++SET(CPACK_PACKAGE_VERSION "${OSSIM_VERSION}")
++SET(CPACK_PACKAGE_VERSION_MAJOR "${OSSIM_MAJOR_VERSION}")
++SET(CPACK_PACKAGE_VERSION_MINOR "${OSSIM_MINOR_VERSION}")
++SET(CPACK_PACKAGE_VERSION_PATCH "${OSSIM_PATCH_VERSION}")
++SET(CPACK_RESOURCE_FILE_LICENSE "${${PROJECT_NAME}_SOURCE_DIR}/LICENSE.txt")
++SET(CPACK_RESOURCE_FILE_README "${${PROJECT_NAME}_SOURCE_DIR}/README.txt")
++SET(CPACK_RESOURCE_FILE_WELCOME "${${PROJECT_NAME}_SOURCE_DIR}/NEWS.txt")
++SET(CPACK_SET_DESTDIR "OFF")
++SET(CPACK_STRIP_FILES "ON")
++SET(CPACK_RPM_PACKAGE_DEBUG "1")
++SET(CPACK_OSX_PACKAGE_VERSION "10.6")
+Index: ossim/CMakeModules/OssimCommonVariables.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/OssimCommonVariables.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,233 @@
++##################################################################################
++# This currently sets up the options for the WARNING FLAGS for the compiler we are generating for.
++# Currently only have gnu
++##################################################################################
++MACRO(OSSIM_ADD_COMMON_LIBRARY_FLAGS)
++   OPTION(OSSIM_COMPILE_WITH_FULL_WARNING "OSSIM developers : Compilation with FULL warning (use only for ossim developers)." OFF)
++   MARK_AS_ADVANCED(OSSIM_COMPILE_WITH_FULL_WARNING)
++   
++   IF(OSSIM_COMPILE_WITH_FULL_WARNING)
++     IF(CMAKE_COMPILER_IS_GNUCXX)
++       SET(OSSIM_COMMON_COMPILER_FLAGS "${OSSIM_COMMON_COMPILER_FLAGS} -Wall -Wunused  -Wunused-function  -Wunused-label  -Wunused-parameter -Wunused-value -Wunused-variable -Wuninitialized -Wsign-compare -Wparentheses -Wunknown-pragmas -Wswitch" CACHE STRING "List of compilation parameters.")
++     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
++   ENDIF(OSSIM_COMPILE_WITH_FULL_WARNING)
++
++   IF(WIN32)
++      #---
++      # This option is to enable the /MP to compile multiple source files by using 
++      # multiple processes.
++      #---
++      OPTION(WIN32_USE_MP "Set to ON to build OSSIM with the /MP option (Visual Studio 2005 and above)." OFF)
++      MARK_AS_ADVANCED(WIN32_USE_MP)
++      IF(WIN32_USE_MP)
++         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
++      ENDIF(WIN32_USE_MP)
++     
++      set(OSSIM_COMMON_COMPILER_FLAGS "${OSSIM_COMMON_COMPILER_FLAGS} -DNOMINMAX -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE") 
++ 
++      set(DEBUG_BUILD OFF)
++      IF(CMAKE_BUILD_TYPE)
++         string ( COMPARE EQUAL ${CMAKE_BUILD_TYPE} "Debug" DEBUG_BUILD )
++      ENDIF(CMAKE_BUILD_TYPE)
++     
++      ###
++      # Currently must set /FORCE:MULTIPLE for Visual Studio 2010. 29 October 2010 - drb
++      ###
++  
++      IF(MSVC)
++         message("MSVC_VERSION: ${MSVC_VERSION}")
++
++         if( (${MSVC_VERSION} EQUAL 1600) OR (${MSVC_VERSION} EQUAL 1700) )
++            if (DEBUG_BUILD)
++               SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /NODEFAULTLIB:LIBCMTD /NODEFAULTLIB:MSVCRT /FORCE:MULTIPLE")
++            else ( )
++               SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /NODEFAULTLIB:LIBCMTD /FORCE:MULTIPLE")
++            endif (DEBUG_BUILD)
++
++            SET(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /NODEFAULTLIB:LIBCMTD /FORCE:MULTIPLE")
++         else( )
++            SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /NODEFAULTLIB:LIBCMTD")
++         endif( (${MSVC_VERSION} EQUAL 1600) OR (${MSVC_VERSION} EQUAL 1700) )
++      ENDIF(MSVC)
++   ENDIF(WIN32)
++   
++   OPTION(OSSIM_ADD_FPIC "Compilation with FPIC flag if static library.  The default is on since we have plugins that need to be shared." ON)
++   MARK_AS_ADVANCED(OSSIM_ADD_FPIC)
++   IF(OSSIM_ADD_FPIC)
++       IF(UNIX AND NOT BUILD_SHARED_LIBS)
++          STRING(REGEX MATCH "fPIC" REG_MATCHED "${OSSIM_COMMON_COMPILER_FLAGS}")
++          if(NOT REG_MATCHED)
++             set(OSSIM_COMMON_COMPILER_FLAGS "${OSSIM_COMMON_COMPILER_FLAGS} -fPIC")
++          endif(NOT REG_MATCHED)
++       ENDIF(UNIX AND NOT BUILD_SHARED_LIBS)
++   ENDIF(OSSIM_ADD_FPIC)
++
++   MARK_AS_ADVANCED(OSSIM_COMMON_COMPILER_FLAGS)
++ENDMACRO(OSSIM_ADD_COMMON_LIBRARY_FLAGS)
++
++MACRO(OSSIM_ADD_COMMON_SETTINGS)
++   ###################################################################################
++   # Set defaults for Universal Binaries. We want 32-bit Intel/PPC on 10.4
++   # and 32/64-bit Intel/PPC on >= 10.5. Anything <= 10.3 doesn't support.
++   # These are just defaults/recommendations, but how we want to build
++   # out of the box. But the user needs to be able to change these options.
++   # So we must only set the values the first time CMake is run, or we
++   # will overwrite any changes the user sets.
++   # FORCE is used because the options are not reflected in the UI otherwise.
++   # Seems like a good place to add version specific compiler flags too.
++   ###################################################################################
++   IF(APPLE)
++        SET(TEMP_CMAKE_OSX_ARCHITECTURES "")
++        SET(CMAKE_OSX_SYSROOT "${CMAKE_OSX_SYSROOT}")
++        # This is really fragile, but CMake doesn't provide the OS system
++        # version information we need. (Darwin versions can be changed
++        # independently of OS X versions.)
++        # It does look like CMake handles the CMAKE_OSX_SYSROOT automatically.
++        IF(EXISTS /Developer/SDKs/MacOSX10.6.sdk)
++            SET(TEMP_CMAKE_OSX_ARCHITECTURES "i386;x86_64")
++            IF(NOT ("${CMAKE_CXX_FLAGS}" MATCHES "mmacosx-version-min"))
++               SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=10.5 -ftree-vectorize -fvisibility-inlines-hidden" CACHE STRING "Flags used by the compiler during all build types.")
++            ENDIF()
++        ELSEIF(EXISTS /Developer/SDKs/MacOSX10.5.sdk)
++            # 64-bit compiles are not supported with Carbon. We should enable 
++            SET(TEMP_CMAKE_OSX_ARCHITECTURES "i386;x86_64")
++            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=10.5 -ftree-vectorize -fvisibility-inlines-hidden" CACHE STRING "Flags used by the compiler during all build types.")
++        ELSEIF(EXISTS /Developer/SDKs/MacOSX10.4u.sdk)
++            SET(TEMP_CMAKE_OSX_ARCHITECTURES "i386;ppc")
++            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=10.4 -ftree-vectorize -fvisibility-inlines-hidden" CACHE STRING "Flags used by the compiler during all build types.")
++        ELSE()
++            # No Universal Binary support
++            # Should break down further to set the -mmacosx-version-min,
++            # but the SDK detection is too unreliable here.
++        ENDIF()
++        IF(NOT CMAKE_OSX_ARCHITECTURES)
++           SET(CMAKE_OSX_ARCHITECTURES "${TEMP_CMAKE_OSX_ARCHITECTURES}" CACHE STRING "Build architectures for OSX" FORCE)
++        ENDIF()
++        OPTION(OSSIM_BUILD_APPLICATION_BUNDLES "Enable the building of applications and examples as OSX Bundles" OFF)
++        
++       MARK_AS_ADVANCED(CMAKE_OSX_ARCHITECTURES)
++       MARK_AS_ADVANCED(CMAKE_CXX_FLAGS)
++       MARK_AS_ADVANCED(CMAKE_OSX_SYSROOT)
++       MARK_AS_ADVANCED(OSSIM_BUILD_APPLICATION_BUNDLES)
++   ENDIF(APPLE)
++
++  SET(MAKE_APPENDS_BUILD_TYPE "NO")
++  IF(CMAKE_GENERATOR)
++     STRING(TOUPPER ${CMAKE_GENERATOR} CMAKE_GENERATOR_TEST_UPPER)
++     STRING(COMPARE EQUAL "${CMAKE_GENERATOR_TEST_UPPER}" "XCODE" CMAKE_GENERATOR_TEST)
++     IF(CMAKE_GENERATOR_TEST)
++          SET(MAKE_APPENDS_BUILD_TYPE "YES")
++     ELSE()
++          STRING(COMPARE NOTEQUAL "." "${CMAKE_CFG_INTDIR}" CMAKE_GENERATOR_TEST)
++          IF(CMAKE_GENERATOR_TEST)
++             SET(MAKE_APPENDS_BUILD_TYPE "YES")
++          ENDIF()
++     ENDIF()
++  ENDIF(CMAKE_GENERATOR)
++   OSSIM_ADD_COMMON_LIBRARY_FLAGS()
++
++   # Dynamic vs Static Linking
++   OPTION(BUILD_SHARED_LIBS "Set to ON to build OSSIM for dynamic linking.  Use OFF for static." ON)
++   OPTION(BUILD_OSSIM_FRAMEWORKS "Set to ON to build OSSIM for framework if BUILD_SHARED_LIBS is on.  Use OFF for dylib if BUILD_SHARED_LIBS is on." ON)
++   IF(BUILD_SHARED_LIBS)
++       SET(OSSIM_USER_DEFINED_DYNAMIC_OR_STATIC "SHARED")
++   ELSE ()
++       SET(OSSIM_USER_DEFINED_DYNAMIC_OR_STATIC "STATIC")
++   ENDIF()
++
++#   IF(NOT OSSIM_LIBRARY_BUILD_OUTPUT_DIRECTORY)  
++#      SET(OSSIM_LIBRARY_BUILD_OUTPUT_DIRECTORY ${${PROJECT_NAME}_SOURCE_DIR}/lib)
++#   ENDIF(NOT OSSIM_LIBRARY_BUILD_OUTPUT_DIRECTORY)  
++#   IF(NOT OSSIM_RUNTIME_BUILD_OUTPUT_DIRECTORY)  
++#      SET(OSSIM_RUNTIME_BUILD_OUTPUT_DIRECTORY ${${PROJECT_NAME}_SOURCE_DIR}/bin)
++#   ENDIF(NOT OSSIM_RUNTIME_BUILD_OUTPUT_DIRECTORY)  
++
++   IF(MAKE_APPENDS_BUILD_TYPE)
++      SET(BUILD_FRAMEWORK_DIR "")
++      SET(BUILD_RUNTIME_DIR   "")
++      SET(BUILD_LIBRARY_DIR   "")
++      SET(BUILD_ARCHIVE_DIR   "")
++      SET(BUILD_INCLUDE_DIR   "include")
++   ELSE()
++      IF(NOT DEFINED BUILD_FRAMEWORK_DIR)
++         SET(BUILD_FRAMEWORK_DIR "${CMAKE_BUILD_TYPE}")
++      ENDIF()
++      IF(NOT DEFINED BUILD_RUNTIME_DIR)
++         SET(BUILD_RUNTIME_DIR   "${CMAKE_BUILD_TYPE}")
++      ENDIF()
++      IF(NOT DEFINED BUILD_LIBRARY_DIR)  
++         SET(BUILD_LIBRARY_DIR   "${CMAKE_BUILD_TYPE}")
++      ENDIF()
++      IF(NOT DEFINED BUILD_ARCHIVE_DIR)
++         SET(BUILD_ARCHIVE_DIR   "${CMAKE_BUILD_TYPE}")
++      ENDIF()
++      IF(NOT DEFINED BUILD_INCLUDE_DIR)
++         SET(BUILD_INCLUDE_DIR   "include")
++      ENDIF()
++   ENDIF()
++
++   SET(INSTALL_FRAMEWORK_DIR "Frameworks")
++   SET(INSTALL_RUNTIME_DIR   "bin")
++   SET(INSTALL_INCLUDE_DIR   "include")
++
++   # Libraries and archives go to lib or lib64.
++   get_property(LIB64 GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS)       
++   if(LIB64)
++      set(LIBSUFFIX 64)
++   else()
++      set(LIBSUFFIX "")
++   endif()   
++   set(INSTALL_LIBRARY_DIR lib${LIBSUFFIX} CACHE PATH "Installation directory for libraries")
++   set(INSTALL_ARCHIVE_DIR lib${LIBSUFFIX} CACHE PATH "Installation directory for archive")
++   mark_as_advanced(LIBSUFFIX)
++   mark_as_advanced(INSTALL_LIBRARY_DIR)
++   mark_as_advanced(INSTALL_ARCHIVE_DIR)
++   
++   IF(WIN32)
++       IF(NOT DEFINED CMAKE_DEBUG_POSTFIX)
++          SET(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Debug variable used to add the postfix to dll's and exe's.  Defaults to 'd' on WIN32 builds and empty on all other platforms" FORCE)
++       ENDIF()
++   ENDIF()
++   IF(NOT CMAKE_BUILD_TYPE)
++     SET(CMAKE_BUILD_TYPE Release)
++   ENDIF(NOT CMAKE_BUILD_TYPE)
++
++   # force some variables that could be defined in the command line to be written to cache
++   SET( CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" CACHE PATH
++     "Where to install ${PROJECT_NAME}" FORCE )
++   SET( CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING
++     "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
++   SET( CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" CACHE PATH
++     "Path to custom CMake Modules" FORCE )
++   SET( INSTALL_DOC "${INSTALL_DOC}" CACHE BOOL
++     "Set to OFF to skip build/install Documentation" FORCE )
++
++   IF(NOT OSSIM_DEV_HOME)
++      SET(OSSIM_DEV_HOME "$ENV{OSSIM_DEV_HOME}")
++      GET_FILENAME_COMPONENT(OSSIM_DEV_HOME "${OSSIM_DEV_HOME}" ABSOLUTE)
++   ENDIF(NOT OSSIM_DEV_HOME)
++   IF(NOT CMAKE_INSTALL_PREFIX)
++      SET(CMAKE_INSTALL_PREFIX "$ENV{OSSIM_INSTALL_PREFIX}")
++       GET_FILENAME_COMPONENT(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" ABSOLUTE)   
++   ENDIF(NOT CMAKE_INSTALL_PREFIX)
++   IF(NOT OSSIM_DEPENDENCIES)
++      SET(OSSIM_DEPENDENCIES "$ENV{OSSIM_DEPENDENCIES}")
++      GET_FILENAME_COMPONENT(OSSIM_DEPENDENCIES "${OSSIM_DEPENDENCIES}" ABSOLUTE)   
++   ENDIF(NOT OSSIM_DEPENDENCIES)
++ 
++   #################################### ADd some common options for all modules to use ###################################
++   OPTION(BUILD_OSSIMPREDATOR "Set to ON to build the Predator video decoding library.  Use OFF to skip this module." ON)
++   OPTION(BUILD_OSSIMPLANET "Set to ON to build the 3-D visualization module.  Use OFF to skip this module." ON)
++   OPTION(BUILD_OSSIMPLANETQT "Set to ON to build the 3-D visualization Qt GUI module.  Use OFF to skip this module." ON)
++   OPTION(BUILD_OSSIMQT4 "Set to ON to build the 2-D Qt4 GUI." ON)
++   OPTION(BUILD_OSSIMGUI "Set to ON to build the new ossimGui library and geocell application." ON)
++   OPTION(BUILD_CSMAPI "Set to ON to build the csm api library." ON)
++   OPTION(BUILD_OMS "Set to ON to build the oms api library." ON)
++   OPTION(BUILD_WMS "Set to ON to build the wms api library." ON)
++
++
++ENDMACRO(OSSIM_ADD_COMMON_SETTINGS)
++
++
++OSSIM_ADD_COMMON_SETTINGS()
++
+Index: ossim/CMakeModules/OssimDetermineCompiler.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/OssimDetermineCompiler.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,77 @@
++# - If Visual Studio is being used, this script sets the variable OSG_COMPILER
++# The principal reason for this is due to MSVC 8.0 SP0 vs SP1 builds.
++#
++# Variable:
++#   OSG_COMPILER
++# 
++
++# Not currently used...
++#IF(CMAKE_COMPILER_IS_GNUCXX)
++#    EXEC_PROGRAM(
++#        ${CMAKE_CXX_COMPILER}  
++#        ARGS     ${CMAKE_CXX_COMPILER_ARG1} -dumpversion 
++#        OUTPUT_VARIABLE gcc_compiler_version
++#    )
++#    #MESSAGE("GCC Version: ${gcc_compiler_version}")
++
++IF(MSVC60)
++    SET(OSG_COMPILER "vc60")
++ELSEIF(MSVC70)
++    SET(OSG_COMPILER "vc70")
++ELSEIF(MSVC71)
++    SET(OSG_COMPILER "vc71")
++ELSEIF(MSVC80)
++    SET(OSG_COMPILER "vc80")
++ELSEIF(MSVC90)
++    SET(OSG_COMPILER "vc90")
++ELSEIF(MSVC100)
++    SET(OSG_COMPILER "vc100")
++ENDIF()
++
++MESSAGE("OSG_COMPILER ${OSG_COMPILER}")
++
++IF(MSVC80)
++    MESSAGE(STATUS "Checking if compiler has service pack 1 installed...")
++    FILE(WRITE "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cxx" "int main() {return 0;}\n")
++
++    TRY_COMPILE(_TRY_RESULT
++        ${CMAKE_BINARY_DIR}
++        ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cxx
++        CMAKE_FLAGS -D CMAKE_VERBOSE_MAKEFILE=ON
++        OUTPUT_VARIABLE OUTPUT
++        )
++
++    IF(_TRY_RESULT)
++        # parse for exact compiler version
++        STRING(REGEX MATCH "Compiler Version [0-9]+.[0-9]+.[0-9]+.[0-9]+" vc_compiler_version "${OUTPUT}")
++        IF(vc_compiler_version)
++            #MESSAGE("${vc_compiler_version}")
++            STRING(REGEX MATCHALL "[0-9]+" CL_VERSION_LIST "${vc_compiler_version}")
++            LIST(GET CL_VERSION_LIST 0 CL_MAJOR_VERSION)
++            LIST(GET CL_VERSION_LIST 1 CL_MINOR_VERSION)
++            LIST(GET CL_VERSION_LIST 2 CL_PATCH_VERSION)
++            LIST(GET CL_VERSION_LIST 3 CL_EXTRA_VERSION)
++        ENDIF(vc_compiler_version)
++
++        # Standard vc80 is 14.00.50727.42, sp1 14.00.50727.762, sp2?
++        # Standard vc90 is 9.0.30729.1, sp1 ?
++        IF(CL_EXTRA_VERSION EQUAL 762)
++            SET(OSG_COMPILER "vc80sp1")
++        ELSE(CL_EXTRA_VERSION EQUAL 762)
++            SET(OSG_COMPILER "vc80")
++        ENDIF(CL_EXTRA_VERSION EQUAL 762)
++
++        # parse for exact visual studio version
++        #IF(MSVC_IDE)
++        # string(REGEX MATCH "Visual Studio Version [0-9]+.[0-9]+.[0-9]+.[0-9]+" vs_version "${OUTPUT}")
++        # IF(vs_version)
++        # MESSAGE("${vs_version}")
++        # string(REGEX MATCHALL "[0-9]+" VS_VERSION_LIST "${vs_version}")
++        # list(GET VS_VERSION_LIST 0 VS_MAJOR_VERSION)
++        # list(GET VS_VERSION_LIST 1 VS_MINOR_VERSION)
++        # list(GET VS_VERSION_LIST 2 VS_PATCH_VERSION)
++        # list(GET VS_VERSION_LIST 3 VS_EXTRA_VERSION)
++        # ENDIF(vs_version)
++        #ENDIF(MSVC_IDE)
++    ENDIF(_TRY_RESULT)
++ENDIF(MSVC80)
+Index: ossim/CMakeModules/OssimQt4Macros.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/OssimQt4Macros.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,24 @@
++include(Qt4Macros)
++MACRO (OSSIM_QT4_WRAP_UI outfiles)
++
++  if(CMAKE_VERSION VERSION_LESS 2.8.12)
++    QT4_EXTRACT_OPTIONS(ui_files ui_options ${ARGN})
++  else()
++    QT4_EXTRACT_OPTIONS(ui_files ui_options "" ${ARGN})
++  endif()
++  FOREACH (it ${ui_files})
++    GET_FILENAME_COMPONENT(outfile ${it} NAME_WE)
++    GET_FILENAME_COMPONENT(infile ${it} ABSOLUTE)
++    IF(UI_DESTINATION_DIR)
++      SET(outfile ${UI_DESTINATION_DIR}/ui_${outfile}.h)
++    ELSE(UI_DESTINATION_DIR)
++      SET(outfile ${CMAKE_CURRENT_BINARY_DIR}/ui_${outfile}.h)
++    ENDIF(UI_DESTINATION_DIR)
++    ADD_CUSTOM_COMMAND(OUTPUT ${outfile}
++      COMMAND ${QT_UIC_EXECUTABLE}
++      ARGS ${ui_options} -o ${outfile} ${infile}
++      MAIN_DEPENDENCY ${infile})
++    SET(${outfiles} ${${outfiles}} ${outfile})
++  ENDFOREACH (it)
++
++ENDMACRO (OSSIM_QT4_WRAP_UI)
+Index: ossim/CMakeModules/OssimQt5Macros.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/OssimQt5Macros.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,19 @@
++include(Qt5Macros)
++MACRO (OSSIM_QT_WRAP_UI outfiles)
++  QT5_EXTRACT_OPTIONS(ui_files ui_options ${ARGN})
++  FOREACH (it ${ui_files})
++    GET_FILENAME_COMPONENT(outfile ${it} NAME_WE)
++    GET_FILENAME_COMPONENT(infile ${it} ABSOLUTE)
++    IF(UI_DESTINATION_DIR)
++      SET(outfile ${UI_DESTINATION_DIR}/ui_${outfile}.h)
++    ELSE(UI_DESTINATION_DIR)
++      SET(outfile ${CMAKE_CURRENT_BINARY_DIR}/ui_${outfile}.h)
++    ENDIF(UI_DESTINATION_DIR)
++    ADD_CUSTOM_COMMAND(OUTPUT ${outfile}
++      COMMAND ${QT_UIC_EXECUTABLE}
++      ARGS ${ui_options} -o ${outfile} ${infile}
++      MAIN_DEPENDENCY ${infile})
++    SET(${outfiles} ${${outfiles}} ${outfile})
++  ENDFOREACH (it)
++
++ENDMACRO (OSSIM_QT_WRAP_UI)
+Index: ossim/CMakeModules/OssimUtilities.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/OssimUtilities.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,383 @@
++#################################################################################
++# This was taken from the http://www.cmake.org/Wiki/CMakeMacroParseArguments
++#################################################################################
++MACRO(OSSIM_PARSE_ARGUMENTS prefix arg_names option_names)
++  SET(DEFAULT_ARGS)
++  FOREACH(arg_name ${arg_names})    
++    SET(${prefix}_${arg_name})
++  ENDFOREACH(arg_name)
++  FOREACH(option ${option_names})
++    SET(${prefix}_${option} FALSE)
++  ENDFOREACH(option)
++
++  SET(current_arg_name DEFAULT_ARGS)
++  SET(current_arg_list)
++  FOREACH(arg ${ARGN})            
++    SET(larg_names ${arg_names})    
++    LIST(FIND larg_names "${arg}" is_arg_name)                   
++    IF (is_arg_name GREATER -1)
++      SET(${prefix}_${current_arg_name} ${current_arg_list})
++      SET(current_arg_name ${arg})
++      SET(current_arg_list)
++    ELSE (is_arg_name GREATER -1)
++      SET(loption_names ${option_names})    
++      LIST(FIND loption_names "${arg}" is_option)            
++      IF (is_option GREATER -1)
++	     SET(${prefix}_${arg} TRUE)
++      ELSE (is_option GREATER -1)
++	     SET(current_arg_list ${current_arg_list} ${arg})
++      ENDIF (is_option GREATER -1)
++    ENDIF (is_arg_name GREATER -1)
++  ENDFOREACH(arg)
++  SET(${prefix}_${current_arg_name} ${current_arg_list})
++ENDMACRO(OSSIM_PARSE_ARGUMENTS)
++
++##############################################################################################
++# This was taken from http://www.cmake.org/Wiki/CMakeMacroListOperations#CAR_and_CDR
++##############################################################################################
++MACRO(OSSIM_CAR var)
++  SET(${var} ${ARGV1})
++ENDMACRO(OSSIM_CAR)
++
++#############################################################################################
++# This was taken from http://www.cmake.org/Wiki/CMakeMacroListOperations#CAR_and_CDR
++#############################################################################################
++MACRO(OSSIM_CDR var junk)
++  SET(${var} ${ARGN})
++ENDMACRO(OSSIM_CDR)
++
++#################################################################################
++#  MACRO: TODAYS_DATE
++#  
++#  DESCRIPTION:
++#      MACRO FOR GETTING THE DATE AND TIME INFORMATION
++#################################################################################
++MACRO (TODAYS_DATE RESULT)
++
++   set(TEMP_DATE "")
++  
++   IF (CMAKE_HOST_WIN32)
++      IF(NOT EXISTS "${CMAKE_BINARY_DIR}/get_date.cmd")
++
++      ###### OUTPUT DATE ROUTINE #####
++      write_file("${CMAKE_BINARY_DIR}/get_date.cmd" "@echo off
++      @REM Seamonkey's quick date batch (MMDDYYYY format)
++      @REM Setups %date variable
++      @REM First parses month, day, and year into mm , dd, yyyy formats and then combines to be MMDDYYYY
++
++      @FOR /F \"TOKENS=1* DELIMS= \" %%A IN ('DATE/T') DO SET CDATE=%%B
++      @FOR /F \"TOKENS=1,2 eol=/ DELIMS=/ \" %%A IN ('DATE/T') DO SET mm=%%B
++      @FOR /F \"TOKENS=1,2 DELIMS=/ eol=/\" %%A IN ('echo %CDATE%') DO SET dd=%%B
++      @FOR /F \"TOKENS=2,3 DELIMS=/ \" %%A IN ('echo %CDATE%') DO SET yyyy=%%B
++      @SET CURRENT_DATE=%yyyy%%mm%%dd%
++      @echo on
++      @echo %CURRENT_DATE%")
++
++      ENDIF(NOT EXISTS "${CMAKE_BINARY_DIR}/get_date.cmd")
++ 
++      EXECUTE_PROCESS(COMMAND "cmake" "-E" "comspec" "${CMAKE_BINARY_DIR}/get_date.cmd"  OUTPUT_VARIABLE ${RESULT})
++      string(REGEX REPLACE "\n|\r" "" ${RESULT} ${${RESULT}})
++   ELSEIF(CMAKE_HOST_UNIX)
++      EXECUTE_PROCESS(COMMAND "date" "+%Y%m%d" OUTPUT_VARIABLE ${RESULT})
++      string(REGEX REPLACE "(..)/(..)/..(..).*" "\\3\\2\\1" ${RESULT} ${${RESULT}})
++      string(REGEX REPLACE "\n|\r" "" ${RESULT} ${${RESULT}})
++   ELSE (WIN32)
++      MESSAGE(SEND_ERROR "date not implemented")
++      SET(${RESULT} 000000)
++   ENDIF (CMAKE_HOST_WIN32)
++ENDMACRO (TODAYS_DATE)
++
++#################################################################################
++#  MACRO: GET_SVN_REVISION
++#  
++#  DESCRIPTION:
++#      MACRO FOR GETTING THE SVN revision for this build
++#################################################################################
++MACRO (GET_SVN_REVISION)
++   FIND_PACKAGE(Subversion)
++   IF(SUBVERSION_FOUND)
++      Subversion_WC_INFO(${PROJECT_SOURCE_DIR} Project)
++      # MESSAGE("Current revision is ${Project_WC_REVISION}")
++      # Subversion_WC_LOG(${PROJECT_SOURCE_DIR} Project)
++      # MESSAGE("Last changed log is ${Project_LAST_CHANGED_LOG}")
++   ENDIF()
++ENDMACRO(GET_SVN_REVISION)
++
++MACRO(LINK_EXTERNAL TRGTNAME)
++    FOREACH(LINKLIB ${ARGN})
++        TARGET_LINK_LIBRARIES(${TRGTNAME} "${LINKLIB}" )
++    ENDFOREACH(LINKLIB)
++ENDMACRO(LINK_EXTERNAL TRGTNAME)
++
++MACRO(LINK_INTERNAL TRGTNAME)
++    IF(${CMAKE_MAJOR_VERSION} EQUAL 2 AND ${CMAKE_MINOR_VERSION} GREATER 4)
++        TARGET_LINK_LIBRARIES(${TRGTNAME} ${ARGN})
++    ELSE(${CMAKE_MAJOR_VERSION} EQUAL 2 AND ${CMAKE_MINOR_VERSION} GREATER 4)
++        FOREACH(LINKLIB ${ARGN})
++            IF(MSVC AND OSSIM_MSVC_VERSIONED_DLL)
++                #when using versioned names, the .dll name differ from .lib name, there is a problem with that:
++                #CMake 2.4.7, at least seem to use PREFIX instead of IMPORT_PREFIX  for computing linkage info to use into projects,
++                # so we full path name to specify linkage, this prevent automatic inferencing of dependencies, so we add explicit depemdencies
++                #to library targets used
++                TARGET_LINK_LIBRARIES(${TRGTNAME} optimized "${OUTPUT_LIBDIR}/${LINKLIB}${CMAKE_RELEASE_POSTFIX}.lib" debug "${OUTPUT_LIBDIR}/${LINKLIB}${CMAKE_DEBUG_POSTFIX}.lib")
++                ADD_DEPENDENCIES(${TRGTNAME} ${LINKLIB})
++            ELSE(MSVC AND OSSIM_MSVC_VERSIONED_DLL)
++                TARGET_LINK_LIBRARIES(${TRGTNAME} optimized "${LINKLIB}${CMAKE_RELEASE_POSTFIX}" debug "${LINKLIB}${CMAKE_DEBUG_POSTFIX}")
++            ENDIF(MSVC AND OSSIM_MSVC_VERSIONED_DLL)
++        ENDFOREACH(LINKLIB)
++    ENDIF(${CMAKE_MAJOR_VERSION} EQUAL 2 AND ${CMAKE_MINOR_VERSION} GREATER 4)
++ENDMACRO(LINK_INTERNAL TRGTNAME)
++
++######################################################################
++#
++# This set up the libraries to link to, it assumes there are two variable: one common for a group of examples or plugins
++# kept in the variable TARGET_COMMON_LIBRARIES and an example or plugin specific kept in TARGET_ADDED_LIBRARIES 
++# they are combined in a single list checked for unicity 
++# the suffix ${CMAKE_DEBUG_POSTFIX} is used for differentiating optimized and debug
++#
++# a second variable TARGET_EXTERNAL_LIBRARIES hold the list of  libraries not differentiated between debug and optimized 
++##################################################################################
++MACRO(SETUP_LINK_LIBRARIES)
++    SET(TARGET_LIBRARIES ${TARGET_COMMON_LIBRARIES})
++
++    FOREACH(LINKLIB ${TARGET_ADDED_LIBRARIES})
++      SET(TO_INSERT TRUE)
++      FOREACH (value ${TARGET_COMMON_LIBRARIES})
++            IF (${value} STREQUAL ${LINKLIB})
++                  SET(TO_INSERT FALSE)
++            ENDIF (${value} STREQUAL ${LINKLIB})
++        ENDFOREACH (value ${TARGET_COMMON_LIBRARIES})
++      IF(TO_INSERT)
++          LIST(APPEND TARGET_LIBRARIES ${LINKLIB})
++      ENDIF(TO_INSERT)
++    ENDFOREACH(LINKLIB)
++
++    LINK_INTERNAL(${TARGET_TARGETNAME} ${TARGET_LIBRARIES})
++    TARGET_LINK_LIBRARIES(${TARGET_TARGETNAME} ${TARGET_EXTERNAL_LIBRARIES})
++    IF(TARGET_LIBRARIES_VARS)
++        LINK_WITH_VARIABLES(${TARGET_TARGETNAME} ${TARGET_LIBRARIES_VARS})
++    ENDIF(TARGET_LIBRARIES_VARS)
++ENDMACRO(SETUP_LINK_LIBRARIES)
++
++
++MACRO(OSSIM_SETUP_APPLICATION)
++   OSSIM_PARSE_ARGUMENTS(APPLICATION
++			"COMPONENT_NAME;SOURCE_FILES;HEADERS;TARGET_NAME;TARGET_LABEL" 
++                        "COMMAND_LINE;INSTALL;REQUIRE_WINMAIN_FLAG" 
++                        ${ARGN})
++   OSSIM_CAR(APPLICATION_NAME "${APPLICATION_DEFAULT_ARGS}")
++   OSSIM_CDR(APPLICATION_SOURCES "${APPLICATION_DEFAULT_ARGS}")
++   SET(TARGET_NAME ${APPLICATION_NAME})
++   SET(TARGET_TARGETNAME "${TARGET_DEFAULT_PREFIX}${APPLICATION_NAME}")
++   IF(APPLICATION_TARGET_NAME)
++      set(TARGET_TARGETNAME "${APPLICATION_TARGET_NAME}")
++   ENDIF(APPLICATION_TARGET_NAME)
++
++   SET(TARGET_LABEL "${TARGET_DEFAULT_LABEL_PREFIX} ${APPLICATION_NAME}")
++   IF(APPLICATION_TARGET_LABEL)
++      SET(TARGET_LABEL "${APPLICATION_TARGET_LABEL}")
++   ENDIF(APPLICATION_TARGET_LABEL)
++
++   IF(APPLICATION_COMMAND_LINE)
++        ADD_EXECUTABLE(${TARGET_TARGETNAME} ${APPLICATION_SOURCE_FILES} ${APPLICATION_HEADERS})
++        
++    ELSE(APPLICATION_COMMAND_LINE)
++        IF(APPLE)
++            # SET(MACOSX_BUNDLE_LONG_VERSION_STRING "${OSSIM_MAJOR_VERSION}.${OSSIM_MINOR_VERSION}.${OSSIM_PATCH_VERSION}")
++            # Short Version is the "marketing version". It is the version
++            # the user sees in an information panel.
++            SET(MACOSX_BUNDLE_SHORT_VERSION_STRING "${OSSIM_MAJOR_VERSION}.${OSSIM_MINOR_VERSION}.${OSSIM_PATCH_VERSION}")
++            # Bundle version is the version the OS looks at.
++            SET(MACOSX_BUNDLE_BUNDLE_VERSION "${OSSIM_MAJOR_VERSION}.${OSSIM_MINOR_VERSION}.${OSSIM_PATCH_VERSION}")
++            SET(MACOSX_BUNDLE_GUI_IDENTIFIER "org.ossim.${TARGET_TARGETNAME}" )
++            SET(MACOSX_BUNDLE_BUNDLE_NAME "${TARGET_TARGETNAME}" )
++            # SET(MACOSX_BUNDLE_ICON_FILE "myicon.icns")
++            # SET(MACOSX_BUNDLE_COPYRIGHT "")
++            # SET(MACOSX_BUNDLE_INFO_STRING "Info string, localized?")
++        ENDIF(APPLE)
++
++        IF(WIN32)
++            IF (APPLICATION_REQUIRE_WINMAIN_FLAG)
++                SET(PLATFORM_SPECIFIC_CONTROL WIN32)
++            ENDIF (APPLICATION_REQUIRE_WINMAIN_FLAG)
++        ENDIF(WIN32)
++
++        IF(APPLE)
++            IF(OSSIM_BUILD_APPLICATION_BUNDLES)
++                SET(PLATFORM_SPECIFIC_CONTROL MACOSX_BUNDLE)
++            ENDIF(OSSIM_BUILD_APPLICATION_BUNDLES)
++        ENDIF(APPLE)
++
++        ADD_EXECUTABLE(${TARGET_TARGETNAME} ${PLATFORM_SPECIFIC_CONTROL} ${APPLICATION_SOURCE_FILES} ${APPLICATION_HEADERS})
++        
++    ENDIF(APPLICATION_COMMAND_LINE)
++
++
++    SET_TARGET_PROPERTIES(${TARGET_TARGETNAME} PROPERTIES PROJECT_LABEL "${TARGET_LABEL}")
++    SET_TARGET_PROPERTIES(${TARGET_TARGETNAME} PROPERTIES OUTPUT_NAME ${TARGET_NAME})
++    SET_TARGET_PROPERTIES(${TARGET_TARGETNAME} PROPERTIES DEBUG_OUTPUT_NAME "${TARGET_NAME}${CMAKE_DEBUG_POSTFIX}")
++    SET_TARGET_PROPERTIES(${TARGET_TARGETNAME} PROPERTIES RELEASE_OUTPUT_NAME "${TARGET_NAME}${CMAKE_RELEASE_POSTFIX}")
++    SET_TARGET_PROPERTIES(${TARGET_TARGETNAME} PROPERTIES RELWITHDEBINFO_OUTPUT_NAME "${TARGET_NAME}${CMAKE_RELWITHDEBINFO_POSTFIX}")
++    SET_TARGET_PROPERTIES(${TARGET_TARGETNAME} PROPERTIES MINSIZEREL_OUTPUT_NAME "${TARGET_NAME}${CMAKE_MINSIZEREL_POSTFIX}")
++
++    IF(MSVC_IDE AND OSSIM_MSVC_VERSIONED_DLL)
++            SET_TARGET_PROPERTIES(${TARGET_TARGETNAME} PROPERTIES PREFIX "../")    
++    ENDIF(MSVC_IDE AND OSSIM_MSVC_VERSIONED_DLL)
++    
++
++    SETUP_LINK_LIBRARIES() 
++
++    IF(APPLICATION_INSTALL)  
++        IF(APPLE) 
++            INSTALL(TARGETS ${TARGET_TARGETNAME} RUNTIME DESTINATION ${INSTALL_RUNTIME_DIR} BUNDLE DESTINATION ${INSTALL_RUNTIME_DIR} COMPONENT ${APPLICATION_COMPONENT_NAME})
++        ELSE(APPLE)
++            INSTALL(TARGETS ${TARGET_TARGETNAME} RUNTIME DESTINATION ${INSTALL_RUNTIME_DIR} ${INSTALL_COMPONENT_INFO} COMPONENT ${APPLICATION_COMPONENT_NAME})
++        ENDIF(APPLE)
++    ENDIF(APPLICATION_INSTALL)
++
++   SET_TARGET_PROPERTIES(${TARGET_TARGETNAME} PROPERTIES 
++                              RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${BUILD_RUNTIME_DIR}")    
++
++      
++ENDMACRO(OSSIM_SETUP_APPLICATION)
++
++#####################################################################################################
++# MACRO: OSSIM_LINK_LIBRARY
++#
++# Example: 
++#     OSSIM_LINK_LIBRARY(ossim 
++#                        COMPONENT_NAME ossim 
++#                        SOURCE_FILES foo.cpp 
++#                        HEADERS foo.h 
++#                        TYPE SHARED
++#                        LIBRARIES <list of libraries to link against>
++#                        INSTALL_LIB
++#                        INSTALL_HEADERS)
++#
++#    The INSTALL_LIB says to add a default install command for the library by default it will setup the following
++#           install(TARGETS ossim
++#               FRAMEWORK           DESTINATION         ${INSTALL_FRAMEWORK_DIR}
++#               RUNTIME             DESTINATION         ${INSTALL_RUNTIME_DIR}
++#               LIBRARY             DESTINATION         ${INSTALL_LIBRARY_DIR}
++#               ARCHIVE             DESTINATION         ${INSTALL_ARCHIVE_DIR}
++#               PUBLIC_HEADER       DESTINATION         ${INSTALL_INCLUDE_DIR} 
++#               COMPONENT ossim)
++#
++#   The INSTALL_HEADERS will do a default header installation if the option is passed in
++#        install(FILES <list of headers> DESTINATION "include/ossim" COMPONENT ossim)
++#####################################################################################################
++MACRO(OSSIM_LINK_LIBRARY)
++   # The SO_VERSION and VERSION are here for override purpose only so other libraries with their own 
++   # versioning scheme can use the sum linking
++   #
++   OSSIM_PARSE_ARGUMENTS(LINK
++			"COMPONENT_NAME;SOURCE_FILES;HEADERS;TYPE;LIBRARIES;ADDITIONAL_COMPILE_FLAGS;SOVERSION;VERSION;PUBLIC_HEADERS"
++                        "INSTALL_LIB;INSTALL_HEADERS;VERSION_SYMLINKS" 
++                        ${ARGN})
++   OSSIM_CAR(LINK_NAME "${LINK_DEFAULT_ARGS}")
++   OSSIM_CDR(LINK_SOURCES "${LINK_DEFAULT_ARGS}")
++   ADD_DEFINITIONS("${OSSIM_COMMON_COMPILER_FLAGS}")
++   ADD_LIBRARY(${LINK_NAME}
++               ${LINK_TYPE}
++               ${LINK_HEADERS}
++               ${LINK_SOURCE_FILES})
++   IF(NOT LINK_PUBLIC_HEADERS)
++      SET(LINK_PUBLIC_HEADERS ${LINK_HEADERS})
++   ENDIF()
++   IF(LINK_ADDITIONAL_COMPILE_FLAGS)
++      SET_TARGET_PROPERTIES(${LINK_NAME} PROPERTIES
++                            COMPILE_FLAGS ${LINK_ADDITIONAL_COMPILE_FLAGS})
++   ENDIF(LINK_ADDITIONAL_COMPILE_FLAGS)
++   if(APPLE)
++      IF(BUILD_SHARED_LIBS)
++#        SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
++#        SET(CMAKE_INSTALL_RPATH "${OSSIM_COMPILE_FRAMEWORKS_INSTALL_NAME_DIR}")
++        IF(BUILD_OSSIM_FRAMEWORKS)
++          SET_TARGET_PROPERTIES(${LINK_NAME} PROPERTIES 
++                             FRAMEWORK TRUE
++                             BUILD_WITH_INSTALL_RPATH ON 
++                             INSTALL_NAME_DIR @executable_path/../Frameworks)
++        ELSE(BUILD_OSSIM_FRAMEWORKS)
++          SET_TARGET_PROPERTIES(${LINK_NAME} PROPERTIES 
++                             FRAMEWORK FALSE
++                             BUILD_WITH_INSTALL_RPATH ON 
++                             INSTALL_NAME_DIR @executable_path/../lib)
++        ENDIF(BUILD_OSSIM_FRAMEWORKS)
++      ELSE(BUILD_SHARED_LIBRARY)
++          SET_TARGET_PROPERTIES(${LINK_NAME} PROPERTIES 
++                                FRAMEWORK FALSE)
++      ENDIF(BUILD_SHARED_LIBS)
++   ENDIF(APPLE)
++   IF(UNIX AND BUILD_SHARED_LIBS AND NOT APPLE)   
++      IF(LINK_VERSION_SYMLINKS)
++         IF(NOT LINK_SOVERSION)
++             set(LINK_SOVERSION "${OSSIM_SOVERSION}")
++         ENDIF(NOT LINK_SOVERSION)
++         IF(NOT LINK_VERSION)
++             set(LINK_VERSION "${OSSIM_VERSION}")
++         ENDIF(NOT LINK_VERSION)
++      # ADD_CUSTOM_TARGET( lib DEPENDS ${LINK_NAME} )
++      # change lib_target properties
++         SET_TARGET_PROPERTIES( ${LINK_NAME} PROPERTIES
++                                    # create *nix style library versions + symbolic links
++                                   VERSION ${LINK_VERSION}
++                                   SOVERSION ${LINK_SOVERSION}
++                                  # allow creating static and shared libs without conflicts
++                                  CLEAN_DIRECT_OUTPUT 1
++                                  # avoid conflicts between library and binary target names
++                                  OUTPUT_NAME ${LINK_NAME} )
++      ENDIF(LINK_VERSION_SYMLINKS)
++   ENDIF(UNIX AND BUILD_SHARED_LIBS AND NOT APPLE)
++   SET_TARGET_PROPERTIES(${LINK_NAME} PROPERTIES 
++                              RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${BUILD_RUNTIME_DIR}")    
++   IF(APPLE AND BUILD_OSSIM_FRAMEWORKS)
++     SET_TARGET_PROPERTIES(${LINK_NAME} PROPERTIES 
++                              LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${BUILD_FRAMEWORK_DIR}")    
++   ELSE(APPLE AND BUILD_OSSIM_FRAMEWORKS)
++     SET_TARGET_PROPERTIES(${LINK_NAME} PROPERTIES 
++                              LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${BUILD_LIBRARY_DIR}")    
++   ENDIF(APPLE AND BUILD_OSSIM_FRAMEWORKS)
++   SET_TARGET_PROPERTIES(${LINK_NAME} PROPERTIES 
++                              ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${BUILD_LIBRARY_DIR}")    
++
++   TARGET_LINK_LIBRARIES(${LINK_NAME} ${LINK_LIBRARIES} ${${LINK_NAME}_EXTRA_LIBS})
++
++   IF(LINK_INSTALL_LIB)
++        IF(LINK_INSTALL_HEADERS)
++           SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES PUBLIC_HEADER "${LINK_PUBLIC_HEADERS}")
++           install(TARGETS ${LINK_NAME}
++                   FRAMEWORK           DESTINATION         ${INSTALL_FRAMEWORK_DIR} COMPONENT ${LINK_COMPONENT_NAME}
++                   RUNTIME             DESTINATION         ${INSTALL_RUNTIME_DIR} COMPONENT ${LINK_COMPONENT_NAME}
++                   LIBRARY             DESTINATION         ${INSTALL_LIBRARY_DIR} COMPONENT ${LINK_COMPONENT_NAME}
++                   ARCHIVE             DESTINATION         ${INSTALL_ARCHIVE_DIR} COMPONENT ${LINK_COMPONENT_NAME}-dev
++                   PUBLIC_HEADER       DESTINATION         ${INSTALL_INCLUDE_DIR} COMPONENT ${LINK_COMPONENT_NAME}-dev)
++        ELSE(LINK_INSTALL_HEADERS)
++           install(TARGETS ${LINK_NAME}
++                   FRAMEWORK           DESTINATION         ${INSTALL_FRAMEWORK_DIR} COMPONENT ${LINK_COMPONENT_NAME}
++                   RUNTIME             DESTINATION         ${INSTALL_RUNTIME_DIR} COMPONENT ${LINK_COMPONENT_NAME}
++                   LIBRARY             DESTINATION         ${INSTALL_LIBRARY_DIR} COMPONENT ${LINK_COMPONENT_NAME}
++                   ARCHIVE             DESTINATION         ${INSTALL_ARCHIVE_DIR} COMPONENT ${LINK_COMPONENT_NAME}-dev)
++        ENDIF(LINK_INSTALL_HEADERS)
++    ENDIF(LINK_INSTALL_LIB)
++ENDMACRO(OSSIM_LINK_LIBRARY)
++
++MACRO(OSSIM_ADD_COMMON_MAKE_UNINSTALL)
++#   get_target_property(TEST_UNINSTALL uninstall CREATED)
++#   IF(NOT TEST_UNINSTALL)
++      #-----------------------------------------------------------------------------
++      ### uninstall target
++      #-----------------------------------------------------------------------------
++      SET(OSSIM_CMAKE_UNINSTALL_CONFIG "${PROJECT_SOURCE_DIR}/CMakeModules/cmake_uninstall.cmake.in")
++      IF(EXISTS ${OSSIM_CMAKE_UNINSTALL_CONFIG})
++         CONFIGURE_FILE(
++           "${OSSIM_CMAKE_UNINSTALL_CONFIG}"
++           "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
++           IMMEDIATE @ONLY)
++         ADD_CUSTOM_TARGET(uninstall
++           "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
++           )
++      set_target_properties(uninstall PROPERTIES CREATED 1)
++      ENDIF(EXISTS ${OSSIM_CMAKE_UNINSTALL_CONFIG})
++#   ENDIF(NOT TEST_UNINSTALL)
++ENDMACRO(OSSIM_ADD_COMMON_MAKE_UNINSTALL)
++
+Index: ossim/CMakeModules/OssimVersion.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/OssimVersion.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,6 @@
++SET(OSSIM_MAJOR_VERSION_NUMBER "1")
++SET(OSSIM_MINOR_VERSION_NUMBER "8")
++SET(OSSIM_PATCH_VERSION_NUMBER "16")
++SET(OSSIM_RELEASE_NUMBER "1")
++SET(OSSIM_VERSION "${OSSIM_MAJOR_VERSION_NUMBER}.${OSSIM_MINOR_VERSION_NUMBER}.${OSSIM_PATCH_VERSION_NUMBER}" )
++SET(OSSIM_SOVERSION "${OSSIM_MAJOR_VERSION_NUMBER}" )
+Index: ossim/CMakeModules/Qt5Macros.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/Qt5Macros.cmake	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,83 @@
++# This file is included by FindQt5.cmake, don't include it directly.
++
++# Copyright (C) 2001-2009 Kitware, Inc.
++# Copyright (C) 2011 Collabora Ltd. <http://www.collabora.co.uk/>
++# Copyright (C) 2011 Nokia Corporation
++#
++# Redistribution and use is allowed according to the terms of the BSD license.
++# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
++
++macro (QT5_EXTRACT_OPTIONS _qt5_files _qt5_options)
++  set(${_qt5_files})
++  set(${_qt5_options})
++  set(_QT5_DOING_OPTIONS FALSE)
++  foreach(_currentArg ${ARGN})
++    if ("${_currentArg}" STREQUAL "OPTIONS")
++      set(_QT5_DOING_OPTIONS TRUE)
++    else ()
++      if(_QT5_DOING_OPTIONS)
++        list(APPEND ${_qt5_options} "${_currentArg}")
++      else()
++        list(APPEND ${_qt5_files} "${_currentArg}")
++      endif()
++    endif ()
++  endforeach()
++endmacro ()
++
++
++MACRO (QT5_GET_MOC_FLAGS _moc_flags)
++  SET(${_moc_flags})
++  GET_DIRECTORY_PROPERTY(_inc_DIRS INCLUDE_DIRECTORIES)
++
++  FOREACH(_current ${_inc_DIRS})
++    IF("${_current}" MATCHES "\\.framework/?$")
++      STRING(REGEX REPLACE "/[^/]+\\.framework" "" framework_path "${_current}")
++      SET(${_moc_flags} ${${_moc_flags}} "-F${framework_path}")
++    ELSE("${_current}" MATCHES "\\.framework/?$")
++      SET(${_moc_flags} ${${_moc_flags}} "-I${_current}")
++    ENDIF("${_current}" MATCHES "\\.framework/?$")
++  ENDFOREACH(_current ${_inc_DIRS})
++
++  GET_DIRECTORY_PROPERTY(_defines COMPILE_DEFINITIONS)
++  FOREACH(_current ${_defines})
++    SET(${_moc_flags} ${${_moc_flags}} "-D${_current}")
++  ENDFOREACH(_current ${_defines})
++
++  IF(Q_WS_WIN)
++    SET(${_moc_flags} ${${_moc_flags}} -DWIN32)
++  ENDIF(Q_WS_WIN)
++
++ENDMACRO (QT5_GET_MOC_FLAGS)
++
++# helper macro to set up a moc rule
++MACRO (QT5_CREATE_MOC_COMMAND infile outfile moc_flags moc_options)
++  # For Windows, create a parameters file to work around command line length limit
++  IF (WIN32)
++    # Pass the parameters in a file.  Set the working directory to
++    # be that containing the parameters file and reference it by
++    # just the file name.  This is necessary because the moc tool on
++    # MinGW builds does not seem to handle spaces in the path to the
++    # file given with the @ syntax.
++    GET_FILENAME_COMPONENT(_moc_outfile_name "${outfile}" NAME)
++    GET_FILENAME_COMPONENT(_moc_outfile_dir "${outfile}" PATH)
++    IF(_moc_outfile_dir)
++      SET(_moc_working_dir WORKING_DIRECTORY ${_moc_outfile_dir})
++    ENDIF(_moc_outfile_dir)
++    SET (_moc_parameters_file ${outfile}_parameters)
++    SET (_moc_parameters ${moc_flags} ${moc_options} -o "${outfile}" "${infile}")
++    STRING (REPLACE ";" "\n" _moc_parameters "${_moc_parameters}")
++    FILE (WRITE ${_moc_parameters_file} "${_moc_parameters}")
++    ADD_CUSTOM_COMMAND(OUTPUT ${outfile}
++                       COMMAND ${QT_MOC_EXECUTABLE} @${_moc_outfile_name}_parameters
++                       DEPENDS ${infile}
++                       ${_moc_working_dir}
++                       VERBATIM)
++  ELSE (WIN32)
++    ADD_CUSTOM_COMMAND(OUTPUT ${outfile}
++                       COMMAND ${QT_MOC_EXECUTABLE}
++                       ARGS ${moc_flags} ${moc_options} -o ${outfile} ${infile}
++                       DEPENDS ${infile})
++  ENDIF (WIN32)
++ENDMACRO (QT5_CREATE_MOC_COMMAND)
++
++
+Index: ossim/CMakeModules/cmake_uninstall.cmake.in
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ ossim/CMakeModules/cmake_uninstall.cmake.in	2014-03-06 16:11:51.000000000 +0100
+@@ -0,0 +1,22 @@
++IF(NOT EXISTS "@CMAKE_BINARY_DIR@/install_manifest.txt")
++    MESSAGE(FATAL_ERROR "Cannot find install manifest: \"@CMAKE_BINARY_DIR@/install_manifest.txt\"")
++ENDIF()
++
++FILE(READ "@CMAKE_BINARY_DIR@/install_manifest.txt" files)
++STRING(REGEX REPLACE "\n" ";" files "${files}")
++
++FOREACH(file ${files})
++    MESSAGE(STATUS "Uninstalling \"${file}\"")
++    IF(EXISTS "${file}")
++        EXEC_PROGRAM(
++            "@CMAKE_COMMAND@" ARGS "-E remove \"${file}\""
++            OUTPUT_VARIABLE rm_out
++            RETURN_VALUE rm_retval
++            )
++        IF(NOT "${rm_retval}" STREQUAL 0)
++            MESSAGE(FATAL_ERROR "Problem when removing \"${file}\"")
++        ENDIF()
++    ELSE()
++        MESSAGE(STATUS "File \"${file}\" does not exist.")
++    ENDIF()
++ENDFOREACH()
+Index: ossim/src/ossim/CMakeLists.txt
+===================================================================
+--- ossim.orig/src/ossim/CMakeLists.txt	2014-03-06 16:11:51.000000000 +0100
++++ ossim/src/ossim/CMakeLists.txt	2014-03-06 16:14:01.000000000 +0100
+@@ -1,4 +1,5 @@
+ SET(LIB_NAME ossim)
++SET(LIB_NAME_STATIC ossimstatic)
+ 
+ ########################################### BEGIN: GRAB SOURCE FILES ##########################################
+ FILE(GLOB ossim_dll_main_SRCS RELATIVE_PATH ${CMAKE_CURRENT_SOURCE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/dll_main/*.cpp")
+@@ -108,13 +109,23 @@
+ #################################### SETUP the required link parameters using the Ossim macro ####################################
+ OSSIM_LINK_LIBRARY(${LIB_NAME} 
+                    COMPONENT_NAME ossim 
+-                   TYPE ${OSSIM_USER_DEFINED_DYNAMIC_OR_STATIC}
++				   TYPE "SHARED"
+                    LIBRARIES ${ossimDependentLibs}
+                    HEADERS "${OSSIM_HEADER_FILES}" 
+                    PUBLIC_HEADERS "${ossim_HDRS}"
+                    SOURCE_FILES "${ossim_SRCS}"
+                    INSTALL_LIB VERSION_SYMLINKS INSTALL_HEADERS)
+ 
++OSSIM_LINK_LIBRARY(${LIB_NAME_STATIC} 
++                   COMPONENT_NAME ossim 
++				   TYPE "STATIC"
++                   LIBRARIES ${ossimDependentLibs}
++                   HEADERS "${OSSIM_HEADER_FILES}" 
++                   PUBLIC_HEADERS "${ossim_HDRS}"
++                   SOURCE_FILES "${ossim_SRCS}"
++                   INSTALL_LIB VERSION_SYMLINKS INSTALL_HEADERS)
++SET_TARGET_PROPERTIES(${LIB_NAME_STATIC}  PROPERTIES OUTPUT_NAME ossim)
++
+ ########################################################## If DO special case for ossim core needs to have the files mapped properly ################################ 
+ IF(NOT OSSIM_BUILD_FRAMEWORKS OR NOT APPLE)
+    install(FILES ${ossim_HDRS} DESTINATION include/ossim COMPONENT ossim) 

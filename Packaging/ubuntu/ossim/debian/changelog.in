@@ -1,0 +1,70 @@
+ossim (1.8.16-2~@DIST@@PKGVERSION@) @DIST@; urgency=medium
+
+  * Ubuntu build
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Tue, 06 May 2014 18:43:37 +0200
+
+ossim (1.8.16-2) unstable; urgency=medium
+
+  * Removed Geos C++ b-d.
+  * Fixed libgeos-dev dependency.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Fri, 14 Mar 2014 11:57:34 +0100
+
+ossim (1.8.16-1) unstable; urgency=low
+
+  * New upstream release.
+    (closes: #640010, #735814)
+  * Moved debian repository to git with new packaging style to simplify
+    mantainership. New Vcs-* canonical fields set.
+  * Policy bumped to 3.9.5.
+  * Debhelper level set to 9.
+  * Annotated README.source about getting upstream source.
+  * Moved to source format 3.0.
+  * Now builds using TIFF 5 library and depending.
+  * Build-deps updated to current flavors.
+  * Fixed multiarch jpeg detection at configuration time.
+  * SONAME appears dummy, so better being pro-active and assigning a new
+    one with strict version dependency. This is done in a new patch
+    `soname'.
+  * Moved to cmake building system. The upstream building scripts have been
+    modified to generate both shared and static library.
+    (closes: #628413)
+  * Fixed for libpng-dev current b-d.
+    (closes: #662460)
+  * Removed cdbs use, now using modern dh_* methods.
+  * Removed obsolete patches.
+  * Now also b-d on geos, c++ flavor.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue, 04 Mar 2014 17:23:02 +0100
+
+ossim (1.7.21-4) unstable; urgency=low
+
+  * Backport from 1.8 branch: fixig jpeg detection.
+    (closes: #640819)
+  * Now using TIFF 4 for better compatibility.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon, 19 Mar 2012 09:57:41 +0100
+
+ossim (1.7.21-3) unstable; urgency=low
+
+  * Truly fixed dependency on virtual package libcurl4-dev.
+    (closes: #618152)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue, 24 May 2011 14:29:26 +0200
+
+ossim (1.7.21-2) unstable; urgency=low
+
+  * Moved to libcurl4-gnutls-dev build-dep.
+    (closes: #618152)
+  * Policy bumped to 3.9.2.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Fri, 13 May 2011 15:45:06 +0200
+
+ossim (1.7.21-1) unstable; urgency=low
+
+  * Jar binaries removed for true at tarball building time.
+  * Initial release.
+    (closes: #551631)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue, 01 Dec 2009 22:20:00 +0100

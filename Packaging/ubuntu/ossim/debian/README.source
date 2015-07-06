@@ -1,0 +1,9 @@
+OSSIM for Debian
+----------------
+
+Upstream sources are released quite irregularly as a compact tarball.
+You need to get it via svn. At the time of this file update, it
+has been grabbed as follows:
+
+    svn co http://svn.osgeo.org/ossim/tags/ossim-1.8.10-5 ossim-1.8.10+5
+
