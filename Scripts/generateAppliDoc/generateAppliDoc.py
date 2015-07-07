@@ -430,10 +430,10 @@ class ManpageGenerator(object):
     @property
     def _bugs_section(self):
         bugs = self.application.GetDocLimitations()
-        if bugs:
-            section = '.SH "BUGS"\n{}'.format(bugs)
-        else:
+        if bugs in (None, 'None'):
             section = r'.\" NO LIMITATIONS'
+        else:
+            section = '.SH "BUGS"\n{}'.format(bugs)
         return section
 
     @property

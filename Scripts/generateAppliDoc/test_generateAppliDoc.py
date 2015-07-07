@@ -456,8 +456,10 @@ class TestManpageGenerator:
 
     @pytest.mark.parametrize("GetDocLimitations, expected",
                              [("bla-bla", '.SH "BUGS"\nbla-bla'),
-                              (None, r'.\" NO LIMITATIONS')],
-                             ids=["limitations", "no limitations"])
+                              (None, r'.\" NO LIMITATIONS'),
+                              ('None', r'.\" NO LIMITATIONS')],
+                             ids=["limitations", "no limitations (None)",
+                                  "no limitations (str)"])
     def test_bug_section(self, manpage_generator, GetDocLimitations, expected,
                          monkeypatch):
         class FakeApplication:
