@@ -5,6 +5,8 @@
 This script provides an easy way to generate the application documentation in
 html format. It uses the class otbWrapperApplicationHtmlDocGenerator class to
 do so.
+
+It can also be used to generate manpages by use of the `otbApplication` module.
 """
 
 import os
@@ -64,9 +66,17 @@ PARAMETERS_TYPES = {
 }
 
 
-def main(otbbin, output_dir, verbose, quite):
+def main(html, manpages, verbose, quite):
     setup_logging(verbose, quite)
 
+    if html:
+        generate_html(*html)
+
+    if manpages:
+        generate_manpages(manpages)
+
+
+def generate_html(output_dir, otbbin):
     cmakeFile = os.path.join(otbbin, "CMakeCache.txt")
     otbDir = get_value_from_CMakeCache(cmakeFile, "OTB_SOURCE_DIR")
 
@@ -75,6 +85,14 @@ def main(otbbin, output_dir, verbose, quite):
     apps_groups_html = generate_html_pages(otbbin, output_dir, apps_and_groups)
     generate_html_index(output_dir, apps_groups_html)
     check_number_of_htmlpages(applications, apps_and_groups)
+
+
+def generate_manpages(output_dir):
+    applications = otbApplication.Registry_GetAvailableApplications()
+    for application in applications:
+        generator = ManpageGenerator(output_dir, application)
+        logger.info('Generates "{}"'.format(generator.filename))
+        generator.write()
 
 
 def setup_logging(verbose=False, quite=False):
@@ -446,8 +464,16 @@ if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser(description="Documentation generator script",
                             epilog=__doc__)
-    parser.add_argument("otb_bin_path", help="Path to the otb binary directory")
-    parser.add_argument("output_path", help="Path to the output directory")
+
+    parser.add_argument("--html",
+                        nargs=2,
+                        metavar=('OUTPUT_DIR', 'OTB_BUILD_DIR'),
+                        help="Generate html pages")
+
+    parser.add_argument("--manpages",
+                        metavar='OUTPUT_DIR',
+                        help="Generate manpages")
+
     parser.add_argument("-v", "--verbose", help="Increase output verbosity",
                         action="store_true")
     parser.add_argument("-q", "--quite", help="No output (even warning)",
@@ -455,4 +481,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    main(args.otb_bin_path, args.output_path, args.verbose, args.quite)
+    main(args.html, args.manpages, args.verbose, args.quite)
