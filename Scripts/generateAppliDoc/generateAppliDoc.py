@@ -11,6 +11,10 @@ import os
 import re
 import subprocess
 import logging
+import datetime
+import gzip
+import inspect
+import itertools
 
 from glob import iglob
 from collections import namedtuple
@@ -18,10 +22,46 @@ from itertools import ifilter, groupby
 from operator import attrgetter
 from textwrap import dedent
 
+import otbApplication
+
+otb_create_application = otbApplication.Registry.CreateApplication
 
 logger = logging.getLogger("generateAppliDoc")
 logger.setLevel(logging.DEBUG)
 logger.addHandler(logging.NullHandler())
+
+PARAMETERS_TYPES_NAMES = {
+    'ParameterType_Choice': "Choices",
+    'ParameterType_ComplexInputImage': "Input image",
+    'ParameterType_ComplexOutputImage': "Output image",
+    'ParameterType_Directory': "Directory",
+    'ParameterType_Empty': "Boolean",
+    'ParameterType_Float': "Float",
+    'ParameterType_Group': "Group",
+    'ParameterType_InputFilename': "Input file name",
+    'ParameterType_InputFilenameList': "Input file name list",
+    'ParameterType_InputImage': "Input Image",
+    'ParameterType_InputImageList': "Input image list",
+    'ParameterType_InputProcessXML': "XML input parameters file",
+    'ParameterType_InputVectorData': "Input vector data",
+    'ParameterType_InputVectorDataList': "Input vector data list",
+    'ParameterType_Int': "Int",
+    'ParameterType_ListView': "List",
+    'ParameterType_OutputFilename': "Output file name",
+    'ParameterType_OutputImage': "Output image",
+    'ParameterType_OutputProcessXML': "XML output parameters file",
+    'ParameterType_OutputVectorData': "Output vector data",
+    'ParameterType_RAM': "Int",
+    'ParameterType_Radius': "Int",
+    'ParameterType_String': "String",
+    'ParameterType_StringList': "String list",
+}
+
+PARAMETERS_TYPES = {
+    value: PARAMETERS_TYPES_NAMES[name]
+    for name, value in inspect.getmembers(otbApplication)
+    if name in PARAMETERS_TYPES_NAMES
+}
 
 
 def main(otbbin, output_dir, verbose, quite):
@@ -246,6 +286,160 @@ def check_number_of_htmlpages(applications, apps_and_groups):
         formated = '\n\t-'.join(sorted_not_generated)
         logger.warning("Following applications documentations haven't been "
                        "generated:\n\t-{}".format(formated))
+
+
+class ManpageGenerator(object):
+    """ Generates manpage
+
+    Initialize with the directory where to save the manpage and the name of the
+    application to document.
+
+    The `text` method generates and return the raw manpage's text. It generally
+    does not need to be called. Use the `write` method to save the manpage to a
+    gzip file in the output directory.
+
+    Example:
+    -------
+        To save the manpage of the application named `my_app` in `output/path`
+        directory under the name `otbcli_myapp.1.gz`:
+        >>> gen = ManpageGenerator('output/path/', 'my_app')
+        >>> gen.write()
+
+    """
+
+    def __init__(self, output_dir, application_name):
+        """
+        Args:
+            output_dir (str): directory where manpage is saved
+            application_name (str): name of the application
+
+        Returns: None
+
+        """
+        self.output_dir = output_dir
+        self.application_name = application_name
+        self.exec_name = '_'.join(('otbcli', application_name))
+        self.basename = '.'.join((self.exec_name, '1', 'gz'))
+        self.filename = os.path.join(output_dir, self.basename)
+        self.version = "5.0"  # TODO: find it somehow in the code
+        self.application = otb_create_application(application_name)
+
+    def _format(self, string):
+        """ Replace some caraters to be well processed by troff
+
+         - escape hypens
+         - replace line breaks by a macro
+        """
+        return string.replace('-', '\-').replace("\n", "\n.br\n")
+
+    @property
+    def _header_section(self):
+        """ Return manpage's header """
+        header = '.TH "{}" "1" "{}" "Version {}" "{} manual"'
+        return header.format(self.application_name.upper(),
+                             datetime.date.today(), self.version,
+                             self.application_name)
+
+    @property
+    def _name_section(self):
+        return '.SH "NAME"\n{} \- {}'.format(self.application_name,
+                                             self.application.GetDescription())
+
+    @property
+    def _mandatory_parameters(self):
+        return (p for p in self.application.GetParametersKeys()
+                if self.application.IsMandatory(p))
+
+    @property
+    def _nonmandatory_parameters(self):
+        return (p for p in self.application.GetParametersKeys()
+                if not self.application.IsMandatory(p))
+
+    @property
+    def _synopsis(self):
+        """ Return the synopsis """
+
+        def arg(option):
+            return PARAMETERS_TYPES[self.application.GetParameterType(option)]
+
+        mandatories = ('.B \-{}\n.I "{}"'.format(p, arg(p).lower())
+                       for p in self._mandatory_parameters)
+
+        nonmandatory_parameters = itertools.ifilter(
+            lambda a: a not in ('inxml', 'outxml'),
+            self._nonmandatory_parameters)
+
+        nonmandatories = ('.RB [\| \-{}\n.IR "{}" \|]'.format(p, arg(p).lower())
+                          for p in nonmandatory_parameters)
+
+        xml = dedent("""\
+        .P
+        .B {} \-inxml
+        .I "{}"
+        .RB [\| \-outxml
+        .IR "{}" \|]""".format(self.exec_name, arg('inxml'), arg('outxml')))
+
+        options = "\n".join(itertools.chain(mandatories, nonmandatories))
+
+        begining = '.SH "SYNOPSIS"\n.B {}'.format(self.exec_name)
+
+        return "\n".join((begining, options, xml))
+
+    @property
+    def _description_section(self):
+        description = self._format(self.application.GetDocLongDescription())
+        return '.SH "DESCRIPTION"\n{}'.format(description)
+
+    def _option_entry(self, option):
+        """ Return option entry """
+        param_type = PARAMETERS_TYPES[self.application.GetParameterType(option)]
+        if param_type == "Choices":
+            value = r"\fR\||\|\fP".join(self.application.GetChoiceKeys(option))
+        else:
+            value = param_type
+
+        description = self._format(
+            self.application.GetParameterDescription(option))
+
+        return '.BI \-{}\  "{}"\n{}'.format(option, value, description)
+
+    @property
+    def _options_section(self):
+        entries = "\n.TP\n".join(self._option_entry(p)
+                                 for p in self.application.GetParametersKeys())
+        return "\n".join(('.SH "OPTIONS"', ".TP", entries))
+
+    @property
+    def _bugs_section(self):
+        bugs = self.application.GetDocLimitations()
+        if bugs:
+            section = '.SH "BUGS"\n{}'.format(bugs)
+        else:
+            section = r'.\" NO LIMITATIONS'
+        return section
+
+    @property
+    def _examples_section(self):
+        example = self._format(self.application.GetCLExample())
+        return '.SH "EXAMPLES"\n{}'.format(example)
+
+    @property
+    def _author_section(self):
+        authors = self._format(self.application.GetDocAuthors())
+        return '.SH "AUTHOR"\n{}'.format(authors)
+
+    @property
+    def text(self):
+        """ Manpage text """
+        return "\n\n".join((self._header_section, self._name_section,
+                            self._synopsis, self._description_section,
+                            self._options_section, self._bugs_section,
+                            self._examples_section, self._author_section))
+
+    def write(self):
+        """ Write manpage text to a gzip compressed file """
+        with gzip.open(self.filename, 'w') as f:
+            f.write(self.text)
 
 
 if __name__ == "__main__":

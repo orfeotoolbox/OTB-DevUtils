@@ -322,3 +322,176 @@ class Test_setup_logging:
         assert isinstance(stream_handler, logging.StreamHandler)
         assert stream_handler.name == "console"
         assert stream_handler.level == level
+
+
+@pytest.fixture
+def manpage_generator(tmpdir):
+    from generateAppliDoc import ManpageGenerator
+    generator = ManpageGenerator(tmpdir.strpath, 'my-app')
+    generator.version = "5.0"
+    return generator
+
+
+@pytest.fixture
+def faketime(monkeypatch):
+    import datetime
+
+    class FakeDate(datetime.date):
+        @classmethod
+        def today(cls):
+            return cls(2010, 1, 1)
+
+    monkeypatch.setattr("datetime.date", FakeDate)
+    return datetime.date.today()
+
+
+class TestManpageGenerator:
+    def test_init(self, tmpdir):
+        from generateAppliDoc import ManpageGenerator
+        import otbApplication
+        output_dir = tmpdir
+        application_name = 'my-app'
+        exec_name = '_'.join(('otbcli', application_name))
+        basename = '.'.join((exec_name, '1', 'gz'))
+        filename = tmpdir.join(basename)
+        generator = ManpageGenerator(output_dir.strpath, application_name)
+        # FIXME: returns None if application_name not real otb application
+        otb = otbApplication.Registry.CreateApplication(application_name)
+        assert generator.output_dir == output_dir
+        assert generator.application_name == application_name
+        assert generator.exec_name == exec_name
+        assert generator.basename == basename
+        assert generator.filename == filename
+        assert generator.version == "5.0"
+        assert generator.application == otb
+
+    @pytest.mark.parametrize("input_string, expected",
+                             [("bla-bla", "bla\-bla"),
+                              ("bla\nbla", "bla\n.br\nbla")],
+                             ids=["escape hyphen", "line break"])
+    def test_format(self, manpage_generator, input_string, expected):
+        assert manpage_generator._format(input_string) == expected
+
+    def test_header_section(self, manpage_generator, faketime):
+        header = manpage_generator._header_section
+        expected = '.TH "MY-APP" "1" "{}" "Version 5.0" "my-app manual"'
+        expected = expected.format(faketime)
+        assert header == expected
+
+    def test_name_section(self, manpage_generator, monkeypatch):
+        class FakeApplication:
+            def GetDescription(self):
+                return "I do stuff"
+
+        monkeypatch.setattr(manpage_generator, "application",
+                            FakeApplication())
+
+        expected = '.SH "NAME"\nmy-app \- I do stuff'
+        assert manpage_generator._name_section == expected
+
+    def test_mandatory_nonmandatory_parameters(self, manpage_generator,
+                                               monkeypatch):
+        class FakeApplication:
+            def GetParametersKeys(self):
+                return ['a', 'b', 'c', 'd']
+            def IsMandatory(self, p):
+                return p in ['a', 'c']
+
+        monkeypatch.setattr(manpage_generator, "application",
+                            FakeApplication())
+
+        assert tuple(manpage_generator._mandatory_parameters) == ('a', 'c')
+        assert tuple(manpage_generator._nonmandatory_parameters) == ('b', 'd')
+
+    def test_description_section(self, manpage_generator, monkeypatch):
+        class FakeApplication:
+            def GetDocLongDescription(self):
+                return "I do very cool stuff"
+
+        monkeypatch.setattr(manpage_generator, "application",
+                            FakeApplication())
+
+        expected = '.SH "DESCRIPTION"\nI do very cool stuff'
+        assert manpage_generator._description_section == expected
+
+    @pytest.mark.parametrize(
+        "param, param_type, choices, description, expected",
+        [("p", 0, None, "I am a boolean",
+          '.BI \-p\  "Boolean"\nI am a boolean'),
+         ("p", 9, ('a', 'b'), "I am a choice",
+          '.BI \-p\  "a\\fR\\||\\|\\fPb"\nI am a choice'),
+         ("p", 17, ('a', 'b'), "I am a group",
+          '.BI \-p\  "Group"\nI am a group'),
+         ],
+        ids=["normal", "choice", "group"])
+    def test_option_entry(self, manpage_generator, param, param_type, choices,
+                           description, expected, monkeypatch):
+        class FakeApplication:
+            def GetParameterType(self, param):
+                return param_type
+
+            def GetParameterDescription(self, param):
+                return description
+
+            def GetChoiceKeys(self, param):
+                return choices
+
+        monkeypatch.setattr(manpage_generator, "application",
+                            FakeApplication())
+
+        assert manpage_generator._option_entry(param) == expected
+
+    def test_options_section(self, manpage_generator, monkeypatch):
+        class FakeApplication:
+            def GetParametersKeys(self):
+                return ('a', 'b', 'c')
+
+        monkeypatch.setattr(manpage_generator, "application",
+                            FakeApplication())
+        monkeypatch.setattr(manpage_generator, "_option_entry",
+                            lambda a: a)
+
+        expected = '.SH "OPTIONS"\n.TP\na\n.TP\nb\n.TP\nc'
+        assert manpage_generator._options_section == expected
+
+    @pytest.mark.parametrize("GetDocLimitations, expected",
+                             [("bla-bla", '.SH "BUGS"\nbla-bla'),
+                              (None, r'.\" NO LIMITATIONS')],
+                             ids=["limitations", "no limitations"])
+    def test_bug_section(self, manpage_generator, GetDocLimitations, expected,
+                         monkeypatch):
+        class FakeApplication:
+            def GetDocLimitations(self):
+                return GetDocLimitations
+
+        monkeypatch.setattr(manpage_generator, "application",
+                            FakeApplication())
+
+        assert manpage_generator._bugs_section == expected
+
+    def test_examples_section(self, manpage_generator, monkeypatch):
+        class FakeApplication:
+            def GetCLExample(self):
+                return "This is an example"
+
+        monkeypatch.setattr(manpage_generator, "application",
+                            FakeApplication())
+        monkeypatch.setattr(manpage_generator, "_format",
+                            lambda a: a)
+
+        expected = '.SH "EXAMPLES"\nThis is an example'
+        assert manpage_generator._examples_section == expected
+
+    def test_author_section(self, manpage_generator, monkeypatch):
+
+        class FakeApplication:
+            def GetDocAuthors(self):
+                return "OTB-Team"
+
+        monkeypatch.setattr(manpage_generator, "application",
+                            FakeApplication())
+        monkeypatch.setattr(manpage_generator, "_format",
+                            lambda a: a)
+
+        expected = '.SH "AUTHOR"\nOTB-Team'
+        assert manpage_generator._author_section == expected
