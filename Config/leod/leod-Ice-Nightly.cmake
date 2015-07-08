@@ -18,7 +18,7 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/ice.git")
 set (ICE_INSTALL_PREFIX "$ENV{HOME}/Dashboard/nightly/Ice-${CTEST_BUILD_CONFIGURATION}/install-git")
 
 
-(dashboard_hook_init)
+macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-Wall
