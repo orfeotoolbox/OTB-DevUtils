@@ -60,4 +60,4 @@ OpenJPEG_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.1/lib/openjpeg-2.1
     ")
 endmacro()
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

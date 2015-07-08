@@ -47,4 +47,4 @@ endmacro()
 set(dashboard_no_test 1)
 set(dashboard_no_submit 1)
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

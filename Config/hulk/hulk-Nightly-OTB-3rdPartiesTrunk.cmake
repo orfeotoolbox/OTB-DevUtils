@@ -72,4 +72,4 @@ SET(CTEST_NOTES_FILES
     "${CTEST_DASHBOARD_ROOT}/nightly/logs/build_gdal_trunk.log"
     "${CTEST_DASHBOARD_ROOT}/nightly/logs/build_ossim_trunk.log")
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

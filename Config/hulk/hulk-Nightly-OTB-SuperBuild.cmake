@@ -63,4 +63,4 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX}
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX}/bin)
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX}/include)
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

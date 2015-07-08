@@ -70,4 +70,4 @@ macro(dashboard_hook_end)
   ctest_build(TARGET "Documentation")
 endmacro()
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

@@ -46,4 +46,4 @@ endmacro()
 execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${MVD_INSTALL_PREFIX})
 execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${MVD_INSTALL_PREFIX})
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
