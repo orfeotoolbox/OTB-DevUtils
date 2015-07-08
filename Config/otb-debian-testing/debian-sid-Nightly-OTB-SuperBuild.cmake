@@ -1,3 +1,5 @@
+# Client maintainer: guillaume.pasero@c-s.fr
+set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbval")
 set(CTEST_SITE "otb-debian-nightly.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
@@ -6,13 +8,17 @@ set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
 set(CTEST_TEST_TIMEOUT 500)
+set(CTEST_USE_LAUNCHERS ON)
+set(CTEST_GIT_COMMAND "/usr/bin/git")
 
-set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/src/OTB/SuperBuild")
-set(CTEST_BINARY_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/build/OTB-SuperBuild")
-set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild")
+set(dashboard_root_name "tests")
+set(dashboard_source_name "src/OTB/SuperBuild")
+set(dashboard_binary_name "build/OTB-SuperBuild")
 
-set(CTEST_HG_COMMAND          "/usr/bin/hg")
-set(CTEST_HG_UPDATE_OPTIONS   "-C")
+set(CTEST_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild)
+
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
+set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB)
 
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
 set(CTEST_DROP_METHOD "http")
@@ -20,10 +26,17 @@ set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
 set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
-set(CTEST_USE_LAUNCHERS TRUE)
+list(APPEND CTEST_TEST_ARGS 
+  BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
+)
+list(APPEND CTEST_NOTES_FILES
+  ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/CMakeCache.txt
+  ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/otbConfigure.h
+)
 
-set(OTB_INITIAL_CACHE "
-CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
@@ -37,35 +50,16 @@ OTB_WRAP_PYTHON:BOOL=OFF
 OTB_WRAP_JAVA:BOOL=OFF
 BUILD_TESTING:BOOL=ON
 ")
+endmacro()
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/lib)
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/bin)
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/include)
+macro(dashboard_hook_test)
+set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_PREFIX}/lib)
+endmacro()
 
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_PREFIX})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX}/lib)
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX}/bin)
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX}/include)
 
-ctest_start(Nightly)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-
-ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-
-# before testing, set the LD_LIBRARY_PATH
-set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
-
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}/OTB/build" ${CTEST_TEST_ARGS})
-
-set(CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-${CTEST_BINARY_DIRECTORY}/OTB/build/CMakeCache.txt
-${CTEST_BINARY_DIRECTORY}/OTB/build/otbConfigure.h
-)
-
-ctest_submit ()
-
-
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
