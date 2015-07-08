@@ -174,20 +174,21 @@ endif()
 
 
 # Select Git source to use.
-if(NOT DEFINED dashboard_hg_url)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/${PROJECT}")
+if(NOT DEFINED dashboard_git_url)
+
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/${PROJECT}.git")
 endif()
-if(NOT DEFINED dashboard_hg_branch)
-  set(dashboard_hg_branch default)
+if(NOT DEFINED dashboard_git_branch)
+  set(dashboard_git_branch master)
 endif()
 
 # Look for a GIT command-line client.
-if(NOT DEFINED CTEST_HG_COMMAND)
-  find_program(CTEST_HG_COMMAND NAMES hg)
+if(NOT DEFINED CTEST_GIT_COMMAND)
+  find_program(CTEST_GIT_COMMAND NAMES git)
 endif()
 
-if(NOT DEFINED CTEST_HG_COMMAND)
-  message(FATAL_ERROR "No hg command Found.")
+if(NOT DEFINED CTEST_GIT_COMMAND)
+  message(FATAL_ERROR "No git command Found.")
 endif()
 
 
@@ -211,8 +212,8 @@ endif()
 
 # Delete source tree if it is incompatible with current VCS.
 if(EXISTS ${CTEST_SOURCE_DIRECTORY})
-  if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}/.hg")
-    set(vcs_refresh "because it is not managed by hg.")
+  if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}/.git")
+    set(vcs_refresh "because it is not managed by git.")
   endif()
   if(${dashboard_fresh_source_checkout})
     set(vcs_refresh "because dashboard_fresh_source_checkout is specified.")
@@ -231,9 +232,9 @@ if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}"
     # Generate an initial checkout script.
     set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
     file(WRITE ${ctest_checkout_script}
-"# hg repo init script for ${_name}
+"# git repo init script for ${_name}
 execute_process(
-  COMMAND \"${CTEST_HG_COMMAND}\" clone -r ${dashboard_hg_branch}  \"${dashboard_hg_url}\"
+  COMMAND \"${CTEST_GIT_COMMAND}\" clone -r ${dashboard_git_branch}  \"${dashboard_git_url}\"
           \"${CTEST_SOURCE_DIRECTORY}\" )
 "
 )
@@ -246,7 +247,7 @@ execute_process(
   set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
   set(CTEST_DROP_SITE_CDASH TRUE)
 else()
-  set(CTEST_HG_UPDATE_OPTIONS "${CTEST_HG_UPDATE_OPTIONS} -r ${dashboard_hg_branch}")
+  set(CTEST_GIT_UPDATE_OPTIONS "${CTEST_GIT_UPDATE_OPTIONS} checkout ${dashboard_git_branch}")
 endif()
 
 #-----------------------------------------------------------------------------
@@ -287,7 +288,7 @@ foreach(v
     CTEST_BINARY_DIRECTORY
     CTEST_CMAKE_GENERATOR
     CTEST_BUILD_CONFIGURATION
-    CTEST_HG_COMMAND
+    CTEST_GIT_COMMAND
     CTEST_CHECKOUT_COMMAND
     CTEST_SCRIPT_DIRECTORY
     CTEST_USE_LAUNCHERS

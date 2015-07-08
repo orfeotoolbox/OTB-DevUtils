@@ -62,12 +62,12 @@ echo "CTEST=$CTEST"
 
 cd $DEVUTILS_DIRECTORY
 #save status and diff to log file for check if hg pull was just fine.
-hg status > $LOG_FILE
-hg diff >> $LOG_FILE
+git status > $LOG_FILE
+git diff >> $LOG_FILE
 
 #UPDATE Dev-Utils
-hg pull --rebase
-hg update -C
+git pull 
+git checkout master
 
 echo "Launching $MXE_BUILD_SCRIPT $MXE_SOURCE_DIR $MXE_TARGET yes"
 $MXE_BUILD_SCRIPT "$MXE_SOURCE_DIR" "$MXE_TARGET" "yes" >> $LOG_FILE 2>&1
