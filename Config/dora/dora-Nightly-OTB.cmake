@@ -9,8 +9,7 @@ set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
-set(CTEST_HG_COMMAND "/usr/bin/hg")
-set(CTEST_HG_UPDATE_OPTIONS "-C")
+set(CTEST_GIT_COMMAND "/usr/bin/git")
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
@@ -21,13 +20,9 @@ set(dashboard_binary_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install)
 
 #set(dashboard_fresh_source_checkout OFF)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
-set(dashboard_hg_branch "default")
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(ENV{DISPLAY} ":0.0")
-# disable GDAL OpenJpeg plugin for now due to symbol confusion (OTB-297)
-#set(ENV{LD_LIBRARY_PATH} "/home/otbval/Tools/OpenJpeg/install/lib:$ENV{LD_LIBRARY_PATH}")
-#set(ENV{GDAL_DRIVER_PATH} "/home/otbval/Tools/gdal_plugin")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
