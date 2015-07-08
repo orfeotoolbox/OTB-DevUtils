@@ -5,13 +5,12 @@ set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 set(CTEST_BUILD_TARGET INSTALL)
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
-
 set(OSGE04W_TESTING "C:/TEST_PKG_x64") 
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
   
-CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/install/${OTB_PROJECT}-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=OFF
@@ -70,9 +69,11 @@ MUPARSER_LIBRARY:FILEPATH=${OSGE04W_TESTING}/lib/muparser.lib
 
 TINYXML_INCLUDE_DIR:PATH=${OSGE04W_TESTING}/include
 TINYXML_LIBRARY:FILEPATH=${OSGE04W_TESTING}/lib/tinyxml.lib
-
-
     ")
 endmacro()
+
+#remove install dir
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_PREFIX})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
