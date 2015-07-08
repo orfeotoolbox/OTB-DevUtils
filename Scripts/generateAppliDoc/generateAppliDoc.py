@@ -334,13 +334,29 @@ class ManpageGenerator(object):
         Returns: None
 
         """
-        self.output_dir = output_dir
+        self._output_dir = os.path.normpath(output_dir)
+        self.setup_output_dir()
         self.application_name = application_name
         self.exec_name = '_'.join(('otbcli', application_name))
         self.basename = '.'.join((self.exec_name, '1', 'gz'))
-        self.filename = os.path.join(output_dir, self.basename)
+        self.filename = os.path.join(self.output_dir, self.basename)
         self.version = "5.0"  # TODO: find it somehow in the code
         self.application = otb_create_application(application_name)
+
+    def setup_output_dir(self):
+        """ Assign output_dir member value
+
+        Create `man1` subdir if does not exist before
+
+        """
+        basename = os.path.basename(self._output_dir)
+        if basename == "man1":
+            self.output_dir = self._output_dir
+        else:
+            man_dir = os.path.join(self._output_dir, "man1")
+            if not os.path.exists(man_dir):
+                os.makedirs(man_dir)
+            self.output_dir = man_dir
 
     def _format(self, string):
         """ Replace some caraters to be well processed by troff

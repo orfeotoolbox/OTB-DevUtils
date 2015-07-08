@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import logging
+import os
 
 from operator import attrgetter
 from collections import namedtuple
@@ -349,14 +350,17 @@ class TestManpageGenerator:
     def test_init(self, tmpdir):
         from generateAppliDoc import ManpageGenerator
         import otbApplication
-        output_dir = tmpdir
+        _output_dir = tmpdir
+        output_dir = _output_dir.join('man1')
         application_name = 'my-app'
         exec_name = '_'.join(('otbcli', application_name))
         basename = '.'.join((exec_name, '1', 'gz'))
-        filename = tmpdir.join(basename)
-        generator = ManpageGenerator(output_dir.strpath, application_name)
+        filename = output_dir.join(basename)
+        generator = ManpageGenerator(_output_dir.strpath, application_name)
         # FIXME: returns None if application_name not real otb application
         otb = otbApplication.Registry.CreateApplication(application_name)
+
+        assert generator._output_dir == os.path.normpath(_output_dir.strpath)
         assert generator.output_dir == output_dir
         assert generator.application_name == application_name
         assert generator.exec_name == exec_name
@@ -364,6 +368,22 @@ class TestManpageGenerator:
         assert generator.filename == filename
         assert generator.version == "5.0"
         assert generator.application == otb
+
+    @pytest.mark.parametrize("output_dir, expected",
+                             [("tmpdir", "tmpdir.join('man1')"),
+                              ("tmpdir.ensure_dir('man1')",
+                               "tmpdir.join('man1')")],
+                             ids=["no man1 subdir", "man1 subdir"])
+    def test_setup_output_dir(self, output_dir, expected, tmpdir):
+        from generateAppliDoc import ManpageGenerator
+        output_dir = eval(output_dir)
+        expected = eval(expected)
+        application_name = 'my-app'
+        generator = ManpageGenerator(output_dir.strpath, application_name)
+        generator._output_dir = output_dir.strpath  # Reset value
+        generator.setup_output_dir()
+        assert expected.check()
+        assert generator.output_dir == expected.strpath
 
     @pytest.mark.parametrize("input_string, expected",
                              [("bla-bla", "bla\-bla"),
