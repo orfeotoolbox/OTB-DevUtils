@@ -37,4 +37,4 @@ BUILD_ICE_APPLICATION:BOOL=OFF
     ")
 endmacro()
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
