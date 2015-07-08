@@ -142,6 +142,9 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
   message(FATAL_ERROR "No Git Found.")
 endif()
 
+if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
+  set(CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_COMMAND} reset --hard origin/${dashboard_git_branch})
+endif()
 
 # Select a source directory name.
 if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
