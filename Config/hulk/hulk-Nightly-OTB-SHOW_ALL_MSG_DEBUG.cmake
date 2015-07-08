@@ -8,23 +8,24 @@ set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
-
-set(CTEST_HG_COMMAND "/usr/bin/hg")
-set(CTEST_HG_UPDATE_OPTIONS "-C")
+set(CTEST_USE_LAUNCHERS ON)
+set(CTEST_GIT_COMMAND "/usr/bin/git")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")
 set(dashboard_binary_name "build/OTB-SHOW_ALL_MSG_DEBUG")
 
+set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-SHOW_ALL_MSG_DEBUG)
+
 #set(dashboard_fresh_source_checkout OFF)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
-set(dashboard_hg_branch "default")
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
   
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
@@ -58,4 +59,4 @@ OpenJPEG_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.1/lib/openjpeg-2.1
     ")
 endmacro()
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)

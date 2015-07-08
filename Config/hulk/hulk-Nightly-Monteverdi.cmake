@@ -1,24 +1,33 @@
-SET (CTEST_SOURCE_DIRECTORY  "$ENV{HOME}/Dashboard/src/Monteverdi")
-SET (CTEST_BINARY_DIRECTORY  "$ENV{HOME}/Dashboard/build/Monteverdi")
-SET (CTEST_INSTALL_DIRECTORY "$ENV{HOME}/Dashboard/install/Monteverdi")
+# Client maintainer: julien.malik@c-s.fr
+set(dashboard_model Nightly)
+set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
+set(CTEST_SITE "hulk.c-s.fr")
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j10 -i -k install" )
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 6)
+set(CTEST_TEST_TIMEOUT 500)
+set(CTEST_USE_LAUNCHERS ON)
+set(CTEST_GIT_COMMAND "/usr/bin/git")
 
-SET( CTEST_CMAKE_GENERATOR     "Unix Makefiles" )
-SET (CTEST_CMAKE_COMMAND       "cmake" )
-SET (CTEST_BUILD_COMMAND       "/usr/bin/make -j10 -i -k install" )
-SET (CTEST_SITE                "hulk.c-s.fr" )
-SET (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_BUILD_NAME          "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
-SET (CTEST_HG_COMMAND          "/usr/bin/hg")
-SET (CTEST_HG_UPDATE_OPTIONS   "-C")
-SET (CTEST_USE_LAUNCHERS ON)
+set(dashboard_root_name "tests")
+set(dashboard_source_name "src/Monteverdi")
+set(dashboard_binary_name "build/Monteverdi")
 
-SET (OTB_INITIAL_CACHE "
+set(MVD_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/Monteverdi)
+
+#set(dashboard_fresh_source_checkout OFF)
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi.git")
+
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
 
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
 
-CMAKE_INSTALL_PREFIX:STRING=${CTEST_INSTALL_DIRECTORY}
+CMAKE_INSTALL_PREFIX:STRING=${MVD_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=ON
 
@@ -32,31 +41,9 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB-RelWithDebInfo
 OpenCV_DIR:PATH=/usr/share/OpenCV
 ")
+endmacro()
 
-SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${MVD_INSTALL_PREFIX})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${MVD_INSTALL_PREFIX})
 
-SET (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${OTB_PULL_RESULT_FILE}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
-
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/Monteverdi-Nightly
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   OTB_PULL_RESULT
-                 ERROR_VARIABLE    OTB_PULL_RESULT )
-file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
-
-ctest_start(Nightly)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
-ctest_submit ()
-
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)

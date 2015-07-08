@@ -8,16 +8,17 @@ set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
-
-set(CTEST_HG_COMMAND "/usr/bin/hg")
+set(CTEST_USE_LAUNCHERS ON)
+set(CTEST_GIT_COMMAND "/usr/bin/git")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")
 set(dashboard_binary_name "build/OTB-3rdPartiesTrunk")
 
+set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-3rdPartiesTrunk)
+
 #set(dashboard_fresh_source_checkout OFF)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
-set(dashboard_hg_branch "default")
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(ENV{LD_LIBRARY_PATH} "${CTEST_DASHBOARD_ROOT}/install/gdal-trunk/lib:${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.0-mangled/lib:$ENV{LD_LIBRARY_PATH}")
 set(ENV{GDAL_DATA} "${CTEST_DASHBOARD_ROOT}/src/gdal-trunk/data")
@@ -28,6 +29,7 @@ macro(dashboard_hook_init)
   
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
@@ -70,4 +72,4 @@ SET(CTEST_NOTES_FILES
     "${CTEST_DASHBOARD_ROOT}/nightly/logs/build_gdal_trunk.log"
     "${CTEST_DASHBOARD_ROOT}/nightly/logs/build_ossim_trunk.log")
 
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)
