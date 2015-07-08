@@ -18,6 +18,7 @@ set(dashboard_binary_name "build/OTB-Documents/CookBook")
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb-documents.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB-Documents)
+set(dashboard_git_branch master)
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
