@@ -33,6 +33,7 @@
 #   dashboard_do_coverage     = True to enable coverage (ex: gcov)
 #   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
 #   dashboard_no_clean        = True to skip build tree wipeout
+#   dashboard_update_dir      = source directory to update 
 #   CTEST_UPDATE_COMMAND      = path to svn command-line client
 #   CTEST_BUILD_FLAGS         = build tool arguments (ex: -j2)
 #   CTEST_DASHBOARD_ROOT      = Where to put source and build trees
@@ -113,23 +114,34 @@ if(NOT CTEST_TEST_TIMEOUT)
   set(CTEST_TEST_TIMEOUT 1500)
 endif()
 
-
 # Select Git source to use.
-if(NOT DEFINED dashboard_hg_url)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
+if(NOT DEFINED dashboard_git_url)
+set(dashboard_git_url "git.orfeo-toolbox.org/OTB.git")
 endif()
-if(NOT DEFINED dashboard_hg_branch)
-  set(dashboard_hg_branch default)
+if(NOT DEFINED dashboard_git_branch)
+  if("${dashboard_model}" STREQUAL "Nightly")
+    set(dashboard_git_branch nightly-develop)
+  else()
+    set(dashboard_git_branch master)
+  endif()
+endif()
+if(NOT DEFINED dashboard_git_crlf)
+  if(UNIX)
+    set(dashboard_git_crlf false)
+  else(UNIX)
+    set(dashboard_git_crlf true)
+  endif(UNIX)
 endif()
 
 # Look for a GIT command-line client.
-if(NOT DEFINED CTEST_HG_COMMAND)
-  find_program(CTEST_HG_COMMAND NAMES hg)
+if(NOT DEFINED CTEST_GIT_COMMAND)
+  find_program(CTEST_GIT_COMMAND NAMES git git.cmd)
 endif()
 
-if(NOT DEFINED CTEST_HG_COMMAND)
-  message(FATAL_ERROR "No hg command Found.")
+if(NOT DEFINED CTEST_GIT_COMMAND)
+  message(FATAL_ERROR "No Git Found.")
 endif()
+
 
 # Select a source directory name.
 if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
@@ -149,34 +161,41 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   endif()
 endif()
 
+# Select source directory to update
+if(NOT DEFINED dashboard_update_dir)
+  set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
+endif()
+
+
 # Delete source tree if it is incompatible with current VCS.
-if(EXISTS ${CTEST_SOURCE_DIRECTORY})
-  if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}/.hg")
-    set(vcs_refresh "because it is not managed by hg.")
+if(EXISTS ${dashboard_update_dir})
+  if(NOT EXISTS "${dashboard_update_dir}/.git")
+    set(vcs_refresh "because it is not managed by git.")
   endif()
   if(${dashboard_fresh_source_checkout})
     set(vcs_refresh "because dashboard_fresh_source_checkout is specified.")
   endif()
   if(vcs_refresh)
-    message("Deleting source tree\n  ${CTEST_SOURCE_DIRECTORY}\n${vcs_refresh}")
-    file(REMOVE_RECURSE "${CTEST_SOURCE_DIRECTORY}")
+    message("Deleting source tree\n  ${dashboard_update_dir}\n${vcs_refresh}")
+    file(REMOVE_RECURSE "${dashboard_update_dir}")
   endif()
 endif()
 
 # Support initial checkout if necessary.
-if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}"
+if(NOT EXISTS "${dashboard_update_dir}"
     AND NOT DEFINED CTEST_CHECKOUT_COMMAND)
-  get_filename_component(_name "${CTEST_SOURCE_DIRECTORY}" NAME)
+  get_filename_component(_name "${dashboard_update_dir}" NAME)
+  message("_name= " ${_name})
+  # Generate an initial checkout script.
+  set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
+  message("ctest_checkout_script= " ${ctest_checkout_script})
+  file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
+        execute_process(
+            COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
+                    \"${dashboard_update_dir}\" )
+    ")
 
-    # Generate an initial checkout script.
-    set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
-    file(WRITE ${ctest_checkout_script} 
-"# hg repo init script for ${_name}
-execute_process(
-  COMMAND \"${CTEST_HG_COMMAND}\" clone -r ${dashboard_hg_branch}  \"${dashboard_hg_url}\"
-          \"${CTEST_SOURCE_DIRECTORY}\" )
-"
-)
+
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
   # CTest delayed initialization is broken, so we put the
   # CTestConfig.cmake info here.
@@ -185,9 +204,9 @@ execute_process(
   set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
   set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
   set(CTEST_DROP_SITE_CDASH TRUE)
-else()
-  set(CTEST_HG_UPDATE_OPTIONS "${CTEST_HG_UPDATE_OPTIONS} -r ${dashboard_hg_branch}")
 endif()
+
+
 
 #-----------------------------------------------------------------------------
 
@@ -216,7 +235,7 @@ foreach(v
     CTEST_BINARY_DIRECTORY
     CTEST_CMAKE_GENERATOR
     CTEST_BUILD_CONFIGURATION
-    CTEST_HG_COMMAND
+    CTEST_GIT_COMMAND
     CTEST_CHECKOUT_COMMAND
     CTEST_SCRIPT_DIRECTORY
     CTEST_USE_LAUNCHERS
@@ -302,7 +321,7 @@ while(NOT dashboard_done)
   endif()
 
   # Look for updates.
-  ctest_update(RETURN_VALUE count)
+  ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
   set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
   safe_message("Found ${count} changed files")
 
