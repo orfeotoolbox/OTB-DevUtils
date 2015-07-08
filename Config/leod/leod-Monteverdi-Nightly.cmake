@@ -1,7 +1,7 @@
 SET (ENV{DISPLAY} ":0.0")
 
 SET (dashboard_model Nightly)
-set (CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
+set (CTEST_DASHBOARD_ROOT "$ENV{HOME}/otbval/Dashboard")
 SET (CTEST_BUILD_CONFIGURATION Release)
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
