@@ -10,8 +10,7 @@ set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
-set(CTEST_HG_COMMAND "/opt/local/bin/hg")
-set(CTEST_HG_UPDATE_OPTIONS "-C")
+set(CTEST_HG_COMMAND "/opt/local/bin/git")
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
@@ -20,29 +19,21 @@ set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}
 set(dashboard_binary_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build")
 
 #set(dashboard_fresh_source_checkout OFF)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
-set(dashboard_hg_branch "default")
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
+#set(dashboard_hg_branch "default")
 
 set(ENV{DISPLAY} ":0.0")
-
-#set(CTEST_INITIAL_CACHE "
-#BUILDNAME:STRING=${CTEST_BUILD_NAME}
-#SITE:STRING=${CTEST_SITE}
-#CTEST_USE_LAUNCHERS:BOOL=ON
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install
 
-#CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
-#CMAKE_INCLUDE_PATH:PATH=/opt/local/include
 CMAKE_PREFIX_PATH:PATH=/opt/local
 
 CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual -Wno-\\\\#warnings
 
-#CMAKE_OSX_ARCHITECTURES:STRING=i386
 OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON
 
 BUILD_TESTING:BOOL=ON

@@ -1,7 +1,7 @@
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
 set(CTEST_SITE "leod.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "MacOSX10.8-SuperBuild")
+set(CTEST_BUILD_NAME "MacOSX10.10-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -11,14 +11,7 @@ set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/nightly/OTB-Release/src/Sup
 set(CTEST_BINARY_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/build")
 set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/install")
 
-set(CTEST_HG_COMMAND          "/opt/local/bin/hg")
-set(CTEST_HG_UPDATE_OPTIONS   "-C")
-
-set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-set(CTEST_DROP_METHOD "http")
-set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
-set(CTEST_DROP_SITE_CDASH TRUE)
+set(CTEST_GI_COMMAND          "/opt/local/bin/git")
 
 set(CTEST_USE_LAUNCHERS TRUE)
 
