@@ -1,21 +1,27 @@
-set (ENV{LANG} "C")
+# Client maintainer: julien.malik@c-s.fr
+set(dashboard_model Nightly)
+set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
+set(CTEST_SITE "hulk.c-s.fr")
+set(CTEST_BUILD_CONFIGURATION Debug)
+set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 6)
+set(CTEST_TEST_TIMEOUT 500)
+set(CTEST_USE_LAUNCHERS ON)
+set(CTEST_GIT_COMMAND "/usr/bin/git")
 
-set (CTEST_BUILD_CONFIGURATION "Debug")
+set(dashboard_root_name "tests")
+set(dashboard_source_name "src/Ice")
+set(dashboard_binary_name "build/Ice-${CTEST_BUILD_CONFIGURATION}")
 
-set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/Dashboard/src/OTBIce")
-set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/Dashboard/build/Ice-${CTEST_BUILD_CONFIGURATION}")
-set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
-set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j12 -i -k install" )
-set (CTEST_SITE "hulk.c-s.fr" )
-set (CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
-set (CTEST_HG_COMMAND "/usr/bin/hg")
-set (CTEST_HG_UPDATE_OPTIONS "")
-set (CTEST_USE_LAUNCHERS ON)
+set(ICE_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/Ice-${CTEST_BUILD_CONFIGURATION})
 
-set (ICE_INSTALL_PREFIX "$ENV{HOME}/Dashboard/install/Ice-${CTEST_BUILD_CONFIGURATION}")
+#set(dashboard_fresh_source_checkout OFF)
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/ice.git")
 
-set (ICE_INITIAL_CACHE "
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 
@@ -32,21 +38,10 @@ CMAKE_INSTALL_PREFIX:STRING=${ICE_INSTALL_PREFIX}
 
 BUILD_ICE_APPLICATION:BOOL=OFF
 ")
-
-set (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
+endmacro()
 
 execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${ICE_INSTALL_PREFIX})
 execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${ICE_INSTALL_PREFIX})
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
-ctest_start (Nightly)
-ctest_update (SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file (WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ICE_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_read_custom_files (${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 6)
-ctest_submit ()
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)
+

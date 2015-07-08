@@ -1,17 +1,26 @@
-SET (CTEST_SOURCE_DIRECTORY  "$ENV{HOME}/Dashboard/src/OTB-Documents/SoftwareGuide")
-SET (CTEST_BINARY_DIRECTORY  "$ENV{HOME}/Dashboard/build/OTB-Documents/SoftwareGuide")
+# Client maintainer: julien.malik@c-s.fr
+set(dashboard_model Nightly)
+set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
+set(CTEST_SITE "hulk.c-s.fr")
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+set(CTEST_BUILD_COMMAND "/usr/bin/make -i -k" )
+set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
+set(CTEST_TEST_TIMEOUT 500)
+set(CTEST_USE_LAUNCHERS ON)
+set(CTEST_GIT_COMMAND "/usr/bin/git")
 
-SET (CTEST_CMAKE_GENERATOR     "Unix Makefiles")
-SET (CTEST_CMAKE_COMMAND       "cmake")
-SET (CTEST_BUILD_COMMAND       "/usr/bin/make -i -k")
-SET (CTEST_SITE                "hulk.c-s.fr" )
-SET (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_BUILD_NAME          "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
-SET (CTEST_HG_COMMAND          "/usr/bin/hg")
-SET (CTEST_HG_UPDATE_OPTIONS   "-C")
-SET (CTEST_USE_LAUNCHERS ON)
+set(dashboard_root_name "tests")
+set(dashboard_source_name "src/OTB-Documents/SoftwareGuide")
+set(dashboard_binary_name "build/OTB-Documents/SoftwareGuide")
 
-SET (OTB_INITIAL_CACHE "
+#set(dashboard_fresh_source_checkout OFF)
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb-documents.git")
+set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB-Documents)
+
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
 
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
@@ -33,28 +42,9 @@ OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB-RelWithDebInfo
 OTB_SOURCE_DIR:PATH=$ENV{HOME}/Dashboard/src/OTB
 OpenCV_DIR:PATH=/usr/share/OpenCV
 ")
+endmacro()
 
-SET( OTB_PULL_RESULT_FILE "${CTEST_BINARY_DIRECTORY}/pull_result.txt" )
+set(dashboard_no_test 1)
+set(dashboard_no_submit 1)
 
-SET (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${OTB_PULL_RESULT_FILE}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
-
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_BINARY_DIRECTORY})
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_BINARY_DIRECTORY})
-
-execute_process( COMMAND ${CTEST_HG_COMMAND} pull http://hg.orfeo-toolbox.org/OTB-Documents
-                 WORKING_DIRECTORY "${CTEST_SOURCE_DIRECTORY}"
-                 OUTPUT_VARIABLE   OTB_PULL_RESULT
-                 ERROR_VARIABLE    OTB_PULL_RESULT )
-file(WRITE ${OTB_PULL_RESULT_FILE} ${OTB_PULL_RESULT} )
-
-ctest_start(Nightly)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common-git.cmake)
