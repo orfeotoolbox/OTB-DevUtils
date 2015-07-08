@@ -11,11 +11,11 @@ set (CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}")
 set (CTEST_GIT_COMMAND "/opt/local/bin/git")
 
 set(dashboard_fresh_source_checkout OFF)
-set(dashboard_source_name "nightly/Ice-${CTEST_BUILD_CONFIGURATION}/src-git")
-set(dashboard_binary_name "nightly/Ice-${CTEST_BUILD_CONFIGURATION}/build-git")
+set(dashboard_source_name "nightly/Ice-${CTEST_BUILD_CONFIGURATION}/src")
+set(dashboard_binary_name "nightly/Ice-${CTEST_BUILD_CONFIGURATION}/build")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/ice.git")
 
-set (ICE_INSTALL_PREFIX "$ENV{HOME}/Dashboard/nightly/Ice-${CTEST_BUILD_CONFIGURATION}/install-git")
+set (ICE_INSTALL_PREFIX "$ENV{HOME}/Dashboard/nightly/Ice-${CTEST_BUILD_CONFIGURATION}/install")
 
 
 macro(dashboard_hook_init)
