@@ -6,10 +6,10 @@ set(dashboard_module_url "https://github.com/sertit/SertitObject")
 set(OTB_PROJECT OTB) # OTB / Monteverdi / Monteverdi2
 set(OTB_ARCH amd64) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
-set(CTEST_BUILD_TARGET INSTALL)
+set(CTEST_BUILD_TARGET BUILD)
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
-set(CTEST_BINARY_DIRECTORY "C:/OTB-RemoteModules/build/${dashboard_module}-vc-10-${OTB_ARCH}")
+set(CTEST_BINARY_DIRECTORY "C:/OTB-RemoteModules/build/${dashboard_module}-${OTB_ARCH}")
 set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-Static-${dashboard_module}")
 
 set(dashboard_cache "
