@@ -33,7 +33,7 @@
 #   dashboard_do_coverage     = True to enable coverage (ex: gcov)
 #   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
 #   dashboard_no_clean        = True to skip build tree wipeout
-#   dashboard_update_dir      = source directory to update 
+#   dashboard_update_dir      = source directory to update
 #   CTEST_UPDATE_COMMAND      = path to svn command-line client
 #   CTEST_BUILD_FLAGS         = build tool arguments (ex: -j2)
 #   CTEST_DASHBOARD_ROOT      = Where to put source and build trees
@@ -239,6 +239,7 @@ foreach(v
     CTEST_CMAKE_GENERATOR
     CTEST_BUILD_CONFIGURATION
     CTEST_GIT_COMMAND
+    CTEST_GIT_UPDATE_OPTIONS
     CTEST_CHECKOUT_COMMAND
     CTEST_SCRIPT_DIRECTORY
     CTEST_USE_LAUNCHERS
@@ -309,6 +310,11 @@ while(NOT dashboard_done)
   endif()
   set(ENV{HOME} "${dashboard_user_home}")
 
+  if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
+    execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
+endif()
+
   # Start a new submission.
   if(COMMAND dashboard_hook_start)
     dashboard_hook_start()
@@ -336,14 +342,14 @@ while(NOT dashboard_done)
       dashboard_hook_build()
     endif()
     ctest_build()
-    
+
     if(NOT dashboard_no_test)
       if(COMMAND dashboard_hook_test)
         dashboard_hook_test()
       endif()
       ctest_test(${CTEST_TEST_ARGS})
     endif()
-    
+
     set(safe_message_skip 1) # Block furhter messages
 
     if(dashboard_do_coverage)
