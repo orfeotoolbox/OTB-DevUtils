@@ -386,3 +386,8 @@ endif()
     set(dashboard_done 1)
   endif()
 endwhile()
+
+ctest_sleep(5)
+if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
+  file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
+endif()
