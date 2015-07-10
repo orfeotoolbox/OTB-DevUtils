@@ -11,7 +11,7 @@ set(CTEST_GIT_UPDATE_OPTIONS "reset --hard origin/nightly")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
-set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
+
 
 set(dashboard_model "Nightly")
 set(dashboard_source_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src")

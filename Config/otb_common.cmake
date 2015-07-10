@@ -114,6 +114,10 @@ if(NOT CTEST_TEST_TIMEOUT)
   set(CTEST_TEST_TIMEOUT 1500)
 endif()
 
+if(DEFINED dashboard_module)
+  set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
+endif()
+
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
 set(dashboard_git_url "git.orfeo-toolbox.org/OTB.git")
@@ -195,10 +199,8 @@ if(NOT EXISTS "${dashboard_update_dir}"
   file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
         execute_process(
             COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
-                    \"${dashboard_update_dir}\" )
-    ")
-
-
+                    \"${dashboard_update_dir}\" )   ")
+  
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
   # CTest delayed initialization is broken, so we put the
   # CTestConfig.cmake info here.
@@ -208,8 +210,6 @@ if(NOT EXISTS "${dashboard_update_dir}"
   set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
   set(CTEST_DROP_SITE_CDASH TRUE)
 endif()
-
-
 
 #-----------------------------------------------------------------------------
 
