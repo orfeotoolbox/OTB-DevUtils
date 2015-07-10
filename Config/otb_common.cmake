@@ -143,7 +143,7 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
 endif()
 
 if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
-  set(CTEST_GIT_UPDATE_CUSTOM  "\"${CMAKE_COMMAND}\" -D GIT_COMMAND:PATH=\"${CTEST_GIT_COMMAND}\" -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P \"${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake\"")
+  set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
 endif()
 
 # Select a source directory name.
