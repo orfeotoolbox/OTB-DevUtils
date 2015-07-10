@@ -5,14 +5,15 @@ set(CTEST_DASHBOARD_ROOT "/data/Dashboard")
 set(CTEST_SITE "bumblebee.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_USE_LAUNCHERS ON)
+set(CMAKE_COMMAND "/data/Tools/cmake-git/install/bin/cmake")
+set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
+
 set(MXE_ROOT "/data/Tools/mxe")
 set(MXE_TARGET_ARCH "x86_64")
 set(PROJECT "otb")
+
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
-set(dashboard_git_url "http://git@git.orfeo-toolbox.org/otb.git")
-set(CMAKE_COMMAND "${CTEST_DASHBOARD_ROOT}/Tools/cmake-git/bin/cmake")
-set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "

@@ -1,4 +1,4 @@
-# OTB Common Dashboard Script
+# OTB MXE Common Dashboard Script
 #
 # This script contains basic dashboard driver code common to all
 # clients.
@@ -176,7 +176,7 @@ endif()
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
 
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/${PROJECT}.git")
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/${PROJECT}.git")
 endif()
 if(NOT DEFINED dashboard_git_branch)
   set(dashboard_git_branch nightly)
@@ -192,7 +192,7 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
 endif()
 
 if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
-  set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+  set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${CTEST_SCRIPT_DIRECTORY}/../../git_updater.cmake)
 endif()
 
 # Select a source directory name.
