@@ -179,7 +179,7 @@ if(NOT DEFINED dashboard_git_url)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/${PROJECT}.git")
 endif()
 if(NOT DEFINED dashboard_git_branch)
-  set(dashboard_git_branch master)
+  set(dashboard_git_branch nightly)
 endif()
 
 # Look for a GIT command-line client.
@@ -191,6 +191,9 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
   message(FATAL_ERROR "No git command Found.")
 endif()
 
+if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
+  set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+endif()
 
 # Select a source directory name.
 if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
@@ -289,6 +292,7 @@ foreach(v
     CTEST_CMAKE_GENERATOR
     CTEST_BUILD_CONFIGURATION
     CTEST_GIT_COMMAND
+    CTEST_GIT_UPDATE_OPTIONS
     CTEST_CHECKOUT_COMMAND
     CTEST_SCRIPT_DIRECTORY
     CTEST_USE_LAUNCHERS
