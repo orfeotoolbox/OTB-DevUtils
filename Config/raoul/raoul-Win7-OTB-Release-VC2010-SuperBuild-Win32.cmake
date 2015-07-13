@@ -6,12 +6,12 @@ set(CTEST_BUILD_TARGET INSTALL)
 set(CTEST_BUILD_COMMAND "jom OTB")
 set(CTEST_BUILD_NAME "Win7-OTB-SuperBuild-vc10-x86-Release")
 
-set(dashboard_source_name ${CTEST_DASHBOARD_ROOT}/src/OTB/SuperBuild)
+include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
+
+set(dashboard_source_name src/OTB/SuperBuild)
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB)
 set(CTEST_BINARY_DIRECTORY "C:/SuperBuild/build")
-set(CTEST_INSTALL_PREFIX "C:/SuperBuild/install")
-
-include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
+set(CTEST_INSTALL_DIRECTORY "C:/SuperBuild/install")
 
 list(APPEND CTEST_TEST_ARGS 
   BUILD ${CTEST_BINARY_DIRECTORY}/OTB/build
