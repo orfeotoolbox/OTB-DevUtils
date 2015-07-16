@@ -58,8 +58,8 @@ OpenCV_DIR:PATH=/usr/share/OpenCV
 OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ossim-trunk/include
 OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/ossim-trunk/lib/libossim.so
 
-GDAL_INCLUDE_DIR:STRING=${CTEST_DASHBOARD_ROOT}/install/gdal-trunk/include
-GDAL_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/gdal-trunk/lib/libgdal.so
+GDAL_INCLUDE_DIR:STRING=${CTEST_DASHBOARD_ROOT}/install/gdal-2.0/include
+GDAL_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/gdal-2.0/lib/libgdal.so
 MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
 
