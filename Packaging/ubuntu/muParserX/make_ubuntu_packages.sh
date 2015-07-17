@@ -118,6 +118,10 @@ check_gpgkeyid ()
 set_ubuntu_code_name ()
 {
     case "$1" in
+        "vivid" )
+            ubuntu_codename="Vivid Vervet"
+            ubuntu_version="15.04"
+            ;;        
         "trusty" )
             ubuntu_codename="Trusty Tahr"
             ubuntu_version="14.04"
@@ -192,7 +196,7 @@ cp -a "$DEBDIR" debian
 
 echo "Source package generation..."
 first_pkg=1
-for target in precise trusty ; do
+for target in precise trusty vivid ; do
     set_ubuntu_code_name "$target"
     echo "Configure scripts for $ubuntu_codename"
     cp -f "$DEBDIR/changelog.in" ./debian

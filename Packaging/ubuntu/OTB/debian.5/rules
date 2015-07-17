@@ -29,12 +29,26 @@ ifeq ($(DIST),$(filter $(DIST), saucy trusty utopic))
     USE_LIBKML = ON
     LIBKML_DEP = libkml-dev
     TARGET_FILE_FOR_PATCH=OTBTargets
+
 else
     PYTHON_HELPER_PKG = python-central
     PYTHON_HELPER_VER = 0.6.11
     USE_LIBKML = OFF
-    LIBKML_DEP = 
+    LIBKML_DEP =
     TARGET_FILE_FOR_PATCH=OTBTargets-release
+endif
+
+ifeq ($(DIST),$(filter $(DIST), vivid))
+    USE_OPENJPEG = OFF
+    OPENJPEG_DEP =
+    OPENJPEG_OPTS =
+    ITK_DEP = libinsighttoolkit4-dev (>= 4.6.0)
+    TARGET_FILE_FOR_PATCH=OTBTargets
+else
+    USE_OPENJPEG = ON
+    OPENJPEG_DEP = libopenjp2-7-dev (>= 2.1.0)
+    OPENJPEG_OPTS = -DOpenJPEG_DIR:PATH=/usr/lib/openjpeg-2.1
+    ITK_DEP = libinsighttoolkit4-dev (>= 4.7.0)
 endif
 
 OTB_VERSION_MAJOR  = $(shell sed -ne 's/set(OTB_VERSION_MAJOR "\([0-9]*\)")/\1/p' CMakeLists.txt)
@@ -58,12 +72,12 @@ CMAKE_FLAGS = \
 	-DOTB_USE_MUPARSER:BOOL=ON \
 	-DOTB_USE_MUPARSERX:BOOL=ON \
 	-DOTB_USE_OPENCV:BOOL=ON \
-	-DOTB_USE_OPENJPEG:BOOL=ON \
+	-DOTB_USE_OPENJPEG:BOOL=$(USE_OPENJPEG) \
 	-DOTB_USE_QT4:BOOL=ON \
 	-DOTB_USE_SIFTFAST:BOOL=ON \
 	-DOTB_WRAP_JAVA:BOOL=OFF \
 	-DOTB_WRAP_PYTHON:BOOL=ON \
-	-DOpenJPEG_DIR:PATH=/usr/lib/openjpeg-2.1
+  $(OPENJPEG_OPTS)
 
 OTB_LIB_DIRS = /usr/lib/otb
 
@@ -77,7 +91,7 @@ override_dh_shlibdeps:
 	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OTB_LIB_DIRS) dh_shlibdeps
 
 override_dh_install:
-	# patch OTBConfig.cmake and OTBTargets.cmake to support split install tree
+# patch OTBConfig.cmake and OTBTargets.cmake to support split install tree
 	patch debian/tmp/usr/lib/cmake/OTB-5.0/OTBConfig.cmake debian/OTBConfig.patch
 	patch debian/tmp/usr/lib/cmake/OTB-5.0/$(TARGET_FILE_FOR_PATCH).cmake debian/$(TARGET_FILE_FOR_PATCH)_$(DIST).patch
 	dh_install
@@ -91,6 +105,8 @@ control-file:
 	    -e "s/@PYTHON_HELPER_PKG@/$(PYTHON_HELPER_PKG)/g" \
 	    -e "s/@PYTHON_HELPER_VER@/$(PYTHON_HELPER_VER)/g" \
 	    -e "s/@LIBKML_DEP@/$(LIBKML_DEP)/g" \
+	    -e "s/@OPENJPEG_DEP@/$(OPENJPEG_DEP)/g" \
+	    -e "s/@ITK_DEP@/$(ITK_DEP)/g" \
 	    < debian/control.in > debian/control
 
 changelog-file:
