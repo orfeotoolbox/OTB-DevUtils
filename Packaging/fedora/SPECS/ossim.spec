@@ -5,31 +5,18 @@ Version:        1.8.18
 Release:        2%{?dist}
 Summary:        Open Source Software Image Map library and command line applications
 Group:          System Environment/Libraries
-#TODO: Which version?
 License:        LGPLv2+
 URL:            http://trac.osgeo.org/ossim/wiki
 #created from svn revision 23275
 #svn export ossim ossim-1.8.19
 #tar cvf ossim-1.8.19.tar.xz ossim-1.8.19
-Source0:        http://download.osgeo.org/ossim/source/%{name}-%{version}-1/%{name}-%{version}-1.tar.gz
-#BuildRequires: ant
+Source0:        http://download.osgeo.org/ossim/source/%{name}-%{version}/%{name}-%{version}-1.tar.gz
 BuildRequires: cmake
-#BuildRequires: gdal-devel
 BuildRequires: geos-devel
-#BuildRequires: hdf-devel
-#BuildRequires: hdf5-devel
-#BuildRequires: java-devel
-BuildRequires: libcurl-devel
 BuildRequires: libgeotiff-devel
 BuildRequires: libjpeg-devel
 BuildRequires: libpng-devel
-# BuildRequires: libraw-devel
-#BuildRequires: minizip-devel
-#BuildRequires: OpenSceneGraph-devel
 BuildRequires: OpenThreads-devel
-#BuildRequires: podofo-devel
-#BuildRequires: qt4-devel
-#BuildRequires: swig
 BuildRequires: help2man
 
 %description
@@ -77,7 +64,7 @@ This provides data and configuration files for %{sname} library
 # -T on setup = Disable the automatic unpacking of the archives.
 #---
 # %setup -q -D -T
-%setup -q -D
+%setup -q
 
 #csm_plugins  libwms  ossim     ossimjni               ossimPlanet    ossim_plugins  ossim_qt4       pqe
 #csmApi  gsoc         oms     ossimGui  ossim_package_support  ossimPlanetQt  ossimPredator  planet_message  SVN-INFO.txt
@@ -180,7 +167,9 @@ done
 %{_mandir}/man1/ossim*
 
 %files doc
-%doc ossim/LICENSE.txt
+%doc ossim/README.txt
+
+%license ossim/LICENSE.txt
 
 %files data
 %{_datadir}/ossim/
@@ -189,6 +178,9 @@ done
 
 
 %changelog
+* Mon Jul 20 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
+- update spec after review on bugzilla ID 1244353
+
 * Fri Apr 24 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
 - revert back to 1.8.18
 
