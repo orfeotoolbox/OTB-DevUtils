@@ -19,7 +19,7 @@ macro(dashboard_hook_init)
 set(dashboard_cache "
 ${otb_cache_common}
 
-OTB_DATA_USE_LARGEINPUT:BOOL=OFF
+OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_ROOT:STRING=/data/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/data/OTB-LargeInput
 
