@@ -310,11 +310,6 @@ while(NOT dashboard_done)
   endif()
   set(ENV{HOME} "${dashboard_user_home}")
 
-  if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
-    execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
-    execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
-endif()
-
   # Start a new submission.
   if(COMMAND dashboard_hook_start)
     dashboard_hook_start()
@@ -333,6 +328,11 @@ endif()
   ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
   set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
   safe_message("Found ${count} changed files")
+
+  # add specific modules (works for OTB only)
+  if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
+    execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
+  endif()
 
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
     ctest_configure()
