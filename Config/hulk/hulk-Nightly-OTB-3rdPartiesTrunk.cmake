@@ -20,13 +20,14 @@ set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-3rdPartiesTrunk)
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
-set(ENV{LD_LIBRARY_PATH} "${CTEST_DASHBOARD_ROOT}/install/gdal-trunk/lib:${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.0-mangled/lib:$ENV{LD_LIBRARY_PATH}")
-set(ENV{GDAL_DATA} "${CTEST_DASHBOARD_ROOT}/src/gdal-trunk/data")
-set(ENV{GDAL_DRIVER_PATH} "${CTEST_DASHBOARD_ROOT}/install/gdal-openjpeg-plugin")
+#change to nightly/build_openjpeg_plugin.sh when moving to gdal trunk
+set(ENV{LD_LIBRARY_PATH} "${CTEST_DASHBOARD_ROOT}/install/gdal-1.11/lib:${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.0-mangled/lib:$ENV{LD_LIBRARY_PATH}")
+set(ENV{GDAL_DATA} "${CTEST_DASHBOARD_ROOT}/src/gdal-1.11/gdal/data")
+set(ENV{GDAL_DRIVER_PATH} "${CTEST_DASHBOARD_ROOT}/install/gdal-1.11-openjpeg-plugin")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-  
+
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
@@ -58,8 +59,8 @@ OpenCV_DIR:PATH=/usr/share/OpenCV
 OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ossim-trunk/include
 OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/ossim-trunk/lib/libossim.so
 
-GDAL_INCLUDE_DIR:STRING=${CTEST_DASHBOARD_ROOT}/install/gdal-2.0/include
-GDAL_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/gdal-2.0/lib/libgdal.so
+GDAL_INCLUDE_DIR:STRING=${CTEST_DASHBOARD_ROOT}/install/gdal-1.11/include
+GDAL_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/gdal-1.11/lib/libgdal.so
 MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
 
