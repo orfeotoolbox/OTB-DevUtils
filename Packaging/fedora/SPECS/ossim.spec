@@ -63,7 +63,6 @@ This provides data and configuration files for %{sname} library
 # -D on setup = Do not delete the directory before unpacking.
 # -T on setup = Disable the automatic unpacking of the archives.
 #---
-# %setup -q -D -T
 %setup -q
 
 #csm_plugins  libwms  ossim     ossimjni               ossimPlanet    ossim_plugins  ossim_qt4       pqe
@@ -78,6 +77,33 @@ done
 for tparty in windows_package rpms; do \
     rm -frv ossim_package_support/${tparty}; \
 done
+
+chmod -x ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
+chmod -x ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
+chmod -x ossim/include/ossim/base/ossimBinaryDataProperty.h
+chmod -x ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
+chmod -x ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
+chmod -x ossim/include/ossim/base/ossimGeodeticEvaluator.h
+chmod -x ossim/include/ossim/base/ossimAdjSolutionAttributes.h
+chmod -x ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
+chmod -x ossim/src/ossim/base/ossimBinaryDataProperty.cpp
+chmod -x ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
+chmod -x ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
+chmod -x ossim/include/ossim/base/ossimBinaryDataProperty.h
+chmod -x ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
+chmod -x ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
+chmod -x ossim/include/ossim/base/ossimGeodeticEvaluator.h
+chmod -x ossim/include/ossim/base/ossimAdjSolutionAttributes.h
+chmod -x ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
+chmod -x ossim/src/ossim/base/ossimBinaryDataProperty.cpp
+
+
+sed -i 's/\r$//' ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
+sed -i 's/\r$//' ossim/include/ossim/base/ossimGeodeticEvaluator.h
+sed -i 's/\r$//' ossim/include/ossim/base/ossimAdjSolutionAttributes.h
+sed -i 's/\r$//' ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
+sed -i 's/\r$//' ossim/include/ossim/base/ossimGeodeticEvaluator.h
+sed -i 's/\r$//' ossim/include/ossim/base/ossimAdjSolutionAttributes.h
 
 #remove this to silence rpmlint
 rm -frv ossim/specs ossim/doc/*.spec ossim/ospr.spec ossim/ossim.spec*
@@ -137,11 +163,11 @@ export PATH=$PATH:%{buildroot}%{_bindir}
 export LD_LIBRARY_PATH=%{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_mandir}/man1
 for file in `ls %{buildroot}%{_bindir}/ossim-*` ; do
-    if [[ $file == *space-imaging* || $file == *swapbytes*  ]]; then
-	help2man `basename $file` %{help2man_opt} --help-option=' ' --version-string=%{version} -o %{buildroot}%{_mandir}/man1/`basename $file`.1;
-    else
-	help2man `basename $file` %{help2man_opt} -o %{buildroot}%{_mandir}/man1/`basename $file`.1;
-    fi
+  if [[ $file == *space-imaging* || $file == *swapbytes*  ]]; then
+    help2man `basename $file` %{help2man_opt} --help-option=' ' --version-string=%{version} -o %{buildroot}%{_mandir}/man1/`basename $file`.1;
+  else
+    help2man `basename $file` %{help2man_opt} -o %{buildroot}%{_mandir}/man1/`basename $file`.1;
+  fi
 done
 
 %post -n ossim -p /sbin/ldconfig
@@ -178,6 +204,9 @@ done
 
 
 %changelog
+* Sat Aug 1 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
+- update spec after review on bugzilla ID 1244353. comment 5
+
 * Mon Jul 20 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
 - update spec after review on bugzilla ID 1244353
 
