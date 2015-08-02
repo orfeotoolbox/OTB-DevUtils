@@ -75,24 +75,24 @@ for tparty in windows_package rpms; do \
 done
 
 #fix permissions
-chmod -x ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
-chmod -x ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
-chmod -x ossim/include/ossim/base/ossimBinaryDataProperty.h
-chmod -x ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
-chmod -x ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
-chmod -x ossim/include/ossim/base/ossimGeodeticEvaluator.h
-chmod -x ossim/include/ossim/base/ossimAdjSolutionAttributes.h
-chmod -x ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
-chmod -x ossim/src/ossim/base/ossimBinaryDataProperty.cpp
-chmod -x ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
-chmod -x ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
-chmod -x ossim/include/ossim/base/ossimBinaryDataProperty.h
-chmod -x ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
-chmod -x ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
-chmod -x ossim/include/ossim/base/ossimGeodeticEvaluator.h
-chmod -x ossim/include/ossim/base/ossimAdjSolutionAttributes.h
-chmod -x ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
-chmod -x ossim/src/ossim/base/ossimBinaryDataProperty.cpp
+%_fixperms ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
+%_fixperms ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
+%_fixperms ossim/include/ossim/base/ossimBinaryDataProperty.h
+%_fixperms ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
+%_fixperms ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
+%_fixperms ossim/include/ossim/base/ossimGeodeticEvaluator.h
+%_fixperms ossim/include/ossim/base/ossimAdjSolutionAttributes.h
+%_fixperms ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
+%_fixperms ossim/src/ossim/base/ossimBinaryDataProperty.cpp
+%_fixperms ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
+%_fixperms ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
+%_fixperms ossim/include/ossim/base/ossimBinaryDataProperty.h
+%_fixperms ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
+%_fixperms ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
+%_fixperms ossim/include/ossim/base/ossimGeodeticEvaluator.h
+%_fixperms ossim/include/ossim/base/ossimAdjSolutionAttributes.h
+%_fixperms ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
+%_fixperms ossim/src/ossim/base/ossimBinaryDataProperty.cpp
 
 #wrong line endings.
 sed -i 's/\r$//' ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
@@ -181,6 +181,7 @@ done
 %{_libdir}/libossim.so.*
 
 %files devel
+%{_libdir}/libossim.so
 %{_includedir}/ossim*
 %{_libdir}/cmake/ossim/Findossim.cmake
 %{_libdir}/cmake/ossim/OssimQt4Macros.cmake
@@ -205,6 +206,9 @@ done
 
 
 %changelog
+* Sun Aug 2 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
+- review on bugzilla ID 1244353. comment 6-13
+
 * Sat Aug 1 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
 - update spec after review on bugzilla ID 1244353. comment 5
 
@@ -217,7 +221,6 @@ done
 * Fri Apr 24 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.19-1
 - update to ossim 1.8.19 svn revision 23275
 - update cmake_source_dir
-
 
 * Wed Nov 26 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-1
 - packaging just ossim and removing everything else
