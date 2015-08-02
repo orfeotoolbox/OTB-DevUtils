@@ -23,38 +23,34 @@ BuildRequires: help2man
 %{sname} is a powerful suite of geospatial libraries and applications
 used to process remote sensing imagery, maps, terrain, and vector data.
 
-%package	    devel
-Summary:        Development files for %{sname}
-Group:          Development/Libraries
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package   devel
+Summary:   Development files for %{sname}
+Requires:  %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 This provides all includes and libraries required for
 development of %{sname} library
 
-%package 	apps
-Summary:        %{sname} applications
-Group:          System Environment/Libraries
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package   apps
+Summary:   %{sname} applications
+Requires:  %{name}%{?_isa} = %{version}-%{release}
 
 %description apps
 This package provides applications built with %{sname} library
 
-%package	    doc
-Summary:        Documentation for %{sname}
-Group:          Documentation
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package   doc
+BuildArch: noarch
+Summary:   Documentation for %{sname}
 
 %description doc
 This provides documentation for %{sname} library
 
-%package	    data
-Summary:        Additional data files for %{sname}
-Group:          Documentation
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package   data
+BuildArch: noarch
+Summary:   Additional data files for %{sname}
 
 %description data
-This provides data and configuration files for %{sname} library
+This provides some .kwl templates and csv used for ossim projection.
 
 
 %prep
@@ -78,6 +74,7 @@ for tparty in windows_package rpms; do \
     rm -frv ossim_package_support/${tparty}; \
 done
 
+#fix permissions
 chmod -x ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
 chmod -x ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
 chmod -x ossim/include/ossim/base/ossimBinaryDataProperty.h
@@ -97,7 +94,7 @@ chmod -x ossim/include/ossim/base/ossimAdjSolutionAttributes.h
 chmod -x ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
 chmod -x ossim/src/ossim/base/ossimBinaryDataProperty.cpp
 
-
+#wrong line endings.
 sed -i 's/\r$//' ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
 sed -i 's/\r$//' ossim/include/ossim/base/ossimGeodeticEvaluator.h
 sed -i 's/\r$//' ossim/include/ossim/base/ossimAdjSolutionAttributes.h
@@ -128,6 +125,7 @@ pushd build
     -DSubversion_SVN_EXECUTABLE="" \
     -DBUILD_WMS=OFF \
     -DINSTALL_LIBRARY_DIR:PATH=%{_libdir} \
+    -DINSTALL_RUNTIME_DIR:PATH=%{_libdir}/ossim-apps/ \
     -DINSTALL_ARCHIVE_DIR:PATH=%{_libdir} \
     -DCMAKE_MODULE_PATH=$OSSIM_DEV_HOME/ossim_package_support/cmake/CMakeModules \
      $OSSIM_DEV_HOME/%{name}
@@ -142,44 +140,48 @@ pushd build
 make install DESTDIR=%{buildroot}
 popd
 
-install -p -m644 -D ossim/etc/linux/profile.d/ossim.sh %{buildroot}%{_sysconfdir}/profile.d/ossim.sh
-install -p -m644 -D ossim/etc/linux/profile.d/ossim.csh %{buildroot}%{_sysconfdir}/profile.d/ossim.csh
 install -p -m644 -D ossim/etc/templates/ossim_preferences_template %{buildroot}%{_datadir}/ossim/ossim_preferences
+install -p -m644 -D ossim/etc/templates %{buildroot}%{_datadir}/ossim/
 
 %global ossim_cmakedir ossim_package_support/cmake/CMakeModules
 mkdir -p %{buildroot}%{_libdir}/cmake/ossim/
-for file in Findossim.cmake OssimQt4Macros.cmake OssimQt5Macros.cmake OssimUtilities.cmake OssimCommonVariables.cmake OssimVersion.cmake; do
-    install -p -m644 %{ossim_cmakedir}/$file %{buildroot}%{_libdir}/cmake/ossim/$file;
+for cmake_file in Findossim.cmake OssimQt4Macros.cmake OssimQt5Macros.cmake OssimUtilities.cmake OssimCommonVariables.cmake OssimVersion.cmake; do
+    install -p -m644 %{ossim_cmakedir}/$cmake_file %{buildroot}%{_libdir}/cmake/ossim/$cmake_file;
 done
 
 %global help2man_opt "--no-discard-stderr"
 %if 0%{?rhel} && 0%{?rhel} <= 7
-echo "skipping man pages"
-%global help2man_opt ""
+  echo "skipping man pages"
+  %global help2man_opt ""
 %endif
 
 echo "Generating man pages"
 export PATH=$PATH:%{buildroot}%{_bindir}
 export LD_LIBRARY_PATH=%{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_mandir}/man1
-for file in `ls %{buildroot}%{_bindir}/ossim-*` ; do
-  if [[ $file == *space-imaging* || $file == *swapbytes*  ]]; then
-    help2man `basename $file` %{help2man_opt} --help-option=' ' --version-string=%{version} -o %{buildroot}%{_mandir}/man1/`basename $file`.1;
+for app in `ls %{buildroot}%{_libdir}/ossim-apps/ossim-*` ; do
+  if [[ $app == *space-imaging* || $app == *swapbytes*  ]]; then
+    help2man `basename $app` %{help2man_opt} --help-option=' ' --version-string=%{version} -o %{buildroot}%{_mandir}/man1/`basename $app`.1;
   else
-    help2man `basename $file` %{help2man_opt} -o %{buildroot}%{_mandir}/man1/`basename $file`.1;
+    help2man `basename $app` %{help2man_opt} -o %{buildroot}%{_mandir}/man1/`basename $app`.1;
   fi
+
+  cat <<EOF > "%{buildroot}%{_bindir}/`basename $app`"
+#!/bin/bash
+export OSSIM_PREFS_FILE=/usr/share/ossim/ossim_preferences
+EOF
+  
 done
 
-%post -n ossim -p /sbin/ldconfig
+%post -p /sbin/ldconfig
 
-%postun -n ossim -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %files
 %{_libdir}/libossim.so.*
 
 %files devel
 %{_includedir}/ossim*
-%{_libdir}/*.so*
 %{_libdir}/cmake/ossim/Findossim.cmake
 %{_libdir}/cmake/ossim/OssimQt4Macros.cmake
 %{_libdir}/cmake/ossim/OssimQt5Macros.cmake
@@ -190,6 +192,7 @@ done
 
 %files apps
 %{_bindir}/ossim-*
+%{_libdir}/ossim-apps/ossim-*
 %{_mandir}/man1/ossim*
 
 %files doc
@@ -199,8 +202,6 @@ done
 
 %files data
 %{_datadir}/ossim/
-%{_sysconfdir}/profile.d/ossim.sh
-%{_sysconfdir}/profile.d/ossim.csh
 
 
 %changelog
