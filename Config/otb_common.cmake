@@ -137,6 +137,14 @@ if(NOT DEFINED dashboard_git_crlf)
   endif(UNIX)
 endif()
 
+if(DEFINED dashboard_git_features_list)
+  file(STRINGS ${dashboard_git_features_list} additional_branches
+       REGEX "^ *[a-zA-Z0-9-_]+ *\$")
+  if(${additional_branches})
+    message(STATUS "Testing feature branches : ${additional_branches}")
+  endif()
+endif()
+
 # Look for a GIT command-line client.
 if(NOT DEFINED CTEST_GIT_COMMAND)
   find_program(CTEST_GIT_COMMAND NAMES git git.cmd)
@@ -299,17 +307,8 @@ macro(safe_message)
   endif()
 endmacro()
 
-if(COMMAND dashboard_hook_init)
-  dashboard_hook_init()
-endif()
-
-set(dashboard_done 0)
-while(NOT dashboard_done)
-  if(dashboard_loop)
-    set(START_TIME ${CTEST_ELAPSED_TIME})
-  endif()
-  set(ENV{HOME} "${dashboard_user_home}")
-
+# macro for the full dashboard sequence
+macro(run_dashboard)
   # Start a new submission.
   if(COMMAND dashboard_hook_start)
     dashboard_hook_start()
@@ -373,6 +372,36 @@ while(NOT dashboard_done)
     if(COMMAND dashboard_hook_end)
       dashboard_hook_end()
     endif()
+  endif()
+endmacro()
+
+
+if(COMMAND dashboard_hook_init)
+  dashboard_hook_init()
+endif()
+
+set(dashboard_done 0)
+while(NOT dashboard_done)
+  if(dashboard_loop)
+    set(START_TIME ${CTEST_ELAPSED_TIME})
+  endif()
+  set(ENV{HOME} "${dashboard_user_home}")
+
+  run_dashboard()
+
+  # test additional feature branches
+  if(${additional_branches})
+    set(ORIGINAL_CTEST_BUILD_NAME ${CTEST_BUILD_NAME})
+    set(ORIGINAL_CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_UPDATE_CUSTOM})
+    foreach(branch ${additional_branches})
+      set(CTEST_BUILD_NAME  ${ORIGINAL_CTEST_BUILD_NAME}-${branch})
+      set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+      run_dashboard()
+    endforeach()
+    set(CTEST_BUILD_NAME ${ORIGINAL_CTEST_BUILD_NAME})
+    set(CTEST_GIT_UPDATE_CUSTOM ${ORIGINAL_CTEST_GIT_UPDATE_CUSTOM})
+    # update sources back to their original state
+    ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
   endif()
 
   if(dashboard_loop)
