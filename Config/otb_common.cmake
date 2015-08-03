@@ -138,10 +138,12 @@ if(NOT DEFINED dashboard_git_crlf)
 endif()
 
 if(DEFINED dashboard_git_features_list)
+  message("Checking feature branches file : ${dashboard_git_features_list}")
   file(STRINGS ${dashboard_git_features_list} additional_branches
-       REGEX "^ *[a-zA-Z0-9-_]+ *\$")
-  if(${additional_branches})
-    message(STATUS "Testing feature branches : ${additional_branches}")
+       REGEX "^ *([a-zA-Z0-9]|-|_)+ *\$")
+  list(LENGTH additional_branches number_additional_branches)
+  if(number_additional_branches GREATER 0)
+    message("Testing feature branches : ${additional_branches}")
   endif()
 endif()
 
@@ -375,7 +377,6 @@ macro(run_dashboard)
   endif()
 endmacro()
 
-
 if(COMMAND dashboard_hook_init)
   dashboard_hook_init()
 endif()
@@ -390,7 +391,7 @@ while(NOT dashboard_done)
   run_dashboard()
 
   # test additional feature branches
-  if(${additional_branches})
+  if(number_additional_branches GREATER 0)
     set(ORIGINAL_CTEST_BUILD_NAME ${CTEST_BUILD_NAME})
     set(ORIGINAL_CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_UPDATE_CUSTOM})
     foreach(branch ${additional_branches})
