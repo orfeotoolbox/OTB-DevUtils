@@ -75,23 +75,23 @@ for tparty in windows_package rpms; do \
 done
 
 #fix permissions
+
 %_fixperms ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
-%_fixperms ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
-%_fixperms ossim/include/ossim/base/ossimBinaryDataProperty.h
 %_fixperms ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
+
 %_fixperms ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
+%_fixperms ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
+
 %_fixperms ossim/include/ossim/base/ossimGeodeticEvaluator.h
 %_fixperms ossim/include/ossim/base/ossimAdjSolutionAttributes.h
-%_fixperms ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
+%_fixperms ossim/include/ossim/base/ossimBinaryDataProperty.h
+%_fixperms ossim/include/ossim/base/ossimGeodeticEvaluator.h
+%_fixperms ossim/include/ossim/base/ossimAdjSolutionAttributes.h
+%_fixperms ossim/include/ossim/base/ossimBinaryDataProperty.h
+
+%_fixperms ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
+%_fixperms ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
 %_fixperms ossim/src/ossim/base/ossimBinaryDataProperty.cpp
-%_fixperms ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
-%_fixperms ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
-%_fixperms ossim/include/ossim/base/ossimBinaryDataProperty.h
-%_fixperms ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
-%_fixperms ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
-%_fixperms ossim/include/ossim/base/ossimGeodeticEvaluator.h
-%_fixperms ossim/include/ossim/base/ossimAdjSolutionAttributes.h
-%_fixperms ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
 %_fixperms ossim/src/ossim/base/ossimBinaryDataProperty.cpp
 
 #wrong line endings.
@@ -170,7 +170,8 @@ for app in `ls %{buildroot}%{_libdir}/ossim-apps/ossim-*` ; do
 #!/bin/bash
 export OSSIM_PREFS_FILE=/usr/share/ossim/ossim_preferences
 EOF
-  
+
+  chmod +x %{buildroot}%{_bindir}/`basename $app`
 done
 
 %post -p /sbin/ldconfig
