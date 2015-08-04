@@ -11,6 +11,8 @@ URL:            http://trac.osgeo.org/ossim/wiki
 #svn export ossim ossim-1.8.19
 #tar cvf ossim-1.8.19.tar.xz ossim-1.8.19
 Source0:        http://download.osgeo.org/ossim/source/%{name}-%{version}/%{name}-%{version}-1.tar.gz
+Patch0: ossim-1.8.18-runtimedir.patch
+
 BuildRequires: cmake
 BuildRequires: geos-devel
 BuildRequires: libgeotiff-devel
@@ -59,7 +61,9 @@ This provides some .kwl templates and csv used for ossim projection.
 # -D on setup = Do not delete the directory before unpacking.
 # -T on setup = Disable the automatic unpacking of the archives.
 #---
-%setup -q
+%setup -q -D
+
+%patch0 -p1
 
 #csm_plugins  libwms  ossim     ossimjni               ossimPlanet    ossim_plugins  ossim_qt4       pqe
 #csmApi  gsoc         oms     ossimGui  ossim_package_support  ossimPlanetQt  ossimPredator  planet_message  SVN-INFO.txt
@@ -78,29 +82,19 @@ done
 
 %_fixperms ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
 %_fixperms ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
-
 %_fixperms ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
 %_fixperms ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
-
 %_fixperms ossim/include/ossim/base/ossimGeodeticEvaluator.h
 %_fixperms ossim/include/ossim/base/ossimAdjSolutionAttributes.h
 %_fixperms ossim/include/ossim/base/ossimBinaryDataProperty.h
-%_fixperms ossim/include/ossim/base/ossimGeodeticEvaluator.h
-%_fixperms ossim/include/ossim/base/ossimAdjSolutionAttributes.h
-%_fixperms ossim/include/ossim/base/ossimBinaryDataProperty.h
-
 %_fixperms ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
-%_fixperms ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
-%_fixperms ossim/src/ossim/base/ossimBinaryDataProperty.cpp
 %_fixperms ossim/src/ossim/base/ossimBinaryDataProperty.cpp
 
 #wrong line endings.
 sed -i 's/\r$//' ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
 sed -i 's/\r$//' ossim/include/ossim/base/ossimGeodeticEvaluator.h
 sed -i 's/\r$//' ossim/include/ossim/base/ossimAdjSolutionAttributes.h
-sed -i 's/\r$//' ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
-sed -i 's/\r$//' ossim/include/ossim/base/ossimGeodeticEvaluator.h
-sed -i 's/\r$//' ossim/include/ossim/base/ossimAdjSolutionAttributes.h
+
 
 #remove this to silence rpmlint
 rm -frv ossim/specs ossim/doc/*.spec ossim/ospr.spec ossim/ossim.spec*
@@ -140,8 +134,9 @@ pushd build
 make install DESTDIR=%{buildroot}
 popd
 
+mkdir -p %{buildroot}%{_datadir}/ossim/templates/
 install -p -m644 -D ossim/etc/templates/ossim_preferences_template %{buildroot}%{_datadir}/ossim/ossim_preferences
-install -p -m644 -D ossim/etc/templates %{buildroot}%{_datadir}/ossim/
+install -p -m644 -D ossim/etc/templates/* %{buildroot}%{_datadir}/ossim/templates/
 
 %global ossim_cmakedir ossim_package_support/cmake/CMakeModules
 mkdir -p %{buildroot}%{_libdir}/cmake/ossim/
@@ -156,9 +151,10 @@ done
 %endif
 
 echo "Generating man pages"
-export PATH=$PATH:%{buildroot}%{_bindir}
-export LD_LIBRARY_PATH=%{buildroot}%{_bindir}
+export PATH=%{buildroot}%{_libdir}/ossim-apps:$PATH
+export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_mandir}/man1
+mkdir -p %{buildroot}%{_bindir}
 for app in `ls %{buildroot}%{_libdir}/ossim-apps/ossim-*` ; do
   if [[ $app == *space-imaging* || $app == *swapbytes*  ]]; then
     help2man `basename $app` %{help2man_opt} --help-option=' ' --version-string=%{version} -o %{buildroot}%{_mandir}/man1/`basename $app`.1;
