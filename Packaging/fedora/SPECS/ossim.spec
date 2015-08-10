@@ -119,7 +119,7 @@ pushd build
     -DINSTALL_RUNTIME_DIR:PATH=%{_bindir}/ossim-apps/ \
     -DINSTALL_ARCHIVE_DIR:PATH=%{_libdir} \
     -DCMAKE_MODULE_PATH=%{_builddir}/%{name}-%{version}/ossim_package_support/cmake/CMakeModules \
-     $OSSIM_DEV_HOME/%{name}
+     %{_builddir}/%{name}-%{version}/%{name}
 make %{?_smp_mflags}
 popd
 
