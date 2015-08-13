@@ -332,7 +332,10 @@ macro(run_dashboard)
 
   # add specific modules (works for OTB only)
   if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
-    execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
+    execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}" RESULT_VARIABLE rv)
+    if(NOT rv EQUAL 0)
+      message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
+    endif()
   endif()
 
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
