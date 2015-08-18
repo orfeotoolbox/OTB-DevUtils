@@ -15,10 +15,7 @@ set(PROJECT "otb")
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
 
-macro(dashboard_hook_init)
 set(dashboard_cache "
-${otb_cache_common}
-
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_ROOT:STRING=/data/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/data/OTB-LargeInput
@@ -49,7 +46,6 @@ OTB_USE_LIBSVM:BOOL=OFF
 
 ")
 
-endmacro()
 
 macro(dashboard_hook_end)
   unset(CTEST_BUILD_COMMAND)
