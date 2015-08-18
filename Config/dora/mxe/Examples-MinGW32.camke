@@ -1,0 +1,27 @@
+# Maintainers : OTB developers team
+# Cross compilation of OTB library using MXE (M cross environment)
+set(dashboard_model Nightly)
+set(CTEST_DASHBOARD_ROOT "/data/Dashboard")
+set(CTEST_SITE "bumblebee.c-s.fr")
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_USE_LAUNCHERS ON)
+set(CMAKE_COMMAND "/data/Tools/cmake-git/install/bin/cmake")
+set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
+
+set(MXE_ROOT "/data/Tools/mxe")
+set(MXE_TARGET_ARCH "i686")
+set(PROJECT "otb")
+
+set(dashboard_update_dir "${CTEST_DASHBOARD_ROOT}/nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
+set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src/Examples")
+set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-Examples-MinGW-${MXE_TARGET_ARCH}")
+
+macro(dashboard_hook_init)
+set(dashboard_cache "
+${otb_cache_common}
+OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/nightly/OTB-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}
+BUILD_TESTING:BOOL=ON
+")
+endmacro()
+
+include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
