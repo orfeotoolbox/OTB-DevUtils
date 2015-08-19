@@ -27,7 +27,6 @@ set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build
 set(dashboard_cache "
 OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/nightly/otb-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}
 BUILD_TESTING:BOOL=ON
-OTB_BUILD_DEFAULT_MODULES:BOOL=ON
 ")
 
 
