@@ -12,7 +12,7 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
 set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout TRUE)
+#set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
 #set(ENV{DISPLAY} ":0.0")
