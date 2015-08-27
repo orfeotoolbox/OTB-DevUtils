@@ -1,13 +1,13 @@
 #
-# spec file for package OTB
+# spec file for package otb
 #
-# Copyright (c) 2014 Angelos Tzotsos <tzotsos@opensuse.org>.
+# Copyright (c) 2015 Angelos Tzotsos <tzotsos@opensuse.org>.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
 # upon. The license for this file, and modifications and additions to the
-# file, is the same license as for the OTB package itself (unless the
-# license for the OTB package is not an Open Source License, in which
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
 # case the license is the MIT License). An "Open Source License" is a
 # license that conforms to the Open Source Definition (Version 1.9)
 # published by the Open Source Initiative.
@@ -16,102 +16,179 @@
 
 # norootforbuild
 
-Name:           OTB
-Version:        4.0.0rc1
+%define tarname OTB 
+
+Name:           otb
+Version:        5.0.0
 Release:        1
-Summary:        The Orfeo Toolbox (OTB) is a C++ library for remote sensing image processing
+Summary:        The ORFEO Toolbox (OTB) is a C++ library for remote sensing image processing
 Group:          Development/Libraries
 License:        CECILL-2.0
 URL:            http://www.orfeo-toolbox.org
-Source0:        %{name}-4.0-rc1.tgz
+Source0:        %{tarname}-%{version}.tgz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
-BuildRequires:	cmake >= 2.8.0
-BuildRequires:  libgdal-devel 
-BuildRequires:  libgeotiff-devel 
-BuildRequires:  gcc-c++ 
-BuildRequires:  gcc 
-BuildRequires:  gettext-runtime 
-BuildRequires:	gettext-tools 
-BuildRequires:  freeglut-devel 
-BuildRequires:  libpng-devel 
-BuildRequires:  uuid-devel 
-BuildRequires:  libproj-devel 
-BuildRequires:	libexpat-devel 
-BuildRequires:  libicu-devel 
-BuildRequires:  libtool 
-BuildRequires:  libltdl7 
-BuildRequires:  swig 
-BuildRequires:  python-devel 
-BuildRequires:  python 
-BuildRequires:  python-base
-BuildRequires:  fdupes 
-BuildRequires:  libOpenThreads-devel 
+BuildRequires:  cmake >= 2.8.0
+BuildRequires:  gcc-c++
+BuildRequires:  gcc
+BuildRequires:  insighttoolkit-devel
+BuildRequires:  gdal-devel
+BuildRequires:  libgdal1
+BuildRequires:  libgeotiff-devel
+BuildRequires:  libpng-devel
+BuildRequires:  libjpeg-devel
+BuildRequires:  libtool
+BuildRequires:  libcurl-devel
+BuildRequires:  libOpenThreads-devel
 BuildRequires:  boost-devel
-BuildRequires:	curl 
-BuildRequires:  libqt4-devel 
+BuildRequires:  libexpat-devel
+BuildRequires:  libqt4-devel
+BuildRequires:  swig
+BuildRequires:  python-devel
+# BuildRequires:  libkml-devel
+BuildRequires:  libsvm-devel
+BuildRequires:  libsvm2
+BuildRequires:  muparser-devel
+BuildRequires:  muparserx-devel
+BuildRequires:  opencv-devel
+BuildRequires:  ossim-devel
+# BuildRequires:  openjpeg2-devel
+# BuildRequires:  openjpeg2
 BuildRequires:  fftw3-devel
-BuildRequires:	fftw3-threads-devel
-BuildRequires:	fltk-devel
-Requires:       gdal 
-Requires:       expat 
-Requires:       libgdal1 
-Requires:       libgeotiff 
-Requires:       libpng 
-Requires:       python
+BuildRequires:  fftw3-threads-devel
+BuildRequires:  tinyxml-devel
+BuildRequires:  vtk-devel
+BuildRequires:  zlib-devel
+# BuildRequires:  libuuid-devel
+BuildRequires:  libproj-devel
+BuildRequires:  fdupes
+BuildRequires:  dcmtk-devel
+Obsoletes:      OrfeoToolbox
 
 
 %description
-The %{name} is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program
+ORFEO Toolbox (OTB) is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program.
+ORFEO Toolbox is distributed as an open source library of image
+processing algorithms. OTB is based on the medical image processing library
+ITK and offers particular functionalities for remote sensing image processing
+in general and for high spatial resolution images in particular. OTB is
+distributed under a free software license CeCILL (similar to GNU GPL) to
+encourage contribution from users and to promote reproducible research.
+This package contains the command line tools illustrating OTB features.
 
-%package        devel
-Summary:        Development files for %{name}
+%package devel
+Summary:        ORFEO Toolbox development files
 Group:          Development/Libraries
-Requires:       %{name} = %{version}
-Requires: 	cmake 
-Requires:       gcc-c++ 
-Requires:       gcc 
-Requires:       freeglut-devel 
-Requires:       libgeotiff-devel 
-Requires:       libgdal-devel
-Requires:       libpng-devel 
-Requires:       boost-devel 
-Requires:       fftw3-devel
-Requires:	fftw3-threads-devel
-Requires:	fltk-devel
+Requires:       lib%{name}5 = %{version}
+Provides:       lib%{name}-devel
+Obsoletes:      OrfeoToolbox-devel
+# Requires:       cmake 
+# Requires:       gcc-c++ 
+# Requires:       gcc 
+# Requires:       freeglut-devel 
+# Requires:       libgeotiff-devel 
+# Requires:       libgdal-devel
+# Requires:       libpng-devel 
+# Requires:       boost-devel 
+# Requires:       fftw3-devel
+# Requires:       fftw3-threads-devel
+# Requires:       fltk-devel
+# Requires:       libOpenThreads-devel
+# Requires:       libcurl-devel 
 
-%description    devel
-Development files for the %{name} library. The %{name} is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program
+%description devel
+ORFEO Toolbox development files.
+ORFEO Toolbox (OTB) is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program. 
+ORFEO Toolbox is distributed as an open source library of image
+processing algorithms. OTB is based on the medical image processing library
+ITK and offers particular functionalities for remote sensing image processing
+in general and for high spatial resolution images in particular. OTB is
+distributed under a free software license CeCILL (similar to GNU GPL) to
+encourage contribution from users and to promote reproducible research.
+This package contains the development files needed to build your own OTB
+applications.
+
+
+%package -n lib%{name}5
+Summary:        ORFEO Toolbox shared library of image processing algorithms
+Group:          System/Libraries
+
+%description -n lib%{name}5
+ORFEO Toolbox shared library of image processing algorithms.
+ORFEO Toolbox (OTB) is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program.
+ORFEO Toolbox is distributed as an open source library of image
+processing algorithms. OTB is based on the medical image processing library
+ITK and offers particular functionalities for remote sensing image processing
+in general and for high spatial resolution images in particular. OTB is
+distributed under a free software license CeCILL (similar to GNU GPL) to
+encourage contribution from users and to promote reproducible research.
+This package contains the shared libraries required by Monteverdi,
+Monteverdi2 and the OTB applications.
+
+
+%package -n %{name}-qt
+Summary:        ORFEO Toolbox graphical user interface applications
+Group:          System/Libraries
+
+%description -n %{name}-qt
+ORFEO Toolbox graphical user interface applications.
+ORFEO Toolbox (OTB) is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program.
+ORFEO Toolbox is distributed as an open source library of image
+processing algorithms. OTB is based on the medical image processing library
+ITK and offers particular functionalities for remote sensing image processing
+in general and for high spatial resolution images in particular. OTB is
+distributed under a free software license CeCILL (similar to GNU GPL) to
+encourage contribution from users and to promote reproducible research.
+This package contains the GUI tools illustrating OTB features (using plugins
+provided by otb package).
+
+
+%package -n python-%{name}
+Summary:        ORFEO Toolbox Python API for applications
+Group:          System/Libraries
+
+%description -n python-%{name}
+ORFEO Toolbox Python API for applications.
+ORFEO Toolbox (OTB) is a library of image processing algorithms developed by CNES in the frame of the ORFEO Accompaniment Program.
+ORFEO Toolbox is distributed as an open source library of image
+processing algorithms. OTB is based on the medical image processing library
+ITK and offers particular functionalities for remote sensing image processing
+in general and for high spatial resolution images in particular. OTB is
+distributed under a free software license CeCILL (similar to GNU GPL) to
+encourage contribution from users and to promote reproducible research.
+This package contains the Python API for applications provided by the
+otb package.
 
 
 %prep
-%setup -q -n %{name}-4.0-rc1
+%setup -q -n %{tarname}-%{version}
 
 %build
 cd ..
 mkdir temp
 cd temp
-cmake  -DBUILD_EXAMPLES:BOOL=OFF \
-       -DBUILD_TESTING:BOOL=OFF \
-       -DBUILD_SHARED_LIBS:BOOL=ON \
-       -DBUILD_APPLICATIONS:BOOL=ON \
-       -DOTB_USE_GETTEXT:BOOL=OFF \
-       -DOTB_USE_CURL:BOOL=ON \
-       -DOTB_USE_FFTW:BOOL=ON \
-       -DOTB_USE_MAPNIK:BOOL=OFF \
-       -DOTB_USE_EXTERNAL_EXPAT:BOOL=ON \
-       -DOTB_USE_EXTERNAL_FLTK:BOOL=ON \
-       -DOTB_USE_EXTERNAL_BOOST:BOOL=ON \
-       -DOTB_USE_EXTERNAL_GDAL:BOOL=ON \
-       -DOTB_USE_EXTERNAL_ITK:BOOL=OFF \
-       -DOTB_WRAP_QT:BOOL=ON \
-       -DOTB_WRAP_PYTHON:BOOL=ON \
-       -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+cmake  -DCMAKE_INSTALL_PREFIX:PATH=/usr \
        -DCMAKE_SKIP_RPATH:BOOL=ON \
-       -DOTB_INSTALL_LIB_DIR:STRING=%{_lib}/otb \
-       -DOTB_INSTALL_APP_DIR:STRING=%{_lib}/otb/applications \
+       -DBUILD_SHARED_LIBS:BOOL=ON \
+       -DBUILD_EXAMPLES:BOOL=OFF \
+       -DBUILD_TESTING:BOOL=OFF \
+       -DOTB_USE_6S:BOOL=ON \
+       -DOTB_USE_CURL:BOOL=ON \
+       -DOTB_USE_LIBKML:BOOL=OFF \
+       -DOTB_USE_LIBSVM:BOOL=ON \
+       -DOTB_USE_MAPNIK:BOOL=OFF \
+       -DOTB_USE_MUPARSER:BOOL=ON \
+       -DOTB_USE_MUPARSERX:BOOL=ON \
+       -DOTB_USE_OPENCV:BOOL=ON \
+       -DOTB_USE_OPENJPEG:BOOL=OFF \
+       -DOTB_USE_QT4:BOOL=ON \
+       -DOTB_USE_SIFTFAST:BOOL=ON \
+       -DOTB_WRAP_JAVA:BOOL=OFF \
+       -DOTB_WRAP_PYTHON:BOOL=ON \
+       -DOTB_INSTALL_LIBRARY_DIR:STRING=%{_lib} \
        -DOTB_INSTALL_PYTHON_DIR:STRING=%{_lib}/otb/python \
-       -DCMAKE_BUILD_TYPE:STRING="Release" ../%{name}-4.0-rc1/
+       -DOTB_INSTALL_APP_DIR:STRING=%{_lib}/otb/applications \
+       -DCMAKE_BUILD_TYPE:STRING=Release ../%{tarname}-%{version}/
 
 make VERBOSE=1 %{?_smp_mflags}
 
@@ -119,59 +196,72 @@ make VERBOSE=1 %{?_smp_mflags}
 %install
 cd ../temp
 make install DESTDIR=%{buildroot}
-install -d %{buildroot}%{_sysconfdir}/ld.so.conf.d
-LDCONFIG_FILE=%{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
-%if "%{_lib}" == "lib64"
-cat > "$LDCONFIG_FILE" <<EOF
-# Orfeo Toolbox related search paths
-/usr/lib64/otb
-EOF
-%else
-cat > "$LDCONFIG_FILE" <<EOF
-# Orfeo Toolbox related search paths
-/usr/lib/otb
-EOF
-%endif
 
-%if "%{_lib}" == "lib64"
-mkdir -p %{buildroot}/usr/lib64
-mv %{buildroot}/usr/lib/* %{buildroot}/usr/lib64/
-%endif
+# install -d %{buildroot}%{_sysconfdir}/ld.so.conf.d
+# LDCONFIG_FILE=%{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
+# %if "%{_lib}" == "lib64"
+# cat > "$LDCONFIG_FILE" <<EOF
+# # Orfeo Toolbox related search paths
+# /usr/lib64/otb
+# EOF
+# %else
+# cat > "$LDCONFIG_FILE" <<EOF
+# # Orfeo Toolbox related search paths
+# /usr/lib/otb
+# EOF
+# %endif
+
+# %if "%{_lib}" == "lib64"
+# mkdir -p %{buildroot}/usr/lib64
+# mv %{buildroot}/usr/lib/* %{buildroot}/usr/lib64/
+# %endif
 
 rm -rf %{buildroot}/usr/share/doc
 rm -rf %{buildroot}/usr/lib/debug
 
-%fdupes %{buildroot}%{_includedir}/otb
+%fdupes %{buildroot}
 
 
 %clean
 rm -rf %{buildroot}
 
-%post
-/sbin/ldconfig
+%post -n lib%{name}5 -p /sbin/ldconfig
 
-%postun
-/sbin/ldconfig
+%postun -n lib%{name}5 -p /sbin/ldconfig
 
 %files
 %defattr(-,root,root,-)
-%config %{_sysconfdir}/ld.so.conf.d/otb.conf
-%{_bindir}/*
-#%{_libdir}/lib*.so.*
+%{_bindir}/otbApplicationLauncherCommandLine
+%{_bindir}/otbcli_*
+%{_bindir}/otbcli
 %dir %{_libdir}/otb/
-%{_libdir}/otb/lib*.so.*
 %dir %{_libdir}/otb/applications/
+%{_libdir}/otb/applications/otbapp_*.so
+
+%files -n %{name}-qt
+%defattr(644,root,root,755)
+%{_bindir}/otbApplicationLauncherQt
+%{_bindir}/otbgui_*
+%{_bindir}/otbgui
+
+%files -n lib%{name}5
+%defattr(644,root,root,755)
+# %config %{_sysconfdir}/ld.so.conf.d/otb.conf
+# %dir %{_libdir}/otb/
+%{_libdir}/*.so.*
+%{_bindir}/otbTestDriver
+
+%files -n python-%{name}
+%defattr(644,root,root,755)
 %dir %{_libdir}/otb/python/
-%{_libdir}/otb/applications/*
 %{_libdir}/otb/python/*
 
 %files devel
 %defattr(-,root,root,-)
-%{_includedir}/otb/
-%{_libdir}/otb/lib*.so
+%{_includedir}/OTB-5.0/
+%{_libdir}/lib*.so
 %{_libdir}/cmake/
-#%{_libdir}/lib*.so
-%{_libdir}/otb/*.cmake
-%{_libdir}/otb/cmakemodules/ 
+# %{_libdir}/*.cmake
+# %{_libdir}/cmakemodules/ 
 
 %changelog
