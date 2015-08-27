@@ -1,0 +1,16 @@
+Description: Upstream provides an option to build against
+ a system installed double conversion but it appears as
+ broken at least on Debian
+Author: Mathieu Malaterre <malat@debian.org>
+Bug-Debian: http://bugs.debian.org/733629
+
+--- insighttoolkit4-4.5.0.orig/Modules/Core/Common/src/CMakeLists.txt
++++ insighttoolkit4-4.5.0/Modules/Core/Common/src/CMakeLists.txt
+@@ -108,6 +108,7 @@ endif()
+ ### generating libraries
+ add_library( ITKCommon ${ITK_LIBRARY_BUILD_TYPE} ${ITKCommon_SRCS})
+ 
++include_directories( /usr/include/double-conversion )
+ target_link_libraries(ITKCommon
+   itksys
+   ITKVNLInstantiation
