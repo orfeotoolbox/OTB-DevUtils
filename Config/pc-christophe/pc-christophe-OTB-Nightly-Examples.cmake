@@ -36,6 +36,29 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
+
+##external GDAL
+GDAL_CONFIG:FILEPATH=${INSTALLROOT}/gdal/trunk/bin/gdal-config
+GDAL_INCLUDE_DIR:PATH=${INSTALLROOT}/gdal/trunk/include/
+GDAL_LIBRARY:FILEPATH=${INSTALLROOT}/gdal/trunk/lib/libgdal.so
+
+##external ITK
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}build/itk/trunk/Release
+
+##external OpenCV
+OpenCV_DIR=${INSTALLROOT}/opencv/trunk/share/OpenCV/
+
+##external OSSIM
+OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/trunk/include
+OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/trunk/lib64/libossim.so
+
+##external muparserx
+MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
+
+#external openjpeg
+OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/trunk/lib/openjpeg-2.1
+
 ")
 endmacro()
 
