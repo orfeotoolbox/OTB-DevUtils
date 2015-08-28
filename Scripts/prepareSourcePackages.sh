@@ -18,13 +18,13 @@ OUT_DIR=`readlink -f $2`
 for project in OTB Ice Monteverdi2; do
   cd $CLONE_DIR/$project
   
-  git checkout master
-  git pull --rebase
-  
   # Extract last tagged version identifier
   full_version=$(git describe --abbrev=0 --tags)
   #echo "$project : $full_version"
-  
+
+  #Checkout the release
+  git checkout $full_version
+
   case $project in
     OTB)
       pkg_name=OrfeoToolBox
@@ -42,4 +42,7 @@ for project in OTB Ice Monteverdi2; do
   echo Generating $OUT_DIR/$pkg_name-$full_version.tar.gz
   git archive --format=tgz -o $OUT_DIR/$pkg_name-$full_version.tar.gz --prefix=$pkg_name-$full_version/ $full_version
 
+  git config tar.tar.xz.command "xz -c"
+  echo Generating $OUT_DIR/$pkg_name-$full_version.tar.xz
+  git archive --format=tar.xz -o $OUT_DIR/$pkg_name-$full_version.tar.xz --prefix=$pkg_name-$full_version/ $full_version
 done
