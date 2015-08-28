@@ -8,15 +8,13 @@ set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -i -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
-set(CTEST_HG_COMMAND "/usr/bin/hg")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
 set(dashboard_binary_name "build/orfeo/trunk/OTB-clang-ThridPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
 
 #set(dashboard_fresh_source_checkout TRUE)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
-set(dashboard_hg_branch "default")
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(CTEST_USE_LAUNCHERS 1)
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
