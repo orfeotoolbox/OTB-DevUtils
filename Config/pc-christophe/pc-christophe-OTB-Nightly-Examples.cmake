@@ -31,6 +31,12 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
+
+CMAKE_C_COMPILER=/usr/bin/clang
+CMAKE_CXX_COMPILER=/usr/bin/clang++
+CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized  -Wno-unused-variable -Wno-gnu
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-gnu -Wno-overloaded-virtual -Wno-\\#warnings
+
 BUILD_TESTING:BOOL=ON
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
