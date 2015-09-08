@@ -18,6 +18,8 @@ set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
 set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
+set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
+
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
 set(dashboard_root_name "tests")
