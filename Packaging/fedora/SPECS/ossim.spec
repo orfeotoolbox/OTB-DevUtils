@@ -1,5 +1,5 @@
 #name of library as it is
-%define sname OSSIM
+%global name_ucase OSSIM
 Name:           ossim
 Version:        1.8.18
 Release:        2%{?dist}
@@ -22,34 +22,36 @@ BuildRequires: OpenThreads-devel
 BuildRequires: help2man
 
 %description
-%{sname} is a powerful suite of geospatial libraries and applications
+%{name_ucase} is a powerful suite of geospatial libraries and applications
 used to process remote sensing imagery, maps, terrain, and vector data.
 
 %package   devel
-Summary:   Development files for %{sname}
 Requires:  %{name}%{?_isa} = %{version}-%{release}
+Summary:   Development files for %{name_ucase}
+Requires:  ossim
 
 %description devel
 This provides all includes and libraries required for
-development of %{sname} library
+development of %{name_ucase} library
 
 %package   apps
-Summary:   %{sname} applications
 Requires:  %{name}%{?_isa} = %{version}-%{release}
-
+Summary:   %{name_ucase} applications
 %description apps
-This package provides applications built with %{sname} library
+This package provides applications built with %{name_ucase} library
 
 %package   doc
 BuildArch: noarch
-Summary:   Documentation for %{sname}
+Requires:  %{name}%{?_isa} = %{version}-%{release}
+Summary:   Documentation for %{name_ucase}
 
 %description doc
-This provides documentation for %{sname} library
+This provides documentation for %{name_ucase} library
 
 %package   data
 BuildArch: noarch
-Summary:   Additional data files for %{sname}
+Requires:  %{name}%{?_isa} = %{version}-%{release}
+Summary:   Additional data files for %{name_ucase}
 
 %description data
 This provides some .kwl templates and csv used for ossim projection.
@@ -78,17 +80,19 @@ for tparty in windows_package rpms; do \
     rm -frv ossim_package_support/${tparty}; \
 done
 
-#fix permissions
+#remove these to silence rpmlint
+rm -frv ossim/specs ossim/doc/*.spec ossim/ospr.spec ossim/ossim.spec*
 
-%_fixperms ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
-%_fixperms ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
-%_fixperms ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
-%_fixperms ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
-%_fixperms ossim/include/ossim/base/ossimGeodeticEvaluator.h
-%_fixperms ossim/include/ossim/base/ossimAdjSolutionAttributes.h
-%_fixperms ossim/include/ossim/base/ossimBinaryDataProperty.h
-%_fixperms ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
-%_fixperms ossim/src/ossim/base/ossimBinaryDataProperty.cpp
+#fix permissions
+chmod -x ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
+chmod -x ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
+chmod -x ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
+chmod -x ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
+chmod -x ossim/include/ossim/base/ossimGeodeticEvaluator.h
+chmod -x ossim/include/ossim/base/ossimAdjSolutionAttributes.h
+chmod -x ossim/include/ossim/base/ossimBinaryDataProperty.h
+chmod -x ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
+chmod -x ossim/src/ossim/base/ossimBinaryDataProperty.cpp
 
 #wrong line endings.
 sed -i 's/\r$//' ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
@@ -96,14 +100,7 @@ sed -i 's/\r$//' ossim/include/ossim/base/ossimGeodeticEvaluator.h
 sed -i 's/\r$//' ossim/include/ossim/base/ossimAdjSolutionAttributes.h
 
 
-#remove this to silence rpmlint
-rm -frv ossim/specs ossim/doc/*.spec ossim/ospr.spec ossim/ossim.spec*
-
-
 %build
-# Exports for ossim build:
-export OSSIM_DEV_HOME=%{_builddir}/%{name}-%{version}
-
 mkdir -p build
 pushd build
 %cmake \
@@ -119,10 +116,10 @@ pushd build
     -DSubversion_SVN_EXECUTABLE="" \
     -DBUILD_WMS=OFF \
     -DINSTALL_LIBRARY_DIR:PATH=%{_libdir} \
-    -DINSTALL_RUNTIME_DIR:PATH=%{_libdir}/ossim-apps/ \
+    -DINSTALL_RUNTIME_DIR:PATH=%{_bindir}/ossim-apps/ \
     -DINSTALL_ARCHIVE_DIR:PATH=%{_libdir} \
-    -DCMAKE_MODULE_PATH=$OSSIM_DEV_HOME/ossim_package_support/cmake/CMakeModules \
-     $OSSIM_DEV_HOME/%{name}
+    -DCMAKE_MODULE_PATH=%{_builddir}/%{name}-%{version}/ossim_package_support/cmake/CMakeModules \
+     %{_builddir}/%{name}-%{version}/%{name}
 make %{?_smp_mflags}
 popd
 
@@ -151,11 +148,10 @@ done
 %endif
 
 echo "Generating man pages"
-export PATH=%{buildroot}%{_libdir}/ossim-apps:$PATH
+export PATH=%{buildroot}%{_bindir}/ossim-apps:$PATH
 export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_mandir}/man1
-mkdir -p %{buildroot}%{_bindir}
-for app in `ls %{buildroot}%{_libdir}/ossim-apps/ossim-*` ; do
+for app in `ls %{buildroot}%{_bindir}/ossim-apps/ossim-*` ; do
   if [[ $app == *space-imaging* || $app == *swapbytes*  ]]; then
     help2man `basename $app` %{help2man_opt} --help-option=' ' --version-string=%{version} -o %{buildroot}%{_mandir}/man1/`basename $app`.1;
   else
@@ -165,6 +161,7 @@ for app in `ls %{buildroot}%{_libdir}/ossim-apps/ossim-*` ; do
   cat <<EOF > "%{buildroot}%{_bindir}/`basename $app`"
 #!/bin/bash
 export OSSIM_PREFS_FILE=/usr/share/ossim/ossim_preferences
+/usr/%{_bindir}/ossim-apps/`basename $app` "$@"
 EOF
 
   chmod +x %{buildroot}%{_bindir}/`basename $app`
@@ -176,6 +173,7 @@ done
 
 %files
 %{_libdir}/libossim.so.*
+%license ossim/LICENSE.txt
 
 %files devel
 %{_libdir}/libossim.so
@@ -190,19 +188,21 @@ done
 
 %files apps
 %{_bindir}/ossim-*
-%{_libdir}/ossim-apps/ossim-*
+%{_bindir}/ossim-apps/ossim-*
 %{_mandir}/man1/ossim*
 
 %files doc
 %doc ossim/README.txt
 
-%license ossim/LICENSE.txt
 
 %files data
 %{_datadir}/ossim/
 
 
 %changelog
+* Sun Aug 9 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
+- review on bugzilla ID 1244353. comment 21
+
 * Sun Aug 2 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
 - review on bugzilla ID 1244353. comment 6-13
 

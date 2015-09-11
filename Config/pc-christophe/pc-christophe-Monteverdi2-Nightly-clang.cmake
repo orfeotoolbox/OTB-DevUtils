@@ -49,7 +49,7 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 
-OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/Release/lib/otb/
+OTB_DIR:PATH=${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/Release/lib/cmake/OTB-5.0
 #qwt
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
 QWT_LIBRARY:FILEPPATH=/usr/lib64/libqwt.so.5

@@ -113,9 +113,12 @@ endif()
 if(NOT CTEST_TEST_TIMEOUT)
   set(CTEST_TEST_TIMEOUT 1500)
 endif()
-
+if(NOT DEFINED CTEST_DASHBOARD_TRACK)
+  set(CTEST_DASHBOARD_TRACK Nightly)
+endif()
 if(DEFINED dashboard_module)
   set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
+  set(CTEST_DASHBOARD_TRACK RemoteModules)
 endif()
 
 # Select Git source to use.
@@ -210,7 +213,7 @@ if(NOT EXISTS "${dashboard_update_dir}"
         execute_process(
             COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
                     \"${dashboard_update_dir}\" )   ")
-  
+
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
   # CTest delayed initialization is broken, so we put the
   # CTestConfig.cmake info here.
@@ -253,6 +256,7 @@ foreach(v
     CTEST_CHECKOUT_COMMAND
     CTEST_SCRIPT_DIRECTORY
     CTEST_USE_LAUNCHERS
+    CTEST_DASHBOARD_TRACK
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
@@ -315,7 +319,7 @@ macro(run_dashboard)
   if(COMMAND dashboard_hook_start)
     dashboard_hook_start()
   endif()
-  ctest_start(${dashboard_model})
+  ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
 
   # Always build if the tree is fresh.
   set(dashboard_fresh 0)
@@ -332,7 +336,10 @@ macro(run_dashboard)
 
   # add specific modules (works for OTB only)
   if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
-    execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
+    execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}" RESULT_VARIABLE rv)
+    if(NOT rv EQUAL 0)
+      message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
+    endif()
   endif()
 
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
