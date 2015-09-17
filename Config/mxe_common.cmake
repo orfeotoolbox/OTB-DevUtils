@@ -172,7 +172,7 @@ if(NOT CTEST_TEST_TIMEOUT)
 endif()
 
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
-  set(CTEST_DASHBOARD_TRACK Nightly)
+  set(CTEST_DASHBOARD_TRACK CrossCompile)
 endif()
 
 if(NOT DEFINED CTEST_BUILD_NAME)
@@ -182,7 +182,7 @@ endif()
 if(DEFINED dashboard_module)
   set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
   set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_module}")
-  set(CTEST_DASHBOARD_TRACK RemoteModules)  
+  set(CTEST_DASHBOARD_TRACK RemoteModules)
 endif()
 
 # Select Git source to use.
@@ -276,7 +276,7 @@ if(NOT EXISTS "${dashboard_update_dir}"
         execute_process(
             COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
                     \"${dashboard_update_dir}\" )   ")
-  
+
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
   # CTest delayed initialization is broken, so we put the
   # CTestConfig.cmake info here.
@@ -327,7 +327,7 @@ foreach(v
     CTEST_CHECKOUT_COMMAND
     CTEST_SCRIPT_DIRECTORY
     CTEST_USE_LAUNCHERS
-    CTEST_DASHBOARD_TRACK    
+    CTEST_DASHBOARD_TRACK
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
