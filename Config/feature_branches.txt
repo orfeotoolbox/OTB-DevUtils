@@ -1,4 +1,3 @@
-rfc-7-backend
 rfc-7-update-filters
 regression-846
 ossimplugins
