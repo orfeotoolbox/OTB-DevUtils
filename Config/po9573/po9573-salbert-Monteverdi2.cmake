@@ -13,8 +13,8 @@ set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 set (CTEST_SITE "po9573.c-s.fr" )
 set (CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}-$ENV{USER}")
-set (CTEST_GIT_COMMAND "/usr/bin/git")
-set (CTEST_GIT_UPDATE_OPTIONS "")
+# set (CTEST_GIT_COMMAND "/usr/bin/git")
+# set (CTEST_GIT_UPDATE_OPTIONS "")
 set (CTEST_USE_LAUNCHERS ON)
 
 set (MVD2_INSTALL_PREFIX "$ENV{HOME}/dev/install/Monteverdi2")
@@ -24,8 +24,10 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
 
-CMAKE_C_FLAGS:STRING=-Wall
-CMAKE_CXX_FLAGS:STRING=-Wall
+CMAKE_C_FLAGS:STRING=-Wall -Wextra
+CMAKE_CXX_FLAGS:STRING=-Wall -Wextra
+# CMAKE_C_FLAGS:STRING=-Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -Wno-unused-variable
+# CMAKE_CXX_FLAGS:STRING=-Wall -Wextra -Wno-unused-parameter
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 

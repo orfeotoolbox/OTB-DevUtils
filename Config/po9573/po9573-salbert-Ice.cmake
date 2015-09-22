@@ -16,8 +16,8 @@ set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 set (CTEST_SITE "po9573.c-s.fr" )
 set (CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}-$ENV{USER}")
-set (CTEST_GIT_COMMAND "/usr/bin/git")
-set (CTEST_GIT_UPDATE_OPTIONS "")
+# set (CTEST_GIT_COMMAND "/usr/bin/git")
+# set (CTEST_GIT_UPDATE_OPTIONS "")
 set (CTEST_USE_LAUNCHERS ON)
 
 set (ICE_INSTALL_PREFIX "$ENV{HOME}/dev/install/Ice")
@@ -27,8 +27,8 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 # CTEST_USE_LAUNCHERS:BOOL=ON
 
-CMAKE_C_FLAGS:STRING=-Wall
-CMAKE_CXX_FLAGS:STRING=-Wall
+CMAKE_C_FLAGS:STRING=-Wall -Wextra
+CMAKE_CXX_FLAGS:STRING=-Wall -Wextra
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
@@ -59,7 +59,7 @@ execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${ICE_INSTALL_
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 ctest_start (Experimental)
-ctest_update (SOURCE "${CTEST_SOURCE_DIRECTORY}")
+# ctest_update (SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file (WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${ICE_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
 ctest_read_custom_files (${CTEST_BINARY_DIRECTORY})
