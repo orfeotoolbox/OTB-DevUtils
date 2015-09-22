@@ -1,73 +1,60 @@
 #name of library as it is
-%define sname OSSIM
+%global name_ucase OSSIM
 Name:           ossim
 Version:        1.8.18
 Release:        2%{?dist}
 Summary:        Open Source Software Image Map library and command line applications
 Group:          System Environment/Libraries
-#TODO: Which version?
 License:        LGPLv2+
 URL:            http://trac.osgeo.org/ossim/wiki
 #created from svn revision 23275
 #svn export ossim ossim-1.8.19
 #tar cvf ossim-1.8.19.tar.xz ossim-1.8.19
-Source0:        http://download.osgeo.org/ossim/source/%{name}-%{version}-1/%{name}-%{version}-1.tar.gz
-#BuildRequires: ant
+Source0:        http://download.osgeo.org/ossim/source/%{name}-%{version}/%{name}-%{version}-1.tar.gz
+Patch0: ossim-1.8.18-runtimedir.patch
+
 BuildRequires: cmake
-#BuildRequires: gdal-devel
 BuildRequires: geos-devel
-#BuildRequires: hdf-devel
-#BuildRequires: hdf5-devel
-#BuildRequires: java-devel
-BuildRequires: libcurl-devel
 BuildRequires: libgeotiff-devel
 BuildRequires: libjpeg-devel
 BuildRequires: libpng-devel
-# BuildRequires: libraw-devel
-#BuildRequires: minizip-devel
-#BuildRequires: OpenSceneGraph-devel
 BuildRequires: OpenThreads-devel
-#BuildRequires: podofo-devel
-#BuildRequires: qt4-devel
-#BuildRequires: swig
 BuildRequires: help2man
 
 %description
-%{sname} is a powerful suite of geospatial libraries and applications
+%{name_ucase} is a powerful suite of geospatial libraries and applications
 used to process remote sensing imagery, maps, terrain, and vector data.
 
-%package	    devel
-Summary:        Development files for %{sname}
-Group:          Development/Libraries
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package   devel
+Requires:  %{name}%{?_isa} = %{version}-%{release}
+Summary:   Development files for %{name_ucase}
+Requires:  ossim
 
 %description devel
 This provides all includes and libraries required for
-development of %{sname} library
+development of %{name_ucase} library
 
-%package 	apps
-Summary:        %{sname} applications
-Group:          System Environment/Libraries
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-
+%package   apps
+Requires:  %{name}%{?_isa} = %{version}-%{release}
+Summary:   %{name_ucase} applications
 %description apps
-This package provides applications built with %{sname} library
+This package provides applications built with %{name_ucase} library
 
-%package	    doc
-Summary:        Documentation for %{sname}
-Group:          Documentation
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package   doc
+BuildArch: noarch
+Requires:  %{name}%{?_isa} = %{version}-%{release}
+Summary:   Documentation for %{name_ucase}
 
 %description doc
-This provides documentation for %{sname} library
+This provides documentation for %{name_ucase} library
 
-%package	    data
-Summary:        Additional data files for %{sname}
-Group:          Documentation
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package   data
+BuildArch: noarch
+Requires:  %{name}%{?_isa} = %{version}-%{release}
+Summary:   Additional data files for %{name_ucase}
 
 %description data
-This provides data and configuration files for %{sname} library
+This provides some .kwl templates and csv used for ossim projection.
 
 
 %prep
@@ -76,8 +63,9 @@ This provides data and configuration files for %{sname} library
 # -D on setup = Do not delete the directory before unpacking.
 # -T on setup = Disable the automatic unpacking of the archives.
 #---
-# %setup -q -D -T
 %setup -q -D
+
+%patch0 -p1
 
 #csm_plugins  libwms  ossim     ossimjni               ossimPlanet    ossim_plugins  ossim_qt4       pqe
 #csmApi  gsoc         oms     ossimGui  ossim_package_support  ossimPlanetQt  ossimPredator  planet_message  SVN-INFO.txt
@@ -92,14 +80,27 @@ for tparty in windows_package rpms; do \
     rm -frv ossim_package_support/${tparty}; \
 done
 
-#remove this to silence rpmlint
+#remove these to silence rpmlint
 rm -frv ossim/specs ossim/doc/*.spec ossim/ospr.spec ossim/ossim.spec*
+
+#fix permissions
+chmod -x ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
+chmod -x ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
+chmod -x ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
+chmod -x ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
+chmod -x ossim/include/ossim/base/ossimGeodeticEvaluator.h
+chmod -x ossim/include/ossim/base/ossimAdjSolutionAttributes.h
+chmod -x ossim/include/ossim/base/ossimBinaryDataProperty.h
+chmod -x ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
+chmod -x ossim/src/ossim/base/ossimBinaryDataProperty.cpp
+
+#wrong line endings.
+sed -i 's/\r$//' ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
+sed -i 's/\r$//' ossim/include/ossim/base/ossimGeodeticEvaluator.h
+sed -i 's/\r$//' ossim/include/ossim/base/ossimAdjSolutionAttributes.h
 
 
 %build
-# Exports for ossim build:
-export OSSIM_DEV_HOME=%{_builddir}/%{name}-%{version}
-
 mkdir -p build
 pushd build
 %cmake \
@@ -115,9 +116,10 @@ pushd build
     -DSubversion_SVN_EXECUTABLE="" \
     -DBUILD_WMS=OFF \
     -DINSTALL_LIBRARY_DIR:PATH=%{_libdir} \
+    -DINSTALL_RUNTIME_DIR:PATH=%{_bindir}/ossim-apps/ \
     -DINSTALL_ARCHIVE_DIR:PATH=%{_libdir} \
-    -DCMAKE_MODULE_PATH=$OSSIM_DEV_HOME/ossim_package_support/cmake/CMakeModules \
-     $OSSIM_DEV_HOME/%{name}
+    -DCMAKE_MODULE_PATH=%{_builddir}/%{name}-%{version}/ossim_package_support/cmake/CMakeModules \
+     %{_builddir}/%{name}-%{version}/%{name}
 make %{?_smp_mflags}
 popd
 
@@ -129,44 +131,53 @@ pushd build
 make install DESTDIR=%{buildroot}
 popd
 
-install -p -m644 -D ossim/etc/linux/profile.d/ossim.sh %{buildroot}%{_sysconfdir}/profile.d/ossim.sh
-install -p -m644 -D ossim/etc/linux/profile.d/ossim.csh %{buildroot}%{_sysconfdir}/profile.d/ossim.csh
+mkdir -p %{buildroot}%{_datadir}/ossim/templates/
 install -p -m644 -D ossim/etc/templates/ossim_preferences_template %{buildroot}%{_datadir}/ossim/ossim_preferences
+install -p -m644 -D ossim/etc/templates/* %{buildroot}%{_datadir}/ossim/templates/
 
 %global ossim_cmakedir ossim_package_support/cmake/CMakeModules
 mkdir -p %{buildroot}%{_libdir}/cmake/ossim/
-for file in Findossim.cmake OssimQt4Macros.cmake OssimQt5Macros.cmake OssimUtilities.cmake OssimCommonVariables.cmake OssimVersion.cmake; do
-    install -p -m644 %{ossim_cmakedir}/$file %{buildroot}%{_libdir}/cmake/ossim/$file;
+for cmake_file in Findossim.cmake OssimQt4Macros.cmake OssimQt5Macros.cmake OssimUtilities.cmake OssimCommonVariables.cmake OssimVersion.cmake; do
+    install -p -m644 %{ossim_cmakedir}/$cmake_file %{buildroot}%{_libdir}/cmake/ossim/$cmake_file;
 done
 
 %global help2man_opt "--no-discard-stderr"
 %if 0%{?rhel} && 0%{?rhel} <= 7
-echo "skipping man pages"
-%global help2man_opt ""
+  echo "skipping man pages"
+  %global help2man_opt ""
 %endif
 
 echo "Generating man pages"
-export PATH=$PATH:%{buildroot}%{_bindir}
-export LD_LIBRARY_PATH=%{buildroot}%{_bindir}
+export PATH=%{buildroot}%{_bindir}/ossim-apps:$PATH
+export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_mandir}/man1
-for file in `ls %{buildroot}%{_bindir}/ossim-*` ; do
-    if [[ $file == *space-imaging* || $file == *swapbytes*  ]]; then
-	help2man `basename $file` %{help2man_opt} --help-option=' ' --version-string=%{version} -o %{buildroot}%{_mandir}/man1/`basename $file`.1;
-    else
-	help2man `basename $file` %{help2man_opt} -o %{buildroot}%{_mandir}/man1/`basename $file`.1;
-    fi
+for app in `ls %{buildroot}%{_bindir}/ossim-apps/ossim-*` ; do
+  if [[ $app == *space-imaging* || $app == *swapbytes*  ]]; then
+    help2man `basename $app` %{help2man_opt} --help-option=' ' --version-string=%{version} -o %{buildroot}%{_mandir}/man1/`basename $app`.1;
+  else
+    help2man `basename $app` %{help2man_opt} -o %{buildroot}%{_mandir}/man1/`basename $app`.1;
+  fi
+
+  cat <<EOF > "%{buildroot}%{_bindir}/`basename $app`"
+#!/bin/bash
+export OSSIM_PREFS_FILE=/usr/share/ossim/ossim_preferences
+/usr/%{_bindir}/ossim-apps/`basename $app` "$@"
+EOF
+
+  chmod +x %{buildroot}%{_bindir}/`basename $app`
 done
 
-%post -n ossim -p /sbin/ldconfig
+%post -p /sbin/ldconfig
 
-%postun -n ossim -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %files
 %{_libdir}/libossim.so.*
+%license ossim/LICENSE.txt
 
 %files devel
+%{_libdir}/libossim.so
 %{_includedir}/ossim*
-%{_libdir}/*.so*
 %{_libdir}/cmake/ossim/Findossim.cmake
 %{_libdir}/cmake/ossim/OssimQt4Macros.cmake
 %{_libdir}/cmake/ossim/OssimQt5Macros.cmake
@@ -177,25 +188,36 @@ done
 
 %files apps
 %{_bindir}/ossim-*
+%{_bindir}/ossim-apps/ossim-*
 %{_mandir}/man1/ossim*
 
 %files doc
-%doc ossim/LICENSE.txt
+%doc ossim/README.txt
+
 
 %files data
 %{_datadir}/ossim/
-%{_sysconfdir}/profile.d/ossim.sh
-%{_sysconfdir}/profile.d/ossim.csh
 
 
 %changelog
+* Sun Aug 9 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
+- review on bugzilla ID 1244353. comment 21
+
+* Sun Aug 2 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
+- review on bugzilla ID 1244353. comment 6-13
+
+* Sat Aug 1 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
+- update spec after review on bugzilla ID 1244353. comment 5
+
+* Mon Jul 20 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
+- update spec after review on bugzilla ID 1244353
+
 * Fri Apr 24 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
 - revert back to 1.8.18
 
 * Fri Apr 24 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.19-1
 - update to ossim 1.8.19 svn revision 23275
 - update cmake_source_dir
-
 
 * Wed Nov 26 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-1
 - packaging just ossim and removing everything else

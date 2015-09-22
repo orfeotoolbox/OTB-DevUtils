@@ -208,6 +208,10 @@ check_src_archive ()
 set_ubuntu_code_name ()
 {
     case "$1" in
+        "vivid" )
+            ubuntu_codename="Vivid Vervet"
+            ubuntu_version="15.04"
+            ;;        
         "trusty" )
             ubuntu_codename="Trusty Tahr"
             ubuntu_version="14.04"
@@ -344,7 +348,7 @@ make -f debian/rules control-file OTB_VERSION_MINIMAL=$otb_version_full OTB_ICE_
 rm -f debian/control.in
 
 echo "Source package generation..."
-for target in precise trusty ; do
+for target in precise trusty vivid ; do
     set_ubuntu_code_name "$target"
     echo "Package for $ubuntu_codename ($ubuntu_version)"
     cp -f "$DEBDIR/changelog.in" debian

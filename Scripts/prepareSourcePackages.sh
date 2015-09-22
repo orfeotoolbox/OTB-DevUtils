@@ -14,37 +14,35 @@ fi
 CLONE_DIR=`readlink -f $1`
 OUT_DIR=`readlink -f $2`
 
-#for project in OTB Monteverdi Monteverdi2 OTB-Applications OTB-Wrapping ; do
-for project in OTB Monteverdi Monteverdi2; do
+#for project in OTB Monteverdi Monteverdi2 Ice ; do
+for project in OTB Ice Monteverdi2; do
   cd $CLONE_DIR/$project
   
-  hg pull -u
-  
   # Extract last tagged version identifier
-  full_version=$(hg tags | head -n 2 | tail -n 1 | cut -d ' ' -f 1)
+  full_version=$(git describe --abbrev=0 --tags)
   #echo "$project : $full_version"
-  
+
+  #Checkout the release
+  git checkout $full_version
+
   case $project in
     OTB)
-      pkg_name=OTB
-      ;;
-    Monteverdi)
-      pkg_name=Monteverdi
+      pkg_name=OrfeoToolBox
       ;;
     Monteverdi2)
       pkg_name=Monteverdi2
       ;;
-    OTB-Applications)
-      pkg_name=OTB-Applications
-      ;;
-    OTB-Wrapping)
-      pkg_name=OTB-Wrapping
+    Ice)
+      pkg_name=Ice
       ;;
   esac
   
   echo Generating $OUT_DIR/$pkg_name-$full_version.zip
-  hg archive -t zip -r $full_version $OUT_DIR/$pkg_name-$full_version.zip
-  echo Generating $OUT_DIR/$pkg_name-$full_version.tgz
-  hg archive -t tgz -r $full_version $OUT_DIR/$pkg_name-$full_version.tgz
+  git archive --format=zip -o $OUT_DIR/$pkg_name-$full_version.zip --prefix=$pkg_name-$full_version/ $full_version
+  echo Generating $OUT_DIR/$pkg_name-$full_version.tar.gz
+  git archive --format=tgz -o $OUT_DIR/$pkg_name-$full_version.tar.gz --prefix=$pkg_name-$full_version/ $full_version
 
+  git config tar.tar.xz.command "xz -c"
+  echo Generating $OUT_DIR/$pkg_name-$full_version.tar.xz
+  git archive --format=tar.xz -o $OUT_DIR/$pkg_name-$full_version.tar.xz --prefix=$pkg_name-$full_version/ $full_version
 done

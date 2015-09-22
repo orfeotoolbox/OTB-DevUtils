@@ -113,9 +113,12 @@ endif()
 if(NOT CTEST_TEST_TIMEOUT)
   set(CTEST_TEST_TIMEOUT 1500)
 endif()
-
+if(NOT DEFINED CTEST_DASHBOARD_TRACK)
+  set(CTEST_DASHBOARD_TRACK Nightly)
+endif()
 if(DEFINED dashboard_module)
   set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
+  set(CTEST_DASHBOARD_TRACK RemoteModules)
 endif()
 
 # Select Git source to use.
@@ -135,6 +138,16 @@ if(NOT DEFINED dashboard_git_crlf)
   else(UNIX)
     set(dashboard_git_crlf true)
   endif(UNIX)
+endif()
+
+if(DEFINED dashboard_git_features_list)
+  message("Checking feature branches file : ${dashboard_git_features_list}")
+  file(STRINGS ${dashboard_git_features_list} additional_branches
+       REGEX "^ *([a-zA-Z0-9]|-|_)+ *\$")
+  list(LENGTH additional_branches number_additional_branches)
+  if(number_additional_branches GREATER 0)
+    message("Testing feature branches : ${additional_branches}")
+  endif()
 endif()
 
 # Look for a GIT command-line client.
@@ -200,7 +213,7 @@ if(NOT EXISTS "${dashboard_update_dir}"
         execute_process(
             COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
                     \"${dashboard_update_dir}\" )   ")
-  
+
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
   # CTest delayed initialization is broken, so we put the
   # CTestConfig.cmake info here.
@@ -243,6 +256,7 @@ foreach(v
     CTEST_CHECKOUT_COMMAND
     CTEST_SCRIPT_DIRECTORY
     CTEST_USE_LAUNCHERS
+    CTEST_DASHBOARD_TRACK
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
@@ -299,27 +313,13 @@ macro(safe_message)
   endif()
 endmacro()
 
-if(COMMAND dashboard_hook_init)
-  dashboard_hook_init()
-endif()
-
-set(dashboard_done 0)
-while(NOT dashboard_done)
-  if(dashboard_loop)
-    set(START_TIME ${CTEST_ELAPSED_TIME})
-  endif()
-  set(ENV{HOME} "${dashboard_user_home}")
-
-  if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
-    execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
-    execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
-endif()
-
+# macro for the full dashboard sequence
+macro(run_dashboard)
   # Start a new submission.
   if(COMMAND dashboard_hook_start)
     dashboard_hook_start()
   endif()
-  ctest_start(${dashboard_model})
+  ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
 
   # Always build if the tree is fresh.
   set(dashboard_fresh 0)
@@ -333,6 +333,14 @@ endif()
   ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
   set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
   safe_message("Found ${count} changed files")
+
+  # add specific modules (works for OTB only)
+  if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
+    execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}" RESULT_VARIABLE rv)
+    if(NOT rv EQUAL 0)
+      message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
+    endif()
+  endif()
 
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
     ctest_configure()
@@ -373,6 +381,35 @@ endif()
     if(COMMAND dashboard_hook_end)
       dashboard_hook_end()
     endif()
+  endif()
+endmacro()
+
+if(COMMAND dashboard_hook_init)
+  dashboard_hook_init()
+endif()
+
+set(dashboard_done 0)
+while(NOT dashboard_done)
+  if(dashboard_loop)
+    set(START_TIME ${CTEST_ELAPSED_TIME})
+  endif()
+  set(ENV{HOME} "${dashboard_user_home}")
+
+  run_dashboard()
+
+  # test additional feature branches
+  if(number_additional_branches GREATER 0)
+    set(ORIGINAL_CTEST_BUILD_NAME ${CTEST_BUILD_NAME})
+    set(ORIGINAL_CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_UPDATE_CUSTOM})
+    foreach(branch ${additional_branches})
+      set(CTEST_BUILD_NAME  ${ORIGINAL_CTEST_BUILD_NAME}-${branch})
+      set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+      run_dashboard()
+    endforeach()
+    set(CTEST_BUILD_NAME ${ORIGINAL_CTEST_BUILD_NAME})
+    set(CTEST_GIT_UPDATE_CUSTOM ${ORIGINAL_CTEST_GIT_UPDATE_CUSTOM})
+    # update sources back to their original state
+    ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
   endif()
 
   if(dashboard_loop)

@@ -101,7 +101,6 @@ if(NOT CTEST_TEST_ARGS)
   set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 endif()
 
-
 ##cross compile parameters
 #set(MXE_ROOT "/home/otbval/tools/mxe")
 #set(MXE_TARGET_ARCH "i686")
@@ -114,7 +113,7 @@ if(MXE_TARGET_ARCH MATCHES "x86_64")
 endif()
 
 
-set(otb_cache_common
+set(otb_mxe_cache
 "
 #why these values below? because we know..
 OTB_MUPARSER_HAS_CXX_LOGICAL_OPERATORS_EXITCODE:INTERNAL=0
@@ -172,6 +171,19 @@ if(NOT CTEST_TEST_TIMEOUT)
   set(CTEST_TEST_TIMEOUT 1500)
 endif()
 
+if(NOT DEFINED CTEST_DASHBOARD_TRACK)
+  set(CTEST_DASHBOARD_TRACK CrossCompile)
+endif()
+
+if(NOT DEFINED CTEST_BUILD_NAME)
+set(CTEST_BUILD_NAME "Windows-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}")
+endif()
+
+if(DEFINED dashboard_module)
+  set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
+  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_module}")
+  set(CTEST_DASHBOARD_TRACK RemoteModules)
+endif()
 
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
@@ -181,6 +193,25 @@ endif()
 if(NOT DEFINED dashboard_git_branch)
   set(dashboard_git_branch nightly)
 endif()
+
+if(NOT DEFINED dashboard_git_crlf)
+  if(UNIX)
+    set(dashboard_git_crlf false)
+  else(UNIX)
+    set(dashboard_git_crlf true)
+  endif(UNIX)
+endif()
+
+if(DEFINED dashboard_git_features_list)
+  message("Checking feature branches file : ${dashboard_git_features_list}")
+  file(STRINGS ${dashboard_git_features_list} additional_branches
+       REGEX "^ *([a-zA-Z0-9]|-|_)+ *\$")
+  list(LENGTH additional_branches number_additional_branches)
+  if(number_additional_branches GREATER 0)
+    message("Testing feature branches : ${additional_branches}")
+  endif()
+endif()
+
 
 # Look for a GIT command-line client.
 if(NOT DEFINED CTEST_GIT_COMMAND)
@@ -213,34 +244,39 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   endif()
 endif()
 
+# Select source directory to update
+if(NOT DEFINED dashboard_update_dir)
+  set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
+endif()
+
+
 # Delete source tree if it is incompatible with current VCS.
-if(EXISTS ${CTEST_SOURCE_DIRECTORY})
-  if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}/.git")
+if(EXISTS ${dashboard_update_dir})
+  if(NOT EXISTS "${dashboard_update_dir}/.git")
     set(vcs_refresh "because it is not managed by git.")
   endif()
   if(${dashboard_fresh_source_checkout})
     set(vcs_refresh "because dashboard_fresh_source_checkout is specified.")
   endif()
   if(vcs_refresh)
-    message("Deleting source tree\n  ${CTEST_SOURCE_DIRECTORY}\n${vcs_refresh}")
-    file(REMOVE_RECURSE "${CTEST_SOURCE_DIRECTORY}")
+    message("Deleting source tree\n  ${dashboard_update_dir}\n${vcs_refresh}")
+    file(REMOVE_RECURSE "${dashboard_update_dir}")
   endif()
 endif()
 
 # Support initial checkout if necessary.
-if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}"
+if(NOT EXISTS "${dashboard_update_dir}"
     AND NOT DEFINED CTEST_CHECKOUT_COMMAND)
-  get_filename_component(_name "${CTEST_SOURCE_DIRECTORY}" NAME)
+  get_filename_component(_name "${dashboard_update_dir}" NAME)
+  message("_name= " ${_name})
+  # Generate an initial checkout script.
+  set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
+  message("ctest_checkout_script= " ${ctest_checkout_script})
+  file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
+        execute_process(
+            COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
+                    \"${dashboard_update_dir}\" )   ")
 
-    # Generate an initial checkout script.
-    set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
-    file(WRITE ${ctest_checkout_script}
-"# git repo init script for ${_name}
-execute_process(
-  COMMAND \"${CTEST_GIT_COMMAND}\" clone -r ${dashboard_git_branch}  \"${dashboard_git_url}\"
-          \"${CTEST_SOURCE_DIRECTORY}\" )
-"
-)
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
   # CTest delayed initialization is broken, so we put the
   # CTestConfig.cmake info here.
@@ -249,8 +285,6 @@ execute_process(
   set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
   set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
   set(CTEST_DROP_SITE_CDASH TRUE)
-else()
-  set(CTEST_GIT_UPDATE_OPTIONS "${CTEST_GIT_UPDATE_OPTIONS} checkout ${dashboard_git_branch}")
 endif()
 
 #-----------------------------------------------------------------------------
@@ -261,9 +295,6 @@ list(APPEND CTEST_NOTES_FILES
   "${CMAKE_CURRENT_LIST_FILE}"
   )
 
-if(NOT DEFINED CTEST_BUILD_NAME)
-set(CTEST_BUILD_NAME "Windows-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}")
-endif()
 
 # Check for required variables.
 foreach(req
@@ -296,6 +327,7 @@ foreach(v
     CTEST_CHECKOUT_COMMAND
     CTEST_SCRIPT_DIRECTORY
     CTEST_USE_LAUNCHERS
+    CTEST_DASHBOARD_TRACK
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
@@ -321,6 +353,7 @@ CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 DART_TESTING_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
 ${cache_build_type}
 ${cache_make_program}
+${otb_mxe_cache}
 ${dashboard_cache}
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
@@ -361,22 +394,13 @@ macro(safe_message)
   endif()
 endmacro()
 
-if(COMMAND dashboard_hook_init)
-  dashboard_hook_init()
-endif()
-
-set(dashboard_done 0)
-while(NOT dashboard_done)
-  if(dashboard_loop)
-    set(START_TIME ${CTEST_ELAPSED_TIME})
-  endif()
-  set(ENV{HOME} "${dashboard_user_home}")
-
+# macro for the full dashboard sequence
+macro(run_dashboard)
   # Start a new submission.
   if(COMMAND dashboard_hook_start)
     dashboard_hook_start()
   endif()
-  ctest_start(${dashboard_model})
+  ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
 
   # Always build if the tree is fresh.
   set(dashboard_fresh 0)
@@ -387,9 +411,18 @@ while(NOT dashboard_done)
   endif()
 
   # Look for updates.
-  ctest_update(RETURN_VALUE count)
+  ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
   set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
   safe_message("Found ${count} changed files")
+
+  # add specific modules (works for OTB only)
+  if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
+    execute_process(COMMAND "${CTEST_GIT_COMMAND}"
+      "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}" RESULT_VARIABLE rv)
+      if(NOT rv EQUAL 0)
+        message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
+      endif()
+  endif()
 
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
     ctest_configure()
@@ -431,6 +464,35 @@ while(NOT dashboard_done)
       dashboard_hook_end()
     endif()
   endif()
+endmacro()
+
+if(COMMAND dashboard_hook_init)
+  dashboard_hook_init()
+endif()
+
+set(dashboard_done 0)
+while(NOT dashboard_done)
+  if(dashboard_loop)
+    set(START_TIME ${CTEST_ELAPSED_TIME})
+  endif()
+  set(ENV{HOME} "${dashboard_user_home}")
+
+  run_dashboard()
+
+  # test additional feature branches
+  if(number_additional_branches GREATER 0)
+    set(ORIGINAL_CTEST_BUILD_NAME ${CTEST_BUILD_NAME})
+    set(ORIGINAL_CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_UPDATE_CUSTOM})
+    foreach(branch ${additional_branches})
+      set(CTEST_BUILD_NAME  ${ORIGINAL_CTEST_BUILD_NAME}-${branch})
+      set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+      run_dashboard()
+    endforeach()
+    set(CTEST_BUILD_NAME ${ORIGINAL_CTEST_BUILD_NAME})
+    set(CTEST_GIT_UPDATE_CUSTOM ${ORIGINAL_CTEST_GIT_UPDATE_CUSTOM})
+    # update sources back to their original state
+    ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
+  endif()
 
   if(dashboard_loop)
     # Delay until at least 5 minutes past START_TIME
@@ -443,3 +505,8 @@ while(NOT dashboard_done)
     set(dashboard_done 1)
   endif()
 endwhile()
+
+ctest_sleep(5)
+if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
+  file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
+endif()

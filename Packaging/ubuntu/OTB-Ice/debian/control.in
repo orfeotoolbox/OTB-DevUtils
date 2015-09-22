@@ -10,7 +10,7 @@ Build-Depends:
  libstdc++6 (>= 4.4),
  libotb-dev (>= @OTB_VERSION_MINIMAL@),
  libglew-dev
-Standards-Version: 3.9.4
+Standards-Version: 3.9.5
 Section: contrib/science
 Homepage: http://www.orfeo-toolbox.org/
 

@@ -1,5 +1,13 @@
-set(dashboard_module "SertitObject")
-set(dashboard_module_url "https://github.com/sertit/SertitObject")
+#Contact: Pierre Lassalle <lassallepierre34@gmail.com>
+
+# otb_fetch_module(otbGRM
+# 	"GRM OTB Application for region merging segmentation of very high resolution satellite scenes."
+# 	GIT_REPOSITORY http://tully.ups-tlse.fr/lassallep/grm/
+# 	GIT_TAG master
+# 	)
+
+set(dashboard_module "otbGRM")
+set(dashboard_module_url "http://tully.ups-tlse.fr/lassallep/grm.git")
 
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
 set(CTEST_SITE "leod.c-s.fr" )
@@ -12,7 +20,6 @@ set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 
-
 set(dashboard_model "Nightly")
 set(dashboard_source_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/build-${dashboard_module}")
@@ -24,11 +31,11 @@ OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/ossim/install/include
 OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install/lib/libossim.dylib
 
 BUILD_EXAMPLES:BOOL=OFF
+OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 BUILD_SHARED_LIBS:BOOL=ON
 BUILD_TESTING:BOOL=ON
 OTB_BUILD_DEFAULT_MODULES:BOOL=OFF
 Module_${dashboard_module}:BOOL=ON
 ")
-
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

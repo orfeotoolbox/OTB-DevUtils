@@ -14,7 +14,6 @@ SET (CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}")
 SET (CTEST_GIT_COMMAND "/opt/local/bin/git")
 SET (CTEST_USE_LAUNCHERS ON)
 
-
 set(dashboard_root_name "tests")
 set(dashboard_source_name "${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIGURATION}/build")
@@ -22,8 +21,9 @@ set(dashboard_binary_name "${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIG
 set (MVD2_INSTALL_PREFIX $ENV{HOME}/Dashboard/${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIGURATION}/install)
 
 #set(dashboard_fresh_source_checkout OFF)
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git") 
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git")
 
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${MVD2_INSTALL_PREFIX})
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -34,7 +34,7 @@ CMAKE_INCLUDE_PATH:PATH=/opt/local/include
 BUILD_SHARED_LIBS:BOOL=OFF
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=ON
-CMAKE_INSTALL_PREFIX:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIGURATION}/install
+CMAKE_INSTALL_PREFIX:STRING=${MVD2_INSTALL_PREFIX}
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
