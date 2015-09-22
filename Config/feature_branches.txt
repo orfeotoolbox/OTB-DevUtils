@@ -4,3 +4,4 @@ ossimplugins
 metadatainterface
 Sentinel1
 superbuild_archive
+DEMHandler_clear
