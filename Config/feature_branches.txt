@@ -1,4 +1,4 @@
-rfc-7-update-filters
+rfc-7-export-in-filters
 regression-846
 Sentinel1
 superbuild_archive
