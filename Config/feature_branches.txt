@@ -2,4 +2,5 @@ rfc-7-update-filters
 regression-846
 Sentinel1
 superbuild_archive
+string_utils
 DEMHandler_clear
