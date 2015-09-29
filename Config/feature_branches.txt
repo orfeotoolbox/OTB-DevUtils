@@ -2,6 +2,4 @@ rfc-7-export-in-filters
 regression-846
 Sentinel1
 CosmoSkymed
-superbuild_archive
 string_utils
-DEMHandler_clear
