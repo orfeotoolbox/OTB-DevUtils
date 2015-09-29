@@ -10,8 +10,8 @@ set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
-set(CTEST_HG_COMMAND "/opt/local/bin/hg")
-set(CTEST_HG_UPDATE_OPTIONS "-C")
+set(CTEST_GIT_COMMAND "/opt/local/bin/git")
+set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=develop -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
