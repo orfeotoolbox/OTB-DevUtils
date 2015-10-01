@@ -37,7 +37,7 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/stable/OTB-Release-stable/build
 
-Monteverdi2_USE_CPACK:BOOL=ON
+Monteverdi_USE_CPACK:BOOL=ON
 ")
 
 
