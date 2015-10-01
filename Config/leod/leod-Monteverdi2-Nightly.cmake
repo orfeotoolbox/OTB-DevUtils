@@ -4,7 +4,7 @@ set (ENV{LANG} "C")
 SET (dashboard_model Nightly)
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
-set (CTEST_DASHBOARD_ROOT "$ENV{HOME}/otbval/Dashboard")
+set (CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
 SET (CTEST_BUILD_CONFIGURATION Release)
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
