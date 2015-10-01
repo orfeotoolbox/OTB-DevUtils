@@ -48,7 +48,7 @@ OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFI
 ICE_INCLUDE_DIR:PATH=/Users/otbval/Dashboard/nightly/Ice-Release/src/Code
 ICE_LIBRARY:FILEPATH=/Users/otbval/Dashboard/nightly/Ice-Release/build/bin/libOTBIce.dylib
 
-Monteverdi_USE_CPACK:BOOL=ON
+Monteverdi2_USE_CPACK:BOOL=ON
 
 ")
 
