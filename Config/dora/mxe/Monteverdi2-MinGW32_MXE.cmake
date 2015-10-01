@@ -27,7 +27,7 @@ ICE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_
 
 macro(dashboard_hook_end)
   unset(CTEST_BUILD_COMMAND)
-  ctest_build(TARGET "package-mingw")
+  ctest_build(TARGET "packages")
 endmacro()
 
 
