@@ -2,3 +2,4 @@ rfc-7-export-in-filters
 Sentinel1
 CosmoSkymed
 string_utils
+gdal-2.0-support
