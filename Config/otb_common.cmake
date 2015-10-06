@@ -143,7 +143,7 @@ endif()
 if(DEFINED dashboard_git_features_list)
   message("Checking feature branches file : ${dashboard_git_features_list}")
   file(STRINGS ${dashboard_git_features_list} additional_branches
-       REGEX "^ *([a-zA-Z0-9]|-|_)+ *\$")
+       REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *\$")
   list(LENGTH additional_branches number_additional_branches)
   if(number_additional_branches GREATER 0)
     message("Testing feature branches : ${additional_branches}")
