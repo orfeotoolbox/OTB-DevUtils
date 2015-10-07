@@ -25,11 +25,9 @@ ICE_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_
 ICE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/lib/libOTBIce.dll.a
 ")
 
-
 macro(dashboard_hook_end)
   unset(CTEST_BUILD_COMMAND)
-  ctest_build(TARGET "package-mingw")
+  ctest_build(TARGET "packages")
 endmacro()
-
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)

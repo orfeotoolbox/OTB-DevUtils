@@ -1,7 +1,5 @@
-rfc-7-update-filters
-regression-846
-ossimplugins
-metadatainterface
+rfc-7-export-in-filters
 Sentinel1
-superbuild_archive
-DEMHandler_clear
+CosmoSkymed
+gdal-2.0-support
+new-app-sar

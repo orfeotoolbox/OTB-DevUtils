@@ -4,7 +4,7 @@ set (ENV{LANG} "C")
 SET (dashboard_model Nightly)
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
-set (CTEST_DASHBOARD_ROOT "$ENV{HOME}/otbval/Dashboard")
+set (CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
 SET (CTEST_BUILD_CONFIGURATION Release)
 SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 SET (CTEST_CMAKE_COMMAND "cmake" )
@@ -48,7 +48,7 @@ OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFI
 ICE_INCLUDE_DIR:PATH=/Users/otbval/Dashboard/nightly/Ice-Release/src/Code
 ICE_LIBRARY:FILEPATH=/Users/otbval/Dashboard/nightly/Ice-Release/build/bin/libOTBIce.dylib
 
-Monteverdi2_USE_CPACK:BOOL=ON
+Monteverdi_USE_CPACK:BOOL=ON
 
 ")
 endmacro()
