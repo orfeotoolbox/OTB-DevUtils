@@ -30,6 +30,7 @@ OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 DOWNLOAD_LOCATION:PATH=${CTEST_DASHBOARD_ROOT}/sources/archives-superbuild-trunk
 BUILD_TESTING:BOOL=ON
+GDAL_SB_EXTRA_OPTIONS:STRING=--with-python
 ")
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
@@ -41,6 +42,9 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIREC
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 ctest_start(Nightly)
+# before building, set the PYTHONPATH to allow custom install for python bindings
+set(ENV{PYTHONPATH} ${CTEST_INSTALL_DIRECTORY}/lib)
+
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
 file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
 ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
