@@ -2,4 +2,3 @@ rfc-7-export-in-filters
 rfc-9-sarcalibration
 CosmoSkymed
 gdal-2.0-support
-new-app-sar
