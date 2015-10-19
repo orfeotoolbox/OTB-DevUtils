@@ -4,3 +4,4 @@ CosmoSkymed
 gdal-2.0-support
 rfc-7-change-info
 mantis-1082
+rfc-7-masking
