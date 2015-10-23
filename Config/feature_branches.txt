@@ -1,3 +1,2 @@
 CosmoSkymed
 gdal-2.0-support
-mantis-1082
