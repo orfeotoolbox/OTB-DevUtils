@@ -1,2 +1,3 @@
 CosmoSkymed
 gdal-2.0-support
+patch-meanshift-smoothing
