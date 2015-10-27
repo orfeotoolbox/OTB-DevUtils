@@ -11,7 +11,7 @@ GDAL_INSTALL=$INSTALLROOT/gdal-trunk
 
 cd $GDAL_SRC
 svn update
-svn switch http://svn.osgeo.org/gdal/branches/1.11/gdal/
+#svn switch http://svn.osgeo.org/gdal/branches/1.11/gdal/
 
 # clean up build dir
 rm -Rf $GDAL_BUILD
