@@ -2,7 +2,7 @@
 # Make command for parallel builds
 SET(MAKECOMMAND "/usr/bin/make -i -k -j 4" CACHE STRING "" FORCE)
 # Name of the build
-SET(BUILDNAME "Fedora20-64bits-Coverity-Debug" CACHE STRING "" FORCE)
+SET(BUILDNAME "Fedora22-64bits-Coverity-Debug" CACHE STRING "" FORCE)
 # Name of the computer/site where compile is being run
 SET(SITE "pc-christophe.cst.cnes.fr" CACHE STRING "" FORCE)
 # LargeInput

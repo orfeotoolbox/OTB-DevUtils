@@ -3,7 +3,7 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Fedora20-64bits-clang-ThirdPartyTrunk-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "Fedora22-64bits-clang-ThirdPartyTrunk-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -i -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -11,7 +11,7 @@ set(CTEST_TEST_TIMEOUT 1500)
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
-set(dashboard_binary_name "build/orfeo/trunk/OTB-clang-ThridPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_binary_name "build/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
 
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
@@ -32,7 +32,7 @@ BUILD_APPLICATIONS:BOOL=ON
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
 CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized  -Wno-unused-variable -Wno-gnu
-CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-gnu -Wno-overloaded-virtual -Wno-\\#warnings
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-gnu -Wno-overloaded-virtual
 CMAKE_INSTALL_PREFIX=${OTB_INSTALL_PREFIX}
 
 ##external GDAL

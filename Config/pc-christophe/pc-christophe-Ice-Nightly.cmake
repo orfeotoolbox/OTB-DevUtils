@@ -10,7 +10,7 @@ set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 set (CTEST_SITE "pc-christophe.cst.cnes.fr" )
-set (CTEST_BUILD_NAME "Fedora20-64bits-${CTEST_BUILD_CONFIGURATION}")
+set (CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
 set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "-C")
 
