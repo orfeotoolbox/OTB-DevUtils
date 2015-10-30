@@ -20,7 +20,7 @@ INSTALLROOT=$HOME/install
 
 cd $SOURCEDIR/gdal
 #FIXME: update to gdal trunk. Why branch 1.11? Refer mantis:937
-svn switch http://svn.osgeo.org/gdal/branches/1.11/gdal/
+svn switch http://svn.osgeo.org/gdal/trunk/gdal/
 
 INSTALLDIR=$INSTALLROOT/gdal/$BRANCH
 

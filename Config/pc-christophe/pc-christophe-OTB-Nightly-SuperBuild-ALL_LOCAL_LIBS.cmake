@@ -2,7 +2,7 @@
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting")
 set(CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Fedora20-64bits-SuperBuild-ALL_LOCAL_LIBS")
+set(CTEST_BUILD_NAME "Fedora22-64bits-SuperBuild-ALL_LOCAL_LIBS")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -k")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)

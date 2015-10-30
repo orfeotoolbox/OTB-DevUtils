@@ -1,3 +1,2 @@
-CosmoSkymed
-rfc-16-rfconfmap
 patch-meanshift-smoothing
+rfc-16-rfconfmap
