@@ -1,4 +1,2 @@
-gdal-2.0-support
 patch-meanshift-smoothing
 rfc-16-rfconfmap
-default-pixel-type

@@ -36,9 +36,6 @@ svn info > $INSTALLDIR/gdal_svn_info.txt
 make distclean
 ./configure --prefix=$INSTALLDIR \
     --with-openjpeg=$INSTALLROOT/openjpeg/stable/ \
-    --with-libkml=/usr/local
-    --with-libkml-inc=/usr/local/include \
-    --with-libkml-lib=-L/usr/local
 
 ###start build
 make -j3
