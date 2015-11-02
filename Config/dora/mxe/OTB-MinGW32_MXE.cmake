@@ -6,7 +6,6 @@ set(CTEST_SITE "bumblebee.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_USE_LAUNCHERS ON)
 set(CMAKE_COMMAND "/data/Tools/cmake-git/install/bin/cmake")
-set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
 
 set(MXE_ROOT "/data/Tools/mxe")
 set(MXE_TARGET_ARCH "i686")
@@ -15,6 +14,7 @@ set(PROJECT "otb")
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
 
+macro(dashboard_hook_init)
 set(dashboard_cache "
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_ROOT:STRING=/data/OTB-Data
@@ -44,10 +44,8 @@ OTB_USE_MAPNIK:BOOL=OFF
 
 OTB_WRAP_PYTHON:BOOL=OFF
 OTB_WRAP_JAVA:BOOL=OFF
-
-
 ")
-
+endmacro()
 
 macro(dashboard_hook_end)
   unset(CTEST_BUILD_COMMAND)

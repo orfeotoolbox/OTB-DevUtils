@@ -14,6 +14,7 @@ set(PROJECT "ice")
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
 
+macro(dashboard_hook_init)
 set(dashboard_cache "
 CMAKE_C_FLAGS:STRING=-Wall
 CMAKE_CXX_FLAGS:STRING=-Wall
@@ -22,6 +23,6 @@ OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/li
 BUILD_TESTING:BOOL=OFF
 BUILD_ICE_APPLICATION:BOOL=ON
 ")
-
+endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
