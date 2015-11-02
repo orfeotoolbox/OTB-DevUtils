@@ -1,8 +1,8 @@
 #name of library as it is
 %global name_ucase OSSIM
 Name:           ossim
-Version:        1.8.18
-Release:        2%{?dist}
+Version:        1.8.20
+Release:        3%{?dist}
 Summary:        Open Source Software Image Map library and command line applications
 Group:          System Environment/Libraries
 License:        LGPLv2+
@@ -10,7 +10,7 @@ URL:            http://trac.osgeo.org/ossim/wiki
 #created from svn revision 23275
 #svn export ossim ossim-1.8.19
 #tar cvf ossim-1.8.19.tar.xz ossim-1.8.19
-Source0:        http://download.osgeo.org/ossim/source/%{name}-%{version}/%{name}-%{version}-1.tar.gz
+Source0:        http://download.osgeo.org/ossim/source/%{name}-%{version}/%{name}-%{version}.tar.gz
 Patch0: ossim-1.8.18-runtimedir.patch
 
 BuildRequires: cmake
@@ -63,7 +63,7 @@ This provides some .kwl templates and csv used for ossim projection.
 # -D on setup = Do not delete the directory before unpacking.
 # -T on setup = Disable the automatic unpacking of the archives.
 #---
-%setup -q -D
+%setup -q
 
 %patch0 -p1
 
@@ -200,6 +200,9 @@ done
 
 
 %changelog
+* Fri Oct 30 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.20-3
+- Update ossim 1.8.20 with correct upstream sources
+
 * Sun Aug 9 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.18-2
 - review on bugzilla ID 1244353. comment 21
 
