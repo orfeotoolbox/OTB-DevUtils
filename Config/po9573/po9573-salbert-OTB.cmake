@@ -9,7 +9,7 @@ set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/OTB")
 
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
+set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
 set (CTEST_SITE "po9573.c-s.fr" )
 set (CTEST_BUILD_NAME "Ubuntu-14.04_x86_64_${CTEST_BUILD_CONFIGURATION}-${USER}")
 # set (CTEST_GIT_COMMAND "/usr/bin/git")

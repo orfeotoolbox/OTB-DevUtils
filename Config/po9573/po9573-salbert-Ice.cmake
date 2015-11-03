@@ -13,7 +13,7 @@ set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/Ice")
 set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/Ice")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
+set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
 set (CTEST_SITE "po9573.c-s.fr" )
 set (CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}-$ENV{USER}")
 # set (CTEST_GIT_COMMAND "/usr/bin/git")
@@ -37,7 +37,7 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4-debug/lib/cmake/ITK-4.8
 
 # OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-4.5
-OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-5.0
+OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-5.2
 # OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB-stable/lib/cmake/OTB-4.5
 
 BUILD_TESTING:BOOL=ON
