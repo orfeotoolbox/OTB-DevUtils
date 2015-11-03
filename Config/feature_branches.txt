@@ -1,5 +1,2 @@
-rfc-7-export-in-filters
-Sentinel1
-CosmoSkymed
-gdal-2.0-support
-new-app-sar
+patch-meanshift-smoothing
+rfc-16-rfconfmap

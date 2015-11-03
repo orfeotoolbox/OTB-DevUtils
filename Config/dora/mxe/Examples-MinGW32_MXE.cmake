@@ -24,10 +24,11 @@ set(dashboard_update_dir "${CTEST_DASHBOARD_ROOT}/nightly/${PROJECT}-${CTEST_BUI
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src/Examples")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-Examples-MinGW-${MXE_TARGET_ARCH}")
 
+macro(dashboard_hook_init)
 set(dashboard_cache "
 OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/nightly/otb-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}
 BUILD_TESTING:BOOL=ON
 ")
-
+endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)

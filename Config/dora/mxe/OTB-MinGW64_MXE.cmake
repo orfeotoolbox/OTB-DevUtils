@@ -15,6 +15,7 @@ set(PROJECT "otb")
 set(dashboard_source_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-MinGW-${MXE_TARGET_ARCH}")
 
+macro(dashboard_hook_init)
 set(dashboard_cache "
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_ROOT:STRING=/data/OTB-Data
@@ -44,10 +45,8 @@ OTB_USE_MAPNIK:BOOL=OFF
 OTB_WRAP_PYTHON:BOOL=OFF
 OTB_WRAP_JAVA:BOOL=OFF
 
-IS_X86_64_EXITCODE:INTERNAL=0
-
 ")
-
+endmacro()
 
 macro(dashboard_hook_end)
   unset(CTEST_BUILD_COMMAND)
