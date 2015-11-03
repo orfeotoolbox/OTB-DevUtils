@@ -8,8 +8,8 @@ SET(SITE "pc-christophe.cst.cnes.fr" CACHE STRING "" FORCE)
 SET(CMAKE_BUILD_TYPE "Debug" CACHE STRING "" FORCE)
 
 ##external ITK
-SET(ITK_DIR "/home/otbtesting/install/itk/stable/Release/lib/cmake/ITK-4.6" CACHE STRING "" FORCE)
-SET(OTB_DIR "/home/otbtesting/install/orfeo/trunk/OTB-Nightly/Release/lib/cmake/OTB-5.0" CACHE STRING "" FORCE)
+SET(ITK_DIR "/home/otbtesting/install/itk/stable/Release/lib/cmake/ITK-4.7" CACHE STRING "" FORCE)
+SET(OTB_DIR "/home/otbtesting/install/orfeo/trunk/OTB-Nightly/Release/lib/cmake/OTB-5.2" CACHE STRING "" FORCE)
 SET(GLFW_INCLUDE_DIR "/usr/include/GLFW" CACHE STRING "" FORCE)
 
 SET(BUILD_ICE_APPLICATION ON CACHE BOOL "" FORCE)
