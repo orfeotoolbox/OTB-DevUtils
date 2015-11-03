@@ -22,7 +22,7 @@ set(dashboard_binary_name "${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIG
 set (MVD2_INSTALL_PREFIX $ENV{HOME}/Dashboard/${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIGURATION}/install/)
 
 #set(dashboard_fresh_source_checkout OFF)
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git") 
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -36,7 +36,7 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-var
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-OTB_DIR:PATH=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install/lib/cmake/OTB-5.0
+OTB_DIR:PATH=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install/lib/cmake/OTB-5.2
 
 BUILD_TESTING:BOOL=ON
 

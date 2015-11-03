@@ -36,7 +36,7 @@ CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/gdal
 GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
 
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/Release
-OTB_DIR:STRING=${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/Release/lib/cmake/OTB-5.0
+OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}
 
 
 SITE:STRING=${CTEST_SITE}

@@ -16,19 +16,19 @@ set(dashboard_fresh_source_checkout OFF)
 set(dashboard_source_name "nightly/Ice/src")
 set(dashboard_binary_name "nightly/Ice/build")
 
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/ice.git") 
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/ice.git")
 
 set (ICE_INSTALL_PREFIX "/home/otbval/Dashboard/nightly/Ice/install")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-  
+
 CMAKE_C_FLAGS:STRING= -Wall
 CMAKE_CXX_FLAGS:STRING= -Wall
 
 BUILD_TESTING:BOOL=ON
 
-OTB_DIR:PATH=$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/cmake/OTB-5.0
+OTB_DIR:PATH=$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/cmake/OTB-5.2
 
 CMAKE_INSTALL_PREFIX:STRING=${ICE_INSTALL_PREFIX}
 
