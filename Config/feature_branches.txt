@@ -1,3 +1,2 @@
 warp-filter-optim
-rfc-16-rfconfmap
 applications-QtWidget
