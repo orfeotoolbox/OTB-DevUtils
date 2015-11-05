@@ -1,3 +1,1 @@
-patch-meanshift-smoothing
-rfc-16-rfconfmap
-applications-QtWidget
+warp-filter-optim
