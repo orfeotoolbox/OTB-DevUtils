@@ -1,4 +1,0 @@
-sdesc: "Ossim"
-ldesc: "Ossim"
-category: Libs
-requires: msvcrt curl expat geos libtiff libjpeg libgeotiff osg-libs qt4-libs fftw-devel
