@@ -1,13 +1,13 @@
 # Maintainers : OTB developers team
 # Cross compilation of OTB library using MXE (M cross environment)
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "/data/Dashboard")
+set(CTEST_DASHBOARD_ROOT "/data/dashboard")
 set(CTEST_SITE "bumblebee.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_USE_LAUNCHERS ON)
-set(CMAKE_COMMAND "/data/Tools/cmake-git/install/bin/cmake")
+set(CMAKE_COMMAND "/data/tools/cmake-git/install/bin/cmake")
 
-set(MXE_ROOT "/data/Tools/mxe")
+set(MXE_ROOT "/data/tools/mxe")
 set(MXE_TARGET_ARCH "i686")
 set(PROJECT "otb")
 
