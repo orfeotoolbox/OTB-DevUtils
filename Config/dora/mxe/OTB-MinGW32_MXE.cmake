@@ -17,7 +17,7 @@ set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build
 macro(dashboard_hook_init)
 set(dashboard_cache "
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-OTB_DATA_ROOT:STRING=/data/OTB-Data
+OTB_DATA_ROOT:STRING=/data/otb-data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/data/OTB-LargeInput
 
 CMAKE_C_FLAGS:STRING=-Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
