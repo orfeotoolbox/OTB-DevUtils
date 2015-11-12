@@ -56,8 +56,8 @@ OTB_USE_QT4:BOOL=ON
 
 OpenCV_DIR:PATH=/usr/share/OpenCV
 
-OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ossim-trunk/include
-OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/ossim-trunk/lib/libossim.so
+OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ossim-dev/include
+OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/ossim-dev/lib/libossim.so
 
 GDAL_INCLUDE_DIR:STRING=${CTEST_DASHBOARD_ROOT}/install/gdal-trunk/include
 GDAL_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/gdal-trunk/lib/libgdal.so
