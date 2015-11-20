@@ -10,6 +10,7 @@ include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
 set(dashboard_source_name src/OTB/SuperBuild)
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB)
+set(dashboard_git_branch superbuild-versions)
 set(CTEST_BINARY_DIRECTORY "C:/SuperBuild/build")
 set(CTEST_INSTALL_DIRECTORY "C:/SuperBuild/install")
 
