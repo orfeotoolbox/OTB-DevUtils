@@ -1,3 +1,5 @@
+# Client maintainer: julien.malik@c-s.fr
+set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
 set(CTEST_SITE "leod.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
@@ -6,18 +8,41 @@ set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
+set(CTEST_USE_LAUNCHERS ON)
+set(CTEST_GIT_COMMAND "/opt/local/bin/git")
 
-set(CTEST_SOURCE_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/nightly/OTB-Release/src/SuperBuild")
-set(CTEST_BINARY_DIRECTORY  "${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/build")
-set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/install")
+string(TOLOWER ${dashboard_model} lcdashboard_model)
 
-set(CTEST_GI_COMMAND          "/opt/local/bin/git")
+set(dashboard_root_name "tests")
+set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild")
+set(dashboard_binary_name "${lcdashboard_model}/OTB-SuperBuild/build")
 
-set(CTEST_USE_LAUNCHERS TRUE)
+set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/install)
+
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
+set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src)
+set(dashboard_git_branch superbuild-versions)
+
+set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
+set(CTEST_DROP_METHOD "http")
+set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
+set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
+set(CTEST_DROP_SITE_CDASH TRUE)
+
+list(APPEND CTEST_TEST_ARGS 
+  BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
+)
+list(APPEND CTEST_NOTES_FILES
+  ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/CMakeCache.txt
+  ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/otbConfigure.h
+)
 
 set(GDAL_EXTRA_OPT "--with-gif=/opt/local")
 
-set(OTB_INITIAL_CACHE "
+set(ENV{DISPLAY} ":0.0")
+
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:PATH=$ENV{HOME}/Data/OTB-Data
@@ -37,6 +62,12 @@ OTB_WRAP_PYTHON:BOOL=OFF
 OTB_WRAP_JAVA:BOOL=OFF
 BUILD_TESTING:BOOL=ON
 ")
+endmacro()
+
+macro(dashboard_hook_test)
+# before testing, set the DYLD_LIBRARY_PATH
+set(ENV{DYLD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
+endmacro()
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
@@ -44,28 +75,4 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIREC
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/bin)
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/include)
 
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-ctest_start(Nightly)
-ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${OTB_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-
-ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-
-# before testing, set the DYLD_LIBRARY_PATH
-set(ENV{DYLD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
-
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}/OTB/build" ${CTEST_TEST_ARGS})
-
-set(CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-${CTEST_BINARY_DIRECTORY}/OTB/build/CMakeCache.txt
-${CTEST_BINARY_DIRECTORY}/OTB/build/otbConfigure.h
-)
-
-ctest_submit ()
-
-
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
