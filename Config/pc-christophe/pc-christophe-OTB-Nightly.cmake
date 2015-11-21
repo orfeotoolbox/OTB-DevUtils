@@ -24,8 +24,8 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREF
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
 
-CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-but-set-variable
-CMAKE_CXX_FLAGS:STRING=-Wno-cpp -Wextra
+CMAKE_C_FLAGS:STRING=-Wall
+CMAKE_CXX_FLAGS:STRING=-Wno-cpp -Wextra -Wno-deprecated-declarations
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_APPLICATIONS:BOOL=ON
