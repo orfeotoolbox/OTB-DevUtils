@@ -26,8 +26,8 @@ set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
-CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized  -Wno-unused-variable -Wno-gnu
-CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-gnu -Wno-overloaded-virtual -Wshorten-64-to-32
+CMAKE_C_FLAGS:STRING=-Wall
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-gnu-static-float-init
 CMAKE_INSTALL_PREFIX=${OTB_INSTALL_PREFIX}
 
 BUILD_APPLICATIONS:BOOL=ON
