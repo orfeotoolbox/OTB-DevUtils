@@ -24,9 +24,9 @@ set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.t
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-  
-CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+
+CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
