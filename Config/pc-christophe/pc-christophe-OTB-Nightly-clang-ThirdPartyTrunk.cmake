@@ -42,7 +42,7 @@ GDAL_INCLUDE_DIR:PATH=${INSTALLROOT}/gdal/trunk/include/
 GDAL_LIBRARY:FILEPATH=${INSTALLROOT}/gdal/trunk/lib/libgdal.so
 
 ##external ITK
-ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.7
+ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
 
 ##external OpenCV
 OpenCV_DIR=${INSTALLROOT}/opencv/trunk/share/OpenCV/

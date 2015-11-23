@@ -32,7 +32,7 @@ CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized  -Wno-unused-variable -Wno-unused
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-cpp
 
 ##external ITK
-ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.6
+ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
 
 ##external OSSIM
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/stable/include
