@@ -23,6 +23,11 @@ set(dashboard_do_coverage true)
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 
 macro(dashboard_hook_init)
+
+# NOTE: -Wno-deprecated-declarations is in CXX flags to hide 'itkLegacyMacro' related warning
+# under gcc 5.1.1, to work around GCC bug 65974.
+# It should be removed when gcc is updated on pc-christophe
+
 set(dashboard_cache "${dashboard_cache}
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON

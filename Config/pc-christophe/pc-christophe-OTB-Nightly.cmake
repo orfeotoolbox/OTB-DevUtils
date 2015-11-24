@@ -22,6 +22,11 @@ set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CO
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
 
 macro(dashboard_hook_init)
+
+# NOTE: -Wno-deprecated-declarations is in CXX flags to hide 'itkLegacyMacro' related warning
+# under gcc 5.1.1, to work around GCC bug 65974.
+# It should be removed when gcc is updated on pc-christophe
+
 set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-Wall
