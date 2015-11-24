@@ -27,7 +27,7 @@ set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Continuous/${CTEST_BUILD
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
 
-CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-but-set-variable
+CMAKE_C_FLAGS:STRING=-Wall
 CMAKE_CXX_FLAGS:STRING=-Wno-cpp -Wextra
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 

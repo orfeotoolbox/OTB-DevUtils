@@ -29,8 +29,8 @@ macro(dashboard_hook_init)
 
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
-CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wshadow -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra -Wno-cpp
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=OFF

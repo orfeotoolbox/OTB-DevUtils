@@ -29,8 +29,8 @@ BUILD_EXAMPLES:BOOL=ON
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
 
-CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
+CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wextra
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wextra -Wno-gnu-static-float-init
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
@@ -38,8 +38,8 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
 ITK_USE_PATENTED:BOOL=ON
-ITK_USE_REVIEW:BOOL=ON 
-ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON 
+ITK_USE_REVIEW:BOOL=ON
+ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=ON
 USE_FFTWD:BOOL=ON
 USE_FFTWF:BOOL=ON
 OTB_GL_USE_ACCEL:BOOL=OFF
@@ -59,4 +59,3 @@ BOOST_ROOT:PATH=$ENV{HOME}/tools/install/boost-1.49.0
 endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
-

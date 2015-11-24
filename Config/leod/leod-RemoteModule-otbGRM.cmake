@@ -26,8 +26,8 @@ set(dashboard_binary_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/build-${dash
 
 set(dashboard_cache "
 CMAKE_PREFIX_PATH:PATH=/opt/local
-CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual -Wno-\\\\#warnings
+CMAKE_C_FLAGS:STRING= -fPIC -Wall
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall  -Wno-\\\\#warnings
 
 OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON
 

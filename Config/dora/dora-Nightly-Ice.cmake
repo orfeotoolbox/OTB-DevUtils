@@ -23,8 +23,8 @@ set (ICE_INSTALL_PREFIX "/home/otbval/Dashboard/nightly/Ice/install")
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_C_FLAGS:STRING= -Wall
-CMAKE_CXX_FLAGS:STRING= -Wall
+CMAKE_C_FLAGS:STRING=-Wall -Wextra
+CMAKE_CXX_FLAGS:STRING=-Wall -Wextra -Wno-cpp
 
 BUILD_TESTING:BOOL=ON
 

@@ -28,9 +28,9 @@ CTEST_USE_LAUNCHERS:BOOL=ON
 #CMAKE_LIBRARY_PATH:PATH=/opt/local/lib
 #CMAKE_INCLUDE_PATH:PATH=/opt/local/include
 CMAKE_PREFIX_PATH:PATH=/opt/local
-  
-CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable -Wno-gnu -Wno-overloaded-virtual
+
+CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wextra
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wextra -Wno-gnu -Wno-gnu-static-float-init -Wno-\\\\#warnings
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CMAKE_INSTALL_PREFIX:STRING=${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB/install

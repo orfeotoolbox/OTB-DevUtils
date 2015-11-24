@@ -32,10 +32,10 @@ BUILD_APPLICATIONS:BOOL=ON
 ##CMAKE_C_COMPILER=/usr/bin/clang
 ##CMAKE_CXX_COMPILER=/usr/bin/clang++
 ##CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized  -Wno-unused-variable -Wno-gnu
-##CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-gnu -Wno-overloaded-virtual -Wno-\\#warnings
+##CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-uninitialized -Wno-gnu -Wno-overloaded-virtual -Wno-\\\\#warnings
 
 CMAKE_C_FLAGS:STRING= -Wall
-CMAKE_CXX_FLAGS:STRING= -Wall -Wextra -Wno-cpp 
+CMAKE_CXX_FLAGS:STRING= -Wall -Wextra
 
 ##external ITK
 ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9

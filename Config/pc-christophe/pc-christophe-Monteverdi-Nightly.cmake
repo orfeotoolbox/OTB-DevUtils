@@ -33,8 +33,8 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 //Data root
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 //Compilation options
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-cpp
+CMAKE_C_FLAGS:STRING= -Wall
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-cpp
 //Set up the build options
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=ON

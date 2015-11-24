@@ -28,8 +28,8 @@ BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
 BUILD_APPLICATIONS:BOOL=ON
 
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized  -Wno-unused-variable -Wno-unused-but-set-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-cpp
+CMAKE_C_FLAGS:STRING= -Wall -Wextra
+CMAKE_CXX_FLAGS:STRING= -Wall -Wextra -Wno-cpp
 
 ##external ITK
 ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9

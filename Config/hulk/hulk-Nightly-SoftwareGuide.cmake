@@ -32,8 +32,8 @@ GENERATE_WRAPPING_DOC:BOOL=ON
 
 OTB-Wrapping_SOURCE_DIR:PATH=$ENV{HOME}/Dashboard/src/OTB-Wrapping
 
-CMAKE_C_FLAGS:STRING= -Wall -Wno-uninitialized -Wno-unused-variable
-CMAKE_CXX_FLAGS:STRING= -Wall -Wno-deprecated -Wno-uninitialized -Wno-unused-variable
+CMAKE_C_FLAGS:STRING= -Wall
+CMAKE_CXX_FLAGS:STRING= -Wall -Wno-cpp
 
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data

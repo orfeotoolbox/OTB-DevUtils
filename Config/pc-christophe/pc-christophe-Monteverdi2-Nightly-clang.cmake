@@ -26,8 +26,8 @@ BUILD_TESTING:BOOL=ON
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
-CMAKE_C_FLAGS:STRING=-Wall -Wno-gnu
-CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-gnu -Wno-overloaded-virtual -Wno-sometimes-uninitialized
+CMAKE_C_FLAGS:STRING=-Wall
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-gnu-static-float-init -Wno-\\\\#warnings
 #currently. i am forced to keep this for clang
 CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/openjpeg/trunk/lib'
 CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/dev/lib64'
