@@ -55,12 +55,20 @@ if [ -d "$INSTALLDIR" ]; then
     /bin/rm -frv $INSTALLDIR
 fi
 
+if [ -d "$SOURCEDIR" ]; then
+    # clean up install dir
+    /bin/rm -frv $SOURCEDIR
+fi
+
 mkdir -pv $SOURCEDIR
 mkdir -pv $BUILDDIR
 mkdir -pv $INSTALLDIR
 
 echo "Cloning branch: $BRANCH"
 git clone --depth=50 --branch=$BRANCH https://github.com/ossimlabs/ossim $SOURCEDIR
+cd $SOURCEDIR
+git fetch
+git pull
 git ls-remote https://github.com/ossimlabs/ossim HEAD > $BUILDDIR/ossim_svn_info.txt
 
 #configure. all ossimplanet and gui related are disabled
