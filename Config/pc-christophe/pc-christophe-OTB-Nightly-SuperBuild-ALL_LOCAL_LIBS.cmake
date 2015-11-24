@@ -44,7 +44,7 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
+OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 DOWNLOAD_LOCATION:PATH=${CTEST_DASHBOARD_ROOT}/sources/archives-superbuild-trunk
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 ENABLE_OTB_LARGE_INPUTS:BOOL=ON
@@ -54,11 +54,14 @@ BUILD_TESTING:BOOL=ON
 ")
 endmacro()
 
-macro(dashboard_hook_test)
+macro(dashboard_hook_build)
 # before building, set the PYTHONPATH to allow custom install for python bindings
-set(ENV{PYTHONPATH} ${CTEST_INSTALL_DIRECTORY}/lib)
+set(ENV{PYTHONPATH} ${OTB_INSTALL_PREFIX}/lib)
+endmacro()
+
+macro(dashboard_hook_test)
 # before testing, set the DYLD_LIBRARY_PATH
-set(ENV{DYLD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
+set(ENV{DYLD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
 endmacro()
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
