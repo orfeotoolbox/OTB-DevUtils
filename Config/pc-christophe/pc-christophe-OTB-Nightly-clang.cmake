@@ -3,7 +3,7 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting/")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "Fedora22-64bits-clang-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -42,8 +42,8 @@ OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
 ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
 
 ## OSSIM
-OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/dev/include
-OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/dev/lib64/libossim.so
+OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/stable/include
+OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/stable/lib64/libossim.so
 
 ##external muparserx
 MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
