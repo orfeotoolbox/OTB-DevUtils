@@ -30,10 +30,10 @@ CMAKE_C_FLAGS:STRING=-Wall -Wno-gnu
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-deprecated -Wno-gnu -Wno-overloaded-virtual -Wno-sometimes-uninitialized
 #currently. i am forced to keep this for clang
 CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/openjpeg/trunk/lib'
-CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/trunk/lib64'
+CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/dev/lib64'
 CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/gdal/trunk/lib'
 CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/install/openjpeg/trunk/lib'
-CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/trunk/lib64
+CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/dev/lib64
 CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/install/gdal/trunk/lib'
 
 CTEST_USE_LAUNCHERS:BOOL=ON

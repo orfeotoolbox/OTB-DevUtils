@@ -30,7 +30,7 @@ CMAKE_INSTALL_PREFIX:PATH=${ICE_INSTALL_PREFIX}
 
 #currently. i am forced to keep this for clang
 CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/openjpeg/trunk/lib/'
-CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/trunk/lib64
+CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/dev/lib64
 CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/gdal/trunk/lib'
 
 GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
