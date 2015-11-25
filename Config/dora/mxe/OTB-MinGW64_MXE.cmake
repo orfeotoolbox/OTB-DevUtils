@@ -50,7 +50,7 @@ endmacro()
 
 macro(dashboard_hook_end)
   unset(CTEST_BUILD_COMMAND)
-  ctest_build(TARGET "package-mingw")
+  ctest_build(TARGET "packages")
 endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
