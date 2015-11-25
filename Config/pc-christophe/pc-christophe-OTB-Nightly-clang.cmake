@@ -10,7 +10,7 @@ set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
-set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly-clang/${CTEST_BUILD_CONFIGURATION}")
 
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
@@ -18,7 +18,7 @@ set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 #set(ENV{DISPLAY} ":0.0")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
-set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}")
+set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly-clang/${CTEST_BUILD_CONFIGURATION}")
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
 
 macro(dashboard_hook_init)
@@ -39,7 +39,7 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
 
 ## ITK
-ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
+ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.9
 
 ## OSSIM
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/dev/include

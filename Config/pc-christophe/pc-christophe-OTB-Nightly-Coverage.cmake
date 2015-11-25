@@ -37,7 +37,7 @@ CMAKE_C_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage -Wall -Wextra
 CMAKE_CXX_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage -Wall -Wextra -Wno-cpp -Wno-deprecated-declarations -Wno-unknown-attributes
 
 ## ITK
-ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
+ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.9
 
 ## OSSIM
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/stable/include
