@@ -19,7 +19,7 @@ set(CTEST_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild)
 
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB)
-set(dashboard_git_branch superbuild-versions)
+# set(dashboard_git_branch superbuild-versions)
 
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
 set(CTEST_DROP_METHOD "http")
