@@ -17,8 +17,8 @@ BUILDDIR=$HOME/build/opencv/$TYPE
 INSTALLROOT=$HOME/install
 
 cd $SOURCEDIR
-#git pull origin master
-git checkout -b 2.4
+git pull origin 2.4
+git checkout 2.4
 rm -fr $INSTALLROOT/opencv/$TYPE
 
 if [ -d "$BUILDDIR" ]; then
@@ -45,7 +45,7 @@ cmake $SOURCEDIR \
     -DBUILD_SHARED_LIBS:BOOL=ON
 
 #build
-make -j8
+make -j2
 
 #install to $INSTALLROOT
 make install
