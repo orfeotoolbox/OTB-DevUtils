@@ -4,22 +4,22 @@ set(dashboard_model Experimental)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting")
 SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "ITK-master_branch-Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "ITK-release_branch-Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 
 set(dashboard_root_name "tests")
-set(dashboard_source_name "sources/itk/trunk")
-set(dashboard_binary_name "build/itk/trunk/${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_source_name "sources/itk/stable")
+set(dashboard_binary_name "build/itk/stable/${CTEST_BUILD_CONFIGURATION}")
 
 set(dashboard_fresh_source_checkout ON)
 set(dashboard_git_url "http://itk.org/ITK.git")
-set(dashboard_git_branch "master")
+set(dashboard_git_branch "release")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
-set (ITK_INSTALL_PREFIX "${INSTALLROOT}/itk/trunk/${CTEST_BUILD_CONFIGURATION}")
+set (ITK_INSTALL_PREFIX "${INSTALLROOT}/itk/stable/${CTEST_BUILD_CONFIGURATION}")
 
 execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${ITK_INSTALL_PREFIX})
 
