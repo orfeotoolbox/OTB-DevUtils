@@ -4,8 +4,10 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/data/dashboard")
 set(CTEST_SITE "bumblebee.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
 set(CMAKE_COMMAND "/data/tools/cmake-git/install/bin/cmake")
+set(CMAKE_CROSSCOMPILING_EMULATOR "/usr/bin/wine")
+set(CTEST_CMAKE_COMMAND "${CMAKE_COMMAND}")
+set(CTEST_USE_LAUNCHERS ON)
 
 set(MXE_ROOT "/data/tools/mxe")
 set(MXE_TARGET_ARCH "i686")
@@ -31,6 +33,5 @@ macro(dashboard_hook_end)
   unset(CTEST_BUILD_COMMAND)
   ctest_build(TARGET "packages")
 endmacro()
-
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
