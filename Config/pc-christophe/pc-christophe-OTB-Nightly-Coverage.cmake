@@ -24,7 +24,7 @@ set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 
 macro(dashboard_hook_init)
 
-# NOTE: -Wno-deprecated-declarations, -Wno-unknown-attributes is in CXX flags to hide 'itkLegacyMacro' related warning
+# NOTE: -Wno-deprecated-declarations, is in CXX flags to hide 'itkLegacyMacro' related warning
 # under gcc 5.1.1, to work around GCC bug 65974.
 # It should be removed when gcc is updated on pc-christophe
 
@@ -34,7 +34,7 @@ BUILD_EXAMPLES:BOOL=ON
 BUILD_APPLICATIONS:BOOL=ON
 
 CMAKE_C_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage -Wall -Wextra
-CMAKE_CXX_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage -Wall -Wextra -Wno-cpp -Wno-deprecated-declarations -Wno-unknown-attributes
+CMAKE_CXX_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage -Wall -Wextra -Wno-cpp -Wno-deprecated-declarations
 
 ## ITK
 ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.9
