@@ -26,8 +26,8 @@ macro(dashboard_hook_init)
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
 
-CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wextra
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall  -Wextra -Wno-gnu-static-float-init -Wno-\\\\#warnings
+CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra -Wno-gnu-static-float-init
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
