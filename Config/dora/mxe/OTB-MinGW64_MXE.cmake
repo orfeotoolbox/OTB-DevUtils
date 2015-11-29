@@ -55,4 +55,5 @@ macro(dashboard_hook_end)
   ctest_build(TARGET "packages")
 endmacro()
 
+set(dashboard_no_test 1)
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
