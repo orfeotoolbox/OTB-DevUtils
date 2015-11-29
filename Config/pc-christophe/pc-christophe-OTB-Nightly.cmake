@@ -30,7 +30,7 @@ macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-Wall -Wextra
-CMAKE_CXX_FLAGS:STRING=-Wno-cpp -Wextra -Wno-deprecated-declarations -Wno-unknown-attributes
+CMAKE_CXX_FLAGS:STRING=-Wall -Wextra -Wno-deprecated-declarations -Wno-unknown-attributes
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_APPLICATIONS:BOOL=ON
@@ -53,7 +53,7 @@ MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
 
 #external openjpeg
-OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/stable/lib/openjpeg-2.0
+OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/stable/lib/openjpeg-2.1
 
 PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 OTB_WRAP_PYTHON:BOOL=ON
