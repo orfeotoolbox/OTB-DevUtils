@@ -30,7 +30,7 @@ macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-Wall -Wextra
-CMAKE_CXX_FLAGS:STRING=-Wall -Wextra -Wno-deprecated-declarations -Wno-unknown-attributes
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-cpp -Wextra -Wno-deprecated-declarations -Wno-unknown-attributes
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
