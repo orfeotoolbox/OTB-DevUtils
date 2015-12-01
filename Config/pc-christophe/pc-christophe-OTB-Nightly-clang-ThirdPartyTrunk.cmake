@@ -45,7 +45,8 @@ GDAL_LIBRARY:FILEPATH=${INSTALLROOT}/gdal/trunk/lib/libgdal.so
 ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
 
 ##external OpenCV
-OpenCV_DIR=${INSTALLROOT}/opencv/trunk/share/OpenCV/
+# Use 2.4 branch for now (stable), until OTB is compatible with 3.0
+OpenCV_DIR=${INSTALLROOT}/opencv/stable/share/OpenCV/
 
 ##external OSSIM
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/trunk/include
