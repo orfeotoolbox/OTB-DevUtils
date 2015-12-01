@@ -54,7 +54,7 @@ OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/trunk/lib64/libossim.so
 ##external muparserx
 ## Use stable because we are not compatible with trunk for now
 ## see https://bugs.orfeo-toolbox.org/view.php?id=1117
-MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/stable/lib
+MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/stable/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/stable/include
 
 #external openjpeg
