@@ -46,8 +46,8 @@ OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/dev/include
 OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/dev/lib64/libossim.so
 
 ##external muparserx
-MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
-MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
+MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/stable/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/stable/include
 
 #external openjpeg
 OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/stable/lib/openjpeg-2.1

@@ -46,8 +46,8 @@ OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/stable/include
 OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/stable/lib64/libossim.so
 
 ##external muparserx
-#MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
-#MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
+#MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/stable/lib/libmuparserx.so
+#MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/stable/include
 
 #PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 OTB_WRAP_PYTHON:BOOL=OFF
