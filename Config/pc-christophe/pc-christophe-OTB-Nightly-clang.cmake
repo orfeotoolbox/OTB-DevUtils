@@ -50,7 +50,7 @@ MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/include
 
 #external openjpeg
-OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/stable/lib/openjpeg-2.0
+OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/stable/lib/openjpeg-2.1
 
 PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 OTB_WRAP_PYTHON:BOOL=ON

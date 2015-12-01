@@ -6,7 +6,7 @@ SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "ITK-release_branch-Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 
