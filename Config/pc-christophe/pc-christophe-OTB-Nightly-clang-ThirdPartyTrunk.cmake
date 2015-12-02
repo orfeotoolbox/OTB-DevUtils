@@ -33,7 +33,7 @@ BUILD_APPLICATIONS:BOOL=ON
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
 CMAKE_C_FLAGS:STRING=-Wall
-CMAKE_CXX_FLAGS:STRING=-Wall -Wno-gnu-static-float-init -Wno-\\\\#warnings
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-gnu-static-float-init -Wno-\\\\#warnings  -Wno-unknown-attributes
 CMAKE_INSTALL_PREFIX=${OTB_INSTALL_PREFIX}
 
 ##external GDAL
