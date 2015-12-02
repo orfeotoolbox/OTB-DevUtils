@@ -17,7 +17,7 @@ set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
 #set(ENV{DISPLAY} ":0.0")
 
-set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
+set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}")
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
 
