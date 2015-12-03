@@ -2,7 +2,7 @@
 # Avoid non-ascii characters in tool output.
 #set(ENV{LC_ALL} C)
 
-set (CTEST_BUILD_CONFIGURATION "Debug")
+set (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_DASHBOARD_ROOT "/home/otbtesting")
 SET (CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/Ice/")
 SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Ice-clang-ThridPartyTrunk/")
@@ -21,9 +21,13 @@ set (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 BUILD_ICE_APPLICATION:BOOL=ON
 
+SITE:STRING=${CTEST_SITE}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+BUILD_TESTING:BOOL=ON
+
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
+
 CMAKE_C_FLAGS:STRING=-Wall -Wno-gnu-static-float-init
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-gnu-static-float-init -Wno-\\\\#warnings -Wno-unknown-attributes
 CMAKE_INSTALL_PREFIX:PATH=${ICE_INSTALL_PREFIX}
@@ -34,12 +38,10 @@ CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/ossi
 CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/gdal/trunk/lib'
 
 GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
+GLFW_LIBRARY:PATH=/usr/lib64/libglfw.so
 
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/Release
-OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}
-
-
-SITE:STRING=${CTEST_SITE}
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/itk/trunk/Release
+OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}/lib/cmake/OTB-5.2/
 ")
 
 set (CTEST_NOTES_FILES
