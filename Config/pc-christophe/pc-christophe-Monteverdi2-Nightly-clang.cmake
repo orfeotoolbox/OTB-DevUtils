@@ -42,7 +42,7 @@ CTEST_USE_LAUNCHERS:BOOL=ON
 ICE_INCLUDE_DIR=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/Debug/include/
 ICE_LIBRARY:FILEPATH=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/Debug/lib/libOTBIce.so
 
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/Release
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/${CTEST_BUILD_CONFIGURATION}/lib/cmake/ITK-4.9
 
 #data dir
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
