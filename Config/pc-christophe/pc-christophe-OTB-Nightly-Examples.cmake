@@ -23,14 +23,12 @@ set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
 set(dashboard_root_name "tests")
-set(dashboard_update_dir "sources/orfeo/trunk/OTB-Nightly")
+set(dashboard_update_dir "${CTEST_DASHBOARD_ROOT}sources/orfeo/trunk/OTB-Nightly")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly/Examples")
 set(dashboard_binary_name "build/orfeo/trunk/build-examples")
 
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
-
-#set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
