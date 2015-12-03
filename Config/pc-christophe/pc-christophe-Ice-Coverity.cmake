@@ -1,6 +1,6 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
 # Make command for parallel builds
-SET(MAKECOMMAND "/usr/bin/make -i -k -j 4" CACHE STRING "" FORCE)
+SET(MAKECOMMAND "/usr/bin/make -k -j 4" CACHE STRING "" FORCE)
 # Name of the build
 SET(BUILDNAME "Fedora22-64bits-Coverity-Debug" CACHE STRING "" FORCE)
 # Name of the computer/site where compile is being run

@@ -9,7 +9,7 @@
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Windows1.0-MinGW-x86_64-${CTEST_BUILD_CONFIGURATION}-Shared-MXE_CROSS_COMPILE")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting")
 set(CTEST_HG_COMMAND "/usr/bin/hg")
 set(CTEST_HG_UPDATE_OPTIONS "-C")

@@ -9,7 +9,7 @@ SET (CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/Monteve
 SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Monteverdi2/")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k" )
+set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k" )
 set (CTEST_SITE "pc-christophe.cst.cnes.fr" )
 set (CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
 set (CTEST_HG_COMMAND "/usr/bin/hg")
