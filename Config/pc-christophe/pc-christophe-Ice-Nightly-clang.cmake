@@ -5,7 +5,7 @@
 set (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_DASHBOARD_ROOT "/home/otbtesting")
 SET (CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/Ice/")
-SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Ice-clang-ThridPartyTrunk/")
+SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Ice-clang-ThirdPartyTrunk/")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
@@ -15,7 +15,7 @@ set (CTEST_HG_COMMAND "/usr/bin/hg")
 set (CTEST_HG_UPDATE_OPTIONS "-C")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
-set (ICE_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
+set (ICE_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/Ice-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
 
 set (CTEST_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}

@@ -39,8 +39,8 @@ CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/instal
 CTEST_USE_LAUNCHERS:BOOL=ON
 
 #otb, itk, ice
-ICE_INCLUDE_DIR=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/Debug/include/
-ICE_LIBRARY:FILEPATH=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThridPartyTrunk/Debug/lib/libOTBIce.so
+ICE_INCLUDE_DIR=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}/include/
+ICE_LIBRARY:FILEPATH=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}/lib/libOTBIce.so
 
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/${CTEST_BUILD_CONFIGURATION}/lib/cmake/ITK-4.9
 
