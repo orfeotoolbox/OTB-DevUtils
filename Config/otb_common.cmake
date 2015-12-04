@@ -68,6 +68,26 @@
 #   set(ENV{LD_LIBRARY_PATH} /path/to/vendor/lib) # (if necessary)
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
+# Include test site configuration
+if(DEFINED CTEST_OTB_SITE_CONFIG)
+  include(${CTEST_OTB_SITE_CONFIG})
+  if(COMMAND dashboard_hook_init_site)
+    dashboard_hook_init_site()
+  endif()
+endif()
+
+# Include build configuration
+if(DEFINED CTEST_OTB_BUILD_CONFIG)
+  include(${CTEST_OTB_BUILD_CONFIG})
+  if(COMMAND dashboard_hook_init_build)
+    dashboard_hook_init_build()
+  else()
+    message(FATAL_ERROR "build configuration must define dashboard_hook_init_site()")
+  endif()
+else()
+  message(FATAL_ERROR "CTEST_OTB_BUILD_CONFIG is required.")
+endif()
+
 set(dashboard_user_home "$ENV{HOME}")
 
 get_filename_component(dashboard_self_dir ${CMAKE_CURRENT_LIST_FILE} PATH)
@@ -160,7 +180,7 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
 endif()
 
 if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
-  set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+  set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
 endif()
 
 # Select a source directory name.
@@ -384,10 +404,6 @@ macro(run_dashboard)
   endif()
 endmacro()
 
-if(COMMAND dashboard_hook_init)
-  dashboard_hook_init()
-endif()
-
 set(dashboard_done 0)
 while(NOT dashboard_done)
   if(dashboard_loop)
@@ -403,7 +419,7 @@ while(NOT dashboard_done)
     set(ORIGINAL_CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_UPDATE_CUSTOM})
     foreach(branch ${additional_branches})
       set(CTEST_BUILD_NAME  ${ORIGINAL_CTEST_BUILD_NAME}-${branch})
-      set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+      set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
       file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
       file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
       run_dashboard()

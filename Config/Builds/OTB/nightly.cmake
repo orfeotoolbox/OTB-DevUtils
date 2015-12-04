@@ -1,18 +1,10 @@
-# Client maintainer: manuel.grizonnet@cnes.fr
-set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "/home/otbtesting/")
-SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
+set(dashboard_model Experimental)
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 1500)
+set(CTEST_BUILD_NAME "experimental-factor_config-${CTEST_BUILD_CONFIGURATION}")
 set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
 set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}")
 
-#set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
 #set(ENV{DISPLAY} ":0.0")
@@ -21,7 +13,7 @@ set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}")
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
 
-macro(dashboard_hook_init)
+macro(dashboard_hook_init_build)
 
 # NOTE: -Wno-deprecated-declarations is in CXX flags to hide 'itkLegacyMacro' related warning
 # under gcc 5.1.1, to work around GCC bug 65974.
@@ -73,4 +65,3 @@ OTB_USE_SIFTFAST=ON
  ")
 
 endmacro()
-include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
