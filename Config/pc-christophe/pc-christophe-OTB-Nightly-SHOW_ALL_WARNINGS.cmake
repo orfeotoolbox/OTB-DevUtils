@@ -41,8 +41,8 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wextra
 ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
 
 ##external OSSIM
-OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/stable/include
-OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/stable/lib64/libossim.so
+OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/master/include
+OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/master/lib64/libossim.so
 
 #external openjpeg
 OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/trunk/lib/openjpeg-2.1
