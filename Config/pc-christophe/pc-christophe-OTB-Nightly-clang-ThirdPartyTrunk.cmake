@@ -49,8 +49,8 @@ ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
 OpenCV_DIR=${INSTALLROOT}/opencv/stable/share/OpenCV/
 
 ##external OSSIM
-OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/trunk/include
-OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/trunk/lib64/libossim.so
+OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/dev/include
+OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/dev/lib64/libossim.so
 
 ##external muparserx
 ## Use stable because we are not compatible with trunk for now
@@ -88,7 +88,7 @@ endmacro()
 list(APPEND CTEST_NOTES_FILES
   "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt"
   "${CTEST_DASHBOARD_ROOT}/install/gdal/trunk/gdal_svn_info.txt"
-  "${CTEST_DASHBOARD_ROOT}/build/ossim/trunk/ossim_svn_info.txt"
-  "${CTEST_DASHBOARD_ROOT}/build/opencv/trunk/opencv_git_show.txt" )
+  "${CTEST_DASHBOARD_ROOT}/build/ossim/dev/ossim_svn_info.txt"
+  "${CTEST_DASHBOARD_ROOT}/build/opencv/dev/opencv_git_show.txt" )
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
