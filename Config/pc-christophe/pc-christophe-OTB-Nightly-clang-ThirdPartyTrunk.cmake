@@ -21,6 +21,8 @@ set(CTEST_USE_LAUNCHERS ON)
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
 
+set(ENV{GDAL_DATA} "${CTEST_DASHBOARD_ROOT}sources/gdal/trunk/gdal/data")
+
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
 
 macro(dashboard_hook_init)
