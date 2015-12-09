@@ -21,7 +21,7 @@ set(CTEST_USE_LAUNCHERS ON)
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
 
-#set(ENV{DISPLAY} ":0.0")
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
