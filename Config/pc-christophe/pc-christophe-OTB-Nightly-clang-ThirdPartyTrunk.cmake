@@ -16,7 +16,7 @@ set(dashboard_binary_name "build/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_B
 
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
-set(CTEST_USE_LAUNCHERS 1)
+set(CTEST_USE_LAUNCHERS ON)
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
@@ -38,7 +38,7 @@ CMAKE_INSTALL_PREFIX=${OTB_INSTALL_PREFIX}
 
 ##external GDAL
 GDAL_CONFIG:FILEPATH=${INSTALLROOT}/gdal/trunk/bin/gdal-config
-GDAL_INCLUDE_DIR:PATH=${INSTALLROOT}/gdal/trunk/include/
+GDAL_INCLUDE_DIR:PATH=${INSTALLROOT}/gdal/trunk/include
 GDAL_LIBRARY:FILEPATH=${INSTALLROOT}/gdal/trunk/lib/libgdal.so
 
 ##external ITK
@@ -46,7 +46,7 @@ ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
 
 ##external OpenCV
 # Use 2.4 branch for now (stable), until OTB is compatible with 3.0
-OpenCV_DIR=${INSTALLROOT}/opencv/stable/share/OpenCV/
+OpenCV_DIR=${INSTALLROOT}/opencv/stable/share/OpenCV
 
 ##external OSSIM
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/dev/include
@@ -82,13 +82,5 @@ OTB_USE_QT4=ON
 OTB_USE_SIFTFAST=ON
  ")
 endmacro()
-
-#mxe_*.log are not from the yesterday's build.
-#This is because OTB-Nightly-clang build is submitted before MXE
-list(APPEND CTEST_NOTES_FILES
-  "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt"
-  "${CTEST_DASHBOARD_ROOT}/install/gdal/trunk/gdal_svn_info.txt"
-  "${CTEST_DASHBOARD_ROOT}/build/ossim/dev/ossim_svn_info.txt"
-  "${CTEST_DASHBOARD_ROOT}/build/opencv/dev/opencv_git_show.txt" )
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
