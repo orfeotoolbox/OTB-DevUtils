@@ -12,6 +12,7 @@
 ,,* MVD2,,
 ,,* Ice ,,
 ,,Update list of contributors if necessary (SoftwareGuide/Latex/ContributorList.txt) ,,
+,,List new candidate of remote modules for inclusion in source ,,
 ,,,,
 ,*J-1*,"If dashboard not clean, delay J-1",,
 ,,"Last minute fixes, but avoid if possible",,
