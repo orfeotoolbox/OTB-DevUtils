@@ -208,6 +208,14 @@ check_src_archive ()
 set_ubuntu_code_name ()
 {
     case "$1" in
+        "xenial" )
+            ubuntu_codename="Xenial Xerus"
+            ubuntu_version="16.04"
+            ;;
+        "wily" )
+            ubuntu_codename="Wily Werewolf"
+            ubuntu_version="15.10"
+            ;;
         "vivid" )
             ubuntu_codename="Vivid Vervet"
             ubuntu_version="15.04"
