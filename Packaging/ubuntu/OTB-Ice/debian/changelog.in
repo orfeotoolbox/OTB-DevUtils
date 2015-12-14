@@ -1,4 +1,10 @@
-otb-ice (0.3.0-2~@DIST@@PKGVERSION@) @DIST@; urgency=low
+otb-ice (0.4.0-1~@DIST@@PKGVERSION@) @DIST@; urgency=low
+
+  * Version 0.4.0 released
+
+ -- OTB Team <contact@orfeo-toolbox.org>  Mon, 14 Dec 2015 17:30:52 +0100
+
+otb-ice (0.3.0-2~@DIST@1) @DIST@; urgency=low
 
   * Fix dh_install
 
