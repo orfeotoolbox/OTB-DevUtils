@@ -3,7 +3,7 @@
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/data/dashboard")
 set(CTEST_SITE "bumblebee.c-s.fr")
-set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_CONFIGURATION Debug)
 set(CMAKE_COMMAND "/data/tools/cmake-git/install/bin/cmake")
 set(CTEST_CMAKE_COMMAND "${CMAKE_COMMAND}")
 set(CTEST_USE_LAUNCHERS OFF)
