@@ -32,4 +32,6 @@ BUILD_TESTING:BOOL=ON
 ")
 endmacro()
 
+set(dashboard_no_test 1)
+
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
