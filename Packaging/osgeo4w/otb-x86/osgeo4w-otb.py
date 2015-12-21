@@ -1,15 +1,13 @@
 import os, sys, shutil, datetime, subprocess
 
-OTB_SRC="C:\\Users\\jmalik\\Dashboard\\src\\OTB-5.0.0"
-MONTEVERDI_SRC="C:\\Users\\jmalik\\Dashboard\\src\\Monteverdi-1.24.0"
-MONTEVERDI2_SRC="C:\\Users\\jmalik\\Dashboard\\src\\Monteverdi2-0.8.1"
-ICE_SRC="C:\\Users\\jmalik\\Dashboard\\src\\Ice-0.3.0"
+OTB_SRC="C:\\Users\\jmalik\\Dashboard\\src\\OTB-5.2.0"
+MONTEVERDI2_SRC="C:\\Users\\jmalik\\Dashboard\\src\\Monteverdi-3.0.0"
+ICE_SRC="C:\\Users\\jmalik\\Dashboard\\src\\Ice-0.4.0"
 #OTB_WRAPPING_SRC="C:\\Users\\jmalik\\Dashboard\\src\\OTB-Wrapping"
 
-OTB_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\OTB-5.0.0-vc10-x86-Release"
-MONTEVERDI_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\Monteverdi-1.24.0-vc10-x86-Release"
-MONTEVERDI2_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\Monteverdi2-0.8.1-vc10-x86-Release"
-ICE_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\Ice-0.3.0-vc10-x86-Release"
+OTB_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\OTB-5.2.0-vc10-x86-Release"
+MONTEVERDI2_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\Monteverdi-3.0.0-vc10-x86-Release"
+ICE_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\Ice-0.4.0-vc10-x86-Release"
 #OTB_WRAPPING_INSTALL="C:\\Users\\jmalik\\Dashboard\\install\\OTB-Wrapping-RelWithDebInfo-VC2008"
 
 OSGEO4W_STAGING="C:\\Users\\jmalik\\Dashboard\\osgeo4w\\x86"
@@ -203,7 +201,6 @@ def make_monteverdi2():
 make_otb_bin()
 make_otb_python()
 make_otb_ice()
-make_monteverdi()
 make_monteverdi2()
 
 # Not supported on VC2010, and not supported starting OTB 4.0
