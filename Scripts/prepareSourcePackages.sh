@@ -19,18 +19,15 @@ for project in OTB Ice Monteverdi2; do
   cd $CLONE_DIR/$project
   
   # Extract last tagged version identifier
-  full_version=$(git describe --abbrev=0 --tags)
+  full_version=$(git describe --abbrev=0 --tags master)
   #echo "$project : $full_version"
-
-  #Checkout the release
-  git checkout $full_version
 
   case $project in
     OTB)
-      pkg_name=OrfeoToolBox
+      pkg_name=OTB
       ;;
     Monteverdi2)
-      pkg_name=Monteverdi2
+      pkg_name=Monteverdi
       ;;
     Ice)
       pkg_name=Ice
