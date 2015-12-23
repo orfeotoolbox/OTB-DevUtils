@@ -28,7 +28,7 @@ CMAKE_CXX_FLAGS:STRING=-Wall -Wextra -Wno-cpp
 
 BUILD_TESTING:BOOL=ON
 
-OTB_DIR:PATH=$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/cmake/OTB-5.2
+OTB_DIR:PATH=$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/cmake/OTB-5.3
 
 CMAKE_INSTALL_PREFIX:STRING=${ICE_INSTALL_PREFIX}
 

@@ -41,7 +41,7 @@ GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
 GLFW_LIBRARY:PATH=/usr/lib64/libglfw.so
 
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/itk/trunk/Release
-OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}/lib/cmake/OTB-5.2/
+OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}/lib/cmake/OTB-5.3/
 ")
 
 set (CTEST_NOTES_FILES
