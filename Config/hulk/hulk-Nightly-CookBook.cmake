@@ -3,7 +3,7 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-CookBook")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
@@ -37,7 +37,7 @@ OpenCV_DIR:PATH=/usr/share/OpenCV
 ")
 endmacro()
 
-set(dashboard_no_test 1)
-set(dashboard_no_submit 1)
+#set(dashboard_no_test 1)
+#set(dashboard_no_submit 1)
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
