@@ -19,13 +19,13 @@
 %define tarname Ice 
 
 Name:           otb-ice
-Version:        0.3.0
+Version:        0.4.0
 Release:        1
 Summary:        A fast OpenGL rendering library for remote sensing images
 Group:          Development/Libraries
 License:        CECILL-2.0
 URL:            http://www.orfeo-toolbox.org
-Source0:        %{tarname}-%{version}.tgz
+Source0:        %{tarname}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires:  cmake >= 2.8.0
@@ -33,7 +33,6 @@ BuildRequires:  gcc-c++
 BuildRequires:  gcc
 BuildRequires:  fdupes
 BuildRequires:  otb-devel
-BuildRequires:  otb otb-qt
 BuildRequires:  glew-devel
 BuildRequires:  libglfw-devel
 
@@ -48,7 +47,7 @@ use the API.
 %package devel
 Summary:        A fast OpenGL rendering library for remote sensing images
 Group:          Development/Libraries
-Requires:       libOTBIce0_3 = %{version}
+Requires:       libOTBIce0_4 = %{version}
 Provides:       lib%{name}-devel
 
 
@@ -60,11 +59,11 @@ for simple rendering of remote sensing images and a GLFW3 example of how to
 use the API.
 
 
-%package -n libOTBIce0_3
+%package -n libOTBIce0_4
 Summary:        ORFEO Toolbox shared library of image processing algorithms
 Group:          System/Libraries
 
-%description -n libOTBIce0_3
+%description -n libOTBIce0_4
 A fast OpenGL rendering library for remote sensing images - Shared Library.
 OTB ICE is a fast OpenGL rendering library for remote sensing images. This
 small piece of code decomposes into an OTB/OpenGL only library with an API
@@ -104,11 +103,11 @@ mv %{buildroot}/usr/lib/* %{buildroot}/usr/lib64/
 %clean
 rm -rf %{buildroot}
 
-%post -n libOTBIce0_3 -p /sbin/ldconfig
+%post -n libOTBIce0_4 -p /sbin/ldconfig
 
-%postun -n libOTBIce0_3 -p /sbin/ldconfig
+%postun -n libOTBIce0_4 -p /sbin/ldconfig
 
-%files -n libOTBIce0_3
+%files -n libOTBIce0_4
 %defattr(644,root,root,755)
 %{_libdir}/*.so.*
 
