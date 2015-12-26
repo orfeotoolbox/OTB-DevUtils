@@ -19,7 +19,7 @@
 %define tarname InsightToolkit
 
 Name:           insighttoolkit
-Version:        4.7.2
+Version:        4.8.2
 Release:        1
 Summary:        Insight Segmentation and Registration Toolkit
 Group:          Development/Libraries
@@ -27,16 +27,13 @@ License:        Apache-2
 URL:            http://www.itk.org
 Source0:        %{tarname}-%{version}.tar.gz
 Patch0:         nrrdio-linking.patch
-Patch1:         make-gdcm-helper-library-static.patch
-Patch2:         dl-close-fix.patch
-Patch3:         doubleconv.patch
+Patch1:         doubleconv.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 BuildRequires:	cmake >= 2.8.0
 BuildRequires:  gcc-c++ 
 BuildRequires:  gcc
 BuildRequires:  swig
-# BuildRequires:  gccxml
 BuildRequires:  zlib-devel
 BuildRequires:  libpng-devel
 BuildRequires:  libtiff-devel
@@ -44,7 +41,6 @@ BuildRequires:  fftw3-devel
 BuildRequires:  fftw3-threads-devel
 BuildRequires:  dcmtk-devel
 # BuildRequires:  gdcm-devel
-# BuildRequires:  libuuid-devel
 BuildRequires:  hdf5-devel
 BuildRequires:  python-devel
 BuildRequires:  vtk-devel
@@ -62,6 +58,16 @@ ITK is an open-source, cross-platform system that provides developers with an ex
 Summary:        Development files for ITK
 Group:          Development/Libraries
 Requires:       lib%{name}4 = %{version}
+Requires:       zlib-devel
+Requires:       libpng-devel
+Requires:       libtiff-devel
+Requires:       fftw3-devel
+Requires:       fftw3-threads-devel
+Requires:       dcmtk-devel
+Requires:       hdf5-devel
+Requires:       vtk-devel
+Requires:       libjpeg-devel
+Requires:       libexpat-devel
 Provides:       lib%{name}-devel
 
 %description devel
@@ -78,8 +84,6 @@ Shared ITK library. ITK is an open-source, cross-platform system that provides d
 %setup -q -n %{tarname}-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
 cd ..
@@ -138,9 +142,9 @@ make install DESTDIR=%{buildroot}
 %if "%{_lib}" == "lib64"
 mkdir -p %{buildroot}/usr/lib64
 mv %{buildroot}/usr/lib/* %{buildroot}/usr/lib64/
-sed -i 's|/lib/|/lib64/|g' %{buildroot}/usr/lib64/cmake/ITK-4.7/ITKConfig.cmake
-sed -i 's|/lib/|/lib64/|g' %{buildroot}/usr/lib64/cmake/ITK-4.7/ITKTargets.cmake
-sed -i 's|/lib/|/lib64/|g' %{buildroot}/usr/lib64/cmake/ITK-4.7/ITKTargets-release.cmake
+sed -i 's|/lib/|/lib64/|g' %{buildroot}/usr/lib64/cmake/ITK-4.8/ITKConfig.cmake
+sed -i 's|/lib/|/lib64/|g' %{buildroot}/usr/lib64/cmake/ITK-4.8/ITKTargets.cmake
+sed -i 's|/lib/|/lib64/|g' %{buildroot}/usr/lib64/cmake/ITK-4.8/ITKTargets-release.cmake
 %endif
 rm -rf %{buildroot}/usr/lib/debug
 
