@@ -2,29 +2,25 @@
 # norootforbuild
 
 %global _version_major 5
-%global _version_minor 0
+%global _version_minor 2
 %global _version_release 0
 %global _uname OTB
 %global _short_name %{_uname}-%{_version_major}.%{_version_minor}
 
-
 Name: otb
 # OrfeoToolbox
 Version:       %{_version_major}.%{_version_minor}.%{_version_release}
-Release:       1%{?dist}
+Release:       4%{?dist}
 Summary:       The Orfeo Toolbox is a C++ library for remote sensing image processing
 Group:	       System Environment/Libraries
 # The entire source code is CeCILL except Utilities/*
 License:       CeCILL
-URL:	       http://www.orfeo-toolbox.org
-Source0:       http://orfeo-toolbox.org/packages/%{_uname}-%{version}.tgz
+URL:	         http://www.orfeo-toolbox.org
+Source0:       http://orfeo-toolbox.org/packages/%{_uname}-%{version}.tar.gz
 #File will be merged with upstream - http://bugs.orfeo-toolbox.org/view.php?id=987
-Source1:       README.txt
+#Source1:       README.txt
 Source2:       otb.conf
-Patch0:        %{_uname}-4.5.0-docinstall.patch
-#Patch0:	       %{_uname}-4.2.1-6S_main.patch
-#Patch1:	       %{_uname}-4.2.1-dm_CMakeLists.patch
-#Patch2:	       %{_uname}-4.2.1-rpmlint_fsfaddr.patch
+#Patch0:        %{_uname}-4.5.0-docinstall.patch
 
 BuildRequires: cmake
 BuildRequires: gdal-devel >= 1.11.2
@@ -37,9 +33,7 @@ BuildRequires: tinyxml-devel
 BuildRequires: muParser-devel
 BuildRequires: muParserX-devel >= 3.0.5
 BuildRequires: OpenThreads-devel
-BuildRequires: libjpeg-turbo-devel
-BuildRequires: openjpeg2-devel >= 2.1.0-4
-BuildRequires: openjpeg2-tools >= 2.1.0-4
+
 BuildRequires: InsightToolkit-devel >= 4.7.1
 BuildRequires: InsightToolkit-vtk  >= 4.7.1
 BuildRequires: ossim-devel >= 1.8.18
@@ -55,7 +49,7 @@ BuildRequires:  qt-devel
 BuildRequires:  gdcm-devel
 BuildRequires:  vxl-devel
 BuildRequires:  python2-devel
-
+BuildRequires:  fftw-devel
 
 %description
 The %{name} is a library of image processing algorithms developed by
@@ -103,9 +97,9 @@ BuildRequires:	python2-devel
 This package provides python bindings for %{name}
 
 %prep
-%setup -q -n %{_uname}-%{version} -D
+%setup -q -n %{_uname}-%{version}
 
-cp -a %{SOURCE1} .
+#cp -a %{SOURCE1} .
 
 #ld.so.conf.d/otb.conf
 cp -a %{SOURCE2} .
@@ -113,7 +107,7 @@ cp -a %{SOURCE2} .
 #prep otb.conf
 sed -i 's,prefix,%{_libdir},g' otb.conf
 
-%patch0 -p1
+#%patch0 -p1
 #%patch1 -p1
 #%patch2 -p1
 
@@ -140,7 +134,7 @@ pushd %{_target_platform}
     -DOTB_USE_6S:BOOL=ON \
     -DOTB_USE_MUPARSER:BOOL=ON \
     -DOTB_USE_MUPARSERX:BOOL=ON \
-    -DOTB_USE_OPENCV:BOOL=ON \
+    -DOTB_USE_OPENJPEG:BOOL=OFF \
     -DOTB_USE_SIFTFAST:BOOL=ON \
     -DOTB_USE_QT4:BOOL=ON \
     -DOTB_WRAP_PYTHON:BOOL=ON \
@@ -148,7 +142,7 @@ pushd %{_target_platform}
     -DOTB_USE_MAPNIK:BOOL=OFF \
     -DOTB_USE_LIBSVM:BOOL=OFF \
     -DOTB_USE_LIBKML:BOOL=OFF \
-    -DOpenJPEG_DIR:PATH=%{_libdir}/openjpeg-2.1 \
+    -DITK_DIR:PATH=%{_libdir}/cmake/InsightToolkit \
     -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
     -DOTB_INSTALL_LIBRARY_DIR:STRING=%{_lib} \
     -DOTB_INSTALL_PYTHON_DIR:STRING=%{_lib}/otb/python \
@@ -164,6 +158,8 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 rm -rf %{buildroot}
 %make_install -C %{_target_platform} DESTDIR=%{buildroot}
+
+rm -f %{buildroot}/usr/share/doc/OTB-%{_version_major}.%{_version_minor}/LICENSE
 
 export PATH=$PATH:%{buildroot}%{_bindir}
 export LD_LIBRARY_PATH=%{buildroot}%{_bindir}
@@ -197,7 +193,6 @@ install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 %{_mandir}/man1/otbTestDriver.1*
 %{_bindir}/otb*Qt
 %{_bindir}/otbgu*
-%{_libdir}/lib*QtWidget*.so.*
 %{_mandir}/man1/otbgui*.1*
 %{_mandir}/man1/otbApplicationLauncherQt.1.*
 %dir %{_libdir}/otb/
@@ -207,7 +202,7 @@ install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 %{_libdir}/cmake/%{_short_name}
 
 %files doc
-%doc README.txt
+%doc README
 %doc RELEASE_NOTES.txt
 %doc Copyright/*.txt
 %doc LICENSE
@@ -218,6 +213,18 @@ install -p -m644 otb.conf %{buildroot}%{_sysconfdir}/ld.so.conf.d/otb.conf
 %dir %{_libdir}/otb/python/
 
 %changelog
+* Mon Dec 28 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 5.2.0-1
+- new upstream release 5.2.0
+
+* Fri Oct 30 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 5.0.0-3
+- fix ITK_DIR
+
+* Fri Oct 30 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 5.0.0-3
+- update for Fedora 22
+
+* Thu Oct 29 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 5.0.0-2
+- update to OTB 5.0.0 to use gdal from Fedora 21 testing
+
 * Tue Jun 09 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 5.0.0-1
 - update to OTB 5.0.0
 

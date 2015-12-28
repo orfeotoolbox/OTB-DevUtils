@@ -1,26 +1,20 @@
 # spec file for Monteverdi
-# norootforbuild
-%global _prefix /usr
-%global sname Monteverdi
-%global _sharedir %{_prefix}/share
-
+%global uname Monteverdi
 Name:  monteverdi
-Version:  1.24.0
+Version: 3.0.0
 Release:  1%{?dist}
-Summary:  %{sname} is the GUI interface built with OTB library and FLTK
+Summary:  %{uname} is the GUI interface built with OTB library and Qt
 Group:    Applications/Engineering
 License:  CeCILL
 URL:	  http://www.orfeo-toolbox.org
-Source0:  http://orfeo-toolbox.org/packages/%{sname}-%{version}.tgz
-BuildRequires:  fltk-devel
-BuildRequires:  fltk-fluid
+Source0:  http://orfeo-toolbox.org/packages/%{uname}-%{version}.tar.gz
 BuildRequires:  cmake
-BuildRequires:  otb-devel = 5.0.0
+BuildRequires:  otb-devel >= 5.2.0
 BuildRequires:  glfw-devel
 BuildRequires:  glew-devel
 BuildRequires:  freeglut-devel
 BuildRequires:  libXmu-devel
-BuildRequires:  gdal-devel
+BuildRequires:  gdal-devel >= 1.11.2
 BuildRequires:  boost-devel
 BuildRequires:  InsightToolkit-devel >= 4.7
 BuildRequires: InsightToolkit-vtk  >= 4.7.1
@@ -34,38 +28,37 @@ BuildRequires: tinyxml-devel
 BuildRequires: muParser-devel
 BuildRequires: OpenThreads-devel
 BuildRequires: libjpeg-turbo-devel
-BuildRequires: openjpeg2-devel >= 2.1.0-4
 ### test package to install only jpeg plugin
 ###BuildRequires: gdal-openjpeg
 #for generating man pages from help
-BuildRequires: help2man
 BuildRequires: opencv-devel
 BuildRequires:  zlib-devel
 ##build requires from itk
 BuildRequires:  gdcm-devel
 BuildRequires:  vxl-devel
 BuildRequires:  python2-devel
+BuildRequires:  otb-ice-devel >= 0.4.0
+BuildRequires:  qwt5-qt4-devel
 
 %description
-%{sname} is the GUI interface built with OTB library and FLTK
-
-It allows building processing chains by selecting modules
-from a set of menus. It supports raster and vector data and
-gives access to OTB functionalities in a modular architecture.
-It is built using OTB library and which provides streaming
-and multi-threading capabilities.
+%{uname} is the GUI interface built with OTB library and Qt
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{uname}-%{version}
 
 %build
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake .. \
-       -DCMAKE_INSTALL_PREFIX=%{_prefix} \
-       -DOTB_DIR:PATH=%{_libdir}/cmake/OTB-5.0 \
-    -DMonteverdi_INSTALL_LIB_DIR:PATH=%{_lib}
-
+       -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
+       -DBUILD_TESTING:BOOL=OFF \
+       -DOTB_DIR:PATH=%{_libdir}/cmake/OTB-5.2 \
+       -DQWT_LIBRARY:FILEPATH=%{_libdir}/libqwt5-qt4.so \
+       -DQWT_INCLUDE_DIR:PATH=%{_includedir}/qwt5-qt4/ \
+       -DMonteverdi2_INSTALL_LIB_DIR:PATH=%{_lib} \
+       -DMONTEVERDI2_OUTPUT_NAME:STRING="monteverdi.bin" \
+       -DMAPLA_OUTPUT_NAME:STRING="mapla.bin" 
+       
 popd
 make %{?_smp_mflags} -C %{_target_platform}
 
@@ -73,33 +66,59 @@ make %{?_smp_mflags} -C %{_target_platform}
 rm -rf %{buildroot}
 %make_install -C %{_target_platform}
 
+%post
+cat > /usr/bin/monteverdi <<EOF
+#!/bin/sh
+export OTB_APPLICATION_PATH=%{_libdir}/otb/applications
+/usr/bin/monteverdi.bin \$@
+EOF
 
-%post -p /sbin/ldconfig
+cat > /usr/bin/mapla <<EOF
+#!/bin/sh
+export OTB_APPLICATION_PATH=%{_libdir}/otb/applications
+/usr/bin/mapla.bin \$@
+EOF
 
-%postun -p /sbin/ldconfig
+chmod +x /usr/bin/mapla
+chmod +x /usr/bin/monteverdi
+
+/sbin/ldconfig
+
+%postun
+/sbin/ldconfig
+rm -f /usr/bin/monteverdi
+rm -f /usr/bin/mapla
 
 %files
-%{_bindir}/monteverdi
-%{_bindir}/otbViewer
-%{_libdir}/libOTBVisuFLTK.so*
-%{_libdir}/libOTBGuiFLTK.so*
-%{_libdir}/libOTBVisuLegacyFLTK.so*
-%{_libdir}/libotb*Module*
-%{_libdir}/libOTBMonteverdi*.so*
-%{_libdir}/libotbMonteverdi.so*
-%{_libdir}/libflu.so*
-%{_sharedir}/pixmaps/monteverdi.*
-%{_sharedir}/applications/monteverdi.desktop
-
-%dir %{_sharedir}/pixmaps
-%dir %{_sharedir}/applications
-
-%exclude %{_libdir}/Monteverd*.cmake
-%exclude %{_includedir}/
+%{_libdir}/libMonteverdi2*
+%{_bindir}/monteverdi.bin
+%{_bindir}/mapla.bin
+%{_datadir}/otb/*
+%{_datadir}/icons/*
+%{_datadir}/pixmaps/*
+%{_datadir}/applications/*
+%dir %{_datadir}/icons
+%dir %{_datadir}/pixmaps
+%dir %{_datadir}/applications
+%dir %{_datadir}/icons/hicolor
+#%dir %{_datadir}/icons/hicolor/16x16
+#%dir %{_datadir}/icons/hicolor/32x32
+#%dir %{_datadir}/icons/hicolor/48x48
+#%dir %{_datadir}/icons/hicolor/128x128
 
 
 %changelog
-* Tue Apr 28 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.22.0-2
+* Mon Dec 28 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 3.0.0-1
+- new upstream release 3.0.0
+
+* Wed Apr 29 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.9.0-1
+- use _datadir/share instead of adding _sharedir variable
+
+* Tue Apr 28 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.9.0-1
 - update for OTB-4.5.0
-* Tue Nov 25 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.22.0-1
-- Initial package for Monteverdi
+
+* Tue Dec 23 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.8.0-1
+- Initial package for Monteverdi2
+
+* Wed Nov 19 2014 Rashad Kanavath <rashad.kanavath@c-s.fr> - 0.8.0-1
+- add launcher script to set ITK_AUTOLOAD_PATH

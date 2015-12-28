@@ -1,16 +1,11 @@
-#name of library as it is
-%global name_ucase OSSIM
 Name:           ossim
 Version:        1.8.20
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Open Source Software Image Map library and command line applications
 Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            http://trac.osgeo.org/ossim/wiki
-#created from svn revision 23275
-#svn export ossim ossim-1.8.19
-#tar cvf ossim-1.8.19.tar.xz ossim-1.8.19
-Source0:        http://download.osgeo.org/ossim/source/%{name}-%{version}/%{name}-%{version}.tar.gz
+Source0:        http://download.osgeo.org/ossim/source/%{name}-%{version}/%{name}-%{version}-3.tar.gz
 Patch0: ossim-1.8.18-runtimedir.patch
 
 BuildRequires: cmake
@@ -20,6 +15,10 @@ BuildRequires: libjpeg-devel
 BuildRequires: libpng-devel
 BuildRequires: OpenThreads-devel
 BuildRequires: help2man
+
+#name of library in upper case for use in description
+%global name_ucase OSSIM
+%global ossim_source_dir %{name}-%{version}-3
 
 %description
 %{name_ucase} is a powerful suite of geospatial libraries and applications
@@ -63,7 +62,7 @@ This provides some .kwl templates and csv used for ossim projection.
 # -D on setup = Do not delete the directory before unpacking.
 # -T on setup = Disable the automatic unpacking of the archives.
 #---
-%setup -q
+%setup -q -n %{ossim_source_dir}
 
 %patch0 -p1
 
@@ -83,43 +82,20 @@ done
 #remove these to silence rpmlint
 rm -frv ossim/specs ossim/doc/*.spec ossim/ospr.spec ossim/ossim.spec*
 
-#fix permissions
-chmod -x ossim/include/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.h
-chmod -x ossim/include/ossim/support_data/ossimNitfImageDataMaskV2_1.h
-chmod -x ossim/src/ossim/support_data/ossimNitfDataExtensionSegmentV2_1.cpp
-chmod -x ossim/src/ossim/support_data/ossimNitfImageDataMaskV2_1.cpp
-chmod -x ossim/include/ossim/base/ossimGeodeticEvaluator.h
-chmod -x ossim/include/ossim/base/ossimAdjSolutionAttributes.h
-chmod -x ossim/include/ossim/base/ossimBinaryDataProperty.h
-chmod -x ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
-chmod -x ossim/src/ossim/base/ossimBinaryDataProperty.cpp
-
-#wrong line endings.
-sed -i 's/\r$//' ossim/src/ossim/base/ossimAdjSolutionAttributes.cpp
-sed -i 's/\r$//' ossim/include/ossim/base/ossimGeodeticEvaluator.h
-sed -i 's/\r$//' ossim/include/ossim/base/ossimAdjSolutionAttributes.h
-
 
 %build
 mkdir -p build
 pushd build
 %cmake \
-    -DBUILD_CSMAPI=OFF \
-    -DBUILD_OMS=OFF \
-    -DBUILD_OSSIMGUI=ON \
     -DBUILD_OSSIM_MPI_SUPPORT=OFF \
-    -DBUILD_OSSIMPLANET=OFF \
-    -DBUILD_OSSIMPLANETQT=OFF \
-    -DBUILD_OSSIMPREDATOR=OFF \
-    -DBUILD_OSSIMQT4=OFF \
     -DBUILD_OSSIM_TEST_APPS=OFF \
     -DSubversion_SVN_EXECUTABLE="" \
     -DBUILD_WMS=OFF \
     -DINSTALL_LIBRARY_DIR:PATH=%{_libdir} \
     -DINSTALL_RUNTIME_DIR:PATH=%{_bindir}/ossim-apps/ \
     -DINSTALL_ARCHIVE_DIR:PATH=%{_libdir} \
-    -DCMAKE_MODULE_PATH=%{_builddir}/%{name}-%{version}/ossim_package_support/cmake/CMakeModules \
-     %{_builddir}/%{name}-%{version}/%{name}
+    -DCMAKE_MODULE_PATH=%{_builddir}/%{ossim_source_dir}/ossim_package_support/cmake/CMakeModules \
+     %{_builddir}/%{ossim_source_dir}/%{name}
 make %{?_smp_mflags}
 popd
 
@@ -152,7 +128,7 @@ export PATH=%{buildroot}%{_bindir}/ossim-apps:$PATH
 export LD_LIBRARY_PATH=%{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_mandir}/man1
 for app in `ls %{buildroot}%{_bindir}/ossim-apps/ossim-*` ; do
-  if [[ $app == *space-imaging* || $app == *swapbytes*  ]]; then
+  if [[ $app == *space-imaging* || $app == *pixelflip* || $app == *image-synth* || $app == *create-cg* || $app == *adrg-dump* || $app == *swapbytes*  ]]; then
     help2man `basename $app` %{help2man_opt} --help-option=' ' --version-string=%{version} -o %{buildroot}%{_mandir}/man1/`basename $app`.1;
   else
     help2man `basename $app` %{help2man_opt} -o %{buildroot}%{_mandir}/man1/`basename $app`.1;
@@ -200,6 +176,9 @@ done
 
 
 %changelog
+* Wed Dec 23 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.20-4
+- Update to ossim 1.8.20-3
+
 * Fri Oct 30 2015 Rashad Kanavath <rashad.kanavath@c-s.fr> - 1.8.20-3
 - Update ossim 1.8.20 with correct upstream sources
 
