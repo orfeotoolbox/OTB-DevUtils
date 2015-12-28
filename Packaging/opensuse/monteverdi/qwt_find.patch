@@ -1,0 +1,12 @@
+diff -ur Monteverdi2-0.8.1_orig/CMake/FindQwt.cmake Monteverdi2-0.8.1/CMake/FindQwt.cmake
+--- Monteverdi2-0.8.1_orig/CMake/FindQwt.cmake	2015-06-01 10:38:59.000000000 +0300
++++ Monteverdi2-0.8.1/CMake/FindQwt.cmake	2015-10-01 15:54:04.831833198 +0300
+@@ -46,7 +46,7 @@
+ find_path ( QWT_INCLUDE_DIR
+   NAMES qwt_plot.h
+   HINTS ${QT_INCLUDE_DIR}
+-  PATH_SUFFIXES qwt qwt-qt3 qwt-qt4 qwt-qt5
++  PATH_SUFFIXES qwt qwt5 qwt-qt3 qwt-qt4 qwt-qt5
+ )
+ 
+ set ( QWT_INCLUDE_DIRS ${QWT_INCLUDE_DIR} )
