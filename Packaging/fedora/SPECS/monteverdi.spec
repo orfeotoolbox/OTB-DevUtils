@@ -31,6 +31,7 @@ BuildRequires: libjpeg-turbo-devel
 ### test package to install only jpeg plugin
 ###BuildRequires: gdal-openjpeg
 #for generating man pages from help
+BuildRequires: help2man
 BuildRequires: opencv-devel
 BuildRequires:  zlib-devel
 ##build requires from itk
@@ -39,6 +40,7 @@ BuildRequires:  vxl-devel
 BuildRequires:  python2-devel
 BuildRequires:  otb-ice-devel >= 0.4.0
 BuildRequires:  qwt5-qt4-devel
+BuildRequires:  fftw-devel
 
 %description
 %{uname} is the GUI interface built with OTB library and Qt
@@ -55,8 +57,8 @@ pushd %{_target_platform}
        -DOTB_DIR:PATH=%{_libdir}/cmake/OTB-5.2 \
        -DQWT_LIBRARY:FILEPATH=%{_libdir}/libqwt5-qt4.so \
        -DQWT_INCLUDE_DIR:PATH=%{_includedir}/qwt5-qt4/ \
-       -DMonteverdi2_INSTALL_LIB_DIR:PATH=%{_lib} \
-       -DMONTEVERDI2_OUTPUT_NAME:STRING="monteverdi.bin" \
+       -DMonteverdi_INSTALL_LIB_DIR:PATH=%{_lib} \
+       -DMonteverdi_App_OUTPUT_NAME:STRING="monteverdi.bin" \
        -DMAPLA_OUTPUT_NAME:STRING="mapla.bin" 
        
 popd
@@ -90,7 +92,7 @@ rm -f /usr/bin/monteverdi
 rm -f /usr/bin/mapla
 
 %files
-%{_libdir}/libMonteverdi2*
+%{_libdir}/libMonteverdi*
 %{_bindir}/monteverdi.bin
 %{_bindir}/mapla.bin
 %{_datadir}/otb/*
