@@ -1,0 +1,1 @@
+SET OTB_APPLICATION_PATH=%OSGEO4W_ROOT%\apps\orfeotoolbox\applications;%OTB_APPLICATION_PATH%

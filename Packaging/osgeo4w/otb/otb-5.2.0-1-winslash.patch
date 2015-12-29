@@ -1,0 +1,24 @@
+diff -burN OTB-5.2.0.orig/CMake/otbcli.bat.in OTB-5.2.0/CMake/otbcli.bat.in
+--- OTB-5.2.0.orig/CMake/otbcli.bat.in	Mon Dec 21 16:00:00 2015
++++ OTB-5.2.0/CMake/otbcli.bat.in	Mon Dec 28 16:26:53 2015
+@@ -17,7 +17,7 @@
+ setlocal
+ :: works for install tree
+ if exist %CURRENT_SCRIPT_DIR%../@OTB_INSTALL_APP_DIR@ (
+-  set OTB_APPLICATION_PATH=%CURRENT_SCRIPT_DIR%../@OTB_INSTALL_APP_DIR@;%OTB_APPLICATION_PATH%
++  set OTB_APPLICATION_PATH=%CURRENT_SCRIPT_DIR%..\@OTB_INSTALL_APP_DIR@;%OTB_APPLICATION_PATH%
+ )
+ 
+ :: start the application
+diff -burN OTB-5.2.0.orig/CMake/otbgui.bat.in OTB-5.2.0/CMake/otbgui.bat.in
+--- OTB-5.2.0.orig/CMake/otbgui.bat.in	Mon Dec 21 16:00:00 2015
++++ OTB-5.2.0/CMake/otbgui.bat.in	Mon Dec 28 16:26:39 2015
+@@ -17,7 +17,7 @@
+ setlocal
+ :: works for install tree
+ if exist %CURRENT_SCRIPT_DIR%../@OTB_INSTALL_APP_DIR@ (
+-  set OTB_APPLICATION_PATH=%CURRENT_SCRIPT_DIR%../@OTB_INSTALL_APP_DIR@;%OTB_APPLICATION_PATH%
++  set OTB_APPLICATION_PATH=%CURRENT_SCRIPT_DIR%..\@OTB_INSTALL_APP_DIR@;%OTB_APPLICATION_PATH%
+ )
+ 
+ set LC_NUMERIC=C

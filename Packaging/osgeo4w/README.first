@@ -1,0 +1,14 @@
+To preare package for OSGeo4W
+
+1. open cmd.exe
+2. setup msvc x86/x86_64 environment
+3. update url and or version number,
+4. add or update patches if necessary
+5. launch OTB-devutils/Packaging/osgeo4w/<package-name>/package.cmd
+
+Done!. Packages are now ready in <OSGEO4WROOT>/usr/release/<package-name>
+
+NOTE: Below packaging scripts are deprecated. Please stick to the above method for pakackaging OTB, Ice, Monteverdi
+OTB-devutils/Packaging/osgeo4w/otb-x86
+OTB-devutils/Packaging/osgeo4w/otb-x86_64
+
