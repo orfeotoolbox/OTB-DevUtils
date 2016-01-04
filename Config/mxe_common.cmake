@@ -77,10 +77,6 @@ if(NOT "${dashboard_model}" MATCHES "^(Nightly|Experimental|Continuous|CrossComp
   message(FATAL_ERROR "dashboard_model must be Nightly, Experimental, or Continuous")
 endif()
 
-if(EXISTS "$ENV{CTEST33}")
-  set(CMAKE_COMMAND "$ENV{CTEST33}")
-endif()
-
 # Default to a Debug build.
 if(NOT DEFINED CTEST_CONFIGURATION_TYPE AND DEFINED CTEST_BUILD_CONFIGURATION)
   set(CTEST_CONFIGURATION_TYPE ${CTEST_BUILD_CONFIGURATION})
