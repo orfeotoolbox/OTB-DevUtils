@@ -69,8 +69,8 @@ PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python2.7
 PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers
 PYTHON_LIBRARY:FILEPATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python
 
-OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/ossim/install/include
-OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install/lib/libossim.dylib
+OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/ossim/install-1.8.20-3/include
+OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install-1.8.20-3/lib/libossim.dylib
 
 MUPARSER_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/muparser/install/include
 MUPARSER_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/muparser/install/lib/libmuparser.dylib

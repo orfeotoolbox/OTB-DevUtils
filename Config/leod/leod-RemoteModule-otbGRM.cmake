@@ -55,8 +55,8 @@ GDAL_CONFIG_CHECKING:BOOL=ON
 GDAL_INCLUDE_DIR:PATH=/opt/local/include
 GDAL_LIBRARY:PATH=/opt/local/lib/libgdal.dylib
 
-OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/ossim/install/include
-OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install/lib/libossim.dylib
+OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/ossim/install-1.8.20-3/include
+OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install-1.8.20-3/lib/libossim.dylib
 ")
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

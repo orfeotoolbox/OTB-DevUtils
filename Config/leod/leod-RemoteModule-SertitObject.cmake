@@ -23,8 +23,8 @@ CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-gnu -Wno-\\\\#warnings
 
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/itkv4/install/lib/cmake/ITK-4.8
-OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/ossim/install/include
-OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install/lib/libossim.dylib
+OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/ossim/install-1.8.20-3/include
+OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install-1.8.20-3/lib/libossim.dylib
 
 GDAL_CONFIG:PATH=/opt/local/bin/gdal-config
 GDAL_CONFIG_CHECKING:BOOL=ON
