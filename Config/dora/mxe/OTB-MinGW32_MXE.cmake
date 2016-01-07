@@ -49,9 +49,15 @@ OTB_WRAP_JAVA:BOOL=OFF
 ")
 endmacro()
 
-macro(dashboard_hook_end)
+macro(dashboard_hook_test)
+  set(CTEST_BUILD_COMMAND_ORIG ${CTEST_BUILD_COMMAND})
   unset(CTEST_BUILD_COMMAND)
   ctest_build(TARGET "packages")
+  set(CTEST_BUILD_COMMAND ${CTEST_BUILD_COMMAND_ORIG})
 endmacro()
+
+# Attach mxe build log to dashboard.
+# This log file was created in ~/scripts/cron-nightly.sh
+set(CTEST_NOTES_FILES "/home/otbval/logs/mxe_build_log_on_dora.txt")
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)

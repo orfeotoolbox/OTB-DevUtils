@@ -50,9 +50,11 @@ OTB_WRAP_JAVA:BOOL=OFF
 ")
 endmacro()
 
-macro(dashboard_hook_end)
+macro(dashboard_hook_test)
+  set(CTEST_BUILD_COMMAND_ORIG ${CTEST_BUILD_COMMAND})
   unset(CTEST_BUILD_COMMAND)
   ctest_build(TARGET "packages")
+  set(CTEST_BUILD_COMMAND ${CTEST_BUILD_COMMAND_ORIG})
 endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
