@@ -22,6 +22,8 @@ set(dashboard_binary_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 #set(dashboard_hg_branch "default")
 
+set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
+
 set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)

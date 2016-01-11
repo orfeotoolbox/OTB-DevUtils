@@ -5,6 +5,7 @@ set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 set(CTEST_BUILD_TARGET INSTALL)
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
+set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
