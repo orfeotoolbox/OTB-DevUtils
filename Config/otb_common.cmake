@@ -140,10 +140,24 @@ if(NOT DEFINED dashboard_git_crlf)
   endif(UNIX)
 endif()
 
+# Detect additional branches to test
 if(DEFINED dashboard_git_features_list)
   message("Checking feature branches file : ${dashboard_git_features_list}")
-  file(STRINGS ${dashboard_git_features_list} additional_branches
-       REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *\$")
+  file(STRINGS ${dashboard_git_features_list} _feature_list_content
+       REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *([a-zA-Z0-9]|-|_|\\.)* *\$")
+  unset(additional_branches)
+  foreach(_line ${_feature_list_content})
+    string(REGEX REPLACE "^ *(([a-zA-Z0-9]|-|_|\\.)+) *(([a-zA-Z0-9]|-|_|\\.)*) *\$" "\\1" _branch ${_line})
+    string(REGEX REPLACE "^ *(([a-zA-Z0-9]|-|_|\\.)+) *(([a-zA-Z0-9]|-|_|\\.)*) *\$" "\\3" _databranch ${_line})
+    list(APPEND additional_branches ${_branch})
+    if(specific_data_branch_for_${_branch})
+      unset(specific_data_branch_for_${_branch})
+    endif()
+    if(_databranch)
+      set(specific_data_branch_for_${_branch} ${_databranch})
+      message("Found specific data branch for ${_branch} : ${_databranch}")
+    endif()
+  endforeach()
   list(LENGTH additional_branches number_additional_branches)
   if(number_additional_branches GREATER 0)
     message("Testing feature branches : ${additional_branches}")
@@ -386,6 +400,13 @@ endmacro()
 
 if(COMMAND dashboard_hook_init)
   dashboard_hook_init()
+endif()
+
+# try to find OTB-Data location
+if(NOT DEFINED dashboard_otb_data_root)
+  if(${dashboard_cache} MATCHES "^.*OTB_DATA_ROOT:(STRING|PATH)=([^\n\r]+).*\$")
+    string(REGEX REPLACE "^.*OTB_DATA_ROOT:(STRING|PATH)=([^\n\r]+).*\$" "\\2" dashboard_otb_data_root ${dashboard_cache})
+    message("Detected data root : ${dashboard_otb_data_root}")
 endif()
 
 set(dashboard_done 0)
