@@ -407,6 +407,7 @@ if(NOT DEFINED dashboard_otb_data_root)
   if(${dashboard_cache} MATCHES "^.*OTB_DATA_ROOT:(STRING|PATH)=([^\n\r]+).*\$")
     string(REGEX REPLACE "^.*OTB_DATA_ROOT:(STRING|PATH)=([^\n\r]+).*\$" "\\2" dashboard_otb_data_root ${dashboard_cache})
     message("Detected data root : ${dashboard_otb_data_root}")
+  endif()
 endif()
 
 set(dashboard_done 0)
@@ -429,7 +430,20 @@ while(NOT dashboard_done)
       set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
       file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
       file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
+      # Checkout specific data branch if any
+      if(DEFINED specific_data_branch_for_${branch})
+        execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${specific_data_branch_for_${branch}} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake
+                        WORKING_DIRECTORY ${dashboard_otb_data_root})
+        message("Set data branch to ${specific_data_branch_for_${branch}}")
+      endif()
+      message("Run dashboard for ${branch}")
       run_dashboard()
+      # reset data to Nightly branch
+      if(DEFINED specific_data_branch_for_${branch})
+        execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=nightly -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake
+                        WORKING_DIRECTORY ${dashboard_otb_data_root})
+        message("Reset data")
+      endif()
     endforeach()
     set(CTEST_DASHBOARD_TRACK ${ORIGINAL_CTEST_DASHBOARD_TRACK})
     set(CTEST_BUILD_NAME ${ORIGINAL_CTEST_BUILD_NAME})
