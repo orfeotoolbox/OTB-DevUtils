@@ -87,7 +87,7 @@ cmake $SOURCEDIR \
     -DBUILD_SHARED_LIBS:BOOL=ON
 
 #build
-make -j8
+make -j8 -k
 
 #install to $INSTALLDIR
 make install
