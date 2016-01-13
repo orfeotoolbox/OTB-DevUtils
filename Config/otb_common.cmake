@@ -404,8 +404,8 @@ endif()
 
 # try to find OTB-Data location
 if(NOT DEFINED dashboard_otb_data_root)
-  if(${dashboard_cache} MATCHES "^.*OTB_DATA_ROOT:(STRING|PATH)=([^\n\r]+).*\$")
-    string(REGEX REPLACE "^.*OTB_DATA_ROOT:(STRING|PATH)=([^\n\r]+).*\$" "\\2" dashboard_otb_data_root ${dashboard_cache})
+  if("${dashboard_cache}" MATCHES "^.*OTB_DATA_ROOT:(STRING|PATH)=([^\n\r]+).*\$")
+    string(REGEX REPLACE "^.*OTB_DATA_ROOT:(STRING|PATH)=([^\n\r]+).*\$" "\\2" dashboard_otb_data_root "${dashboard_cache}")
     message("Detected data root : ${dashboard_otb_data_root}")
   endif()
 endif()
