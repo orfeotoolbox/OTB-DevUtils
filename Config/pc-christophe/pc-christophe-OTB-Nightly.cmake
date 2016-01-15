@@ -15,6 +15,8 @@ set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURA
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
+set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
+
 #set(ENV{DISPLAY} ":0.0")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
