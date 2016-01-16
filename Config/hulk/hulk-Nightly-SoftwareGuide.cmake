@@ -39,7 +39,7 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 #OTB_DATA_PATHS:STRING=$ENV{HOME}/Dashboard/src/OTB-Data/Examples::$ENV{HOME}/Dashboard/src/OTB-Data/Input
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB-RelWithDebInfo
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/install/OTB-stable/lib/cmake/OTB-5.2
 OTB_SOURCE_DIR:PATH=$ENV{HOME}/Dashboard/src/OTB
 OpenCV_DIR:PATH=/usr/share/OpenCV
 ")
@@ -47,5 +47,8 @@ endmacro()
 
 #set(dashboard_no_test 1)
 #set(dashboard_no_submit 1)
+
+execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=release-5.2 -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake
+                        WORKING_DIRECTORY $ENV{HOME}/Dashboard/src/OTB)
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
