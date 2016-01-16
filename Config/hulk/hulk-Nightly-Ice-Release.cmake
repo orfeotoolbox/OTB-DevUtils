@@ -22,9 +22,6 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/ice.git")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-SITE:STRING=${CTEST_SITE}
-
 CMAKE_C_FLAGS:STRING=-Wall -Wextra
 CMAKE_CXX_FLAGS:STRING=-Wall -Wextra -Wno-cpp
 

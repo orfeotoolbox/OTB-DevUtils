@@ -7,9 +7,6 @@ include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-SITE:STRING=${CTEST_SITE}
-
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_PREFIX}
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}

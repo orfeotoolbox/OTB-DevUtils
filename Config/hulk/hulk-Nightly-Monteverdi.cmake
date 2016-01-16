@@ -22,9 +22,6 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi.git")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
 
 CMAKE_INSTALL_PREFIX:STRING=${MVD_INSTALL_PREFIX}

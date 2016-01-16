@@ -22,9 +22,6 @@ set(dashboard_git_branch master)
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=OFF
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
