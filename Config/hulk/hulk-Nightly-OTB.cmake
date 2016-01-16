@@ -16,11 +16,14 @@ set(dashboard_source_name "src/OTB")
 set(dashboard_binary_name "build/OTB-${CTEST_BUILD_CONFIGURATION}")
 
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-${CTEST_BUILD_CONFIGURATION})
+set(OTB_STABLE_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-stable)
 
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
+
+set(dashboard_cache_for_release-5.2 "CMAKE_INSTALL_PREFIX:PATH=${OTB_STABLE_INSTALL_PREFIX}")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -71,8 +74,19 @@ OpenJPEG_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.1/lib/openjpeg-2.1
 endmacro()
 
 macro(dashboard_hook_end)
+  set(ORIGINAL_CTEST_BUILD_COMMAND ${CTEST_BUILD_COMMAND})
   unset(CTEST_BUILD_COMMAND)
   ctest_build(TARGET "Documentation")
+  if("${dashboard_current_branch}" STREQUAL "nightly" OR "${dashboard_current_branch}" STREQUAL "release-5.2")
+    ctest_build(TARGET "install")
+  endif()
+  set(CTEST_BUILD_COMMAND ${ORIGINAL_CTEST_BUILD_COMMAND})
 endmacro()
+
+execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
+execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
+
+execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_STABLE_INSTALL_PREFIX})
+execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_STABLE_INSTALL_PREFIX})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
