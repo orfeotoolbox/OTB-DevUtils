@@ -297,6 +297,7 @@ DART_TESTING_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
 ${cache_build_type}
 ${cache_make_program}
 ${dashboard_cache}
+${dashboard_cache_for_${dashboard_current_branch}}
 ")
 endmacro(write_cache)
 
@@ -340,8 +341,8 @@ macro(run_dashboard)
   if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
     set(dashboard_fresh 1)
     safe_message("Starting fresh build...")
-    write_cache()
   endif()
+  write_cache()
 
   # Look for updates.
   ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
@@ -416,6 +417,7 @@ while(NOT dashboard_done)
     set(START_TIME ${CTEST_ELAPSED_TIME})
   endif()
   set(ENV{HOME} "${dashboard_user_home}")
+  set(dashboard_current_branch ${dashboard_git_branch})
 
   run_dashboard()
 
@@ -426,6 +428,7 @@ while(NOT dashboard_done)
     set(ORIGINAL_CTEST_DASHBOARD_TRACK ${CTEST_DASHBOARD_TRACK})
     set(CTEST_DASHBOARD_TRACK ExtraBranches)
     foreach(branch ${additional_branches})
+      set(dashboard_current_branch ${branch})
       set(CTEST_BUILD_NAME  ${ORIGINAL_CTEST_BUILD_NAME}-${branch})
       set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
       file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
