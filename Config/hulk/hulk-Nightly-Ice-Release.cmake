@@ -30,7 +30,7 @@ CMAKE_CXX_FLAGS:STRING=-Wall -Wextra -Wno-cpp
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-OTB_DIR:PATH=/home/otbval/Dashboard/build/OTB-RelWithDebInfo
+OTB_DIR:PATH=/home/otbval/Dashboard/install/OTB-RelWithDebInfo/lib/cmake/OTB-5.3
 OpenCV_DIR:PATH=/usr/share/OpenCV
 
 BUILD_TESTING:BOOL=ON
