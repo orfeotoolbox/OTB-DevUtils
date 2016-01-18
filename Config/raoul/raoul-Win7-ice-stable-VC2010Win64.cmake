@@ -3,6 +3,7 @@ set(OTB_PROJECT Ice) # OTB / Monteverdi / Monteverdi2 / Ice
 set(OTB_ARCH amd64) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_TARGET INSTALL)
+set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-Stable")
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
 set(CTEST_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/Ice-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION})
