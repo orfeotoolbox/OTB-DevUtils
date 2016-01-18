@@ -1,7 +1,7 @@
 # Client maintainer: julien.malik@c-s.fr
 set(OTB_PROJECT Monteverdi2) # OTB / Monteverdi / Monteverdi2 / Ice
 set(OTB_ARCH x86) # x86 / amd64
-set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
+set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_COMMAND  "jom packages")
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
