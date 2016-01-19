@@ -52,6 +52,11 @@ Monteverdi_USE_CPACK:BOOL=ON
 ")
 endmacro()
 
+macro(dashboard_hook_test)
+# before testing, set the DYLD_LIBRARY_PATH
+set(ENV{DYLD_LIBRARY_PATH} /Users/otbval/Dashboard/nightly/OTB-Release/install-stable/lib::/Users/otbval/Dashboard/nightly/Ice-Release/install-stable/lib)
+endmacro()
+
 # Remove install tree
 execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${MVD2_INSTALL_PREFIX})
 execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${MVD2_INSTALL_PREFIX})

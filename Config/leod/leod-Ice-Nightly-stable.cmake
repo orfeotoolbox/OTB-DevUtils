@@ -39,6 +39,11 @@ BUILD_ICE_APPLICATION:BOOL=ON
     ")
 endmacro()
 
+macro(dashboard_hook_test)
+# before testing, set the DYLD_LIBRARY_PATH
+set(ENV{DYLD_LIBRARY_PATH} /Users/otbval/Dashboard/nightly/OTB-Release/install-stable/lib)
+endmacro()
+
 execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${ICE_INSTALL_PREFIX})
 execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${ICE_INSTALL_PREFIX})
 
