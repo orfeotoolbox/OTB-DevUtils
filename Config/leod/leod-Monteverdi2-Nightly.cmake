@@ -23,8 +23,6 @@ set (MVD2_INSTALL_PREFIX $ENV{HOME}/Dashboard/${lcdashboard_model}/Monteverdi2-$
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git")
 
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${MVD2_INSTALL_PREFIX})
-
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
@@ -53,5 +51,8 @@ Monteverdi_USE_CPACK:BOOL=ON
 ")
 endmacro()
 
+# Remove install tree
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${MVD2_INSTALL_PREFIX})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${MVD2_INSTALL_PREFIX})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
