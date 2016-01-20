@@ -97,6 +97,19 @@ if(NOT DEFINED CTEST_CONFIGURATION_TYPE)
   set(CTEST_CONFIGURATION_TYPE Debug)
 endif()
 
+# Create build command
+if(NOT DEFINED CTEST_BUILD_COMMAND)
+  if(DEFINED dashboard_build_command)
+    if(DEFINED dashboard_build_target)
+      # use custom target
+      set(CTEST_BUILD_COMMAND "${dashboard_build_command} ${dashboard_build_target}")
+    else()
+      # default target : install
+      set(CTEST_BUILD_COMMAND "${dashboard_build_command} install")
+    endif()
+  endif()
+endif()
+
 # Choose CTest reporting mode.
 if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make")
   # Launchers work only with Makefile generators.
@@ -423,10 +436,20 @@ while(NOT dashboard_done)
 
   # test additional feature branches
   if(number_additional_branches GREATER 0)
+    # save default configuration
     set(ORIGINAL_CTEST_BUILD_NAME ${CTEST_BUILD_NAME})
     set(ORIGINAL_CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_UPDATE_CUSTOM})
     set(ORIGINAL_CTEST_DASHBOARD_TRACK ${CTEST_DASHBOARD_TRACK})
     set(CTEST_DASHBOARD_TRACK ExtraBranches)
+    # no install for additional branches
+    if(DEFINED CTEST_BUILD_COMMAND)
+      set(ORIGINAL_CTEST_BUILD_COMMAND ${CTEST_BUILD_COMMAND})
+      if(DEFINED dashboard_build_command)
+        set(CTEST_BUILD_COMMAND "${dashboard_build_command}")
+      #else()
+      #  unset(CTEST_BUILD_COMMAND)
+      endif()
+    endif()
     foreach(branch ${additional_branches})
       set(dashboard_current_branch ${branch})
       set(CTEST_BUILD_NAME  ${ORIGINAL_CTEST_BUILD_NAME}-${branch})
@@ -451,6 +474,9 @@ while(NOT dashboard_done)
     set(CTEST_DASHBOARD_TRACK ${ORIGINAL_CTEST_DASHBOARD_TRACK})
     set(CTEST_BUILD_NAME ${ORIGINAL_CTEST_BUILD_NAME})
     set(CTEST_GIT_UPDATE_CUSTOM ${ORIGINAL_CTEST_GIT_UPDATE_CUSTOM})
+    if(DEFINED ORIGINAL_CTEST_BUILD_COMMAND)
+      set(CTEST_BUILD_COMMAND ${ORIGINAL_CTEST_BUILD_COMMAND})
+    endif()
     # update sources back to their original state
     ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
   endif()
