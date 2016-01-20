@@ -104,8 +104,12 @@ if(NOT DEFINED CTEST_BUILD_COMMAND)
       # use custom target
       set(CTEST_BUILD_COMMAND "${dashboard_build_command} ${dashboard_build_target}")
     else()
-      # default target : install
-      set(CTEST_BUILD_COMMAND "${dashboard_build_command} install")
+      if(NOT dashboard_no_install)
+        # default target : install
+        set(CTEST_BUILD_COMMAND "${dashboard_build_command} install")
+      else()
+        set(CTEST_BUILD_COMMAND "${dashboard_build_command}")
+      endif()
     endif()
   endif()
 endif()
