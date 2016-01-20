@@ -1,16 +1,9 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
-set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j9 -i -k" )
 set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov-4.4")
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 500)
-set(CTEST_USE_LAUNCHERS ON)
-set(CTEST_GIT_COMMAND "/usr/bin/git")
+include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")

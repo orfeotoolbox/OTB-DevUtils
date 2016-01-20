@@ -2,16 +2,10 @@
 set(SCANBUILD_DIR "$ENV{HOME}/tools/src/llvm/tools/clang/tools/scan-build")
 
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
-set(CTEST_SITE "hulk.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-clang-${CTEST_BUILD_CONFIGURATION}-scanbuild")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "${SCANBUILD_DIR}/scan-build /usr/bin/make -j9 -i -k" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 1500)
-set(CTEST_USE_LAUNCHERS ON)
-set(CTEST_GIT_COMMAND "/usr/bin/git")
+include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")
