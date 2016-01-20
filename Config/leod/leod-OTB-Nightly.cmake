@@ -6,7 +6,7 @@ set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_CMAKE_COMMAND "cmake" )
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
+set(dashboard_build_command "/usr/bin/make -j8 -i -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 

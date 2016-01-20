@@ -2,7 +2,6 @@
 set(OTB_PROJECT OTB) # OTB / Monteverdi / Monteverdi2
 set(OTB_ARCH amd64) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
-set(CTEST_BUILD_TARGET INSTALL)
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
 set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
