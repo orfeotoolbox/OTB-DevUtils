@@ -9,6 +9,7 @@ string(TOLOWER ${dashboard_model} lcdashboard_model)
 set(dashboard_root_name "tests")
 set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build")
+set(CTEST_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install")
 
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
@@ -19,7 +20,7 @@ set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.t
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_PREFIX}
 
 CMAKE_PREFIX_PATH:PATH=/opt/local
 
@@ -73,5 +74,10 @@ LIBSVM_LIBRARY:FILEPATH=/opt/local/lib/libsvm.dylib
 
     ")
 endmacro()
+
+#remove install dir
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_PREFIX})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX})
+
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

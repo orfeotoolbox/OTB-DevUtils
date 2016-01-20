@@ -32,14 +32,38 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 CMAKE_C_FLAGS:STRING= -Wall
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-gnu -Wno-\\\\#warnings
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/cmake/OTB-5.3
 
-ICE_INCLUDE_DIR:PATH=/Users/otbval/Dashboard/nightly/Ice-Release/src/Code
-ICE_LIBRARY:FILEPATH=/Users/otbval/Dashboard/nightly/Ice-Release/build/bin/libOTBIce.dylib
+ICE_INCLUDE_DIR:PATH=$ENV{HOME}/Dashboard/nightly/Ice-Release/install/include
+ICE_LIBRARY:FILEPATH=$ENV{HOME}/Dashboard/nightly/Ice-Release/install/lib/libOTBIce.dylib
 
 Monteverdi_USE_CPACK:BOOL=ON
 
 ")
+endmacro()
+
+macro(dashboard_hook_test)
+# before testing, set the DYLD_LIBRARY_PATH
+set(ENV{DYLD_LIBRARY_PATH} /Users/otbval/Dashboard/nightly/OTB-Release/install/lib::/Users/otbval/Dashboard/nightly/Ice-Release/install/lib)
+endmacro()
+
+macro(dashboard_hook_end)
+  find_program(HDIUTIL_EXECUTABLE hdiutil)
+  if(HDIUTIL_EXECUTABLE)
+    file(READ "${CTEST_DASHBOARD_ROOT}/${dashboard_source_name}/CMakeLists.txt" _CMAKEFILE_CONTENT)
+    string(REGEX REPLACE ".*set\\(Monteverdi_VERSION_MAJOR \"([0-9]+)\"\\).*" "\\1" VER_MAJOR "${_CMAKEFILE_CONTENT}")
+    string(REGEX REPLACE ".*set\\(Monteverdi_VERSION_MINOR \"([0-9]+)\"\\).*" "\\1" VER_MINOR "${_CMAKEFILE_CONTENT}")
+    string(REGEX REPLACE ".*set\\(Monteverdi_VERSION_PATCH \"([0-9]+)\"\\).*" "\\1" VER_PATCH "${_CMAKEFILE_CONTENT}")
+    string(REGEX REPLACE ".*set\\(Monteverdi_VERSION_SUFFIX \"([a-zA-Z0-9]*)\"\\).*" "\\1" VER_SUFFIX "${_CMAKEFILE_CONTENT}")
+    set(DMG_VERSION "${VER_MAJOR}.${VER_MINOR}.${VER_PATCH}")
+    if("${VER_SUFFIX}")
+      set(DMG_VERSION "${DMG_VERSION}.${VER_SUFFIX}")
+    endif()
+    execute_process(COMMAND hdiutil create -srcfolder ${MVD2_INSTALL_PREFIX}/Monteverdi.app Monteverdi-${DMG_VERSION}-Darwin.dmg  -megabytes 150
+                    WORKING_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
+    execute_process(COMMAND hdiutil create -srcfolder ${MVD2_INSTALL_PREFIX}/Mapla.app Mapla-${DMG_VERSION}-Darwin.dmg
+                    WORKING_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
+  endif()
 endmacro()
 
 # Remove install tree

@@ -18,7 +18,7 @@ CMAKE_CXX_FLAGS:STRING=-Wall -Wno-\\\\#warnings
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-OTB_DIR:PATH=/Users/otbval/Dashboard/nightly/OTB-Release/build
+OTB_DIR:PATH=/Users/otbval/Dashboard/nightly/OTB-Release/install/lib/cmake/OTB-5.3
 
 #use glut from XQuartz - http://hg.orfeo-toolbox.org/Ice/rev/2686f7776582
 
@@ -32,6 +32,12 @@ BUILD_ICE_APPLICATION:BOOL=ON
     ")
 endmacro()
 
+macro(dashboard_hook_test)
+# before testing, set the DYLD_LIBRARY_PATH
+set(ENV{DYLD_LIBRARY_PATH} /Users/otbval/Dashboard/nightly/OTB-Release/install/lib)
+endmacro()
+
+# Remove install tree
 execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${ICE_INSTALL_PREFIX})
 execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${ICE_INSTALL_PREFIX})
 
