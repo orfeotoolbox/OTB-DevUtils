@@ -1,24 +1,15 @@
-SET (ENV{DISPLAY} ":0.0")
-set (ENV{LANG} "C")
-
-SET (dashboard_model Nightly)
+set(dashboard_model Nightly)
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
-set (CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
 SET (CTEST_BUILD_CONFIGURATION Release)
-SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
-SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
-SET (CTEST_SITE "leod.c-s.fr")
 SET (CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}-stable")
-SET (CTEST_GIT_COMMAND "/opt/local/bin/git")
-SET (CTEST_USE_LAUNCHERS ON)
+include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIGURATION}/src")
 set(dashboard_binary_name "${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIGURATION}/build-stable")
 
-set (MVD2_INSTALL_PREFIX $ENV{HOME}/Dashboard/${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIGURATION}/install-stable)
+set(MVD2_INSTALL_PREFIX $ENV{HOME}/Dashboard/${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIGURATION}/install-stable)
 
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git")

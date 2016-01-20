@@ -1,16 +1,8 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
-set(CTEST_SITE "leod.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}-stable")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_CMAKE_COMMAND "cmake" )
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 500)
-
-set(CTEST_HG_COMMAND "/opt/local/bin/git")
+include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
@@ -22,8 +14,6 @@ set(CTEST_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTE
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_git_branch release-5.2)
-
-set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}

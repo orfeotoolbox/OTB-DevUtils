@@ -1,15 +1,9 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
-set(CTEST_SITE "leod.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "MacOSX10.10-SuperBuild")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -k" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 500)
-set(CTEST_USE_LAUNCHERS ON)
-set(CTEST_GIT_COMMAND "/opt/local/bin/git")
+set(dashboard_no_install 1)
+include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
@@ -38,8 +32,6 @@ list(APPEND CTEST_NOTES_FILES
 )
 
 set(GDAL_EXTRA_OPT "--with-gif=/opt/local")
-
-set(ENV{DISPLAY} ":0.0")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}

@@ -1,14 +1,7 @@
-set (ENV{DISPLAY} ":0.0")
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
 set (CTEST_BUILD_CONFIGURATION "Release")
-set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
-set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
-set (CTEST_SITE "leod.c-s.fr" )
 set (CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}-stable")
-
-set (CTEST_GIT_COMMAND "/opt/local/bin/git")
+include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
 set(dashboard_fresh_source_checkout OFF)
 set(dashboard_source_name "nightly/Ice-${CTEST_BUILD_CONFIGURATION}/src")

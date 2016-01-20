@@ -1,15 +1,7 @@
-SET (ENV{DISPLAY} ":0.0")
-
-SET (dashboard_model Nightly)
-set (CTEST_DASHBOARD_ROOT "$ENV{HOME}/otbval/Dashboard")
-SET (CTEST_BUILD_CONFIGURATION Release)
-SET( CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
-SET (CTEST_CMAKE_COMMAND "cmake" )
-SET (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k" )
-SET (CTEST_SITE "leod.c-s.fr")
-SET (CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}")
-SET (CTEST_GIT_COMMAND "/opt/local/bin/git")
-SET (CTEST_USE_LAUNCHERS ON)
+set(dashboard_model Nightly)
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}")
+include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 

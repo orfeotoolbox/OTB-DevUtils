@@ -1,14 +1,7 @@
-set (ENV{DISPLAY} ":0.0")
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
 set (CTEST_BUILD_CONFIGURATION "Release")
-set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
-set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
-set (CTEST_SITE "leod.c-s.fr" )
 set (CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}")
-
-set (CTEST_GIT_COMMAND "/opt/local/bin/git")
+include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
 set(dashboard_fresh_source_checkout OFF)
 set(dashboard_source_name "nightly/Ice-${CTEST_BUILD_CONFIGURATION}/src")
@@ -16,7 +9,6 @@ set(dashboard_binary_name "nightly/Ice-${CTEST_BUILD_CONFIGURATION}/build")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/ice.git")
 
 set (ICE_INSTALL_PREFIX "$ENV{HOME}/Dashboard/nightly/Ice-${CTEST_BUILD_CONFIGURATION}/install")
-
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
