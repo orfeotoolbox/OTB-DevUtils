@@ -13,6 +13,8 @@ set(MVD2_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/Monteverdi2)
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git")
 
+set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../mvd_branches.txt")
+
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 CTEST_USE_LAUNCHERS:BOOL=ON
