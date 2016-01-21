@@ -2,6 +2,9 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+
+set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov-4.4")
+
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 
 set(dashboard_root_name "tests")
@@ -15,6 +18,7 @@ set(OTB_STABLE_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-stable)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
+set(dashboard_do_coverage 1)
 
 set(dashboard_cache_for_release-5.2 "CMAKE_INSTALL_PREFIX:PATH=${OTB_STABLE_INSTALL_PREFIX}")
 
