@@ -1,71 +1,7 @@
 # OTB MXE Common Dashboard Script
-#
-# This script contains basic dashboard driver code common to all
-# clients.
-#
-# Put this script in a directory such as "~/Dashboards/Scripts" or
-# "c:/Dashboards/Scripts".  Create a file next to this script, say
-# 'my_dashboard.cmake', with code of the following form:
-#
-#   # Client maintainer: me@mydomain.net
-#   set(CTEST_SITE "machine.site")
-#   set(CTEST_BUILD_NAME "Platform-Compiler")
-#   set(CTEST_BUILD_CONFIGURATION Debug)
-#   set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-#   include(${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake)
-#
-# Then run a scheduled task (cron job) with a command line such as
-#
-#   ctest -S ~/Dashboards/Scripts/my_dashboard.cmake -V
-#
-# By default the source and build trees will be placed in the path
-# "../My Tests/" relative to your script location.
-#
-# The following variables may be set before including this script
-# to configure it:
-#
-#   dashboard_model           = Nightly | Experimental | Continuous
-#   dashboard_loop            = Repeat until N seconds have elapsed
-#   dashboard_root_name       = Change name of "My Tests" directory
-#   dashboard_source_name     = Name of source directory (ITK)
-#   dashboard_binary_name     = Name of binary directory (ITK-build)
-#   dashboard_cache           = Initial CMakeCache.txt file content
-#   dashboard_do_coverage     = True to enable coverage (ex: gcov)
-#   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
-#   dashboard_no_clean        = True to skip build tree wipeout
-#   CTEST_UPDATE_COMMAND      = path to svn command-line client
-#   CTEST_BUILD_FLAGS         = build tool arguments (ex: -j2)
-#   CTEST_DASHBOARD_ROOT      = Where to put source and build trees
-#   CTEST_TEST_CTEST          = Whether to run long CTestTest* tests
-#   CTEST_TEST_TIMEOUT        = Per-test timeout length
-#   CTEST_TEST_ARGS           = ctest_test args (ex: PARALLEL_LEVEL 4)
-#   CMAKE_MAKE_PROGRAM        = Path to "make" tool to use
-#
-# Options to configure builds from experimental git repository:
-#   dashboard_hg_url      = Custom hg clone url
-#   dashboard_hg_branch   = Custom remote branch to track
-#
-# The following macros will be invoked before the corresponding
-# step if they are defined:
-#
-#   dashboard_hook_init       = End of initialization, before loop
-#   dashboard_hook_start      = Start of loop body, before ctest_start
-#   dashboard_hook_build      = Before ctest_build
-#   dashboard_hook_test       = Before ctest_test
-#   dashboard_hook_coverage   = Before ctest_coverage
-#   dashboard_hook_memcheck   = Before ctest_memcheck
-#   dashboard_hook_submit     = Before ctest_submit
-#   dashboard_hook_end        = End of loop body, after ctest_submit
-#
-# For Makefile generators the script may be executed from an
-# environment already configured to use the desired compilers.
-# Alternatively the environment may be set at the top of the script:
-#
-#   set(ENV{CC}  /path/to/cc)   # C compiler
-#   set(ENV{CXX} /path/to/cxx)  # C++ compiler
-#   set(ENV{FC}  /path/to/fc)   # Fortran compiler (optional)
-#   set(ENV{LD_LIBRARY_PATH} /path/to/vendor/lib) # (if necessary)
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+# Client maintainer: rashad.kanavath@c-s.fr
+
+cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
 
 set(dashboard_user_home "$ENV{HOME}")
 
@@ -73,8 +9,15 @@ set(dashboard_user_home "$ENV{HOME}")
 if(NOT DEFINED dashboard_model)
   set(dashboard_model Nightly)
 endif()
+
+string(TOLOWER ${dashboard_model} _dashboard_model)
+
 if(NOT "${dashboard_model}" MATCHES "^(Nightly|Experimental|Continuous|CrossCompile)$")
   message(FATAL_ERROR "dashboard_model must be Nightly, Experimental, or Continuous")
+endif()
+
+if(NOT DEFINED CTEST_DASHBOARD_ROOT)
+  set(CTEST_DASHBOARD_ROOT "/data/dashboard")
 endif()
 
 # Default to a Debug build.
@@ -82,25 +25,38 @@ if(NOT DEFINED CTEST_CONFIGURATION_TYPE AND DEFINED CTEST_BUILD_CONFIGURATION)
   set(CTEST_CONFIGURATION_TYPE ${CTEST_BUILD_CONFIGURATION})
 endif()
 
+if(NOT DEFINED CTEST_BUILD_CONFIGURATION)
+  set(CTEST_BUILD_CONFIGURATION Release)
+endif()
+
 if(NOT DEFINED CTEST_CONFIGURATION_TYPE)
-  set(CTEST_CONFIGURATION_TYPE Debug)
+  set(CTEST_CONFIGURATION_TYPE Release)
 endif()
 
 if(NOT CTEST_CMAKE_GENERATOR)
   set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 endif()
-if(NOT CTEST_BUILD_COMMAND)
-  set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
+
+if(NOT CTEST_BUILD_FLAGS)
+  set(CTEST_BUILD_FLAGS "-j4 -k" )
 endif()
 
 if(NOT CTEST_TEST_ARGS)
   set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 endif()
 
-##cross compile parameters
-#set(MXE_ROOT "/home/otbval/tools/mxe")
-#set(MXE_TARGET_ARCH "i686")
-#set(MXE_TARGET_ARCH "x86_64")
+if(NOT DEFINED MXE_ROOT)
+  set(MXE_ROOT "/data/tools/mxe")
+endif()
+
+if(NOT DEFINED CTEST_SITE)
+  set(CTEST_SITE "bumblebee.c-s.fr")
+endif()
+
+if(NOT DEFINED OTB_DATA_ROOT)
+  set(OTB_DATA_ROOT_DEFAULT "/data/otb-data")
+endif()
+
 if(MXE_TARGET_ARCH MATCHES "i686")
   set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/i686-w64-mingw32.shared")
 endif()
@@ -108,19 +64,140 @@ if(MXE_TARGET_ARCH MATCHES "x86_64")
   set(MXE_TARGET_ROOT "${MXE_ROOT}/usr/x86_64-w64-mingw32.shared")
 endif()
 
+if(NOT MSVC)
+  set(C_COMPILER_FLAGS_DEFAULT -Wall)
+  set(CXX_COMPILER_FLAGS_DEFAULT -Wall)
+endif()
 
-set(otb_mxe_cache
+if(C_COMPILER_FLAGS)
+  set(C_COMPILER_FLAGS "${C_COMPILER_FLAGS_DEFAULT} ${C_COMPILER_FLAGS}")
+endif()
+if(CXX_COMPILER_FLAGS)
+set(CXX_COMPILER_FLAGS "${CXX_COMPILER_FLAGS_DEFAULT} ${CXX_COMPILER_FLAGS}")
+endif()
+
+if(DEFINED CMAKE_COMMAND)
+  set(CTEST_CMAKE_COMMAND "${CMAKE_COMMAND}")
+endif()
+
+if(NOT DEFINED dashboard_package_target)
+  set(dashboard_package_target packages)
+endif()
+
+if(NOT DEFINED dashboard_default_target)
+  set(dashboard_default_target install)
+endif()
+
+if(NOT DEFINED CMAKE_MAKE_PROGRAM)
+set(CMAKE_MAKE_PROGRAM "/usr/bin/make")
+endif()
+
+string(TOLOWER ${PROJECT} _PROJECT)
+
+if(NOT DEFINED dashboard_make_package)
+  if(${_PROJECT} STREQUAL "otb" OR ${_PROJECT} STREQUAL "monteverdi" )
+    set(dashboard_make_package TRUE)
+  else()
+    set(dashboard_make_package FALSE)
+  endif()
+endif()
+
+set(build_directory_name MinGW)
+if(DEFINED dashboard_module)
+  set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
+  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_module}")
+  set(CTEST_DASHBOARD_TRACK RemoteModules)
+  set(PROJECT otb)
+  set(build_directory_name ${dashboard_module})
+endif()
+
+set(mxe_common_cache
 "
-CMAKE_CROSSCOMPILING:BOOL=ON
-
-CMAKE_CROSSCOMPILING_EMULATOR:STRING='/usr/bin/wine'
-
 GDAL_CONFIG:FILEPATH='${MXE_TARGET_ROOT}/bin/gdal-config'
 
 OSSIM_LIBRARY:FILEPATH='${MXE_TARGET_ROOT}/lib/libossim.dll.a;${MXE_TARGET_ROOT}/lib/libOpenThreads.dll.a'
 
+CMAKE_C_FLAGS:STRING=${C_COMPILER_FLAGS}
+
+CMAKE_CXX_FLAGS:STRING=${CXX_COMPILER_FLAGS}
+
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/${_dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}
+
+CMAKE_CROSSCOMPILING:BOOL=TRUE
+
+CMAKE_CROSSCOMPILING_EMULATOR:FILEPATH=/usr/bin/wine
+
 "
 )
+
+set(otb_version 1.0)
+set(otb_cmake_root_dir ${CTEST_DASHBOARD_ROOT}/${_dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/cmake)
+file(GLOB otb_cmake_version_dirs RELATIVE ${otb_cmake_root_dir} ${otb_cmake_root_dir}/*)
+foreach(otb_cmake_version_dir ${otb_cmake_version_dirs})
+  if(IS_DIRECTORY ${otb_cmake_root_dir}/${otb_cmake_version_dir})
+    string(SUBSTRING ${otb_cmake_version_dir} 4 -1 cur_version_dir)
+    if(otb_version LESS ${cur_version_dir})
+      set(otb_version ${cur_version_dir})
+    endif()
+  endif()
+endforeach()
+
+if(NOT ${_PROJECT} STREQUAL "otb")
+  set(mxe_common_cache
+" ${mxe_common_cache}
+
+OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/${_dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/cmake/OTB-${otb_version}
+
+")
+endif( )
+
+#no matter what. I am not making a package for remote module only build
+if(DEFINED dashboard_module)
+  set(dashboard_make_package FALSE)
+endif()
+
+#tiny shiny MXE_TARGET_DIR cmake var is needed if packages are created
+if(dashboard_make_package)
+  set(mxe_common_cache
+    " ${mxe_common_cache}
+
+MXE_TARGET_DIR:PATH=${MXE_ROOT}/usr/${MXE_TARGET_ARCH}-w64-mingw32.shared
+
+")
+  
+endif()
+
+if(${_PROJECT} STREQUAL "monteverdi")
+  set(mxe_common_cache
+    " ${mxe_common_cache}
+
+ICE_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/include
+
+ICE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/lib/libOTBIce.dll.a
+
+")
+
+endif()
+
+if(DEFINED dashboard_module)
+  set(mxe_common_cache
+    " ${mxe_common_cache}
+
+BUILD_EXAMPLES:BOOL=OFF
+
+OTB_DATA_USE_LARGEINPUT:BOOL=ON
+
+OTB_DATA_ROOT:STRING=${OTB_DATA_ROOT}
+
+BUILD_TESTING:BOOL=ON
+
+OTB_BUILD_DEFAULT_MODULES:BOOL=OFF
+
+Module_${dashboard_module}:BOOL=ON
+
+")
+endif()
+
 
 # Choose CTest reporting mode.
 if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make")
@@ -147,15 +224,9 @@ if(NOT DEFINED CTEST_BUILD_NAME)
 set(CTEST_BUILD_NAME "Windows-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}")
 endif()
 
-if(DEFINED dashboard_module)
-  set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
-  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_module}")
-  set(CTEST_DASHBOARD_TRACK RemoteModules)
-endif()
 
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
-
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/${PROJECT}.git")
 endif()
 if(NOT DEFINED dashboard_git_branch)
@@ -180,7 +251,6 @@ if(DEFINED dashboard_git_features_list)
   endif()
 endif()
 
-
 # Look for a GIT command-line client.
 if(NOT DEFINED CTEST_GIT_COMMAND)
   find_program(CTEST_GIT_COMMAND NAMES git)
@@ -198,8 +268,8 @@ endif()
 if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
   if(DEFINED dashboard_source_name)
     set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_source_name})
-  else()
-    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/src/${PROJECT})
+  else()    
+    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${_dashboard_model}/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src)
   endif()
 endif()
 
@@ -208,7 +278,7 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   if(DEFINED dashboard_binary_name)
     set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
   else()
-    set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/build/${PROJECT}-MinGW-${MXE_TARGET_ARCH})
+    set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${_dashboard_model}/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-${build_directory_name}-${MXE_TARGET_ARCH})
   endif()
 endif()
 
@@ -282,10 +352,15 @@ endforeach(req)
 foreach(v
     CTEST_SITE
     CTEST_BUILD_NAME
+    CTEST_SCRIPT_DIRECTORY
+    CTEST_USE_LAUNCHERS    
     MXE_ROOT
     MXE_TARGET_ARCH
     PROJECT
     CMAKE_COMMAND
+    CTEST_CMAKE_COMMAND
+    CMAKE_CROSSCOMPILING
+    CMAKE_CROSSCOMPILING_EMULATOR
     CTEST_SOURCE_DIRECTORY
     CTEST_BINARY_DIRECTORY
     CTEST_CMAKE_GENERATOR
@@ -293,8 +368,6 @@ foreach(v
     CTEST_GIT_COMMAND
     CTEST_GIT_UPDATE_OPTIONS
     CTEST_CHECKOUT_COMMAND
-    CTEST_SCRIPT_DIRECTORY
-    CTEST_USE_LAUNCHERS
     CTEST_DASHBOARD_TRACK
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
@@ -303,7 +376,7 @@ message("Dashboard script configuration:\n${vars}\n")
 
 # Avoid non-ascii characters in tool output.
 set(ENV{LC_ALL} C)
-
+  
 # Helper macro to write the initial cache.
 macro(write_cache)
   set(cache_build_type "")
@@ -321,7 +394,7 @@ CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 DART_TESTING_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
 ${cache_build_type}
 ${cache_make_program}
-${otb_mxe_cache}
+${mxe_common_cache}
 ${dashboard_cache}
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
@@ -339,8 +412,11 @@ endmacro(write_cache)
 file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
 if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
     AND NOT dashboard_no_clean)
-  message("Clearing build tree...")
-  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+
+  if(EXISTS "${CTEST_BINARY_DIRECTORY}")
+    message("Clearing build tree...")
+    ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  endif()
 endif()
 
 set(dashboard_continuous 0)
@@ -357,8 +433,8 @@ endif()
 
 # CTest 2.6 crashes with message() after ctest_test.
 macro(safe_message)
-  if(NOT "${CMAKE_VERSION}" VERSION_LESS 2.8 OR NOT safe_message_skip)
-    message(${ARGN})
+  if(NOT "${CMAKE_VERSION}" VERSION_LESS 3.4 OR NOT safe_message_skip)
+    message(STATUS ${ARGN})
   endif()
 endmacro()
 
@@ -387,52 +463,63 @@ macro(run_dashboard)
   if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
     execute_process(COMMAND "${CTEST_GIT_COMMAND}"
       "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}" RESULT_VARIABLE rv)
-      if(NOT rv EQUAL 0)
-        message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
-      endif()
+    if(NOT rv EQUAL 0)
+      message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
+    endif()
   endif()
-
+  
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
-    ctest_configure()
-    ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-
-
-    if(COMMAND dashboard_hook_build)
-      dashboard_hook_build()
-    endif()
-    ctest_build()
-
-    if(NOT dashboard_no_test)
-      if(COMMAND dashboard_hook_test)
-        dashboard_hook_test()
-      endif()
-      ctest_test(${CTEST_TEST_ARGS})
-    endif()
-
-    set(safe_message_skip 1) # Block furhter messages
-
-    if(dashboard_do_coverage)
-      if(COMMAND dashboard_hook_coverage)
-        dashboard_hook_coverage()
-      endif()
-      ctest_coverage()
-    endif()
-    if(dashboard_do_memcheck)
-      if(COMMAND dashboard_hook_memcheck)
-        dashboard_hook_memcheck()
-      endif()
-      ctest_memcheck()
-    endif()
-    if(COMMAND dashboard_hook_submit)
-      dashboard_hook_submit()
-    endif()
-    if(NOT dashboard_no_submit)
-      ctest_submit()
-    endif()
-    if(COMMAND dashboard_hook_end)
-      dashboard_hook_end()
-    endif()
-  endif()
+   ctest_configure()
+   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+    
+   if(COMMAND dashboard_hook_build)
+     dashboard_hook_build()
+   endif()
+    
+   ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
+     TARGET ${dashboard_default_target}
+     RETURN_VALUE _default_build_rv)
+   
+   if(dashboard_make_package)
+     if(COMMAND dashboard_hook_package)
+       dashboard_hook_package()
+     endif()
+     ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
+       TARGET ${dashboard_package_target}
+       RETURN_VALUE _package_build_rv)
+   endif()
+   
+   if(NOT dashboard_no_test)
+     if(COMMAND dashboard_hook_test)
+       dashboard_hook_test()
+     endif()
+     ctest_test(${CTEST_TEST_ARGS})
+   endif()
+   
+   set(safe_message_skip 1) # Block furhter messages
+   
+   if(dashboard_do_coverage)
+     if(COMMAND dashboard_hook_coverage)
+       dashboard_hook_coverage()
+     endif()
+     ctest_coverage()
+   endif()
+   if(dashboard_do_memcheck)
+     if(COMMAND dashboard_hook_memcheck)
+       dashboard_hook_memcheck()
+     endif()
+     ctest_memcheck()
+   endif()
+   if(COMMAND dashboard_hook_submit)
+     dashboard_hook_submit()
+   endif()
+   if(NOT dashboard_no_submit)
+     ctest_submit()
+   endif()
+   if(COMMAND dashboard_hook_end)
+     dashboard_hook_end()
+   endif()
+ endif()
 endmacro()
 
 if(COMMAND dashboard_hook_init)
