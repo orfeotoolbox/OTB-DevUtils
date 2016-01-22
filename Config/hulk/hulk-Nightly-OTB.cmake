@@ -1,6 +1,6 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
-set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
+set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 
 set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov-4.4")
@@ -25,8 +25,9 @@ set(dashboard_cache_for_release-5.2 "CMAKE_INSTALL_PREFIX:PATH=${OTB_STABLE_INST
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra -Wno-cpp
+CMAKE_C_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage  -Wall
+CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wno-cpp
+
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
