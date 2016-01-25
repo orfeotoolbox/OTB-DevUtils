@@ -3,7 +3,7 @@ set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 
-set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov-4.4")
+set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov")
 
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 
