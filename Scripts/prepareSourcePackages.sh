@@ -19,7 +19,7 @@ for project in OTB Ice Monteverdi2; do
   cd $CLONE_DIR/$project
   
   # Extract last tagged version identifier
-  full_version=$(git describe --abbrev=0 --tags master)
+  full_version=$(git tag | grep -E '[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 1)
   #echo "$project : $full_version"
 
   case $project in
