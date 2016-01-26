@@ -4,7 +4,7 @@ set(OTB_ARCH amd64) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 
-#set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
+set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
