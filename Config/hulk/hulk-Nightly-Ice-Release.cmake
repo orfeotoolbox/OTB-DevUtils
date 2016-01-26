@@ -13,6 +13,8 @@ set(ICE_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/Ice-${CTEST_BUILD_CONFIGU
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/ice.git")
 
+set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../ice_branches.txt")
+
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 CMAKE_C_FLAGS:STRING=-Wall -Wextra
