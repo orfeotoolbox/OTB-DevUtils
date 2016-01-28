@@ -10,7 +10,8 @@ set(CTEST_SITE "noname.sites.fr")
 set(MXE_TARGET_ARCH "i686")
 set(PROJECT "otb")
 
-set(test_this_script 1)
+set(test_this_script TRUE)
+set(CTEST_BINARY_DIRECTORY "/tmp/")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
