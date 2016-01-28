@@ -6,12 +6,18 @@
 # Maintainers : OTB developers team
 # Cross compilation of OTB library using MXE (M cross environment)
 
+#To switch to other branch in otb,ice, monteverdi export below environment variables
+#export dashboard_otb_git_branch=release-5.2
+#export dashboard_ice_git_branch=release-0.4
+#export dashboard_monteverdi_git_branch=release-3.0
+
+
 set(CTEST_SITE "noname.sites.fr")
 set(MXE_TARGET_ARCH "i686")
-set(PROJECT "otb")
+set(PROJECT "monteverdi")
 
 set(test_this_script TRUE)
-set(CTEST_BINARY_DIRECTORY "/tmp/")
+set(CTEST_BINARY_DIRECTORY "/tmp")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "

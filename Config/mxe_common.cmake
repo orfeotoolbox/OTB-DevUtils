@@ -66,7 +66,7 @@ if(NOT CTEST_TEST_TIMEOUT)
 endif()
 
 if(DEFINED ENV{dashboard_${project}_git_branch}) 
-  set(dashboard_git_branch ${ENV{dashboard_${project}_git_branch}})
+  set(dashboard_git_branch $ENV{dashboard_${project}_git_branch})
 else()
   set(dashboard_git_branch nightly)
 endif()
@@ -170,7 +170,7 @@ if(NOT DEFINED dashboard_default_target)
 endif()
 
 if(NOT DEFINED dashboard_no_configure)
-    set(dashboard_no_configure FALSE)
+  set(dashboard_no_configure FALSE)
 endif()
 
 if(NOT DEFINED dashboard_no_build)
@@ -213,7 +213,7 @@ CMAKE_CROSSCOMPILING:BOOL=${CTEST_CMAKE_CROSSCOMPILING}
 CMAKE_CROSSCOMPILING_EMULATOR:FILEPATH=${CTEST_CMAKE_CROSSCOMPILING_EMULATOR}
 
 "
-)
+  )
 
 # Get latest version from <install-prefix>/lib/cmake/OTB-version
 set(otb_version 1.0)
@@ -230,7 +230,7 @@ endforeach()
 
 if(NOT ${project} STREQUAL "otb")
   set(mxe_common_cache
-" ${mxe_common_cache}
+    " ${mxe_common_cache}
 
 OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/cmake/OTB-${otb_version}
 
@@ -239,7 +239,7 @@ endif( )
 
 #no matter what. I am not making a package for remote module only build
 if(DEFINED dashboard_module)
-   set(dashboard_make_package FALSE)
+  set(dashboard_make_package FALSE)
 endif()
 
 #tiny shiny MXE_TARGET_DIR cmake var is needed if packages are created
@@ -341,7 +341,7 @@ endif()
 
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/${PROJECT}.git")
+  set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/${PROJECT}.git")
 endif()
 
 if(NOT DEFINED dashboard_git_crlf)
@@ -355,7 +355,7 @@ endif()
 if(DEFINED dashboard_git_features_list)
   message("Checking feature branches file : ${dashboard_git_features_list}")
   file(STRINGS ${dashboard_git_features_list} additional_branches
-       REGEX "^ *([a-zA-Z0-9]|-|_)+ *\$")
+    REGEX "^ *([a-zA-Z0-9]|-|_)+ *\$")
   list(LENGTH additional_branches number_additional_branches)
   if(number_additional_branches GREATER 0)
     message("Testing feature branches : ${additional_branches}")
@@ -413,28 +413,28 @@ if(EXISTS ${dashboard_update_dir})
 endif()
 
 if(NOT test_this_script)
-# Support initial checkout if necessary.
-if(NOT EXISTS "${dashboard_update_dir}"
-    AND NOT DEFINED CTEST_CHECKOUT_COMMAND)
-  get_filename_component(_name "${dashboard_update_dir}" NAME)
-  message("_name= " ${_name})
-  # Generate an initial checkout script.
-  set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
-  message("ctest_checkout_script= " ${ctest_checkout_script})
-  file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
+  # Support initial checkout if necessary.
+  if(NOT EXISTS "${dashboard_update_dir}"
+      AND NOT DEFINED CTEST_CHECKOUT_COMMAND)
+    get_filename_component(_name "${dashboard_update_dir}" NAME)
+    message("_name= " ${_name})
+    # Generate an initial checkout script.
+    set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
+    message("ctest_checkout_script= " ${ctest_checkout_script})
+    file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
         execute_process(
             COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
                     \"${dashboard_update_dir}\" )   ")
 
-  set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
-  # CTest delayed initialization is broken, so we put the
-  # CTestConfig.cmake info here.
-  set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-  set(CTEST_DROP_METHOD "http")
-  set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-  set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
-  set(CTEST_DROP_SITE_CDASH TRUE)
-endif()
+    set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
+    # CTest delayed initialization is broken, so we put the
+    # CTestConfig.cmake info here.
+    set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
+    set(CTEST_DROP_METHOD "http")
+    set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
+    set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
+    set(CTEST_DROP_SITE_CDASH TRUE)
+  endif()
 endif()
 #-----------------------------------------------------------------------------
 
@@ -481,79 +481,79 @@ CMAKE_USE_WIN32_THREADS:BOOL=ON
 endmacro(write_cache)
 
 macro(print_summary)
-# Check for required variables.
-foreach(req
-    CTEST_CMAKE_COMMAND
-    CMAKE_COMMAND
-    CMAKE_CROSSCOMPILING_EMULATOR    
-    CTEST_CMAKE_GENERATOR
-    CTEST_SITE
-    CTEST_BUILD_NAME
-    CTEST_SCRIPT_DIRECTORY    
-    CTEST_SOURCE_DIRECTORY
-    CTEST_BINARY_DIRECTORY
-    CTEST_CMAKE_GENERATOR
-    CTEST_BUILD_CONFIGURATION
-    CTEST_GIT_COMMAND
-    PROJECT
-    MXE_ROOT
-    MXE_TARGET_ARCH
-    dashboard_git_branch    
-    )
-  if(NOT DEFINED ${req})
-    message(FATAL_ERROR "The containing script must set ${req}")
-  endif()
-  set(vars "${vars}  ${req}=[${${req}}]\n")
-endforeach(req)
+  # Check for required variables.
+  foreach(req
+      CTEST_CMAKE_COMMAND
+      CMAKE_COMMAND
+      CMAKE_CROSSCOMPILING_EMULATOR    
+      CTEST_CMAKE_GENERATOR
+      CTEST_SITE
+      CTEST_BUILD_NAME
+      CTEST_SCRIPT_DIRECTORY    
+      CTEST_SOURCE_DIRECTORY
+      CTEST_BINARY_DIRECTORY
+      CTEST_CMAKE_GENERATOR
+      CTEST_BUILD_CONFIGURATION
+      CTEST_GIT_COMMAND
+      PROJECT
+      MXE_ROOT
+      MXE_TARGET_ARCH
+      dashboard_git_branch    
+      )
+    if(NOT DEFINED ${req})
+      message(FATAL_ERROR "The containing script must set ${req}")
+    endif()
+    set(vars "${vars}  ${req}=[${${req}}]\n")
+  endforeach(req)
 
-# Print summary information.
-foreach(v
-    CTEST_USE_LAUNCHERS
-    CMAKE_CROSSCOMPILING
-    CTEST_CHECKOUT_COMMAND
-    CTEST_DASHBOARD_TRACK
-    CTEST_GIT_UPDATE_OPTIONS
-    dashboard_no_submit
-    dashboard_no_configure
-    dashboard_no_build
-    dashboard_no_test
-    dashboard_cc_flags
-    dashboard_cxx_flags
-    dashboard_enable_large_input
-    dashboard_no_examples
-    dashboard_no_clean
-    dashboard_default_target
-    dashboard_package_target
-    dashboard_model
-    dashboard_no_update
-    DASHBOARD_MODEL
-    PROJECT
-    CTEST_TEST_TIMEOUT
-    CMAKE_MAKE_PROGRAM
-    )
-  set(vars "${vars}  ${v}=[${${v}}]\n")
-endforeach(v)
+  # Print summary information.
+  foreach(v
+      CTEST_USE_LAUNCHERS
+      CMAKE_CROSSCOMPILING
+      CTEST_CHECKOUT_COMMAND
+      CTEST_DASHBOARD_TRACK
+      CTEST_GIT_UPDATE_OPTIONS
+      dashboard_no_submit
+      dashboard_no_configure
+      dashboard_no_build
+      dashboard_no_test
+      dashboard_cc_flags
+      dashboard_cxx_flags
+      dashboard_enable_large_input
+      dashboard_no_examples
+      dashboard_no_clean
+      dashboard_default_target
+      dashboard_package_target
+      dashboard_model
+      dashboard_no_update
+      DASHBOARD_MODEL
+      PROJECT
+      CTEST_TEST_TIMEOUT
+      CMAKE_MAKE_PROGRAM
+      )
+    set(vars "${vars}  ${v}=[${${v}}]\n")
+  endforeach(v)
 
-message("Dashboard script configuration:\n${vars}\n")
+  message("Dashboard script configuration:\n${vars}\n")
 
-file(WRITE ${CTEST_BINARY_DIRECTORY}/summary.txt
-  "Dashboard script configuration:\n${vars}\n")
+  file(WRITE ${CTEST_BINARY_DIRECTORY}/summary.txt
+    "Dashboard script configuration:\n${vars}\n")
 
-message(STATUS "summary written to ${CTEST_BINARY_DIRECTORY}/summary.txt")
+  message(STATUS "summary written to ${CTEST_BINARY_DIRECTORY}/summary.txt")
 
 endmacro(print_summary)
 
 if(NOT test_this_script)
-# Start with a fresh build tree.
-file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
-if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
-    AND NOT dashboard_no_clean)
-
-  if(EXISTS "${CTEST_BINARY_DIRECTORY}")
-    message("Clearing build tree...")
-    ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  # Start with a fresh build tree.
+  file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
+  if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
+      AND NOT dashboard_no_clean)
+    
+    if(EXISTS "${CTEST_BINARY_DIRECTORY}")
+      message("Clearing build tree...")
+      ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+    endif()
   endif()
-endif()
 endif()
 
 set(dashboard_continuous 0)
@@ -614,80 +614,78 @@ macro(run_dashboard)
     #   endif()
     # endif()
   endif()
-
-  
   
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
-
+    
     if(NOT dashboard_no_configure)
       ctest_configure()
       ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
     endif()
 
     if(NOT dashboard_no_build)
-     if(COMMAND dashboard_hook_build)
-       dashboard_hook_build()
-     endif()
+      if(COMMAND dashboard_hook_build)
+        dashboard_hook_build()
+      endif()
 
-     ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
-       TARGET ${dashboard_default_target}
-       RETURN_VALUE _default_build_rv)
-   endif()
+      ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
+        TARGET ${dashboard_default_target}
+        RETURN_VALUE _default_build_rv)
+    endif()
 
-   if(dashboard_make_package)
-     if(COMMAND dashboard_hook_package)
-       dashboard_hook_package()
-     endif()
-     ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
-       TARGET ${dashboard_package_target}
-       RETURN_VALUE _package_build_rv)
-   endif()
+    if(dashboard_make_package)
+      if(COMMAND dashboard_hook_package)
+        dashboard_hook_package()
+      endif()
+      ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
+        TARGET ${dashboard_package_target}
+        RETURN_VALUE _package_build_rv)
+    endif()
 
-   if(dashboard_module)
-     # message(STATUS "Packaging stuff for RemoteModule: ${dasboard_module}")
-     # file(GLOB apps ${CTEST_BINARY_DIRECTORY}/lib/otb/applications/*.dll)
-     # foreach(app ${apps})
-     #   message(STATUS "file copy: ${app} ->  ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/otb/applications/")
-     #   execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E copy ${app} ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/otb/applications/)
-     # endforeach()
-     # file(GLOB scripts ${CTEST_BINARY_DIRECTORY}/bin/*.bat)
-     # foreach(script ${scripts})
-     #   message(STATUS "file copy: ${script} ->  ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/bin/")
-     #   execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E copy ${script} ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/bin/)
-     # endforeach()
-   endif()
+    if(dashboard_module)
+      # message(STATUS "Packaging stuff for RemoteModule: ${dasboard_module}")
+      # file(GLOB apps ${CTEST_BINARY_DIRECTORY}/lib/otb/applications/*.dll)
+      # foreach(app ${apps})
+      #   message(STATUS "file copy: ${app} ->  ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/otb/applications/")
+      #   execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E copy ${app} ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/otb/applications/)
+      # endforeach()
+      # file(GLOB scripts ${CTEST_BINARY_DIRECTORY}/bin/*.bat)
+      # foreach(script ${scripts})
+      #   message(STATUS "file copy: ${script} ->  ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/bin/")
+      #   execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E copy ${script} ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/bin/)
+      # endforeach()
+    endif()
 
-   if(NOT dashboard_no_test)
-     if(COMMAND dashboard_hook_test)
-       dashboard_hook_test()
-     endif()
-     ctest_test(${CTEST_TEST_ARGS})
-   endif()
+    if(NOT dashboard_no_test)
+      if(COMMAND dashboard_hook_test)
+        dashboard_hook_test()
+      endif()
+      ctest_test(${CTEST_TEST_ARGS})
+    endif()
 
-   set(safe_message_skip 1) # Block furhter messages
+    set(safe_message_skip 1) # Block furhter messages
 
-   if(dashboard_do_coverage)
-     if(COMMAND dashboard_hook_coverage)
-       dashboard_hook_coverage()
-     endif()
-     ctest_coverage()
-   endif()
-   if(dashboard_do_memcheck)
-     if(COMMAND dashboard_hook_memcheck)
-       dashboard_hook_memcheck()
-     endif()
-     ctest_memcheck()
-   endif()
-   if(COMMAND dashboard_hook_submit)
-     dashboard_hook_submit()
-   endif()
-   if(NOT dashboard_no_submit)
-     ctest_submit()
-   endif()
-   if(COMMAND dashboard_hook_end)
-     dashboard_hook_end()
-   endif()
- endif()
+    if(dashboard_do_coverage)
+      if(COMMAND dashboard_hook_coverage)
+        dashboard_hook_coverage()
+      endif()
+      ctest_coverage()
+    endif()
+    if(dashboard_do_memcheck)
+      if(COMMAND dashboard_hook_memcheck)
+        dashboard_hook_memcheck()
+      endif()
+      ctest_memcheck()
+    endif()
+    if(COMMAND dashboard_hook_submit)
+      dashboard_hook_submit()
+    endif()
+    if(NOT dashboard_no_submit)
+      ctest_submit()
+    endif()
+    if(COMMAND dashboard_hook_end)
+      dashboard_hook_end()
+    endif()
+  endif()
 endmacro()
 
 if(COMMAND dashboard_hook_init)
