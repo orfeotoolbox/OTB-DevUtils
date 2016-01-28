@@ -1,30 +1,28 @@
+# File: test_mxe_common.cmake
+# Author: Rashad Kanavath <rashad.kanavath@c-s.fr>
+# Description: OTB Common Dashboard Script for MinGW cross compilation
+# Copyright: CNES 2014 -2016
+# To test script for mxe_common.cmake
 # Maintainers : OTB developers team
 # Cross compilation of OTB library using MXE (M cross environment)
-set(CTEST_SITE "bumblebee.c-s.fr")
+
+set(CTEST_SITE "noname.sites.fr")
 set(MXE_TARGET_ARCH "i686")
 set(PROJECT "otb")
 
+set(test_this_script 1)
+
 macro(dashboard_hook_init)
 set(dashboard_cache "
-OTB_USE_CURL:BOOL=ON
-OTB_USE_QT4:BOOL=ON
-OTB_USE_OPENCV:BOOL=ON
-OTB_USE_SIFTFAST:BOOL=ON
-OTB_USE_MUPARSER:BOOL=ON
-OTB_USE_MUPARSERX:BOOL=ON
-OTB_USE_LIBKML:BOOL=OFF
-OTB_USE_LIBSVM:BOOL=OFF
-OTB_USE_OPENJPEG:BOOL=OFF
-OTB_USE_MAPNIK:BOOL=OFF
 
-OTB_WRAP_PYTHON:BOOL=OFF
-OTB_WRAP_JAVA:BOOL=OFF
+dummy_cache
+
 ")
 endmacro()
 
 # Attach mxe build log to dashboard.
 # This log file was created in ~/scripts/cron-nightly.sh
-set(CTEST_NOTES_FILES "/home/otbval/logs/mxe_build_log.txt")
+set(CTEST_NOTES_FILES "/home/otbval/logs/mxe_build_log_on_dora.txt")
 
 #uncomment to update list of c flags
 #set(dashboard_cc_flags)
@@ -41,22 +39,24 @@ set(CTEST_NOTES_FILES "/home/otbval/logs/mxe_build_log.txt")
 #set(dashboard_enable_large_input TRUE)
 
 #uncomment to skip ctest_configure()
-#set(dashboard_no_configure TRUE)
+set(dashboard_no_configure TRUE)
 
 #uncomment to skip ctest_build()
-#set(dashboard_no_build TRUE)
+set(dashboard_no_build TRUE)
 
 #uncomment to enable BUILD_EXAMPLES
 #set(dashboard_no_examples FALSE)
 
 #uncomment to disable BUILD_TESTING
-#set(dashboard_no_test TRUE)
+set(dashboard_no_test TRUE)
 
 #uncomment to skip submission to dashboard
-#set(dashboard_no_submit TRUE)
+set(dashboard_no_submit TRUE)
 
 #uncomment to skip removing build directory
-#set(dashboard_no_clean TRUE)
+set(dashboard_no_clean TRUE)
+
+set(dashboard_no_update TRUE)
 
 #change the target default build target. eg: OTBCommon
 #set(dashboard_default_target install)
@@ -64,4 +64,9 @@ set(CTEST_NOTES_FILES "/home/otbval/logs/mxe_build_log.txt")
 #change the target name to generate packages; eg: OtherPackageTarget
 #set(dashboard_package_target packages)
 
-include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
+
+
+include(${CTEST_SCRIPT_DIRECTORY}/mxe_common.cmake)
+
+
+

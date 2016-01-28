@@ -11,6 +11,3 @@ set(dashboard_module_url "http://tully.ups-tlse.fr/lassallep/grm.git")
 set(MXE_TARGET_ARCH "x86_64")
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
-
-
-
