@@ -95,6 +95,10 @@ if(NOT DEFINED MXE_ROOT)
   set(MXE_ROOT "/data/tools/mxe")
 endif()
 
+if(DEFINED ENV{CTEST_SITE})
+  set(CTEST_SITE "$ENV{CTEST_SITE}")
+endif()
+
 if(NOT DEFINED CTEST_SITE)
   set(CTEST_SITE "bumblebee.c-s.fr")
 endif()
