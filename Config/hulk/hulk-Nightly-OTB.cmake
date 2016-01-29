@@ -20,8 +20,6 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
 set(dashboard_do_coverage 1)
 
-set(dashboard_cache_for_release-5.2 "CMAKE_INSTALL_PREFIX:PATH=${OTB_STABLE_INSTALL_PREFIX}")
-
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
@@ -69,6 +67,15 @@ OTB_DOXYGEN_ITK_DOXYGEN_URL:STRING=\"http://www.itk.org/Doxygen46/html\"
 
 OpenJPEG_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.1/lib/openjpeg-2.1
     ")
+
+set(dashboard_cache_for_release-5.2 "CMAKE_INSTALL_PREFIX:PATH=${OTB_STABLE_INSTALL_PREFIX}")
+
+set(dashboard_cache_for_ice-as-a-module-full "
+OTB_USE_OPENGL:BOOL=ON
+OTB_USE_GLEW:BOOL=ON
+OTB_USE_GLFW:BOOL=ON
+OTB_USE_GLUT:BOOL=ON
+")
 endmacro()
 
 macro(dashboard_hook_end)
