@@ -75,12 +75,6 @@ OpenJPEG_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.1/lib/openjpeg-2.1
 
 set(dashboard_cache_for_release-5.2 "CMAKE_INSTALL_PREFIX:PATH=${OTB_STABLE_INSTALL_PREFIX}")
 
-set(dashboard_cache_for_ice-as-a-module-full "
-OTB_USE_OPENGL:BOOL=ON
-OTB_USE_GLEW:BOOL=ON
-OTB_USE_GLFW:BOOL=ON
-OTB_USE_GLUT:BOOL=ON
-")
 endmacro()
 
 macro(dashboard_hook_end)

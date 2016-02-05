@@ -75,12 +75,6 @@ TINYXML_INCLUDE_DIR:PATH=${OSGEO4W_ROOT}/include
 TINYXML_LIBRARY:FILEPATH=${OSGEO4W_ROOT}/lib/tinyxml.lib
     ")
 
-set(dashboard_cache_for_ice-as-a-module-full "
-OTB_USE_OPENGL:BOOL=ON
-OTB_USE_GLEW:BOOL=ON
-OTB_USE_GLFW:BOOL=ON
-OTB_USE_GLUT:BOOL=ON
-")
 endmacro()
 
 #remove install dir
