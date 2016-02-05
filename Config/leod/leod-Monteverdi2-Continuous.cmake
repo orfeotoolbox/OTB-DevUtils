@@ -41,8 +41,8 @@ CMAKE_CXX_FLAGS:STRING= -Wall -Wextra -Wno-gnu -Wno-\\\\#warnings
 
 OTB_DIR:STRING=$ENV{HOME}/Dashboard/${lcdashboard_model}/OTB/build
 
-ICE_INCLUDE_DIR:PATH=/Users/otbval/Dashboard/nightly/Ice-Release/src/Code
-ICE_LIBRARY:FILEPATH=/Users/otbval/Dashboard/nightly/Ice-Release/build/bin/libOTBIce.dylib
+# ICE_INCLUDE_DIR:PATH=/Users/otbval/Dashboard/nightly/Ice-Release/src/Code
+# ICE_LIBRARY:FILEPATH=/Users/otbval/Dashboard/nightly/Ice-Release/build/bin/libOTBIce.dylib
 
 ")
 
