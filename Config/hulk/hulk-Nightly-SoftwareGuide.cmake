@@ -30,7 +30,7 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 #OTB_DATA_PATHS:STRING=$ENV{HOME}/Dashboard/src/OTB-Data/Examples::$ENV{HOME}/Dashboard/src/OTB-Data/Input
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/install/OTB-stable/lib/cmake/OTB-5.2
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/build/OTB-Release
 OTB_SOURCE_DIR:PATH=$ENV{HOME}/Dashboard/src/OTB
 OpenCV_DIR:PATH=/usr/share/OpenCV
 ")
