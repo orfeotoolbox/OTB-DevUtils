@@ -86,6 +86,8 @@ MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/muparserx/install/lib/libmupa
 LIBSVM_INCLUDE_DIR:PATH=/opt/local/include
 LIBSVM_LIBRARY:FILEPATH=/opt/local/lib/libsvm.dylib
 
+GLUT_glut_LIBRARY=/usr/X11R6/lib/libglut.3.dylib
+GLUT_INCLUDE_DIR=/usr/X11R6/include
 ")
 
 SET (CTEST_NOTES_FILES
