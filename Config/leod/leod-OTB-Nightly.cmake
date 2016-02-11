@@ -48,6 +48,11 @@ OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
 OTB_USE_OPENJPEG:BOOL=ON
 OTB_USE_QT4:BOOL=ON
+# Ice module
+OTB_USE_OPENGL:BOOL=ON
+OTB_USE_GLEW:BOOL=ON
+OTB_USE_GLFW:BOOL=ON
+OTB_USE_GLUT:BOOL=ON
 
 PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python2.7
 PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers
@@ -71,16 +76,11 @@ MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/muparserx/install/lib/libmupa
 
 LIBSVM_INCLUDE_DIR:PATH=/opt/local/include
 LIBSVM_LIBRARY:FILEPATH=/opt/local/lib/libsvm.dylib
-    ")
 
-set(dashboard_cache_for_ice-as-a-module-full "
-OTB_USE_OPENGL:BOOL=ON
-OTB_USE_GLEW:BOOL=ON
-OTB_USE_GLFW:BOOL=ON
-OTB_USE_GLUT:BOOL=ON
 GLUT_glut_LIBRARY=/usr/X11R6/lib/libglut.3.dylib
 GLUT_INCLUDE_DIR=/usr/X11R6/include
-")
+    ")
+
 endmacro()
 
 #remove install dir

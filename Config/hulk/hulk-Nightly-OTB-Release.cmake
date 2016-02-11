@@ -1,14 +1,14 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}-GDAL_2.0")
+set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")
-set(dashboard_binary_name "build/OTB-GDAL_2.0")
+set(dashboard_binary_name "build/OTB-${CTEST_BUILD_CONFIGURATION}")
 
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-GDAL_2.0)
+set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-${CTEST_BUILD_CONFIGURATION})
 
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
@@ -16,12 +16,12 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_C_FLAGS:STRING=-fPIC -Wall
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-cpp
+CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra -Wno-cpp
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=OFF
+BUILD_EXAMPLES:BOOL=ON
 
 OTB_WRAP_PYTHON:BOOL=ON
 OTB_WRAP_JAVA:BOOL=OFF
@@ -29,11 +29,6 @@ OTB_WRAP_QT:BOOL=ON
 
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
-
-GDAL_CONFIG:PATH=${CTEST_DASHBOARD_ROOT}/install/gdal-2.0/bin/gdal-config
-GDAL_CONFIG_CHECKING:BOOL=ON
-GDAL_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/gdal-2.0/include
-GDAL_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/gdal-2.0/lib/libgdal.so
 
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ITK-4.7.1/lib/cmake/ITK-4.7
 

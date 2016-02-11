@@ -37,8 +37,8 @@ ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4-debug/lib/cmake/ITK-4.8
 
 OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-5.3
 
-ICE_INCLUDE_DIR:STRING=$ENV{HOME}/dev/install/Ice/include
-ICE_LIBRARY=$ENV{HOME}/dev/install/Ice/lib/libOTBIce.so
+# ICE_INCLUDE_DIR:STRING=$ENV{HOME}/dev/install/Ice/include
+# ICE_LIBRARY=$ENV{HOME}/dev/install/Ice/lib/libOTBIce.so
 
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=${MVD2_INSTALL_PREFIX}
