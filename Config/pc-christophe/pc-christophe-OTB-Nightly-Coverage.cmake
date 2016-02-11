@@ -16,8 +16,7 @@ set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
 set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly-Coverage/${CTEST_BUILD_CONFIGURATION}")
 
 #set(dashboard_fresh_source_checkout TRUE)
-set(dashboard_hg_url "http://hg.orfeo-toolbox.org/OTB-Nightly")
-set(dashboard_hg_branch "default")
+set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(dashboard_do_coverage true)
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
@@ -50,6 +49,10 @@ MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/stable/include
 #external openjpeg
 OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/stable/lib/openjpeg-2.1
 
+#external glfw
+GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
+GLFW_LIBRARY:PATH=/usr/lib64/libglfw.so
+
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
@@ -74,6 +77,10 @@ OTB_USE_OPENCV:BOOL=ON
 OTB_USE_OPENJPEG=ON
 OTB_USE_QT4=ON
 OTB_USE_SIFTFAST=ON
+OTB_USE_OPENGL=ON
+OTB_USE_GLUT=ON
+OTB_USE_GLEW=ON
+OTB_USE_GLFW=ON
 ")
 
 endmacro()
