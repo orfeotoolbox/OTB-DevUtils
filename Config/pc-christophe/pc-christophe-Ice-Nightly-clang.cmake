@@ -49,8 +49,8 @@ ${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
 ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
 )
 
-execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${ICE_INSTALL_PREFIX})
-execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${ICE_INSTALL_PREFIX})
+execute_process (COMMAND ${CMAKE_COMMAND} -E remove_directory ${ICE_INSTALL_PREFIX})
+execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory ${ICE_INSTALL_PREFIX})
 ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
 
 ctest_start (Nightly)
