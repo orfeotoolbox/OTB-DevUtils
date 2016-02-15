@@ -1,3 +1,3 @@
-gd-miscellaneous greendashboard-data-misc
+gd-projection greendashboard-data
 masked_iterator_decorator
 kmeans-16bits
