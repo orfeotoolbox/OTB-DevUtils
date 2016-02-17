@@ -92,7 +92,7 @@ macro(dashboard_hook_end)
 endmacro()
 
 macro(dashboard_hook_build)
-  if("${dashboard_current_branch}" STREQUAL "nightly" OR "${dashboard_current_branch}" STREQUAL "gd-miscellaneous")
+  if("${dashboard_current_branch}" STREQUAL "nightly" OR "${dashboard_current_branch}" STREQUAL "gd-projection")
     set(dashboard_do_coverage 1)
   else()
     set(dashboard_do_coverage 0)
