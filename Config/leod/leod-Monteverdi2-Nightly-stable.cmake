@@ -4,6 +4,7 @@ string(TOLOWER ${dashboard_model} lcdashboard_model)
 SET (CTEST_BUILD_CONFIGURATION Release)
 SET (CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}-stable")
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "${lcdashboard_model}/Monteverdi2-${CTEST_BUILD_CONFIGURATION}/src")
@@ -13,7 +14,6 @@ set(MVD2_INSTALL_PREFIX $ENV{HOME}/Dashboard/${lcdashboard_model}/Monteverdi2-${
 
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git")
-set(dashboard_git_branch release-3.0)
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -33,10 +33,10 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 CMAKE_C_FLAGS:STRING= -Wall
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-gnu -Wno-\\\\#warnings
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/install-stable/lib/cmake/OTB-5.2
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/install-stable/${OTB_STABLE_DIR_SUFFIX}
 
-ICE_INCLUDE_DIR:PATH=/Users/otbval/Dashboard/nightly/Ice-Release/install-stable/include
-ICE_LIBRARY:FILEPATH=/Users/otbval/Dashboard/nightly/Ice-Release/install-stable/lib/libOTBIce.dylib
+# ICE_INCLUDE_DIR:PATH=/Users/otbval/Dashboard/nightly/Ice-Release/install-stable/include
+# ICE_LIBRARY:FILEPATH=/Users/otbval/Dashboard/nightly/Ice-Release/install-stable/lib/libOTBIce.dylib
 
 Monteverdi_USE_CPACK:BOOL=ON
 
