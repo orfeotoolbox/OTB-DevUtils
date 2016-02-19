@@ -5,9 +5,9 @@ set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_COMMAND  "jom packages")
 set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-Stable")
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
 set(CTEST_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/Monteverdi2-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION})
-set(dashboard_git_branch release-3.0)
 set(dashboard_binary_name "build/Monteverdi2-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}")
 
 macro(dashboard_hook_init)
@@ -27,9 +27,9 @@ OTB_DATA_LARGEINPUT_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/src/OTB-LargeInput
 
 Monteverdi_USE_CPACK:BOOL=ON
 
-OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OTB-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/lib/cmake/OTB-5.2
-ICE_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/Ice-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/include
-ICE_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/Ice-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/lib/OTBIce.lib
+OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OTB-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/${OTB_STABLE_DIR_SUFFIX}
+# ICE_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/Ice-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/include
+# ICE_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/Ice-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}/lib/OTBIce.lib
 ")
 endmacro()
 
