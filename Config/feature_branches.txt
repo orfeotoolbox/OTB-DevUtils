@@ -3,3 +3,4 @@ kmeans-16bits
 rfc-24-GDAL_overviews
 rfc-25-OpenGL_remote_desktop
 sampling_polygon_analysis
+samples_selection
