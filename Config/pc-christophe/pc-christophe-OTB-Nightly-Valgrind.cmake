@@ -18,6 +18,8 @@ set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 
+set( dashboard_do_memcheck ON )
+
 macro(dashboard_hook_init)
   set(CTEST_MEMORYCHECK_COMMAND /usr/bin/valgrind)
   set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--track-fds=yes --trace-children=yes --quiet --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=50 --verbose --demangle=yes --gen-suppressions=all")
