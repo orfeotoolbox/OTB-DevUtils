@@ -6,42 +6,34 @@ set (CTEST_BUILD_CONFIGURATION "Debug")
 
 #set (OTB_DASHBOARD_DIR "$ENV{HOME}/dev/install/Monteverdi2Dashboard/nightly/Monteverdi2-${CTEST_BUILD_CONFIGURATION}")
 
-set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/Monteverdi2")
-set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/Monteverdi2")
+set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/monteverdi2")
+set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/monteverdi2")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -i -k install" )
+set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
 set (CTEST_SITE "dora.c-s.fr" )
-set (CTEST_BUILD_NAME "Ubuntu12.04-64bits-${CTEST_BUILD_CONFIGURATION}-$ENV{USER}")
-set (CTEST_HG_COMMAND "/usr/bin/hg")
-set (CTEST_HG_UPDATE_OPTIONS "")
+set (CTEST_BUILD_NAME "UbuntuMM.mm-64bits-${CTEST_BUILD_CONFIGURATION}-$ENV{USER}")
+# set (CTEST_GIT_COMMAND "/usr/bin/git")
+# set (CTEST_GIT_UPDATE_OPTIONS "")
 set (CTEST_USE_LAUNCHERS ON)
 
-set (MVD2_INSTALL_PREFIX "$ENV{HOME}/dev/install/Monteverdi2")
+set (MVD2_INSTALL_PREFIX "$ENV{HOME}/dev/install/monteverdi2")
 
 set (MVD2_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
 CTEST_USE_LAUNCHERS:BOOL=ON
 
-CMAKE_C_FLAGS:STRING=-Wall
-CMAKE_CXX_FLAGS:STRING=-Wall
+CMAKE_C_FLAGS:STRING=-Wall -Wextra
+CMAKE_CXX_FLAGS:STRING=-Wall -Wextra
+# CMAKE_C_FLAGS:STRING=-Wall -Wextra -Wno-unused-parameter -Wno-sign-compare -Wno-unused-variable
+# CMAKE_CXX_FLAGS:STRING=-Wall -Wextra -Wno-unused-parameter
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
-# ITK_DIR:PATH=/home/otbval/Dashboard/experimental/build/ITKv4-RelWithDebInfo
-ITK_DIR:PATH=/home/otbval/Dashboard/experimental/install/ITK-4.5.0
+ITK_DIR:PATH=/home/otbval/Tools/ITK-4.7.1/install/lib/cmake/ITK-4.7
 
-# OTB_DIR:STRING=/home/otbval/Dashboard/nightly/OTB-Release/install/lib/otb
-# OTB_DIR:STRING=$ENV{HOME}/dev/install/OTB-stable/lib/otb
-# OTB_DIR:STRING=~/dev/install/OTB/lib/otb
-OTB_DIR:PATH=$ENV{HOME}/dev/install/OTB/lib/cmake/OTB-4.5
-# OTB_DIR:STRING=~/dev/build/OTB/bin
-
-ICE_INCLUDE_DIR:STRING=$ENV{HOME}/dev/install/Ice/include
-# ICE_INCLUDE_DIR=$ENV{HOME}/dev/install/Ice/include/otb
-# ICE_LIBRARY=$ENV{HOME}/dev/install/Ice/lib/otb/libOTBIce.so
-ICE_LIBRARY=$ENV{HOME}/dev/install/Ice/lib/libOTBIce.so
+OTB_DIR:PATH=$ENV{HOME}/dev/install/otb/lib/cmake/OTB-5.3
 
 BUILD_TESTING:BOOL=ON
 CMAKE_INSTALL_PREFIX:STRING=${MVD2_INSTALL_PREFIX}
@@ -50,7 +42,7 @@ MERGE_TS:BOOL=OFF
 GENERATE_SQL:BOOL=ON
 
 # Temporary workaround
-OTB_USE_QT4:BOOL=ON
+# OTB_USE_QT4:BOOL=ON
 ")
 
 set (CTEST_NOTES_FILES
