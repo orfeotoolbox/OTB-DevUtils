@@ -1,6 +1,6 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
-set(CTEST_BUILD_CONFIGURATION Debug)
+set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 
 set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov")
@@ -23,8 +23,8 @@ set(dashboard_do_coverage 1)
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_C_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage  -Wall
-CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wno-cpp
+CMAKE_C_FLAGS:STRING=-Wall
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-cpp
 
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
@@ -77,6 +77,11 @@ OpenJPEG_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.1/lib/openjpeg-2.1
 
 set(dashboard_cache_for_release-5.2 "CMAKE_INSTALL_PREFIX:PATH=${OTB_STABLE_INSTALL_PREFIX}")
 
+set(dashboard_cache_for_gd-projection "
+CMAKE_C_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage  -Wall
+CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wno-cpp
+")
+
 endmacro()
 
 macro(dashboard_hook_end)
@@ -92,7 +97,7 @@ macro(dashboard_hook_end)
 endmacro()
 
 macro(dashboard_hook_build)
-  if("${dashboard_current_branch}" STREQUAL "nightly" OR "${dashboard_current_branch}" STREQUAL "gd-projection")
+  if("${dashboard_current_branch}" STREQUAL "gd-projection")
     set(dashboard_do_coverage 1)
   else()
     set(dashboard_do_coverage 0)
