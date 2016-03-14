@@ -1,5 +1,5 @@
 gd-projection greendashboard-data
-kmeans-16bits
+mantis-1153 mantis-1153
 rfc-24-GDAL_overviews
 sampling_polygon_analysis
 samples_selection
