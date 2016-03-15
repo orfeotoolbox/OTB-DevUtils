@@ -47,7 +47,7 @@ endif()
 
 set(CTEST_GIT_COMMAND "C:/Program Files (x86)/Git/bin/git.exe")
 set(CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
-set(CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
+# set(CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 
 # build a shorted binary path (OTB needs source and binary paths < 50)
 if (${OTB_ARCH} STREQUAL "x86")
