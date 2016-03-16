@@ -3,6 +3,5 @@ mantis-1153 mantis-1153
 grid-resampling grid-resampling
 rfc-24-GDAL_overviews
 rfc-31-better-rpc-tags
-sampling_polygon_analysis
 samples_selection
 software_guide_subtree_merge
