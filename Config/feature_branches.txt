@@ -1,5 +1,7 @@
-gd-projection greendashboard-data
 mantis-1153 mantis-1153
 grid-resampling grid-resampling
 rfc-24-GDAL_overviews
-samples_selection
+samples_selection samples_selection
+ENH-FineRegistration ENH-FineRegistration
+OTB_Module_External
+dashboard-hell

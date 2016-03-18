@@ -11,12 +11,11 @@ set(CTEST_USE_LAUNCHERS OFF)
 set(CTEST_GIT_COMMAND "/usr/bin/git")
 
 set(dashboard_root_name "tests")
-set(dashboard_source_name "sources/orfeo/otb-documents/SoftwareGuide")
-set(dashboard_binary_name "build/orfeo/otb-documents/SoftwareGuide")
+set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly/Documentation/SoftwareGuide")
+set(dashboard_binary_name "build/orfeo/SoftwareGuide")
 
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb-documents.git")
-set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/orfeo/otb-documents)
-set(dashboard_git_branch master)
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
+set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nightly)
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
