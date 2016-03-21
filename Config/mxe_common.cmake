@@ -248,17 +248,17 @@ MXE_TARGET_DIR:PATH=${MXE_ROOT}/usr/${MXE_TARGET_ARCH}-w64-mingw32.shared
 
 endif()
 
-if("${project}" STREQUAL "monteverdi")
-  set(mxe_common_cache
-    " ${mxe_common_cache}
+#if("${project}" STREQUAL "monteverdi")
+  #set(mxe_common_cache
+    #" ${mxe_common_cache}
 
-ICE_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/include
+#ICE_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/include
 
-ICE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/lib/libOTBIce.dll.a
+#ICE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/lib/libOTBIce.dll.a
 
-")
+#")
 
-endif()
+#endif()
 
 if(DEFINED dashboard_module)
 
