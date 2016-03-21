@@ -44,7 +44,7 @@ GDAL_INCLUDE_DIR:PATH=${INSTALLROOT}/gdal/trunk/include
 GDAL_LIBRARY:FILEPATH=${INSTALLROOT}/gdal/trunk/lib/libgdal.so
 
 ##external ITK
-ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
+ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.10
 
 ##external OpenCV
 # Use 2.4 branch for now (stable), until OTB is compatible with 3.0

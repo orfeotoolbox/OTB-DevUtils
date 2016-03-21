@@ -38,7 +38,7 @@ CMAKE_C_FLAGS:STRING= -Wall
 CMAKE_CXX_FLAGS:STRING= -Wall -Wextra
 
 ##external ITK
-ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.9
+ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.10
 
 ##external OSSIM
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/master/include
