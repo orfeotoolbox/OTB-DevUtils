@@ -1,6 +1,4 @@
-rfc-24-GDAL_overviews
 samples_selection samples_selection
 ENH-FineRegistration ENH-FineRegistration2
 ENH-SARDecompositions ENH-SARDecompositions2
-OTB_Module_External
 dashboard-hell
