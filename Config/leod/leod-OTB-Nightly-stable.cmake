@@ -1,5 +1,6 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
+set(OTB_PROJECT OTB)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}-stable")
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
