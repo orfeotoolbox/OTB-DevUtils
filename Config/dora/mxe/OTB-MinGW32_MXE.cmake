@@ -69,4 +69,6 @@ set(CTEST_NOTES_FILES "/home/otbval/logs/mxe_build_log.txt")
 #change the target name to generate packages; eg: OtherPackageTarget
 #set(dashboard_package_target packages)
 
+set(dashboard_make_package FALSE)
+
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)

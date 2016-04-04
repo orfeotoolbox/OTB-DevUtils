@@ -29,4 +29,6 @@ OTB_USE_GLUT:BOOL=ON
 ")
 endmacro()
 
+set(dashboard_make_package FALSE)
+
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
