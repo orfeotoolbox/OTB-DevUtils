@@ -40,6 +40,6 @@ fi;
 rm -f /tmp/mxe_build_dora.log
 echo 'Sarting build of mxe and dependencies right now.'
 #now start building
-PKG_LIST="gdal ossim itk qt opencv glfw3 glew freeglut boost qwt_qt4 tinyxml muparser muparserx"
+PKG_LIST="gdal ossim itk qt opencv glfw3 glew freeglut boost qwt_qt4 tinyxml muparser muparserx libsvm"
 echo "LIST OF PACKAGES="$PKG_LIST
 make $PKG_LIST
