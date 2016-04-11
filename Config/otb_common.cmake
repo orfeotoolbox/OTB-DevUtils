@@ -4,15 +4,25 @@
 # clients.
 #
 # Put this script in a directory such as "~/Dashboards/Scripts" or
-# "c:/Dashboards/Scripts".  Create a file next to this script, say
-# 'my_dashboard.cmake', with code of the following form:
+# "c:/Dashboards/Scripts".  Also place the script "git_updater.cmake" in the 
+# same folder to use custom update commands. Create a file next to this script,
+# say 'my_dashboard.cmake', with code of the following form:
 #
 #   # Client maintainer: me@mydomain.net
 #   set(CTEST_SITE "machine.site")
 #   set(CTEST_BUILD_NAME "Platform-Compiler")
 #   set(CTEST_BUILD_CONFIGURATION Debug)
 #   set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-#   include(${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake)
+#   set(CTEST_SOURCE_DIRECTORY Path_to_source_dir)
+#   set(CTEST_BINARY_DIRECTORY Path_to_build_dir)
+#   set(dashboard_model Nightly)
+#   set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
+#   macro(dashboard_hook_init)
+#     set(dashboard_cache "${dashboard_cache}
+#       # set your initial cmake cache variables
+#       ")
+#   endmacro()
+#   include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
 #
 # Then run a scheduled task (cron job) with a command line such as
 #
@@ -22,32 +32,64 @@
 # "../My Tests/" relative to your script location.
 #
 # The following variables may be set before including this script
-# to configure it:
+# to configure it. If a variable is not defined, it may recieve a default value.
+# Generally, the variables CTEST_* have priority over dashboard_* variables, as 
+# they are directly used by ctest :
 #
+#   ---------------------- General setup ---------------------------------------
 #   dashboard_model           = Nightly | Experimental | Continuous
 #   dashboard_loop            = Repeat until N seconds have elapsed
-#   dashboard_root_name       = Change name of "My Tests" directory
-#   dashboard_source_name     = Name of source directory (ITK)
-#   dashboard_binary_name     = Name of binary directory (ITK-build)
+#   CTEST_SITE                = Site name
+#   CTEST_BUILD_NAME          = Name of the build
+#   CTEST_DASHBOARD_TRACK     = Dashboard track (default is guessed based on
+#                               tested branch, dashboard model, and source dir)
+#
+#   -------------------- Directories setup -------------------------------------
+#   dashboard_root_name       = Directory name containing source and build trees
+#                               (default: "My Tests")
+#   CTEST_DASHBOARD_ROOT      = Path to put source and build trees
+#                               (default: script_dir/../$dashboard_root_name)
+#   dashboard_source_name     = Name of source directory (default : OTB)
+#   dashboard_binary_name     = Name of binary directory (default : OTB-build)
+#   dashboard_update_dir      = Source directory to update (default :
+#                               $CTEST_SOURCE_DIRECTORY)
+#   CTEST_SOURCE_DIRECTORY    = Path to source directory (default :
+#                               $CTEST_DASHBOARD_ROOT/$dashboard_source_name)
+#   CTEST_BINARY_DIRECTORY    = Path to build directory (default :
+#                               $CTEST_DASHBOARD_ROOT/$dashboard_binary_name)
+#
+#   ---------------------- Configure Setup -------------------------------------
+#   CTEST_BUILD_CONFIGURATION = Configuration to build (Release/Debug/...)
 #   dashboard_cache           = Initial CMakeCache.txt file content
-#   dashboard_do_coverage     = True to enable coverage (ex: gcov)
-#   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
-#   dashboard_no_clean        = True to skip build tree wipeout
-#   dashboard_update_dir      = source directory to update
-#   CTEST_UPDATE_COMMAND      = path to svn command-line client
+#   dashboard_cache_for_xxx   = Specific cache content for branch 'xxx'
+#   dashboard_build_command   = Executable to call in CTEST_BUILD_COMMAND
+#   dashboard_build_target    = Default target to build (default is 'install',
+#                               unless dashboard_no_install is true)
+#   CTEST_BUILD_COMMAND       = Build command given to ctest (default is
+#                               $dashboard_build_command $dashboard_build_target)
+#   dashboard_git_url         = URL of Git source repository
+#   dashboard_git_branch      = Git branch to test (default is 'nightly' when
+#                               dashboard model is Nightly, 'develop' otherwise)
+#   dashboard_git_features_list = Path to a file containing additional feature
+#                               branches to build & test. (incompatible with
+#                               SuperBuild & RemoteModules)
+#   CTEST_GIT_COMMAND         = Git executable
+#   CTEST_GIT_UPDATE_CUSTOM   = Custom Git update command to replace 'git pull'
+#                               (default is to use a home-made updater script
+#                               git_updater.cmake, which does more cleaning)
+#   dashboard_module          = Name of the remote module to enable
+#                               (incompatible with SuperBuild and additional
+#                               feature branches)
+#   dashboard_module_url      = URL of the remote module to enable
 #   CTEST_BUILD_FLAGS         = build tool arguments (ex: -j2)
-#   CTEST_DASHBOARD_ROOT      = Where to put source and build trees
 #   CTEST_TEST_CTEST          = Whether to run long CTestTest* tests
 #   CTEST_TEST_TIMEOUT        = Per-test timeout length
 #   CTEST_TEST_ARGS           = ctest_test args (ex: PARALLEL_LEVEL 4)
 #   CMAKE_MAKE_PROGRAM        = Path to "make" tool to use
 #
-# Options to configure builds from experimental git repository:
-#   dashboard_hg_url      = Custom hg clone url
-#   dashboard_hg_branch   = Custom remote branch to track
-#
-# The following macros will be invoked before the corresponding
-# step if they are defined:
+#   ---------------------------- Hooks -----------------------------------------
+#   The following macros will be invoked before the corresponding
+#   step if they are defined:
 #
 #   dashboard_hook_init       = End of initialization, before loop
 #   dashboard_hook_start      = Start of loop body, before ctest_start
@@ -57,6 +99,15 @@
 #   dashboard_hook_memcheck   = Before ctest_memcheck
 #   dashboard_hook_submit     = Before ctest_submit
 #   dashboard_hook_end        = End of loop body, after ctest_submit
+#
+#   ---------------------------- Flags -----------------------------------------
+#   dashboard_fresh_source_checkout = True to checkout sources from scratch
+#   dashboard_no_clean        = True to skip build tree wipeout
+#   dashboard_no_test         = True to skip testing
+#   dashboard_no_install      = True to skip install step
+#   dashboard_do_coverage     = True to enable coverage (ex: gcov)
+#   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
+#   dashboard_no_submit       = True to skip submit step
 #
 # For Makefile generators the script may be executed from an
 # environment already configured to use the desired compilers.
