@@ -130,13 +130,6 @@ endif()
 if(NOT CTEST_TEST_TIMEOUT)
   set(CTEST_TEST_TIMEOUT 1500)
 endif()
-if(NOT DEFINED CTEST_DASHBOARD_TRACK)
-  set(CTEST_DASHBOARD_TRACK Nightly)
-endif()
-if(DEFINED dashboard_module)
-  set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
-  set(CTEST_DASHBOARD_TRACK RemoteModules)
-endif()
 
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
@@ -253,6 +246,39 @@ if(NOT EXISTS "${dashboard_update_dir}"
   set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
   set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
   set(CTEST_DROP_SITE_CDASH TRUE)
+endif()
+
+# Choose the dashboard track
+if(NOT DEFINED CTEST_DASHBOARD_TRACK)
+  # Guess using the dashboard model
+  if("${dashboard_model}" STREQUAL "Nightly")
+    # Guess using the branch name
+    if("${dashboard_git_branch}" STREQUAL "master")
+      set(CTEST_DASHBOARD_TRACK Nightly)
+    elseif("${dashboard_git_branch}" STREQUAL "nightly")
+      set(CTEST_DASHBOARD_TRACK Nightly)
+    elseif("${dashboard_git_branch}" MATCHES "^release-[0-9]+\\.[0-9]+\$")
+      set(CTEST_DASHBOARD_TRACK Stable)
+    else()
+      set(CTEST_DASHBOARD_TRACK Nightly)
+    endif()
+  elseif("${dashboard_model}" STREQUAL "Continuous")
+    set(CTEST_DASHBOARD_TRACK Continuous)
+  elseif("${dashboard_model}" STREQUAL "Experimental")
+    set(CTEST_DASHBOARD_TRACK Experimental)
+  endif()
+  # RemoteModules
+  if(DEFINED dashboard_module)
+    set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
+    set(CTEST_DASHBOARD_TRACK RemoteModules)
+  endif()
+  # SuperBuild
+  get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
+  get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
+  message("_source_directory_filename : ${_source_directory_filename}")
+  if("${_source_directory_filename}" STREQUAL "SuperBuild")
+    set(CTEST_DASHBOARD_TRACK SuperBuild)
+  endif()
 endif()
 
 #-----------------------------------------------------------------------------
