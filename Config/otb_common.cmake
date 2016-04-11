@@ -235,7 +235,14 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
 endif()
 
 if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
-  set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+  if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
+    set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
+  elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+    set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+  endif()
+  if(_git_updater_script)
+    set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${_git_updater_script})
+  endif()
 endif()
 
 # Select a source directory name.
@@ -534,12 +541,12 @@ while(NOT dashboard_done)
     foreach(branch ${additional_branches})
       set(dashboard_current_branch ${branch})
       set(CTEST_BUILD_NAME  ${ORIGINAL_CTEST_BUILD_NAME}-${branch})
-      set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+      set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${_git_updater_script})
       file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
       file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
       # Checkout specific data branch if any
       if(DEFINED specific_data_branch_for_${branch})
-        execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${specific_data_branch_for_${branch}} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake
+        execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${specific_data_branch_for_${branch}} -P ${_git_updater_script}
                         WORKING_DIRECTORY ${dashboard_otb_data_root})
         message("Set data branch to ${specific_data_branch_for_${branch}}")
       endif()
@@ -547,7 +554,7 @@ while(NOT dashboard_done)
       run_dashboard()
       # reset data to Nightly branch
       if(DEFINED specific_data_branch_for_${branch})
-        execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=nightly -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake
+        execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=nightly -P ${_git_updater_script}
                         WORKING_DIRECTORY ${dashboard_otb_data_root})
         message("Reset data")
       endif()
