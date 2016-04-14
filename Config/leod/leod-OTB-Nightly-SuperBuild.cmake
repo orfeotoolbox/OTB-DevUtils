@@ -34,6 +34,8 @@ list(APPEND CTEST_NOTES_FILES
 
 set(GDAL_EXTRA_OPT "--with-gif=/opt/local")
 
+#RK: freeglut is deactivated as it requries X11.
+
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
@@ -87,8 +89,8 @@ OTB_USE_QT4:BOOL=ON
 
 OTB_USE_OPENGL:BOOL=ON
 OTB_USE_GLEW:BOOL=ON
-OTB_USE_GLEW:BOOL=ON
-OTB_USE_GLUT:BOOL=ON
+OTB_USE_GLFW:BOOL=ON
+OTB_USE_GLUT:BOOL=OFF
 
 OTB_USE_OPENJPEG:BOOL=OFF
 
