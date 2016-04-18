@@ -1,6 +1,6 @@
 set(dashboard_model Nightly)
 string(TOLOWER ${dashboard_model} lcdashboard_model)
-
+set(OTB_PROJECT Monteverdi2)
 SET (CTEST_BUILD_CONFIGURATION Release)
 SET (CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}-stable")
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)

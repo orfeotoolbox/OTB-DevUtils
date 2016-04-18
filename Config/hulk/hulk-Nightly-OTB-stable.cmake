@@ -1,14 +1,16 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
-set(CTEST_BUILD_CONFIGURATION Debug)
-set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}-SHOW_ALL_MSG_DEBUG")
+set(OTB_PROJECT OTB)
+set(CTEST_BUILD_CONFIGURATION Release)
+set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}-stable")
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")
-set(dashboard_binary_name "build/OTB-SHOW_ALL_MSG_DEBUG")
+set(dashboard_binary_name "build/OTB-stable")
 
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-SHOW_ALL_MSG_DEBUG)
+set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-stable)
 
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
@@ -27,10 +29,7 @@ OTB_WRAP_PYTHON:BOOL=ON
 OTB_WRAP_JAVA:BOOL=OFF
 OTB_WRAP_QT:BOOL=ON
 
-OTB_SHOW_ALL_MSG_DEBUG:BOOL=ON
-
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
-#OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
 
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ITK-4.7.1/lib/cmake/ITK-4.7

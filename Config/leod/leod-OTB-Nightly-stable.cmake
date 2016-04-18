@@ -1,5 +1,6 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
+set(OTB_PROJECT OTB)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}-stable")
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
@@ -46,6 +47,8 @@ OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
 OTB_USE_OPENJPEG:BOOL=ON
 OTB_USE_QT4:BOOL=ON
+OTB_USE_OPENGL:BOOL=ON
+OTB_USE_GLEW:BOOL=ON
 
 PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python2.7
 PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers
@@ -69,6 +72,10 @@ MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/muparserx/install/lib/libmupa
 
 LIBSVM_INCLUDE_DIR:PATH=/opt/local/include
 LIBSVM_LIBRARY:FILEPATH=/opt/local/lib/libsvm.dylib
+
+OPENGL_INCLUDE_DIR:PATH=/System/Library/Frameworks/OpenGL.framework
+OPENGL_gl_LIBRARY:PATH=/System/Library/Frameworks/OpenGL.framework
+OPENGL_glu_LIBRARY:PATH=/System/Library/Frameworks/AGL.framework
 
     ")
 endmacro()

@@ -13,7 +13,7 @@ OTB_USE_SIFTFAST:BOOL=ON
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_LIBKML:BOOL=OFF
-OTB_USE_LIBSVM:BOOL=OFF
+OTB_USE_LIBSVM:BOOL=ON
 OTB_USE_OPENJPEG:BOOL=OFF
 OTB_USE_MAPNIK:BOOL=OFF
 # Ice module
@@ -68,5 +68,7 @@ set(CTEST_NOTES_FILES "/home/otbval/logs/mxe_build_log.txt")
 
 #change the target name to generate packages; eg: OtherPackageTarget
 #set(dashboard_package_target packages)
+
+set(dashboard_make_package FALSE)
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
