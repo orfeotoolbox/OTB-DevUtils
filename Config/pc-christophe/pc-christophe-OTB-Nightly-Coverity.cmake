@@ -26,7 +26,7 @@ SET(OSSIM_LIBRARY "/home/otbtesting/install/ossim/master/lib64/libossim.so" CACH
 
 ##external muparserx
 SET(MUPARSERX_LIBRARY "/home/otbtesting/install/muparserx/stable/lib/libmuparserx.so" CACHE STRING "" FORCE)
-SET(MUPARSERX_INCLUDE_DIR "/home/otbtesting/install/muparserx/stable/include" CACHE STRING "" FORCE)
+SET(MUPARSERX_INCLUDE_DIR "/home/otbtesting/install/muparserx/stable/include/muparserx" CACHE STRING "" FORCE)
 
 #external openjpeg
 SET(OpenJPEG_DIR "/home/otbtesting/install/openjpeg/stable/lib/openjpeg-2.1" CACHE STRING "" FORCE)
