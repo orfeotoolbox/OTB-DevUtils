@@ -73,6 +73,10 @@ MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/muparserx/install/lib/libmupa
 LIBSVM_INCLUDE_DIR:PATH=/opt/local/include
 LIBSVM_LIBRARY:FILEPATH=/opt/local/lib/libsvm.dylib
 
+OPENGL_INCLUDE_DIR:PATH=/System/Library/Frameworks/OpenGL.framework
+OPENGL_gl_LIBRARY:PATH=/System/Library/Frameworks/OpenGL.framework
+OPENGL_glu_LIBRARY:PATH=/System/Library/Frameworks/AGL.framework
+
     ")
 endmacro()
 
