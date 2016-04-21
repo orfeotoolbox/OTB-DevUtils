@@ -32,8 +32,6 @@ list(APPEND CTEST_NOTES_FILES
   ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/otbConfigure.h
 )
 
-set(GDAL_EXTRA_OPT "--with-gif=/opt/local")
-
 #RK: freeglut is deactivated as it requries X11.
 
 macro(dashboard_hook_init)
@@ -110,7 +108,6 @@ BUILD_TESTING:BOOL=ON
 
 ENABLE_OTB_LARGE_INPUTS:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=$ENV{HOME}/Data/OTB-LargeInput
-GDAL_SB_EXTRA_OPTIONS:STRING=${GDAL_EXTRA_OPT}
 ")
 endmacro()
 
