@@ -12,8 +12,6 @@ set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k" )
 set (CTEST_SITE "pc-christophe.cst.cnes.fr" )
 set (CTEST_BUILD_NAME "Fedora22-64bits-clang-${CTEST_BUILD_CONFIGURATION}")
-set (CTEST_HG_COMMAND "/usr/bin/hg")
-set (CTEST_HG_UPDATE_OPTIONS "-C")
 set (CTEST_USE_LAUNCHERS ON)
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
@@ -38,18 +36,13 @@ CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/instal
 
 CTEST_USE_LAUNCHERS:BOOL=ON
 
-#otb, itk, ice
-ICE_INCLUDE_DIR=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}/include/
-ICE_LIBRARY:FILEPATH=${INSTALLROOT}/orfeo/trunk/Ice-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}/lib/libOTBIce.so
-
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/${CTEST_BUILD_CONFIGURATION}/lib/cmake/ITK-4.10
-
 #data dir
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 
 OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/${CTEST_BUILD_CONFIGURATION}
 
 #qwt
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4

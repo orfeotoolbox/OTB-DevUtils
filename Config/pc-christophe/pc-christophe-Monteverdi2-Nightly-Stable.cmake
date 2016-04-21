@@ -6,13 +6,15 @@
 set (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_DASHBOARD_ROOT "/home/otbtesting")
 SET (CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/Monteverdi2/")
-SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Monteverdi2-Nightly/")
+SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Monteverdi2-Nightly-Stable/")
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
 set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k" )
 set (CTEST_SITE "pc-christophe.cst.cnes.fr" )
-set (CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
+set (CTEST_BUILD_NAME "Fedora22-64bits-Stable-${CTEST_BUILD_CONFIGURATION}")
 set (CTEST_USE_LAUNCHERS ON)
+
+include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
 
@@ -28,8 +30,8 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 
-OTB_DIR:STRING=${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/stable/${CTEST_BUILD_CONFIGURATION}
+OTB_DIR:STRING=${CTEST_DASHBOARD_ROOT}/install/orfeo/trunk/OTB-Nightly-Stable/${CTEST_BUILD_CONFIGURATION}/${OTB_STABLE_DIR_SUFFIX}
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/stable/Release
 
 # Qwt
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
