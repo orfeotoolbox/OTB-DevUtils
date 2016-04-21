@@ -3,7 +3,7 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/otbtesting")
 set(CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Fedora22-64bits-SuperBuild-ALL_LOCAL_LIBS")
+set(CTEST_BUILD_NAME "Fedora22-64bits-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -k")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
@@ -16,7 +16,7 @@ string(TOLOWER ${dashboard_model} lcdashboard_model)
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly/SuperBuild")
-set(dashboard_binary_name "build/orfeo/trunk/OTB-SuperBuild-ALL_LOCAL_LIBS")
+set(dashboard_binary_name "build/orfeo/trunk/OTB-SuperBuild")
 
 set(OTB_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild")
 
