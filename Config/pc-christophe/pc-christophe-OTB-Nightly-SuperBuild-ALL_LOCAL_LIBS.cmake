@@ -51,7 +51,13 @@ ENABLE_OTB_LARGE_INPUTS:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=/media/TeraDisk2/LargeInput
 GDAL_SB_EXTRA_OPTIONS:STRING=${GDAL_EXTRA_OPT}
 BUILD_TESTING:BOOL=ON
+ENABLE_MONTEVERDI=ON
+USE_SYSTEM_QT4:BOOL=OFF
+USE_SYSTEM_QWT:BOOL=OFF
 ")
+# Don't use system's QWT above because FindQwt.cmake can't find it, see:
+# https://bugs.orfeo-toolbox.org/view.php?id=1177
+# It would work if QWT_LIBRARY and QWT_INCLUDE_DIR were manually set
 endmacro()
 
 macro(dashboard_hook_build)
