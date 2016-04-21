@@ -1,8 +1,6 @@
-#set (ENV{DISPLAY} ":0.0")
-
-# Avoid non-ascii characters in tool output.
-#set(ENV{LC_ALL} C)
-
+set(dashboard_model Nightly)
+string(TOLOWER ${dashboard_model} lcdashboard_model)
+set(OTB_PROJECT Monteverdi2)
 set (CTEST_BUILD_CONFIGURATION "Release")
 SET (CTEST_DASHBOARD_ROOT "/home/otbtesting")
 SET (CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/Monteverdi2/")
