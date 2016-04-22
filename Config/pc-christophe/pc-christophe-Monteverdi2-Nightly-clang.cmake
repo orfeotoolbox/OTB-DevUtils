@@ -1,42 +1,33 @@
-#set (ENV{DISPLAY} ":0.0")
-# Avoid non-ascii characters in tool output.
-#set(ENV{LC_ALL} C)
+# Client maintainer: manuel.grizonnet@cnes.fr
+set(dashboard_model Nightly)
+set(CTEST_BUILD_CONFIGURATION Release)
+set (CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
+include(${CTEST_SCRIPT_DIRECTORY}/pc-christophe_common.cmake)
 
+set(dashboard_root_name "tests")
+set(dashboard_source_name "sources/orfeo/trunk/Monteverdi2")
+set(dashboard_binary_name "build/orfeo/trunk/Monteverdi2-clang-ThirdPartyTrunk")
 
-set (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_DASHBOARD_ROOT "/home/otbtesting")
-SET (CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/Monteverdi2/")
-SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Monteverdi2-clang-ThirdPartyTrunk")
-set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
-set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k" )
-set (CTEST_SITE "pc-christophe.cst.cnes.fr" )
-set (CTEST_BUILD_NAME "Fedora22-64bits-clang-${CTEST_BUILD_CONFIGURATION}")
-set (CTEST_USE_LAUNCHERS ON)
+set(MVD2_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/orfeo/trunk/Monteverdi2-clang-ThirdPartyTrunk)
 
-set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
-set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/Monteverdi2-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
+#set(dashboard_fresh_source_checkout OFF)
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git")
 
-set (CTEST_INITIAL_CACHE "
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
+set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../mvd_branches.txt")
+
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
+CTEST_USE_LAUNCHERS:BOOL=ON
+
+CMAKE_INSTALL_PREFIX:STRING=${MVD2_INSTALL_PREFIX}
+CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 BUILD_TESTING:BOOL=ON
 
-CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
 CMAKE_C_FLAGS:STRING=-Wall
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-gnu-static-float-init -Wno-\\\\#warnings -Wno-unknown-attributes
-#currently. i am forced to keep this for clang
-CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/openjpeg/trunk/lib'
-CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/dev/lib64'
-CMAKE_EXE_LINKER_FLAGS=${CMAKE_EXE_LINKER_FLAGS}'-L/home/otbtesting/install/gdal/trunk/lib'
-CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/install/openjpeg/trunk/lib'
-CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/install/ossim/dev/lib64
-CMAKE_SHARED_LINKER_FLAGS=${CMAKE_SHARED_LINKER_FLAGS}'-L/home/otbtesting/install/gdal/trunk/lib'
 
-CTEST_USE_LAUNCHERS:BOOL=ON
-
-#data dir
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
@@ -44,25 +35,14 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/${CTEST_BUILD_CONFIGURATION}
 
-#qwt
+# Qwt
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
-QWT_LIBRARY:FILEPPATH=/usr/lib64/libqwt.so.5
+QWT_LIBRARY:FILEPATH=/usr/lib64/libqwt.so.5
 
-SITE:STRING=${CTEST_SITE}
 ")
+endmacro()
 
-set (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${MVD2_INSTALL_PREFIX})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${MVD2_INSTALL_PREFIX})
 
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-ctest_start (Nightly)
-ctest_update (SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file (WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_read_custom_files (${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
-ctest_submit ()
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

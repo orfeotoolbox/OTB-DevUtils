@@ -1,29 +1,31 @@
+# Client maintainer: manuel.grizonnet@cnes.fr
 set(dashboard_model Nightly)
-string(TOLOWER ${dashboard_model} lcdashboard_model)
-set(OTB_PROJECT Monteverdi2)
-set (CTEST_BUILD_CONFIGURATION "Release")
-SET (CTEST_DASHBOARD_ROOT "/home/otbtesting")
-SET (CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/Monteverdi2/")
-SET (CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/Monteverdi2-Nightly-Stable/")
-set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
-set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k" )
-set (CTEST_SITE "pc-christophe.cst.cnes.fr" )
-set (CTEST_BUILD_NAME "Fedora22-64bits-Stable-${CTEST_BUILD_CONFIGURATION}")
-set (CTEST_USE_LAUNCHERS ON)
-
+set(CTEST_BUILD_CONFIGURATION Release)
+set (CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
+include(${CTEST_SCRIPT_DIRECTORY}/pc-christophe_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
+set(dashboard_root_name "tests")
+set(dashboard_source_name "sources/orfeo/trunk/Monteverdi2")
+set(dashboard_binary_name "build/orfeo/trunk/Monteverdi2-Nightly-Stable")
 
-set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
+set(MVD2_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/orfeo/trunk/Monteverdi2-clang-ThirdPartyTrunk)
 
-set (CTEST_INITIAL_CACHE "
-BUILD_TESTING:BOOL=ON
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
+#set(dashboard_fresh_source_checkout OFF)
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git")
 
+set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../mvd_branches.txt")
+
+macro(dashboard_hook_init)
+  set(dashboard_cache "${dashboard_cache}
+CTEST_USE_LAUNCHERS:BOOL=ON
+
+CMAKE_INSTALL_PREFIX:STRING=${MVD2_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+BUILD_TESTING:BOOL=ON
+
 CMAKE_C_FLAGS:STRING=-Wall -Wextra
 CMAKE_CXX_FLAGS:STRING=-Wall -Wextra
-CTEST_USE_LAUNCHERS:BOOL=ON
+
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
@@ -35,21 +37,10 @@ ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/stable/Release
 QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
 QWT_LIBRARY:FILEPATH=/usr/lib64/libqwt.so.5
 
-SITE:STRING=${CTEST_SITE}
 ")
+endmacro()
 
-set (CTEST_NOTES_FILES
-${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}
-${CTEST_BINARY_DIRECTORY}/CMakeCache.txt
-)
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${MVD2_INSTALL_PREFIX})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${MVD2_INSTALL_PREFIX})
 
-ctest_empty_binary_directory (${CTEST_BINARY_DIRECTORY})
-
-ctest_start (Nightly)
-ctest_update (SOURCE "${CTEST_SOURCE_DIRECTORY}")
-file (WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" ${CTEST_INITIAL_CACHE})
-ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_read_custom_files (${CTEST_BINARY_DIRECTORY})
-ctest_build (BUILD "${CTEST_BINARY_DIRECTORY}")
-ctest_test (BUILD "${CTEST_BINARY_DIRECTORY}" PARALLEL_LEVEL 4)
-ctest_submit ()
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
