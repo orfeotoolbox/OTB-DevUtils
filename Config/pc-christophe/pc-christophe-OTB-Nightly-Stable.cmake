@@ -13,8 +13,6 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
 set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly-Stable/${CTEST_BUILD_CONFIGURATION}")
 
-include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
-
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
