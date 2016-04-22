@@ -2,7 +2,7 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set (CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
-include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/pc-christophe_common.cmake)
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/Monteverdi2")
