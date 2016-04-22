@@ -2,11 +2,9 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set (CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
-set (CTEST_CMAKE_GENERATOR  "Unix Makefiles")
-set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k" )
-set (CTEST_SITE "pc-christophe.cst.cnes.fr" )
-set(dashboard_root_name "/home/otbtesting")
+include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
+
+set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/Monteverdi2")
 set(dashboard_binary_name "build/orfeo/trunk/Monteverdi2-Nightly/")
 
