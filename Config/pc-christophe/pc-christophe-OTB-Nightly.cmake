@@ -1,13 +1,9 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "/home/otbtesting/")
-SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 1500)
+include(${CTEST_SCRIPT_DIRECTORY}/pc-christophe_common.cmake)
+
 set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
 set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}")
@@ -17,9 +13,7 @@ set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
 
-#set(ENV{DISPLAY} ":0.0")
-
-set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
+set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly/${CTEST_BUILD_CONFIGURATION}")
 
 macro(dashboard_hook_init)
@@ -39,7 +33,7 @@ BUILD_EXAMPLES:BOOL=ON
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
-OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
+OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 
 ## ITK
 ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.9

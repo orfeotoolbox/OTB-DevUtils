@@ -1,14 +1,13 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
 set(dashboard_model Nightly)
 set(OTB_PROJECT OTB)
-set(CTEST_DASHBOARD_ROOT "/home/otbtesting/")
-SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Fedora22-64bits-Stable-${CTEST_BUILD_CONFIGURATION}")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 1500)
+include(${CTEST_SCRIPT_DIRECTORY}/pc-christophe_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
+
+string(TOLOWER ${dashboard_model} lcdashboard_model)
+
 set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
 set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly-Stable/${CTEST_BUILD_CONFIGURATION}")
@@ -16,13 +15,8 @@ set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly-Stable/${CTEST_BUILD_CO
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
-set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
-
-#set(ENV{DISPLAY} ":0.0")
-
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly-Stable/${CTEST_BUILD_CONFIGURATION}")
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
 
 macro(dashboard_hook_init)
 
@@ -41,7 +35,7 @@ BUILD_EXAMPLES:BOOL=ON
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
-OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}sources/orfeo/OTB-Data
+OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 
 ## ITK
 ITK_DIR:PATH=/home/otbtesting/build/itk/stable/Release
@@ -81,4 +75,9 @@ OTB_USE_GLUT:BOOL=ON
  ")
 
 endmacro()
+
+#remove install dir
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
+execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
+
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
