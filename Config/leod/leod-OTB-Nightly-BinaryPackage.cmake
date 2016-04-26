@@ -1,36 +1,30 @@
-set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "/home/mrashad/dashboard")
-set(CMAKE_COMMAND "/home/mrashad/tools/cmake-3.4.0/bin/cmake" )
-set(CTEST_SITE "baker.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Linux-x86_64-BinaryPackage")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_CMAKE_COMMAND "${CMAKE_COMMAND}")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -k -j1" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
-set(CTEST_TEST_TIMEOUT 500)
-set(CTEST_GIT_COMMAND "/usr/bin/git")
-set(CTEST_USE_LAUNCHERS ON)
 set(CTEST_DASHBOARD_TRACK Nightly)
-
+set(CTEST_BUILD_NAME "MacOSX-10.10-BinaryPackage")
+set(CTEST_USE_LAUNCHERS ON)
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
 set(CTEST_DROP_METHOD "http")
 set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
 set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
-set(dashboard_source_name "otb/src/SuperBuild/Packaging")
-set(dashboard_binary_name "otb/pkg-otb")
+set(dashboard_model Nightly)
+set(dashboard_no_install 1)
+set(dashboard_build_command "/usr/bin/make -j1 -k" )
+include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
+
+#need to set site after inclue leod_common to overwrite existing one..
+set(CTEST_SITE "baker.c-s.fr")
+
+string(TOLOWER ${dashboard_model} lcdashboard_model)
+set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild/Packaging")
+set(dashboard_binary_name "${lcdashboard_model}/OTB-SuperBuild/pkg-otb")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
-set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src/)
+set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src)
+set(dashboard_git_branch release-5.4)
 
-set(dashboard_git_branch "release-5.4")
-
-# cmake ~/dashboard/otb/src/SuperBuild/Packaging \
-# -DSUPERBUILD_BINARY_DIR=/home/mrashad/dashboard/otb/build \
-# -DDOWNLOAD_LOCATION=/media/otbnas/otb/DataForTests/SuperBuild-archives \
-# -DSB_INSTALL_PREFIX=/home/mrashad/dashboard/otb/install \
-# -DGENERATE_XDK=ON
+set(OTB_SB_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/install)
+set(OTB_SB_BINARY_DIR  ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/build)
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
@@ -40,11 +34,10 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 
 BUILD_TESTING:BOOL=ON
-
-OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
-DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
-SUPERBUILD_BINARY_DIR:PATH=/home/mrashad/dashboard/otb/build
-SB_INSTALL_PREFIX=/home/mrashad/dashboard/otb/install
+OTB_DATA_ROOT:PATH=$ENV{HOME}/Data/OTB-Data
+DOWNLOAD_LOCATION:PATH=$ENV{HOME}/Data/SuperBuild-archives
+SUPERBUILD_BINARY_DIR:PATH=${OTB_SB_BINARY_DIR}
+SB_INSTALL_PREFIX:PATH=${OTB_SB_INSTALL_DIR}
 GENERATE_PACKAGE:BOOL=ON
 ")
 endmacro()
@@ -66,5 +59,5 @@ macro(dashboard_hook_test)
   file(WRITE "${BuildLog_dir}/Configure.xml" "${configure_xml_CONTENTS_NEW}")
 endmacro()
 
-
+set(dashboard_no_submit 1)
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
