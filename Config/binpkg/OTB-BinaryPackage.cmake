@@ -66,4 +66,5 @@ macro(dashboard_hook_test)
   file(WRITE "${BuildLog_dir}/Configure.xml" "${configure_xml_CONTENTS_NEW}")
 endmacro()
 
-include(../otb_common.cmake)
+
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
