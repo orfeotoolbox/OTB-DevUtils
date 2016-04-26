@@ -120,11 +120,6 @@ macro(dashboard_hook_test)
   set(ENV{LD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
 endmacro()
 
-macro(dashboard_hook_end)
-  unset(CTEST_BUILD_COMMAND)
-  ctest_build(TARGET "PACKAGE-OTB")
-endmacro()
-
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${OTB_INSTALL_PREFIX})
 
 list(APPEND CTEST_NOTES_FILES
