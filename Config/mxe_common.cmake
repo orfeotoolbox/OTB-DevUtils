@@ -65,7 +65,7 @@ if(NOT CTEST_TEST_TIMEOUT)
   set(CTEST_TEST_TIMEOUT 1500)
 endif()
 
-if(DEFINED ENV{dashboard_${project}_git_branch}) 
+if(DEFINED ENV{dashboard_${project}_git_branch})
   set(dashboard_git_branch $ENV{dashboard_${project}_git_branch})
 else()
   set(dashboard_git_branch nightly)
@@ -153,7 +153,7 @@ if(NOT DEFINED dashboard_large_input_root)
 endif()
 
 if(NOT DEFINED dashboard_package_target)
-  set(dashboard_package_target packages)
+  set(dashboard_package_target PACKAGE-OTB)
 endif()
 
 if(NOT DEFINED dashboard_default_target)
@@ -291,7 +291,7 @@ BUILD_EXAMPLES:BOOL=ON
 endif()
 
 if(dashboard_no_test)
-  set(mxe_common_cache " 
+  set(mxe_common_cache "
 
 ${mxe_common_cache}
 
@@ -480,11 +480,11 @@ macro(print_summary)
   foreach(req
       CTEST_CMAKE_COMMAND
       CMAKE_COMMAND
-      CMAKE_CROSSCOMPILING_EMULATOR    
+      CMAKE_CROSSCOMPILING_EMULATOR
       CTEST_CMAKE_GENERATOR
       CTEST_SITE
       CTEST_BUILD_NAME
-      CTEST_SCRIPT_DIRECTORY    
+      CTEST_SCRIPT_DIRECTORY
       CTEST_SOURCE_DIRECTORY
       CTEST_BINARY_DIRECTORY
       CTEST_CMAKE_GENERATOR
@@ -493,7 +493,7 @@ macro(print_summary)
       PROJECT
       MXE_ROOT
       MXE_TARGET_ARCH
-      dashboard_git_branch    
+      dashboard_git_branch
       )
     if(NOT DEFINED ${req})
       message(FATAL_ERROR "The containing script must set ${req}")
@@ -543,7 +543,7 @@ if(NOT test_this_script)
   file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
   if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
       AND NOT dashboard_no_clean)
-    
+
     if(EXISTS "${CTEST_BINARY_DIRECTORY}")
       message("Clearing build tree...")
       ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
@@ -609,9 +609,9 @@ macro(run_dashboard)
     #   endif()
     # endif()
   endif()
-  
+
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
-    
+
     if(NOT dashboard_no_configure)
       ctest_configure()
       ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
@@ -688,11 +688,11 @@ if(COMMAND dashboard_hook_init)
 endif()
 
 if(NOT test_this_script)
-  
+
   run_dashboard()
 
   ctest_sleep(5)
-  
+
   if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
     file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
   endif()
