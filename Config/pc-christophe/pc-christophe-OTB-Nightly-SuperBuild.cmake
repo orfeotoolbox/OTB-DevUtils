@@ -54,6 +54,7 @@ BUILD_TESTING:BOOL=ON
 ENABLE_MONTEVERDI=ON
 USE_SYSTEM_QT4:BOOL=OFF
 USE_SYSTEM_QWT:BOOL=OFF
+GENERATE_PACKAGE:BOOL=ON
 ")
 # Don't use system's QWT above because FindQwt.cmake can't find it, see:
 # https://bugs.orfeo-toolbox.org/view.php?id=1177

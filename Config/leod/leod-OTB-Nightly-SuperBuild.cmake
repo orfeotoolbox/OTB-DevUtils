@@ -5,7 +5,7 @@ set(CTEST_BUILD_NAME "MacOSX10.10-SuperBuild")
 set(dashboard_no_install 1)
 set(dashboard_build_command "/usr/bin/make -j4 -k" )
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
-
+set(CTEST_CONFIGURATION_TYPE ${CTEST_BUILD_CONFIGURATION})
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
 set(dashboard_root_name "tests")
