@@ -1,5 +1,6 @@
 # Client maintainer: manuel.grizonnet@cnes.fr
 set(dashboard_model Nightly)
+set(OTB_PROJECT Monteverdi2)
 set(CTEST_BUILD_CONFIGURATION Release)
 set (CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}")
 include(${CTEST_SCRIPT_DIRECTORY}/pc-christophe_common.cmake)
