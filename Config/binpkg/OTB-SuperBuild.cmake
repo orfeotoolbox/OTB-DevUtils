@@ -25,9 +25,9 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
 
-## set(dashboard_git_branch "nightly")
+set(dashboard_git_branch "nightly")
 
-set(dashboard_git_branch "release-5.4")
+#set(dashboard_git_branch "release-5.4")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "

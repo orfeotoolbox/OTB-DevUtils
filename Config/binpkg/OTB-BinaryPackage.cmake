@@ -44,7 +44,7 @@ BUILD_TESTING:BOOL=ON
 OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
 SUPERBUILD_BINARY_DIR:PATH=/home/mrashad/dashboard/otb/build
-SB_INSTALL_PREFIX=/home/mrashad/dashboard/otb/install
+SUPERBUILD_INSTALL_PREFIX=/home/mrashad/dashboard/otb/install
 GENERATE_PACKAGE:BOOL=ON
 ")
 endmacro()
