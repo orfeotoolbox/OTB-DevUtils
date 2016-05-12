@@ -1,9 +1,8 @@
 #!/bin/bash
 
-CURDIR=`pwd`
 print_usage () {
-    echo "Usage   : '$CURDIR/$0' <absolute-path-where-you-cloned-mxe> <perform-git-pull-for-mxe-sources: yes/no>"
-    echo "Example : '$CURDIR/$0' /home/rashad/sources/mxe yes"
+    echo "Usage   : '$0' <absolute-path-where-you-cloned-mxe> <perform-git-pull-for-mxe-sources: yes/no>"
+    echo "Example : '$0' /home/rashad/sources/mxe yes"
     exit 1;
     }
 
@@ -17,7 +16,6 @@ else
     print_usage;
 fi
 
-echo "CURDIR=$CURDIR"
 echo "MXE_DIR=$MXE_DIR"
 
 if [ -d "$MXE_DIR" ]; then
@@ -40,6 +38,14 @@ fi;
 rm -f /tmp/mxe_build_dora.log
 echo 'Sarting build of mxe and dependencies right now.'
 #now start building
-PKG_LIST="gdal ossim itk qt opencv glfw3 glew freeglut boost qwt_qt4 tinyxml muparser muparserx libsvm"
-echo "LIST OF PACKAGES="$PKG_LIST
+PKG_LIST="gdal ossim itk glfw3 glew freeglut boost tinyxml muparser muparserx libsvm"
+echo "LIST OF PACKAGES=$PKG_LIST"
 make $PKG_LIST
+
+PKG_PLUGINS_LIST="qt opencv"
+echo "LIST OF PLUGIN PACKAGES=$PKG_PLUGINS_LIST"
+make qt MXE_PLUGIN_DIRS='plugins/qt4'
+make opencv MXE_PLUGIN_DIRS='plugins/opencv'
+
+#why here?. build only after qt4
+make qwt5_qt4
