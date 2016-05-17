@@ -24,7 +24,7 @@ set(dashboard_binary_name "otb/pkg-otb")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src/)
 
-set(dashboard_git_branch "release-5.4")
+#set(dashboard_git_branch "release-5.4")
 
 # cmake ~/dashboard/otb/src/SuperBuild/Packaging \
 # -DSUPERBUILD_BINARY_DIR=/home/mrashad/dashboard/otb/build \
@@ -44,7 +44,7 @@ BUILD_TESTING:BOOL=ON
 OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
 SUPERBUILD_BINARY_DIR:PATH=/home/mrashad/dashboard/otb/build
-SUPERBUILD_INSTALL_PREFIX=/home/mrashad/dashboard/otb/install
+SUPERBUILD_INSTALL_DIR:PATH=/home/mrashad/dashboard/otb/install
 GENERATE_PACKAGE:BOOL=ON
 ")
 endmacro()
