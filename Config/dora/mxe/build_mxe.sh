@@ -49,3 +49,5 @@ make opencv MXE_PLUGIN_DIRS='plugins/opencv'
 
 #why here?. build only after qt4
 make qwt5_qt4
+
+make otbxdk
