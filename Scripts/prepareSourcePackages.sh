@@ -7,7 +7,7 @@
 #     - OUTPUT_DIR : a directory to place the generated archives.
 
 if [ $# -lt 2 ] ; then
-  echo "Usage : $0 CLONES_ROOT_DIR  OUTPUT_DIR"
+  echo "Usage : $0 CLONES_ROOT_DIR  OUTPUT_DIR [rc]"
   exit 0
 fi
 
@@ -15,11 +15,15 @@ CLONE_DIR=`readlink -f $1`
 OUT_DIR=`readlink -f $2`
 
 #for project in OTB Monteverdi Monteverdi2 Ice ; do
-for project in OTB Ice Monteverdi2; do
+for project in OTB Monteverdi2; do
   cd $CLONE_DIR/$project
   
   # Extract last tagged version identifier
-  full_version=$(git tag | grep -E '[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 1)
+  if [ $# -eq 3 ] ; then
+    full_version=$(git tag | grep -E '[0-9]+\.[0-9]+\.[0-9]+-.*$' | tail -n 1)
+  else
+    full_version=$(git tag | grep -E '[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 1)
+  fi
   #echo "$project : $full_version"
 
   case $project in
