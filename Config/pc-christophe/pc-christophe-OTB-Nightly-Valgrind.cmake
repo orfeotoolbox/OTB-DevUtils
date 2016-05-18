@@ -30,7 +30,7 @@ macro(dashboard_hook_init)
     BUILD_APPLICATIONS:BOOL=ON
     
     ## ITK
-    ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.9
+    ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.10
 
     ## OSSIM
     OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/master/include

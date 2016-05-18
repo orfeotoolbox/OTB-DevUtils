@@ -18,7 +18,7 @@ SET(BUILD_EXAMPLES ON CACHE BOOL "" FORCE)
 SET(BUILD_APPLICATIONS ON CACHE BOOL "" FORCE)
 
 ##external ITK
-SET(ITK_DIR "/home/otbtesting/install/itk/stable/Release/lib/cmake/ITK-4.9" CACHE STRING "" FORCE)
+SET(ITK_DIR "/home/otbtesting/install/itk/stable/Release/lib/cmake/ITK-4.10" CACHE STRING "" FORCE)
 
 ##external OSSIM
 SET(OSSIM_INCLUDE_DIR "/home/otbtesting/install/ossim/master/include" CACHE STRING "" FORCE)
