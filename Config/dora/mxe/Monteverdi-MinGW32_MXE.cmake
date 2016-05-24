@@ -13,6 +13,7 @@ set(dashboard_cxx_flags "-Wno-deprecated -Wno-uninitialized -Wno-unused-variable
 macro(dashboard_hook_init)
 set(dashboard_cache "
 OTB_SOURCE_DIR:PATH=/data/dashboard/nightly/otb-Release/src
+GENERATE_PACKAGE=ON
 ")
 endmacro()
 
