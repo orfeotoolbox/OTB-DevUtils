@@ -10,7 +10,7 @@ set(CTEST_DROP_SITE_CDASH TRUE)
 
 set(dashboard_model Nightly)
 set(dashboard_no_install 1)
-set(dashboard_build_command "/usr/bin/make -j1 -k" )
+set(dashboard_build_command "/usr/bin/make -j1  PACKAGE-OTB" )
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
 #need to set site after inclue leod_common to overwrite existing one..
