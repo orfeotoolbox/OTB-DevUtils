@@ -31,6 +31,9 @@ set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src/)
 # -DSB_INSTALL_PREFIX=/home/mrashad/dashboard/otb/install \
 # -DGENERATE_XDK=ON
 
+set(SUPERBUILD_BINARY_DIR ${CTEST_DASHBOARD_ROOT}/otb/build)
+set(SUPERBUILD_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install)
+
 macro(dashboard_hook_init)
 set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=/tmp/install-pkg-otb
@@ -42,8 +45,8 @@ BUILD_TESTING:BOOL=ON
 
 OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
-SUPERBUILD_BINARY_DIR:PATH=/home/mrashad/dashboard/otb/build
-SUPERBUILD_INSTALL_DIR:PATH=/home/mrashad/dashboard/otb/install
+SUPERBUILD_BINARY_DIR:PATH=${SUPERBUILD_BINARY_DIR}
+SUPERBUILD_INSTALL_DIR:PATH=${SUPERBUILD_INSTALL_DIR}
 GENERATE_PACKAGE:BOOL=ON
 ")
 endmacro()
@@ -65,5 +68,10 @@ macro(dashboard_hook_test)
   file(WRITE "${BuildLog_dir}/Configure.xml" "${configure_xml_CONTENTS_NEW}")
 endmacro()
 
+macro(dashboard_hook_end)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${SUPERBUILD_BINARY_DIR})
+  execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory    ${SUPERBUILD_BINARY_DIR})
+  execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${SUPERBUILD_INSTALL_DIR})
+endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
