@@ -4,7 +4,7 @@ set(OTB_ARCH x86) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_TARGET INSTALL)
 set(CTEST_BUILD_COMMAND "jom OTB")
-set(CTEST_BUILD_NAME "Win7-OTB-SuperBuild-vc10-x86-Release")
+set(CTEST_BUILD_NAME "Win7-OTB-vc10-x86-Release-SuperBuild")
 
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 

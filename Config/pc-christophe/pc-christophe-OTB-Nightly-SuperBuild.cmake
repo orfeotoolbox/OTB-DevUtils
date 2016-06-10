@@ -10,7 +10,6 @@ set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
 set(CTEST_TEST_TIMEOUT 1500)
 set(CTEST_USE_LAUNCHERS ON)
 set(CTEST_GIT_COMMAND "/usr/bin/git")
-set(CTEST_DASHBOARD_TRACK SuperBuild)
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
