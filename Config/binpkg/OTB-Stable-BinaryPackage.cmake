@@ -2,11 +2,11 @@ set(dashboard_model Nightly)
 set(OTB_PROJECT OTB)
 set(CTEST_DASHBOARD_ROOT "/home/mrashad/dashboard")
 set(CMAKE_COMMAND "/home/mrashad/tools/cmake-3.4.0/bin/cmake" )
-set(CTEST_SITE "baker.c-s.fr")
+set(CTEST_SITE "binpkg.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_CMAKE_COMMAND "${CMAKE_COMMAND}")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -k -j1 PACKAGE-OTB" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -k -j1" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
 set(CTEST_TEST_TIMEOUT 500)
 set(CTEST_GIT_COMMAND "/usr/bin/git")
@@ -48,7 +48,7 @@ BUILD_TESTING:BOOL=ON
 OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
 SUPERBUILD_BINARY_DIR:PATH=${SUPERBUILD_BINARY_DIR}
-SUPERBUILD_INSTALL_DIR:PATH=${SUPERBUILD_INSTALL_DIR}
+SB_INSTALL_PREFIX:PATH=${SUPERBUILD_INSTALL_DIR}
 GENERATE_PACKAGE:BOOL=ON
 ")
 endmacro()

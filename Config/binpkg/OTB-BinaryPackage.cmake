@@ -1,7 +1,7 @@
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "/home/mrashad/dashboard")
 set(CMAKE_COMMAND "/home/mrashad/tools/cmake-3.4.0/bin/cmake" )
-set(CTEST_SITE "baker.c-s.fr")
+set(CTEST_SITE "binpkg.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Linux-x86_64-BinaryPackage")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
