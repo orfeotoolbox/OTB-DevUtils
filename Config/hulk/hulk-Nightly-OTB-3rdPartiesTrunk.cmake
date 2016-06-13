@@ -7,6 +7,7 @@ include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")
 set(dashboard_binary_name "build/OTB-3rdPartiesTrunk")
+set(CTEST_DASHBOARD_TRACK Experimental)
 
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-3rdPartiesTrunk)
 
