@@ -28,6 +28,12 @@ set(dashboard_git_branch "nightly")
 
 #set(dashboard_git_branch "release-5.4")
 
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${OTB_INSTALL_PREFIX})
+
+list(APPEND CTEST_TEST_ARGS
+  BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
+)
+
 macro(dashboard_hook_init)
 set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
@@ -111,15 +117,9 @@ GENERATE_PACKAGE:BOOL=OFF
 endmacro()
 
 
-# list(APPEND CTEST_TEST_ARGS
-#   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
-# )
-
 macro(dashboard_hook_test)
   set(ENV{LD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
 endmacro()
-
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${OTB_INSTALL_PREFIX})
 
 list(APPEND CTEST_NOTES_FILES
   ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/CMakeCache.txt
