@@ -6,3 +6,4 @@ rfc-35-superbuild-gdal
 train_vector_classifier
 clang-tidy-modernize
 cmake_summary
+rfc-26-mpi_writer
