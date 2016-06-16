@@ -28,3 +28,6 @@ if(NOT DEFINED CTEST_BUILD_COMMAND)
   endif()
 endif()
 
+# This is needed for cmake to find openmpi properly on pc-christophe
+set(ENV{CMAKE_PREFIX_PATH} $ENV{CMAKE_PREFIX_PATH}:"/usr/lib64/openmpi/")
+
