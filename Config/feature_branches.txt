@@ -2,7 +2,6 @@ samples_selection samples_selection
 ENH-FineRegistration ENH-FineRegistration2
 dashboard-hell
 Enhance_ManageNodata_app
-rfc-35-superbuild-gdal
 train_vector_classifier
 clang-tidy-modernize
 cmake_summary
