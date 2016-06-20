@@ -1,5 +1,4 @@
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_DASHBOARD_TRACK Nightly)
 set(CTEST_BUILD_NAME "MacOSX-10.10-BinaryPackage")
 set(CTEST_USE_LAUNCHERS ON)
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
@@ -12,9 +11,6 @@ set(dashboard_model Nightly)
 set(dashboard_no_install 1)
 set(dashboard_build_command "/usr/bin/make -j1  PACKAGE-OTB" )
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
-
-#need to set site after inclue leod_common to overwrite existing one..
-set(CTEST_SITE "baker.c-s.fr")
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild/Packaging")

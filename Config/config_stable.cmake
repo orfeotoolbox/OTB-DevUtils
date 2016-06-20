@@ -5,7 +5,7 @@ if(NOT DEFINED OTB_PROJECT)
 endif()
 
 # --------- Common switch to enable/disable release builds --------------------
-set(CONFIG_STABLE_SWITCH OFF)
+set(CONFIG_STABLE_SWITCH ON)
 # ------------- Version section -----------------------------
 # update before each release
 set(OTB_STABLE_VERSION 5.4)

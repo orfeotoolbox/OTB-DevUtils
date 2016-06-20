@@ -1,4 +1,5 @@
 set(dashboard_model Nightly)
+set(OTB_PROJECT OTB)
 set(CTEST_DASHBOARD_ROOT "/home/mrashad/dashboard")
 set(CTEST_SITE "binpkg.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
@@ -19,20 +20,14 @@ set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
 set(dashboard_source_name "otb/src/SuperBuild")
-set(dashboard_binary_name "otb/build")
+set(dashboard_binary_name "otb/build-stable")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
+set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install-stable)
 
-set(dashboard_git_branch "nightly")
+include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
-#set(dashboard_git_branch "release-5.4")
-
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${OTB_INSTALL_PREFIX})
-
-list(APPEND CTEST_TEST_ARGS
-  BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
-)
+set(CTEST_BUILD_NAME "CentOS-5-x86_64-${dashboard_git_branch}-SuperBuild")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
@@ -117,9 +112,15 @@ GENERATE_PACKAGE:BOOL=OFF
 endmacro()
 
 
+# list(APPEND CTEST_TEST_ARGS
+#   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
+# )
+
 macro(dashboard_hook_test)
   set(ENV{LD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
 endmacro()
+
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${OTB_INSTALL_PREFIX})
 
 list(APPEND CTEST_NOTES_FILES
   ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/CMakeCache.txt

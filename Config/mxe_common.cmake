@@ -80,7 +80,11 @@ if(NOT DEFINED CTEST_BUILD_NAME)
 endif()
 
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
-  set(CTEST_DASHBOARD_TRACK CrossCompile)
+  if("${dashboard_git_branch}" STREQUAL "nightly")
+    set(CTEST_DASHBOARD_TRACK Develop)
+  else()
+    set(CTEST_DASHBOARD_TRACK LatestRelease)
+  endif()
 endif()
 
 set(build_directory_name MinGW)
