@@ -85,6 +85,8 @@ OpenJPEG_DIR:PATH=$ENV{HOME}/local/lib/openjpeg-2.1
 
 OSSIM_INCLUDE_DIR:STRING=$ENV{HOME}/local/include
 OSSIM_LIBRARY:FILEPATH=$ENV{HOME}/local/lib/libossim.so
+# OSSIM_INCLUDE_DIR:STRING=$ENV{HOME}/build/ossim/include
+# OSSIM_LIBRARY:FILEPATH=$ENV{HOME}/build/ossim/lib/libossim.so
 
 GDAL_INCLUDE:STRING=$ENV{HOME}/local/include
 GDAL_LIBRARY:FILEPATH=$ENV{HOME}/local/lib/libgdal.so

@@ -12,9 +12,6 @@ set(dashboard_no_install 1)
 set(dashboard_build_command "/usr/bin/make -j1  PACKAGE-OTB" )
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
-#need to set site after inclue leod_common to overwrite existing one..
-set(CTEST_SITE "baker.c-s.fr")
-
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild/Packaging")
 set(dashboard_binary_name "${lcdashboard_model}/OTB-SuperBuild/pkg-otb")
