@@ -9,5 +9,4 @@ rfc-39-SAR
 >>>>>>> bf6729ab1e688cb79776d4720202ba3be06de285
 train_vector_classifier
 clang-tidy-modernize
-cmake_summary
 rfc-26-mpi_writer
