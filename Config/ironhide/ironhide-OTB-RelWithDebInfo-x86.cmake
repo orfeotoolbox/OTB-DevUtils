@@ -15,7 +15,7 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
