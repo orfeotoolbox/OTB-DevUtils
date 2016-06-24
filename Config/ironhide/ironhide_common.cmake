@@ -36,7 +36,7 @@ endif()
 endif()
 # switch to Ninja builders instead of Visual Studio projects
 if (NOT DEFINED dashboard_build_command)
-  set(dashboard_build_command "jom")
+  set(dashboard_build_command "nmake")
 endif()
 
 if (NOT DEFINED CTEST_TEST_ARGS)
