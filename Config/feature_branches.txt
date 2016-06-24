@@ -5,3 +5,4 @@ rfc-26-mpi_writer
 dev-sar-s1
 uninstall
 completion_generator
+sampling_extraction
