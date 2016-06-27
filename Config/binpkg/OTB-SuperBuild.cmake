@@ -4,8 +4,6 @@ set(CTEST_SITE "binpkg.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "CentOS-5-x86_64-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CMAKE_COMMAND "/home/mrashad/tools/cmake-3.4.0/bin/cmake" )
-set(CTEST_CMAKE_COMMAND "${CMAKE_COMMAND}")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 set(CTEST_TEST_TIMEOUT 500)
@@ -27,8 +25,6 @@ set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
 set(dashboard_git_branch "nightly")
 
 #set(dashboard_git_branch "release-5.4")
-
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${OTB_INSTALL_PREFIX})
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
@@ -64,6 +60,7 @@ USE_SYSTEM_LIBKML:BOOL=OFF
 USE_SYSTEM_FFTW:BOOL=OFF
 USE_SYSTEM_ITK:BOOL=OFF
 
+USE_SYSTEM_FREETYPE:BOOL=ON
 USE_SYSTEM_OPENTHREADS:BOOL=OFF
 USE_SYSTEM_OSSIM:BOOL=OFF
 
