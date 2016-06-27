@@ -45,8 +45,9 @@ if (NOT DEFINED CTEST_TEST_TIMEOUT)
 set(CTEST_TEST_TIMEOUT 1500)
 endif()
 
-set(CTEST_GIT_COMMAND "C:/Program Files (x86)/Git/bin/git.exe")
-set(CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
+#let it auto-detected by cmake.
+#set(CTEST_GIT_COMMAND "C:/Program Files (x86)/Git/bin/git.exe")
+#set(CTEST_CMAKE_COMMAND "C:/Program Files (x86)/CMake 2.8/bin/cmake.exe")
 # set(CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 
 # build a shorted binary path (OTB needs source and binary paths < 50)

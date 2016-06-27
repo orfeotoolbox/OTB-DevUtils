@@ -2,7 +2,7 @@
 set(OTB_PROJECT OTB) # OTB / Monteverdi / Monteverdi2
 set(OTB_ARCH x86) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
-set(CTEST_BUILD_NAME "Win7-vc10-${CTEST_BUILD_CONFIGURATION}-${OTB_ARCH}")
+set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_BUILD_TARGET INSTALL)
 include(${CTEST_SCRIPT_DIRECTORY}/ironhide_common.cmake)
 
@@ -15,7 +15,7 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
