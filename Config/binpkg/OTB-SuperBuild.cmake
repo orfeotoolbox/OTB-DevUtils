@@ -26,8 +26,6 @@ set(dashboard_git_branch "nightly")
 
 #set(dashboard_git_branch "release-5.4")
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${OTB_INSTALL_PREFIX})
-
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
 )

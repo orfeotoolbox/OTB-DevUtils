@@ -118,8 +118,6 @@ macro(dashboard_hook_test)
   set(ENV{LD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
 endmacro()
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${OTB_INSTALL_PREFIX})
-
 list(APPEND CTEST_NOTES_FILES
   ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/CMakeCache.txt
   ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/otbConfigure.h
