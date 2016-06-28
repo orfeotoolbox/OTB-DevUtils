@@ -1,8 +1,8 @@
 Enhance_ManageNodata_app
 rfc-39-SAR
-train_vector_classifier
+sampling_extraction
 rfc-26-mpi_writer
 dev-sar-s1 dev-sar-s1
 uninstall
-sampling_extraction
+train_vector_classifier
 improve_CompareImages_app improve_CompareImages_app_data
