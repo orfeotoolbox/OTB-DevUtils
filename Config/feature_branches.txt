@@ -5,3 +5,4 @@ rfc-26-mpi_writer
 dev-sar-s1 dev-sar-s1
 uninstall
 sampling_extraction
+improve_CompareImages_app improve_CompareImages_app_data
