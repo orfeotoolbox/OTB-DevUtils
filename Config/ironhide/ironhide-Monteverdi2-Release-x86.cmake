@@ -29,6 +29,9 @@ Monteverdi_USE_CPACK:BOOL=ON
 
 OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/otb/develop/lib/cmake/OTB-5.5
 
+QWT_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/Qwt-5.2.3/include
+QWT_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/Qwt-5.2.3/lib/qwt5.lib
+
 #ICUUC_INCLUDE_DIR:PATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/include
 #ICUUC_LIBRARY:FILEPATH=C:/Program Files (x86)/icu4c-4_2_1-Win32-msvc9/icu/lib/icuuc.lib
 #LTDL_INCLUDE_DIR:PATH=C:/Program Files (x86)/GnuWin32/include
