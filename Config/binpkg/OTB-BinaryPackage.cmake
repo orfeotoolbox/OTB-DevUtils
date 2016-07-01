@@ -21,7 +21,7 @@ set(dashboard_binary_name "otb/pkg-otb")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src/)
 
-#set(dashboard_git_branch "release-5.4")
+set(dashboard_git_branch "nightly")
 
 # cmake ~/dashboard/otb/src/SuperBuild/Packaging \
 # -DSUPERBUILD_BINARY_DIR=/home/mrashad/dashboard/otb/build \
@@ -64,12 +64,6 @@ macro(dashboard_hook_test)
   string(REPLACE "</Log>" "${LastBuildLog_CONTENTS}\n</Log>" configure_xml_CONTENTS_NEW "${configure_xml_CONTENTS}")
   string(REPLACE ";" "\n" configure_xml_CONTENTS_NEW "${configure_xml_CONTENTS_NEW}")
   file(WRITE "${BuildLog_dir}/Configure.xml" "${configure_xml_CONTENTS_NEW}")
-endmacro()
-
-macro(dashboard_hook_end)
-  execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${SUPERBUILD_BINARY_DIR})
-  execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory    ${SUPERBUILD_BINARY_DIR})
-  execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory  ${SUPERBUILD_INSTALL_DIR})
 endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

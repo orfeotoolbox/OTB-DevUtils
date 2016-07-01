@@ -24,7 +24,6 @@ set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
 
 set(dashboard_git_branch "nightly")
 
-#set(dashboard_git_branch "release-5.4")
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
