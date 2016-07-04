@@ -3,4 +3,3 @@ train_vector_classifier
 rfc-26-mpi_writer
 dev-sar-s1 dev-sar-s1
 uninstall
-improve_CompareImages_app improve_CompareImages_app_data
