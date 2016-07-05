@@ -67,8 +67,6 @@ list(APPEND CTEST_NOTES_FILES
   ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/otbConfigure.h
 )
 
-include(${CTEST_DASHBOARD_ROOT}/otb_common.cmake)
-
 macro(dashboard_hook_test)
 # before testing, set the DYLD_LIBRARY_PATH
 set(ENV{DYLD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
