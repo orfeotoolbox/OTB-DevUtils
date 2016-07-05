@@ -17,7 +17,7 @@ set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
 set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
-set(dashboard_source_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src")
+set(dashboard_source_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild")
 set(dashboard_binary_name "nightly/OTB-SuperBuild/build")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src)
 
