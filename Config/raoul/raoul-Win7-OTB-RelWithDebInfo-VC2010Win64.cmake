@@ -48,7 +48,7 @@ OpenJPEG_DIR:PATH=${OSGEO4W_ROOT}/lib/openjpeg-2.0
 
 Boost_INCLUDE_DIR:PATH=${OSGEO4W_ROOT}/include/boost-1_56
 Boost_LIBRARY_DIR:PATH=${OSGEO4W_ROOT}/lib
-Boost_UNIT_TEST_FRAMEWORK_LIBRARY_RELEASE:PATH=${OSGEO4W_ROOT}/lib/boost_unit_test_framework-vc110-mt-1_56.lib
+# Boost_UNIT_TEST_FRAMEWORK_LIBRARY_RELEASE:PATH=${OSGEO4W_ROOT}/lib/boost_unit_test_framework-vc110-mt-1_56.lib
 
 ITK_DIR:PATH=${OSGEO4W_ROOT}/lib/cmake/ITK-4.7
 
