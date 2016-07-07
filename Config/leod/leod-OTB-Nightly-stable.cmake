@@ -2,10 +2,10 @@
 set(dashboard_model Nightly)
 set(OTB_PROJECT OTB)
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}-stable")
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
+set(CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}-${dashboard_git_branch}")
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
 set(dashboard_root_name "tests")
