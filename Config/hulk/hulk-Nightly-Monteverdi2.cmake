@@ -30,7 +30,7 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Dashboard/src/OTB-Data
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/install/OTB-RelWithDebInfo/lib/cmake/OTB-5.5
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/install/OTB-RelWithDebInfo/lib/cmake/OTB-5.7
 
 # ICE_INCLUDE_DIR=$ENV{HOME}/Dashboard/install/Ice-Release/include/
 # ICE_LIBRARY=$ENV{HOME}/Dashboard/install/Ice-Release/lib/libOTBIce.so

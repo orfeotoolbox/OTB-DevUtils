@@ -27,7 +27,7 @@ OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 
 Monteverdi_USE_CPACK:BOOL=ON
 
-OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/otb/develop/lib/cmake/OTB-5.5
+OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/otb/develop/lib/cmake/OTB-5.7
 
 QWT_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/Qwt-5.2.3/include
 QWT_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/Qwt-5.2.3/lib/qwt5.lib
