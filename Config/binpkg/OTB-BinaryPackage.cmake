@@ -21,7 +21,8 @@ set(dashboard_binary_name "otb/pkg-otb")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src/)
 
-set(dashboard_git_branch "nightly")
+#set(dashboard_git_branch "nightly")
+set(dashboard_git_branch "release-5.6")
 
 # cmake ~/dashboard/otb/src/SuperBuild/Packaging \
 # -DSUPERBUILD_BINARY_DIR=/home/mrashad/dashboard/otb/build \
