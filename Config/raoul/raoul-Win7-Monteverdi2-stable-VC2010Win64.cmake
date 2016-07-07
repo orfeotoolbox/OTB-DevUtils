@@ -3,10 +3,10 @@ set(OTB_PROJECT Monteverdi2) # OTB / Monteverdi / Monteverdi2 / Ice
 set(OTB_ARCH amd64) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_COMMAND  "jom packages")
-set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-Stable")
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
+set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-${dashboard_git_branch}")
 set(CTEST_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/Monteverdi2-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION})
 set(dashboard_binary_name "build/Monteverdi2-stable-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}")
 

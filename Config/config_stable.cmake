@@ -8,8 +8,8 @@ endif()
 set(CONFIG_STABLE_SWITCH ON)
 # ------------- Version section -----------------------------
 # update before each release
-set(OTB_STABLE_VERSION 5.4)
-set(MONTEVERDI_STABLE_VERSION 3.2)
+set(OTB_STABLE_VERSION 5.6)
+set(MONTEVERDI_STABLE_VERSION 3.4)
 # ----------------------------------------------------------
 
 set(OTB_STABLE_DIR_SUFFIX lib/cmake/OTB-${OTB_STABLE_VERSION})
