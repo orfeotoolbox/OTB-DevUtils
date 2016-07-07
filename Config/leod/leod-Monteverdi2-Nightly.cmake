@@ -32,10 +32,8 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 CMAKE_C_FLAGS:STRING= -Wall
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-gnu -Wno-\\\\#warnings
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/install/lib/cmake/OTB-5.5
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build
 
-# ICE_INCLUDE_DIR:PATH=$ENV{HOME}/Dashboard/nightly/Ice-Release/install/include
-# ICE_LIBRARY:FILEPATH=$ENV{HOME}/Dashboard/nightly/Ice-Release/install/lib/libOTBIce.dylib
 
 Monteverdi_USE_CPACK:BOOL=ON
 
