@@ -520,7 +520,22 @@ while(NOT dashboard_done)
   set(ENV{HOME} "${dashboard_user_home}")
   set(dashboard_current_branch ${dashboard_git_branch})
 
+  # Checkout specific data branch if any
+  if(DEFINED specific_data_branch_for_${dashboard_git_branch})
+    execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${specific_data_branch_for_${dashboard_git_branch}} -P ${_git_updater_script}
+                    WORKING_DIRECTORY ${dashboard_otb_data_root})
+    message("Set data branch to ${specific_data_branch_for_${branch}}")
+  endif()
+
+  # Run the main dashboard macro
   run_dashboard()
+
+  # reset data to Nightly branch
+  if(DEFINED specific_data_branch_for_${dashboard_git_branch})
+    execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=nightly -P ${_git_updater_script}
+                    WORKING_DIRECTORY ${dashboard_otb_data_root})
+    message("Reset data")
+  endif()
 
   # test additional feature branches
   if(number_additional_branches GREATER 0)

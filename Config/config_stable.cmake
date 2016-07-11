@@ -17,6 +17,7 @@ set(CTEST_BUILD_CONFIGURATION Release)
 
 if(${OTB_PROJECT} STREQUAL "OTB")
   set(dashboard_git_branch release-${OTB_STABLE_VERSION})
+  set(specific_data_branch_for_${dashboard_git_branch} release-${OTB_STABLE_VERSION})
 elseif(${OTB_PROJECT} STREQUAL "Monteverdi2")
   set(dashboard_git_branch release-${MONTEVERDI_STABLE_VERSION})
 endif()
