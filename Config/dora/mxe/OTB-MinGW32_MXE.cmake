@@ -5,6 +5,8 @@ set(MXE_TARGET_ARCH "i686")
 set(PROJECT "otb")
 set(CTEST_TEST_ARGS INCLUDE Tu)
 
+set(CTEST_TEST_ARGS INCLUDE Tu)
+
 macro(dashboard_hook_init)
 set(dashboard_cache "
 OTB_USE_CURL:BOOL=ON
