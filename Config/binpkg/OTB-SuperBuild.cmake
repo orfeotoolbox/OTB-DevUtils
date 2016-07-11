@@ -22,7 +22,7 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
 
-set(dashboard_git_branch "nightly")
+set(dashboard_git_branch "bugfix-1241")
 
 
 list(APPEND CTEST_TEST_ARGS
