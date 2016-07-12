@@ -14,8 +14,10 @@ if("${_FULL_CONTENT_STABLE_UP}" MATCHES ".*[^#] *SET *\\( *CONFIG_STABLE_SWITCH 
   unset(OTB_PROJECT)
   set(OTB_DIR $ENV{HOME}/Dashboard/build/OTB-stable)
   set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${OTB_STABLE_VERSION}")
+  set(CTEST_DASHBOARD_TRACK LatestRelease)
 else()
   set(OTB_DIR $ENV{HOME}/Dashboard/build/OTB-GDAL_2.0)
+  set(CTEST_DASHBOARD_TRACK Develop)
 endif()
 
 set(dashboard_root_name "tests")

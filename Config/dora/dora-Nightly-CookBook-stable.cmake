@@ -8,6 +8,8 @@ include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 unset(OTB_PROJECT)
 set(CTEST_BUILD_NAME "Ubuntu12.04-64bits-CookBook-${dashboard_git_branch}")
 
+set(CTEST_DASHBOARD_TRACK LatestRelease)
+
 set(dashboard_otb_binary "nightly/OTB-Release/build-stable")
 
 set(dashboard_root_name "tests")
