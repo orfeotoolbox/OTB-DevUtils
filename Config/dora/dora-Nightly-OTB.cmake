@@ -1,15 +1,8 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
-set(CTEST_SITE "dora.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Ubuntu12.04-64bits-${CTEST_BUILD_CONFIGURATION}")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j8 -i -k install" )
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 500)
-
-set(CTEST_GIT_COMMAND "/usr/bin/git")
+include(${CTEST_SCRIPT_DIRECTORY}/dora_common.cmake)
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
@@ -30,7 +23,7 @@ macro(dashboard_hook_init)
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra -Wno-cpp
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra -Wno-cpp -DTIFF_LONG8=16 -DTIFF_SLONG8=17 -DTIFF_IFD8=18
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
