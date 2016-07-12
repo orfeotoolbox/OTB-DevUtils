@@ -33,7 +33,7 @@ CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra -Wno-cpp
 
 BUILD_TESTING:BOOL=ON
-BUILD_EXAMPLES:BOOL=OFF
+BUILD_EXAMPLES:BOOL=ON
 
 OTB_WRAP_PYTHON:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
@@ -48,6 +48,7 @@ ITK_DIR:PATH=/home/otbval/Tools/ITK-4.7.1/install/lib/cmake/ITK-4.7
 OTB_USE_CURL:BOOL=ON
 OTB_USE_LIBKML:BOOL=ON
 OTB_USE_LIBSVM:BOOL=ON
+OTB_USE_MAPNIK:BOOL=ON
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
@@ -58,6 +59,9 @@ OTB_USE_OPENGL:BOOL=ON
 OTB_USE_GLEW:BOOL=ON
 OTB_USE_GLFW:BOOL=ON
 OTB_USE_GLUT:BOOL=ON
+
+OTB_USE_MPI:BOOL=ON
+OTB_USE_SPTW:BOOL=ON
 
 MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
@@ -75,6 +79,9 @@ LIBKML_XSD_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlxsd.so
 OpenJPEG_DIR:PATH=/home/otbval/Tools/OpenJpeg_2.1/install/lib/openjpeg-2.1
 
 OpenCV_DIR:PATH=/home/otbval/Tools/OpenCV/install/share/OpenCV
+
+MAPNIK_INCLUDE_DIR:PATH=/home/otbval/Tools/mapnik/install/include
+MAPNIK_LIBRARY:FILEPATH=/home/otbval/Tools/mapnik/install/lib/libmapnik2.so
 
     ")
 endmacro()
