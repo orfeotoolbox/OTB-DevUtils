@@ -4,6 +4,8 @@ set(CTEST_SITE "bumblebee.c-s.fr")
 set(MXE_TARGET_ARCH "x86_64")
 set(PROJECT "otb")
 
+set(dashboard_git_branch release-5.6)
+
 set(CTEST_TEST_ARGS INCLUDE Tu)
 
 macro(dashboard_hook_init)
