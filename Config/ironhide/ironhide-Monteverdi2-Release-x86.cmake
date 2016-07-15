@@ -11,6 +11,8 @@ set(MVD_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/monteverdi/develop)
 
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/monteverdi2.git")
 
+set(dashboard_no_install 1)
+
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 CMAKE_INSTALL_PREFIX:PATH=${MVD_INSTALL_PREFIX}
@@ -27,7 +29,7 @@ OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 
 Monteverdi_USE_CPACK:BOOL=ON
 
-OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/otb/develop/lib/cmake/OTB-5.7
+OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/otb/develop
 
 QWT_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/Qwt-5.2.3/include
 QWT_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/Qwt-5.2.3/lib/qwt5.lib

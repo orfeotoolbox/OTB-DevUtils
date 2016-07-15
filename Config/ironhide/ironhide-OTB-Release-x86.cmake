@@ -14,6 +14,8 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
 
+set(dashboard_no_install 1)
+
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
