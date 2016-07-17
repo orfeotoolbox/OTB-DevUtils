@@ -140,7 +140,7 @@ endif()
 
 if(NOT MSVC)
   set(dashboard_cc_flags -Wall)
-  set(dashboard_cxx_flags -Wall -Wno-cpp)
+  set(dashboard_cxx_flags -Wall)
 endif()
 
 if(dashboard_cc_flags)
