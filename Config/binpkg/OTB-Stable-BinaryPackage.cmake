@@ -4,7 +4,7 @@ set(CTEST_DASHBOARD_ROOT "/home/mrashad/dashboard")
 set(CTEST_SITE "binpkg.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -k -j1" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -k -j1 PACKAGE-OTB" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
 set(CTEST_TEST_TIMEOUT 500)
 set(CTEST_GIT_COMMAND "/usr/bin/git")
@@ -20,8 +20,6 @@ set(dashboard_source_name "otb/src/SuperBuild/Packaging")
 set(dashboard_binary_name "otb/pkg-otb-stable")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src/)
-
-set(dashboard_git_branch "release-5.4")
 
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
