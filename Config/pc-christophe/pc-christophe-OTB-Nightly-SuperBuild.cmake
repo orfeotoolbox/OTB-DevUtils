@@ -21,7 +21,7 @@ set(OTB_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild")
 
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nightly)
-set(dashboard_git_branch release-5.6)
+#set(dashboard_git_branch release-5.6)
 
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
 set(CTEST_DROP_METHOD "http")
@@ -49,7 +49,7 @@ macro(dashboard_hook_init)
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
-DOWNLOAD_LOCATION:PATH=${CTEST_DASHBOARD_ROOT}/sources/archives-superbuild-trunk
+DOWNLOAD_LOCATION:PATH=${CTEST_DASHBOARD_ROOT}/sources/archives-superbuild-develop/
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 ENABLE_OTB_LARGE_INPUTS:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=/media/TeraDisk2/LargeInput
