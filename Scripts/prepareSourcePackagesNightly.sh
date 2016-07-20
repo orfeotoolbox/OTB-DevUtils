@@ -5,6 +5,8 @@
 # Input : 
 #     - CLONES_ROOT_DIR : a directory containg clones of all the above listed projects
 #     - OUTPUT_DIR : a directory to place the generated archives.
+# In addition, the OTB-Data repository is used to generate the OTB-Data-Example archive
+# using the latest release branch
 
 if [ $# -lt 2 ] ; then
   echo "Usage : $0 CLONES_ROOT_DIR  OUTPUT_DIR"
@@ -50,4 +52,14 @@ for project in OTB Monteverdi2; do
     git archive --format=$format -o $OUT_DIR/$pkg_name-$latest_release-$hash_release.$format --prefix=$pkg_name-$latest_release/ origin/$latest_release
   done
   
+done
+
+# Generate OTB-Data-Example
+cd $CLONE_DIR/OTB-Data
+# Extract latest release branch
+latest_release=$(git branch -r | grep -E -o 'release-[0-9]+\.[0-9]+$' | tail -n 1)
+for format in zip tgz; do
+  # latest release
+  echo Generating $OUT_DIR/OTB-Data-Examples.$format
+  git archive --format=$format -o $OUT_DIR/OTB-Data-Examples.$format origin/$latest_release Examples
 done
