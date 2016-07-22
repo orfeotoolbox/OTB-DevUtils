@@ -33,7 +33,7 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 CMAKE_C_FLAGS:STRING= -Wall
 CMAKE_CXX_FLAGS:STRING= -Wall -Wno-gnu -Wno-\\\\#warnings
 
-OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build/build-stable/lib/cmake/OTB-5.6
+OTB_DIR:STRING=$ENV{HOME}/Dashboard/nightly/OTB-Release/build/build-stable
 
 Monteverdi_USE_CPACK:BOOL=ON
 
