@@ -1,13 +1,15 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
+set(OTB_PROJECT OTB)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_CONFIGURATION_TYPE Release)
-set(CTEST_BUILD_NAME "MacOSX10.10-SuperBuild")
 set(dashboard_no_install 1)
 set(dashboard_build_command "/usr/bin/make -j4 -k" )
 
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
+set(CTEST_BUILD_NAME "MacOSX10.10-SuperBuild-${dashboard_git_branch}")
 
 set(CTEST_USE_LAUNCHERS ON)
 
@@ -18,10 +20,10 @@ set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
 set(dashboard_source_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild")
-set(dashboard_binary_name "nightly/OTB-SuperBuild/build")
+set(dashboard_binary_name "nightly/OTB-SuperBuild/build-stable")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src)
 
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/install)
+set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/install-stable)
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build

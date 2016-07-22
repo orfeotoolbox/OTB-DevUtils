@@ -14,6 +14,8 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
 
+set(dashboard_no_install 1)
+
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
@@ -25,7 +27,7 @@ BUILD_EXAMPLES:BOOL=OFF
 BUILD_SHARED_LIBS:BOOL=OFF
 
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/otb-data
-OTB_DATA_USE_LARGEINPUT:BOOL=ON
+OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:PATH=Z:/otb/OTB-LargeInput
 
 SWIG_EXECUTABLE:FILEPATH=C:/DevTools/swigwin-3.0.10/swig.exe

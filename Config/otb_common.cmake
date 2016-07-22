@@ -4,7 +4,7 @@
 # clients.
 #
 # Put this script in a directory such as "~/Dashboards/Scripts" or
-# "c:/Dashboards/Scripts".  Also place the script "git_updater.cmake" in the 
+# "c:/Dashboards/Scripts".  Also place the script "git_updater.cmake" in the
 # same folder to use custom update commands. Create a file next to this script,
 # say 'my_dashboard.cmake', with code of the following form:
 #
@@ -33,7 +33,7 @@
 #
 # The following variables may be set before including this script
 # to configure it. If a variable is not defined, it may recieve a default value.
-# Generally, the variables CTEST_* have priority over dashboard_* variables, as 
+# Generally, the variables CTEST_* have priority over dashboard_* variables, as
 # they are directly used by ctest :
 #
 #   ---------------------- General setup ---------------------------------------
@@ -318,7 +318,10 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
     elseif("${dashboard_git_branch}" MATCHES "^release-[0-9]+\\.[0-9]+\$")
       set(CTEST_DASHBOARD_TRACK LatestRelease)
     else()
-      set(CTEST_DASHBOARD_TRACK Nightly)
+      #send build to FeatureBranches track if a match for branch name is not found
+      #ofcourse, this can be overriden in the other script by directly setting
+      #CTEST_DASHBOARD_TRACK or changing dashboard_model to Experimental
+      set(CTEST_DASHBOARD_TRACK FeatureBranches)
     endif()
   elseif("${dashboard_model}" STREQUAL "Continuous")
     set(CTEST_DASHBOARD_TRACK Continuous)
@@ -520,7 +523,22 @@ while(NOT dashboard_done)
   set(ENV{HOME} "${dashboard_user_home}")
   set(dashboard_current_branch ${dashboard_git_branch})
 
+  # Checkout specific data branch if any
+  if(DEFINED specific_data_branch_for_${dashboard_git_branch})
+    execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${specific_data_branch_for_${dashboard_git_branch}} -P ${_git_updater_script}
+                    WORKING_DIRECTORY ${dashboard_otb_data_root})
+    message("Set data branch to ${specific_data_branch_for_${branch}}")
+  endif()
+
+  # Run the main dashboard macro
   run_dashboard()
+
+  # reset data to Nightly branch
+  if(DEFINED specific_data_branch_for_${dashboard_git_branch})
+    execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=nightly -P ${_git_updater_script}
+                    WORKING_DIRECTORY ${dashboard_otb_data_root})
+    message("Reset data")
+  endif()
 
   # test additional feature branches
   if(number_additional_branches GREATER 0)

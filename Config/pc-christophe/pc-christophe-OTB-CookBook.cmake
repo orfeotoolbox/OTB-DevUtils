@@ -10,6 +10,8 @@ set(CTEST_TEST_TIMEOUT 500)
 set(CTEST_USE_LAUNCHERS OFF)
 set(CTEST_GIT_COMMAND "/usr/bin/git")
 
+set(CTEST_DASHBOARD_TRACK Develop)
+
 set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/otb-documents/CookBook")
 set(dashboard_binary_name "build/orfeo/otb-documents/Cookbook")
