@@ -14,9 +14,14 @@ set(dashboard_git_branch release-3.4)
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
+
+${mxe_common_cache}
+
 OTB_SOURCE_DIR:PATH=/data/dashboard/nightly/otb-Release/src
 GENERATE_PACKAGE=ON
 ")
 endmacro()
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
+
+include(${CTEST_SCRIPT_DIRECTORY}/../../otb_common.cmake)

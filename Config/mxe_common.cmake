@@ -3,7 +3,7 @@
 # Description: OTB Common Dashboard Script for MinGW cross compilation
 # Copyright: CNES 2014 -2016
 # To test this script use test_mxe_common.cmake
-cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
+
 
 # Select the model (nightly, experimental, continuous, crossCompile).
 if(NOT DEFINED dashboard_model)
@@ -20,49 +20,8 @@ endif()
 
 string(TOLOWER ${PROJECT} project)
 
-if(NOT "${dashboard_model}" MATCHES "^(nightly|experimental|continuous)$")
-  message(FATAL_ERROR "dashboard_model must be nightly, experimental, or continuous")
-endif()
-
 if(NOT DEFINED CTEST_DASHBOARD_ROOT)
   set(CTEST_DASHBOARD_ROOT "/data/dashboard")
-endif()
-
-set(DEFAULT_BUILD_CONFIGURATION Release)
-
-if(NOT DEFINED CTEST_BUILD_CONFIGURATION)
-  set(CTEST_BUILD_CONFIGURATION ${DEFAULT_BUILD_CONFIGURATION})
-endif()
-
-if(NOT DEFINED CTEST_CONFIGURATION_TYPE)
-  set(CTEST_CONFIGURATION_TYPE ${DEFAULT_BUILD_CONFIGURATION})
-endif()
-
-if(NOT CTEST_CMAKE_GENERATOR)
-  set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-endif()
-
-if(NOT CTEST_BUILD_FLAGS)
-  set(CTEST_BUILD_FLAGS "-j4 -k" )
-endif()
-
-if(NOT CTEST_TEST_ARGS)
-  set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
-endif()
-
-if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make")
-  set(CTEST_USE_LAUNCHERS OFF)
-elseif(NOT DEFINED CTEST_USE_LAUNCHERS)
-  set(CTEST_USE_LAUNCHERS ON)
-endif()
-
-# Configure testing.
-if(NOT DEFINED CTEST_TEST_CTEST)
-  set(CTEST_TEST_CTEST 1)
-endif()
-
-if(NOT CTEST_TEST_TIMEOUT)
-  set(CTEST_TEST_TIMEOUT 1500)
 endif()
 
 if(NOT DEFINED dashboard_git_branch)
@@ -81,19 +40,10 @@ if(NOT DEFINED CTEST_BUILD_NAME)
   endif()
 endif()
 
-if(NOT DEFINED CTEST_DASHBOARD_TRACK)
-  if("${dashboard_git_branch}" STREQUAL "nightly")
-    set(CTEST_DASHBOARD_TRACK Develop)
-  else()
-    set(CTEST_DASHBOARD_TRACK LatestRelease)
-  endif()
-endif()
 
 set(build_directory_name MinGW)
 if(DEFINED dashboard_module)
-  set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
   set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_module}")
-  set(CTEST_DASHBOARD_TRACK RemoteModules)
   set(build_directory_name ${dashboard_module})
 endif()
 
@@ -170,21 +120,6 @@ if(NOT DEFINED dashboard_default_target)
   endif()
 endif()
 
-if(NOT DEFINED dashboard_no_configure)
-  set(dashboard_no_configure FALSE)
-endif()
-
-if(NOT DEFINED dashboard_no_build)
-  set(dashboard_no_build FALSE)
-endif()
-
-if(NOT DEFINED dashboard_no_examples)
-  set(dashboard_no_examples TRUE)
-endif()
-if(NOT DEFINED dashboard_enable_large_input)
-  set(dashboard_enable_large_input FALSE)
-endif()
-
 if(NOT DEFINED dashboard_make_package)
   if("${project}" STREQUAL "otb" OR "${project}" STREQUAL "monteverdi" )
     set(dashboard_make_package TRUE)
@@ -213,6 +148,16 @@ CMAKE_CROSSCOMPILING:BOOL=${CMAKE_CROSSCOMPILING}
 
 CMAKE_CROSSCOMPILING_EMULATOR:FILEPATH=${CMAKE_CROSSCOMPILING_EMULATOR}
 
+CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+
+CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
+
+CMAKE_USE_PTHREADS:BOOL=OFF
+
+CMAKE_USE_WIN32_THREADS:BOOL=ON
+
+
+
 "
   )
 
@@ -232,7 +177,6 @@ endforeach()
 if(NOT ${project} STREQUAL "otb")
   set(mxe_common_cache
     " ${mxe_common_cache}
-
 OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/cmake/OTB-${otb_version}
 
 ")
@@ -253,18 +197,6 @@ MXE_TARGET_DIR:PATH=${MXE_ROOT}/usr/${MXE_TARGET_ARCH}-w64-mingw32.shared
 ")
 
 endif()
-
-#if("${project}" STREQUAL "monteverdi")
-  #set(mxe_common_cache
-    #" ${mxe_common_cache}
-
-#ICE_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/include
-
-#ICE_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/nightly/install-MinGW-${MXE_TARGET_ARCH}/lib/libOTBIce.dll.a
-
-#")
-
-#endif()
 
 if(DEFINED dashboard_module)
 
@@ -363,19 +295,6 @@ if(DEFINED dashboard_git_features_list)
   endif()
 endif()
 
-# Look for a GIT command-line client.
-if(NOT DEFINED CTEST_GIT_COMMAND)
-  find_program(CTEST_GIT_COMMAND NAMES git)
-endif()
-
-if(NOT DEFINED CTEST_GIT_COMMAND)
-  message(FATAL_ERROR "No git command Found.")
-endif()
-
-if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
-  set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${CTEST_SCRIPT_DIRECTORY}/../../git_updater.cmake)
-endif()
-
 # Select a source directory name.
 if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
   if(DEFINED dashboard_source_name)
@@ -399,311 +318,238 @@ if(NOT DEFINED dashboard_update_dir)
   set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
 endif()
 
-# Delete source tree if it is incompatible with current VCS.
-if(EXISTS ${dashboard_update_dir})
-  if(NOT EXISTS "${dashboard_update_dir}/.git")
-    set(vcs_refresh "because it is not managed by git.")
-  endif()
-  if(${dashboard_fresh_source_checkout})
-    set(vcs_refresh "because dashboard_fresh_source_checkout is specified.")
-  endif()
-  if(vcs_refresh)
-    message("Deleting source tree\n  ${dashboard_update_dir}\n${vcs_refresh}")
-    file(REMOVE_RECURSE "${dashboard_update_dir}")
-  endif()
-endif()
-
-if(NOT test_this_script)
-  # Support initial checkout if necessary.
-  if(NOT EXISTS "${dashboard_update_dir}"
-      AND NOT DEFINED CTEST_CHECKOUT_COMMAND)
-    get_filename_component(_name "${dashboard_update_dir}" NAME)
-    message("_name= " ${_name})
-    # Generate an initial checkout script.
-    set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
-    message("ctest_checkout_script= " ${ctest_checkout_script})
-    file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
-        execute_process(
-            COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
-                    \"${dashboard_update_dir}\" )   ")
-
-    set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
-    # CTest delayed initialization is broken, so we put the
-    # CTestConfig.cmake info here.
-    set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-    set(CTEST_DROP_METHOD "http")
-    set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-    set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
-    set(CTEST_DROP_SITE_CDASH TRUE)
-  endif()
-endif()
 #-----------------------------------------------------------------------------
 
-# Send the main script as a note.
-list(APPEND CTEST_NOTES_FILES
-  "${CTEST_BINARY_DIRECTORY}/summary.txt"
-  "${CMAKE_CURRENT_LIST_FILE}"
-  "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}"
-  )
+# # Send the main script as a note.
+# list(APPEND CTEST_NOTES_FILES
+#   "${CTEST_BINARY_DIRECTORY}/summary.txt"
+#   "${CMAKE_CURRENT_LIST_FILE}"
+#   "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}"
+#   )
 
+# macro(print_summary)
+#   # Check for required variables.
+#   foreach(req
+#       CTEST_CMAKE_COMMAND
+#       CMAKE_COMMAND
+#       CMAKE_CROSSCOMPILING_EMULATOR
+#       CTEST_CMAKE_GENERATOR
+#       CTEST_SITE
+#       CTEST_BUILD_NAME
+#       CTEST_SCRIPT_DIRECTORY
+#       CTEST_SOURCE_DIRECTORY
+#       CTEST_BINARY_DIRECTORY
+#       CTEST_CMAKE_GENERATOR
+#       CTEST_BUILD_CONFIGURATION
+#       CTEST_GIT_COMMAND
+#       PROJECT
+#       MXE_ROOT
+#       MXE_TARGET_ARCH
+#       dashboard_git_branch
+#       )
+#     if(NOT DEFINED ${req})
+#       message(FATAL_ERROR "The containing script must set ${req}")
+#     endif()
+#     set(vars "${vars}  ${req}=[${${req}}]\n")
+#   endforeach(req)
 
-# Avoid non-ascii characters in tool output.
-set(ENV{LC_ALL} C)
+#   # Print summary information.
+#   foreach(v
+#       CTEST_USE_LAUNCHERS
+#       CMAKE_CROSSCOMPILING
+#       CTEST_CHECKOUT_COMMAND
+#       CTEST_DASHBOARD_TRACK
+#       CTEST_GIT_UPDATE_OPTIONS
+#       dashboard_no_submit
+#       dashboard_no_configure
+#       dashboard_no_build
+#       dashboard_no_test
+#       dashboard_cc_flags
+#       dashboard_cxx_flags
+#       dashboard_enable_large_input
+#       dashboard_no_examples
+#       dashboard_no_clean
+#       dashboard_default_target
+#       dashboard_package_target
+#       dashboard_model
+#       dashboard_no_update
+#       DASHBOARD_MODEL
+#       PROJECT
+#       CTEST_TEST_TIMEOUT
+#       CMAKE_MAKE_PROGRAM
+#       )
+#     set(vars "${vars}  ${v}=[${${v}}]\n")
+#   endforeach(v)
 
-# Helper macro to write the initial cache.
-macro(write_cache)
-  set(cache_build_type "")
-  set(cache_make_program "")
-  if(CTEST_CMAKE_GENERATOR MATCHES "Make")
-    set(cache_build_type CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION})
-    if(CMAKE_MAKE_PROGRAM)
-      set(cache_make_program CMAKE_MAKE_PROGRAM:FILEPATH=${CMAKE_MAKE_PROGRAM})
-    endif()
-  endif()
-  file(WRITE ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt "
-SITE:STRING=${CTEST_SITE}
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
-DART_TESTING_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
-${cache_build_type}
-${cache_make_program}
-${mxe_common_cache}
-${dashboard_cache}
+#   message("Dashboard script configuration:\n${vars}\n")
 
-CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+#   file(WRITE ${CTEST_BINARY_DIRECTORY}/summary.txt
+#     "Dashboard script configuration:\n${vars}\n")
 
-CMAKE_TOOLCHAIN_FILE:FILEPATH=${MXE_TARGET_ROOT}/share/cmake/mxe-conf.cmake
+#   message(STATUS "summary written to ${CTEST_BINARY_DIRECTORY}/summary.txt")
 
-CMAKE_USE_PTHREADS:BOOL=OFF
+# endmacro(print_summary)
 
-CMAKE_USE_WIN32_THREADS:BOOL=ON
+# if(NOT test_this_script)
+#   # Start with a fresh build tree.
+#   file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
+#   if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
+#       AND NOT dashboard_no_clean)
 
-")
-endmacro(write_cache)
+#     if(EXISTS "${CTEST_BINARY_DIRECTORY}")
+#       message("Clearing build tree...")
+#       ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+#     endif()
+#   endif()
+# endif()
 
-macro(print_summary)
-  # Check for required variables.
-  foreach(req
-      CTEST_CMAKE_COMMAND
-      CMAKE_COMMAND
-      CMAKE_CROSSCOMPILING_EMULATOR
-      CTEST_CMAKE_GENERATOR
-      CTEST_SITE
-      CTEST_BUILD_NAME
-      CTEST_SCRIPT_DIRECTORY
-      CTEST_SOURCE_DIRECTORY
-      CTEST_BINARY_DIRECTORY
-      CTEST_CMAKE_GENERATOR
-      CTEST_BUILD_CONFIGURATION
-      CTEST_GIT_COMMAND
-      PROJECT
-      MXE_ROOT
-      MXE_TARGET_ARCH
-      dashboard_git_branch
-      )
-    if(NOT DEFINED ${req})
-      message(FATAL_ERROR "The containing script must set ${req}")
-    endif()
-    set(vars "${vars}  ${req}=[${${req}}]\n")
-  endforeach(req)
+# set(dashboard_continuous 0)
+# if("${dashboard_model}" STREQUAL "continuous")
+#   set(dashboard_continuous 1)
+# endif()
+# if(NOT DEFINED dashboard_loop)
+#   if(dashboard_continuous)
+#     set(dashboard_loop 43200)
+#   else()
+#     set(dashboard_loop 0)
+#   endif()
+# endif()
 
-  # Print summary information.
-  foreach(v
-      CTEST_USE_LAUNCHERS
-      CMAKE_CROSSCOMPILING
-      CTEST_CHECKOUT_COMMAND
-      CTEST_DASHBOARD_TRACK
-      CTEST_GIT_UPDATE_OPTIONS
-      dashboard_no_submit
-      dashboard_no_configure
-      dashboard_no_build
-      dashboard_no_test
-      dashboard_cc_flags
-      dashboard_cxx_flags
-      dashboard_enable_large_input
-      dashboard_no_examples
-      dashboard_no_clean
-      dashboard_default_target
-      dashboard_package_target
-      dashboard_model
-      dashboard_no_update
-      DASHBOARD_MODEL
-      PROJECT
-      CTEST_TEST_TIMEOUT
-      CMAKE_MAKE_PROGRAM
-      )
-    set(vars "${vars}  ${v}=[${${v}}]\n")
-  endforeach(v)
+# # CTest 2.6 crashes with message() after ctest_test.
+# macro(safe_message)
+#   if(NOT "${CMAKE_VERSION}" VERSION_LESS 3.4 OR NOT safe_message_skip)
+#     message(STATUS ${ARGN})
+#   endif()
+# endmacro()
 
-  message("Dashboard script configuration:\n${vars}\n")
+# # macro for the full dashboard sequence
+# macro(run_dashboard)
+#   # Start a new submission.
+#   if(COMMAND dashboard_hook_start)
+#     dashboard_hook_start()
+#   endif()
 
-  file(WRITE ${CTEST_BINARY_DIRECTORY}/summary.txt
-    "Dashboard script configuration:\n${vars}\n")
+#   ctest_start(${DASHBOARD_MODEL} TRACK ${CTEST_DASHBOARD_TRACK})
 
-  message(STATUS "summary written to ${CTEST_BINARY_DIRECTORY}/summary.txt")
+#   # Always build if the tree is fresh.
+#   set(dashboard_fresh 0)
+#   if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
+#     set(dashboard_fresh 1)
+#     safe_message("Starting fresh build...")
+#     write_cache()
+#   endif()
 
-endmacro(print_summary)
+#   print_summary()
 
-if(NOT test_this_script)
-  # Start with a fresh build tree.
-  file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
-  if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
-      AND NOT dashboard_no_clean)
+#   # Look for updates.
+#   if(NOT dashboard_no_update)
+#     ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
+#     set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
+#     safe_message("Found ${count} changed files")
 
-    if(EXISTS "${CTEST_BINARY_DIRECTORY}")
-      message("Clearing build tree...")
-      ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
-    endif()
-  endif()
-endif()
+#     # # add specific modules (works for OTB only)
+#     # if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
+#     #   if(NOT EXISTS ${dashboard_update_dir}/Modules/Remote/${dashboard_module})
+#     #     execute_process(COMMAND "${CTEST_GIT_COMMAND}"
+#     #       "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}" RESULT_VARIABLE rv)
+#     #     if(NOT rv EQUAL 0)
+#     #       message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
+#     #     endif()
+#     #   else()
+#     #     execute_process(COMMAND "${CTEST_GIT_COMMAND}"
+#     #       "pull" WORKING_DIRECTORY "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
+#     #   endif()
+#     # endif()
+#   endif()
 
-set(dashboard_continuous 0)
-if("${dashboard_model}" STREQUAL "continuous")
-  set(dashboard_continuous 1)
-endif()
-if(NOT DEFINED dashboard_loop)
-  if(dashboard_continuous)
-    set(dashboard_loop 43200)
-  else()
-    set(dashboard_loop 0)
-  endif()
-endif()
+#   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
 
-# CTest 2.6 crashes with message() after ctest_test.
-macro(safe_message)
-  if(NOT "${CMAKE_VERSION}" VERSION_LESS 3.4 OR NOT safe_message_skip)
-    message(STATUS ${ARGN})
-  endif()
-endmacro()
+#     if(NOT dashboard_no_configure)
+#       ctest_configure()
+#       ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+#     endif()
 
-# macro for the full dashboard sequence
-macro(run_dashboard)
-  # Start a new submission.
-  if(COMMAND dashboard_hook_start)
-    dashboard_hook_start()
-  endif()
+#     if(NOT dashboard_no_build)
+#       if(COMMAND dashboard_hook_build)
+#         dashboard_hook_build()
+#       endif()
 
-  ctest_start(${DASHBOARD_MODEL} TRACK ${CTEST_DASHBOARD_TRACK})
+#       ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
+#         TARGET ${dashboard_default_target}
+#         RETURN_VALUE _default_build_rv)
+#     endif()
 
-  # Always build if the tree is fresh.
-  set(dashboard_fresh 0)
-  if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
-    set(dashboard_fresh 1)
-    safe_message("Starting fresh build...")
-    write_cache()
-  endif()
+#     if(dashboard_make_package)
+#       if(COMMAND dashboard_hook_package)
+#         dashboard_hook_package()
+#       endif()
+#       ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
+#         TARGET ${dashboard_package_target}
+#         RETURN_VALUE _package_build_rv)
+#     endif()
 
-  print_summary()
+#     if(dashboard_module)
+#       # message(STATUS "Packaging stuff for RemoteModule: ${dasboard_module}")
+#       # file(GLOB apps ${CTEST_BINARY_DIRECTORY}/lib/otb/applications/*.dll)
+#       # foreach(app ${apps})
+#       #   message(STATUS "file copy: ${app} ->  ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/otb/applications/")
+#       #   execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E copy ${app} ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/otb/applications/)
+#       # endforeach()
+#       # file(GLOB scripts ${CTEST_BINARY_DIRECTORY}/bin/*.bat)
+#       # foreach(script ${scripts})
+#       #   message(STATUS "file copy: ${script} ->  ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/bin/")
+#       #   execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E copy ${script} ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/bin/)
+#       # endforeach()
+#     endif()
 
-  # Look for updates.
-  if(NOT dashboard_no_update)
-    ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
-    set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
-    safe_message("Found ${count} changed files")
+#     if(NOT dashboard_no_test)
+#       if(COMMAND dashboard_hook_test)
+#         dashboard_hook_test()
+#       endif()
+#       ctest_test(${CTEST_TEST_ARGS})
+#     endif()
 
-    # # add specific modules (works for OTB only)
-    # if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
-    #   if(NOT EXISTS ${dashboard_update_dir}/Modules/Remote/${dashboard_module})
-    #     execute_process(COMMAND "${CTEST_GIT_COMMAND}"
-    #       "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}" RESULT_VARIABLE rv)
-    #     if(NOT rv EQUAL 0)
-    #       message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
-    #     endif()
-    #   else()
-    #     execute_process(COMMAND "${CTEST_GIT_COMMAND}"
-    #       "pull" WORKING_DIRECTORY "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
-    #   endif()
-    # endif()
-  endif()
+#     set(safe_message_skip 1) # Block furhter messages
 
-  if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
+#     if(dashboard_do_coverage)
+#       if(COMMAND dashboard_hook_coverage)
+#         dashboard_hook_coverage()
+#       endif()
+#       ctest_coverage()
+#     endif()
+#     if(dashboard_do_memcheck)
+#       if(COMMAND dashboard_hook_memcheck)
+#         dashboard_hook_memcheck()
+#       endif()
+#       ctest_memcheck()
+#     endif()
+#     if(COMMAND dashboard_hook_submit)
+#       dashboard_hook_submit()
+#     endif()
+#     if(NOT dashboard_no_submit)
+#       ctest_submit()
+#     endif()
+#     if(COMMAND dashboard_hook_end)
+#       dashboard_hook_end()
+#     endif()
+#   endif()
+# endmacro()
 
-    if(NOT dashboard_no_configure)
-      ctest_configure()
-      ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
-    endif()
+# if(COMMAND dashboard_hook_init)
+#   dashboard_hook_init()
+# endif()
 
-    if(NOT dashboard_no_build)
-      if(COMMAND dashboard_hook_build)
-        dashboard_hook_build()
-      endif()
+# if(NOT test_this_script)
 
-      ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
-        TARGET ${dashboard_default_target}
-        RETURN_VALUE _default_build_rv)
-    endif()
+#   run_dashboard()
 
-    if(dashboard_make_package)
-      if(COMMAND dashboard_hook_package)
-        dashboard_hook_package()
-      endif()
-      ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
-        TARGET ${dashboard_package_target}
-        RETURN_VALUE _package_build_rv)
-    endif()
+#   ctest_sleep(5)
 
-    if(dashboard_module)
-      # message(STATUS "Packaging stuff for RemoteModule: ${dasboard_module}")
-      # file(GLOB apps ${CTEST_BINARY_DIRECTORY}/lib/otb/applications/*.dll)
-      # foreach(app ${apps})
-      #   message(STATUS "file copy: ${app} ->  ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/otb/applications/")
-      #   execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E copy ${app} ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/otb/applications/)
-      # endforeach()
-      # file(GLOB scripts ${CTEST_BINARY_DIRECTORY}/bin/*.bat)
-      # foreach(script ${scripts})
-      #   message(STATUS "file copy: ${script} ->  ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/bin/")
-      #   execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E copy ${script} ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/bin/)
-      # endforeach()
-    endif()
+#   if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
+#     file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
+#   endif()
 
-    if(NOT dashboard_no_test)
-      if(COMMAND dashboard_hook_test)
-        dashboard_hook_test()
-      endif()
-      ctest_test(${CTEST_TEST_ARGS})
-    endif()
-
-    set(safe_message_skip 1) # Block furhter messages
-
-    if(dashboard_do_coverage)
-      if(COMMAND dashboard_hook_coverage)
-        dashboard_hook_coverage()
-      endif()
-      ctest_coverage()
-    endif()
-    if(dashboard_do_memcheck)
-      if(COMMAND dashboard_hook_memcheck)
-        dashboard_hook_memcheck()
-      endif()
-      ctest_memcheck()
-    endif()
-    if(COMMAND dashboard_hook_submit)
-      dashboard_hook_submit()
-    endif()
-    if(NOT dashboard_no_submit)
-      ctest_submit()
-    endif()
-    if(COMMAND dashboard_hook_end)
-      dashboard_hook_end()
-    endif()
-  endif()
-endmacro()
-
-if(COMMAND dashboard_hook_init)
-  dashboard_hook_init()
-endif()
-
-if(NOT test_this_script)
-
-  run_dashboard()
-
-  ctest_sleep(5)
-
-  if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
-    file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
-  endif()
-
-else()
-  print_summary()
-  message(FATAL_ERROR "This is a test run. cannot continue anymore")
-endif()
+# else()
+#   print_summary()
+#   message(FATAL_ERROR "This is a test run. cannot continue anymore")
+# endif()

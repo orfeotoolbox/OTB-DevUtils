@@ -11,6 +11,7 @@ set(dashboard_git_branch release-5.6)
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
+${mxe_common_cache}
 OTB_USE_CURL:BOOL=ON
 OTB_USE_QT4:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
@@ -77,3 +78,6 @@ set(CTEST_NOTES_FILES "/home/otbval/logs/mxe_build_log.txt")
 set(dashboard_make_package FALSE)
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
+
+
+include(${CTEST_SCRIPT_DIRECTORY}/../../otb_common.cmake)

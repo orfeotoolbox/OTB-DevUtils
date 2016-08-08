@@ -10,4 +10,8 @@ set(dashboard_module "Mosaic")
 set(dashboard_module_url "https://github.com/remicres/otb-mosaic")
 set(MXE_TARGET_ARCH "x86_64")
 
+set(dashboard_cache "${mxe_common_cache}")
+
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
+
+include(${CTEST_SCRIPT_DIRECTORY}/../../otb_common.cmake)

@@ -17,6 +17,9 @@ set(dashboard_binary_name "nightly/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
+
+${mxe_common_cache}
+
 BUILD_TESTING:BOOL=ON
 ")
 endmacro()
@@ -24,3 +27,5 @@ set(dashboard_make_package OFF)
 set(dashboard_no_test 1)
 
 include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
+
+include(${CTEST_SCRIPT_DIRECTORY}/../../otb_common.cmake)

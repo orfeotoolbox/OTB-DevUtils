@@ -148,6 +148,19 @@ if(NOT DEFINED CTEST_CONFIGURATION_TYPE)
   set(CTEST_CONFIGURATION_TYPE Debug)
 endif()
 
+if(NOT CTEST_BUILD_FLAGS)
+  set(CTEST_BUILD_FLAGS "-j4 -k" )
+endif()
+
+if(NOT CTEST_TEST_ARGS)
+  set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
+endif()
+
+if(NOT CTEST_CMAKE_GENERATOR)
+  set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+endif()
+
+
 # Create build command
 if(NOT DEFINED CTEST_BUILD_COMMAND)
   if(DEFINED dashboard_build_command)
@@ -182,10 +195,26 @@ if(NOT CTEST_TEST_TIMEOUT)
   set(CTEST_TEST_TIMEOUT 1500)
 endif()
 
+if(NOT DEFINED dashboard_no_configure)
+  set(dashboard_no_configure FALSE)
+endif()
+
+if(NOT DEFINED dashboard_no_build)
+  set(dashboard_no_build FALSE)
+endif()
+
+if(NOT DEFINED dashboard_no_examples)
+  set(dashboard_no_examples TRUE)
+endif()
+if(NOT DEFINED dashboard_enable_large_input)
+  set(dashboard_enable_large_input FALSE)
+endif()
+
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
-set(dashboard_git_url "git.orfeo-toolbox.org/OTB.git")
+  set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 endif()
+
 if(NOT DEFINED dashboard_git_branch)
   if("${dashboard_model}" STREQUAL "Nightly")
     set(dashboard_git_branch nightly)
