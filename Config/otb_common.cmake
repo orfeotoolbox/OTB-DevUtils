@@ -132,6 +132,10 @@ if(NOT DEFINED CTEST_DASHBOARD_ROOT)
 endif()
 
 # Select the model (Nightly, Experimental, Continuous).
+if("${dashboard_model}" STREQUAL  "nightly")
+  set(dashboard_model Nightly)
+endif()
+
 if(NOT DEFINED dashboard_model)
   set(dashboard_model Nightly)
 endif()

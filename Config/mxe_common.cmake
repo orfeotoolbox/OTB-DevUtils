@@ -18,6 +18,10 @@ if(DEFINED dashboard_module)
   set(PROJECT otb)
 endif()
 
+if(NOT DEFINED CTEST_BUILD_CONFIGURATION)
+  set(CTEST_BUILD_CONFIGURATION Release)
+endif()
+
 string(TOLOWER ${PROJECT} project)
 
 if(NOT DEFINED CTEST_DASHBOARD_ROOT)
