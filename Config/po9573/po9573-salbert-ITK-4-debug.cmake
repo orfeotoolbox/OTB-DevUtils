@@ -19,7 +19,7 @@ set(dashboard_binary_name "build/ITK")
 
 set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "http://itk.org/ITK.git")
-set(dashboard_git_branch "v4.8.2")
+set(dashboard_git_branch "v4.10.0")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}

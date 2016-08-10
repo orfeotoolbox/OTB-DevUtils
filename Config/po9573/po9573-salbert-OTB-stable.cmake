@@ -44,7 +44,7 @@ OTB_USE_LIBSVM:BOOL=ON
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=OFF
-OTB_USE_OPENJPEG:BOOL=ON
+OTB_USE_OPENJPEG:BOOL=OFF
 OTB_USE_QT4:BOOL=ON
 # Ice
 OTB_USE_OPENGL:BOOL=ON
@@ -56,7 +56,7 @@ OTB_USE_GLUT:BOOL=ON
 
 # ITK_DIR:PATH=/usr/lib/cmake/ITK-4.6
 # ITK_DIR:PATH=$ENV{HOME}/local/lib/cmake/ITK-4.8
-ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4-debug/lib/cmake/ITK-4.8
+ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4-debug/lib/cmake/ITK-4.10
 
 # MAPNIK_INCLUDE_DIR:PATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/include
 # MAPNIK_LIBRARY:FILEPATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/lib/libmapnik.so
@@ -83,14 +83,12 @@ MUPARSERX_INCLUDE_DIR:PATH=$ENV{HOME}/local/include
 # LIBKML_REGIONATOR_LIBRARY:FILEPATH=$ENV{HOME}/Tools/libkml/install/lib/libkmlregionator.so
 # LIBKML_XSD_LIBRARY:FILEPATH=$ENV{HOME}/Tools/libkml/install/lib/libkmlxsd.so
 
-OpenJPEG_DIR:PATH=$ENV{HOME}/local/lib/openjpeg-2.1
+# OpenJPEG_DIR:PATH=$ENV{HOME}/local/lib/openjpeg-2.1
 
-OSSIM_INCLUDE_DIR:STRING=$ENV{HOME}/local/include
-OSSIM_LIBRARY:FILEPATH=$ENV{HOME}/local/lib/libossim.so
-# OSSIM_INCLUDE_DIR:STRING=$ENV{HOME}/build/ossim/include
-# OSSIM_LIBRARY:FILEPATH=$ENV{HOME}/build/ossim/lib/libossim.so
+# OSSIM_INCLUDE_DIR:STRING=$ENV{HOME}/local/include
+# OSSIM_LIBRARY:FILEPATH=$ENV{HOME}/local/lib/libossim.so
 
-GDAL_INCLUDE:STRING=$ENV{HOME}/local/include
+GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/local/include
 GDAL_LIBRARY:FILEPATH=$ENV{HOME}/local/lib/libgdal.so
 
 # Ice
