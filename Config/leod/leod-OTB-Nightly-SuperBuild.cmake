@@ -27,7 +27,6 @@ list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
 )
 
-set(dashboard_git_branch  msvc_support)
 #OTB_ADDITIONAL_CACHE:STRING='-DOTB_SHOW_ALL_MSG_DEBUG:BOOL=ON'
 
 macro(dashboard_hook_init)
