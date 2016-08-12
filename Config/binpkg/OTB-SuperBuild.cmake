@@ -23,6 +23,7 @@ set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
 
 #set(dashboard_git_branch "bugfix-1241")
+set(dashboard_git_branch  msvc_support)
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
