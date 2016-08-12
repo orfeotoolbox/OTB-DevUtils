@@ -23,7 +23,7 @@ BUILD_SHARED_LIBS:BOOL=ON
 BUILD_TESTING:BOOL=ON
 OTB_BUILD_DEFAULT_MODULES:BOOL=OFF
 CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wno-shadow
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-shadow -Wno-unused-parameter
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-shadow -Wno-unused-parameter -Wno-unused-result -Wno-unused-but-set-parameter
 Module_${dashboard_module}:BOOL=ON
 ")
 
