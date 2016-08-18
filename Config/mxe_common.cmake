@@ -212,6 +212,7 @@ OTB_BUILD_DEFAULT_MODULES:BOOL=OFF
 Module_${dashboard_module}:BOOL=ON
 
 ")
+  set(dashboard_no_examples ON)
 endif()
 
 if(dashboard_no_examples)
