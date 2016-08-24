@@ -1,5 +1,6 @@
 dev_sar_tsx
 msvc_support
-fix_siftfast
 faster_bandmathx
 gdal_derived_sds_support
+rfc-51-mvd_modules
+
