@@ -2,4 +2,4 @@ dev_sar_tsx
 msvc_support
 fix_siftfast
 faster_bandmathx
-connect-applications
+gdal_derived_sds_support
