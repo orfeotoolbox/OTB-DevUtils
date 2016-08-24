@@ -116,11 +116,15 @@ if(NOT DEFINED dashboard_package_target)
   set(dashboard_package_target PACKAGE-OTB)
 endif()
 
-if(NOT DEFINED dashboard_default_target)
+if(NOT DEFINED dashboard_build_command)
+  set(dashboard_build_command "/usr/bin/make -j4 -k")
+endif()
+
+if(NOT DEFINED dashboard_build_target)
   if(DEFINED dashboard_module)
-    set(dashboard_default_target all)
+    set(dashboard_build_target all)
   else()
-    set(dashboard_default_target install)
+    set(dashboard_build_target install)
   endif()
 endif()
 
@@ -322,6 +326,24 @@ endif()
 if(NOT DEFINED dashboard_update_dir)
   set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
 endif()
+
+
+#---------------------- Hook to build package --------------------------------
+macro(dashboard_hook_submit)
+  if(dashboard_make_package)
+    if(DEFINED CTEST_BUILD_COMMAND)
+      set(ORIGINAL_CTEST_BUILD_COMMAND ${CTEST_BUILD_COMMAND})
+      if(DEFINED dashboard_build_command)
+        set(CTEST_BUILD_COMMAND "${dashboard_build_command} ${dashboard_package_target}")
+      endif()
+    endif()
+    ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
+                RETURN_VALUE _package_build_rv)
+    if(DEFINED ORIGINAL_CTEST_BUILD_COMMAND)
+      set(CTEST_BUILD_COMMAND ${ORIGINAL_CTEST_BUILD_COMMAND})
+    endif()
+  endif()
+endmacro()
 
 #-----------------------------------------------------------------------------
 

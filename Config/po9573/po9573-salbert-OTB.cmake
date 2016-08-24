@@ -86,7 +86,7 @@ GLFW_INCLUDE_DIR=$ENV{HOME}/local/include
 GLFW_LIBRARY=$ENV{HOME}/local/lib/libglfw.so
 
 # Monteverdi
-OTB_I18N_MERGE_TS:BOOL=ON
+OTB_I18N_MERGE_TS:BOOL=OFF
 ")
 
 set (CTEST_NOTES_FILES
