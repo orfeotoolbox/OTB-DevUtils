@@ -2,4 +2,4 @@ dev_sar_tsx
 msvc_support
 gdal_derived_sds_support
 rfc-51-mvd_modules
-
+rfc-53-spot7_metadata
