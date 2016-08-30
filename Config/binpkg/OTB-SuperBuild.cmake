@@ -37,8 +37,9 @@ OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
 CMAKE_CXX_FLAGS:STRING='-w -fPIC -fpermissive'
 CMAKE_C_FLAGS:STRING='-w -fPIC -fpermissive'
-PYTHON_INCLUDE_DIR:PATH=/usr/include/python2.6
-PYTHON_LIBRARY:FILEPATH=/usr/lib64/libpython2.6.so
+PYTHON_INCLUDE_DIR:PATH=/usr/local/include/python2.7
+PYTHON_LIBRARY:FILEPATH=/usr/local/lib/libpython2.7.so
+PYTHON_EXECUTABLE:FILEPATH=/usr/local/bin/python2.7
 
 ENABLE_OTB_LARGE_INPUTS:BOOL=OFF
 
