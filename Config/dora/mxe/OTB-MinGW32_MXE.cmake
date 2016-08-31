@@ -7,7 +7,7 @@ set(CTEST_TEST_ARGS INCLUDE Tu)
 
 set(CTEST_TEST_ARGS INCLUDE Tu)
 
-set(dashboard_git_branch release-5.6)
+#set(dashboard_git_branch release-5.6)
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
