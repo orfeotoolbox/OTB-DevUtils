@@ -6,7 +6,7 @@ set(CTEST_BUILD_NAME "CentOS-5-x86_64-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
-set(CTEST_TEST_TIMEOUT 500)
+set(CTEST_TEST_TIMEOUT 1500)
 set(CTEST_GIT_COMMAND "/usr/bin/git")
 set(CTEST_USE_LAUNCHERS ON)
 
@@ -37,8 +37,6 @@ OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
 CMAKE_CXX_FLAGS:STRING='-w -fPIC -fpermissive'
 CMAKE_C_FLAGS:STRING='-w -fPIC -fpermissive'
-PYTHON_INCLUDE_DIR:PATH=/usr/include/python2.6
-PYTHON_LIBRARY:FILEPATH=/usr/lib64/libpython2.6.so
 
 ENABLE_OTB_LARGE_INPUTS:BOOL=OFF
 
