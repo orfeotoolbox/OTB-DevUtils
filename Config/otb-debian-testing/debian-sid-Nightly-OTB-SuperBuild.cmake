@@ -20,7 +20,8 @@ set(CTEST_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB)
 #Force  CTEST_DASHBOARD_TRACK. we are testing the bugfix-1241 branch with superbuild
-#set(CTEST_DASHBOARD_TRACK "Develop")
+set(dashboard_git_branch msvc_support)
+set(CTEST_DASHBOARD_TRACK "Develop")
 
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
 set(CTEST_DROP_METHOD "http")
