@@ -3,4 +3,5 @@ msvc_support
 rfc-51-mvd_modules
 shark-integration-enhancements
 cookbook
-ENH-FineRegistration
+ENH-FineRegistration ENH-FineRegistration
+
