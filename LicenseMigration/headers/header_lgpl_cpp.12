@@ -1,0 +1,12 @@
+//*******************************************************************
+//
+// License:  See top level LICENSE.txt file.
+//
+// DESCRIPTION: Contains declaration of TileMap sensor model class.
+//
+// SOFTWARE HISTORY:
+//   23JAN2008  Jordi Inglada, CNES
+//              Initial coding.
+//
+//*****************************************************************************
+//  $Id: ossimTileMapModel.h 10384 2007-01-26 20:32:12Z gpotts $

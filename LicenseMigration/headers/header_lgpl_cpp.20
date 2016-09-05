@@ -1,0 +1,18 @@
+//*******************************************************************
+//
+// License:  LGPL
+//
+// See LICENSE.txt file in the top level directory for more details.
+//
+// Author:  Frank Warmerdam (warmerda@home.com)
+// Contributor: David A. Horner
+//
+// Description:
+//
+// Contains code implementation translation between OGC WKT format,
+// and OSSIM projection keyword lists.  Note that services from
+// GDAL's OGRSpatialReference class are used via the GDAL bridge to
+// accomplish the translation.
+//
+//*******************************************************************
+//  $Id: ossimOgcWktTranslator.cpp 20724 2012-04-13 21:00:52Z dburken $

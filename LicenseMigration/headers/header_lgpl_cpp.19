@@ -1,0 +1,12 @@
+//----------------------------------------------------------------------------
+//
+// License:  LGPL
+//
+// See LICENSE.txt file in the top level directory for more details.
+//
+// Author:  John Stastny
+//
+// Description: Image handelr for RadarSAT-2 data that is TIFF based.
+//
+//----------------------------------------------------------------------------
+// $Id$

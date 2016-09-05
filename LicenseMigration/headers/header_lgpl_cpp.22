@@ -1,0 +1,11 @@
+//----------------------------------------------------------------------------
+//
+// License:  LGPL
+//
+// See LICENSE.txt file in the top level directory for more details.
+//
+// Description: Utility class to encapsulate parsing TerraSAR-X product.xml
+// file.
+//
+//----------------------------------------------------------------------------
+// $Id$

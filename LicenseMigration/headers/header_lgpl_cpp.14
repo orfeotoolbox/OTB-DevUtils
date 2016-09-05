@@ -1,0 +1,15 @@
+//*******************************************************************
+// Copyright (C) 2000 ImageLinks Inc.
+//
+// License:  LGPL
+//
+// See LICENSE.txt file in the top level directory for more details.
+//
+// Author:  Frank Warmerdam (warmerda@home.com)
+//
+// Description:
+//
+// Contains function declarations for translating between OGC WKT strings,
+// and OSSIM projection definitions.
+//*******************************************************************
+//  $Id: ossimOgcWktTranslator.h 20724 2012-04-13 21:00:52Z dburken $
