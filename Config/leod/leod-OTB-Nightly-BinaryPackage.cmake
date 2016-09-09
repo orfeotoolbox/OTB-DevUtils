@@ -17,7 +17,6 @@ set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}
 set(dashboard_binary_name "${lcdashboard_model}/OTB-SuperBuild/pkg-otb")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src)
-#set(dashboard_git_branch release-5.4)
 
 set(OTB_SB_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/install)
 set(OTB_SB_BINARY_DIR  ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/build)
@@ -33,7 +32,6 @@ BUILD_TESTING:BOOL=ON
 OTB_DATA_ROOT:PATH=$ENV{HOME}/Data/OTB-Data
 DOWNLOAD_LOCATION:PATH=$ENV{HOME}/Data/SuperBuild-archives
 SUPERBUILD_BINARY_DIR:PATH=${OTB_SB_BINARY_DIR}
-SB_INSTALL_PREFIX:PATH=${OTB_SB_INSTALL_DIR}
 SUPERBUILD_INSTALL_DIR:PATH=${OTB_SB_INSTALL_DIR}
 GENERATE_PACKAGE:BOOL=ON
 ")
