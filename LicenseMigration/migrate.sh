@@ -23,15 +23,17 @@ cp ${TOPDIR}/APACHE-LICENSE-V2.0 LICENSE
 git add LICENSE
 git commit -m "Updated license text (CeCILL v2.0 => Apache v2.0)"
 
-# Remove obsolete CVS fields
-grep -rlE '\$(Revision|Date|RCSfile).*\$' . | \
-    grep -vE '/(SuperBuild|Copyright)/' | \
-    xargs sed -i -e '/\$\(Date\|Revision\|RCSfile\).*\$/d'
-git commit -a -m "Remove obsolete CVS fields"
+# Remove obsolete Date, Revision and RCSfile CVS properties
+# Space at first position of the pattern is required to exclude lines like:
+# static const char OSSIM_ID[] = "$Id$";
+grep -Erl ' \$(Id|Date|Revision|RCSfile).*\$' . | \
+    grep -Ev '/(\.git|SuperBuild|Copyright)/' | \
+    xargs sed -i -e '/ \$\(Id\|Date\|Revision\|RCSfile\).*\$/d'
+git commit -a -m "Remove obsolete CVS properties (Id, Date, Revision, RCSfile)"
 
-grep -Elr 'Module:[^:]' . | \
-    grep -vE '/(SuperBuild|Copyright)/' | \
-    grep -vE '\.([cht](xx|pp)|h)$' | \
+grep -Erl 'Module:[^:]' . | \
+    grep -Ev '/(\.git|SuperBuild|Copyright)/' | \
+    grep -E '\.([cht](xx|pp)|h)$' | \
     xargs sed -i -e '/^ *Module: /d'
 git commit -a -m "Remove useless references to itkModule"
 

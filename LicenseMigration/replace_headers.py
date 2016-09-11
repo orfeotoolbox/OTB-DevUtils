@@ -93,13 +93,13 @@ op_type_2 = [
                     'Modules/Wrappers/SWIG/src/itkBase.i',
                     'Modules/Wrappers/SWIG/src/itkBase.includes',
                     'Modules/Wrappers/SWIG/src/itkMacro.i' ],
-        'old' :   [ 'header_cecill_cpp.70', 'header_cecill_cpp.71', 'header_cecill_cpp.72' ],
+        'old' :   [ 'header_cecill_cpp.70', 'header_cecill_cpp.71' ],
         'new' :   'header_apache_cpp.04'
     },
     {
         'files' : [ 'Modules/Wrappers/SWIG/src/CMakeLists.txt', ],
         'old' :   [ 'header_cecill_cmake.01', ],
-        'new' :   'header_apache_cmake.02'
+        'new' :   'header_apache_cmake.01'
     },
     {
         'files' : [ 'Modules/Wrappers/SWIG/test/python/PythonNewStyleParametersTest.py',
@@ -115,7 +115,7 @@ op_type_3 = [
     {
         'files' : [ 'Modules/Wrappers/SWIG/otb-module-init.cmake',
                     'Modules/Wrappers/SWIG/test/python/CMakeLists.txt' ],
-        'new' :   'header_apache_cmake.02'
+        'new' :   'header_apache_cmake.01'
     },
 ]
 
@@ -143,7 +143,7 @@ op_type_4 = [
                       'Modules/Wrappers/SWIG/otb-module-init.cmake',
                       'Modules/Wrappers/SWIG/test/python/CMakeLists.txt'
         ],
-        'new' :     'header_apache_cmake.01'
+        'new' :     'header_apache_cmake.02'
     },
 ]
 
@@ -152,14 +152,16 @@ op_type_4 = [
 op_type_5 = [
     {
         'ext' : [ '.cxx', '.hxx', '.txx', '.cpp', '.hpp', '.cc', '.hh', '.c', '.h',
-                  '.in', '.includes', '.i' ],
+                  '.in', '.includes', '.i', '.inc' ],
         'old' : [ 'header_cecill_cpp.01', 'header_cecill_cpp.02', 'header_cecill_cpp.03',
                   'header_cecill_cpp.04', 'header_cecill_cpp.05', 'header_cecill_cpp.06',
                   'header_cecill_cpp.07', 'header_cecill_cpp.08', 'header_cecill_cpp.09',
                   'header_cecill_cpp.10', 'header_cecill_cpp.11', 'header_cecill_cpp.12',
                   'header_cecill_cpp.13', 'header_cecill_cpp.14', 'header_cecill_cpp.15',
                   'header_cecill_cpp.16', 'header_cecill_cpp.17', 'header_cecill_cpp.18',
-                  'header_cecill_cpp.19', 'header_cecill_cpp.20' ],
+                  'header_cecill_cpp.19', 'header_cecill_cpp.20', 'header_cecill_cpp.21',
+                  'header_cecill_cpp.22', 'header_cecill_cpp.23', 'header_cecill_cpp.24',
+                  'header_cecill_cpp.25', 'header_cecill_cpp.26', 'header_cecill_cpp.27' ],
         'new' : 'header_apache_cpp.01'
     },
     {
@@ -167,7 +169,7 @@ op_type_5 = [
                   '.in', '.includes', '.i' ],
         'old' : [ 'header_cecill_cpp.30', 'header_cecill_cpp.31', 'header_cecill_cpp.32',
                   'header_cecill_cpp.33', 'header_cecill_cpp.34', 'header_cecill_cpp.35',
-                  'header_cecill_cpp.36', 'header_cecill_cpp.37', 'header_cecill_cpp.38' ],
+                  'header_cecill_cpp.36', 'header_cecill_cpp.37' ],
         'new' : 'header_apache_cpp.02'
     },
     {
@@ -176,8 +178,69 @@ op_type_5 = [
         'old' : [ 'header_cecill_cpp.40', 'header_cecill_cpp.41', 'header_cecill_cpp.42',
                   'header_cecill_cpp.43', 'header_cecill_cpp.44', 'header_cecill_cpp.45',
                   'header_cecill_cpp.46', 'header_cecill_cpp.47', 'header_cecill_cpp.48',
-                  'header_cecill_cpp.49' ],
+                  'header_cecill_cpp.49', 'header_cecill_cpp.50' ],
         'new' : 'header_apache_cpp.03'
+    },
+    {
+        'ext' : [ '.cxx', '.txx', '.h' ],
+        'old' : [ 'header_cecill_cpp.80' ],
+        'new' : 'header_apache_cpp.05'
+    },
+    {
+        'ext' : [ '.cxx', '.txx', '.h' ],
+        'old' : [ 'header_cecill_cpp.81', 'header_cecill_cpp.82' ],
+        'new' : 'header_apache_cpp.07'
+    },
+    {
+        'ext' : [ '.cxx', '.txx', '.h' ],
+        'old' : [ 'header_cecill_cpp.83' ],
+        'new' : 'header_apache_cpp.08'
+    },
+    {
+        'ext' : [ '.cpp', '.h', '.in' ],
+        'old' : [ 'header_lgpl_cpp.01', 'header_lgpl_cpp.04', 'header_lgpl_cpp.05',
+                  'header_lgpl_cpp.06', 'header_lgpl_cpp.08', 'header_lgpl_cpp.09',
+                  'header_lgpl_cpp.10', 'header_lgpl_cpp.11', 'header_lgpl_cpp.12',
+                  'header_lgpl_cpp.13', 'header_lgpl_cpp.15', 'header_lgpl_cpp.21',
+                  'header_lgpl_cpp.22' ],
+        'new' : 'header_mit_cpp.01'
+    },
+    {
+        'ext' : [ '.cpp', '.h', '.in' ],
+        'old' : [ 'header_lgpl_cpp.03' ],
+        'new' : 'header_mit_cpp.02'
+    },
+    {
+        'ext' : [ '.cpp', '.h', '.in' ],
+        'old' : [ 'header_lgpl_cpp.02', 'header_lgpl_cpp.07', 'header_lgpl_cpp.17',
+                  'header_lgpl_cpp.18', 'header_lgpl_cpp.24', 'header_lgpl_cpp.25',
+                  'header_lgpl_cpp.26', 'header_lgpl_cpp.28', 'header_lgpl_cpp.29' ],
+        'new' : 'header_mit_cpp.03'
+    },
+    {
+        'ext' : [ '.cpp', '.h', '.in' ],
+        'old' : [ 'header_lgpl_cpp.16', 'header_lgpl_cpp.19', 'header_lgpl_cpp.31' ],
+        'new' : 'header_mit_cpp.04'
+    },
+    {
+        'ext' : [ '.cpp', '.h', '.in' ],
+        'old' : [ 'header_lgpl_cpp.14' ],
+        'new' : 'header_mit_cpp.05'
+    },
+    {
+        'ext' : [ '.cpp', '.h', '.in' ],
+        'old' : [ 'header_lgpl_cpp.20' ],
+        'new' : 'header_mit_cpp.06'
+    },
+    {
+        'ext' : [ '.cpp', '.h', '.in' ],
+        'old' : [ 'header_lgpl_cpp.23' ],
+        'new' : 'header_mit_cpp.07'
+    },
+    {
+        'ext' : [ '.cxx' ],
+        'old' : [ 'header_none_cpp.01' ],
+        'new' : 'header_apache_cpp.06'
     },
 ]
 
@@ -185,6 +248,8 @@ op_type_5 = [
 
 otbfiles = []
 
+pattern1 = re.compile('^(CMakeLists\\.txt|.*\\.cmake(\\.in)?)$')
+pattern2 = re.compile('((README|VERSION|LICENS|AUTHORS|RELEASE|INSTALL|NOTES|Makefile-upstream).*|.*\\.(png|ico|dox|html|desktop|ts|xpm|ui|qrc|svg|orig|icns|rc.in|dox.in|config.in|css))$')
 for root, dirs, files in os.walk(topdir, topdown=True):
     # NB: La suppression du repertoire ".git" de la liste "dirs" fait que ce
     # repertoire n'est pas explore par la suite (ce qui nous arrange) car les
@@ -193,19 +258,26 @@ for root, dirs, files in os.walk(topdir, topdown=True):
     if '.git' in dirs:
         dirs.remove('.git')
 
+    if 'Documentation' in dirs:
+        dirs.remove('Documentation')
+
+    if 'Copyright' in dirs:
+        dirs.remove('Copyright')
+
     if (root.find('/SuperBuild/patches') != -1) or (root.find('/6S') != -1):
-        pattern = re.compile('^(CMakeLists\\.txt|.*\\.cmake(\\.in)?)$')
         for fn in files:
-            if pattern.match(fn):
+            if pattern1.match(fn):
                 filename = os.path.join(root, fn)
                 if os.path.isfile(filename):
                     otbfiles.append(filename)
     else:
         for fn in files:
-            filename = os.path.join(root, fn)
-            if os.path.isfile(filename):
-                otbfiles.append(filename)
-
+            if not pattern2.match(fn):
+                filename = os.path.join(root, fn)
+                if os.path.isfile(filename):
+                    otbfiles.append(filename)
+            else:
+                print("EXCLUDED: {0}".format(fn))
 
 #for fn in otbfiles:
 #    print(fn)
