@@ -4,15 +4,7 @@
 # Copyright: CNES 2014 -2016
 # To test this script use test_mxe_common.cmake
 
-
-# Select the model (nightly, experimental, continuous, crossCompile).
-if(NOT DEFINED dashboard_model)
-  set(dashboard_model nightly)
-else()
-  string(TOLOWER ${dashboard_model} dashboard_model)
-endif()
-
-string(TOUPPER ${dashboard_model} DASHBOARD_MODEL)
+string(TOLOWER ${dashboard_model} dashboard_model_l)
 
 if(DEFINED dashboard_module)
   set(PROJECT otb)
@@ -23,10 +15,6 @@ if(NOT DEFINED CTEST_BUILD_CONFIGURATION)
 endif()
 
 string(TOLOWER ${PROJECT} project)
-
-if(NOT DEFINED CTEST_DASHBOARD_ROOT)
-  set(CTEST_DASHBOARD_ROOT "/data/dashboard")
-endif()
 
 if(NOT DEFINED dashboard_git_branch)
   if(DEFINED ENV{dashboard_${project}_git_branch})
@@ -44,7 +32,6 @@ if(NOT DEFINED CTEST_BUILD_NAME)
   endif()
 endif()
 
-
 set(build_directory_name MinGW)
 if(DEFINED dashboard_module)
   set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_module}")
@@ -53,14 +40,6 @@ endif()
 
 if(NOT DEFINED MXE_ROOT)
   set(MXE_ROOT "/data/tools/mxe")
-endif()
-
-if(DEFINED ENV{CTEST_SITE})
-  set(CTEST_SITE "$ENV{CTEST_SITE}")
-endif()
-
-if(NOT DEFINED CTEST_SITE)
-  set(CTEST_SITE "bumblebee.c-s.fr")
 endif()
 
 if(MXE_TARGET_ARCH MATCHES "i686")
@@ -76,10 +55,6 @@ endif()
 
 if(NOT DEFINED CMAKE_MAKE_PROGRAM)
   set(CMAKE_MAKE_PROGRAM "/usr/bin/make")
-endif()
-
-if(NOT DEFINED CTEST_CROSS_COMMAND)
-  find_program(CTEST_GIT_COMMAND NAMES git)
 endif()
 
 if(NOT DEFINED CMAKE_CROSSCOMPILING_EMULATOR)
@@ -112,14 +87,6 @@ if(NOT DEFINED dashboard_large_input_root)
   set(dashboard_large_input_root "/media/otbnas/otb/OTB-LargeInput")
 endif()
 
-if(NOT DEFINED dashboard_package_target)
-  set(dashboard_package_target PACKAGE-OTB)
-endif()
-
-if(NOT DEFINED dashboard_build_command)
-  set(dashboard_build_command "/usr/bin/make -j4 -k")
-endif()
-
 if(NOT DEFINED dashboard_build_target)
   if(DEFINED dashboard_module)
     set(dashboard_build_target all)
@@ -128,12 +95,22 @@ if(NOT DEFINED dashboard_build_target)
   endif()
 endif()
 
+
+if(NOT DEFINED dashboard_package_target)
+  set(dashboard_package_target PACKAGE-OTB)
+endif()
+
 if(NOT DEFINED dashboard_make_package)
-  if("${project}" STREQUAL "otb" OR "${project}" STREQUAL "monteverdi" )
+  if("${project}" STREQUAL "otb")
     set(dashboard_make_package TRUE)
   else()
     set(dashboard_make_package FALSE)
   endif()
+endif()
+
+#no matter what. I am not making a package for remote module only build
+if(DEFINED dashboard_module)
+  set(dashboard_make_package FALSE)
 endif()
 
 #################################### BEGIN #######################################
@@ -150,7 +127,7 @@ CMAKE_C_FLAGS:STRING=${dashboard_cc_flags}
 
 CMAKE_CXX_FLAGS:STRING=${dashboard_cxx_flags}
 
-CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_DASHBOARD_ROOT}/${dashboard_model_l}/install-MinGW-${MXE_TARGET_ARCH}
 
 CMAKE_CROSSCOMPILING:BOOL=${CMAKE_CROSSCOMPILING}
 
@@ -164,36 +141,8 @@ CMAKE_USE_PTHREADS:BOOL=OFF
 
 CMAKE_USE_WIN32_THREADS:BOOL=ON
 
-
-
 "
   )
-
-# Get latest version from <install-prefix>/lib/cmake/OTB-version
-set(otb_version 1.0)
-set(otb_cmake_root_dir ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/cmake)
-file(GLOB otb_cmake_version_dirs RELATIVE ${otb_cmake_root_dir} ${otb_cmake_root_dir}/*)
-foreach(otb_cmake_version_dir ${otb_cmake_version_dirs})
-  if(IS_DIRECTORY ${otb_cmake_root_dir}/${otb_cmake_version_dir})
-    string(SUBSTRING ${otb_cmake_version_dir} 4 -1 cur_version_dir)
-    if(otb_version LESS ${cur_version_dir})
-      set(otb_version ${cur_version_dir})
-    endif()
-  endif()
-endforeach()
-
-if(NOT ${project} STREQUAL "otb")
-  set(mxe_common_cache
-    " ${mxe_common_cache}
-OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/${dashboard_model}/install-MinGW-${MXE_TARGET_ARCH}/lib/cmake/OTB-${otb_version}
-
-")
-endif( )
-
-#no matter what. I am not making a package for remote module only build
-if(DEFINED dashboard_module)
-  set(dashboard_make_package FALSE)
-endif()
 
 #tiny shiny MXE_TARGET_DIR cmake var is needed if packages are created
 if(dashboard_make_package)
@@ -281,35 +230,12 @@ endif()
 ############### set 'mxe_common_cache' based given configurations ################
 ##################################### END ########################################
 
-# Select Git source to use.
-if(NOT DEFINED dashboard_git_url)
-  set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/${PROJECT}.git")
-endif()
-
-if(NOT DEFINED dashboard_git_crlf)
-  if(UNIX)
-    set(dashboard_git_crlf false)
-  else()
-    set(dashboard_git_crlf true)
-  endif()
-endif()
-
-if(DEFINED dashboard_git_features_list)
-  message("Checking feature branches file : ${dashboard_git_features_list}")
-  file(STRINGS ${dashboard_git_features_list} additional_branches
-    REGEX "^ *([a-zA-Z0-9]|-|_)+ *\$")
-  list(LENGTH additional_branches number_additional_branches)
-  if(number_additional_branches GREATER 0)
-    message("Testing feature branches : ${additional_branches}")
-  endif()
-endif()
-
 # Select a source directory name.
 if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
   if(DEFINED dashboard_source_name)
     set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_source_name})
   else()
-    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src)
+    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_model_l}/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/src)
   endif()
 endif()
 
@@ -318,7 +244,7 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   if(DEFINED dashboard_binary_name)
     set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
   else()
-    set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_model}/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-${build_directory_name}-${MXE_TARGET_ARCH})
+    set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_model_l}/${PROJECT}-${CTEST_BUILD_CONFIGURATION}/build-${build_directory_name}-${MXE_TARGET_ARCH})
   endif()
 endif()
 
