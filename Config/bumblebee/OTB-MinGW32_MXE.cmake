@@ -1,9 +1,10 @@
 # Maintainers : OTB developers team
 # Cross compilation of OTB library using MXE (M cross environment)
-set(CTEST_SITE "bumblebee.c-s.fr")
+set(dashboard_model Nightly)
+set(CTEST_BUILD_CONFIGURATION Release)
 set(MXE_TARGET_ARCH "i686")
 set(PROJECT "otb")
-set(CTEST_TEST_ARGS INCLUDE Tu)
+include(${CTEST_SCRIPT_DIRECTORY}/bumblebee_common.cmake)
 
 set(CTEST_TEST_ARGS INCLUDE Tu)
 
@@ -27,9 +28,13 @@ OTB_USE_OPENGL:BOOL=ON
 OTB_USE_GLEW:BOOL=ON
 OTB_USE_GLFW:BOOL=ON
 OTB_USE_GLUT:BOOL=ON
+# Monteverdi
+OTB_USE_QWT:BOOL=ON
 
 OTB_WRAP_PYTHON:BOOL=OFF
 OTB_WRAP_JAVA:BOOL=OFF
+
+GENERATE_PACKAGE=ON
 ")
 endmacro()
 
@@ -75,9 +80,7 @@ set(CTEST_NOTES_FILES "/home/otbval/logs/mxe_build_log.txt")
 #change the target name to generate packages; eg: OtherPackageTarget
 #set(dashboard_package_target packages)
 
-set(dashboard_make_package FALSE)
-
-include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../mxe_common.cmake)
 
 
-include(${CTEST_SCRIPT_DIRECTORY}/../../otb_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
