@@ -1,5 +1,4 @@
 dev_sar_tsx
-msvc_support
 shark-integration-enhancements
 ENH-FineRegistration ENH-FineRegistration
 sampling_multi_image
