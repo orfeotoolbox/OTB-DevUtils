@@ -14,12 +14,12 @@ def replaceHeader(filename, oldHeader, newHeader):
     sourceFile = open(filename)
     sourceContent = sourceFile.read().lstrip()
     sourceFile.close()
+    newHeaderWithBlankLine = newHeader + "\n"
 
-    targetContent = sourceContent.replace(oldHeader, newHeader)
+    targetContent = sourceContent.replace(oldHeader, newHeaderWithBlankLine)
     if targetContent != sourceContent:
-        print("Modified: {0}".format(filename))
-        backupFileName = filename + ".orig"
-        os.rename(filename, backupFileName)
+        print("UPDATED: {0}".format(filename))
+        os.remove(filename)
         sourceFile = open(filename, 'w')
         sourceFile.write(targetContent)
         sourceFile.close()
@@ -35,10 +35,11 @@ def addHeader(filename, newHeader):
     sourceContent = sourceFile.read().lstrip()
     sourceFile.close()
 
-    targetContent = newHeader + sourceContent
-    print("Modified: {0}".format(filename))
-    backupFileName = filename + ".orig"
-    os.rename(filename, backupFileName)
+    newHeaderWithBlankLine = newHeader + "\n"
+
+    targetContent = newHeaderWithBlankLine + sourceContent
+    print("ADDED: {0}".format(filename))
+    os.remove(filename)
     sourceFile = open(filename, 'w')
     sourceFile.write(targetContent)
     sourceFile.close()
@@ -249,12 +250,9 @@ op_type_5 = [
 otbfiles = []
 
 pattern1 = re.compile('^(CMakeLists\\.txt|.*\\.cmake(\\.in)?)$')
-pattern2 = re.compile('((README|VERSION|LICENS|AUTHORS|RELEASE|INSTALL|NOTES|Makefile-upstream).*|.*\\.(png|ico|dox|html|desktop|ts|xpm|ui|qrc|svg|orig|icns|rc.in|dox.in|config.in|css))$')
+pattern2 = re.compile('((README|VERSION|LICENS|AUTHORS|RELEASE|INSTALL|NOTES|Makefile-upstream).*|'
+                      + '.*\\.(png|ico|dox|html|desktop|ts|xpm|ui|qrc|svg|orig|icns|rc.in|dox.in|config.in|css))$')
 for root, dirs, files in os.walk(topdir, topdown=True):
-    # NB: La suppression du repertoire ".git" de la liste "dirs" fait que ce
-    # repertoire n'est pas explore par la suite (ce qui nous arrange) car les
-    # listes sont visiblement retournees par reference et la liste "dirs" est
-    # utilisee pour parcourir les sous-repertoires.
     if '.git' in dirs:
         dirs.remove('.git')
 
@@ -307,7 +305,6 @@ for op in op_type_2:
 
         for old in op['old']:
 
-            print('### OP2: {0} => {1}'.format(old, op['new']))
             oldHeaderFile = open(os.path.join(hdrdir, old))
             oldHeader     = oldHeaderFile.read()
             filename = os.path.join(topdir, fn)
@@ -322,7 +319,6 @@ for op in op_type_3:
     newHeaderFile = open(os.path.join(hdrdir, op['new']))
     newHeader     = newHeaderFile.read()
 
-    print('### OP3: + {0}'.format(op['new']))
     for fn in op['files']:
 
         filename = os.path.join(topdir, fn)
@@ -345,7 +341,6 @@ for op in op_type_4:
     for i, e in enumerate(op['exclude']):
         excluded.append(os.path.join(topdir, e))
 
-    print('### OP4: + {0}'.format(op['new']))
     for fn in otbfiles2:
         if pattern.match(fn) and fn in otbfiles3 and fn not in excluded:
                 addHeader(fn, newHeader)
@@ -363,7 +358,6 @@ for op in op_type_5:
     for ext in op['ext']:
 
         for old in op['old']:
-            print('### OP5: {0} => {1}'.format(old, op['new']))
             oldHeaderFile = open(os.path.join(hdrdir, old))
             oldHeader     = oldHeaderFile.read()
 
