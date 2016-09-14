@@ -297,7 +297,7 @@ op_type_5 = [
                   'header_lgpl_cpp.06', 'header_lgpl_cpp.08', 'header_lgpl_cpp.09',
                   'header_lgpl_cpp.10', 'header_lgpl_cpp.11', 'header_lgpl_cpp.12',
                   'header_lgpl_cpp.13', 'header_lgpl_cpp.15', 'header_lgpl_cpp.21',
-                  'header_lgpl_cpp.22' ],
+                  'header_lgpl_cpp.22', 'header_lgpl_cpp.27'],
         'new' : 'header_mit_cpp.01'
     },
     {
@@ -309,7 +309,7 @@ op_type_5 = [
         'ext' : [ '.cpp', '.h', '.in' ],
         'old' : [ 'header_lgpl_cpp.02', 'header_lgpl_cpp.07', 'header_lgpl_cpp.17',
                   'header_lgpl_cpp.18', 'header_lgpl_cpp.24', 'header_lgpl_cpp.25',
-                  'header_lgpl_cpp.26', 'header_lgpl_cpp.28', 'header_lgpl_cpp.29' ],
+                  'header_lgpl_cpp.26', 'header_lgpl_cpp.29', 'header_lgpl_cpp.30' ],
         'new' : 'header_mit_cpp.03'
     },
     {
