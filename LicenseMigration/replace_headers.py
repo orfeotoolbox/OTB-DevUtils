@@ -163,6 +163,55 @@ op_type_3 = [
                     'Modules/Wrappers/SWIG/test/python/CMakeLists.txt' ],
         'new' :   'header_apache_cmake.01'
     },
+    {
+        'files' : [ 'Modules/Core/Common/src/otbConfigure.h.in',
+                    'Modules/Core/Metadata/include/otbSarCalibrationLookupData.h',
+                    'Modules/Filtering/ImageNoise/include/otbNoiseEstimatorVectorImageFilter.h',
+                    'Modules/Filtering/Statistics/test/StreamingStat.cxx',
+                    'Modules/Hyperspectral/AnomalyDetection/test/otbLocalRxDetectorRoiTest.cxx',
+                    'Modules/Hyperspectral/AnomalyDetection/test/otbLocalRxDetectorTest.cxx',
+                    'Modules/IO/TestKernel/include/otbDifferenceImageFilter.h',
+                    'Modules/IO/TestKernel/include/otbDifferenceImageFilter.txx',
+                    'Modules/ThirdParty/Curl/CMake/otbTestCurlMulti.cxx',
+                    'Modules/ThirdParty/GDAL/gdalCreateCopyTest.cxx',
+                    'Modules/ThirdParty/GDAL/gdalCreateTest.cxx',
+                    'Modules/ThirdParty/GDAL/gdalFormatsListTest.c',
+                    'Modules/ThirdParty/GDAL/gdalFormatsTest.c',
+                    'Modules/ThirdParty/GDAL/gdalOGRTest.cxx',
+                    'Modules/ThirdParty/GDAL/gdalSymbolsTest.cxx',
+                    'Modules/ThirdParty/GDAL/gdalVersionTest.cxx',
+                    'Modules/ThirdParty/MuParser/CMake/otbTestMuParserHasCxxLogicalOperators.cxx',
+                    'Modules/ThirdParty/TinyXML/CMake/otbTestTinyXMLUseSTL.cxx',
+                    'Modules/Visualization/Ice/include/otbNonOptGlImageActor.h',
+                    'Modules/Visualization/Ice/src/otbNonOptGlImageActor.cxx',
+                    'Modules/Visualization/MonteverdiCore/src/ConfigureMonteverdi.h.in',
+                    'Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h',
+                    'Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h',
+                    'Modules/Wrappers/ApplicationEngine/src/otbWrapperInputProcessXMLParameter.cxx',
+                    'Modules/Wrappers/ApplicationEngine/src/otbWrapperOutputProcessXMLParameter.cxx',
+                    'Modules/Wrappers/SWIG/test/java/JavaSmoothingTest.java',
+                    'Modules/Wrappers/SWIG/test/java/JavaRescaleInXMLTest.java',
+                    'Modules/Wrappers/SWIG/test/java/JavaRescaleOutXMLTest.java',
+                    'Modules/Wrappers/SWIG/test/java/JavaRescaleTest.java'
+        ],
+        'new' :   'header_apache_cpp.01'
+    },
+    {
+        'files' : [ 'Modules/Wrappers/SWIG/test/python/Bug440.py',
+                    'Modules/Wrappers/SWIG/test/python/Bug736.py',
+                    'Modules/Wrappers/SWIG/test/python/Bug804.py',
+                    'Modules/Wrappers/SWIG/test/python/Bug823.py',
+                    'Modules/Wrappers/SWIG/test/python/PythonConnectApplications.py',
+                    'Modules/Wrappers/SWIG/test/python/PythonHyperspectralUnmixing1.py',
+                    'Modules/Wrappers/SWIG/test/python/PythonInXMLTest.py',
+                    'Modules/Wrappers/SWIG/test/python/PythonNewStyleParametersInstanciateAllTest.py',
+                    'Modules/Wrappers/SWIG/test/python/PythonOutXMLTest.py',
+                    'Modules/Wrappers/SWIG/test/python/PythonRescaleTest.py',
+                    'Modules/Wrappers/SWIG/test/python/PythonSmoothingTest.py',
+                    'Modules/Wrappers/SWIG/test/python/PythonTestDriver.py'
+        ],
+        'new' :   'header_apache_python.01'
+    },
 ]
 
 
