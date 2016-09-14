@@ -50,6 +50,51 @@ topdir = 'otb'
 hdrdir = 'headers'
 
 
+# Files to be ignored
+op_type_1 = [
+    '.travis.yml',
+    '.hgignore',
+    '.gitignore',
+    '.hgsigs',
+    'CMake/CppcheckTargets.cmake',
+    'CMake/FindKWStyle.cmake',
+    'CMake/FindLibSVM.cmake',
+    'CMake/Findcppcheck.cmake',
+    'CMake/OTB_CheckCCompilerFlag.cmake',
+    'CMake/TopologicalSort.cmake',
+    'CMake/UseJava.cmake',
+    'CMake/UseJavaClassFilelist.cmake',
+    'CMake/UseJavaSymlinks.cmake',
+    'CMake/UseSWIGLocal.cmake',
+    'Modules/Adapters/OSSIMAdapters/test/otbPlatformPositionAdapter.cxx',
+    'Modules/ThirdParty/ITK/include/itkImageRegionMultidimensionalSplitter.h',
+    'Modules/ThirdParty/ITK/include/itkImageRegionMultidimensionalSplitter.hxx',
+    'Modules/ThirdParty/ITK/include/itkImageRegionSplitter.h',
+    'Modules/ThirdParty/ITK/include/itkImageRegionSplitter.hxx',
+    'Modules/ThirdParty/ITK/include/itkTransformToDisplacementFieldSource.h',
+    'Modules/ThirdParty/ITK/include/itkTransformToDisplacementFieldSource.hxx',
+    'Modules/ThirdParty/ITK/include/itkUnaryFunctorImageFilter.h',
+    'Modules/ThirdParty/ITK/include/itkUnaryFunctorImageFilter.hxx',
+    'Modules/ThirdParty/SPTW/src/examples/test.cpp',
+    'Modules/ThirdParty/SPTW/src/sptw.cc',
+    'Modules/ThirdParty/SPTW/src/sptw.h',
+    'Modules/ThirdParty/SPTW/src/utils.h',
+    'Modules/ThirdParty/SiftFast/src/FindBoost.cmake',
+    'Modules/ThirdParty/SiftFast/src/libsiftfast.cpp',
+    'Modules/ThirdParty/SiftFast/src/makerelease.sh',
+    'Modules/ThirdParty/SiftFast/src/profiler.cpp',
+    'Modules/ThirdParty/SiftFast/src/profiler.h',
+    'Modules/ThirdParty/SiftFast/src/runcmake.bat',
+    'Modules/ThirdParty/SiftFast/src/siftfast.cpp',
+    'Modules/ThirdParty/SiftFast/src/siftfast.h',
+    'Modules/ThirdParty/SiftFast/src/siftfast.m',
+    'Modules/ThirdParty/SiftFast/src/siftfastpy.cpp',
+    'Modules/ThirdParty/SiftFast/src/siftmex.cpp',
+    'Modules/ThirdParty/SiftFast/src/test_try_compile_libsiftfast.cpp',
+    'Modules/Wrappers/SWIG/src/numpy.i',
+    'Utilities/Maintenance/BuildHeaderTest.py'
+]
+
 
 op_type_2 = [
     {
@@ -290,7 +335,10 @@ for root, dirs, files in os.walk(topdir, topdown=True):
 # objets en profondeur.
 otbfiles1 = copy.deepcopy(otbfiles)
 
-
+for fn in op_type_1:
+    filename = os.path.join(topdir, fn)
+    otbfiles1.remove(filename)
+    print("REMOVED: {0}".format(fn))
 
 
 
