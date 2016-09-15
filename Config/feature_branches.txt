@@ -1,7 +1,4 @@
 dev_sar_tsx
-msvc_support
-rfc-51-mvd_modules
 shark-integration-enhancements
-cookbook
 ENH-FineRegistration ENH-FineRegistration
-
+sampling_multi_image

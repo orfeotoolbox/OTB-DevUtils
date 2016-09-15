@@ -1,0 +1,12 @@
+//----------------------------------------------------------------------------
+//
+// License:  LGPL
+//
+// See LICENSE.txt file in the top level directory for more details.
+//
+// Author:  David Burken
+//
+// Description: Utility class to encapsulate parsing TerraSAR-X product.xml
+// file.
+//
+//----------------------------------------------------------------------------
