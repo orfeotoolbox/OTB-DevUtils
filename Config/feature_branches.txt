@@ -1,4 +1,3 @@
 dev_sar_tsx
 shark-integration-enhancements
-ENH-FineRegistration ENH-FineRegistration
-sampling_multi_image
+diff_compare
