@@ -16,7 +16,7 @@ fi
 CLONE_DIR=`readlink -f $1`
 OUT_DIR=`readlink -f $2`
 
-for project in OTB Monteverdi2; do
+for project in OTB; do
   cd $CLONE_DIR/$project
   # update
   git fetch
