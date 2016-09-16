@@ -57,16 +57,31 @@ op_type_1 = [
     '.gitignore',
     '.hgsigs',
     'CMake/CppcheckTargets.cmake',
+    'CMake/Description.txt',
     'CMake/FindKWStyle.cmake',
     'CMake/FindLibSVM.cmake',
     'CMake/Findcppcheck.cmake',
+    'CMake/Findcppcheck.cpp',
+    'CMake/FindOpenThreads.cmake',
+    'CMake/InsightValgrind.supp',
+    'CMake/InsightValgrind-RHEL6.supp',
     'CMake/OTB_CheckCCompilerFlag.cmake',
+    'CMake/otbTestNullPtr.cpp',
+    'CMake/otbTestNumpy.py',
+    'CMake/otbTestOverride.cpp',
+    'CMake/otbTestUniquePtr.cpp',
+    'CMake/pre-commit',
+    'CMake/PythonCompile.py',
+    'CMake/qt.conf.in',
     'CMake/TopologicalSort.cmake',
     'CMake/UseJava.cmake',
     'CMake/UseJavaClassFilelist.cmake',
     'CMake/UseJavaSymlinks.cmake',
     'CMake/UseSWIGLocal.cmake',
     'Modules/Adapters/OSSIMAdapters/test/otbPlatformPositionAdapter.cxx',
+    'Modules/Remote/Mosaic.remote.cmake',
+    'Modules/Remote/otbGRM.remote.cmake',
+    'Modules/Remote/SertitObject.remote.cmake',
     'Modules/ThirdParty/ITK/include/itkImageRegionMultidimensionalSplitter.h',
     'Modules/ThirdParty/ITK/include/itkImageRegionMultidimensionalSplitter.hxx',
     'Modules/ThirdParty/ITK/include/itkImageRegionSplitter.h',
@@ -153,10 +168,20 @@ op_type_2 = [
         'old' :   [ 'header_cecill_python.01', 'header_cecill_python.02' ],
         'new' :   'header_apache_python.02'
     },
+    {
+        'files' : [ 'SuperBuild/Packaging/Files/linux_pkgsetup.in',
+                    'SuperBuild/Packaging/Files/macx_pkgsetup.in',
+                    'Modules/ThirdParty/GDAL/gdalTest.sh.in',
+                    'Utilities/Maintenance/SuperbuildDownloadList.sh',
+                    'Utilities/Maintenance/TravisBuild.sh'
+        ],
+        'old' :   [ 'header_none_shell.01', 'header_none_shell.02', 'header_none_shell.03' ],
+        'new' :   'header_apache_shell.01'
+    },
 ]
 
 
-
+# Missing header
 op_type_3 = [
     {
         'files' : [ 'Modules/Wrappers/SWIG/otb-module-init.cmake',
@@ -195,6 +220,12 @@ op_type_3 = [
                     'Modules/Wrappers/SWIG/test/java/JavaRescaleTest.java'
         ],
         'new' :   'header_apache_cpp.01'
+    },
+    {
+        'files' : [ 'Modules/ThirdParty/OssimPlugins/src/ossim/ossimWin32FindFileHandle.h',
+                    'Modules/ThirdParty/OssimPlugins/src/ossim/ossimWin32FindFileHandle.cpp'
+        ],
+        'new' :   'header_mit_cpp.01'
     },
     {
         'files' : [ 'Modules/Wrappers/SWIG/test/python/Bug440.py',
@@ -371,10 +402,6 @@ for root, dirs, files in os.walk(topdir, topdown=True):
             else:
                 print("EXCLUDED: {0}".format(fn))
 
-#for fn in otbfiles:
-#    print(fn)
-#exit(1)
-
 
 
 # NB: L'instruction "otbfiles1 = otbfiles" ne copie pas la liste mais cree une
@@ -386,8 +413,9 @@ otbfiles1 = copy.deepcopy(otbfiles)
 
 for fn in op_type_1:
     filename = os.path.join(topdir, fn)
-    otbfiles1.remove(filename)
-    print("REMOVED: {0}".format(fn))
+    if filename in otbfiles1:
+        otbfiles1.remove(filename)
+        print("REMOVED: {0}".format(fn))
 
 
 
