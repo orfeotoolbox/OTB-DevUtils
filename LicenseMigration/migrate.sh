@@ -16,6 +16,8 @@ fi
 # git clone git@git.orfeo-toolbox.org:otb.git otb.orig
 cp -a ${TOPDIR}/otb.orig ${TOPDIR}/otb
 cd ${TOPDIR}/otb
+git config user.name "OTB Bot"
+git config user.email "otbbot@orfeo-toolbox.org"
 git checkout develop
 git checkout -b apache-license-migration
 
@@ -39,3 +41,20 @@ git commit -a -m "Remove useless references to itkModule"
 
 cd $TOPDIR
 ./replace_headers.py
+
+cd ${TOPDIR}/otb
+chmod 755 Utilities/Maintenance/SuperbuildDownloadList.sh
+chmod 755 Utilities/Maintenance/TravisBuild.sh
+git commit -a -m "File headers now state that OTB is released under the Apache license"
+
+cp -f ../hand-adjusted/Description.txt       CMake/Description.txt
+cp -f ../hand-adjusted/README.md             README.md
+cp -f ../hand-adjusted/mvdAboutDialog.ui     Modules/Visualization/MonteverdiGui/src/mvdAboutDialog.ui
+git commit -a -m "Documentation now state that OTB is released under the Apache license"
+
+cp -f ../hand-adjusted/Findcppcheck.cpp      CMake/Findcppcheck.cpp
+cp -f ../hand-adjusted/PythonCompile.py      CMake/PythonCompile.py
+git commit -a -m "Removed undue copyright notices (trivial code)"
+
+cp -f ../hand-adjusted/FindOpenThreads.cmake CMake/FindOpenThreads.cmake
+git commit -a -m "Reworked copyright notice"
