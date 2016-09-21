@@ -10,7 +10,7 @@ set(dashboard_module "otbGRM")
 set(dashboard_module_url "http://tully.ups-tlse.fr/lassallep/grm.git")
 
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "MacOSX10.10-${CTEST_BUILD_CONFIGURATION}-${dashboard_module}")
+set(CTEST_BUILD_NAME "${dashboard_module}-MacOSX10.10-${CTEST_BUILD_CONFIGURATION}")
 set(dashboard_no_install 1)
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 

@@ -10,7 +10,7 @@ set(dashboard_module "Mosaic")
 set(dashboard_module_url "https://github.com/remicres/otb-mosaic")
 
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}-${dashboard_module}")
+set(CTEST_BUILD_NAME "${dashboard_module}-Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 set(dashboard_no_install 1)
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 
