@@ -29,11 +29,15 @@
 #   GIT_TAG 90c369e9a197b3f83cb18e1d7bc594313fef63d5
 # )
 
+set(dashboard_model Nightly)
+set(CTEST_BUILD_CONFIGURATION Release)
 set(dashboard_module "SertitObject")
 set(dashboard_module_url "https://github.com/sertit/SertitObject")
 set(MXE_TARGET_ARCH "x86_64")
 
-include(${CTEST_SCRIPT_DIRECTORY}/../../mxe_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/bumblebee_common.cmake)
+
+include(${CTEST_SCRIPT_DIRECTORY}/../mxe_common.cmake)
 set(dashboard_cache "${mxe_common_cache}")
 
-include(${CTEST_SCRIPT_DIRECTORY}/../../otb_common.cmake)
+include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

@@ -41,7 +41,7 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
+OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/src/OTB-Data-shared
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 USE_SYSTEM_ZLIB:BOOL=OFF
