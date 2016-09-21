@@ -34,7 +34,7 @@ endif()
 
 set(build_directory_name MinGW)
 if(DEFINED dashboard_module)
-  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_module}")
+  set(CTEST_BUILD_NAME "${dashboard_module}-${CTEST_BUILD_NAME}")
   set(build_directory_name ${dashboard_module})
 endif()
 
