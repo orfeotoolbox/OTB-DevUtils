@@ -11,7 +11,7 @@ set(dashboard_otb_binary "nightly/OTB-Release/build")
 set(dashboard_otb_install "nightly/OTB-Release/install")
 
 set(dashboard_root_name "tests")
-set(dashboard_source_name "${dashboard_otb_source}/Documentation/CookBook")
+set(dashboard_source_name "${dashboard_otb_source}/Documentation/Cookbook")
 set(dashboard_binary_name "nightly/CookBook/develop")
 
 #set(dashboard_fresh_source_checkout OFF)
