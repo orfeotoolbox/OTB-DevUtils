@@ -27,7 +27,7 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 OTB_DATA_PATHS:STRING=$ENV{HOME}/Data/OTB-Data/Examples::$ENV{HOME}/Data/OTB-Data/Input
 
-OTB_DIR:STRING=${CTEST_DASHBOARD_ROOT}/${dashboard_otb_install}
+OTB_DIR:STRING=${CTEST_DASHBOARD_ROOT}/${dashboard_otb_install}/lib/cmake/OTB-5.7
 ")
 endmacro()
 
