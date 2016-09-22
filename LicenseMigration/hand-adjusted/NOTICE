@@ -1,23 +1,97 @@
 Orfeo Toolbox (OTB)
 Copyright 2005-2016 Centre National d'Etudes Spatiales (CNES)
 
-This software is distributed under the Apache v2.0 license, see LICENSE file
-for details.
+This software is distributed under the Apache Software License (ASL) v2.0, see
+LICENSE file or http://www.apache.org/licenses/LICENSE-2.0 for details.
+
 
 This software includes code from the Insight Segmentation and Registration
 Toolkit (ITK) project.
   Copyright 1999-2011 Insight Software Consortium
   https://itk.org/
-  This code was released under Apache v2.0 license.
+  Starting from version 4.0, this code was released under Apache Software
+  License (ASL) v2.0:
+  https://itk.org/ITK/project/license.html
+
 
 This software includes code that been developed by CS Systemes d'Information
 (CS SI) during internships and self-financed studies.
   Copyright 2005-2016 CS Systemes d'Information
-  This code was contributed under Apache v2.0 license.
+  This code was contributed under Apache Software License (ASL) v2.0:
+  http://www.apache.org/licenses/LICENSE-2.0
 
-This software includes code that have been developed by mmanuel Christophe
+
+This software includes code that have been developed by Emmanuel Christophe
 between October 6th, 2008 and October 5th, 2010 and that is under copyright
 from Centre for Remote Imaging, Sensing and Processing (CRISP) of the National
 University of Singapore (NUS).
   Copyright (C) 2008-2010 Centre for Remote Imaging, Sensing and Processing
-  This code was contributed under Apache v2.0 license.
+  This code was contributed under Apache Software License (ASL) v2.0:
+  http://www.apache.org/licenses/LICENSE-2.0
+
+
+This software includes code that been developed by Grégoire Mercier that is
+under copyright from Institut Mines Telecom / Telecom Bretagne.
+  Copyright (C) 2007-2012 Institut Mines Telecom / Telecom Bretagne
+  This code was contributed under Apache Software License (ASL) v2.0:
+  http://www.apache.org/licenses/LICENSE-2.0
+
+
+This software includes code from the VXL project.
+  Copyright 2000-2013 VXL Contributors
+  http://vxl.sourceforge.net/
+  This code was released under BSD 3-clauses license:
+  https://sourceforge.net/p/vxl/git/ci/master/tree/core/vxl_copyright.h
+
+
+This software includes code from the Boost project.
+  Copyright 2000-2016 Boost Contributors
+  http://www.boost.org/
+  This code was released under Boost Software License (BSL) v2.0:
+  http://www.boost.org/LICENSE_1_0.txt
+
+
+This software includes code from the GDAL project.
+  Copyright (C) 2000-2016 Frank Warmerdam
+  http://www.gdal.org/
+  This code was released under X11/MIT License:
+  https://trac.osgeo.org/gdal/wiki/FAQGeneral#WhatlicensedoesGDALOGRuse
+
+
+This software includes code from the GeoTIFF project.
+  Copyright (C) 1999-2016 Frank Warmerdam
+  Copyright (C) 1995 Niles D. Ritter
+  http://trac.osgeo.org/geotiff
+  This code was released under "X style" License:
+  https://trac.osgeo.org/geotiff/browser/trunk/libgeotiff/LICENSE
+
+
+This software includes code from the OpenThreads library, an OpenSceneGraph
+sub-project.
+  Copyright (C) 2002-2008 The Open Thread Group
+  http://www.openscenegraph.org/
+  This code was released under OpenSceneGraph Public License (OSGPL) 0.0, i.e.
+  the wxWindows library license:
+  https://github.com/openscenegraph/OpenSceneGraph/blob/master/LICENSE.txt
+
+
+This software includes code from the OSSIM project.
+  Copyright (C) 2015-2016 OSSIM Contributors
+  http://www.ossim.org/
+  This code was released under MIT license:
+  https://github.com/ossimlabs/ossim/blob/dev/LICENSE.txt
+
+
+This software includes code from the TinyXML project.
+  Copyright (C) 2001-2010 Lee Thomason
+  http://www.grinninglizard.com/tinyxml
+  This code was released under ZLib license:
+  http://tinyxml.cvs.sourceforge.net/viewvc/tinyxml/tinyxml/readme.txt
+
+
+This software includes code from the 6S project.
+  Public domain
+  http://6s.ltdri.org/
+  According to Eric F. Vermote - the main author of 6S - this source code is
+  in the public domain in virtue of United States copyright law because it was
+  developed on authority of the NASA.
