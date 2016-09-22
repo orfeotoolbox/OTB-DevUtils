@@ -1,0 +1,23 @@
+Orfeo Toolbox (OTB)
+Copyright 2005-2016 Centre National d'Etudes Spatiales (CNES)
+
+This software is distributed under the Apache v2.0 license, see LICENSE file
+for details.
+
+This software includes code from the Insight Segmentation and Registration
+Toolkit (ITK) project.
+  Copyright 1999-2011 Insight Software Consortium
+  https://itk.org/
+  This code was released under Apache v2.0 license.
+
+This software includes code that been developed by CS Systemes d'Information
+(CS SI) during internships and self-financed studies.
+  Copyright 2005-2016 CS Systemes d'Information
+  This code was contributed under Apache v2.0 license.
+
+This software includes code that have been developed by mmanuel Christophe
+between October 6th, 2008 and October 5th, 2010 and that is under copyright
+from Centre for Remote Imaging, Sensing and Processing (CRISP) of the National
+University of Singapore (NUS).
+  Copyright (C) 2008-2010 Centre for Remote Imaging, Sensing and Processing
+  This code was contributed under Apache v2.0 license.
