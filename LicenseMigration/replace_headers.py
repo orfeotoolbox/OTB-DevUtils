@@ -46,8 +46,8 @@ def addHeader(filename, newHeader):
     return True
 
 
-topdir = 'otb'
-hdrdir = 'headers'
+otbdir = '.'
+hdrdir = '../headers'
 
 
 # Files to be ignored
@@ -394,7 +394,7 @@ otbfiles = []
 pattern1 = re.compile('^(CMakeLists\\.txt|.*\\.cmake(\\.in)?)$')
 pattern2 = re.compile('((README|VERSION|LICENS|AUTHORS|RELEASE|INSTALL|NOTES|Makefile-upstream).*|'
                       + '.*\\.(png|ico|dox|html|desktop|ts|xpm|ui|qrc|svg|orig|icns|rc.in|dox.in|config.in|css))$')
-for root, dirs, files in os.walk(topdir, topdown=True):
+for root, dirs, files in os.walk(otbdir, topdown=True):
     if '.git' in dirs:
         dirs.remove('.git')
 
@@ -412,12 +412,12 @@ for root, dirs, files in os.walk(topdir, topdown=True):
                     otbfiles.append(filename)
     else:
         for fn in files:
+            filename = os.path.join(root, fn)
             if not pattern2.match(fn):
-                filename = os.path.join(root, fn)
                 if os.path.isfile(filename):
                     otbfiles.append(filename)
             else:
-                print("EXCLUDED: {0}".format(fn))
+                print("EXCLUDED: {0}".format(filename))
 
 
 
@@ -429,10 +429,10 @@ for root, dirs, files in os.walk(topdir, topdown=True):
 otbfiles1 = copy.deepcopy(otbfiles)
 
 for fn in op_type_1:
-    filename = os.path.join(topdir, fn)
+    filename = os.path.join(otbdir, fn)
     if filename in otbfiles1:
         otbfiles1.remove(filename)
-        print("REMOVED: {0}".format(fn))
+        print("REMOVED: {0}".format(filename))
 
 
 
@@ -449,7 +449,7 @@ for op in op_type_2:
 
             oldHeaderFile = open(os.path.join(hdrdir, old))
             oldHeader     = oldHeaderFile.read()
-            filename = os.path.join(topdir, fn)
+            filename = os.path.join(otbdir, fn)
             if os.path.isfile(filename) and filename in otbfiles2:
                 if replaceHeader(filename, oldHeader, newHeader):
                     otbfiles2.remove(filename)
@@ -463,7 +463,7 @@ for op in op_type_3:
 
     for fn in op['files']:
 
-        filename = os.path.join(topdir, fn)
+        filename = os.path.join(otbdir, fn)
         if os.path.isfile(filename) and filename in otbfiles2:
             addHeader(filename, newHeader)
             otbfiles2.remove(filename)
@@ -481,7 +481,7 @@ for op in op_type_4:
 
     excluded = []
     for i, e in enumerate(op['exclude']):
-        excluded.append(os.path.join(topdir, e))
+        excluded.append(os.path.join(otbdir, e))
 
     for fn in otbfiles2:
         if pattern.match(fn) and fn in otbfiles3 and fn not in excluded:
