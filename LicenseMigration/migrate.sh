@@ -8,13 +8,13 @@
 TOPDIR=$(pwd)
 OTBDIR=${TOPDIR}/otb
 if [ ! -d "${OTBDIR}/.git" ] ; then
-    echo "ERROR: No OTB repository found ('${OTBDIR}')"
+    echo "ERROR: No OTB repository found ('${OTBDIR}')" >&2
     exit 1
 fi
 
 WORKINGDIR=${TOPDIR}/otb-license-migration
 if [ -d "${WORKINGDIR}" ] ; then
-    echo "ERROR: Remove '${WORKINGDIR}' repository first"
+    echo "ERROR: Remove '${WORKINGDIR}' repository first" >&2
     exit 1
 fi
 
@@ -57,7 +57,20 @@ git commit -m "Updated license text (CeCILL v2.0 => Apache v2.0)"
 
 cp -f ${TOPDIR}/hand-adjusted/NOTICE NOTICE
 git add NOTICE
-git commit -m "Added NOTICE file that lists third party software"
+git rm Copyright/OTBCopyright.txt
+git rm Copyright/CodeOTB-ITKCopyright.txt
+git rm Copyright/ITKCopyright.txt
+git rm Copyright/CSCopyright.txt
+git rm Copyright/CrispCopyright.txt
+git rm Copyright/IMTCopyright.txt
+git rm Copyright/VXLCopyright.txt
+git rm Copyright/LibBOOSTCopyright.txt
+git rm Copyright/GDALCopyright.txt
+git rm Copyright/GeoTIFFCopyright.txt
+git rm Copyright/OSGCopyright.txt
+git rm Copyright/OSSIMCopyright.txt
+git rm Copyright/TinyXMLCopyright.txt
+git commit -m "Third party copyrights moved in NOTICE file"
 
 cp -f ${TOPDIR}/hand-adjusted/Description.txt   CMake/Description.txt
 cp -f ${TOPDIR}/hand-adjusted/README.md         README.md
