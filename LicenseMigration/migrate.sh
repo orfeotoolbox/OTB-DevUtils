@@ -57,19 +57,26 @@ git commit -m "Updated license text (CeCILL v2.0 => Apache v2.0)"
 
 cp -f ${TOPDIR}/hand-adjusted/NOTICE NOTICE
 git add NOTICE
-git rm Copyright/OTBCopyright.txt
-git rm Copyright/CodeOTB-ITKCopyright.txt
-git rm Copyright/ITKCopyright.txt
 git rm Copyright/CSCopyright.txt
+git rm Copyright/CodeOTB-ITKCopyright.txt
 git rm Copyright/CrispCopyright.txt
-git rm Copyright/IMTCopyright.txt
-git rm Copyright/VXLCopyright.txt
-git rm Copyright/LibBOOSTCopyright.txt
+git rm Copyright/CurlCopyright.txt
 git rm Copyright/GDALCopyright.txt
 git rm Copyright/GeoTIFFCopyright.txt
+git rm Copyright/IMTCopyright.txt
+git rm Copyright/ITKCopyright.txt
+git rm Copyright/KMLCopyright.txt
+git rm Copyright/LibBOOSTCopyright.txt
+git rm Copyright/LibSVMCopyright.txt
+git rm Copyright/MuParserCopyright.txt
+git rm Copyright/MuParserXCopyright.txt
+git rm Copyright/OpenCVCopyright.txt
+git rm Copyright/OpenJPEGCopyright.txt
 git rm Copyright/OSGCopyright.txt
 git rm Copyright/OSSIMCopyright.txt
+git rm Copyright/OTBCopyright.txt
 git rm Copyright/TinyXMLCopyright.txt
+git rm Copyright/VXLCopyright.txt
 git commit -m "Third party copyrights moved in NOTICE file"
 
 cp -f ${TOPDIR}/hand-adjusted/Description.txt   CMake/Description.txt
