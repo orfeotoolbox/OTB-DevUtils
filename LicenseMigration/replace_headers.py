@@ -124,7 +124,8 @@ op_type_1 = [
     'Utilities/Doxygen/otbdoxygen.pl.in',
     'Utilities/Doxygen/otbgroup.pl',
     'Utilities/Doxygen/vxl_doxy.pl',
-    'Utilities/Maintenance/BuildHeaderTest.py'
+    'Utilities/Maintenance/BuildHeaderTest.py',
+    'Utilities/Maintenance/fix_typos.sh'
 ]
 
 
@@ -252,7 +253,7 @@ op_type_3 = [
                     'Modules/Wrappers/SWIG/test/python/PythonConnectApplications.py',
                     'Modules/Wrappers/SWIG/test/python/PythonHyperspectralUnmixing1.py',
                     'Modules/Wrappers/SWIG/test/python/PythonInXMLTest.py',
-                    'Modules/Wrappers/SWIG/test/python/PythonNewStyleParametersInstanciateAllTest.py',
+                    'Modules/Wrappers/SWIG/test/python/PythonNewStyleParametersInstantiateAllTest.py',
                     'Modules/Wrappers/SWIG/test/python/PythonOutXMLTest.py',
                     'Modules/Wrappers/SWIG/test/python/PythonRescaleTest.py',
                     'Modules/Wrappers/SWIG/test/python/PythonSmoothingTest.py',
