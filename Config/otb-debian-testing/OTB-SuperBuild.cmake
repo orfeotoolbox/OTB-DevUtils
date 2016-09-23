@@ -1,8 +1,8 @@
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "/home/mrashad/dashboard")
-set(CTEST_SITE "binpkg.c-s.fr")
+set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/dashboard")
+set(CTEST_SITE "otb-debian-testing.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "CentOS-5-x86_64-SuperBuild")
+set(CTEST_BUILD_NAME "Debian-sid-x86_64-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
@@ -28,16 +28,17 @@ list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
 )
 
+# For centos 5
+# CMAKE_CXX_FLAGS:STRING='-w -fPIC -fpermissive'
+# CMAKE_C_FLAGS:STRING='-w -fPIC -fpermissive'
+
 macro(dashboard_hook_init)
 set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
-OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
+OTB_DATA_ROOT:PATH=/home/otbval/dashboard/data/OTB-Data-shared
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
-CMAKE_CXX_FLAGS:STRING='-w -fPIC -fpermissive'
-CMAKE_C_FLAGS:STRING='-w -fPIC -fpermissive'
-
 ENABLE_OTB_LARGE_INPUTS:BOOL=OFF
 
 CMAKE_VERBOSE_MAKEFILE:BOOL=OFF

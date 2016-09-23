@@ -46,8 +46,8 @@ def addHeader(filename, newHeader):
     return True
 
 
-topdir = 'otb'
-hdrdir = 'headers'
+otbdir = '.'
+hdrdir = '../headers'
 
 
 # Files to be ignored
@@ -57,16 +57,40 @@ op_type_1 = [
     '.gitignore',
     '.hgsigs',
     'CMake/CppcheckTargets.cmake',
+    'CMake/Description.txt',
+    'CMake/FindGLEW.cmake',
     'CMake/FindKWStyle.cmake',
     'CMake/FindLibSVM.cmake',
     'CMake/Findcppcheck.cmake',
+    'CMake/Findcppcheck.cpp',
+    'CMake/FindOpenThreads.cmake',
+    'CMake/InsightValgrind.supp',
+    'CMake/InsightValgrind-RHEL6.supp',
     'CMake/OTB_CheckCCompilerFlag.cmake',
+    'CMake/otbcli.bat.in',
+    'CMake/otbcli.sh.in',
+    'CMake/otbcli_app.bat.in',
+    'CMake/otbcli_app.sh.in',
+    'CMake/otbgui.bat.in',
+    'CMake/otbgui.sh.in',
+    'CMake/otbgui_app.bat.in',
+    'CMake/otbgui_app.sh.in',
+    'CMake/otbTestNullPtr.cpp',
+    'CMake/otbTestNumpy.py',
+    'CMake/otbTestOverride.cpp',
+    'CMake/otbTestUniquePtr.cpp',
+    'CMake/pre-commit',
+    'CMake/PythonCompile.py',
+    'CMake/qt.conf.in',
     'CMake/TopologicalSort.cmake',
     'CMake/UseJava.cmake',
     'CMake/UseJavaClassFilelist.cmake',
     'CMake/UseJavaSymlinks.cmake',
     'CMake/UseSWIGLocal.cmake',
     'Modules/Adapters/OSSIMAdapters/test/otbPlatformPositionAdapter.cxx',
+    'Modules/Remote/Mosaic.remote.cmake',
+    'Modules/Remote/otbGRM.remote.cmake',
+    'Modules/Remote/SertitObject.remote.cmake',
     'Modules/ThirdParty/ITK/include/itkImageRegionMultidimensionalSplitter.h',
     'Modules/ThirdParty/ITK/include/itkImageRegionMultidimensionalSplitter.hxx',
     'Modules/ThirdParty/ITK/include/itkImageRegionSplitter.h',
@@ -92,7 +116,16 @@ op_type_1 = [
     'Modules/ThirdParty/SiftFast/src/siftmex.cpp',
     'Modules/ThirdParty/SiftFast/src/test_try_compile_libsiftfast.cpp',
     'Modules/Wrappers/SWIG/src/numpy.i',
-    'Utilities/Maintenance/BuildHeaderTest.py'
+    'SuperBuild/Packaging/Files/mapla.bat',
+    'SuperBuild/Packaging/Files/monteverdi.bat',
+    'SuperBuild/Packaging/Files/otbenv.cmd',
+    'SuperBuild/Packaging/Files/otbenv.profile',
+    'Utilities/Doxygen/mcdoc.py',
+    'Utilities/Doxygen/otbdoxygen.pl.in',
+    'Utilities/Doxygen/otbgroup.pl',
+    'Utilities/Doxygen/vxl_doxy.pl',
+    'Utilities/Maintenance/BuildHeaderTest.py',
+    'Utilities/Maintenance/fix_typos.sh'
 ]
 
 
@@ -153,10 +186,20 @@ op_type_2 = [
         'old' :   [ 'header_cecill_python.01', 'header_cecill_python.02' ],
         'new' :   'header_apache_python.02'
     },
+    {
+        'files' : [ 'SuperBuild/Packaging/Files/linux_pkgsetup.in',
+                    'SuperBuild/Packaging/Files/macx_pkgsetup.in',
+                    'Modules/ThirdParty/GDAL/gdalTest.sh.in',
+                    'Utilities/Maintenance/SuperbuildDownloadList.sh',
+                    'Utilities/Maintenance/TravisBuild.sh'
+        ],
+        'old' :   [ 'header_none_shell.01', 'header_none_shell.02', 'header_none_shell.03' ],
+        'new' :   'header_apache_shell.01'
+    },
 ]
 
 
-
+# Missing header
 op_type_3 = [
     {
         'files' : [ 'Modules/Wrappers/SWIG/otb-module-init.cmake',
@@ -197,6 +240,12 @@ op_type_3 = [
         'new' :   'header_apache_cpp.01'
     },
     {
+        'files' : [ 'Modules/ThirdParty/OssimPlugins/src/ossim/ossimWin32FindFileHandle.h',
+                    'Modules/ThirdParty/OssimPlugins/src/ossim/ossimWin32FindFileHandle.cpp'
+        ],
+        'new' :   'header_mit_cpp.01'
+    },
+    {
         'files' : [ 'Modules/Wrappers/SWIG/test/python/Bug440.py',
                     'Modules/Wrappers/SWIG/test/python/Bug736.py',
                     'Modules/Wrappers/SWIG/test/python/Bug804.py',
@@ -204,7 +253,7 @@ op_type_3 = [
                     'Modules/Wrappers/SWIG/test/python/PythonConnectApplications.py',
                     'Modules/Wrappers/SWIG/test/python/PythonHyperspectralUnmixing1.py',
                     'Modules/Wrappers/SWIG/test/python/PythonInXMLTest.py',
-                    'Modules/Wrappers/SWIG/test/python/PythonNewStyleParametersInstanciateAllTest.py',
+                    'Modules/Wrappers/SWIG/test/python/PythonNewStyleParametersInstantiateAllTest.py',
                     'Modules/Wrappers/SWIG/test/python/PythonOutXMLTest.py',
                     'Modules/Wrappers/SWIG/test/python/PythonRescaleTest.py',
                     'Modules/Wrappers/SWIG/test/python/PythonSmoothingTest.py',
@@ -346,7 +395,7 @@ otbfiles = []
 pattern1 = re.compile('^(CMakeLists\\.txt|.*\\.cmake(\\.in)?)$')
 pattern2 = re.compile('((README|VERSION|LICENS|AUTHORS|RELEASE|INSTALL|NOTES|Makefile-upstream).*|'
                       + '.*\\.(png|ico|dox|html|desktop|ts|xpm|ui|qrc|svg|orig|icns|rc.in|dox.in|config.in|css))$')
-for root, dirs, files in os.walk(topdir, topdown=True):
+for root, dirs, files in os.walk(otbdir, topdown=True):
     if '.git' in dirs:
         dirs.remove('.git')
 
@@ -364,16 +413,12 @@ for root, dirs, files in os.walk(topdir, topdown=True):
                     otbfiles.append(filename)
     else:
         for fn in files:
+            filename = os.path.join(root, fn)
             if not pattern2.match(fn):
-                filename = os.path.join(root, fn)
                 if os.path.isfile(filename):
                     otbfiles.append(filename)
             else:
-                print("EXCLUDED: {0}".format(fn))
-
-#for fn in otbfiles:
-#    print(fn)
-#exit(1)
+                print("EXCLUDED: {0}".format(filename))
 
 
 
@@ -385,9 +430,10 @@ for root, dirs, files in os.walk(topdir, topdown=True):
 otbfiles1 = copy.deepcopy(otbfiles)
 
 for fn in op_type_1:
-    filename = os.path.join(topdir, fn)
-    otbfiles1.remove(filename)
-    print("REMOVED: {0}".format(fn))
+    filename = os.path.join(otbdir, fn)
+    if filename in otbfiles1:
+        otbfiles1.remove(filename)
+        print("REMOVED: {0}".format(filename))
 
 
 
@@ -404,7 +450,7 @@ for op in op_type_2:
 
             oldHeaderFile = open(os.path.join(hdrdir, old))
             oldHeader     = oldHeaderFile.read()
-            filename = os.path.join(topdir, fn)
+            filename = os.path.join(otbdir, fn)
             if os.path.isfile(filename) and filename in otbfiles2:
                 if replaceHeader(filename, oldHeader, newHeader):
                     otbfiles2.remove(filename)
@@ -418,7 +464,7 @@ for op in op_type_3:
 
     for fn in op['files']:
 
-        filename = os.path.join(topdir, fn)
+        filename = os.path.join(otbdir, fn)
         if os.path.isfile(filename) and filename in otbfiles2:
             addHeader(filename, newHeader)
             otbfiles2.remove(filename)
@@ -436,7 +482,7 @@ for op in op_type_4:
 
     excluded = []
     for i, e in enumerate(op['exclude']):
-        excluded.append(os.path.join(topdir, e))
+        excluded.append(os.path.join(otbdir, e))
 
     for fn in otbfiles2:
         if pattern.match(fn) and fn in otbfiles3 and fn not in excluded:

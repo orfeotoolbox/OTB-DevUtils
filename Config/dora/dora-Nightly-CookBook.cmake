@@ -6,16 +6,17 @@ include(${CTEST_SCRIPT_DIRECTORY}/dora_common.cmake)
 
 set(CTEST_DASHBOARD_TRACK Develop)
 
+set(dashboard_otb_source "nightly/OTB-Release/src")
 set(dashboard_otb_binary "nightly/OTB-Release/build")
+set(dashboard_otb_install "nightly/OTB-Release/install")
 
 set(dashboard_root_name "tests")
-set(dashboard_source_name "nightly/OTB-Documents/CookBook")
+set(dashboard_source_name "${dashboard_otb_source}/Documentation/Cookbook")
 set(dashboard_binary_name "nightly/CookBook/develop")
 
 #set(dashboard_fresh_source_checkout OFF)
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb-documents.git")
-set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/nightly/OTB-Documents)
-set(dashboard_git_branch master)
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
+set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/${dashboard_otb_source})
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -26,8 +27,16 @@ CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 OTB_DATA_PATHS:STRING=$ENV{HOME}/Data/OTB-Data/Examples::$ENV{HOME}/Data/OTB-Data/Input
 
-OTB_DIR:STRING=${CTEST_DASHBOARD_ROOT}/${dashboard_otb_binary}
+OTB_DIR:STRING=${CTEST_DASHBOARD_ROOT}/${dashboard_otb_install}/lib/cmake/OTB-5.7
 ")
+endmacro()
+
+macro(dashboard_hook_start)
+  # make sure the source folder exists before calling ctest_start
+  if(NOT EXISTS ${CTEST_DASHBOARD_ROOT}/${dashboard_source_name})
+    execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
+                    WORKING_DIRECTORY ${dashboard_update_dir})
+  endif()
 endmacro()
 
 #set(dashboard_no_test 1)
