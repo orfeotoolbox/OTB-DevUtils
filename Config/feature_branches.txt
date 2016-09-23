@@ -1,7 +1,6 @@
 dev_sar_tsx
-shark-integration-enhancements
+shark-integration-enhancements shark-integration-enhancements
 diff_compare diff_compare
-fix_tipos fix_tipos
 rfc-54-mvd_zoom
 sampling_refac_threading
 app_parameter_ram
