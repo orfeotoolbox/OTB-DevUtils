@@ -31,6 +31,14 @@ OTB_DIR:STRING=${CTEST_DASHBOARD_ROOT}/${dashboard_otb_install}/lib/cmake/OTB-5.
 ")
 endmacro()
 
+macro(dashboard_hook_start)
+  # make sure the source folder exists before calling ctest_start
+  if(NOT EXISTS ${CTEST_DASHBOARD_ROOT}/${dashboard_source_name})
+    execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
+                    WORKING_DIRECTORY ${dashboard_update_dir})
+  endif()
+endmacro()
+
 #set(dashboard_no_test 1)
 #set(dashboard_no_submit 1)
 
