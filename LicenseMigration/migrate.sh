@@ -83,6 +83,7 @@ git rm Copyright/TinyXMLCopyright.txt
 git rm Copyright/VXLCopyright.txt
 git commit -m "Third party copyrights moved in NOTICE file"
 
+cp -f ${TOPDIR}/headers/header_apache_cpp.01    Copyright/CodeCopyright.txt
 cp -f ${TOPDIR}/hand-adjusted/Description.txt   CMake/Description.txt
 cp -f ${TOPDIR}/hand-adjusted/README.md         README.md
 cp -f ${TOPDIR}/hand-adjusted/fr_FR.ts          i18n/fr_FR.ts
