@@ -58,6 +58,15 @@ MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparser
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
 
 #OpenJPEG_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.1/lib/openjpeg-2.1
+
+LIBKML_BASE_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmlbase.so
+LIBKML_CONVENIENCE_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmlconvenience.so
+LIBKML_DOM_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmldom.so
+LIBKML_ENGINE_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmlengine.so
+LIBKML_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/include
+LIBKML_MINIZIP_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libminizip.so
+LIBKML_REGIONATOR_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmlregionator.so
+LIBKML_XSD_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmlxsd.so
     ")
 endmacro()
 
