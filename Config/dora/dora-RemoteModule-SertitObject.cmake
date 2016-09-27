@@ -1,5 +1,5 @@
 set(dashboard_module "SertitObject")
-set(dashboard_module_url "https://github.com/sertit/SertitObject")
+# set(dashboard_module_url "https://github.com/sertit/SertitObject")
 
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "dora.c-s.fr")

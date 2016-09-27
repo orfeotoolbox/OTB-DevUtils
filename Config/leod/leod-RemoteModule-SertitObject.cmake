@@ -1,5 +1,5 @@
 set(dashboard_module "SertitObject")
-set(dashboard_module_url "https://github.com/sertit/SertitObject")
+# set(dashboard_module_url "https://github.com/sertit/SertitObject")
 
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "${dashboard_module}-MacOSX10.10-${CTEST_BUILD_CONFIGURATION}")

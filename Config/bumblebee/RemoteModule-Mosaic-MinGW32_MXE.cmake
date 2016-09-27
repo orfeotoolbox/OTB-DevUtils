@@ -9,7 +9,7 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(dashboard_module "Mosaic")
-set(dashboard_module_url "https://github.com/remicres/otb-mosaic")
+# set(dashboard_module_url "https://github.com/remicres/otb-mosaic")
 set(MXE_TARGET_ARCH "i686")
 
 include(${CTEST_SCRIPT_DIRECTORY}/bumblebee_common.cmake)
