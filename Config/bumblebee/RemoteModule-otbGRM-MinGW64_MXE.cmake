@@ -9,7 +9,7 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(dashboard_module "otbGRM")
-set(dashboard_module_url "http://tully.ups-tlse.fr/lassallep/grm.git")
+# set(dashboard_module_url "http://tully.ups-tlse.fr/lassallep/grm.git")
 set(MXE_TARGET_ARCH "x86_64")
 
 include(${CTEST_SCRIPT_DIRECTORY}/bumblebee_common.cmake)
