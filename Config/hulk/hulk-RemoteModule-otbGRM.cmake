@@ -7,7 +7,7 @@
 # 	)
 
 set(dashboard_module "otbGRM")
-set(dashboard_module_url "http://tully.ups-tlse.fr/lassallep/grm.git")
+# set(dashboard_module_url "http://tully.ups-tlse.fr/lassallep/grm.git")
 
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "${dashboard_module}-Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")

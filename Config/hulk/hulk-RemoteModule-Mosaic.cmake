@@ -7,7 +7,7 @@
 # 	)
 
 set(dashboard_module "Mosaic")
-set(dashboard_module_url "https://github.com/remicres/otb-mosaic")
+# set(dashboard_module_url "https://github.com/remicres/otb-mosaic")
 
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "${dashboard_module}-Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")

@@ -32,7 +32,7 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(dashboard_module "SertitObject")
-set(dashboard_module_url "https://github.com/sertit/SertitObject")
+# set(dashboard_module_url "https://github.com/sertit/SertitObject")
 set(MXE_TARGET_ARCH "x86_64")
 
 include(${CTEST_SCRIPT_DIRECTORY}/bumblebee_common.cmake)
