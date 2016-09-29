@@ -4,3 +4,4 @@ sampling_refac_threading
 app_parameter_ram
 bugfix-1180
 new_sampling_strategies new_sampling_strategies
+majority-voting-isolated-pixels
