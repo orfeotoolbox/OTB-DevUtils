@@ -46,6 +46,10 @@ endmacro()
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
+
+CMAKE_C_FLAGS:STRING=-fopenmp
+CMAKE_CXX_FLAGS:STRING=-fopenmp --std=c++11
+
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
