@@ -1,4 +1,4 @@
-dev_sar_tsx
-diff_compare diff_compare
 sampling_refac_threading
+diff_compare diff_compare
+dev_sar_tsx
 bugfix-1180
