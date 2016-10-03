@@ -1,5 +1,4 @@
-set(dashboard_module "OTBGKSVM")
-set(dashboard_module_url "https://github.com/jmichel-otb/GKSVM")
+set(dashboard_module "Mosaic")
 
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "${dashboard_module}-MacOSX10.10-${CTEST_BUILD_CONFIGURATION}")
