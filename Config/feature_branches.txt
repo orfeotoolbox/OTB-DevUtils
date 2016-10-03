@@ -2,4 +2,3 @@ dev_sar_tsx
 diff_compare diff_compare
 sampling_refac_threading
 bugfix-1180
-majority-voting-isolated-pixels
