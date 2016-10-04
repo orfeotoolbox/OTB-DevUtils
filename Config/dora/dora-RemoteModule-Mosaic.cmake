@@ -1,5 +1,5 @@
-set(dashboard_module "OTBGKSVM")
-set(dashboard_module_url "https://github.com/jmichel-otb/GKSVM")
+set(dashboard_module "Mosaic")
+# set(dashboard_module_url "https://github.com/jmichel-otb/GKSVM")
 
 set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
 set(CTEST_SITE "dora.c-s.fr")
