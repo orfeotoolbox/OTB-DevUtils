@@ -67,6 +67,7 @@ op_type_1 = [
     'CMake/InsightValgrind.supp',
     'CMake/InsightValgrind-RHEL6.supp',
     'CMake/OTB_CheckCCompilerFlag.cmake',
+    'CMake/otbCheckCXX11.cpp',
     'CMake/otbcli.bat.in',
     'CMake/otbcli.sh.in',
     'CMake/otbcli_app.bat.in',
@@ -305,7 +306,8 @@ op_type_5 = [
                   'header_cecill_cpp.16', 'header_cecill_cpp.17', 'header_cecill_cpp.18',
                   'header_cecill_cpp.19', 'header_cecill_cpp.20', 'header_cecill_cpp.21',
                   'header_cecill_cpp.22', 'header_cecill_cpp.23', 'header_cecill_cpp.24',
-                  'header_cecill_cpp.25', 'header_cecill_cpp.26', 'header_cecill_cpp.27' ],
+                  'header_cecill_cpp.25', 'header_cecill_cpp.26', 'header_cecill_cpp.27',
+                  'header_cecill_cpp.28', 'header_cecill_cpp.29' ],
         'new' : 'header_apache_cpp.01'
     },
     {
