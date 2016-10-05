@@ -69,3 +69,6 @@ endif()
 if (NOT DEFINED dashboard_fresh_source_checkout)
 set(dashboard_fresh_source_checkout OFF)
 endif()
+
+# special setting for ctest_submit(), issue with CA checking
+set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
