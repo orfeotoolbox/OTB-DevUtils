@@ -22,7 +22,7 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
 
-#set(dashboard_git_branch "bugfix-1241")
+set(dashboard_git_branch "shark-pkg")
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
@@ -71,7 +71,8 @@ endmacro()
 
 list(APPEND CTEST_NOTES_FILES
   ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/CMakeCache.txt
-  ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/otbConfigure.h
 )
+
+#  ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/otbConfigure.h
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
