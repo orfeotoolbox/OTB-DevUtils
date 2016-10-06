@@ -1,3 +1,2 @@
-diff_compare diff_compare
 dev_sar_tsx
 bugfix-1278
