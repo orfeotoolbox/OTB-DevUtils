@@ -8,7 +8,7 @@ include(${CTEST_SCRIPT_DIRECTORY}/bumblebee_common.cmake)
 
 set(CTEST_TEST_ARGS INCLUDE Tu)
 
-#set(dashboard_git_branch release-5.6)
+set(dashboard_git_branch release-5.8)
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
