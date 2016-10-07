@@ -36,6 +36,7 @@ macro(dashboard_hook_init)
 set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+CMAKE_CXX_FLAGS:STRING='-std=c++11'
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 OTB_DATA_ROOT:PATH=/home/otbval/dashboard/data/OTB-Data-shared
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
