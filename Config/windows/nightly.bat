@@ -6,7 +6,9 @@ goto Fin )
 
 set COMPILER_ARCH=%1
 
-cmake -DCOMPILER_ARCH=%COMPILER_ARCH% -P C:\dashboard\scripts\nightly.cmake 
+set CURRENT_SCRIPT_DIR=%~dp0
+
+cmake -DCOMPILER_ARCH=%COMPILER_ARCH% -P %CURRENT_SCRIPT_DIR%\nightly.cmake 
 :: >C:\dashboard\logs\nightly.log 2>&1
 
 goto Fin
@@ -15,4 +17,4 @@ goto Fin
 echo "called :Fin. End of nightly.bat script."
 ENDLOCAL
 
-::cmd /C start /wait %SCRIPTS_DIR%\dashboard.bat %COMPILER_ARCH% 0 1 develop master
+::cmd /C start /wait %CURRENT_SCRIPT_DIR%\dashboard.bat %COMPILER_ARCH% 0 1 develop master
