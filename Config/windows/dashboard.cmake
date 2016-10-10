@@ -25,4 +25,4 @@ OTB_WRAP_PYTHON:BOOL=ON
 "
 )
 
-include(C:/dashboard/scripts/windows_common.cmake)
+include(windows_common.cmake)
