@@ -122,7 +122,7 @@ set PROJ_LIB=%XDK_INSTALL_DIR%\share
 
 set OTB_CDASH_LOG_FILE=%CTEST_DASHBOARD_ROOT%\logs\%LOG_FILE_NAME%.log
 
-IF %DASHBOARD_SCRIPT_FILE%.==. ( set DASHBOARD_SCRIPT_FILE=%CTEST_DASHBOARD_ROOT%\scripts\dashboard.cmake  )
+IF %DASHBOARD_SCRIPT_FILE%.==. ( set DASHBOARD_SCRIPT_FILE=%CTEST_DASHBOARD_ROOT%\devutils\Config\windows\dashboard.cmake  )
 
 IF "%ONLY_SHELL%" == "1" ( 
 cd "%CTEST_DASHBOARD_ROOT%\orfeotoolbox"

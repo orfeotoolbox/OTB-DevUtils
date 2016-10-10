@@ -2,7 +2,7 @@ if(NOT DEFINED COMPILER_ARCH)
   message(FATAL_ERROR "COMPILER_ARCH not defined")
 endif()
 
-set(SCRIPTS_DIR "C:/dashboard/scripts")
+set(SCRIPTS_DIR "C:/dashboard/devutils/Config/windows")
 set(DEVUTILS_DIR "C:/dashboard/devutils")
 set(LOGS_DIR "C:/dashboard/logs")
 
