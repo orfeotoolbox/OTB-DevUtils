@@ -24,7 +24,7 @@ set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/nightly/OTB-${CTEST_BUILD_CONFI
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/install)
 
 set(CTEST_DASHBOARD_TRACK "develop")
-set(dashboard_git_branch "shark-pkg")
+set(dashboard_git_branch "shark_pkg")
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
@@ -48,6 +48,7 @@ DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
 OTB_USE_OPENGL:BOOL=ON
 OTB_USE_GLEW:BOOL=ON
 OTB_USE_QWT:BOOL=ON
+OTB_USE_SHARK:BOOL=ON
 
 USE_SYSTEM_SWIG:BOOL=ON
 USE_SYSTEM_PCRE:BOOL=ON
