@@ -380,7 +380,7 @@ elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../../git_updater.cmake)
 endif()
   
 if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
-  set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_otb_branch} -P ${CMAKE_CURRENT_LIST_DIR}/git_updater.cmake)
+  set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_otb_branch} -P ${_git_updater_script})
 endif()
 
 if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
@@ -674,6 +674,8 @@ foreach(v
 	CMAKE_PREFIX_PATH
 	XDK_INSTALL_DIR
 	CTEST_DROP_LOCATION
+  dashboard_otb_branch
+  dashboard_data_branch
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)

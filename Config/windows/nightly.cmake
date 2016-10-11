@@ -1,3 +1,5 @@
+set(UPDATE_DEVUTILS ON)
+
 if(NOT DEFINED COMPILER_ARCH)
   message(FATAL_ERROR "COMPILER_ARCH not defined")
 endif()
@@ -10,15 +12,17 @@ string(TIMESTAMP DATE_TIME)
 set(_git_updater_script "${DEVUTILS_DIR}/Config/git_updater.cmake")
 set(GIT_COMMAND git)
 
-message("${DATE_TIME}: Update OTB-DevUtils")
 
+
+if(UPDATE_DEVUTILS)
+message("${DATE_TIME}: Update OTB-DevUtils")
 execute_process(COMMAND ${CMAKE_COMMAND} 
   -D GIT_COMMAND:PATH=${GIT_COMMAND} 
   -D TESTED_BRANCH:STRING=master 
   -P ${_git_updater_script}
   OUTPUT_FILE ${LOGS_DIR}/devutils.txt
   WORKING_DIRECTORY ${DEVUTILS_DIR})
-
+endif()
 message("${DATE_TIME}: compiler arch set to '${COMPILER_ARCH}'")  
 
 foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM")
