@@ -602,7 +602,7 @@ ${cache_build_type}
 ${cache_make_program}
 ${dashboard_cache}
 ${DEFAULT_CMAKE_CACHE}
-${dashboard_cache_for_${dashboard_current_branch}}
+${dashboard_cache_for_${dashboard_otb_branch}}
 ")
 endmacro(write_cache)
 

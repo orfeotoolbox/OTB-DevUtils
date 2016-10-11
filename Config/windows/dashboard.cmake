@@ -24,5 +24,6 @@ OTB_USE_MUPARSERX:BOOL=ON
 OTB_WRAP_PYTHON:BOOL=ON
 "
 )
+set(dashboard_cache_for_shark_pkg "OTB_USE_SHARK:BOOL=ON")
 
 include(windows_common.cmake)
