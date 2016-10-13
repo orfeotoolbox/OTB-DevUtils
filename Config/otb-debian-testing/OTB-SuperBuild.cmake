@@ -15,7 +15,7 @@ set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
 
 set(CTEST_DASHBOARD_TRACK "develop")
-set(dashboard_git_branch "shark_pkg")
+set(dashboard_git_branch "packaging_fixes")
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
