@@ -56,6 +56,9 @@ set(CTEST_NOTES_FILES "/home/otbval/logs/mxe_build_log.txt")
 #uncomment to enable large input
 #set(dashboard_enable_large_input TRUE)
 
+#uncomment to skip clearing source directory
+#set(dashboard_no_update TRUE)
+
 #uncomment to skip ctest_configure()
 #set(dashboard_no_configure TRUE)
 

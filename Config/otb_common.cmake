@@ -482,11 +482,15 @@ macro(run_dashboard)
     safe_message("Starting fresh build...")
   endif()
   write_cache()
-
+  
   # Look for updates.
-  ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
-  set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
-  safe_message("Found ${count} changed files")
+  if(NOT dashboard_no_update)
+    ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
+    set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
+    message("Found ${count} changed files")
+  else()
+    message("dashboard_no_update is TRUE. skipping update of source tree")
+  endif()
 
   # add specific modules (works for OTB only)
   if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
