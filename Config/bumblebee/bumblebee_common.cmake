@@ -20,7 +20,7 @@ endif()
 
 if(NOT DEFINED CTEST_BUILD_COMMAND)
   if(NOT DEFINED dashboard_build_command)
-    set(dashboard_build_command "/usr/bin/make -j7 -k")
+    set(dashboard_build_command "/usr/bin/make -j4 -k")
   endif()
 endif()
 
