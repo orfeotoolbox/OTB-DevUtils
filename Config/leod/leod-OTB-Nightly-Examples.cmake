@@ -6,12 +6,6 @@ set(CTEST_DASHBOARD_TRACK Examples)
 set(dashboard_no_install 1)
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
-set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-set(CTEST_DROP_METHOD "http")
-set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
-set(CTEST_DROP_SITE_CDASH TRUE)
-
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
 set(dashboard_update_dir "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src")

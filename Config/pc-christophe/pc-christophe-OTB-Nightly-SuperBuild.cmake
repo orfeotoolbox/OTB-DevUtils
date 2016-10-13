@@ -8,8 +8,6 @@ set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -k")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 2)
 set(CTEST_TEST_TIMEOUT 1500)
-set(CTEST_USE_LAUNCHERS ON)
-set(CTEST_GIT_COMMAND "/usr/bin/git")
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
@@ -22,12 +20,6 @@ set(OTB_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nightly)
 #set(dashboard_git_branch release-5.6)
-
-set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-set(CTEST_DROP_METHOD "http")
-set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
-set(CTEST_DROP_SITE_CDASH TRUE)
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build

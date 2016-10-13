@@ -1,11 +1,5 @@
 set(CTEST_BUILD_CONFIGURATION Release)
 set(OTB_PROJECT OTB)
-set(CTEST_USE_LAUNCHERS ON)
-set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-set(CTEST_DROP_METHOD "http")
-set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
-set(CTEST_DROP_SITE_CDASH TRUE)
 
 set(dashboard_model Nightly)
 set(dashboard_no_install 1)

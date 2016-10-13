@@ -11,14 +11,6 @@ include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 set(CTEST_BUILD_NAME "MacOSX10.10-SuperBuild-${dashboard_git_branch}")
 
-set(CTEST_USE_LAUNCHERS ON)
-
-set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-set(CTEST_DROP_METHOD "http")
-set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
-set(CTEST_DROP_SITE_CDASH TRUE)
-
 set(dashboard_source_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild")
 set(dashboard_binary_name "nightly/OTB-SuperBuild/build-stable")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src)

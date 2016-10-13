@@ -9,14 +9,6 @@ set(dashboard_build_command "/usr/bin/make -j4 -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
-set(CTEST_USE_LAUNCHERS ON)
-
-set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-set(CTEST_DROP_METHOD "http")
-set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
-set(CTEST_DROP_SITE_CDASH TRUE)
-
 set(dashboard_source_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild")
 set(dashboard_binary_name "nightly/OTB-SuperBuild/build")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src)

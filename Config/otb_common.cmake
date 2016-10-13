@@ -319,8 +319,8 @@ if(EXISTS ${dashboard_update_dir})
 endif()
 
 # Support initial checkout if necessary.
-if(NOT EXISTS "${dashboard_update_dir}"
-    AND NOT DEFINED CTEST_CHECKOUT_COMMAND)
+if(NOT EXISTS "${dashboard_update_dir}" AND
+   NOT DEFINED CTEST_CHECKOUT_COMMAND)
   get_filename_component(_name "${dashboard_update_dir}" NAME)
   message("_name= " ${_name})
   # Generate an initial checkout script.
@@ -330,16 +330,18 @@ if(NOT EXISTS "${dashboard_update_dir}"
         execute_process(
             COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
                     \"${dashboard_update_dir}\" )   ")
-
+  
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
-  # CTest delayed initialization is broken, so we put the
-  # CTestConfig.cmake info here.
-  set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-  set(CTEST_DROP_METHOD "https")
-  set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-  set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
-  set(CTEST_DROP_SITE_CDASH TRUE)
 endif()
+
+# CTest delayed initialization is broken, so we put the
+# CTestConfig.cmake info here.
+set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
+set(CTEST_DROP_METHOD "https")
+set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
+set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
+set(CTEST_DROP_SITE_CDASH TRUE)
+
 
 # Choose the dashboard track
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
@@ -390,6 +392,12 @@ foreach(req
     CTEST_CMAKE_GENERATOR
     CTEST_SITE
     CTEST_BUILD_NAME
+    CTEST_NIGHTLY_START_TIME
+    CTEST_DROP_METHOD
+    CTEST_DROP_SITE
+    CTEST_DROP_LOCATION
+    CTEST_DROP_SITE_CDASH
+    dashboard_git_branch
     )
   if(NOT DEFINED ${req})
     message(FATAL_ERROR "The containing script must set ${req}")
@@ -410,6 +418,12 @@ foreach(v
     CTEST_SCRIPT_DIRECTORY
     CTEST_USE_LAUNCHERS
     CTEST_DASHBOARD_TRACK
+    CTEST_NIGHTLY_START_TIME
+    CTEST_DROP_METHOD
+    CTEST_DROP_SITE
+    CTEST_DROP_LOCATION
+    CTEST_DROP_SITE_CDASH
+    dashboard_git_branch
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
