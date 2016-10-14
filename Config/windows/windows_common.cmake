@@ -212,9 +212,21 @@ if(DEFINED ENV{dashboard_remote_module})
   set(dashboard_remote_module "$ENV{dashboard_remote_module}")
 endif()
 
-
 if(DEFINED ENV{DASHBOARD_SUPERBUILD})
   set(DASHBOARD_SUPERBUILD "$ENV{DASHBOARD_SUPERBUILD}")
+endif()
+
+if(DEFINED ENV{DASHBOARD_PACKAGE_OTB})
+  set(DASHBOARD_PACKAGE_OTB $ENV{DASHBOARD_PACKAGE_OTB})
+endif()
+
+if(DEFINED ENV{DASHBOARD_PACKAGE_XDK})
+  set(DASHBOARD_PACKAGE_XDK $ENV{DASHBOARD_PACKAGE_XDK})
+endif()
+
+set(DASHBOARD_PACKAGE_ONLY FALSE)
+if(DASHBOARD_PACKAGE_XDK OR DASHBOARD_PACKAGE_OTB)
+  set(DASHBOARD_PACKAGE_ONLY TRUE)
 endif()
 
 
@@ -274,6 +286,10 @@ if(NOT "${dashboard_otb_branch}" MATCHES "^(nightly|develop|release.([0-9]+)\\.(
   set(CTEST_BUILD_NAME "${dashboard_otb_branch}-${CTEST_BUILD_NAME}")
 endif()
 
+if(DASHBOARD_PACKAGE_ONLY)
+  set(CTEST_BUILD_NAME "Package-${CTEST_BUILD_NAME}")
+endif()
+
 if(dashboard_remote_module)
   set(CTEST_BUILD_NAME "${dashboard_remote_module}-${CTEST_BUILD_NAME}")
 endif()
@@ -286,7 +302,7 @@ if(DEFINED ENV{CTEST_CMAKE_GENERATOR})
   set(CTEST_CMAKE_GENERATOR "$ENV{CTEST_CMAKE_GENERATOR}")
 else()
 	if(WIN32)
-		if(DASHBOARD_SUPERBUILD)
+		if(DASHBOARD_SUPERBUILD OR DASHBOARD_PACKAGE_ONLY)
 			set(CTEST_CMAKE_GENERATOR "NMake Makefiles JOM")
 		else()
 			set(CTEST_CMAKE_GENERATOR "Ninja")
@@ -386,46 +402,73 @@ endif()
 if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
   file(TO_CMAKE_PATH "$ENV{CTEST_SOURCE_DIRECTORY}" CTEST_SOURCE_DIRECTORY)
 endif()
+
 # Set CTEST_SOURCE_DIRECTORY if not defined
 if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
   if(DEFINED dashboard_source_name)
     set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_source_name})
   else()
-    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/orfeotoolbox/src)
+    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/src)
   endif()
 endif()
 
-# Set source directory to update
+#do not move below code. we must set 
+# Set source directory to update right after we decide on CTEST_SOURCE_DIRECTORY
 if(NOT DEFINED dashboard_update_dir)
   set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
 endif()
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# CTEST_SOURCE_DIRECTORY is changed depending on the condition
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+if(DASHBOARD_SUPERBUILD)
+  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
+elseif(DASHBOARD_PACKAGE_ONLY) 
+ 	set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild/Packaging)
+endif()
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 if(DEFINED ENV{CTEST_BINARY_DIRECTORY})
   file(TO_CMAKE_PATH "$ENV{CTEST_BINARY_DIRECTORY}" CTEST_BINARY_DIRECTORY)
 endif()
 
-# Set CTEST_BINARY_DIRECTORY if not defined
+# DEFAULT values for CTEST_BINARY_DIRECTORY if not defined
 if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   if(DEFINED dashboard_binary_name)
     set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
   else()
-    if(dashboard_remote_module)
-      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/orfeotoolbox/remote_module_build_${COMPILER_ARCH})
+    if(DASHBOARD_SUPERBUILD)
+      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/build_sb_${COMPILER_ARCH})  
+    elseif(DASHBOARD_PACKAGE_ONLY)
+      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/pkg_build_${COMPILER_ARCH})
+    elseif(dashboard_remote_module)
+      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/remote_module_build_${COMPILER_ARCH})
     else()
-      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/orfeotoolbox/build_${COMPILER_ARCH})
+      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/build_${COMPILER_ARCH})
     endif()
   endif()
 endif()
 
+
 if(DEFINED ENV{CTEST_INSTALL_DIRECTORY})
   file(TO_CMAKE_PATH "$ENV{CTEST_INSTALL_DIRECTORY}" CTEST_INSTALL_DIRECTORY)
 endif()
-
+# DEFAULT values for CTEST_INSTALL_DIRECTORY if not defined
 if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
-  if(dashboard_remote_module)
-    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/orfeotoolbox/remote_module_install_${COMPILER_ARCH})
+  if(DASHBOARD_SUPERBUILD)
+   set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+  elseif(DASHBOARD_PACKAGE_ONLY)
+   set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/pkg_install_${COMPILER_ARCH})  
+  elseif(dashboard_remote_module)
+    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/remote_module_install_${COMPILER_ARCH})
   else()
-    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/orfeotoolbox/install_${COMPILER_ARCH})
+    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_${COMPILER_ARCH})
   endif()
 endif()
 
@@ -463,12 +506,42 @@ list(APPEND CTEST_NOTES_FILES
   "${CMAKE_CURRENT_LIST_FILE}"
   )
 
-set(DEFAULT_CMAKE_CACHE
+  
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Creation of DEFAULT_CMAKE_CACHE starts here. That means all 
+# common variables are set.
+ set(DEFAULT_CMAKE_CACHE
 	"BUILD_TESTING:BOOL=ON
 	CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
   "
 	)
 
+if(DASHBOARD_SUPERBUILD)
+	list(APPEND CTEST_TEST_ARGS BUILD ${CTEST_BINARY_DIRECTORY}/OTB/build)
+
+	if(DOWNLOAD_LOCATION)
+		set(DEFAULT_CMAKE_CACHE "${DEFAULT_CMAKE_CACHE}
+			DOWNLOAD_LOCATION:PATH=${DOWNLOAD_LOCATION}")
+	endif()
+
+else()
+
+	if(XDK_INSTALL_DIR)
+		set(DEFAULT_CMAKE_CACHE "
+		${DEFAULT_CMAKE_CACHE}
+    QT_BINARY_DIR:PATH=${XDK_INSTALL_DIR}/bin
+		QT_INSTALL_TRANSLATIONS:PATH=${XDK_INSTALL_DIR}/translations
+		QT_MOC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/moc
+		QT_UIC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/uic
+		QT_RCC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/rcc
+		QT_INSTALL_PLUGINS:PATH=${XDK_INSTALL_DIR}/plugins
+		QT_INSTALL_HEADERS:PATH=${XDK_INSTALL_DIR}/include
+		QMAKE_MKSPECS:PATH=${XDK_INSTALL_DIR}/mkspecs"
+		)
+	endif()
+endif()
+  
 if(NOT DEFINED dashboard_build_shared)
   set(dashboard_build_shared ON)
 endif()
@@ -488,33 +561,6 @@ if(WIN32)
   "
   )
 endif()
-  
-if(DASHBOARD_SUPERBUILD)
-	set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
-	set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/orfeotoolbox/build_sb_${COMPILER_ARCH})
-	set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/orfeotoolbox/install_sb_${COMPILER_ARCH})
-	list(APPEND CTEST_TEST_ARGS BUILD ${CTEST_BINARY_DIRECTORY}/OTB/build)
-
-	if(DOWNLOAD_LOCATION)
-		set(DEFAULT_CMAKE_CACHE "${DEFAULT_CMAKE_CACHE}
-			DOWNLOAD_LOCATION:PATH=${DOWNLOAD_LOCATION}")
-	endif()
-	
-else()
-
-	if(XDK_INSTALL_DIR)
-		set(DEFAULT_CMAKE_CACHE "
-		${DEFAULT_CMAKE_CACHE}
-		QT_INSTALL_TRANSLATIONS:PATH=${XDK_INSTALL_DIR}/translations
-		QT_MOC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/moc
-		QT_UIC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/uic
-		QT_RCC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/rcc
-		QT_INSTALL_PLUGINS:PATH=${XDK_INSTALL_DIR}/plugins
-		QT_INSTALL_HEADERS:PATH=${XDK_INSTALL_DIR}/include
-		QMAKE_MKSPECS:PATH=${XDK_INSTALL_DIR}/mkspecs"
-		)
-	endif()
-endif()
 
 if(otb_data_use_largeinput)
 set(DEFAULT_CMAKE_CACHE 
@@ -526,14 +572,49 @@ OTB_DATA_LARGEINPUT_ROOT:PATH=${OTB_DATA_LARGEINPUT_ROOT}
 )
 endif()
 
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# NOTE:: CTEST_BUILD_COMMAND will skip ctest_build( ) arguments.
+# It doesn't matter you have dashboard_build_target set
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+if(DASHBOARD_PACKAGE_ONLY)
+  if(DASHBOARD_PACKAGE_XDK)
+    set(CTEST_BUILD_COMMAND "jom PACKAGE-XDK" )
+  else()
+    set(CTEST_BUILD_COMMAND "jom PACKAGE-OTB" )
+  endif()
+endif()
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# NOTE:: RESET whatever 'dashboard_cache' set and use the below 
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 if(dashboard_remote_module)
-	set(dashboard_cache
-  "
-  OTB_BUILD_DEFAULT_MODULES:BOOL=OFF
-  Module_${dashboard_remote_module}:BOOL=ON
-    
-  "
-	)
+set(dashboard_cache
+"
+OTB_BUILD_DEFAULT_MODULES:BOOL=OFF
+Module_${dashboard_remote_module}:BOOL=ON
+"
+)
+endif()
+
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# NOTE:: RESET whatever 'dashboard_cache' set and use the below 
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+if(DASHBOARD_PACKAGE_ONLY)
+set(dashboard_cache "
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
+BUILD_TESTING:BOOL=ON
+${dashboard_cache_packaging}
+${dashboard_cache_for_${dashboard_otb_branch}}
+GENERATE_PACKAGE:BOOL=${DASHBOARD_PACKAGE_OTB}
+GENERATE_XDK:BOOL=${DASHBOARD_PACKAGE_XDK}
+")
 endif()
 
 # Delete source tree if it is incompatible with current VCS.
@@ -570,16 +651,12 @@ if(NOT EXISTS "${dashboard_update_dir}"
 
 endif()
 
-if(NOT DROP_LOCATION_ID)
-  set(DROP_LOCATION_ID "OTB")
-endif()
-
 # CTest delayed initialization is broken, so we put the
 # CTestConfig.cmake info here.
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-set(CTEST_DROP_METHOD "http")
+set(CTEST_DROP_METHOD "https")
 set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-set(CTEST_DROP_LOCATION "/submit.php?project=${DROP_LOCATION_ID}")
+set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
 
@@ -598,7 +675,7 @@ SITE:STRING=${CTEST_SITE}
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 DART_TESTING_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
-${cache_build_type}
+CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION})
 ${cache_make_program}
 ${dashboard_cache}
 ${DEFAULT_CMAKE_CACHE}
@@ -676,6 +753,7 @@ foreach(v
 	CTEST_DROP_LOCATION
   dashboard_otb_branch
   dashboard_data_branch
+  dashboard_update_dir
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
@@ -721,8 +799,9 @@ endif()
     if(COMMAND dashboard_hook_build)
       dashboard_hook_build()
     endif()
-	
+	  
 	if(dashboard_build_target)
+    message("building requested target ${dashboard_build_target} on ${CTEST_BINARY_DIRECTORY}")
 	  ctest_build( BUILD "${CTEST_BINARY_DIRECTORY}" 
 	              TARGET "${dashboard_build_target}"
 				  RETURN_VALUE _build_rv)
