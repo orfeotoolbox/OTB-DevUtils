@@ -15,9 +15,6 @@ set(dashboard_source_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBui
 set(dashboard_binary_name "nightly/OTB-SuperBuild/build-stable")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src)
 
-set(CTEST_DASHBOARD_TRACK "LatestRelease")
-set(dashboard_git_branch "packaging_fixes")
-
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/install-stable)
 
 list(APPEND CTEST_TEST_ARGS

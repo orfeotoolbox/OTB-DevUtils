@@ -12,10 +12,11 @@ set(dashboard_source_name "otb/src/SuperBuild")
 set(dashboard_binary_name "otb/build")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
+
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
 
-set(CTEST_DASHBOARD_TRACK "develop")
-set(dashboard_git_branch "packaging_fixes")
+set(CTEST_DASHBOARD_TRACK "LatestRelease")
+set(dashboard_git_branch "release-5.8")
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
