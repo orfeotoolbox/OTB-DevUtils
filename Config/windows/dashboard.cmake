@@ -29,7 +29,7 @@ set(dashboard_cache_for_packaging_fixes "OTB_USE_SHARK:BOOL=ON")
 set(dashboard_cache_packaging 
 "
 SUPERBUILD_BINARY_DIR:PATH=C:/dashboard/otb/superbuild/x64
-SUPERBUILD_INSTALL_DIR:PATH=C:/dashboard/otb/sb_install/x64
+SUPERBUILD_INSTALL_DIR:PATH=C:/dashboard/otb/install_sb/x64
 OTB_WRAP_PYTHON:BOOL=ON
 "
 )
