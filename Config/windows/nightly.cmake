@@ -34,13 +34,13 @@ endforeach()
 
 # SuperBuild
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   ${COMPILER_ARCH} 0 SUPER_BUILD packaging_fixes master
+   ${COMPILER_ARCH} 0 SUPER_BUILD release-5.8 master
   OUTPUT_FILE ${LOGS_DIR}/superbuild_x64.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 
 # Packaging  
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   ${COMPILER_ARCH} 0 PACKAGE_OTB packaging_fixes master
+   ${COMPILER_ARCH} 0 PACKAGE_OTB release-5.8 master
   OUTPUT_FILE ${LOGS_DIR}/package_otb_x64.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 
