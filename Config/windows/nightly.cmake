@@ -34,26 +34,17 @@ endforeach()
 
 # SuperBuild
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   x64 0 SUPER_BUILD packaging_fixes master
+   ${COMPILER_ARCH} 0 SUPER_BUILD packaging_fixes master
   OUTPUT_FILE ${LOGS_DIR}/superbuild_x64.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
-  
+
+# Packaging  
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   x64 0 PACKAGE_OTB packaging_fixes master
+   ${COMPILER_ARCH} 0 PACKAGE_OTB packaging_fixes master
   OUTPUT_FILE ${LOGS_DIR}/package_otb_x64.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 
-execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   x86 0 SUPER_BUILD packaging_fixes master
-  OUTPUT_FILE ${LOGS_DIR}/superbuild_x86.txt
-  WORKING_DIRECTORY ${SCRIPTS_DIR})
-
-execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   x86 0 PACKAGE_OTB packaging_fixes master
-  OUTPUT_FILE ${LOGS_DIR}/package_otb_x86.txt
-  WORKING_DIRECTORY ${SCRIPTS_DIR})
-
-  
+# nightly latest release + Feature Branches
 set(FEATURE_BRANCHES_FILE "${DEVUTILS_DIR}/Config/feature_branches.txt")
 
 message("Checking feature branches file : ${FEATURE_BRANCHES_FILE}")
