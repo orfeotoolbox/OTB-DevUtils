@@ -1,4 +1,5 @@
-set(UPDATE_DEVUTILS OFF)
+# TODO: update devutils based on option from nightly.bat
+set(UPDATE_DEVUTILS ON)
 
 set(LOGS_DIR "C:/dashboard/logs")
 set(DEVUTILS_DIR "C:/dashboard/devutils")
