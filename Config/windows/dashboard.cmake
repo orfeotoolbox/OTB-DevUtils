@@ -22,9 +22,9 @@ OTB_USE_LIBSVM:BOOL=ON
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_WRAP_PYTHON:BOOL=ON
+OTB_USE_SHARK:BOOL=ON
 "
 )
-set(dashboard_cache_for_packaging_fixes "OTB_USE_SHARK:BOOL=ON")
 
 set(dashboard_cache_packaging 
 "
