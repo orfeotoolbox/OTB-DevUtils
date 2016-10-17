@@ -13,18 +13,16 @@ set(CTEST_GIT_COMMAND "/usr/bin/git")
 set(CTEST_DASHBOARD_TRACK Develop)
 
 set(dashboard_root_name "tests")
-set(dashboard_source_name "sources/orfeo/otb-documents/CookBook")
-set(dashboard_binary_name "build/orfeo/otb-documents/Cookbook")
+set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly/Documentation/Cookbook")
+set(dashboard_binary_name "build/orfeo/Cookbook")
 
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb-documents.git")
-set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/sources/orfeo/otb-documents)
-set(dashboard_git_branch master)
+#set(dashboard_fresh_source_checkout OFF)
+set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
+set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/${dashboard_otb_source})
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-
-BUILDNAME:STRING=${CTEST_BUILD_NAME}
-SITE:STRING=${CTEST_SITE}
+CTEST_USE_LAUNCHERS:BOOL=OFF
 
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 

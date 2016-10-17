@@ -19,6 +19,7 @@ set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nightly
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
+CTEST_USE_LAUNCHERS:BOOL=OFF
 
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
 SITE:STRING=${CTEST_SITE}
