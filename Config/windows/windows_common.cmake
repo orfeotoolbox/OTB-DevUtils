@@ -610,6 +610,9 @@ if(DASHBOARD_PACKAGE_ONLY)
 set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 BUILD_TESTING:BOOL=ON
+SUPERBUILD_BINARY_DIR:PATH=C:/dashboard/otb/superbuild_${COMPILER_ARCH}
+SUPERBUILD_INSTALL_DIR:PATH=C:/dashboard/otb/install_sb_${COMPILER_ARCH}
+OTB_WRAP_PYTHON:BOOL=ON
 ${dashboard_cache_packaging}
 ${dashboard_cache_for_${dashboard_otb_branch}}
 GENERATE_PACKAGE:BOOL=${DASHBOARD_PACKAGE_OTB}

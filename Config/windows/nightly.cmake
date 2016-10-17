@@ -5,6 +5,10 @@ set(LOGS_DIR "C:/dashboard/logs")
 set(DEVUTILS_DIR "C:/dashboard/devutils")
 set(SCRIPTS_DIR "C:/dashboard/devutils/Config/windows")
 
+#we can only build on branch of superbuild. Latest release or develop
+set(SUPERBUILD_BRANCH release-5.8)
+set(SUPERBUILD_DATA_BRANCH master)
+
 if(NOT DEFINED COMPILER_ARCH)
   message(FATAL_ERROR "COMPILER_ARCH not defined")
 endif()
@@ -32,16 +36,26 @@ message("${DATE_TIME}: Bulding remote module ${dashboard_remote_module}")
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 endforeach()
 
+
 # SuperBuild
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   ${COMPILER_ARCH} 0 SUPER_BUILD release-5.8 master
-  OUTPUT_FILE ${LOGS_DIR}/superbuild_x64.txt
+   ${COMPILER_ARCH} 0 SUPER_BUILD ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
+  OUTPUT_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 
 # Packaging  
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   ${COMPILER_ARCH} 0 PACKAGE_OTB release-5.8 master
-  OUTPUT_FILE ${LOGS_DIR}/package_otb_x64.txt
+   ${COMPILER_ARCH} 0 PACKAGE_OTB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
+  OUTPUT_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
+  WORKING_DIRECTORY ${SCRIPTS_DIR})
+
+# copy packages
+string(TIMESTAMP nightly_dest_dir "%Y-%m-%d")
+execute_process(COMMAND ${CMAKE_COMMAND} 
+  -E copy
+  "C:/dashboard/otb/build_x64/OTB-5.8.0-win64.zip"
+  "R:/Nightly/${nightly_dest_dir}/OTB-5.8.0-win64.zip"
+  OUTPUT_FILE ${LOGS_DIR}/copy_binaries_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 
 # nightly latest release + Feature Branches
