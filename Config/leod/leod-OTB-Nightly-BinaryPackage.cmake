@@ -1,5 +1,5 @@
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "MacOSX-10.10-BinaryPackage")
+set(CTEST_BUILD_NAME "Package-MacOSX-10.10")
 
 set(dashboard_model Nightly)
 set(dashboard_no_install 1)
