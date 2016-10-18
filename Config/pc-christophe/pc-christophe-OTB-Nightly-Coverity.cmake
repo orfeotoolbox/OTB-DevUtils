@@ -31,6 +31,10 @@ SET(MUPARSERX_INCLUDE_DIR "/home/otbtesting/install/muparserx/stable/include/mup
 #external openjpeg
 SET(OpenJPEG_DIR "/home/otbtesting/install/openjpeg/stable/lib/openjpeg-2.1" CACHE STRING "" FORCE)
 
+# Qwt
+SET(QWT_INCLUDE_DIR "/usr/include/qwt5-qt4" CACHE STRING "" FORCE)
+SET(QWT_LIBRARY "/usr/lib64/libqwt.so.5"  CACHE STRING "" FORCE)
+
 # These options are not available anymore
 SET(OTB_USE_PATENTED ON CACHE BOOL "" FORCE)
 SET(OTB_USE_CURL ON CACHE BOOL "" FORCE)
@@ -50,6 +54,7 @@ SET(OTB_USE_GLEW ON CACHE BOOL "" FORCE)
 SET(OTB_USE_GLUT ON CACHE BOOL "" FORCE)
 SET(OTB_USE_GLFW ON CACHE BOOL "" FORCE)
 SET(OTB_USE_OPENGL ON CACHE BOOL "" FORCE)
+SET(OTB_USE_QWT ON CACHE BOOL "" FORCE)
 
 SET(OTB_WRAP_JAVA ON CACHE BOOL "" FORCE)
 SET(OTB_WRAP_PYTHON ON CACHE BOOL "" FORCE)
