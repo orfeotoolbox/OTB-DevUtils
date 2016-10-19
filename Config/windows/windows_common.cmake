@@ -216,6 +216,10 @@ if(DEFINED ENV{DASHBOARD_SUPERBUILD})
   set(DASHBOARD_SUPERBUILD "$ENV{DASHBOARD_SUPERBUILD}")
 endif()
 
+if(DEFINED ENV{SUPERBUILD_REBUILD_OTB_ONLY})
+  set(SUPERBUILD_REBUILD_OTB_ONLY "$ENV{SUPERBUILD_REBUILD_OTB_ONLY}")
+endif()
+
 if(DEFINED ENV{DASHBOARD_PACKAGE_OTB})
   set(DASHBOARD_PACKAGE_OTB $ENV{DASHBOARD_PACKAGE_OTB})
 endif()
@@ -284,6 +288,11 @@ endif()
 
 if(NOT "${dashboard_otb_branch}" MATCHES "^(nightly|develop|release.([0-9]+)\\.([0-9]+))$")
   set(CTEST_BUILD_NAME "${dashboard_otb_branch}-${CTEST_BUILD_NAME}")
+endif()
+
+#append release-X.Y to CTEST_BUILD_NAME
+if("${dashboard_otb_branch}" MATCHES "^(release.([0-9]+)\\.([0-9]+))$")
+  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_otb_branch}")
 endif()
 
 if(DASHBOARD_PACKAGE_ONLY)
@@ -686,6 +695,38 @@ ${dashboard_cache_for_${dashboard_otb_branch}}
 ")
 endmacro(write_cache)
 
+if(DASHBOARD_SUPERBUILD AND SUPERBUILD_REBUILD_OTB_ONLY)
+
+  message("SUPERBUILD_REBUILD_OTB_ONLY is set. ${CTEST_BINARY_DIRECTORY} will not be cleared")
+  
+  set(dashboard_no_clean 1)
+  
+  message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} ")
+  execute_process(
+  COMMAND ${CMAKE_COMMAND} 
+  --build ${CTEST_BINARY_DIRECTORY}/OTB/build
+  --target uninstall
+  -- VERBOSE=1
+  WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build
+  
+  OUTPUT_VARIABLE uninstall_otb_process
+  )
+  if(uninstall_otb_process)
+    message("OTB deinstalled from ${CTEST_INSTALL_DIRECTORY} ")
+  endif()
+
+  execute_process(
+  COMMAND ${CMAKE_COMMAND} 
+  -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
+  WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
+  OUTPUT_VARIABLE clear_otb_build_dir
+  )
+  if(clear_otb_build_dir)
+    message("OTB's superbuild build directory cleared from ${CTEST_INSTALL_DIRECTORY} ")
+  endif()
+
+endif()
+
 # Start with a fresh build tree.
 if(NOT dashboard_no_clean)
 	if(EXISTS "${CTEST_BINARY_DIRECTORY}")
@@ -750,6 +791,7 @@ foreach(v
     CTEST_DASHBOARD_TRACK
 	CMAKE_MAKE_PROGRAM
 	DASHBOARD_SUPERBUILD
+  SUPERBUILD_REBUILD_OTB_ONLY
 	DOWNLOAD_LOCATION
 	CMAKE_PREFIX_PATH
 	XDK_INSTALL_DIR
