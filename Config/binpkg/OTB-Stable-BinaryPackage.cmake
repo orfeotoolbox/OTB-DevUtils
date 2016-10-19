@@ -16,7 +16,7 @@ set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src/)
 
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
-set(CTEST_BUILD_NAME "Package-${dashboard_git_branch}-Linux-x86_64")
+set(CTEST_BUILD_NAME "Package-Linux-x86_64-${dashboard_git_branch}")
 
 # cmake ~/dashboard/otb/src/SuperBuild/Packaging \
 # -DSUPERBUILD_BINARY_DIR=/home/mrashad/dashboard/otb/build \

@@ -6,7 +6,7 @@ set(dashboard_no_install 1)
 set(dashboard_build_command "/usr/bin/make -j1  PACKAGE-OTB" )
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
-set(CTEST_BUILD_NAME "Package-${dashboard_git_branch}-MacOSX-10.10")
+set(CTEST_BUILD_NAME "Package-MacOSX-10.10-${dashboard_git_branch}")
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild/Packaging")

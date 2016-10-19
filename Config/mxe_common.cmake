@@ -26,9 +26,9 @@ endif()
 
 if(NOT DEFINED CTEST_BUILD_NAME)
   if("${dashboard_git_branch}" STREQUAL "nightly")
-    set(CTEST_BUILD_NAME "Windows-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}")
+    set(CTEST_BUILD_NAME "Win-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}")
   else()
-    set(CTEST_BUILD_NAME "Windows-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}-${dashboard_git_branch}")
+    set(CTEST_BUILD_NAME "Win-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}-${dashboard_git_branch}")
   endif()
 endif()
 
