@@ -14,14 +14,14 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/itk/stable")
 set(dashboard_binary_name "build/itk/stable/${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout ON)
+set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "http://itk.org/ITK.git")
 set(dashboard_git_branch "release")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
 set (ITK_INSTALL_PREFIX "${INSTALLROOT}/itk/stable/${CTEST_BUILD_CONFIGURATION}")
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${ITK_INSTALL_PREFIX})
+#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${ITK_INSTALL_PREFIX})
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}

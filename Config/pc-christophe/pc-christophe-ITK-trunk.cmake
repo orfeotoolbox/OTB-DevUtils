@@ -21,7 +21,7 @@ set(dashboard_git_branch "master")
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
 set (ITK_INSTALL_PREFIX "${INSTALLROOT}/itk/trunk/${CTEST_BUILD_CONFIGURATION}")
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${ITK_INSTALL_PREFIX})
+#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${ITK_INSTALL_PREFIX})
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
