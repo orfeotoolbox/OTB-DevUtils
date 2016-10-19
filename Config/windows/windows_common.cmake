@@ -708,24 +708,25 @@ if(DASHBOARD_SUPERBUILD AND SUPERBUILD_REBUILD_OTB_ONLY)
   --target uninstall
   -- VERBOSE=1
   WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build
-  
   OUTPUT_VARIABLE uninstall_otb_process
   )
+  
   if(uninstall_otb_process)
     message("OTB deinstalled from ${CTEST_INSTALL_DIRECTORY} ")
-  endif()
-
-  execute_process(
-  COMMAND ${CMAKE_COMMAND} 
-  -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
-  WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
-  OUTPUT_VARIABLE clear_otb_build_dir
-  )
-  if(clear_otb_build_dir)
-    message("OTB's superbuild build directory cleared from ${CTEST_INSTALL_DIRECTORY} ")
-  endif()
-
-endif()
+    execute_process(
+      COMMAND ${CMAKE_COMMAND} 
+      -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
+      WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
+      OUTPUT_VARIABLE clear_otb_build_dir
+    )
+  
+    if(clear_otb_build_dir)
+      message("OTB's superbuild build directory cleared from ${CTEST_INSTALL_DIRECTORY} ")
+    endif()
+  
+  endif() #if(uninstall_otb_process)
+  
+endif() #if(DASHBOARD_SUPERBUILD AND SUPERBUILD_REBUILD_OTB_ONLY)
 
 # Start with a fresh build tree.
 if(NOT dashboard_no_clean)

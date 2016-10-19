@@ -1,6 +1,5 @@
 # TODO: update devutils based on option from nightly.bat
 set(UPDATE_DEVUTILS ON)
-set(DO_SUPERBUILD ON)
 
 set(LOGS_DIR "C:/dashboard/logs")
 set(DEVUTILS_DIR "C:/dashboard/devutils")
@@ -39,12 +38,11 @@ endforeach()
 
 
 # SuperBuild
-if(DO_SUPERBUILD)
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
    ${COMPILER_ARCH} 0 SUPER_BUILD ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
   OUTPUT_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
-endif()
+
 # Packaging  
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
    ${COMPILER_ARCH} 0 PACKAGE_OTB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
