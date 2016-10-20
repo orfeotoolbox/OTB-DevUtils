@@ -627,6 +627,30 @@ ${dashboard_cache_for_${dashboard_otb_branch}}
 GENERATE_PACKAGE:BOOL=${DASHBOARD_PACKAGE_OTB}
 GENERATE_XDK:BOOL=${DASHBOARD_PACKAGE_XDK}
 ")
+
+#this must be outside macro(dashboard_hook_submit) because we take yesterday's date 
+# there can be chance that when dashboard_hook_submit called after midnight
+# and then we get date wrong.
+string(TIMESTAMP date_dir "%Y-%m-%d")
+set(PACKAGE_DEST_DIR "R:/Nightly/${date_dir}")
+
+macro(dashboard_hook_submit)
+  file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
+  get_filename_component(otb_package_file_name ${otb_package_file} NAME)
+  # copy packages to otbnas
+  message("Copying ${otb_package_file} to ${PACKAGE_DEST_DIR}/${otb_package_file_name}")
+  execute_process(COMMAND ${CMAKE_COMMAND} 
+    -E copy
+    "${otb_package_file}"
+    "${PACKAGE_DEST_DIR}/${otb_package_file_name}"
+    RESULT_VARIABLE copy_rv
+    WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY})
+ 
+  if(NOT copy_rv EQUAL 0)
+    message("Cannot copy ${otb_package_file} to ${PACKAGE_DEST_DIR}/${otb_package_file_name}")
+  endif()
+endmacro()
+
 endif()
 
 # Delete source tree if it is incompatible with current VCS.
@@ -741,6 +765,23 @@ if(NOT dashboard_no_clean)
 	endif()
 endif()
 
+#create ctestconfig.cmake if not exists in source and binary directory
+if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CTestConfig.cmake" AND 
+   NOT EXISTS "${CTEST_SOURCE_DIRECTORY}/CTestConfig.cmake" 
+)
+message("CTestConfig.cmake does not exists in CTEST_BINARY_DIRECTORY and CTEST_SOURCE_DIRECTORY. we create one now in CTEST_BINARY_DIRECTORY")
+file(WRITE "${CTEST_BINARY_DIRECTORY}/CTestConfig.cmake"
+"
+set(CTEST_PROJECT_NAME \"OTB\")
+set(CTEST_NIGHTLY_START_TIME \"20:00:00 CEST\")
+set(CTEST_DROP_METHOD \"https\")
+set(CTEST_DROP_SITE \"dash.orfeo-toolbox.org\")
+set(CTEST_DROP_LOCATION \"/submit.php?project=OTB\")
+set(CTEST_DROP_SITE_CDASH TRUE)
+"
+)
+endif()
+
 set(dashboard_continuous 0)
 if("${dashboard_model}" STREQUAL "Continuous")
   set(dashboard_continuous 1)
@@ -764,7 +805,7 @@ macro(do_submit)
   return()
 endmacro()
 
- execute_process(COMMAND ${CMAKE_COMMAND} 
+execute_process(COMMAND ${CMAKE_COMMAND} 
   -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
   -D TESTED_BRANCH:STRING=${dashboard_data_branch} 
   -P ${_git_updater_script}
@@ -793,6 +834,7 @@ foreach(v
 	CMAKE_MAKE_PROGRAM
 	DASHBOARD_SUPERBUILD
   SUPERBUILD_REBUILD_OTB_ONLY
+  DASHBOARD_PACKAGE_ONLY
 	DOWNLOAD_LOCATION
 	CMAKE_PREFIX_PATH
 	XDK_INSTALL_DIR
@@ -800,6 +842,7 @@ foreach(v
   dashboard_otb_branch
   dashboard_data_branch
   dashboard_update_dir
+  PACKAGE_DEST_DIR
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
@@ -809,28 +852,53 @@ if(COMMAND dashboard_hook_init)
   dashboard_hook_init()
 endif()
   
-  ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
+ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
   
-  write_cache()
+write_cache()
 
-  # Look for updates.
-  if(NOT dashboard_no_update)
-    ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
-    set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
-    safe_message("Found ${count} changed files")
-  else()
-    safe_message("dashboard_no_update is set. skipping update sources")
-  endif()
+
+# Look for updates.
+if(NOT dashboard_no_update)
+  ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
+  set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
+  safe_message("Found ${count} changed files")
+else()
+  safe_message("dashboard_no_update is set. skipping update sources")
+endif()
   
-  # add specific modules (works for OTB only)
-  if(DEFINED dashboard_remote_module AND DEFINED dashboard_remote_module_url)
-    execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_remote_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}" RESULT_VARIABLE rv)
-    if(NOT rv EQUAL 0)
-      message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
+# add specific modules (works for OTB only)
+if(DEFINED dashboard_remote_module AND DEFINED dashboard_remote_module_url)
+  execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_remote_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}" RESULT_VARIABLE rv)
+  if(NOT rv EQUAL 0)
+    message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
+  endif()
+endif()
+
+macro(dashboard_hook_end)
+  message("reset otb-data to master branch" )
+  execute_process(COMMAND ${CMAKE_COMMAND} 
+    -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
+    -D TESTED_BRANCH:STRING=master
+    -P ${_git_updater_script}
+    WORKING_DIRECTORY ${OTB_DATA_ROOT})
+  
+  message("reset otb to develop branch" )
+  execute_process(COMMAND ${CMAKE_COMMAND} 
+    -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
+    -D TESTED_BRANCH:STRING=develop
+    -P ${_git_updater_script}
+    WORKING_DIRECTORY ${dashboard_update_dir})
+
+  message("delete remote module sources" )
+  if(DEFINED dashboard_remote_module)
+    if(EXISTS "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}")
+      file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}")
     endif()
   endif()
 
-  if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
+endmacro()
+
+if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
     
 	if(NOT dashboard_no_configure)
     safe_message("Running ctest_configure() on ${CTEST_BINARY_DIRECTORY}")
@@ -880,6 +948,7 @@ endif()
       endif()
       ctest_memcheck()
     endif()
+    
     if(COMMAND dashboard_hook_submit)
       dashboard_hook_submit()
     endif()
@@ -890,16 +959,4 @@ endif()
       dashboard_hook_end()
     endif()
   endif()
-
- execute_process(COMMAND ${CMAKE_COMMAND} 
-  -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
-  -D TESTED_BRANCH:STRING=nightly
-  -P ${_git_updater_script}
-  WORKING_DIRECTORY ${OTB_DATA_ROOT})
-  
-ctest_sleep(5)
-
-if(DEFINED dashboard_remote_module AND DEFINED dashboard_remote_module_url)
-  file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}")
-endif()
 

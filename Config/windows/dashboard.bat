@@ -181,6 +181,7 @@ net use R: /delete /Y
 :Fin
 echo "called :Fin. End of script."
 
+IF "%EXIT_PROMPT%" == "1" ( 
 EXIT
-
+)
 ENDLOCAL
