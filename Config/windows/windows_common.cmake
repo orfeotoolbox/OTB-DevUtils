@@ -794,17 +794,6 @@ if(NOT DEFINED dashboard_loop)
   endif()
 endif()
 
-# CTest 2.6 crashes with message() after ctest_test.
-macro(safe_message)
-  if(NOT "${CMAKE_VERSION}" VERSION_LESS 2.8 OR NOT safe_message_skip)
-    message(${ARGN})
-  endif()
-endmacro()
-macro(do_submit)
-  ctest_submit()
-  return()
-endmacro()
-
 execute_process(COMMAND ${CMAKE_COMMAND} 
   -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
   -D TESTED_BRANCH:STRING=${dashboard_data_branch} 
@@ -861,9 +850,9 @@ write_cache()
 if(NOT dashboard_no_update)
   ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
   set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
-  safe_message("Found ${count} changed files")
+  message("Found ${count} changed files")
 else()
-  safe_message("dashboard_no_update is set. skipping update sources")
+  message("dashboard_no_update is set. skipping update sources")
 endif()
   
 # add specific modules (works for OTB only)
@@ -901,12 +890,13 @@ endmacro()
 if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
     
 	if(NOT dashboard_no_configure)
-    safe_message("Running ctest_configure() on ${CTEST_BINARY_DIRECTORY}")
+    message("Running ctest_configure() on ${CTEST_BINARY_DIRECTORY}")
 		ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}" 	RETURN_VALUE _configure_rv)
 		ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 
 		if(NOT _configure_rv EQUAL 0)
-			do_submit()
+			ctest_submit()
+      return()
 		endif()
 	endif()
 
@@ -933,8 +923,6 @@ if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
 	  endif()
        ctest_test(${CTEST_TEST_ARGS})
     endif()
-	
-    set(safe_message_skip 1) # Block furhter messages
 
     if(dashboard_do_coverage)
       if(COMMAND dashboard_hook_coverage)
@@ -942,6 +930,7 @@ if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
       endif()
       ctest_coverage()
     endif()
+    
     if(dashboard_do_memcheck)
       if(COMMAND dashboard_hook_memcheck)
         dashboard_hook_memcheck()
@@ -952,9 +941,11 @@ if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
     if(COMMAND dashboard_hook_submit)
       dashboard_hook_submit()
     endif()
+    
     if(NOT dashboard_no_submit)
-		do_submit()
+		  ctest_submit()
     endif()
+    
     if(COMMAND dashboard_hook_end)
       dashboard_hook_end()
     endif()
