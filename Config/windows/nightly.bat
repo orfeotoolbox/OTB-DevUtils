@@ -4,6 +4,8 @@ SETLOCAL
 IF %1.==. ( echo "No arch" 
 goto Fin )
 
+set EXIT_PROMPT=1
+
 set COMPILER_ARCH=%1
 
 set CURRENT_SCRIPT_DIR=%~dp0
@@ -11,12 +13,12 @@ set CURRENT_SCRIPT_DIR=%~dp0
 net use R: /delete /Y
 net use R: \\otbnas.si.c-s.fr\otbdata\otb /persistent:no
 
-cmake -DCOMPILER_ARCH=%COMPILER_ARCH% -P %CURRENT_SCRIPT_DIR%\megatron.cmake 
+cmake -DCOMPILER_ARCH=%COMPILER_ARCH% -P %CURRENT_SCRIPT_DIR%nightly.cmake 
 
 goto Fin
 
 :Fin
-echo "called :Fin. End of megatron.bat script."
+echo "called :Fin. End of raoul.bat script."
 net use R: /delete /Y
 ENDLOCAL
 

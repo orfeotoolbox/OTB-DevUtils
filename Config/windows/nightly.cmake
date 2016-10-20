@@ -1,6 +1,5 @@
 # TODO: update devutils based on option from nightly.bat
 set(UPDATE_DEVUTILS ON)
-set(DO_SUPERBUILD ON)
 
 set(LOGS_DIR "C:/dashboard/logs")
 set(DEVUTILS_DIR "C:/dashboard/devutils")
@@ -29,6 +28,7 @@ execute_process(COMMAND ${CMAKE_COMMAND}
 endif()
 message("${DATE_TIME}: compiler arch set to '${COMPILER_ARCH}'")  
 
+# RemoteModules
 foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM")
 message("${DATE_TIME}: Bulding remote module ${dashboard_remote_module}")
   execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
@@ -38,26 +38,15 @@ message("${DATE_TIME}: Bulding remote module ${dashboard_remote_module}")
 endforeach()
 
 # SuperBuild
-if(DO_SUPERBUILD)
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
    ${COMPILER_ARCH} 0 SUPER_BUILD ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
   OUTPUT_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
-endif() 
 
 # Packaging  
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
    ${COMPILER_ARCH} 0 PACKAGE_OTB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
   OUTPUT_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
-  WORKING_DIRECTORY ${SCRIPTS_DIR})
-
-# copy packages
-string(TIMESTAMP nightly_dest_dir "%Y-%m-%d")
-execute_process(COMMAND ${CMAKE_COMMAND} 
-  -E copy
-  "C:/dashboard/otb/build_x86/OTB-5.8.0-win32.zip"
-  "R:/Nightly/${nightly_dest_dir}/OTB-5.8.0-win32.zip"
-  OUTPUT_FILE ${LOGS_DIR}/copy_binaries_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 
 # nightly latest release + Feature Branches
@@ -96,5 +85,3 @@ foreach(branch_input ${LIST_OF_BRANCHES})
   
 endforeach()
 
-
-#set(ctest_files "${SCRIPTS_DIR}/SertitObject-VC2015.cmake" )
