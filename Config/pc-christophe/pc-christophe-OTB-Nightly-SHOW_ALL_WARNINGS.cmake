@@ -45,7 +45,7 @@ OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/master/include
 OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/master/lib64/libossim.so
 
 #external openjpeg
-OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/trunk/lib/openjpeg-2.1
+OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/trunk/lib/openjpeg-2.2
 
 OTB_COMPILE_WITH_FULL_WARNING:BOOL=ON
 
