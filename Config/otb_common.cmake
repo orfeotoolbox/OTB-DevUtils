@@ -160,10 +160,22 @@ if(NOT CTEST_TEST_ARGS)
   set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 endif()
 
+
+if(dashboard_build_target)
+  string(REPLACE "-all" "" dashboard_label ${dashboard_build_target})
+endif()
+
+if(dashboard_label)
+  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_label}")
+  # we are sure this is an experimental build
+  set(CTEST_DASHBOARD_TRACK Experimental)
+  list(APPEND CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_label})
+endif()
+
+
 if(NOT CTEST_CMAKE_GENERATOR)
   set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 endif()
-
 
 # Create build command
 if(NOT DEFINED CTEST_BUILD_COMMAND)
@@ -521,12 +533,25 @@ macro(run_dashboard)
     if(COMMAND dashboard_hook_build)
       dashboard_hook_build()
     endif()
-    ctest_build()
+    
+    if(dashboard_build_target)
+      message("building requested target ${dashboard_build_target} on ${CTEST_BINARY_DIRECTORY}")
+      ctest_build(
+        BUILD "${CTEST_BINARY_DIRECTORY}"
+        TARGET "${dashboard_build_target}"
+        RETURN_VALUE _build_rv)
+    else()
+      ctest_build(
+        BUILD "${CTEST_BINARY_DIRECTORY}"
+        RETURN_VALUE _build_rv)
+    endif()
+    
 
     if(NOT dashboard_no_test)
       if(COMMAND dashboard_hook_test)
         dashboard_hook_test()
       endif()
+
       ctest_test(${CTEST_TEST_ARGS})
     endif()
 
