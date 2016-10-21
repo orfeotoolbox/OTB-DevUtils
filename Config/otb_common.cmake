@@ -160,18 +160,20 @@ if(NOT CTEST_TEST_ARGS)
   set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 endif()
 
-if(dashboard_build_target)
-  set(dashboard_label ${dashboard_build_target})
-  string(REPLACE "-all" "" dashboard_label ${dashboard_label})
-endif()
 
-if(dashboard_label)
-  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_label}")
-  # we are sure this is an experimental build
-  set(CTEST_DASHBOARD_TRACK Experimental)
-  list(APPEND CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_label})
-endif()
-
+if(NOT DEFINED MXE_ROOT)
+  if(dashboard_build_target)
+    set(dashboard_label ${dashboard_build_target})
+    string(REPLACE "-all" "" dashboard_label ${dashboard_label})
+  endif()
+  
+  if(dashboard_label)
+    set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_label}")
+    # we are sure this is an experimental build
+    set(CTEST_DASHBOARD_TRACK Experimental)
+    list(APPEND CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_label})
+  endif()
+endif() #NOT DEFINED MXE_ROOT
 
 if(NOT CTEST_CMAKE_GENERATOR)
   set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
