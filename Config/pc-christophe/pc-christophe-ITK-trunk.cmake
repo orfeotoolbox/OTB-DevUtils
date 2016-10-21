@@ -14,7 +14,7 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/itk/trunk")
 set(dashboard_binary_name "build/itk/trunk/${CTEST_BUILD_CONFIGURATION}")
 
-set(dashboard_fresh_source_checkout ON)
+set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "http://itk.org/ITK.git")
 set(dashboard_git_branch "master")
 
@@ -31,7 +31,7 @@ CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
 CMAKE_INSTALL_PREFIX=${ITK_INSTALL_PREFIX}
 
 BUILD_SHARED_LIBS:BOOL=ON
-BUILD_TESTING:BOOL=ON
+BUILD_TESTING:BOOL=OFF
 BUILD_EXAMPLES:BOOL=OFF
 
 # as much external libraries as possible
