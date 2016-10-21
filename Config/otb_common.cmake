@@ -160,9 +160,9 @@ if(NOT CTEST_TEST_ARGS)
   set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 endif()
 
-
 if(dashboard_build_target)
-  string(REPLACE "-all" "" dashboard_label ${dashboard_build_target})
+  set(dashboard_label ${dashboard_build_target})
+  string(REPLACE "-all" "" dashboard_label ${dashboard_label})
 endif()
 
 if(dashboard_label)
