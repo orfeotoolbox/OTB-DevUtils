@@ -19,7 +19,7 @@ set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly-clang/${CTEST_BUILD_CONFIGURATION}")
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
+#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
