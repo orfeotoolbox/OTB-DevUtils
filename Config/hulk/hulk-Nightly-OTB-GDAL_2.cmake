@@ -45,10 +45,13 @@ OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
 OTB_USE_OPENJPEG:BOOL=OFF
 OTB_USE_QT4:BOOL=ON
-OTB_USE_MAPNIK:BOOL=ON
 
-MAPNIK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/mapnik-2.0.0/include
-MAPNIK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/mapnik-2.0.0/lib/libmapnik2.so
+# mapnik tests fails with gdal2.0. update mapnik version, test and enable again
+# This requires changes Modules/ThirdParty/Mapnik/
+OTB_USE_MAPNIK:BOOL=OFF
+
+# MAPNIK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/mapnik-2.0.0/include
+# MAPNIK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/mapnik-2.0.0/lib/libmapnik2.so
 
 OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/ossim-1.8.20-3/include
 OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/ossim-1.8.20-3/lib/libossim.so
@@ -71,6 +74,7 @@ LIBKML_XSD_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmlxsd.so
 endmacro()
 
 set( ENV{GDAL_DATA} ${CTEST_DASHBOARD_ROOT}/install/gdal-SB/share/gdal)
+#no epsg_csv direcrtory!
 set( ENV{GEOTIFF_CSV} ${CTEST_DASHBOARD_ROOT}/install/gdal-SB/share/epsg_csv)
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
