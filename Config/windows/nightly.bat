@@ -18,7 +18,7 @@ cmake -DCOMPILER_ARCH=%COMPILER_ARCH% -P %CURRENT_SCRIPT_DIR%nightly.cmake
 goto Fin
 
 :Fin
-echo "called :Fin. End of raoul.bat script."
+echo "called :Fin. End of nightly.bat script."
 net use R: /delete /Y
 
 ENDLOCAL

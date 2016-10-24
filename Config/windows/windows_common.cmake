@@ -632,33 +632,6 @@ GENERATE_PACKAGE:BOOL=${DASHBOARD_PACKAGE_OTB}
 GENERATE_XDK:BOOL=${DASHBOARD_PACKAGE_XDK}
 ")
 
-macro(dashboard_hook_submit)
-set(copy_packages_failed TRUE)
-if(OTBNAS_PACKAGES_DIR)
-  file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
-  if(otb_package_file_name)
-    get_filename_component(otb_package_file_name ${otb_package_file} NAME)
-    # copy packages to otbnas
-    message("Copying ${otb_package_file} to ${OTBNAS_PACKAGES_DIR}/${otb_package_file_name}")
-    execute_process(
-      COMMAND ${CMAKE_COMMAND} 
-      -E copy
-      "${otb_package_file}"
-      "${OTBNAS_PACKAGES_DIR}/${otb_package_file_name}"
-      RESULT_VARIABLE copy_rv
-      WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY})
- 
-    if(copy_rv EQUAL 0)
-      set(copy_packages_failed FALSE)
-    endif()
-  endif(otb_package_file_name)
-endif()
-
-if(copy_packages_failed)
-  message("Cannot copy ${otb_package_file} to ${OTBNAS_PACKAGES_DIR}/${otb_package_file_name}")
-endif()
-endmacro(dashboard_hook_submit)
-
 endif(DASHBOARD_PACKAGE_ONLY)
 
 # Delete source tree if it is incompatible with current VCS.
@@ -871,7 +844,38 @@ if(DEFINED dashboard_remote_module AND DEFINED dashboard_remote_module_url)
   endif()
 endif()
 
-macro(dashboard_hook_end)
+macro(dashboard_copy_packages)
+set(copy_packages_failed TRUE)
+
+if(OTBNAS_PACKAGES_DIR)
+  file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
+  if(otb_package_file)
+    get_filename_component(package_file_name ${otb_package_file} NAME)
+    # copy packages to otbnas
+    message("Copying ${otb_package_file} to ${OTBNAS_PACKAGES_DIR}/${package_file_name}")
+    execute_process(
+      COMMAND ${CMAKE_COMMAND} 
+      -E copy
+      "${otb_package_file}"
+      "${OTBNAS_PACKAGES_DIR}/${package_file_name}"
+      RESULT_VARIABLE copy_rv
+      WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY})
+ 
+    if(copy_rv EQUAL 0)
+      set(copy_packages_failed FALSE)
+    endif()
+  endif() #otb_package_file
+endif() #OTBNAS_PACKAGES_DIR
+
+if(copy_packages_failed)
+  message("Cannot copy ${otb_package_file} to ${OTBNAS_PACKAGES_DIR}/${package_file_name}")
+else()
+  message("Copied ${otb_package_file} to ${OTBNAS_PACKAGES_DIR}/${package_file_name}")
+endif()
+endmacro(dashboard_copy_packages)
+
+
+macro(dashboard_reset_git_repos)
   message("reset otb-data to master branch" )
   execute_process(COMMAND ${CMAKE_COMMAND} 
     -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
@@ -893,69 +897,77 @@ macro(dashboard_hook_end)
     endif()
   endif()
 
-endmacro()
+endmacro(dashboard_reset_git_repos)
 
-if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
-    
-	if(NOT dashboard_no_configure)
-    message("Running ctest_configure() on ${CTEST_BINARY_DIRECTORY}")
-		ctest_configure (BUILD "${CTEST_BINARY_DIRECTORY}" 	RETURN_VALUE _configure_rv)
-		ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
+#if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
+   
+if(NOT dashboard_no_configure)
+  message("Running ctest_configure() on ${CTEST_BINARY_DIRECTORY}")
+	ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" 	RETURN_VALUE _configure_rv)
+	ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 
-		if(NOT _configure_rv EQUAL 0)
-			ctest_submit()
-      return()
-		endif()
+	if(NOT _configure_rv EQUAL 0)
+    ctest_submit()
+    return()
 	endif()
+endif() #NOT dashboard_no_configure
 
-    if(COMMAND dashboard_hook_build)
-      dashboard_hook_build()
-    endif()
+if(COMMAND dashboard_hook_build)
+  dashboard_hook_build()
+endif()
 	  
-	if(dashboard_build_target)
-    message("building requested target ${dashboard_build_target} on ${CTEST_BINARY_DIRECTORY}")
-	  ctest_build( BUILD "${CTEST_BINARY_DIRECTORY}" 
-	              TARGET "${dashboard_build_target}"
-				  RETURN_VALUE _build_rv)
-	else()
-	  ctest_build( BUILD "${CTEST_BINARY_DIRECTORY}" RETURN_VALUE _build_rv)
-	endif()
+if(dashboard_build_target)
+  message("building requested target ${dashboard_build_target} on ${CTEST_BINARY_DIRECTORY}")
+	ctest_build( BUILD "${CTEST_BINARY_DIRECTORY}" 
+              TARGET "${dashboard_build_target}"
+              RETURN_VALUE _build_rv)
+else()
+  ctest_build( BUILD "${CTEST_BINARY_DIRECTORY}" RETURN_VALUE _build_rv)
+endif()
 	
-    if(NOT dashboard_no_test)
-      if(COMMAND dashboard_hook_test)
-        dashboard_hook_test()
-      endif()
-    
-    if(dashboard_label)
-	   list(APPEND CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_label})
-	  endif()
-       ctest_test(${CTEST_TEST_ARGS})
-    endif()
-
-    if(dashboard_do_coverage)
-      if(COMMAND dashboard_hook_coverage)
-        dashboard_hook_coverage()
-      endif()
-      ctest_coverage()
-    endif()
-    
-    if(dashboard_do_memcheck)
-      if(COMMAND dashboard_hook_memcheck)
-        dashboard_hook_memcheck()
-      endif()
-      ctest_memcheck()
-    endif()
-    
-    if(COMMAND dashboard_hook_submit)
-      dashboard_hook_submit()
-    endif()
-    
-    if(NOT dashboard_no_submit)
-		  ctest_submit()
-    endif()
-    
-    if(COMMAND dashboard_hook_end)
-      dashboard_hook_end()
-    endif()
+if(NOT dashboard_no_test)
+  if(COMMAND dashboard_hook_test)
+    dashboard_hook_test()
   endif()
+  if(dashboard_label)
+    list(APPEND CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_label})
+  endif()
+    ctest_test(${CTEST_TEST_ARGS})
+endif()
+
+if(dashboard_do_coverage)
+  if(COMMAND dashboard_hook_coverage)
+    dashboard_hook_coverage()
+  endif()
+  ctest_coverage()
+endif()
+    
+if(dashboard_do_memcheck)
+  if(COMMAND dashboard_hook_memcheck)
+    dashboard_hook_memcheck()
+  endif()
+  ctest_memcheck()
+endif()
+    
+if(COMMAND dashboard_hook_submit)
+  dashboard_hook_submit()
+endif()
+    
+if(NOT dashboard_no_submit)
+  ctest_submit()
+endif()
+    
+if(COMMAND dashboard_hook_end)
+  dashboard_hook_end()
+endif()
+
+if(NOT dashboard_no_update)
+  dashboard_reset_git_repos()
+endif()
+
+if(DASHBOARD_PACKAGE_ONLY)
+  dashboard_copy_packages()
+endif()
+
+#endif()
 
