@@ -29,7 +29,7 @@ endif()
 message("${DATE_TIME}: compiler arch set to '${COMPILER_ARCH}'")  
 
 # RemoteModules
-foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM")
+foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFastFeaturesSelection")
 message("${DATE_TIME}: Bulding remote module ${dashboard_remote_module}")
   execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
   ${COMPILER_ARCH} 0 BUILD nightly nightly ${dashboard_remote_module}

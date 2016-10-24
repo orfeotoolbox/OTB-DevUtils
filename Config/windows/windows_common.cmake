@@ -143,6 +143,9 @@ if(NOT "${dashboard_model}" MATCHES "^(Nightly|Experimental|Continuous)$")
   message(FATAL_ERROR "dashboard_model must be Nightly, Experimental, or Continuous")
 endif()
 
+if(DEFINED ENV{BUILD_START_DATE})
+  set(PACKAGE_DEST_DIR "R:/Nightly/$ENV{BUILD_START_DATE}")
+endif()
 
 # Look for a GIT command-line client.
 
@@ -628,30 +631,29 @@ GENERATE_PACKAGE:BOOL=${DASHBOARD_PACKAGE_OTB}
 GENERATE_XDK:BOOL=${DASHBOARD_PACKAGE_XDK}
 ")
 
-#this must be outside macro(dashboard_hook_submit) because we take yesterday's date 
-# there can be chance that when dashboard_hook_submit called after midnight
-# and then we get date wrong.
-string(TIMESTAMP date_dir "%Y-%m-%d")
-set(PACKAGE_DEST_DIR "R:/Nightly/${date_dir}")
-
 macro(dashboard_hook_submit)
+if(PACKAGE_DEST_DIR)
   file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
-  get_filename_component(otb_package_file_name ${otb_package_file} NAME)
-  # copy packages to otbnas
-  message("Copying ${otb_package_file} to ${PACKAGE_DEST_DIR}/${otb_package_file_name}")
-  execute_process(COMMAND ${CMAKE_COMMAND} 
-    -E copy
-    "${otb_package_file}"
-    "${PACKAGE_DEST_DIR}/${otb_package_file_name}"
-    RESULT_VARIABLE copy_rv
-    WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY})
+  if(otb_package_file_name)
+    get_filename_component(otb_package_file_name ${otb_package_file} NAME)
+    # copy packages to otbnas
+    message("Copying ${otb_package_file} to ${PACKAGE_DEST_DIR}/${otb_package_file_name}")
+    execute_process(
+      COMMAND ${CMAKE_COMMAND} 
+      -E copy
+      "${otb_package_file}"
+      "${PACKAGE_DEST_DIR}/${otb_package_file_name}"
+      RESULT_VARIABLE copy_rv
+      WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY})
  
-  if(NOT copy_rv EQUAL 0)
-    message("Cannot copy ${otb_package_file} to ${PACKAGE_DEST_DIR}/${otb_package_file_name}")
-  endif()
-endmacro()
-
+    if(NOT copy_rv EQUAL 0)
+      message("Cannot copy ${otb_package_file} to ${PACKAGE_DEST_DIR}/${otb_package_file_name}")
+    endif()
+  endif(otb_package_file_name)
 endif()
+endmacro(dashboard_hook_submit)
+
+endif(DASHBOARD_PACKAGE_ONLY)
 
 # Delete source tree if it is incompatible with current VCS.
 if(EXISTS ${dashboard_update_dir})

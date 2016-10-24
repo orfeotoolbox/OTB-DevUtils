@@ -1,6 +1,6 @@
 SETLOCAL
 
-@echo on
+@echo off
 
 IF %1.==. ( echo "No arch" 
 goto Fin )
@@ -12,29 +12,52 @@ set SUPERBUILD_REBUILD_OTB_ONLY=0
 set DASHBOARD_PACKAGE_XDK=0
 set DASHBOARD_PACKAGE_OTB=0
 set CHANGE_DIR_NAMES=0
+set DASHBOARD_ARG2_OK=0
+set DASHBOARD_ARG3_OK=0
 
-set SHOW_SHELL_ARG=%2
-IF "%SHOW_SHELL_ARG%" == "SH" (
+set SHOW_CMD_ARG=%2
+IF "%SHOW_CMD_ARG%" == "CMD" (
 set OPEN_CMD_ONLY=1
+set DASHBOARD_ARG2_OK=1
+)
+IF "%SHOW_CMD_ARG%" == "0" (
+set OPEN_CMD_ONLY=0
+set DASHBOARD_ARG2_OK=1
 )
 
-set DASHBOARD_ARG=%3
+set DASHBOARD_ACTION=%3
 
-IF "%DASHBOARD_ARG%" == "BUILD" (
+IF "%DASHBOARD_ACTION%" == "BUILD" (
 set DASHBOARD_BUILD=0
+set DASHBOARD_ARG3_OK=1
 )
-IF "%DASHBOARD_ARG%" == "SUPER_BUILD" (
+
+IF "%DASHBOARD_ACTION%" == "SUPER_BUILD" (
 set DASHBOARD_SUPERBUILD=1
 set SUPERBUILD_REBUILD_OTB_ONLY=1
 set CHANGE_DIR_NAMES=1
-)
-IF "%DASHBOARD_ARG%" == "PACKAGE_OTB" (
-set DASHBOARD_PACKAGE_OTB=1
-)
-IF "%DASHBOARD_ARG%" == "PACKAGE_XDK" (
-set DASHBOARD_PACKAGE_XDK=1
+set DASHBOARD_ARG3_OK=1
 )
 
+IF "%DASHBOARD_ACTION%" == "PACKAGE_OTB" (
+set DASHBOARD_PACKAGE_OTB=1
+set DASHBOARD_ARG3_OK=1
+)
+
+IF "%DASHBOARD_ACTION%" == "PACKAGE_XDK" (
+set DASHBOARD_PACKAGE_XDK=1
+set DASHBOARD_ARG3_OK=1
+)
+
+IF "%DASHBOARD_ARG3_OK%" == "0" (
+echo "unknown argument '%DASHBOARD_ACTION%'" 
+goto Fin
+)
+
+IF "%DASHBOARD_ARG2_OK%" == "0" (
+echo "unknown argument '%SHOW_CMD_ARG%'" 
+goto Fin
+)
 IF %4.==. ( echo "using default branch set in dashboard.bat" ) 
 set dashboard_otb_branch=%4
 ::default value is develop(otb_common.cmake)
@@ -48,6 +71,7 @@ IF %dashboard_data_branch%.==. ( set dashboard_data_branch=nightly )
 IF %6.==. ( echo "default behaviour is a full build" ) 
 set dashboard_remote_module=%6
 
+@echo on
 :: IF %6.==. ( echo "using default cmake script dashboard.cmake" ) 
 :: set DASHBOARD_SCRIPT_FILE=%6
 ::default value is develop(dashboard.cmake)
@@ -179,6 +203,24 @@ net use R: /delete /Y
 ::ctest -R Projection
 
 :Fin
+@echo off
+echo "Usage : dashboard.bat <compiler_arch>  <cmd_prompt>  [<dasboard_action>] [<otb_git_branch>] [<otb_data_branch>] [<remote_module>]"
+echo "All arguments accept only single values. Below '|' means 'or'"
+echo "Values for compiler_arch: x86|x64"
+echo "Values for cmd_prompt: 0|CMD"
+echo "Values for dasboard_action: BUILD|SUPER_BUILD|PACKAGE_OTB|PACKAGE_XDK"
+echo "Values for otb_git_branch: develop|release-5.8| etc.. (default is nightly)"
+echo "Values for otb_data_branch: master|release-5.8| etc.. (default is nightly)"
+echo "Values for remote_module: SertitObject|Mosaic| etc.. (any official remote module. no defaults)"
+echo "Examples:"
+
+echo "dashboard.bat x64 0 BUILD develop master"
+echo "dashboard.bat x64 0 SUPER_BUILD release-5.8 (otb-data branch is nightly)"
+echo "dashboard.bat x64 0 PACKAGE_OTB" (generate pacakge of otb)"
+echo "dashboard.bat x64 0 BUILD new_feature new_feature_data"
+echo "dashboard.bat x64 0 BUILD develop remote_module_data OfficialRemoteModule"
+echo "dashboard.bat x64 CMD BUILD develop (drop to cmd.exe with XDK_INSTALL_DIR and CMAKE_PREFIX_PATH set for OTB build)"
+echo "dashboard.bat x64 CMD SUPER_BUILD develop (drop to cmd.exe with XDK_INSTALL_DIR and CMAKE_PREFIX_PATH set for a superbuild)"
 echo "called :Fin. End of script."
 
 IF "%EXIT_PROMPT%" == "1" ( 
