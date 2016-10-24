@@ -143,9 +143,10 @@ if(NOT "${dashboard_model}" MATCHES "^(Nightly|Experimental|Continuous)$")
   message(FATAL_ERROR "dashboard_model must be Nightly, Experimental, or Continuous")
 endif()
 
-if(DEFINED ENV{BUILD_START_DATE})
-  set(PACKAGE_DEST_DIR "R:/Nightly/$ENV{BUILD_START_DATE}")
+if(DEFINED ENV{OTBNAS_PACKAGES_DIR})
+  set(OTBNAS_PACKAGES_DIR "$ENV{OTBNAS_PACKAGES_DIR}")
 endif()
+
 
 # Look for a GIT command-line client.
 
@@ -632,24 +633,29 @@ GENERATE_XDK:BOOL=${DASHBOARD_PACKAGE_XDK}
 ")
 
 macro(dashboard_hook_submit)
-if(PACKAGE_DEST_DIR)
+set(copy_packages_failed TRUE)
+if(OTBNAS_PACKAGES_DIR)
   file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
   if(otb_package_file_name)
     get_filename_component(otb_package_file_name ${otb_package_file} NAME)
     # copy packages to otbnas
-    message("Copying ${otb_package_file} to ${PACKAGE_DEST_DIR}/${otb_package_file_name}")
+    message("Copying ${otb_package_file} to ${OTBNAS_PACKAGES_DIR}/${otb_package_file_name}")
     execute_process(
       COMMAND ${CMAKE_COMMAND} 
       -E copy
       "${otb_package_file}"
-      "${PACKAGE_DEST_DIR}/${otb_package_file_name}"
+      "${OTBNAS_PACKAGES_DIR}/${otb_package_file_name}"
       RESULT_VARIABLE copy_rv
       WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY})
  
-    if(NOT copy_rv EQUAL 0)
-      message("Cannot copy ${otb_package_file} to ${PACKAGE_DEST_DIR}/${otb_package_file_name}")
+    if(copy_rv EQUAL 0)
+      set(copy_packages_failed FALSE)
     endif()
   endif(otb_package_file_name)
+endif()
+
+if(copy_packages_failed)
+  message("Cannot copy ${otb_package_file} to ${OTBNAS_PACKAGES_DIR}/${otb_package_file_name}")
 endif()
 endmacro(dashboard_hook_submit)
 
@@ -833,7 +839,7 @@ foreach(v
   dashboard_otb_branch
   dashboard_data_branch
   dashboard_update_dir
-  PACKAGE_DEST_DIR
+  OTBNAS_PACKAGES_DIR
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)

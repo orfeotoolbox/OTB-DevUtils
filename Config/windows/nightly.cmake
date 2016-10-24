@@ -28,6 +28,17 @@ execute_process(COMMAND ${CMAKE_COMMAND}
 endif()
 message("${DATE_TIME}: compiler arch set to '${COMPILER_ARCH}'")  
 
+string(TIMESTAMP BUILD_START_DATE "%Y-%m-%d")
+set(OTBNAS_PACKAGES_DIR "R:/Nightly/${BUILD_START_DATE}")
+
+if(NOT EXISTS "${OTBNAS_PACKAGES_DIR}")
+execute_process(COMMAND 
+${CMAKE_COMMAND} -E make_directory ${OTBNAS_PACKAGES_DIR}
+WORKING_DIRECTORY ${LOGS_DIR})
+endif()
+
+set(ENV{OTBNAS_PACKAGES_DIR} "${OTBNAS_PACKAGES_DIR}")
+
 # RemoteModules
 foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFastFeaturesSelection")
 message("${DATE_TIME}: Bulding remote module ${dashboard_remote_module}")
