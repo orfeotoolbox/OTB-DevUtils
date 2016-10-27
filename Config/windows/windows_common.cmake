@@ -607,6 +607,7 @@ endif()
 if(dashboard_remote_module)
 set(dashboard_cache
 "
+${dashboard_cache}
 OTB_BUILD_DEFAULT_MODULES:BOOL=OFF
 Module_${dashboard_remote_module}:BOOL=ON
 "
@@ -898,6 +899,9 @@ macro(dashboard_reset_git_repos)
   endif()
 
 endmacro(dashboard_reset_git_repos)
+
+# special setting for ctest_submit(), issue with CA checking
+set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
 
 #if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
    
