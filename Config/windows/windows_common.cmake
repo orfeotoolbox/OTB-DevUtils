@@ -607,7 +607,6 @@ endif()
 if(dashboard_remote_module)
 set(dashboard_cache
 "
-${dashboard_cache}
 OTB_BUILD_DEFAULT_MODULES:BOOL=OFF
 Module_${dashboard_remote_module}:BOOL=ON
 "
