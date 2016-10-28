@@ -1,12 +1,9 @@
 set(dashboard_model Nightly)
-set(CTEST_DASHBOARD_ROOT "/home/mrashad/dashboard")
-set(CTEST_SITE "binpkg.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Package-Linux-x86_64")
-set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -k -j1 PACKAGE-OTB" )
+include(${CTEST_SCRIPT_DIRECTORY}/binpkg_common.cmake)
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
-set(CTEST_TEST_TIMEOUT 500)
 
 set(dashboard_source_name "otb/src/SuperBuild/Packaging")
 set(dashboard_binary_name "otb/pkg-otb")
