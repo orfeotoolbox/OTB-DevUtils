@@ -898,8 +898,9 @@ macro(dashboard_reset_git_repos)
     -P ${_git_updater_script}
     WORKING_DIRECTORY ${dashboard_update_dir})
 
-  message("delete remote module sources" )
-  if(DEFINED dashboard_remote_module)
+  
+  if(DEFINED dashboard_remote_module AND NOT dashboard_no_clean)
+    message("'dashboard_no_clean' is not set and 'dashboard_remote_module' is define. delete remote module sources" )
     if(EXISTS "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}")
       file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}")
     endif()
