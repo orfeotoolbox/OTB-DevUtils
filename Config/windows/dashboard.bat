@@ -79,10 +79,17 @@ set dashboard_remote_module=%6
 net use R: /delete /Y
 net use R: \\otbnas.si.c-s.fr\otbdata\otb /persistent:no
 
+set OTB_DATA_ROOT=C:\dashboard\data\otb-data
+set OTB_DATA_LARGEINPUT_ROOT=R:\OTB-LargeInput
+set DOWNLOAD_LOCATION=R:\DataForTests\SuperBuild-archives
 
 set LOG_CTEST_OUTPUT_TO_FILE=0
 
 set OMP_NUM_THREADS=1
+
+::default value is Release (otb_common.cmake)
+set CTEST_BUILD_CONFIGURATION=Release
+set CTEST_DASHBOARD_ROOT=C:\dashboard
 
 ::set dashboard_no_clean=1
 ::set dashboard_no_update=1
@@ -93,14 +100,6 @@ set OMP_NUM_THREADS=1
 ::could be an evironment variable?
 :: set CTEST_SITE=noname.no
 :: set BUILD_NAME_PREFIX=Win7-vc19
-
-set OTB_DATA_ROOT=C:\dashboard\data\otb-data
-set OTB_DATA_LARGEINPUT_ROOT=R:\OTB-LargeInput
-set DOWNLOAD_LOCATION=R:\DataForTests\SuperBuild-archives
-
-::default value is Release (otb_common.cmake)
-set CTEST_BUILD_CONFIGURATION=Release
-set CTEST_DASHBOARD_ROOT=C:\dashboard
 
 
 ::see also next set PATH

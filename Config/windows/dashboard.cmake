@@ -3,7 +3,9 @@
 # set( dashboard_no_configure 1 )
 # set( dashboard_no_submit 1 )
 # set(dashboard_model Experimental)
-# set(dashboard_build_target OTBAppOpticalCalibration-all)
+# set(dashboard_build_target OTBWavelet-all)
+# set(CTEST_BUILD_CONFIGURATION Release)
+# set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015")
 
 set(otb_data_use_largeinput ON)
 
