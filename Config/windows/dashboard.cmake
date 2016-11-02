@@ -6,7 +6,7 @@
 # set(dashboard_build_target OTBWavelet-all)
 # set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 # set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015") 
-# set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015 x64")
+# set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015 Win64")
 
 set(otb_data_use_largeinput ON)
 
@@ -58,6 +58,6 @@ include(windows_common.cmake)
 # set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015") 
 ## Use Visual Studio 14 2015 generator x86 (default is ninja)
 
-# set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015 x64")
+# set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015 Win64")
 ## Use Visual Studio 14 2015 generator x64 (default is ninja)
 
