@@ -76,12 +76,16 @@ set dashboard_remote_module=%6
 :: set DASHBOARD_SCRIPT_FILE=%6
 ::default value is develop(dashboard.cmake)
 
+IF "%DASHBOARD_USE_OTBNAS%" == "1" (
 net use R: /delete /Y
 net use R: \\otbnas.si.c-s.fr\otbdata\otb /persistent:no
-
-set OTB_DATA_ROOT=C:\dashboard\data\otb-data
 set OTB_DATA_LARGEINPUT_ROOT=R:\OTB-LargeInput
 set DOWNLOAD_LOCATION=R:\DataForTests\SuperBuild-archives
+) ELSE (
+echo "DASHBOARD_USE_OTBNAS env variable is unset or 0"
+)
+set OTB_DATA_ROOT=C:\dashboard\data\otb-data
+
 
 set LOG_CTEST_OUTPUT_TO_FILE=0
 
@@ -193,10 +197,12 @@ IF "%LOG_CTEST_OUTPUT_TO_FILE%" == "1" (
 echo "ctest output is written to %OTB_CDASH_LOG_FILE%"
 ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE% > %OTB_CDASH_LOG_FILE% 
 ) ELSE ( 
-ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE%
+::ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE%
 )
 
+IF "%DASHBOARD_USE_OTBNAS%" == "1" (
 net use R: /delete /Y
+)
 
 ::cd %CTEST_DASHBOARD_ROOT%\otb\build_%COMPILER_ARCH%\OTB\build
 ::ctest -R Projection

@@ -1,4 +1,5 @@
 # OTB Common Dashboard Script
+# OTB Common Dashboard Script
 #
 # This script contains basic dashboard driver code common to all
 # clients.
@@ -245,7 +246,7 @@ if(otb_data_use_largeinput)
 		file(TO_CMAKE_PATH "$ENV{OTB_DATA_LARGEINPUT_ROOT}" OTB_DATA_LARGEINPUT_ROOT)
 	else()
 		set(otb_data_use_largeinput FALSE)
-		message(FATAL_ERROR "No OTB_DATA_LARGEINPUT_ROOT set. cannot continue.")
+		message("No OTB_DATA_LARGEINPUT_ROOT set. deactivating otb_data_use_largeinput.")
 	endif()
 endif()
 
