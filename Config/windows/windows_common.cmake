@@ -183,12 +183,14 @@ if(NOT COMPILER_ARCH)
     message(FATAL_ERROR "No COMPILER_ARCH set. cannot continue.")
 endif()
 
-if(DEFINED ENV{OTB_DATA_ROOT})
-  file(TO_CMAKE_PATH "$ENV{OTB_DATA_ROOT}" OTB_DATA_ROOT)
-else()
-  message(FATAL_ERROR "No OTB_DATA_ROOT set. cannot continue.")
+if(NOT DEFINED OTB_DATA_ROOT)
+  if(DEFINED ENV{OTB_DATA_ROOT})
+    file(TO_CMAKE_PATH "$ENV{OTB_DATA_ROOT}" OTB_DATA_ROOT)
+  else()
+    set(dashboard_no_test 1)
+    message(WARNING "No OTB_DATA_ROOT set. cannot run tests. dashboard_no_test is set to 1")
+  endif()
 endif()
-
 
 if(DEFINED ENV{XDK_INSTALL_DIR})
   file(TO_CMAKE_PATH "$ENV{XDK_INSTALL_DIR}" XDK_INSTALL_DIR)
@@ -314,8 +316,13 @@ if(DEFINED ENV{CTEST_SITE})
 endif()
 
 if(NOT CTEST_SITE)
-  message("CTEST_SITE is emtpy. setting this to value of SITE_NAME which is '${SITE_NAME}'")
-  set(CTEST_SITE "${SITE_NAME}")
+  if(DEFINED ENV{COMPUTERNAME})
+    message("CTEST_SITE is emtpy. setting this to value of SITE_NAME which is '$ENV{COMPUTERNAME}'")
+    set(CTEST_SITE "$ENV{COMPUTERNAME}")
+    set(CTEST_DASHBOARD_TRACK Experimental)
+  else()
+    message("CTEST_SITE and ENV{COMPUTERNAME} are emtpy. Cannot continue")
+  endif()
 endif()
 
 if(NOT DEFINED CTEST_CMAKE_GENERATOR)
@@ -784,12 +791,13 @@ if(NOT DEFINED dashboard_loop)
   endif()
 endif()
 
-execute_process(COMMAND ${CMAKE_COMMAND} 
-  -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
-  -D TESTED_BRANCH:STRING=${dashboard_data_branch} 
-  -P ${_git_updater_script}
-  WORKING_DIRECTORY ${OTB_DATA_ROOT})
-  
+if(OTB_DATA_ROOT)
+  execute_process(COMMAND ${CMAKE_COMMAND} 
+    -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
+    -D TESTED_BRANCH:STRING=${dashboard_data_branch} 
+    -P ${_git_updater_script}
+    WORKING_DIRECTORY ${OTB_DATA_ROOT})
+endif()  
  
 if(COMMAND dashboard_hook_start)
    dashboard_hook_start()
@@ -884,13 +892,15 @@ endif()
 endmacro(dashboard_copy_packages)
 
 
-macro(dashboard_reset_git_repos)
+macro(dashboard_reset_sources)
   message("reset otb-data to master branch" )
-  execute_process(COMMAND ${CMAKE_COMMAND} 
-    -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
-    -D TESTED_BRANCH:STRING=master
-    -P ${_git_updater_script}
-    WORKING_DIRECTORY ${OTB_DATA_ROOT})
+  if(OTB_DATA_ROOT)
+    execute_process(COMMAND ${CMAKE_COMMAND} 
+      -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
+      -D TESTED_BRANCH:STRING=master
+      -P ${_git_updater_script}
+      WORKING_DIRECTORY ${OTB_DATA_ROOT})
+  endif()
   
   message("reset otb to develop branch" )
   execute_process(COMMAND ${CMAKE_COMMAND} 
@@ -907,7 +917,7 @@ macro(dashboard_reset_git_repos)
     endif()
   endif()
 
-endmacro(dashboard_reset_git_repos)
+endmacro(dashboard_reset_sources)
 
 # special setting for ctest_submit(), issue with CA checking
 set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
@@ -975,7 +985,7 @@ if(COMMAND dashboard_hook_end)
 endif()
 
 if(NOT dashboard_no_update)
-  dashboard_reset_git_repos()
+  dashboard_reset_sources()
 endif()
 
 if(DASHBOARD_PACKAGE_ONLY)
