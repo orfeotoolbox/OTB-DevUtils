@@ -46,8 +46,6 @@ OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/master/lib64/libossim.so
 MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/stable/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/stable/include/muparserx
 
-#external openjpeg
-OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/stable/lib/openjpeg-2.1
 
 # shark
 #Shark_DIR=${INSTALLROOT}/shark/stable/lib/cmake/Shark
@@ -69,7 +67,6 @@ OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
 OTB_USE_SHARK:BOOL=OFF
-OTB_USE_OPENJPEG=ON
 OTB_USE_QT4=ON
 OTB_USE_SIFTFAST=ON
 OTB_USE_QWT:BOOL=ON

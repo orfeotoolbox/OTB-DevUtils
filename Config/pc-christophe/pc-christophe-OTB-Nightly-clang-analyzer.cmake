@@ -28,8 +28,6 @@ SET(OSSIM_LIBRARY "/home/otbtesting/install/ossim/master/lib64/libossim.so" CACH
 SET(MUPARSERX_LIBRARY "/home/otbtesting/install/muparserx/stable/lib/libmuparserx.so" CACHE STRING "" FORCE)
 SET(MUPARSERX_INCLUDE_DIR "/home/otbtesting/install/muparserx/stable/include/muparserx" CACHE STRING "" FORCE)
 
-#external openjpeg
-SET(OpenJPEG_DIR "/home/otbtesting/install/openjpeg/stable/lib/openjpeg-2.1" CACHE STRING "" FORCE)
 
 # These options are not available anymore
 SET(OTB_USE_PATENTED ON CACHE BOOL "" FORCE)
@@ -44,7 +42,6 @@ SET(OTB_USE_LIBKML OFF CACHE BOOL "" FORCE)
 SET(OTB_USE_6S ON CACHE BOOL "" FORCE)
 SET(OTB_USE_SIFTFAST ON CACHE BOOL "" FORCE)
 SET(OTB_USE_LIBSVM ON CACHE BOOL "" FORCE)
-SET(OTB_USE_OPENJPEG ON CACHE BOOL "" FORCE)
 SET(OTB_USE_CURL ON CACHE BOOL "" FORCE)
 
 SET(OTB_WRAP_JAVA ON CACHE BOOL "" FORCE)

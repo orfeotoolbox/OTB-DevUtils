@@ -45,7 +45,6 @@ OTB_USE_MAPNIK:BOOL=ON
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
-OTB_USE_OPENJPEG:BOOL=OFF
 OTB_USE_QT4:BOOL=ON
 # Ice module
 OTB_USE_OPENGL:BOOL=ON
@@ -68,8 +67,6 @@ LIBKML_ENGINE_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlengin
 LIBKML_MINIZIP_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libminizip.so
 LIBKML_REGIONATOR_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlregionator.so
 LIBKML_XSD_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlxsd.so
-
-OpenJPEG_DIR:PATH=/home/otbval/Tools/OpenJpeg_2.1/install/lib/openjpeg-2.1
 
 OpenCV_DIR:PATH=/home/otbval/Tools/OpenCV/install/share/OpenCV
 

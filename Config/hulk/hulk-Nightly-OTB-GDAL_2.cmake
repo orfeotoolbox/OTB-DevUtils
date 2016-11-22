@@ -43,7 +43,6 @@ OTB_USE_LIBSVM:BOOL=ON
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
-OTB_USE_OPENJPEG:BOOL=OFF
 OTB_USE_QT4:BOOL=ON
 
 # mapnik tests fails with gdal2.0. update mapnik version, test and enable again
@@ -60,7 +59,6 @@ OpenCV_DIR:PATH=/usr/share/OpenCV
 MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
 
-#OpenJPEG_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/OpenJPEG_v2.1/lib/openjpeg-2.1
 
 LIBKML_BASE_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmlbase.so
 LIBKML_CONVENIENCE_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmlconvenience.so

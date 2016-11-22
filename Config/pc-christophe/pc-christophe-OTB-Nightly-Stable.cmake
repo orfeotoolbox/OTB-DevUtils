@@ -48,8 +48,6 @@ OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/master/lib64/libossim.so
 MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/stable/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/stable/include/muparserx
 
-#external openjpeg
-OpenJPEG_DIR:PATH=${INSTALLROOT}/openjpeg/stable/lib/openjpeg-2.1
 
 PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 OTB_WRAP_PYTHON:BOOL=ON
@@ -67,7 +65,6 @@ OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
-OTB_USE_OPENJPEG=ON
 OTB_USE_QT4=ON
 OTB_USE_SIFTFAST=ON
 # Ice/Monteverdi module
