@@ -863,9 +863,9 @@ endif()
 
 macro(dashboard_copy_packages)
 set(copy_packages_failed TRUE)
-if(EXISTS "${OTBNAS_PACKAGES_DIR}")
-  file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
-  if(otb_package_file)
+file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
+if(otb_package_file)
+  if(EXISTS "${OTBNAS_PACKAGES_DIR}")
     get_filename_component(package_file_name ${otb_package_file} NAME)
     # copy packages to otbnas
     message("Copying '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}/${package_file_name}'")
@@ -880,8 +880,8 @@ if(EXISTS "${OTBNAS_PACKAGES_DIR}")
     if(copy_rv EQUAL 0)
       set(copy_packages_failed FALSE)
     endif()
-  endif() #otb_package_file
-endif() #OTBNAS_PACKAGES_DIR
+  endif() #exists OTBNAS_PACKAGES_DIR
+endif()  #otb_package_file
 
 if(copy_packages_failed)
   message("Cannot copy '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}/${package_file_name}'")
