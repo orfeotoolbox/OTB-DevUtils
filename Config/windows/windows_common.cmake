@@ -863,13 +863,12 @@ endif()
 
 macro(dashboard_copy_packages)
 set(copy_packages_failed TRUE)
-
-if(OTBNAS_PACKAGES_DIR)
+if(EXISTS "${OTBNAS_PACKAGES_DIR}")
   file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
   if(otb_package_file)
     get_filename_component(package_file_name ${otb_package_file} NAME)
     # copy packages to otbnas
-    message("Copying ${otb_package_file} to ${OTBNAS_PACKAGES_DIR}/${package_file_name}")
+    message("Copying '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}/${package_file_name}'")
     execute_process(
       COMMAND ${CMAKE_COMMAND} 
       -E copy
@@ -885,9 +884,9 @@ if(OTBNAS_PACKAGES_DIR)
 endif() #OTBNAS_PACKAGES_DIR
 
 if(copy_packages_failed)
-  message("Cannot copy ${otb_package_file} to ${OTBNAS_PACKAGES_DIR}/${package_file_name}")
+  message("Cannot copy '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}/${package_file_name}'")
 else()
-  message("Copied ${otb_package_file} to ${OTBNAS_PACKAGES_DIR}/${package_file_name}")
+  message("Copied '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}/${package_file_name}'")
 endif()
 endmacro(dashboard_copy_packages)
 
