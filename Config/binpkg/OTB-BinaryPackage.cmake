@@ -16,7 +16,6 @@ set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src/)
 # -DSB_INSTALL_PREFIX=/home/mrashad/dashboard/otb/install \
 # -DGENERATE_XDK=ON
 
-set(dashboard_git_branch clean_pkg)
 set(SUPERBUILD_BINARY_DIR ${CTEST_DASHBOARD_ROOT}/otb/build)
 set(SUPERBUILD_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install)
 
