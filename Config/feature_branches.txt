@@ -1,3 +1,2 @@
 enhance-field-parameters
-composite_application
 muparserx_4_0_7
