@@ -160,6 +160,11 @@ if(NOT CTEST_TEST_ARGS)
   set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 endif()
 
+#PKG
+if(DEFINED ENV{OTBNAS_PACKAGES_DIR})
+  set(OTBNAS_PACKAGES_DIR "$ENV{OTBNAS_PACKAGES_DIR}")
+endif()
+
 
 if(NOT DEFINED MXE_ROOT)
   if(dashboard_build_target)
@@ -438,6 +443,7 @@ foreach(v
     CTEST_DROP_LOCATION
     CTEST_DROP_SITE_CDASH
     dashboard_git_branch
+    OTBNAS_PACKAGES_DIR
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
@@ -445,6 +451,38 @@ message("Dashboard script configuration:\n${vars}\n")
 
 # Avoid non-ascii characters in tool output.
 set(ENV{LC_ALL} C)
+
+macro(dashboard_copy_packages)
+  set(copy_packages_failed TRUE)
+  if(WIN32)
+    file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
+  else()
+    file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.run")
+  endif()
+if(otb_package_file)
+  if(EXISTS "${OTBNAS_PACKAGES_DIR}")
+    get_filename_component(package_file_name ${otb_package_file} NAME)
+    # copy packages to otbnas
+    execute_process(
+      COMMAND ${CMAKE_COMMAND} 
+      -E copy
+      "${otb_package_file}"
+      "${OTBNAS_PACKAGES_DIR}/${package_file_name}"
+      RESULT_VARIABLE copy_rv
+      WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY})
+ 
+    if(copy_rv EQUAL 0)
+      set(copy_packages_failed FALSE)
+    endif()
+  endif() #exists OTBNAS_PACKAGES_DIR
+endif()  #otb_package_file
+
+if(copy_packages_failed)
+  message("Cannot copy '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}/${package_file_name}'")
+else()
+  message("Copied '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}/${package_file_name}'")
+endif()
+endmacro(dashboard_copy_packages)
 
 # Helper macro to write the initial cache.
 macro(write_cache)
@@ -604,11 +642,7 @@ while(NOT dashboard_done)
   set(dashboard_current_branch ${dashboard_git_branch})
 
   # Checkout specific data branch if any
-  if(DEFINED specific_data_branch_for_${dashboard_git_branch})
-    execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${specific_data_branch_for_${dashboard_git_branch}} -P ${_git_updater_script}
-                    WORKING_DIRECTORY ${dashboard_otb_data_root})
-    message("Set data branch to ${specific_data_branch_for_${branch}}")
-  endif()
+
 
   # Run the main dashboard macro
   run_dashboard()
