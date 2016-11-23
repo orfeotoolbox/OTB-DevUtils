@@ -6,9 +6,18 @@ set(DEVUTILS_DIR "C:/dashboard/devutils")
 set(SCRIPTS_DIR "C:/dashboard/devutils/Config/windows")
 
 #we can only build on branch of superbuild. Latest release or develop
-set(SUPERBUILD_BRANCH release-5.8)
+set(SUPERBUILD_BRANCH develop)
 set(SUPERBUILD_DATA_BRANCH master)
 
+set(LIST_OF_BRANCHES)
+list(APPEND LIST_OF_BRANCHES "nightly nightly")
+list(APPEND LIST_OF_BRANCHES "release-5.8 release-5.8")
+
+# LIST_OF_BRANCHES is updated with contents from feature_branches.txt
+
+
+
+#CAREFUL when you update code below.
 if(NOT DEFINED COMPILER_ARCH)
   message(FATAL_ERROR "COMPILER_ARCH not defined")
 endif()
@@ -68,9 +77,7 @@ message("Checking feature branches file : ${FEATURE_BRANCHES_FILE}")
 file(STRINGS ${FEATURE_BRANCHES_FILE} FEATURE_BRANCHES_FILE_CONTENTS
 REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *([a-zA-Z0-9]|-|_|\\.)* *\$")
 
-set(LIST_OF_BRANCHES)
-list(APPEND LIST_OF_BRANCHES "nightly nightly")
-list(APPEND LIST_OF_BRANCHES "release-5.8 release-5.8")
+
 list(APPEND LIST_OF_BRANCHES ${FEATURE_BRANCHES_FILE_CONTENTS})
 
 foreach(branch_input ${LIST_OF_BRANCHES})
