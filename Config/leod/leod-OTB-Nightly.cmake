@@ -53,6 +53,7 @@ OTB_USE_OPENGL:BOOL=ON
 OTB_USE_GLEW:BOOL=ON
 OTB_USE_GLFW:BOOL=ON
 OTB_USE_GLUT:BOOL=ON
+OTB_USE_SHARK:BOOL=ON
 
 PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python2.7
 PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers
@@ -79,6 +80,9 @@ LIBSVM_LIBRARY:FILEPATH=/opt/local/lib/libsvm.dylib
 
 GLUT_glut_LIBRARY=/usr/X11R6/lib/libglut.3.dylib
 GLUT_INCLUDE_DIR=/usr/X11R6/include
+
+SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/shark/install/lib/libshark_debug.dylib
+SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/shark/install/include
     ")
 
 endmacro()

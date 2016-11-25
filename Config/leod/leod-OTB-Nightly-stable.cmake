@@ -48,6 +48,7 @@ OTB_USE_OPENCV:BOOL=ON
 OTB_USE_QT4:BOOL=ON
 OTB_USE_OPENGL:BOOL=ON
 OTB_USE_GLEW:BOOL=ON
+OTB_USE_SHARK:BOOL=ON
 
 PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python2.7
 PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers
@@ -76,6 +77,8 @@ OPENGL_INCLUDE_DIR:PATH=/System/Library/Frameworks/OpenGL.framework
 OPENGL_gl_LIBRARY:PATH=/System/Library/Frameworks/OpenGL.framework
 OPENGL_glu_LIBRARY:PATH=/System/Library/Frameworks/AGL.framework
 
+SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/shark/install/lib/libshark_debug.dylib
+SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/shark/install/include
     ")
 endmacro()
 

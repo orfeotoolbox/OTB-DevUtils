@@ -17,7 +17,7 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-fPIC -Wall
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-cpp
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-cpp -std=c++11
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
@@ -44,6 +44,7 @@ OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
 OTB_USE_QT4:BOOL=ON
+OTB_USE_SHARK:BOOL=ON
 
 # mapnik tests fails with gdal2.0. update mapnik version, test and enable again
 # This requires changes Modules/ThirdParty/Mapnik/
@@ -59,6 +60,8 @@ OpenCV_DIR:PATH=/usr/share/OpenCV
 MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
 
+SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/shark/lib/libshark_debug.so
+SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/shark/include
 
 LIBKML_BASE_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmlbase.so
 LIBKML_CONVENIENCE_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/libkml/lib/libkmlconvenience.so
