@@ -25,7 +25,7 @@ CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_PREFIX}
 CMAKE_PREFIX_PATH:PATH=/opt/local
 
 CMAKE_C_FLAGS:STRING= -fPIC -Wall
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-gnu -Wno-gnu-static-float-init -Wno-\\\\#warnings
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-gnu -Wno-gnu-static-float-init -Wno-\\\\#warnings -std=c++11
 
 OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON
 
