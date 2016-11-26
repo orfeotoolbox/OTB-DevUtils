@@ -17,7 +17,7 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-fPIC -Wall
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-cpp -std=c++11
+CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-cpp
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 BUILD_TESTING:BOOL=ON
@@ -44,7 +44,7 @@ OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
 OTB_USE_QT4:BOOL=ON
-OTB_USE_SHARK:BOOL=ON
+OTB_USE_SHARK:BOOL=OFF
 
 # mapnik tests fails with gdal2.0. update mapnik version, test and enable again
 # This requires changes Modules/ThirdParty/Mapnik/
