@@ -1,3 +1,4 @@
 enhance-field-parameters
 muparserx_4_0_7
 sampling_composite sampling_composite
+colormap-shader
