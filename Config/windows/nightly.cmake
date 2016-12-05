@@ -15,8 +15,6 @@ list(APPEND LIST_OF_BRANCHES "release-5.8 release-5.8")
 
 # LIST_OF_BRANCHES is updated with contents from feature_branches.txt
 
-
-
 #CAREFUL when you update code below.
 if(NOT DEFINED COMPILER_ARCH)
   message(FATAL_ERROR "COMPILER_ARCH not defined")
@@ -33,6 +31,7 @@ execute_process(COMMAND ${CMAKE_COMMAND}
   -D TESTED_BRANCH:STRING=master 
   -P ${_git_updater_script}
   OUTPUT_FILE ${LOGS_DIR}/devutils.txt
+  ERROR_FILE ${LOGS_DIR}/devutils.txt
   WORKING_DIRECTORY ${DEVUTILS_DIR})
 endif()
 message("${DATE_TIME}: compiler arch set to '${COMPILER_ARCH}'")  
@@ -54,20 +53,23 @@ foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM")
 message("${DATE_TIME}: Bulding remote module ${dashboard_remote_module}")
   execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
   ${COMPILER_ARCH} 0 BUILD nightly nightly ${dashboard_remote_module}
-  OUTPUT_FILE ${LOGS_DIR}/nightly_${COMPILER_ARCH}_nightly_${dashboard_remote_module}.txt
+  OUTPUT_FILE ${LOGS_DIR}/nightly_${COMPILER_ARCH}_nightly_${dashboard_remote_module}_out.txt
+  ERROR_FILE ${LOGS_DIR}/nightly_${COMPILER_ARCH}_nightly_${dashboard_remote_module}_err.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 endforeach()
 
 # SuperBuild
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
    ${COMPILER_ARCH} 0 SUPER_BUILD ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
-  OUTPUT_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
+   OUTPUT_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}_out.txt
+   ERROR_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}_err.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 
 # Packaging  
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
    ${COMPILER_ARCH} 0 PACKAGE_OTB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
-  OUTPUT_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
+   OUTPUT_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}_out.txt
+   ERROR_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}_err.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 
 # nightly latest release + Feature Branches
@@ -76,7 +78,6 @@ set(FEATURE_BRANCHES_FILE "${DEVUTILS_DIR}/Config/feature_branches.txt")
 message("Checking feature branches file : ${FEATURE_BRANCHES_FILE}")
 file(STRINGS ${FEATURE_BRANCHES_FILE} FEATURE_BRANCHES_FILE_CONTENTS
 REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *([a-zA-Z0-9]|-|_|\\.)* *\$")
-
 
 list(APPEND LIST_OF_BRANCHES ${FEATURE_BRANCHES_FILE_CONTENTS})
 
@@ -99,7 +100,8 @@ foreach(branch_input ${LIST_OF_BRANCHES})
   message("${DATE_TIME}: Output will be logged on ${LOGS_DIR}/${otb_branch}_${COMPILER_ARCH}_${data_branch}.txt")
   execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
   ${COMPILER_ARCH} 0 BUILD ${otb_branch} ${data_branch}
-  OUTPUT_FILE ${LOGS_DIR}/${otb_branch}_${COMPILER_ARCH}_${data_branch}.txt
+  OUTPUT_FILE ${LOGS_DIR}/${otb_branch}_${COMPILER_ARCH}_${data_branch}_out.txt
+  ERROR_FILE ${LOGS_DIR}/${otb_branch}_${COMPILER_ARCH}_${data_branch}_err.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
   
 endforeach()
