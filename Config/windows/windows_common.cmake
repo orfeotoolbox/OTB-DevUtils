@@ -512,6 +512,8 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
       set(CTEST_DASHBOARD_TRACK Develop)
     elseif("${dashboard_otb_branch}" MATCHES "^release-[0-9]+\\.[0-9]+\$")
       set(CTEST_DASHBOARD_TRACK LatestRelease)
+    elseif(DEFINED dashboard_remote_module)
+      set(CTEST_DASHBOARD_TRACK RemoteModules)
     else()
       set(CTEST_DASHBOARD_TRACK FeatureBranches)
     endif()
@@ -520,11 +522,11 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
   elseif("${dashboard_model}" STREQUAL "Experimental")
     set(CTEST_DASHBOARD_TRACK Experimental)
   endif()
-  # RemoteModules
-  if(DEFINED dashboard_remote_module)
-    set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_remote_module})
-    set(CTEST_DASHBOARD_TRACK RemoteModules)
-  endif()
+endif()
+
+# RemoteModules
+if(DEFINED dashboard_remote_module)
+  set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_remote_module})
 endif()
 
 #-----------------------------------------------------------------------------
