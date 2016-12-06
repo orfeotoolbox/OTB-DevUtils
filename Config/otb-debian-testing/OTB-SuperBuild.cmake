@@ -2,7 +2,7 @@ set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/dashboard")
 set(CTEST_SITE "otb-debian-testing.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Debian-sid-x86_64-SuperBuild")
+set(CTEST_BUILD_NAME "Debian-gcc6-x86_64-SuperBuild")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -k" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
@@ -15,30 +15,25 @@ set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
 
-set(CTEST_DASHBOARD_TRACK "LatestRelease")
-set(dashboard_git_branch "release-5.8")
+#set(CTEST_DASHBOARD_TRACK "LatestRelease")
+#set(dashboard_git_branch "release-5.8")
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
 )
 
-# For centos 5
-# CMAKE_CXX_FLAGS:STRING='-w -fPIC -fpermissive'
-# CMAKE_C_FLAGS:STRING='-w -fPIC -fpermissive'
-
 macro(dashboard_hook_init)
 set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-CMAKE_CXX_FLAGS:STRING='-std=c++11 -Wno-deprecated-declarations'
+CMAKE_CXX_FLAGS:STRING='-Wno-deprecated-declarations'
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
-OTB_DATA_ROOT:PATH=/home/otbval/dashboard/data/OTB-Data-shared
+OTB_DATA_ROOT:PATH=/home/otbval/dashboard/data/otb-data
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
-
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
-
 CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
+
 BUILD_TESTING:BOOL=ON
 
 USE_SYSTEM_FREETYPE:BOOL=OFF
