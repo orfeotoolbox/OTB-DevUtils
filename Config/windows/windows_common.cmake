@@ -983,9 +983,9 @@ if(COMMAND dashboard_hook_end)
   dashboard_hook_end()
 endif()
 
-if(NOT dashboard_no_update)
-  dashboard_reset_sources()
-endif()
+# if(NOT dashboard_no_update)
+#   dashboard_reset_sources()
+# endif()
 
 if(DASHBOARD_PACKAGE_ONLY)
   dashboard_copy_packages()
