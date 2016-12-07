@@ -364,6 +364,8 @@ set(CTEST_DROP_SITE_CDASH TRUE)
 
 # Choose the dashboard track
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
+  get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
+  get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
   # Guess using the dashboard model
   if("${dashboard_model}" STREQUAL "Nightly")
     # Guess using the branch name
@@ -373,6 +375,8 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
       set(CTEST_DASHBOARD_TRACK Develop)
     elseif("${dashboard_git_branch}" MATCHES "^release-[0-9]+\\.[0-9]+\$")
       set(CTEST_DASHBOARD_TRACK LatestRelease)
+    elseif("${_source_directory_filename}" STREQUAL "SuperBuild")
+      set(CTEST_DASHBOARD_TRACK SuperBuild)
     else()
       #send build to FeatureBranches track if a match for branch name is not found
       #ofcourse, this can be overriden in the other script by directly setting
@@ -389,13 +393,6 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
     set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
     set(CTEST_DASHBOARD_TRACK RemoteModules)
   endif()
-  # SuperBuild
-  get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
-  get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
-  message("_source_directory_filename : ${_source_directory_filename}")
-  #if("${_source_directory_filename}" STREQUAL "SuperBuild")
-    # set(CTEST_DASHBOARD_TRACK SuperBuild)
-  #endif()
 endif()
 
 #-----------------------------------------------------------------------------
