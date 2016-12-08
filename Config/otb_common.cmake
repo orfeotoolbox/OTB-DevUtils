@@ -233,6 +233,31 @@ if(NOT DEFINED dashboard_enable_large_input)
   set(dashboard_enable_large_input FALSE)
 endif()
 
+# Select a source directory name.
+if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
+  if(DEFINED dashboard_source_name)
+    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_source_name})
+  else()
+    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/OTB)
+  endif()
+endif()
+get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
+get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
+
+# Select a build directory name.
+if(NOT DEFINED CTEST_BINARY_DIRECTORY)
+  if(DEFINED dashboard_binary_name)
+    set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
+  else()
+    set(CTEST_BINARY_DIRECTORY ${CTEST_SOURCE_DIRECTORY}-build)
+  endif()
+endif()
+
+# Select source directory to update
+if(NOT DEFINED dashboard_update_dir)
+  set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
+endif()
+
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
   set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
@@ -243,6 +268,23 @@ if(NOT DEFINED dashboard_git_branch)
     set(dashboard_git_branch nightly)
   else()
     set(dashboard_git_branch develop)
+  endif()
+  # handle SuperBuild branch
+  if("${_source_directory_filename}" STREQUAL "SuperBuild")
+    if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/superbuild_branch.txt)
+      set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/superbuild_branch.txt)
+    elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../superbuild_branch.txt)
+      set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/../superbuild_branch.txt)
+    elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../../superbuild_branch.txt)
+      set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/../../superbuild_branch.txt)
+    endif()
+    if(EXISTS ${_superbuild_branch_file})
+      file(STRINGS ${_superbuild_branch_file} _superbuild_branch_content
+           REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *\$")
+      if(_superbuild_branch_content)
+        list(GET _superbuild_branch_content 0 dashboard_git_branch)
+      endif()
+    endif()
   endif()
 endif()
 if(NOT DEFINED dashboard_git_crlf)
@@ -299,30 +341,6 @@ if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
   endif()
 endif()
 
-# Select a source directory name.
-if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
-  if(DEFINED dashboard_source_name)
-    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_source_name})
-  else()
-    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/OTB)
-  endif()
-endif()
-
-# Select a build directory name.
-if(NOT DEFINED CTEST_BINARY_DIRECTORY)
-  if(DEFINED dashboard_binary_name)
-    set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
-  else()
-    set(CTEST_BINARY_DIRECTORY ${CTEST_SOURCE_DIRECTORY}-build)
-  endif()
-endif()
-
-# Select source directory to update
-if(NOT DEFINED dashboard_update_dir)
-  set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
-endif()
-
-
 # Delete source tree if it is incompatible with current VCS.
 if(EXISTS ${dashboard_update_dir})
   if(NOT EXISTS "${dashboard_update_dir}/.git")
@@ -364,19 +382,17 @@ set(CTEST_DROP_SITE_CDASH TRUE)
 
 # Choose the dashboard track
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
-  get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
-  get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
   # Guess using the dashboard model
   if("${dashboard_model}" STREQUAL "Nightly")
-    # Guess using the branch name
-    if("${dashboard_git_branch}" STREQUAL "master")
+    # Guess using the branch name (except with superbuild)
+    if("${_source_directory_filename}" STREQUAL "SuperBuild")
+      set(CTEST_DASHBOARD_TRACK SuperBuild)
+    elseif("${dashboard_git_branch}" STREQUAL "master")
       set(CTEST_DASHBOARD_TRACK Nightly)
     elseif("${dashboard_git_branch}" STREQUAL "nightly")
       set(CTEST_DASHBOARD_TRACK Develop)
     elseif("${dashboard_git_branch}" MATCHES "^release-[0-9]+\\.[0-9]+\$")
       set(CTEST_DASHBOARD_TRACK LatestRelease)
-    elseif("${_source_directory_filename}" STREQUAL "SuperBuild")
-      set(CTEST_DASHBOARD_TRACK SuperBuild)
     else()
       #send build to FeatureBranches track if a match for branch name is not found
       #ofcourse, this can be overriden in the other script by directly setting
