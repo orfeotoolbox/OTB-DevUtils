@@ -87,9 +87,7 @@ echo "DASHBOARD_USE_OTBNAS env variable is unset or 0"
 set OTB_DATA_ROOT=C:\dashboard\data\otb-data
 
 
-set LOG_CTEST_OUTPUT_TO_FILE=0
-
-set OMP_NUM_THREADS=1
+::set OMP_NUM_THREADS=1
 
 ::default value is Release (otb_common.cmake)
 set CTEST_BUILD_CONFIGURATION=Release
@@ -138,23 +136,17 @@ set XDK_FILE_NAME_WITHOUT_EXT=install_sb_x86
 
 @echo on
 IF "%CHANGE_DIR_NAMES%" == "1" ( 
-set LOG_FILE_NAME=SuperBuild_win_%COMPILER_ARCH%_%dashboard_otb_branch%
+
 set BUILD_DIR_NAME=superbuild_%COMPILER_ARCH%
 set INSTALL_DIR_NAME=install_sb_%COMPILER_ARCH%
 set XDK_DIR_NAME=install_sb_%COMPILER_ARCH%
 set OTB_BUILD_BIN_DIR=OTB\build\bin
 ) ELSE ( 
-set LOG_FILE_NAME=OTB_win_%COMPILER_ARCH%_%dashboard_otb_branch%
 set BUILD_DIR_NAME=build_%COMPILER_ARCH%
 set INSTALL_DIR_NAME=install_%COMPILER_ARCH%
 set XDK_DIR_NAME=xdk\%XDK_FILE_NAME_WITHOUT_EXT%
 set OTB_BUILD_BIN_DIR=bin
 )
-
-::set CTEST_BINARY_DIRECTORY=C:\sbuild\sb_build_%COMPILER_ARCH%
-::set CTEST_INSTALL_DIRECTORY=C:\sbuild\sb_install_%COMPILER_ARCH%
-::set XDK_INSTALL_DIR=C:\sbuild\sb_install_%COMPILER_ARCH%
-
 
 IF "%XDK_INSTALL_DIR%" == "" (
 set XDK_INSTALL_DIR=%CTEST_DASHBOARD_ROOT%\otb\%XDK_DIR_NAME%
@@ -180,12 +172,6 @@ set GDAL_DATA=%XDK_INSTALL_DIR%\data
 set EPSG_CSV=%XDK_INSTALL_DIR%\share\epsg_csv
 set PROJ_LIB=%XDK_INSTALL_DIR%\share
 
-::set CMAKE_PREFIX_PATH=C:/dashboard/otb/sb_install_%COMPILER_ARCH%
-:: if CTEST_CMAKE_GEN is empty, it is defined in init.bat (JOM for SuperBuild and VS 2015 for OTB)
-:: if CTEST_BINARY_DIRECTORY and CTEST_INSTALL_DIRECTORY is empty, it is defined in init.bat
-
-set OTB_CDASH_LOG_FILE=%CTEST_DASHBOARD_ROOT%\logs\%LOG_FILE_NAME%.log
-
 IF %DASHBOARD_SCRIPT_FILE%.==. ( set DASHBOARD_SCRIPT_FILE=%CTEST_DASHBOARD_ROOT%\devutils\Config\windows\dashboard.cmake  )
 
 IF "%OPEN_CMD_ONLY%" == "1" ( 
@@ -193,12 +179,7 @@ cd "%CTEST_DASHBOARD_ROOT%\otb"
 @cmd
 goto Fin)
 
-IF "%LOG_CTEST_OUTPUT_TO_FILE%" == "1" ( 
-echo "ctest output is written to %OTB_CDASH_LOG_FILE%"
-ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE% > %OTB_CDASH_LOG_FILE% 
-) ELSE ( 
-ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE%
-)
+cmd /C start /wait ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE%
 
 IF "%DASHBOARD_USE_OTBNAS%" == "1" (
 net use R: /delete /Y
@@ -221,7 +202,7 @@ echo "Examples:"
 
 echo "dashboard.bat x64 0 BUILD develop master"
 echo "dashboard.bat x64 0 SUPER_BUILD release-5.8 (otb-data branch is nightly)"
-echo "dashboard.bat x64 0 PACKAGE_OTB" (generate pacakge of otb)"
+echo "dashboard.bat x64 0 PACKAGE_OTB (generate pacakge of otb)"
 echo "dashboard.bat x64 0 BUILD new_feature new_feature_data"
 echo "dashboard.bat x64 0 BUILD develop remote_module_data OfficialRemoteModule"
 echo "dashboard.bat x64 CMD BUILD develop (drop to cmd.exe with XDK_INSTALL_DIR and CMAKE_PREFIX_PATH set for OTB build)"
