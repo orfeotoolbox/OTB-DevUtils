@@ -13,7 +13,7 @@ set CURRENT_SCRIPT_DIR=%~dp0
 net use R: /delete /Y
 net use R: \\otbnas.si.c-s.fr\otbdata\otb /persistent:no
 
-cmake -DCOMPILER_ARCH=%COMPILER_ARCH% -P %CURRENT_SCRIPT_DIR%nightly.cmake 
+cmake -DCOMPILER_ARCH=%COMPILER_ARCH% -P %CURRENT_SCRIPT_DIR%nightly.cmake > C:/dashboard/logs/nightly_bat.txt 2>&1
 
 goto Fin
 
