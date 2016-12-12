@@ -179,7 +179,9 @@ cd "%CTEST_DASHBOARD_ROOT%\otb"
 @cmd
 goto Fin)
 
-cmd /C start /wait ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE%
+ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE%
+
+::cmd /C start /wait ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE%
 
 IF "%DASHBOARD_USE_OTBNAS%" == "1" (
 net use R: /delete /Y
