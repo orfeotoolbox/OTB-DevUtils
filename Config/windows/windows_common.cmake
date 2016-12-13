@@ -243,6 +243,82 @@ endif()
 
 
 #end of check env
+
+if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
+  file(TO_CMAKE_PATH "$ENV{CTEST_SOURCE_DIRECTORY}" CTEST_SOURCE_DIRECTORY)
+endif()
+
+# Set CTEST_SOURCE_DIRECTORY if not defined
+if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
+  if(DEFINED dashboard_source_name)
+    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_source_name})
+  else()
+    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/src)
+  endif()
+endif()
+
+#do not move below code. we must set 
+# Set source directory to update right after we decide on CTEST_SOURCE_DIRECTORY
+if(NOT DEFINED dashboard_update_dir)
+  set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
+endif()
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# CTEST_SOURCE_DIRECTORY is changed depending on the condition
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+if(DASHBOARD_SUPERBUILD)
+  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
+elseif(DASHBOARD_PACKAGE_ONLY) 
+ 	set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild/Packaging)
+endif()
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
+get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
+
+
+if(DEFINED ENV{CTEST_BINARY_DIRECTORY})
+  file(TO_CMAKE_PATH "$ENV{CTEST_BINARY_DIRECTORY}" CTEST_BINARY_DIRECTORY)
+endif()
+
+# DEFAULT values for CTEST_BINARY_DIRECTORY if not defined
+if(NOT DEFINED CTEST_BINARY_DIRECTORY)
+  if(DEFINED dashboard_binary_name)
+    set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
+  else()
+    if(DASHBOARD_SUPERBUILD)
+      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/build_sb_${COMPILER_ARCH})  
+    elseif(DASHBOARD_PACKAGE_ONLY)
+      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/pkg_build_${COMPILER_ARCH})
+    elseif(dashboard_remote_module)
+      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/remote_module_build_${COMPILER_ARCH})
+    else()
+      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/build_${COMPILER_ARCH})
+    endif()
+  endif()
+endif()
+
+
+if(DEFINED ENV{CTEST_INSTALL_DIRECTORY})
+  file(TO_CMAKE_PATH "$ENV{CTEST_INSTALL_DIRECTORY}" CTEST_INSTALL_DIRECTORY)
+endif()
+# DEFAULT values for CTEST_INSTALL_DIRECTORY if not defined
+if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
+  if(DASHBOARD_SUPERBUILD)
+   set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+  elseif(DASHBOARD_PACKAGE_ONLY)
+   set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/pkg_install_${COMPILER_ARCH})  
+  elseif(dashboard_remote_module)
+    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/remote_module_install_${COMPILER_ARCH})
+  else()
+    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_${COMPILER_ARCH})
+  endif()
+endif()
+
 if(otb_data_use_largeinput)
 	if(DEFINED ENV{OTB_DATA_LARGEINPUT_ROOT})
 		file(TO_CMAKE_PATH "$ENV{OTB_DATA_LARGEINPUT_ROOT}" OTB_DATA_LARGEINPUT_ROOT)
@@ -259,6 +335,23 @@ if(NOT DEFINED dashboard_otb_branch)
     set(dashboard_otb_branch nightly)
   else()
     set(dashboard_otb_branch develop)
+  endif()
+  # handle SuperBuild branch
+  if("${_source_directory_filename}" STREQUAL "SuperBuild")
+    if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/superbuild_branch.txt)
+      set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/superbuild_branch.txt)
+    elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../superbuild_branch.txt)
+      set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/../superbuild_branch.txt)
+    elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../../superbuild_branch.txt)
+      set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/../../superbuild_branch.txt)
+    endif()
+    if(EXISTS ${_superbuild_branch_file})
+      file(STRINGS ${_superbuild_branch_file} _superbuild_branch_content
+           REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *\$")
+      if(_superbuild_branch_content)
+        list(GET _superbuild_branch_content 0 dashboard_otb_branch)
+      endif()
+    endif()
   endif()
 endif()
 
@@ -428,85 +521,14 @@ if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
   set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_otb_branch} -P ${_git_updater_script})
 endif()
 
-if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
-  file(TO_CMAKE_PATH "$ENV{CTEST_SOURCE_DIRECTORY}" CTEST_SOURCE_DIRECTORY)
-endif()
-
-# Set CTEST_SOURCE_DIRECTORY if not defined
-if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
-  if(DEFINED dashboard_source_name)
-    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_source_name})
-  else()
-    set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/src)
-  endif()
-endif()
-
-#do not move below code. we must set 
-# Set source directory to update right after we decide on CTEST_SOURCE_DIRECTORY
-if(NOT DEFINED dashboard_update_dir)
-  set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
-endif()
-
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# CTEST_SOURCE_DIRECTORY is changed depending on the condition
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-if(DASHBOARD_SUPERBUILD)
-  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
-elseif(DASHBOARD_PACKAGE_ONLY) 
- 	set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild/Packaging)
-endif()
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-if(DEFINED ENV{CTEST_BINARY_DIRECTORY})
-  file(TO_CMAKE_PATH "$ENV{CTEST_BINARY_DIRECTORY}" CTEST_BINARY_DIRECTORY)
-endif()
-
-# DEFAULT values for CTEST_BINARY_DIRECTORY if not defined
-if(NOT DEFINED CTEST_BINARY_DIRECTORY)
-  if(DEFINED dashboard_binary_name)
-    set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
-  else()
-    if(DASHBOARD_SUPERBUILD)
-      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/build_sb_${COMPILER_ARCH})  
-    elseif(DASHBOARD_PACKAGE_ONLY)
-      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/pkg_build_${COMPILER_ARCH})
-    elseif(dashboard_remote_module)
-      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/remote_module_build_${COMPILER_ARCH})
-    else()
-      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/build_${COMPILER_ARCH})
-    endif()
-  endif()
-endif()
-
-
-if(DEFINED ENV{CTEST_INSTALL_DIRECTORY})
-  file(TO_CMAKE_PATH "$ENV{CTEST_INSTALL_DIRECTORY}" CTEST_INSTALL_DIRECTORY)
-endif()
-# DEFAULT values for CTEST_INSTALL_DIRECTORY if not defined
-if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
-  if(DASHBOARD_SUPERBUILD)
-   set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
-  elseif(DASHBOARD_PACKAGE_ONLY)
-   set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/pkg_install_${COMPILER_ARCH})  
-  elseif(dashboard_remote_module)
-    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/remote_module_install_${COMPILER_ARCH})
-  else()
-    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_${COMPILER_ARCH})
-  endif()
-endif()
-
 # Choose the dashboard track
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
   # Guess using the dashboard model
   if("${dashboard_model}" STREQUAL "Nightly")
-    # Guess using the branch name
-    if("${dashboard_otb_branch}" STREQUAL "master")
+    # Guess using the branch name (except with superbuild)
+    if("${_source_directory_filename}" STREQUAL "SuperBuild")
+      set(CTEST_DASHBOARD_TRACK SuperBuild)
+    elseif("${dashboard_otb_branch}" STREQUAL "master")
       set(CTEST_DASHBOARD_TRACK Nightly)
     elseif("${dashboard_otb_branch}" MATCHES "^(nightly|develop)$")
       set(CTEST_DASHBOARD_TRACK Develop)
