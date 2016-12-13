@@ -168,8 +168,8 @@ set PATH=%PATH%;%CTEST_BINARY_DIRECTORY%\%OTB_BUILD_BIN_DIR%
 ::only needed if generator is Visual studio
 ::set PATH=%PATH%;%CTEST_BINARY_DIRECTORY%\bin\%CTEST_BUILD_CONFIGURATION%
 
-set GDAL_DATA=%XDK_INSTALL_DIR%\data
-set EPSG_CSV=%XDK_INSTALL_DIR%\share\epsg_csv
+set GDAL_DATA=%XDK_INSTALL_DIR%\share\data
+set GEOTIFF_CSV=%XDK_INSTALL_DIR%\share\epsg_csv
 set PROJ_LIB=%XDK_INSTALL_DIR%\share
 
 IF %DASHBOARD_SCRIPT_FILE%.==. ( set DASHBOARD_SCRIPT_FILE=%CTEST_DASHBOARD_ROOT%\devutils\Config\windows\dashboard.cmake  )
