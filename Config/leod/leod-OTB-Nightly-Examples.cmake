@@ -18,6 +18,7 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
+CMAKE_CXX_FLAGS:STRING=-std=c++11
 BUILD_TESTING:BOOL=ON
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
