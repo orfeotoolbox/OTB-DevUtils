@@ -19,9 +19,9 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/${dashboard_otb_source})
 
 macro(dashboard_hook_init)
-  set(dashboard_cache "${dashboard_cache}
-CTEST_USE_LAUNCHERS:BOOL=OFF
-
+set(dashboard_cache "${dashboard_cache}
+CTEST_USE_LAUNCHERS:BOOL=ON
+BUILD_TESTING:BOOL=ON
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
