@@ -1,3 +1,2 @@
-enhance-field-parameters
 sampling_composite sampling_composite
 colormap-shader
