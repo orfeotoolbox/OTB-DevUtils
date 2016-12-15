@@ -393,6 +393,8 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
       set(CTEST_DASHBOARD_TRACK Develop)
     elseif("${dashboard_git_branch}" MATCHES "^release-[0-9]+\\.[0-9]+\$")
       set(CTEST_DASHBOARD_TRACK LatestRelease)
+    elseif("${CTEST_BUILD_NAME}" MATCHES "^Package-")
+      set(CTEST_DASHBOARD_TRACK SuperBuild)      
     else()
       #send build to FeatureBranches track if a match for branch name is not found
       #ofcourse, this can be overriden in the other script by directly setting
