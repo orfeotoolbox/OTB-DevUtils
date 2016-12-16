@@ -385,7 +385,7 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
   # Guess using the dashboard model
   if("${dashboard_model}" STREQUAL "Nightly")
     # Guess using the branch name (except with superbuild)
-    if("${_source_directory_filename}" STREQUAL "SuperBuild")
+    if("${_source_directory_filename}" MATCHES "^(SuperBuild|Packaging)$")
       set(CTEST_DASHBOARD_TRACK SuperBuild)
     elseif("${dashboard_git_branch}" STREQUAL "master")
       set(CTEST_DASHBOARD_TRACK Nightly)
@@ -393,8 +393,6 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
       set(CTEST_DASHBOARD_TRACK Develop)
     elseif("${dashboard_git_branch}" MATCHES "^release-[0-9]+\\.[0-9]+\$")
       set(CTEST_DASHBOARD_TRACK LatestRelease)
-    elseif("${CTEST_BUILD_NAME}" MATCHES "^Package-")
-      set(CTEST_DASHBOARD_TRACK SuperBuild)      
     else()
       #send build to FeatureBranches track if a match for branch name is not found
       #ofcourse, this can be overriden in the other script by directly setting
