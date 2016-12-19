@@ -275,6 +275,11 @@ if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
   endif()
 endif()
 
+#reset XDK_INSTALL_DIR when building packages: OTB and XDK
+if(DASHBOARD_PACKAGE_ONLY)
+  set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+endif()
+
 # DEFAULT values for CTEST_BINARY_DIRECTORY if not defined
 if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   if(DEFINED dashboard_binary_name)
