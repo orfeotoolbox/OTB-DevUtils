@@ -11,7 +11,6 @@ set DASHBOARD_SUPERBUILD=0
 set SUPERBUILD_REBUILD_OTB_ONLY=0
 set DASHBOARD_PACKAGE_XDK=0
 set DASHBOARD_PACKAGE_OTB=0
-set CHANGE_DIR_NAMES=0
 set DASHBOARD_ARG2_OK=0
 set DASHBOARD_ARG3_OK=0
 
@@ -35,7 +34,6 @@ set DASHBOARD_ARG3_OK=1
 IF "%DASHBOARD_ACTION%" == "SUPER_BUILD" (
 set DASHBOARD_SUPERBUILD=1
 set SUPERBUILD_REBUILD_OTB_ONLY=1
-set CHANGE_DIR_NAMES=1
 set DASHBOARD_ARG3_OK=1
 )
 
@@ -89,23 +87,15 @@ set OTB_DATA_ROOT=C:\dashboard\data\otb-data
 
 ::set OMP_NUM_THREADS=1
 
-::default value is Release (otb_common.cmake)
-set CTEST_BUILD_CONFIGURATION=Release
 set CTEST_DASHBOARD_ROOT=C:\dashboard
+set CTEST_BUILD_CONFIGURATION=Release
 
-::set dashboard_no_clean=1
-::set dashboard_no_update=1
-::set dashboard_no_configure=1
-::set dashboard_no_test=1
-::set dashboard_no_submit=1
-
-::could be an evironment variable?
+::evironment variable?
 :: set CTEST_SITE=noname.no
 :: set BUILD_NAME_PREFIX=Win7-vc19
 
 
-::see also next set PATH
-:: fix the path. we don't need to care for everything existing in system path.
+
 :: actually we shouldn't care for other things in system path.
 set TOOLS_DIR=C:\Tools
 set SYSPATH=C:\Windows\system32;C:\Windows
@@ -122,64 +112,12 @@ set PATH=%PATH%;C:\Python27_%COMPILER_ARCH%;C:\Python27_%COMPILER_ARCH%\Scripts
 ::set PATH=%PATH%;%TOOLS_DIR%\coreutils-5.3.0\bin
 
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %COMPILER_ARCH%
-
-::set CTEST_CMAKE_GENERATOR=Ninja
-::FIXME: fix below logic.
-set OTB_XDK_VERSION=5.8.0
-IF "%COMPILER_ARCH%" == "x64" ( 
-::set XDK_DIR_NAME=OTB-%OTB_XDK_VERSION%-win64
-set XDK_FILE_NAME_WITHOUT_EXT=install_sb_x64
-) ELSE (
-::set XDK_FILE_NAME_WITHOUT_EXT=OTB-%OTB_XDK_VERSION%-win32
-set XDK_FILE_NAME_WITHOUT_EXT=install_sb_x86
-)
-
 @echo on
-IF "%CHANGE_DIR_NAMES%" == "1" ( 
 
-set BUILD_DIR_NAME=superbuild_%COMPILER_ARCH%
-set INSTALL_DIR_NAME=install_sb_%COMPILER_ARCH%
-set XDK_DIR_NAME=install_sb_%COMPILER_ARCH%
-set OTB_BUILD_BIN_DIR=OTB\build\bin
-) ELSE ( 
-set BUILD_DIR_NAME=build_%COMPILER_ARCH%
-set INSTALL_DIR_NAME=install_%COMPILER_ARCH%
-set XDK_DIR_NAME=xdk\%XDK_FILE_NAME_WITHOUT_EXT%
-set OTB_BUILD_BIN_DIR=bin
-)
 
-IF "%XDK_INSTALL_DIR%" == "" (
-set XDK_INSTALL_DIR=%CTEST_DASHBOARD_ROOT%\otb\%XDK_DIR_NAME%
-)
-set "CMAKE_PREFIX_PATH=%XDK_INSTALL_DIR:\=/%"
+set DASHBOARD_SCRIPT_FILE=%CTEST_DASHBOARD_ROOT%\devutils\Config\windows\dashboard.cmake
 
-IF "%CTEST_BINARY_DIRECTORY%" == "" (
-set CTEST_BINARY_DIRECTORY=%CTEST_DASHBOARD_ROOT%\otb\%BUILD_DIR_NAME%
-)
-IF "%CTEST_INSTALL_DIRECTORY%" == "" (
-set CTEST_INSTALL_DIRECTORY=%CTEST_DASHBOARD_ROOT%\otb\%INSTALL_DIR_NAME%
-)
-
-set PATH=%PATH%;%XDK_INSTALL_DIR%\bin
-set PATH=%PATH%;%XDK_INSTALL_DIR%\lib
-
-set PATH=%PATH%;%CTEST_BINARY_DIRECTORY%\%OTB_BUILD_BIN_DIR%
-
-::only needed if generator is Visual studio
-::set PATH=%PATH%;%CTEST_BINARY_DIRECTORY%\bin\%CTEST_BUILD_CONFIGURATION%
-
-set GDAL_DATA=%XDK_INSTALL_DIR%\share\data
-set GEOTIFF_CSV=%XDK_INSTALL_DIR%\share\epsg_csv
-set PROJ_LIB=%XDK_INSTALL_DIR%\share
-
-IF %DASHBOARD_SCRIPT_FILE%.==. ( set DASHBOARD_SCRIPT_FILE=%CTEST_DASHBOARD_ROOT%\devutils\Config\windows\dashboard.cmake  )
-
-IF "%OPEN_CMD_ONLY%" == "1" ( 
-cd "%CTEST_DASHBOARD_ROOT%\otb"
-@cmd
-goto Fin)
-
-ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE%
+ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE% -DDROP_SHELL=%OPEN_CMD_ONLY%
 
 ::cmd /C start /wait ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE%
 

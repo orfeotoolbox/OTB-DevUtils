@@ -159,11 +159,7 @@ endif()
 
 # Default to a Release build.
 if(NOT DEFINED CTEST_BUILD_CONFIGURATION)
-  if(DEFINED ENV{CTEST_BUILD_CONFIGURATION})
-    set(CTEST_BUILD_CONFIGURATION "$ENV{CTEST_BUILD_CONFIGURATION}")
-  else()
     set(CTEST_BUILD_CONFIGURATION Release)
-  endif()
 endif()
 
 if(NOT DEFINED CTEST_CONFIGURATION_TYPE)
@@ -190,18 +186,6 @@ if(NOT DEFINED OTB_DATA_ROOT)
     set(dashboard_no_test 1)
     message(WARNING "No OTB_DATA_ROOT set. cannot run tests. dashboard_no_test is set to 1")
   endif()
-endif()
-
-if(DEFINED ENV{XDK_INSTALL_DIR})
-  file(TO_CMAKE_PATH "$ENV{XDK_INSTALL_DIR}" XDK_INSTALL_DIR)
-endif()
-
-if(DEFINED ENV{dashboard_no_clean})
-  set(dashboard_no_clean "$ENV{dashboard_no_clean}")
-endif()
-
-if(DEFINED ENV{dashboard_no_update})
-  set(dashboard_no_update "$ENV{dashboard_no_update}")
 endif()
 
 if(DEFINED ENV{dashboard_otb_branch})
@@ -280,9 +264,15 @@ endif()
 get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
 get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
 
-
-if(DEFINED ENV{CTEST_BINARY_DIRECTORY})
-  file(TO_CMAKE_PATH "$ENV{CTEST_BINARY_DIRECTORY}" CTEST_BINARY_DIRECTORY)
+# DEFAULT values for CTEST_INSTALL_DIRECTORY if not defined
+if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
+  if(DASHBOARD_SUPERBUILD)
+   set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+   set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+  else()
+    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_${COMPILER_ARCH})
+   set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/xdk/install_sb_${COMPILER_ARCH})
+  endif()
 endif()
 
 # DEFAULT values for CTEST_BINARY_DIRECTORY if not defined
@@ -291,32 +281,58 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
     set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
   else()
     if(DASHBOARD_SUPERBUILD)
-      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/build_sb_${COMPILER_ARCH})  
-    elseif(DASHBOARD_PACKAGE_ONLY)
-      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/pkg_build_${COMPILER_ARCH})
-    elseif(dashboard_remote_module)
-      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/remote_module_build_${COMPILER_ARCH})
-    else()
+      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/superbuild_${COMPILER_ARCH})
+      set(OTB_BUILD_BIN_DIR  ${CTEST_BINARY_DIRECTORY}/OTB/build/bin)
+     else()
       set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/build_${COMPILER_ARCH})
+      set(OTB_BUILD_BIN_DIR  ${CTEST_BINARY_DIRECTORY}/bin)
     endif()
   endif()
 endif()
 
+file(TO_NATIVE_PATH "${XDK_INSTALL_DIR}" XDK_INSTALL_DIR_NATIVE)
 
-if(DEFINED ENV{CTEST_INSTALL_DIRECTORY})
-  file(TO_CMAKE_PATH "$ENV{CTEST_INSTALL_DIRECTORY}" CTEST_INSTALL_DIRECTORY)
+file(TO_NATIVE_PATH "${OTB_BUILD_BIN_DIR}" OTB_BUILD_BIN_DIR_NATIVE)
+
+
+#only needed if generator is Visual studio
+if(CTEST_CMAKE_GENERATOR MATCHES "Visual Studio")
+set(ENV{PATH} "$ENV{PATH};${OTB_BUILD_BIN_DIR_NATIVE}\\${CTEST_BUILD_CONFIGURATION}" )
+else()
+set(ENV{PATH} "$ENV{PATH};${OTB_BUILD_BIN_DIR_NATIVE}" )
 endif()
-# DEFAULT values for CTEST_INSTALL_DIRECTORY if not defined
-if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
-  if(DASHBOARD_SUPERBUILD)
-   set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
-  elseif(DASHBOARD_PACKAGE_ONLY)
-   set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/pkg_install_${COMPILER_ARCH})  
-  elseif(dashboard_remote_module)
-    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/remote_module_install_${COMPILER_ARCH})
+
+set(ENV{PATH} "$ENV{PATH};${XDK_INSTALL_DIR_NATIVE}\\bin" )
+set(ENV{PATH} "$ENV{PATH};${XDK_INSTALL_DIR_NATIVE}\\lib" )
+
+set(ENV{CMAKE_PREFIX_PATH} "${XDK_INSTALL_DIR}" )
+
+set(ENV{GDAL_DATA} "${XDK_INSTALL_DIR_NATIVE}\\share\\gdal" )
+set(ENV{GEOTIFF_CSV} "${XDK_INSTALL_DIR_NATIVE}\\share\\epsg_csv" )
+set(ENV{PROJ_LIB} "${XDK_INSTALL_DIR_NATIVE}\\share" )
+
+set(CTEST_ENVIRONMENT 
+"PATH=$ENV{PATH}
+GDAL_DATA=$ENV{GDAL_DATA}
+GEOTIFF_CSV=$ENV{GEOTIFF_CSV}
+PROJ_LIB=$ENV{PROJ_LIB}
+")
+
+set(SHELL_COMMAND)
+if(WIN32)
+  set(SHELL_COMMAND cmd.exe)
+else()
+  find_program(SHELL_COMMAND NAMES bash)
+endif()
+
+if(DROP_SHELL)
+  if(SHELL_COMMAND)
+    execute_process(COMMAND ${SHELL_COMMAND})
   else()
-    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_${COMPILER_ARCH})
+    message(FATAL_ERROR "SHELL_COMMAND not found")
   endif()
+  
+  return()
 endif()
 
 if(otb_data_use_largeinput)
@@ -850,7 +866,7 @@ foreach(v
   SUPERBUILD_REBUILD_OTB_ONLY
   DASHBOARD_PACKAGE_ONLY
 	DOWNLOAD_LOCATION
-	ENV{CMAKE_PREFIX_PATH}
+
 	XDK_INSTALL_DIR
 	CTEST_DROP_LOCATION
   dashboard_otb_branch
@@ -862,13 +878,15 @@ foreach(v
 endforeach(v)
 message("Dashboard script configuration:\n${vars}\n")
 
+
+message("	ENV{PATH}=$ENV{PATH}")
 if(COMMAND dashboard_hook_init)
   dashboard_hook_init()
 endif()
   
 ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
   
-write_cache()
+
 
 
 # Look for updates.
@@ -951,6 +969,7 @@ set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
 #if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
    
 if(NOT dashboard_no_configure)
+  write_cache()
   message("Running ctest_configure() on ${CTEST_BINARY_DIRECTORY}")
 	ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" 	RETURN_VALUE _configure_rv)
 	ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
