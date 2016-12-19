@@ -29,6 +29,12 @@ OTB_USE_SHARK:BOOL=ON
 "
 )
 
+set(dashboard_cache_for_release-5.8 
+"
+MUPARSERX_INCLUDE_DIR:PATH=c:/sbuild/include/muparserx
+MUPARSERX_LIBRARY:FILEPATH=c:/sbuild/lib/muparserx.lib
+"
+)
 
 include(windows_common.cmake)
 
