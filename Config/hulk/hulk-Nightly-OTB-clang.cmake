@@ -16,8 +16,8 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_C_COMPILER=/usr/bin/clang
-CMAKE_CXX_COMPILER=/usr/bin/clang++
+CMAKE_C_COMPILER=/usr/bin/clang-3.8
+CMAKE_CXX_COMPILER=/usr/bin/clang++-3.8
 
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
 CMAKE_CXX_FLAGS:STRING= -std=c++11 -fPIC -Wall -Wextra -Wno-gnu-static-float-init -Wno-\\#warnings 
