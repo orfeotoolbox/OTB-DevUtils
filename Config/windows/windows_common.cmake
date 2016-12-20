@@ -332,7 +332,8 @@ endif()
 
 if(DROP_SHELL)
   if(SHELL_COMMAND)
-    execute_process(COMMAND ${SHELL_COMMAND})
+    execute_process(COMMAND ${SHELL_COMMAND}
+      WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/../)
   else()
     message(FATAL_ERROR "SHELL_COMMAND not found")
   endif()

@@ -114,10 +114,6 @@ set PATH=%PATH%;C:\Python27_%COMPILER_ARCH%;C:\Python27_%COMPILER_ARCH%\Scripts
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %COMPILER_ARCH%
 @echo on
 
-::hack for muparserx release-5.8
-set PATH=%PATH%;c:/sbuild/bin
-
-
 set DASHBOARD_SCRIPT_FILE=%CTEST_DASHBOARD_ROOT%\devutils\Config\windows\dashboard.cmake
 
 ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE% -DDROP_SHELL=%OPEN_CMD_ONLY%
