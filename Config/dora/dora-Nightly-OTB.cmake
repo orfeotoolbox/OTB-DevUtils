@@ -1,7 +1,7 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Ubuntu12.04-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "Ubuntu16.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 include(${CTEST_SCRIPT_DIRECTORY}/dora_common.cmake)
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)

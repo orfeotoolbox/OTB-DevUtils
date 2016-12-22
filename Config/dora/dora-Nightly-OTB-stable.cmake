@@ -4,7 +4,7 @@ set(OTB_PROJECT OTB)
 set(CTEST_BUILD_CONFIGURATION Release)
 include(${CTEST_SCRIPT_DIRECTORY}/dora_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
-set(CTEST_BUILD_NAME "Ubuntu12.04-64bits-${CTEST_BUILD_CONFIGURATION}-${dashboard_git_branch}")
+set(CTEST_BUILD_NAME "Ubuntu16.04-64bits-${CTEST_BUILD_CONFIGURATION}-${dashboard_git_branch}")
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 

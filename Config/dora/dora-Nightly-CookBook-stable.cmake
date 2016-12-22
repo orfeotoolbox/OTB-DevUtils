@@ -6,7 +6,7 @@ include(${CTEST_SCRIPT_DIRECTORY}/dora_common.cmake)
 set(OTB_PROJECT OTB)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 unset(OTB_PROJECT)
-set(CTEST_BUILD_NAME "Ubuntu12.04-64bits-CookBook-${dashboard_git_branch}")
+set(CTEST_BUILD_NAME "Ubuntu16.04-64bits-CookBook-${dashboard_git_branch}")
 
 set(CTEST_DASHBOARD_TRACK LatestRelease)
 

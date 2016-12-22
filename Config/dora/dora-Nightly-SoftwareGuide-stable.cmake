@@ -7,7 +7,7 @@ include(${CTEST_SCRIPT_DIRECTORY}/dora_common.cmake)
 set(OTB_PROJECT OTB)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 unset(OTB_PROJECT)
-set(CTEST_BUILD_NAME "Ubuntu12.04-64bits-SoftwareGuide-${dashboard_git_branch}")
+set(CTEST_BUILD_NAME "Ubuntu16.04-64bits-SoftwareGuide-${dashboard_git_branch}")
 
 set(dashboard_otb_source "nightly/OTB-Release/src")
 set(dashboard_otb_binary "nightly/OTB-Release/build-stable")

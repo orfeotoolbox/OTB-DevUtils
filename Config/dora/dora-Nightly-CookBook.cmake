@@ -1,6 +1,6 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Ubuntu12.04-64bits-CookBook")
+set(CTEST_BUILD_NAME "Ubuntu16.04-64bits-CookBook")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -i -k" )
 include(${CTEST_SCRIPT_DIRECTORY}/dora_common.cmake)
 
