@@ -30,8 +30,8 @@ OTB_USE_SHARK:BOOL=ON
 )
 
 set(dashboard_cache_for_release-5.8 "
-MUPARSERX_INCLUDE_DIR:PATH=C:/dashboard/otb/xdk/install_sb_x86/include/muparserx
-MUPARSERX_LIBRARY:FILEPATH=C:/dashboard/otb/xdk/install_sb_x86/lib/muparserx.lib
+MUPARSERX_INCLUDE_DIR:PATH=${XDK_INSTALL_DIR}/include/muparserx
+MUPARSERX_LIBRARY:FILEPATH=${XDK_INSTALL_DIR}/lib/muparserx.lib
 ")
 
 include(windows_common.cmake)
