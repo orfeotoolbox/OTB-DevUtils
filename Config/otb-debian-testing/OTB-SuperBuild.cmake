@@ -26,7 +26,7 @@ macro(dashboard_hook_init)
 set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-CMAKE_CXX_FLAGS:STRING='-Wno-deprecated-declarations'
+CMAKE_CXX_FLAGS:STRING=-Wshift-negative-value -Wshift-overflow -Wtautological-compare -Wnull-dereference -Wduplicated-cond -Wmisleading-indentation -Wlogical-op -Wframe-address -Wno-deprecated-declarations
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 OTB_DATA_ROOT:PATH=/home/otbval/dashboard/data/otb-data
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
