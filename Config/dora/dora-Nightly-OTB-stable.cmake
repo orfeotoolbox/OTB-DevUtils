@@ -25,7 +25,7 @@ macro(dashboard_hook_init)
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
 
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
-CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wextra -Wno-cpp -DTIFF_LONG8=16 -DTIFF_SLONG8=17 -DTIFF_IFD8=18
+CMAKE_CXX_FLAGS:STRING=-std=c++11 -fPIC -Wall -Wextra -Wno-cpp
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
@@ -38,14 +38,12 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 
-ITK_DIR:PATH=/home/otbval/Tools/ITK-4.7.1/install/lib/cmake/ITK-4.7
-b
 OTB_USE_CURL:BOOL=ON
 OTB_USE_LIBKML:BOOL=ON
 OTB_USE_LIBSVM:BOOL=ON
-OTB_USE_MAPNIK:BOOL=ON
+OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_MUPARSER:BOOL=ON
-OTB_USE_MUPARSERX:BOOL=OFF
+OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
 OTB_USE_QT4:BOOL=ON
 # Ice module
@@ -60,21 +58,8 @@ OTB_USE_SPTW:BOOL=OFF
 MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
 
-# use custom libkml install because official package has undefined symbols
-LIBKML_INCLUDE_DIR:PATH=/home/otbval/Tools/libkml/install/include
-LIBKML_BASE_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlbase.so
-LIBKML_CONVENIENCE_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlconvenience.so
-LIBKML_DOM_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmldom.so
-LIBKML_ENGINE_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlengine.so
-LIBKML_MINIZIP_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libminizip.so
-LIBKML_REGIONATOR_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlregionator.so
-LIBKML_XSD_LIBRARY:FILEPATH=/home/otbval/Tools/libkml/install/lib/libkmlxsd.so
-
-OpenCV_DIR:PATH=/home/otbval/Tools/OpenCV/install/share/OpenCV
-
-MAPNIK_INCLUDE_DIR:PATH=/home/otbval/Tools/mapnik/install/include
-MAPNIK_LIBRARY:FILEPATH=/home/otbval/Tools/mapnik/install/lib/libmapnik2.so
-
+#MAPNIK_INCLUDE_DIR:PATH=/home/otbval/Tools/mapnik/install/include
+#MAPNIK_LIBRARY:FILEPATH=/home/otbval/Tools/mapnik/install/lib/libmapnik2.so
     ")
 endmacro()
 
