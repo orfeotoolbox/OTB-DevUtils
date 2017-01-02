@@ -22,8 +22,6 @@ set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
-set(ENV{DISPLAY} ":0.0")
-
 macro(dashboard_hook_init)
 set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
