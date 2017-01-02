@@ -584,7 +584,15 @@ list(APPEND CTEST_NOTES_FILES
   "${CMAKE_CURRENT_LIST_FILE}"
   )
 
-  
+
+if(DASHBOARD_SUPERBUILD)
+  set(CTEST_NOTES_FILES
+    "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-configure-out.log"
+    "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-configure-err.log"    
+    )
+endif()
+
+
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Creation of DEFAULT_CMAKE_CACHE starts here. That means all 
@@ -989,16 +997,19 @@ endif() #NOT dashboard_no_configure
 if(COMMAND dashboard_hook_build)
   dashboard_hook_build()
 endif()
-	  
-if(dashboard_build_target)
-  message("building requested target ${dashboard_build_target} on ${CTEST_BINARY_DIRECTORY}")
-	ctest_build( BUILD "${CTEST_BINARY_DIRECTORY}" 
-              TARGET "${dashboard_build_target}"
-              RETURN_VALUE _build_rv)
-else()
-  ctest_build( BUILD "${CTEST_BINARY_DIRECTORY}" RETURN_VALUE _build_rv)
-endif()
-	
+
+if(NOT dashboard_no_build)
+  if(dashboard_build_target)
+    message("building requested target ${dashboard_build_target} on ${CTEST_BINARY_DIRECTORY}")
+    ctest_build( BUILD "${CTEST_BINARY_DIRECTORY}" 
+      TARGET "${dashboard_build_target}"
+      RETURN_VALUE _build_rv)
+  else()
+    ctest_build( BUILD "${CTEST_BINARY_DIRECTORY}" RETURN_VALUE _build_rv)
+  endif()
+endif() #if(NOT dashboard_no_build)
+
+
 if(NOT dashboard_no_test)
   if(COMMAND dashboard_hook_test)
     dashboard_hook_test()
