@@ -1,4 +1,3 @@
 sampling_composite sampling_composite
-colormap-shader
 mvd-november-sprint
 translate-to-cli
