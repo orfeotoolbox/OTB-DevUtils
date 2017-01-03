@@ -351,37 +351,19 @@ if(otb_data_use_largeinput)
 endif()
 
 #defaults
-
 if(NOT DEFINED dashboard_otb_branch)
   if("${dashboard_model}" STREQUAL "Nightly")
     set(dashboard_otb_branch nightly)
   else()
     set(dashboard_otb_branch develop)
   endif()
-  # handle SuperBuild branch
-  if("${_source_directory_filename}" STREQUAL "SuperBuild")
-    if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/superbuild_branch.txt)
-      set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/superbuild_branch.txt)
-    elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../superbuild_branch.txt)
-      set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/../superbuild_branch.txt)
-    elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../../superbuild_branch.txt)
-      set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/../../superbuild_branch.txt)
-    endif()
-    if(EXISTS ${_superbuild_branch_file})
-      file(STRINGS ${_superbuild_branch_file} _superbuild_branch_content
-           REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *\$")
-      if(_superbuild_branch_content)
-        list(GET _superbuild_branch_content 0 dashboard_otb_branch)
-      endif()
-    endif()
-  endif()
-endif()
+endif() #if(NOT DEFINED dashboard_otb_branch)
 
 string(STRIP "${dashboard_otb_branch}" dashboard_otb_branch)
 
 if(NOT DEFINED dashboard_data_branch)
     set(dashboard_data_branch nightly)
-  endif()
+endif()
   
 if(dashboard_build_target)
   string(REPLACE "-all" "" dashboard_label ${dashboard_build_target})
@@ -773,38 +755,54 @@ ${dashboard_cache_for_${dashboard_otb_branch}}
 ")
 endmacro(write_cache)
 
-if(DASHBOARD_SUPERBUILD AND SUPERBUILD_REBUILD_OTB_ONLY)
+#RK: 03/Jan/17
+# we need a superbuild submission starts from scratch (clean build)
+# rebuilding only OTB is not enough in this case. 
+# we assume if branch name is not develop,nightly or release-X.Y then
+# it has an update of otb dependencies. so start from scratch.
+#
+# NOTE: SUPERBUILD_REBUILD_OTB_ONLY is an quirk way to cut down
+# compilation time as we know there is no update of dependencies.
+#
+# TODO: set SUPERBUILD_REBUILD_OTB_ONLY to ON only if there are 
+# any commits in SuperBuild/CMake/External_*.cmake files.
+# This can be done by using git commands.
 
-  message("SUPERBUILD_REBUILD_OTB_ONLY is set. ${CTEST_BINARY_DIRECTORY} will not be cleared")
+if(DASHBOARD_SUPERBUILD)
+  if(NOT "${dashboard_otb_branch}" MATCHES "^(nightly|develop|release.([0-9]+)\\.([0-9]+))$")
+    set(SUPERBUILD_REBUILD_OTB_ONLY FALSE)
+    unset(dashboard_no_clean)
+  endif()
+
+  if(SUPERBUILD_REBUILD_OTB_ONLY)
+    message("SUPERBUILD_REBUILD_OTB_ONLY is set. ${CTEST_BINARY_DIRECTORY} will not be cleared")
+    set(dashboard_no_clean 1)
   
-  set(dashboard_no_clean 1)
-  
-  message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} ")
-  execute_process(
-  COMMAND ${CMAKE_COMMAND} 
-  --build ${CTEST_BINARY_DIRECTORY}/OTB/build
-  --target uninstall
-  -- VERBOSE=1
-  WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build
-  OUTPUT_VARIABLE uninstall_otb_process
-  )
-  
-  if(uninstall_otb_process)
-    message("OTB deinstalled from ${CTEST_INSTALL_DIRECTORY} ")
+    message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} ")
     execute_process(
       COMMAND ${CMAKE_COMMAND} 
-      -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
-      WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
-      OUTPUT_VARIABLE clear_otb_build_dir
+      --build ${CTEST_BINARY_DIRECTORY}/OTB/build
+      --target uninstall
+      -- VERBOSE=1
+      WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build
+      OUTPUT_VARIABLE uninstall_otb_process
     )
   
-    if(clear_otb_build_dir)
-      message("OTB's superbuild build directory cleared from ${CTEST_INSTALL_DIRECTORY} ")
-    endif()
-  
-  endif() #if(uninstall_otb_process)
-  
-endif() #if(DASHBOARD_SUPERBUILD AND SUPERBUILD_REBUILD_OTB_ONLY)
+    if(uninstall_otb_process)
+      message("OTB deinstalled from ${CTEST_INSTALL_DIRECTORY} ")
+      execute_process(
+        COMMAND ${CMAKE_COMMAND} 
+        -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
+        WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
+        OUTPUT_VARIABLE clear_otb_build_dir
+      )
+      if(clear_otb_build_dir)
+        message("OTB's superbuild build directory cleared from ${CTEST_INSTALL_DIRECTORY} ")
+      endif()  
+    endif() #if(uninstall_otb_process)
+    
+  endif() #if(SUPERBUILD_REBUILD_OTB_ONLY)
+endif() #if(DASHBOARD_SUPERBUILD)
 
 # Start with a fresh build tree.
 if(NOT dashboard_no_clean)

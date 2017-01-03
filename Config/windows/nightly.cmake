@@ -2,12 +2,29 @@
 set(UPDATE_DEVUTILS ON)
 
 set(LOGS_DIR "C:/dashboard/logs")
-set(DEVUTILS_DIR "C:/dashboard/devutils")
-set(SCRIPTS_DIR "C:/dashboard/devutils/Config/windows")
 
-#we can only build on branch of superbuild. Latest release or develop
-set(SUPERBUILD_BRANCH develop)
+#find devutils directory relative to this file (nightly.cmake)
+get_filename_component(DEVUTILS_DIR "${CMAKE_CURRENT_LIST_DIR}" PATH)
+
+#scripts_dir is a convenience variable for CMAKE_CURRENT_LIST_DIR. 
+set(SCRIPTS_DIR "${CMAKE_CURRENT_LIST_DIR}")
+
+#we can only build on branch of superbuild. Latest release or nightly
+set(SUPERBUILD_BRANCH nightly)
 set(SUPERBUILD_DATA_BRANCH master)
+
+# handle SuperBuild branch
+message("Checking branches file : ${DEVUTILS_DIR}/superbuild_branch.txt")
+if(EXISTS ${DEVUTILS_DIR}/superbuild_branch.txt)
+  file(STRINGS ${DEVUTILS_DIR}/superbuild_branch.txt
+    _superbuild_branch_content REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *\$")
+  if(_superbuild_branch_content)
+    list(GET _superbuild_branch_content 0 SUPERBUILD_BRANCH)
+  endif()
+endif()
+
+message("SUPERBUILD_BRANCH=${SUPERBUILD_BRANCH}")
+message("SUPERBUILD_DATA_BRANCH=${SUPERBUILD_DATA_BRANCH}")
 
 set(LIST_OF_BRANCHES)
 list(APPEND LIST_OF_BRANCHES "nightly nightly")
