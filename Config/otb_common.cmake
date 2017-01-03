@@ -419,6 +419,13 @@ list(APPEND CTEST_NOTES_FILES
   "${CMAKE_CURRENT_LIST_FILE}"
   )
 
+if("${_source_directory_filename}" STREQUAL "SuperBuild")
+  set(CTEST_NOTES_FILES
+    "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-configure-out.log"
+    "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-configure-err.log"
+    )
+endif()
+
 # Check for required variables.
 foreach(req
     CTEST_CMAKE_GENERATOR
