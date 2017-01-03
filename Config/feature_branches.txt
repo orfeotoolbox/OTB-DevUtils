@@ -1,3 +1,4 @@
 sampling_composite sampling_composite
 mvd-november-sprint
 translate-to-cli
+app_domain_transform
