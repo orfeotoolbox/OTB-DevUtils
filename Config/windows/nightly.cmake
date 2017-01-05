@@ -20,17 +20,15 @@ set(SUPERBUILD_BRANCH nightly)
 set(SUPERBUILD_DATA_BRANCH master)
 
 # handle SuperBuild branch
-message("Checking branches file : ${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt")
-if(EXISTS ${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt)
-  file(STRINGS ${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt
+set(SUPERBUILD_BRANCH_FILE "${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt"
+message("Checking branches file : ${SUPERBUILD_BRANCH_FILE}")
+if(EXISTS ${SUPERBUILD_BRANCH_FILE})
+  file(STRINGS ${SUPERBUILD_BRANCH_FILE}
     _superbuild_branch_content REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *\$")
   if(_superbuild_branch_content)
     list(GET _superbuild_branch_content 0 SUPERBUILD_BRANCH)
   endif()
 endif()
-
-message("SUPERBUILD_BRANCH=${SUPERBUILD_BRANCH}")
-message("SUPERBUILD_DATA_BRANCH=${SUPERBUILD_DATA_BRANCH}")
 
 set(LIST_OF_BRANCHES)
 list(APPEND LIST_OF_BRANCHES "nightly nightly")
@@ -55,9 +53,13 @@ execute_process(COMMAND ${CMAKE_COMMAND}
   -P ${_git_updater_script}
   OUTPUT_FILE ${LOGS_DIR}/devutils.txt
   ERROR_FILE ${LOGS_DIR}/devutils.txt
-  WORKING_DIRECTORY ${DEVUTILS_CONFIG_DIR})
+  WORKING_DIRECTORY ${DEVUTILS_CONFIG_DIR}/../)
 endif()
+
 message("${DATE_TIME}: compiler arch set to '${COMPILER_ARCH}'")  
+
+message("SUPERBUILD_BRANCH=${SUPERBUILD_BRANCH}")
+message("SUPERBUILD_DATA_BRANCH=${SUPERBUILD_DATA_BRANCH}")
 
 string(TIMESTAMP BUILD_START_DATE "%Y-%m-%d")
 set(OTBNAS_PACKAGES_DIR "R:/Nightly/${BUILD_START_DATE}")
