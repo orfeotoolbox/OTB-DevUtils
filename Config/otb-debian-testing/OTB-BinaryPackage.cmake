@@ -1,6 +1,5 @@
-set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_DASHBOARD_ROOT "/home/otbval/dashboard")
+set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/dashboard")
 set(CTEST_BUILD_NAME "Package-Linux-gcc6-x86_64")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -k -j1 PACKAGE-OTB" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
