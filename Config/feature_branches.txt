@@ -1,3 +1,3 @@
 app_domain_transform
 connect_addendum
-mantis-1327
+mantis-1327 mantis-1327
