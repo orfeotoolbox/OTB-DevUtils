@@ -6,13 +6,14 @@ set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_BUILD_TARGET INSTALL)
 include(${CTEST_SCRIPT_DIRECTORY}/ironhide_common.cmake)
 
+set(dashboard_model Experimental)
 set(dashboard_source_name "sources/otb")
 set(dashboard_binary_name "build/otb/develop")
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/otb/develop)
 
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
-set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
+# set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
 
 set(dashboard_no_install 1)
 
