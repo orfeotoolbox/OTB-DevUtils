@@ -12,6 +12,9 @@ if (NOT DEFINED dashboard_model)
   set(dashboard_model Nightly)
 endif()
 
+#send all builds from ironhide to Experimental track
+set(CTEST_DASHBOARD_TRACK Experimental)
+
 if (NOT DEFINED CTEST_DASHBOARD_ROOT)
 set(CTEST_DASHBOARD_ROOT "C:/Users/rashad/Dashboard")
 endif()
