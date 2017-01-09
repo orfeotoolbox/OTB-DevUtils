@@ -20,7 +20,7 @@ set(SUPERBUILD_BRANCH nightly)
 set(SUPERBUILD_DATA_BRANCH master)
 
 # handle SuperBuild branch
-set(SUPERBUILD_BRANCH_FILE "${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt"
+set(SUPERBUILD_BRANCH_FILE "${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt")
 message("Checking branches file : ${SUPERBUILD_BRANCH_FILE}")
 if(EXISTS ${SUPERBUILD_BRANCH_FILE})
   file(STRINGS ${SUPERBUILD_BRANCH_FILE}
