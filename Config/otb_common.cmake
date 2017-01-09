@@ -328,6 +328,9 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
   message(FATAL_ERROR "No Git Found.")
 endif()
 
+# TODO : try to use a simple string with all commands separated by &&
+# something like :
+# set(CTEST_GIT_UPDATE_CUSTOM git fetch && git clean && git checkout && git reset)
 if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
   if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
     set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
