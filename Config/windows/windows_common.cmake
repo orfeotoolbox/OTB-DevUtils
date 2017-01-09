@@ -382,7 +382,7 @@ if(NOT CTEST_BUILD_NAME)
 endif()
 
 if(DASHBOARD_SUPERBUILD)
-	set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-SuperBuild")
+  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-SuperBuild")
 endif()
 
 if(dashboard_label)
@@ -392,7 +392,9 @@ if(dashboard_label)
 endif()
 
 if(NOT "${dashboard_otb_branch}" MATCHES "^(nightly|develop|release.([0-9]+)\\.([0-9]+))$")
-  set(CTEST_BUILD_NAME "${dashboard_otb_branch}-${CTEST_BUILD_NAME}")
+  if(NOT DASHBOARD_SUPERBUILD)
+    set(CTEST_BUILD_NAME "${dashboard_otb_branch}-${CTEST_BUILD_NAME}")
+  endif()
 endif()
 
 #append release-X.Y to CTEST_BUILD_NAME
