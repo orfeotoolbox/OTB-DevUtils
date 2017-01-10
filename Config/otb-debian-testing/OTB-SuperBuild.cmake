@@ -52,6 +52,8 @@ OTB_WRAP_JAVA:BOOL=OFF
 
 GENERATE_PACKAGE:BOOL=OFF
 
+SHARK_SB_CONFIG_USER='-DPTHREAD_LIBRARY:FILEPATH=/opt/cross-gcc/x86_64-linux-musl/lib/libpthread.a'
+
 OTB_ADDITIONAL_CACHE:STRING='-DModule_Mosaic:BOOL=ON;-DModule_SertitObject:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_OTBFFSforGMM:BOOL=ON'
 ")
 endmacro()
