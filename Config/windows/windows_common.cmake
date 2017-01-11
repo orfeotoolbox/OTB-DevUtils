@@ -392,7 +392,7 @@ if(dashboard_label)
 endif()
 
 if(NOT "${dashboard_otb_branch}" MATCHES "^(nightly|develop|release.([0-9]+)\\.([0-9]+))$")
-  if(NOT DASHBOARD_SUPERBUILD)
+  if(NOT DASHBOARD_SUPERBUILD OR NOT DASHBOARD_PACKAGE_ONLY)
     set(CTEST_BUILD_NAME "${dashboard_otb_branch}-${CTEST_BUILD_NAME}")
   endif()
 endif()
