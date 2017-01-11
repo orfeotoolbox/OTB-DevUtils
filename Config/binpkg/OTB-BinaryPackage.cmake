@@ -1,13 +1,12 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Package-Linux-x86_64")
+set(CTEST_BUILD_NAME "Package-Linux-gcc-4.1.2-x86_64")
 set(CTEST_BUILD_COMMAND "/usr/bin/make -k -j1 PACKAGE-OTB" )
 include(${CTEST_SCRIPT_DIRECTORY}/binpkg_common.cmake)
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
 
 set(dashboard_source_name "otb/src/SuperBuild/Packaging")
 set(dashboard_binary_name "otb/pkg-otb")
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src/)
 
 # cmake ~/dashboard/otb/src/SuperBuild/Packaging \

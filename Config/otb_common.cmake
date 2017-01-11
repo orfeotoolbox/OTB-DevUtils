@@ -328,6 +328,9 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
   message(FATAL_ERROR "No Git Found.")
 endif()
 
+# TODO : try to use a simple string with all commands separated by &&
+# something like :
+# set(CTEST_GIT_UPDATE_CUSTOM git fetch && git clean && git checkout && git reset)
 if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
   if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
     set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
@@ -568,7 +571,14 @@ macro(run_dashboard)
     safe_message("Starting fresh build...")
   endif()
   write_cache()
-  
+
+  # Checkout specific data branch if any
+  if(DEFINED specific_data_branch_for_${dashboard_current_branch})
+    execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${specific_data_branch_for_${dashboard_current_branch}} -P ${_git_updater_script}
+                    WORKING_DIRECTORY ${dashboard_otb_data_root})
+    message("Set data branch to ${specific_data_branch_for_${dashboard_current_branch}}")
+  endif()
+
   # Look for updates.
   if(NOT dashboard_no_update)
     ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
@@ -639,6 +649,13 @@ macro(run_dashboard)
       dashboard_hook_end()
     endif()
   endif()
+
+  # reset data to Nightly branch
+  if(DEFINED specific_data_branch_for_${dashboard_current_branch})
+    execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=nightly -P ${_git_updater_script}
+                    WORKING_DIRECTORY ${dashboard_otb_data_root})
+    message("Reset data")
+  endif()
 endmacro()
 
 if(COMMAND dashboard_hook_init)
@@ -661,18 +678,8 @@ while(NOT dashboard_done)
   set(ENV{HOME} "${dashboard_user_home}")
   set(dashboard_current_branch ${dashboard_git_branch})
 
-  # Checkout specific data branch if any
-
-
   # Run the main dashboard macro
   run_dashboard()
-
-  # reset data to Nightly branch
-  if(DEFINED specific_data_branch_for_${dashboard_git_branch})
-    execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=nightly -P ${_git_updater_script}
-                    WORKING_DIRECTORY ${dashboard_otb_data_root})
-    message("Reset data")
-  endif()
 
   # test additional feature branches
   if(number_additional_branches GREATER 0)
@@ -696,20 +703,8 @@ while(NOT dashboard_done)
       set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${_git_updater_script})
       file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
       file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
-      # Checkout specific data branch if any
-      if(DEFINED specific_data_branch_for_${branch})
-        execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${specific_data_branch_for_${branch}} -P ${_git_updater_script}
-                        WORKING_DIRECTORY ${dashboard_otb_data_root})
-        message("Set data branch to ${specific_data_branch_for_${branch}}")
-      endif()
       message("Run dashboard for ${branch}")
       run_dashboard()
-      # reset data to Nightly branch
-      if(DEFINED specific_data_branch_for_${branch})
-        execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=nightly -P ${_git_updater_script}
-                        WORKING_DIRECTORY ${dashboard_otb_data_root})
-        message("Reset data")
-      endif()
     endforeach()
     set(CTEST_DASHBOARD_TRACK ${ORIGINAL_CTEST_DASHBOARD_TRACK})
     set(CTEST_BUILD_NAME ${ORIGINAL_CTEST_BUILD_NAME})
