@@ -1,3 +1,4 @@
 app_domain_transform
 pansharp-composite
 subsampled_haralick
+app_morphological app_morphological
