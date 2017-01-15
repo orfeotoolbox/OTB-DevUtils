@@ -123,6 +123,22 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # Avoid non-ascii characters in tool output.
 set(ENV{LC_ALL} C)
 
+# Custom function to remove a folder (divide & conquer ...)
+function(remove_folder_recurse dir)
+file(GLOB content "${dir}/*")
+foreach(item ${content})
+  if(IS_DIRECTORY ${item})
+    execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${item}
+      RESULT_VARIABLE ret)
+    if(ret)
+      remove_folder_recurse(${item})
+    endif()
+  else()
+    execute_process(COMMAND ${CMAKE_COMMAND} -E remove -f ${item})
+  endif()
+endforeach()
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${dir})
+endfunction(remove_folder_recurse)
 
 # Set CTEST_DASHBOARD_ROOT if not defined
 if(NOT DEFINED CTEST_DASHBOARD_ROOT)
@@ -802,12 +818,12 @@ endif() #if(DASHBOARD_SUPERBUILD)
 if(NOT dashboard_no_clean)
   if(EXISTS "${CTEST_BINARY_DIRECTORY}")
     message("Clearing build tree: ${CTEST_BINARY_DIRECTORY}")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_BINARY_DIRECTORY})
+    remove_folder_recurse(${CTEST_BINARY_DIRECTORY})
   endif()
   
   if(EXISTS "${CTEST_INSTALL_DIRECTORY}")
     message("Clearing install tree: ${CTEST_INSTALL_DIRECTORY}")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
+    remove_folder_recurse(${CTEST_INSTALL_DIRECTORY})
   endif()
 endif()
 
