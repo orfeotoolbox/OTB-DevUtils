@@ -1,3 +1,2 @@
 app_domain_transform
-subsampled_haralick
 app_morphological app_morphological
