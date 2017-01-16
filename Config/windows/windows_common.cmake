@@ -238,11 +238,16 @@ if(DASHBOARD_PACKAGE_XDK OR DASHBOARD_PACKAGE_OTB)
 endif()
 #end of check env
 
-if(SUPERBUILD_CONTRIB)
+if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB)
+set(otb_contrib_cache "OTB_ADDITIONAL_CACHE:STRING=")
   foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
-  set(dashboard_cache "${dashboard_cache}
-Module_${dashboard_remote_module}:BOOL=ON")
+  set(otb_contrib_cache "${otb_contrib_cache}-DModule_${dashboard_remote_module}:BOOL=ON;")
   endforeach()
+  set(dashboard_cache "${dashboard_cache} \n ${otb_contrib_cache}")
+endif()
+
+if(DASHBOARD_PACKAGE_OTB AND WITH_CONTRIB)
+  set(dashboard_cache "${dashboard_cache} \n ENABLE_CONTRIB:BOOL=ON\"")
 endif()
 
 if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
@@ -425,6 +430,10 @@ endif()
 
 if(dashboard_remote_module)
   set(CTEST_BUILD_NAME "${dashboard_remote_module}-${CTEST_BUILD_NAME}")
+endif()
+
+if(WITH_CONTRIB)
+  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-contrib")
 endif()
 
 if(DEFINED ENV{CTEST_SITE})
@@ -802,7 +811,7 @@ if(DASHBOARD_SUPERBUILD)
       WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build
       OUTPUT_VARIABLE uninstall_otb_process
       )
-  
+
     if(uninstall_otb_process)
       message("OTB deinstalled from ${CTEST_INSTALL_DIRECTORY} ")
       execute_process(
