@@ -236,9 +236,14 @@ set(DASHBOARD_PACKAGE_ONLY FALSE)
 if(DASHBOARD_PACKAGE_XDK OR DASHBOARD_PACKAGE_OTB)
   set(DASHBOARD_PACKAGE_ONLY TRUE)
 endif()
-
-
 #end of check env
+
+if(SUPERBUILD_CONTRIB)
+  foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
+  set(dashboard_cache "${dashboard_cache}
+Module_${dashboard_remote_module}:BOOL=ON")
+  endforeach()
+endif()
 
 if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
   file(TO_CMAKE_PATH "$ENV{CTEST_SOURCE_DIRECTORY}" CTEST_SOURCE_DIRECTORY)
@@ -774,7 +779,7 @@ endmacro(write_cache)
 #and rebuild it.
 #TODO: check output of ctest_update and set this variable if there
 #are any changes to SuperBuild/CMake/External_*.cmake
-#set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
+set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
 
 if(DASHBOARD_SUPERBUILD)
   # if("${dashboard_otb_branch}" MATCHES "^(nightly|develop|release.([0-9]+)\\.([0-9]+))$")

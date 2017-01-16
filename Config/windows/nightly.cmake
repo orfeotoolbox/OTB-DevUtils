@@ -96,6 +96,20 @@ execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat
    OUTPUT_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
    ERROR_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
+  
+# SuperBuild with remote modules (dashboard action is SUPERBUILD_CONTRIB)
+execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
+   ${COMPILER_ARCH} 0 SUPERBUILD_CONTRIB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
+   OUTPUT_FILE ${LOGS_DIR}/superbuild_contrib_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
+   ERROR_FILE ${LOGS_DIR}/superbuild_contrib_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
+  WORKING_DIRECTORY ${SCRIPTS_DIR})
+  
+# Packaging  new build
+execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
+   ${COMPILER_ARCH} 0 PACKAGE_OTB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
+   OUTPUT_FILE ${LOGS_DIR}/package_contrib_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
+   ERROR_FILE ${LOGS_DIR}/package_contrib_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
+  WORKING_DIRECTORY ${SCRIPTS_DIR})
 
 # nightly latest release + Feature Branches
 set(FEATURE_BRANCHES_FILE "${DEVUTILS_CONFIG_DIR}/feature_branches.txt")
