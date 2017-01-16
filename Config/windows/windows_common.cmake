@@ -247,7 +247,7 @@ set(otb_contrib_cache "OTB_ADDITIONAL_CACHE:STRING=")
 endif()
 
 if(DASHBOARD_PACKAGE_OTB AND WITH_CONTRIB)
-  set(dashboard_cache "${dashboard_cache} \n ENABLE_CONTRIB:BOOL=ON\"")
+  set(dashboard_cache "${dashboard_cache} \n NAME_SUFFIX:STRING=WithContrib")
 endif()
 
 if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
