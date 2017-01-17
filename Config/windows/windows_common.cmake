@@ -239,7 +239,7 @@ endif()
 #end of check env
 
 if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB)
-set(otb_contrib_cache "OTB_ADDITIONAL_CACHE:STRING=")
+set(otb_contrib_cache "OTB_ADDITIONAL_CACHE:STRING=-DBUILD_TESTING:BOOL=OFF;")
   foreach(remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
   set(otb_contrib_cache "${otb_contrib_cache}-DModule_${remote_module}:BOOL=ON;")
   endforeach()
