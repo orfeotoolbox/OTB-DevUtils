@@ -238,12 +238,12 @@ if(DASHBOARD_PACKAGE_XDK OR DASHBOARD_PACKAGE_OTB)
 endif()
 #end of check env
 
+set(CONFIGURE_OPTIONS)
 if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB)
-set(otb_contrib_cache "OTB_ADDITIONAL_CACHE:STRING=-DBUILD_TESTING:BOOL=OFF;")
+  set(CONFIGURE_OPTIONS "-DBUILD_TESTING:BOOL=ON")
   foreach(remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
-  set(otb_contrib_cache "${otb_contrib_cache}-DModule_${remote_module}:BOOL=ON;")
+    list(APPEND CONFIGURE_OPTIONS "-DModule_${remote_module}:BOOL=ON")
   endforeach()
-  set(dashboard_cache "${dashboard_cache} \n ${otb_contrib_cache}")
 endif()
 
 if(DASHBOARD_PACKAGE_OTB AND WITH_CONTRIB)
@@ -586,6 +586,18 @@ if(DEFINED dashboard_remote_module)
   set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_remote_module})
 endif()
 
+if(dashboard_label)
+  set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_label})
+endif()
+
+if(DASHBOARD_SUPERBUILD)
+  if(WITH_CONTRIB)
+    set(CTEST_TEST_ARGS BUILD ${CTEST_BINARY_DIRECTORY})
+  else()
+    set(CTEST_TEST_ARGS BUILD ${CTEST_BINARY_DIRECTORY}/OTB/build)
+  endif()
+endif()
+
 #-----------------------------------------------------------------------------
 
 # Send the main script as a note.
@@ -613,9 +625,6 @@ CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 	)
 
 if(DASHBOARD_SUPERBUILD)
-if(NOT WITH_CONTRIB)
-	list(APPEND CTEST_TEST_ARGS BUILD ${CTEST_BINARY_DIRECTORY}/OTB/build)
-endif()
 	if(DOWNLOAD_LOCATION)
 		set(DEFAULT_CMAKE_CACHE "${DEFAULT_CMAKE_CACHE}
 DOWNLOAD_LOCATION:PATH=${DOWNLOAD_LOCATION}")
@@ -792,14 +801,6 @@ endmacro(write_cache)
 set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
 
 if(DASHBOARD_SUPERBUILD)
-  # if("${dashboard_otb_branch}" MATCHES "^(nightly|develop|release.([0-9]+)\\.([0-9]+))$")
-  #   set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
-  #   set(dashboard_no_clean 1)
-  # else()
-  #   set(SUPERBUILD_REBUILD_OTB_ONLY FALSE)
-  #   set(dashboard_no_clean 0)
-  # endif()
-  
   if(SUPERBUILD_REBUILD_OTB_ONLY)
     set(dashboard_no_clean 1)
     message("SUPERBUILD_REBUILD_OTB_ONLY is set. \n ${CTEST_BINARY_DIRECTORY} will not be cleared. [ dashboard_no_clean=${dashboard_no_clean} ]")
@@ -831,32 +832,11 @@ if(DASHBOARD_SUPERBUILD)
     endif()
     
     if(WITH_CONTRIB)
-      file(GLOB otb_stamp_files "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-*")
-      file(GLOB otb_tmp_files "${CTEST_BINARY_DIRECTORY}/OTB/tmp/OTB-cache*")
-      foreach(otb_stamp_file ${otb_stamp_files} ${otb_tmp_files} )
-        set(stamp_file_rv 1)
-        execute_process(COMMAND ${CMAKE_COMMAND} -E remove -f "${otb_stamp_file}"
-        WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB 
-        RESULT_VARIABLE stamp_file_rv)        
-        if(stamp_file_rv)
-          message("remove ${otb_stamp_file} - FAILED")
-        else()
-          message("remove ${otb_stamp_file} - OK")
-        endif()
-      endforeach()
-    else()
-      execute_process(COMMAND ${CMAKE_COMMAND} 
-        -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
-        WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
-        RESULT_VARIABLE clear_otb_build_dir_rv)
-        
-      if(clear_otb_build_dir_rv)
-        message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - FAILED")
-      else()
-        message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - OK")
-      endif()  
-    endif() #  if(NOT WITH_CONTRIB)
-
+      get_filename_component(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY} PATH)
+      set(CTEST_BINARY_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build)
+      message("changing source and build directory [WITH_CONTRIB=1]")
+   endif() #  if(NOT WITH_CONTRIB)
+   
   endif() #if(SUPERBUILD_REBUILD_OTB_ONLY)
 endif() #if(DASHBOARD_SUPERBUILD)
 
@@ -1037,7 +1017,11 @@ set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
 if(NOT dashboard_no_configure)
   write_cache()
   message("Running ctest_configure() on ${CTEST_BINARY_DIRECTORY}")
-	ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" 	RETURN_VALUE _configure_rv)
+  if(CONFIGURE_OPTIONS)
+    ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" OPTIONS "${CONFIGURE_OPTIONS}"	RETURN_VALUE _configure_rv)
+  else()
+    ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" 	RETURN_VALUE _configure_rv)
+  endif()
 	ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 
 	if(NOT _configure_rv EQUAL 0)
@@ -1065,9 +1049,6 @@ endif() #if(NOT dashboard_no_build)
 if(NOT dashboard_no_test)
   if(COMMAND dashboard_hook_test)
     dashboard_hook_test()
-  endif()
-  if(dashboard_label)
-    list(APPEND CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_label})
   endif()
     ctest_test(${CTEST_TEST_ARGS})
 endif()
