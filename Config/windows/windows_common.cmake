@@ -835,6 +835,18 @@ if(DASHBOARD_SUPERBUILD)
       get_filename_component(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY} PATH)
       set(CTEST_BINARY_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build)
       message("changing source and build directory [WITH_CONTRIB=1]")
+    else()
+      execute_process(COMMAND ${CMAKE_COMMAND} 
+        -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
+        WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
+        RESULT_VARIABLE clear_otb_build_dir_rv)
+      
+      if(clear_otb_build_dir_rv)
+        message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - FAILED")
+      else()
+        message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - OK")
+      endif()  
+
    endif() #  if(NOT WITH_CONTRIB)
    
   endif() #if(SUPERBUILD_REBUILD_OTB_ONLY)
