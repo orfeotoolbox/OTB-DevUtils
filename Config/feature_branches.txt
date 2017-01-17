@@ -1,3 +1,2 @@
-app_domain_transform
 app_morphological app_morphological
 fix-s1-iw-ortho
