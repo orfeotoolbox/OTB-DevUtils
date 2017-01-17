@@ -12,7 +12,7 @@ set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 
 # special setting for ctest_submit(), issue with CA checking
 set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
-
+include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 # cmake ~/dashboard/otb/src/SuperBuild/Packaging \
 # -DSUPERBUILD_BINARY_DIR=/home/mrashad/dashboard/otb/build \
 # -DDOWNLOAD_LOCATION=/media/otbnas/otb/DataForTests/SuperBuild-archives \
