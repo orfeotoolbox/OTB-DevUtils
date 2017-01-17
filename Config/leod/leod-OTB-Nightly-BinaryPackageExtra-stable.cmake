@@ -34,7 +34,7 @@ unset(CTEST_BUILD_FLAGS)
 set(CTEST_BUILD_NAME "Package-MacOSX-10.10-${dashboard_git_branch}")
 
 set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild/Packaging")
-set(dashboard_binary_name "${lcdashboard_model}/OTB-SuperBuild/pkg-otb-stable")
+set(dashboard_binary_name "${lcdashboard_model}/OTB-SuperBuild/pkg-otb-contrib-stable")
 
 set(OTB_SB_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/install-stable)
 set(OTB_SB_BINARY_DIR  ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/build-stable)
