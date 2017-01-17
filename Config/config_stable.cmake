@@ -8,7 +8,7 @@ endif()
 set(CONFIG_STABLE_SWITCH ON)
 # ------------- Version section -----------------------------
 # update before each release
-set(OTB_STABLE_VERSION 5.8)
+set(OTB_STABLE_VERSION 5.10)
 set(MONTEVERDI_STABLE_VERSION 3.4)
 # ----------------------------------------------------------
 

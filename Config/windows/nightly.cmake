@@ -32,7 +32,7 @@ endif()
 
 set(LIST_OF_BRANCHES)
 list(APPEND LIST_OF_BRANCHES "nightly nightly")
-list(APPEND LIST_OF_BRANCHES "release-5.8 release-5.8")
+list(APPEND LIST_OF_BRANCHES "release-5.10 release-5.10")
 
 # LIST_OF_BRANCHES is updated with contents from feature_branches.txt
 
