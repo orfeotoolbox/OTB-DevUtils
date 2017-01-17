@@ -21,7 +21,7 @@ set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=git -D TESTED_
 ctest_start(Nightly TRACK SuperBuild)
 ctest_update()
 ctest_build(TARGET uninstall)
-ctest_configure(OPTIONS "-DModule_Mosaic:BOOL=OFF;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON")
+ctest_configure(OPTIONS "-DModule_Mosaic:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON")
 ctest_build(TARGET install)
 ctest_submit()
 
