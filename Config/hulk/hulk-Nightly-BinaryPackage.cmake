@@ -34,4 +34,4 @@ macro(dashboard_hook_submit)
 endmacro() 
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
-h
+
