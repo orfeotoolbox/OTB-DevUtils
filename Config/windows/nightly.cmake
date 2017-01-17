@@ -16,8 +16,8 @@ get_filename_component(DEVUTILS_CONFIG_DIR "${CMAKE_CURRENT_LIST_DIR}" PATH)
 set(SCRIPTS_DIR "${CMAKE_CURRENT_LIST_DIR}")
 
 #we can only build on branch of superbuild. Latest release or nightly
-set(SUPERBUILD_BRANCH nightly)
-set(SUPERBUILD_DATA_BRANCH master)
+set(SUPERBUILD_BRANCH release-5.10)
+set(SUPERBUILD_DATA_BRANCH release-5.10)
 
 # handle SuperBuild branch
 set(SUPERBUILD_BRANCH_FILE "${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt")
