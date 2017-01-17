@@ -240,8 +240,8 @@ endif()
 
 if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB)
 set(otb_contrib_cache "OTB_ADDITIONAL_CACHE:STRING=")
-  foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
-  set(otb_contrib_cache "${otb_contrib_cache}-DModule_${dashboard_remote_module}:BOOL=ON;")
+  foreach(remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
+  set(otb_contrib_cache "${otb_contrib_cache}-DModule_${remote_module}:BOOL=ON;")
   endforeach()
   set(dashboard_cache "${dashboard_cache} \n ${otb_contrib_cache}")
 endif()
@@ -613,8 +613,9 @@ CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 	)
 
 if(DASHBOARD_SUPERBUILD)
+if(NOT WITH_CONTRIB)
 	list(APPEND CTEST_TEST_ARGS BUILD ${CTEST_BINARY_DIRECTORY}/OTB/build)
-
+endif()
 	if(DOWNLOAD_LOCATION)
 		set(DEFAULT_CMAKE_CACHE "${DEFAULT_CMAKE_CACHE}
 DOWNLOAD_LOCATION:PATH=${DOWNLOAD_LOCATION}")
@@ -802,29 +803,47 @@ if(DASHBOARD_SUPERBUILD)
   if(SUPERBUILD_REBUILD_OTB_ONLY)
     set(dashboard_no_clean 1)
     message("SUPERBUILD_REBUILD_OTB_ONLY is set. \n ${CTEST_BINARY_DIRECTORY} will not be cleared. [ dashboard_no_clean=${dashboard_no_clean} ]")
-    message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} ")
     execute_process(
       COMMAND ${CMAKE_COMMAND} 
       --build ${CTEST_BINARY_DIRECTORY}/OTB/build
       --target uninstall
-      -- VERBOSE=1
       WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build
-      OUTPUT_VARIABLE uninstall_otb_process
-      )
-
-    if(uninstall_otb_process)
-      message("OTB deinstalled from ${CTEST_INSTALL_DIRECTORY} ")
-      execute_process(
-        COMMAND ${CMAKE_COMMAND} 
+      RESULT_VARIABLE uninstall_otb_rv
+    )
+    
+    if(uninstall_otb_rv)
+      message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} - FAILED")
+    else()
+      message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} - OK")
+    endif()
+    
+    if(WITH_CONTRIB)
+      file(GLOB otb_stamp_files "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-*")
+      file(GLOB otb_tmp_files "${CTEST_BINARY_DIRECTORY}/OTB/tmp/OTB-cache*")
+      foreach(otb_stamp_file ${otb_stamp_files} ${otb_tmp_files} )
+        set(stamp_file_rv 1)
+        execute_process(COMMAND ${CMAKE_COMMAND} -E remove -f "${otb_stamp_file}"
+        WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB 
+        RESULT_VARIABLE stamp_file_rv)        
+        if(stamp_file_rv)
+          message("remove ${otb_stamp_file} - FAILED")
+        else()
+          message("remove ${otb_stamp_file} - OK")
+        endif()
+      endforeach()
+    else()
+      execute_process(COMMAND ${CMAKE_COMMAND} 
         -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
         WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
-        OUTPUT_VARIABLE clear_otb_build_dir
-	)
-      if(clear_otb_build_dir)
-	message("OTB's superbuild build directory cleared from ${CTEST_INSTALL_DIRECTORY} ")
+        RESULT_VARIABLE clear_otb_build_dir_rv)
+        
+      if(clear_otb_build_dir_rv)
+        message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - FAILED")
+      else()
+        message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - OK")
       endif()  
-    endif() #if(uninstall_otb_process)
-  
+    endif() #  if(NOT WITH_CONTRIB)
+
   endif() #if(SUPERBUILD_REBUILD_OTB_ONLY)
 endif() #if(DASHBOARD_SUPERBUILD)
 
@@ -908,6 +927,7 @@ foreach(v
     dashboard_data_branch
     dashboard_update_dir
     OTBNAS_PACKAGES_DIR
+    WITH_CONTRIB
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
@@ -983,17 +1003,19 @@ macro(dashboard_reset_sources)
     -D TESTED_BRANCH:STRING=develop
     -P ${_git_updater_script}
     WORKING_DIRECTORY ${dashboard_update_dir})
-
-  
-  if(DEFINED dashboard_remote_module AND NOT dashboard_no_clean)
-    message("'dashboard_no_clean' is not set and 'dashboard_remote_module' is define. delete remote module sources" )
-    if(EXISTS "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}")
-      file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}")
-    endif()
-  endif()
-
 endmacro(dashboard_reset_sources)
 
+
+    file(GLOB remote_module_dirs "${dashboard_update_dir}/Modules/Remote/*")
+    foreach(remote_module_dir ${remote_module_dirs})
+    
+    if( EXISTS${remote_module_dir} AND IS_DIRECTORY ${remote_module_dir})
+      message( "Removing ${dashboard_update_dir}/Modules/Remote/${remote_module_dir}")
+      file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}")
+    endif()
+    
+    
+    endforeach()
 # special setting for ctest_submit(), issue with CA checking
 set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
 
