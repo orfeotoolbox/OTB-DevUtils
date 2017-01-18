@@ -31,7 +31,7 @@ unset(CTEST_GIT_UPDATE_CUSTOM)
 unset(CTEST_BUILD_FLAGS)
 #-------------------------------------------------------------------------------
 
-set(CTEST_BUILD_NAME "Package-MacOSX-10.10-${dashboard_git_branch}")
+set(CTEST_BUILD_NAME "Package-MacOSX-10.10-contrib-${dashboard_git_branch}")
 
 set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild/Packaging")
 set(dashboard_binary_name "${lcdashboard_model}/OTB-SuperBuild/pkg-otb-contrib-stable")
