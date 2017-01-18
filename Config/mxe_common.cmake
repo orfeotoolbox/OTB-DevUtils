@@ -25,7 +25,7 @@ if(NOT DEFINED dashboard_git_branch)
 endif()
 
 if(NOT DEFINED CTEST_BUILD_NAME)
-  if("${dashboard_git_branch}" STREQUAL "nightly")
+  if("${dashboard_git_branch}" MATCHES "^(nightly|release.([0-9]+)\\.([0-9]+))$")
     set(CTEST_BUILD_NAME "Win-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}")
   else()
     set(CTEST_BUILD_NAME "Win-MinGW-w64-${MXE_TARGET_ARCH}-${CTEST_BUILD_CONFIGURATION}-${dashboard_git_branch}")
