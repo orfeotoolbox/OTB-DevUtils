@@ -1,5 +1,4 @@
 set(CTEST_BUILD_CONFIGURATION Release)
-set(OTB_PROJECT OTB)
 
 set(dashboard_model Nightly)
 set(dashboard_no_install 1)
@@ -13,8 +12,8 @@ set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTES
 
 #-------------------------------------------------------------------------------
 # First, compile & install the external modules in current SuperBuild
-set(CTEST_BINARY_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-SuperBuild/build-stable/OTB/build")
-set(CTEST_SOURCE_DIRECTORY "/Users/otbval/Dashboard/nightly/OTB-Release/src")
+set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/build-stable/OTB/build")
+set(CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-Release/src")
 set(CTEST_BUILD_NAME "MacOSX-10.10-SuperBuild-contrib-${dashboard_git_branch}")
 set(CTEST_BUILD_FLAGS -j8)
 set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=git -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
