@@ -818,18 +818,18 @@ if(DASHBOARD_SUPERBUILD)
       message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} - OK")
     endif()
     
-    execute_process(
-      COMMAND ${CMAKE_COMMAND} 
-      --build ${CTEST_BINARY_DIRECTORY}
-      --target OTB_DEPENDS
-      WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
-      RESULT_VARIABLE otb_depends_rv
-    )
-    if(otb_depends_rv)
-      message("Build target OTB_DEPENDS - FAILED")
-    else()
-      message("Build target OTB_DEPENDS - OK")
-    endif()
+    # execute_process(
+      # COMMAND ${CMAKE_COMMAND} 
+      # --build ${CTEST_BINARY_DIRECTORY}
+      # --target OTB_DEPENDS
+      # WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
+      # RESULT_VARIABLE otb_depends_rv
+    # )
+    # if(otb_depends_rv)
+      # message("Build target OTB_DEPENDS - FAILED")
+    # else()
+      # message("Build target OTB_DEPENDS - OK")
+    # endif()
     
     if(WITH_CONTRIB)
       get_filename_component(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY} PATH)

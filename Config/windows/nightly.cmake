@@ -15,26 +15,58 @@ get_filename_component(DEVUTILS_CONFIG_DIR "${CMAKE_CURRENT_LIST_DIR}" PATH)
 #scripts_dir is a convenience variable for CMAKE_CURRENT_LIST_DIR. 
 set(SCRIPTS_DIR "${CMAKE_CURRENT_LIST_DIR}")
 
-#we can only build on branch of superbuild. Latest release or nightly
-set(SUPERBUILD_BRANCH release-5.10)
-set(SUPERBUILD_DATA_BRANCH release-5.10)
+include("${DEVUTILS_CONFIG_DIR}/config_stable.cmake")
+if(NOT OTB_STABLE_VERSION)
+  message(FATAL_ERROR "OTB_STABLE_VERSION is not set")
+endif()
 
-# handle SuperBuild branch
-set(SUPERBUILD_BRANCH_FILE "${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt")
-message("Checking branches file : ${SUPERBUILD_BRANCH_FILE}")
-if(EXISTS ${SUPERBUILD_BRANCH_FILE})
-  file(STRINGS ${SUPERBUILD_BRANCH_FILE}
-    _superbuild_branch_content REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *\$")
-  if(_superbuild_branch_content)
-    list(GET _superbuild_branch_content 0 SUPERBUILD_BRANCH)
+# Input file where SuperBuild branch name is set
+set(sb_file "${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt")
+
+# We can only build onr branch of superbuild.
+# Comment next two line to switch to nightly OR a branch listed in superbuild_branch.txt
+set(SUPERBUILD_BRANCH release-${OTB_STABLE_VERSION})
+set(SUPERBUILD_DATA_BRANCH release-${OTB_STABLE_VERSION})
+
+# If SUPERBUILD_BRANCH is set then don't bother reading superbuild_branch.txt file.
+# For that we simply unset "sb_file" variable
+if(SUPERBUILD_BRANCH)
+  set(sb_file "")
+endif()
+
+set(sb_file_contents)
+if(EXISTS ${sb_file})
+  message("reading superbuild branch name from : ${sb_file}")
+  file(STRINGS ${sb_file} sb_file_contents)
+endif()
+
+foreach(line_in_sb_file_content ${sb_file_contents})
+  set(otb_branch)
+  set(data_branch)
+
+  STRING(REPLACE " " ";" branch_input "${line_in_sb_file_content}")
+
+  list(LENGTH branch_input branch_input_LEN)
+  list(GET branch_input 0 SUPERBUILD_BRANCH)
+
+  if( branch_input_LEN GREATER 1)
+    list(GET branch_input 1 SUPERBUILD_DATA_BRANCH)
   endif()
+
+endforeach()
+
+# Finally if there is no SUPERBUILD_DATA_BRANCH set, From file or wherever, set it to nightly
+if(NOT SUPERBUILD_DATA_BRANCH)
+  set(SUPERBUILD_DATA_BRANCH nightly)
 endif()
 
 set(LIST_OF_BRANCHES)
 list(APPEND LIST_OF_BRANCHES "nightly nightly")
-list(APPEND LIST_OF_BRANCHES "release-5.10 release-5.10")
+list(APPEND LIST_OF_BRANCHES "release-${OTB_STABLE_VERSION} release-${OTB_STABLE_VERSION}")
 
 # LIST_OF_BRANCHES is updated with contents from feature_branches.txt
+
+
 
 #CAREFUL when you update code below.
 if(NOT DEFINED COMPILER_ARCH)
