@@ -405,31 +405,49 @@ endif()
 
 if(DASHBOARD_SUPERBUILD)
   set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-SuperBuild")
-endif()
-
-if(dashboard_label)
-  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_label}")
-  # we are sure this is an experimental build
-  set(CTEST_DASHBOARD_TRACK Experimental)
-endif()
-
-if(NOT "${dashboard_otb_branch}" MATCHES "^(nightly|develop|release.([0-9]+)\\.([0-9]+))$")
-  if(NOT DASHBOARD_SUPERBUILD OR NOT DASHBOARD_PACKAGE_ONLY)
-    set(CTEST_BUILD_NAME "${dashboard_otb_branch}-${CTEST_BUILD_NAME}")
-  endif()
-endif()
-
-#append release-X.Y to CTEST_BUILD_NAME
-if("${dashboard_otb_branch}" MATCHES "^(release.([0-9]+)\\.([0-9]+))$")
-  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_otb_branch}")
+  # we are sure this goes to SuperBuild track
+  set(CTEST_DASHBOARD_TRACK SuperBuild)  
 endif()
 
 if(DASHBOARD_PACKAGE_ONLY)
   set(CTEST_BUILD_NAME "Package-${CTEST_BUILD_NAME}")
+  # we are sure this goes to SuperBuild track
+  set(CTEST_DASHBOARD_TRACK SuperBuild)
+endif()
+
+if(dashboard_label)
+  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_label}")
+  # we are sure this is an Experimental build
+  set(CTEST_DASHBOARD_TRACK Experimental)
+endif()
+
+if(NOT "${dashboard_otb_branch}" MATCHES "^(nightly|develop|release.([0-9]+)\\.([0-9]+))$")
+  if(DASHBOARD_SUPERBUILD OR DASHBOARD_PACKAGE_ONLY)
+    #no change in build name. But make sure track is set to SuperBuild
+    set(CTEST_DASHBOARD_TRACK SuperBuild)
+  else()
+    set(CTEST_BUILD_NAME "${dashboard_otb_branch}-${CTEST_BUILD_NAME}")
+    # we are sure this goes to FeatureBranches track
+    set(CTEST_DASHBOARD_TRACK FeatureBranches)
+  endif()
+endif()
+
+# Append release-X.Y to CTEST_BUILD_NAME when building release branch for OTB
+if("${dashboard_otb_branch}" MATCHES "^(release.([0-9]+)\\.([0-9]+))$")
+  if(DASHBOARD_SUPERBUILD OR DASHBOARD_PACKAGE_ONLY)
+      #no change in build name. But make sure track is set to SuperBuild
+    set(CTEST_DASHBOARD_TRACK SuperBuild)
+  else()
+    set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_otb_branch}")
+    # we are sure this goes to LatestRelease track
+    set(CTEST_DASHBOARD_TRACK LatestRelease)
+  endif()
 endif()
 
 if(dashboard_remote_module)
   set(CTEST_BUILD_NAME "${dashboard_remote_module}-${CTEST_BUILD_NAME}")
+  # we are sure this goes to  RemoteModules track
+  set(CTEST_DASHBOARD_TRACK RemoteModules)
 endif()
 
 if(WITH_CONTRIB)
@@ -568,10 +586,6 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
       set(CTEST_DASHBOARD_TRACK LatestRelease)
     else()
       set(CTEST_DASHBOARD_TRACK FeatureBranches)
-    endif()
-
-    if(DEFINED dashboard_remote_module)
-      set(CTEST_DASHBOARD_TRACK RemoteModules)
     endif()
     
   elseif("${dashboard_model}" STREQUAL "Continuous")
