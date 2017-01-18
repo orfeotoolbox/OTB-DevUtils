@@ -1,0 +1,18 @@
+
+macro(get_remote_modules otb_src_dir output_list)
+  file(GLOB _remote_files "${otb_src_dir}/Modules/Remote/*.remote.cmake")
+  set(${output_list})
+  foreach(_remote_f ${_remote_files})
+    file(STRINGS ${_remote_f} _mod_line REGEX "otb_fetch_module")
+    string(REGEX REPLACE "otb_fetch_module\\( *([a-zA-Z0-9]+)" "\\1" _mod_name ${_mod_line})
+    list(APPEND ${output_list} ${_mod_name})
+  endforeach()
+endmacro()
+
+macro(get_cache_for_remote_modules otb_src_dir output_cache)
+  set(${output_cache})
+  get_remote_modules(${otb_src_dir} _output_list)
+  foreach(mod ${_output_list})
+    list(APPEND ${output_cache} "-DModule_${mod}:BOOL=ON")
+  endforeach()
+endmacro()
