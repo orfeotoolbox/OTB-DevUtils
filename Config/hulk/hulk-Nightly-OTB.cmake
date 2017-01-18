@@ -3,8 +3,6 @@ set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}")
 
-set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov")
-
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 
 set(dashboard_root_name "tests")
@@ -12,13 +10,11 @@ set(dashboard_source_name "src/OTB")
 set(dashboard_binary_name "build/OTB-${CTEST_BUILD_CONFIGURATION}")
 
 set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-${CTEST_BUILD_CONFIGURATION})
-set(OTB_STABLE_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-stable)
 
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
-set(dashboard_do_coverage 1)
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
@@ -79,14 +75,6 @@ OTB_DOXYGEN_ITK_TAGFILE:FILEPATH=${CTEST_DASHBOARD_ROOT}/src/InsightDoxygenDocTa
 OTB_DOXYGEN_ITK_DOXYGEN_URL:STRING=\"http://www.itk.org/Doxygen48/html\"
 
     ")
-
-set(dashboard_cache_for_release-5.2 "CMAKE_INSTALL_PREFIX:PATH=${OTB_STABLE_INSTALL_PREFIX}")
-
-set(dashboard_cache_for_gd-projection "
-CMAKE_C_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage  -Wall
-CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage -Wall -Wno-cpp
-")
-
 endmacro()
 
 macro(dashboard_hook_end)
@@ -95,24 +83,10 @@ macro(dashboard_hook_end)
   if("${dashboard_current_branch}" STREQUAL "nightly")
     ctest_build(TARGET "Documentation")
   endif()
-  if("${dashboard_current_branch}" STREQUAL "release-5.2")
-    ctest_build(TARGET "install")
-  endif()
   set(CTEST_BUILD_COMMAND ${ORIGINAL_CTEST_BUILD_COMMAND})
-endmacro()
-
-macro(dashboard_hook_build)
-  if("${dashboard_current_branch}" STREQUAL "gd-projection")
-    set(dashboard_do_coverage 1)
-  else()
-    set(dashboard_do_coverage 0)
-  endif()
 endmacro()
 
 execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
 execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
-
-execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_STABLE_INSTALL_PREFIX})
-execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_STABLE_INSTALL_PREFIX})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
