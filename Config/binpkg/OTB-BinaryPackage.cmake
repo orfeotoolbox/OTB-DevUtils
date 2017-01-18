@@ -36,7 +36,7 @@ OTB_WRAP_PYTHON:BOOL=ON
 PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python26
 PYTHON_INCLUDE_DIR:PATH=/usr/include/python2.6
 PYTHON_LIBRARY:FILEPATH=/usr/lib64/libpython2.6.so
-
+NAME_SUFFIX:STRING=-gcc-4.1.2
 ")
 endmacro()
 
