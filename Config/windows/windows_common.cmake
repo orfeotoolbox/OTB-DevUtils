@@ -247,7 +247,7 @@ if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB)
 endif()
 
 if(DASHBOARD_PACKAGE_OTB AND WITH_CONTRIB)
-  set(dashboard_cache "${dashboard_cache} \n NAME_SUFFIX:STRING=WithContrib")
+  set(dashboard_cache "${dashboard_cache} \n NAME_SUFFIX:STRING=-contrib")
 endif()
 
 if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
