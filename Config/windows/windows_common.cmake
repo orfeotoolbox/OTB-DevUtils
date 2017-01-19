@@ -246,10 +246,6 @@ if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB)
   endforeach()
 endif()
 
-if(DASHBOARD_PACKAGE_OTB AND WITH_CONTRIB)
-  set(dashboard_cache "${dashboard_cache} \n NAME_SUFFIX:STRING=-contrib")
-endif()
-
 if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
   file(TO_CMAKE_PATH "$ENV{CTEST_SOURCE_DIRECTORY}" CTEST_SOURCE_DIRECTORY)
 endif()
@@ -739,6 +735,10 @@ GENERATE_PACKAGE:BOOL=${DASHBOARD_PACKAGE_OTB}
 GENERATE_XDK:BOOL=${DASHBOARD_PACKAGE_XDK}
 ")
 
+if(WITH_CONTRIB)
+  set(dashboard_cache "${dashboard_cache} \n NAME_SUFFIX:STRING=-contrib")
+endif()
+
 endif(DASHBOARD_PACKAGE_ONLY)
 
 # Delete source tree if it is incompatible with current VCS.
@@ -849,6 +849,7 @@ if(DASHBOARD_SUPERBUILD)
       get_filename_component(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY} PATH)
       set(CTEST_BINARY_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build)
       message("changing source and build directory [WITH_CONTRIB=1]")
+      set(dashboard_build_target install)
     else()
       execute_process(COMMAND ${CMAKE_COMMAND} 
         -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
