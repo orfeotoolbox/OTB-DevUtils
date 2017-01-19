@@ -16,8 +16,9 @@ set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=git -D TESTED_
 ctest_start(Nightly TRACK SuperBuild)
 ctest_update()
 ctest_build(TARGET uninstall)
-get_cache_for_remote_modules(${CTEST_SOURCE_DIRECTORY} cache_remote_modules)
-ctest_configure(OPTIONS "${cache_remote_modules}")
+# 3 official remote modules are not packages because of missing GSL dependency
+# get_cache_for_remote_modules(${CTEST_SOURCE_DIRECTORY} cache_remote_modules)
+ctest_configure(OPTIONS "-DModule_Mosaic:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON;-DModule_OTBFFSforGMM:BOOL=ON")
 ctest_build(TARGET install)
 ctest_submit()
 
