@@ -2,9 +2,9 @@
 set(dashboard_model Nightly)
 set(OTB_PROJECT OTB)
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}-stable")
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
+set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-${CTEST_BUILD_CONFIGURATION}-${dashboard_git_branch}")
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")
