@@ -1,2 +1,2 @@
 app_morphological app_morphological
-fix-s1-iw-ortho
+s1-deburst s1-deburst
