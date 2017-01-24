@@ -1,3 +1,4 @@
 app_morphological app_morphological
 s1-deburst s1-deburst
 bugfix-1318
+mantis-1341 mantis-1341
