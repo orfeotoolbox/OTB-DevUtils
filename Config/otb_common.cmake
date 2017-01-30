@@ -701,8 +701,14 @@ while(NOT dashboard_done)
       set(dashboard_current_branch ${branch})
       set(CTEST_BUILD_NAME  ${branch}-${ORIGINAL_CTEST_BUILD_NAME})
       set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${_git_updater_script})
+      #remove testing directory
       file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
       file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
+      #building feature branches in the same directory can lead to multiple versions of OTB libraries in ${CTEST_BINARY_DIRECTORY}/lib/
+      #remove lib directories to avoid segfault (trigger re-linking for otb libraries)
+      file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/lib)
+      file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/lib)
+      
       message("Run dashboard for ${branch}")
       run_dashboard()
     endforeach()
