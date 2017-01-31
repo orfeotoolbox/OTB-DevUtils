@@ -625,7 +625,7 @@ macro(run_dashboard)
       ctest_test(${CTEST_TEST_ARGS})
     endif()
 
-    set(safe_message_skip 1) # Block furhter messages
+    set(safe_message_skip 1) # Block further messages
 
     if(dashboard_do_coverage)
       if(COMMAND dashboard_hook_coverage)
