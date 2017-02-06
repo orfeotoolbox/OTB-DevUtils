@@ -39,8 +39,8 @@ CMAKE_CXX_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage -Wall -Wextra -Wno-
 ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.10
 
 ## OSSIM
-OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/master/include
-OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/master/lib64/libossim.so
+OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/release/include
+OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/release/lib64/libossim.so
 
 ##external muparserx
 MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/stable/lib/libmuparserx.so

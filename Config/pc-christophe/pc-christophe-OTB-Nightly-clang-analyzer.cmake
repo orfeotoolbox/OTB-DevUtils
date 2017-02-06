@@ -21,8 +21,8 @@ SET(BUILD_APPLICATIONS ON CACHE BOOL "" FORCE)
 SET(ITK_DIR "/home/otbtesting/install/itk/stable/Release/lib/cmake/ITK-4.10" CACHE STRING "" FORCE)
 
 ##external OSSIM
-SET(OSSIM_INCLUDE_DIR "/home/otbtesting/install/ossim/master/include" CACHE STRING "" FORCE)
-SET(OSSIM_LIBRARY "/home/otbtesting/install/ossim/master/lib64/libossim.so" CACHE STRING "" FORCE)
+SET(OSSIM_INCLUDE_DIR "/home/otbtesting/install/ossim/release/include" CACHE STRING "" FORCE)
+SET(OSSIM_LIBRARY "/home/otbtesting/install/ossim/release/lib64/libossim.so" CACHE STRING "" FORCE)
 
 ##external muparserx
 SET(MUPARSERX_LIBRARY "/home/otbtesting/install/muparserx/stable/lib/libmuparserx.so" CACHE STRING "" FORCE)

@@ -39,8 +39,8 @@ OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.10
 
 ## OSSIM
-OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/master/include
-OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/master/lib64/libossim.so
+OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/release/include
+OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/release/lib64/libossim.so
 
 ##external muparserx
 MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/stable/lib/libmuparserx.so
