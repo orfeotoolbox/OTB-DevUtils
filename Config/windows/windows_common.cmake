@@ -812,7 +812,7 @@ endmacro(write_cache)
 #and rebuild it.
 #TODO: check output of ctest_update and set this variable if there
 #are any changes to SuperBuild/CMake/External_*.cmake
-#set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
+set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
 
 if(DASHBOARD_SUPERBUILD)
   if(SUPERBUILD_REBUILD_OTB_ONLY)
