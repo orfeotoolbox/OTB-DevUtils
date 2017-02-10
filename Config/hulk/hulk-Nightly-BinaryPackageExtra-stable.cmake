@@ -28,7 +28,7 @@ unset(CTEST_GIT_UPDATE_CUSTOM)
 unset(CTEST_BUILD_FLAGS)
 #-------------------------------------------------------------------------------
 
-set(CTEST_BUILD_NAME "Package-Linux-gcc-4.9.4-x86_64-contrib-${dashboard_git_branch}")
+set(CTEST_BUILD_NAME "Package-Linux-gcc-4.8.5-x86_64-contrib-${dashboard_git_branch}")
 
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
 set(dashboard_source_name "src/OTB/SuperBuild/Packaging")
