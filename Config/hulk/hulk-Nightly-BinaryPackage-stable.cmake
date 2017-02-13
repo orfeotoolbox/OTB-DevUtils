@@ -33,7 +33,7 @@ NAME_SUFFIX:STRING=-gcc-4.8.5
 endmacro()
 
 macro(dashboard_hook_submit)
-#  dashboard_copy_packages()
+  dashboard_copy_packages()
 endmacro() 
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

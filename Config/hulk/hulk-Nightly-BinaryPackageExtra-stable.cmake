@@ -58,7 +58,7 @@ NAME_SUFFIX:STRING=-contrib
 endmacro()
 
 macro(dashboard_hook_submit)
-#  dashboard_copy_packages()
+  dashboard_copy_packages()
 endmacro() 
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
