@@ -476,34 +476,35 @@ message("Dashboard script configuration:\n${vars}\n")
 set(ENV{LC_ALL} C)
 
 macro(dashboard_copy_packages)
-  set(copy_packages_failed TRUE)
+  set(copy_packages_failed FALSE)
   if(WIN32)
     file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
   else()
     file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.run")
   endif()
-if(otb_package_file)
-  if(EXISTS "${OTBNAS_PACKAGES_DIR}")
-    get_filename_component(package_file_name ${otb_package_file} NAME)
+
+if(EXISTS "${OTBNAS_PACKAGES_DIR}")
+  foreach(item ${otb_package_file})
+    get_filename_component(package_file_name ${item} NAME)
     # copy packages to otbnas
     execute_process(
       COMMAND ${CMAKE_COMMAND} 
       -E copy
-      "${otb_package_file}"
+      "${item}"
       "${OTBNAS_PACKAGES_DIR}/${package_file_name}"
       RESULT_VARIABLE copy_rv
       WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY})
  
-    if(copy_rv EQUAL 0)
-      set(copy_packages_failed FALSE)
+    if(NOT copy_rv EQUAL 0)
+      set(copy_packages_failed TRUE)
     endif()
-  endif() #exists OTBNAS_PACKAGES_DIR
-endif()  #otb_package_file
+  endforeach()
+endif() #exists OTBNAS_PACKAGES_DIR
 
 if(copy_packages_failed)
-  message("Cannot copy '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}/${package_file_name}'")
+  message("Cannot copy '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}'")
 else()
-  message("Copied '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}/${package_file_name}'")
+  message("Copied '${otb_package_file}' to '${OTBNAS_PACKAGES_DIR}'")
 endif()
 endmacro(dashboard_copy_packages)
 
