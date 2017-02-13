@@ -8,7 +8,6 @@ set(dashboard_source_name "src/OTB/SuperBuild/Packaging")
 set(dashboard_binary_name "build/pkg-otb")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB/)
 
-include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 set(SUPERBUILD_BINARY_DIR ${CTEST_DASHBOARD_ROOT}/build/OTB-SuperBuild)
 set(SUPERBUILD_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild)
 
