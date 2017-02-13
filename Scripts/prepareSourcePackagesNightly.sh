@@ -22,7 +22,7 @@ for project in OTB; do
   git fetch
   
   # Extract latest release branch
-  latest_release=$(git branch -r | grep -E -o 'release-[0-9]+\.[0-9]+$' | tail -n 1)
+  latest_release=$(git branch -r | grep -E -o 'release-[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
   # extract abbreviated commit id
   hash_develop=$(git log -1 --format=format:%h origin/develop)
   hash_release=$(git log -1 --format=format:%h origin/${latest_release})
@@ -57,7 +57,7 @@ done
 # Generate OTB-Data-Example
 cd $CLONE_DIR/OTB-Data
 # Extract latest release branch
-latest_release=$(git branch -r | grep -E -o 'release-[0-9]+\.[0-9]+$' | tail -n 1)
+latest_release=$(git branch -r | grep -E -o 'release-[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
 for format in zip tgz; do
   # latest release
   echo Generating $OUT_DIR/OTB-Data-Examples.$format
