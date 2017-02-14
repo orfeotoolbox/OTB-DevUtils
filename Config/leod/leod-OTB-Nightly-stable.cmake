@@ -83,8 +83,7 @@ SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/shark/install/include
 endmacro()
 
 #remove install dir
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_PREFIX})
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX})
-
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_PREFIX})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

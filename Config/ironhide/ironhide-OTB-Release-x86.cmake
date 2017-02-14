@@ -92,7 +92,7 @@ QWT_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/Qwt-5.2.3/lib/qwt5.lib
 endmacro()
 
 #remove install dir
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_PREFIX})
-execute_process(COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX})
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_PREFIX})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

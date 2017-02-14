@@ -51,7 +51,6 @@ set(CTEST_TEST_TIMEOUT 1500)
 endif()
 
 set(CTEST_GIT_COMMAND $ENV{GIT})
-set(CTEST_CMAKE_COMMAND $ENV{CMAKE})
 # set(CTEST_HG_COMMAND "C:/Program Files (x86)/Mercurial/hg.exe")
 
 # build a shorted binary path (OTB needs source and binary paths < 50)

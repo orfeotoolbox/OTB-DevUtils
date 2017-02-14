@@ -86,7 +86,7 @@ macro(dashboard_hook_end)
   set(CTEST_BUILD_COMMAND ${ORIGINAL_CTEST_BUILD_COMMAND})
 endmacro()
 
-execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
-execute_process (COMMAND ${CTEST_CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
+execute_process (COMMAND ${CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
+execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
