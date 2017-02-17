@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Copyright (C) 2016 by Centre National d'Etudes Spatiales (CNES)
+# Copyright (C) 2016, 2017 by Centre National d'Etudes Spatiales (CNES)
 #
 # Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
@@ -117,10 +117,12 @@ op_type_1 = [
     'Modules/ThirdParty/SiftFast/src/siftmex.cpp',
     'Modules/ThirdParty/SiftFast/src/test_try_compile_libsiftfast.cpp',
     'Modules/Wrappers/SWIG/src/numpy.i',
+    'SuperBuild/Packaging/Files/qt.conf',
     'SuperBuild/Packaging/Files/mapla.bat',
     'SuperBuild/Packaging/Files/monteverdi.bat',
+    'SuperBuild/Packaging/Files/otbenv.bash',
     'SuperBuild/Packaging/Files/otbenv.cmd',
-    'SuperBuild/Packaging/Files/otbenv.profile',
+    'Utilities/Data/monteverdi.desktop.in',
     'Utilities/Doxygen/mcdoc.py',
     'Utilities/Doxygen/otbdoxygen.pl.in',
     'Utilities/Doxygen/otbgroup.pl',
@@ -231,6 +233,7 @@ op_type_3 = [
                     'Modules/Visualization/MonteverdiCore/src/ConfigureMonteverdi.h.in',
                     'Modules/Wrappers/ApplicationEngine/include/otbWrapperInputProcessXMLParameter.h',
                     'Modules/Wrappers/ApplicationEngine/include/otbWrapperOutputProcessXMLParameter.h',
+                    'Modules/Wrappers/ApplicationEngine/include/otbWrapperProxyParameter.h',
                     'Modules/Wrappers/ApplicationEngine/src/otbWrapperInputProcessXMLParameter.cxx',
                     'Modules/Wrappers/ApplicationEngine/src/otbWrapperOutputProcessXMLParameter.cxx',
                     'Modules/Wrappers/SWIG/test/java/JavaSmoothingTest.java',
@@ -307,7 +310,7 @@ op_type_5 = [
                   'header_cecill_cpp.19', 'header_cecill_cpp.20', 'header_cecill_cpp.21',
                   'header_cecill_cpp.22', 'header_cecill_cpp.23', 'header_cecill_cpp.24',
                   'header_cecill_cpp.25', 'header_cecill_cpp.26', 'header_cecill_cpp.27',
-                  'header_cecill_cpp.28', 'header_cecill_cpp.29' ],
+                  'header_cecill_cpp.28', 'header_cecill_cpp.29', 'header_cecill_cpp.84' ],
         'new' : 'header_apache_cpp.01'
     },
     {
