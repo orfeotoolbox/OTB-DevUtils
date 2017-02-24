@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2016 by Centre National d'Etudes Spatiales (CNES)
+# Copyright (C) 2016, 2017 by Centre National d'Etudes Spatiales (CNES)
 #
 # Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
