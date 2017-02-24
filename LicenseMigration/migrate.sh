@@ -9,7 +9,10 @@ TOPDIR=$(pwd)
 
 WORKINGDIR=${TOPDIR}/otb-license-migration
 if [ -d "${WORKINGDIR}" ] ; then
-    echo "ERROR: Remove '${WORKINGDIR}' repository first" >&2
+    echo "* "
+    echo "* ERROR: The working directory already exists (${WORKINGDIR})" >&2
+    echo "*        You must delete it first" >&2
+    echo "* "
     exit 1
 fi
 
