@@ -20,32 +20,41 @@ fi
 # that will be checked out).
 git clone -b develop ssh://git@git.orfeo-toolbox.org/otb.git ${WORKINGDIR}
 
+# Initialize the contributor identity
 cd ${WORKINGDIR}
-git config user.name "OTB Bot"
-git config user.email "otbbot@orfeo-toolbox.org"
-git checkout develop
+git config user.name "Sebastien Dinot"
+git config user.email "sebastien.dinot@c-s.fr"
+
+# Create a branch dedicated to license migration stuff
 git checkout -b apache-license-migration
+
+# The "MegaWave driver" author was unresponsive to our messages. So, we
+# decided to remove its contribution. It was done in "remove_mwimageio"
+# branch.
+git merge -m "LICENSE: Merge existing work in relation to the license migration" \
+    origin/remove_mwimageio
 
 # Remove obsolete Date, Revision and RCSfile CVS properties
 # Space at first position of the pattern is required to exclude lines like:
 # static const char OSSIM_ID[] = "$Id$";
+
 grep -Erl ' \$(Id|Date|Revision|RCSfile).*\$' . | \
     grep -Ev '/(\.git|SuperBuild|Copyright)/' | \
     xargs sed -i -e '/ \$\(Id\|Date\|Revision\|RCSfile\).*\$/d'
-git commit -a -m "Remove obsolete CVS properties (Id, Date, Revision, RCSfile)"
+git commit -a -m "LICENSE: Remove obsolete CVS properties (Id, Date, Revision, RCSfile)"
 
 grep -Erl 'Module:[^:]' . | \
     grep -Ev '/(\.git|SuperBuild|Copyright)/' | \
     grep -E '\.([cht](xx|pp)|h)$' | \
     xargs sed -i -e '/^ *Module: /d'
-git commit -a -m "Remove useless references to itkModule"
+git commit -a -m "LICENSE: Remove useless references to itkModule"
 
 # Update embedded copyright notices
 ${TOPDIR}/replace_headers.py
 
 chmod 755 Utilities/Maintenance/SuperbuildDownloadList.sh
 chmod 755 Utilities/Maintenance/TravisBuild.sh
-git commit -a -m "File headers now state that OTB is released under the Apache license"
+git commit -a -m "LICENSE: File headers now state that OTB is released under the Apache license"
 
 cp -f ${TOPDIR}/APACHE-LICENSE-V2.0 LICENSE
 cp -f ${TOPDIR}/APACHE-LICENSE-V2.0 SuperBuild/LICENSE
@@ -54,7 +63,7 @@ git rm Copyright/Licence_CeCILL_V2-fr.txt
 git rm Copyright/Licence_CeCILL_V2-en.txt
 git rm SuperBuild/Copyright/LICENSE
 git add LICENSE SuperBuild/LICENSE
-git commit -m "Updated license text (CeCILL v2.0 => Apache v2.0)"
+git commit -m "LICENSE: Updated license text (CeCILL v2.0 => Apache v2.0)"
 
 cp -f ${TOPDIR}/hand-adjusted/NOTICE NOTICE
 git add NOTICE
@@ -82,7 +91,7 @@ git rm Copyright/OpenMPICopyright.txt
 git rm Copyright/SPTWCopyright.txt
 git rm Copyright/TinyXMLCopyright.txt
 git rm Copyright/VXLCopyright.txt
-git commit -m "Third party copyrights moved in NOTICE file"
+git commit -m "LICENSE: Third party copyrights moved in NOTICE file"
 
 cp -f ${TOPDIR}/headers/header_apache_cpp.01    Copyright/CodeCopyright.txt
 cp -f ${TOPDIR}/hand-adjusted/Description.txt   CMake/Description.txt
@@ -91,12 +100,12 @@ cp -f ${TOPDIR}/hand-adjusted/fr_FR.ts          i18n/fr_FR.ts
 cp -f ${TOPDIR}/hand-adjusted/mvdAboutDialog.ui Modules/Visualization/MonteverdiGui/src/mvdAboutDialog.ui
 cp -f ${TOPDIR}/hand-adjusted/Abstract.tex      Documentation/SoftwareGuide/Latex/Abstract.tex
 cp -f ${TOPDIR}/hand-adjusted/FAQ.tex           Documentation/SoftwareGuide/Latex/FAQ.tex
-git commit -a -m "Documentation now state that OTB is released under the Apache license"
+git commit -a -m "LICENSE: Documentation now state that OTB is released under the Apache license"
 
 cp -f ${TOPDIR}/hand-adjusted/Findcppcheck.cpp CMake/Findcppcheck.cpp
 cp -f ${TOPDIR}/hand-adjusted/PythonCompile.py CMake/PythonCompile.py
-git commit -a -m "Removed undue copyright notices (trivial code)"
+git commit -a -m "LICENSE: Removed undue copyright notices (trivial code)"
 
 cp -f ${TOPDIR}/hand-adjusted/FindGLEW.cmake        CMake/FindGLEW.cmake
 cp -f ${TOPDIR}/hand-adjusted/FindOpenThreads.cmake CMake/FindOpenThreads.cmake
-git commit -a -m "Reworked embedded copyright notices"
+git commit -a -m "LICENSE: Reworked embedded copyright notices"
