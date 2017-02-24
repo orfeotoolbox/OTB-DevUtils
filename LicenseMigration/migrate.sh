@@ -6,11 +6,6 @@
 #
 
 TOPDIR=$(pwd)
-OTBDIR=${TOPDIR}/otb
-if [ ! -d "${OTBDIR}/.git" ] ; then
-    echo "ERROR: No OTB repository found ('${OTBDIR}')" >&2
-    exit 1
-fi
 
 WORKINGDIR=${TOPDIR}/otb-license-migration
 if [ -d "${WORKINGDIR}" ] ; then
@@ -18,7 +13,10 @@ if [ -d "${WORKINGDIR}" ] ; then
     exit 1
 fi
 
-cp -a ${OTBDIR} ${WORKINGDIR}
+# Clone the OTB repository, pointing to "develop" branch (this is the branch
+# that will be checked out).
+git clone -b develop ssh://git@git.orfeo-toolbox.org/otb.git ${WORKINGDIR}
+
 cd ${WORKINGDIR}
 git config user.name "OTB Bot"
 git config user.email "otbbot@orfeo-toolbox.org"
