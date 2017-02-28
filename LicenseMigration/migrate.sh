@@ -5,14 +5,33 @@
 # Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
 
-TOPDIR=$(pwd)
+ARG0=$0
+ARG1=$1
 
-WORKINGDIR=${TOPDIR}/otb-license-migration
-if [ -d "${WORKINGDIR}" ] ; then
-    echo "* "
-    echo "* ERROR: The working directory already exists (${WORKINGDIR})" >&2
-    echo "*        You must delete it first" >&2
-    echo "* "
+SCRIPTDIR=$(readlink -f $(dirname ${ARG0}))
+
+if [ -n "$ARG1" ] ; then
+    WORKINGDIR=${ARG1}
+else
+    # WORKINGDIR=${SCRIPTDIR}/otb-license-migration
+    WORKINGDIR=/tmp
+    echo "Default working directory: ${WORKINGDIR}"
+fi
+
+if [ ! -d "${WORKINGDIR}" ] ; then
+    echo "* " >&2
+    echo "* ERROR: Working directory (${WORKINGDIR}) does not exists." >&2
+    echo "* " >&2
+    exit 1
+fi
+
+OTBDIR=${WORKINGDIR}/otb
+
+if [ -d "${OTBDIR}" ] ; then
+    echo "* " >&2
+    echo "* ERROR: ${OTBDIR} directory already exists." >&2
+    echo "*        You must delete it first or change the working directory (${WORKINGDIR})." >&2
+    echo "* " >&2
     exit 1
 fi
 
@@ -21,7 +40,7 @@ fi
 git clone -b develop https://git@git.orfeo-toolbox.org/git/otb.git ${OTBDIR}
 
 # Initialize the contributor identity
-cd ${WORKINGDIR}
+cd ${OTBDIR}
 git config user.name "Sebastien Dinot"
 git config user.email "sebastien.dinot@c-s.fr"
 
@@ -50,14 +69,14 @@ grep -Erl 'Module:[^:]' . | \
 git commit -a -m "LICENSE: Remove useless references to itkModule"
 
 # Update embedded copyright notices
-${TOPDIR}/replace_headers.py
+${SCRIPTDIR}/replace_headers.py -t ${SCRIPTDIR}/headers -r ${OTBDIR}
 
 chmod 755 Utilities/Maintenance/SuperbuildDownloadList.sh
 chmod 755 Utilities/Maintenance/TravisBuild.sh
 git commit -a -m "LICENSE: File headers now state that OTB is released under the Apache license"
 
-cp -f ${TOPDIR}/APACHE-LICENSE-V2.0 LICENSE
-cp -f ${TOPDIR}/APACHE-LICENSE-V2.0 SuperBuild/LICENSE
+cp -f ${SCRIPTDIR}/APACHE-LICENSE-V2.0 LICENSE
+cp -f ${SCRIPTDIR}/APACHE-LICENSE-V2.0 SuperBuild/LICENSE
 git rm Copyright/License_Apache2.txt
 git rm Copyright/Licence_CeCILL_V2-fr.txt
 git rm Copyright/Licence_CeCILL_V2-en.txt
@@ -65,7 +84,7 @@ git rm SuperBuild/Copyright/LICENSE
 git add LICENSE SuperBuild/LICENSE
 git commit -m "LICENSE: Updated license text (CeCILL v2.0 => Apache v2.0)"
 
-cp -f ${TOPDIR}/hand-adjusted/NOTICE NOTICE
+cp -f ${SCRIPTDIR}/hand-adjusted/NOTICE NOTICE
 git add NOTICE
 git rm Copyright/Copyright.txt
 git rm Copyright/CodeOTB-ITKCopyright.txt
@@ -93,19 +112,28 @@ git rm Copyright/TinyXMLCopyright.txt
 git rm Copyright/VXLCopyright.txt
 git commit -m "LICENSE: Third party copyrights moved in NOTICE file"
 
-cp -f ${TOPDIR}/headers/header_apache_cpp.01    Copyright/CodeCopyright.txt
-cp -f ${TOPDIR}/hand-adjusted/Description.txt   CMake/Description.txt
-cp -f ${TOPDIR}/hand-adjusted/README.md         README.md
-cp -f ${TOPDIR}/hand-adjusted/fr_FR.ts          i18n/fr_FR.ts
-cp -f ${TOPDIR}/hand-adjusted/mvdAboutDialog.ui Modules/Visualization/MonteverdiGui/src/mvdAboutDialog.ui
-cp -f ${TOPDIR}/hand-adjusted/Abstract.tex      Documentation/SoftwareGuide/Latex/Abstract.tex
-cp -f ${TOPDIR}/hand-adjusted/FAQ.tex           Documentation/SoftwareGuide/Latex/FAQ.tex
+cp -f ${SCRIPTDIR}/headers/header_apache_cpp.01    Copyright/CodeCopyright.txt
+cp -f ${SCRIPTDIR}/hand-adjusted/Description.txt   CMake/Description.txt
+cp -f ${SCRIPTDIR}/hand-adjusted/README.md         README.md
+cp -f ${SCRIPTDIR}/hand-adjusted/fr_FR.ts          i18n/fr_FR.ts
+cp -f ${SCRIPTDIR}/hand-adjusted/mvdAboutDialog.ui Modules/Visualization/MonteverdiGui/src/mvdAboutDialog.ui
+cp -f ${SCRIPTDIR}/hand-adjusted/Abstract.tex      Documentation/SoftwareGuide/Latex/Abstract.tex
+cp -f ${SCRIPTDIR}/hand-adjusted/FAQ.tex           Documentation/SoftwareGuide/Latex/FAQ.tex
 git commit -a -m "LICENSE: Documentation now state that OTB is released under the Apache license"
 
-cp -f ${TOPDIR}/hand-adjusted/Findcppcheck.cpp CMake/Findcppcheck.cpp
-cp -f ${TOPDIR}/hand-adjusted/PythonCompile.py CMake/PythonCompile.py
+cp -f ${SCRIPTDIR}/hand-adjusted/Findcppcheck.cpp CMake/Findcppcheck.cpp
+cp -f ${SCRIPTDIR}/hand-adjusted/PythonCompile.py CMake/PythonCompile.py
 git commit -a -m "LICENSE: Removed undue copyright notices (trivial code)"
 
-cp -f ${TOPDIR}/hand-adjusted/FindGLEW.cmake        CMake/FindGLEW.cmake
-cp -f ${TOPDIR}/hand-adjusted/FindOpenThreads.cmake CMake/FindOpenThreads.cmake
+cp -f ${SCRIPTDIR}/hand-adjusted/FindGLEW.cmake        CMake/FindGLEW.cmake
+cp -f ${SCRIPTDIR}/hand-adjusted/FindOpenThreads.cmake CMake/FindOpenThreads.cmake
 git commit -a -m "LICENSE: Reworked embedded copyright notices"
+
+echo ""
+echo "****************************************************"
+echo "*                                                  *"
+echo "*   License migration script successfully ended.   *"
+echo "*   Branch ready to be pushed.                     *"
+echo "*                                                  *"
+echo "****************************************************"
+echo ""
