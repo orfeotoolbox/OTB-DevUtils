@@ -18,7 +18,7 @@ fi
 
 # Clone the OTB repository, pointing to "develop" branch (this is the branch
 # that will be checked out).
-git clone -b develop ssh://git@git.orfeo-toolbox.org/otb.git ${WORKINGDIR}
+git clone -b develop https://git@git.orfeo-toolbox.org/git/otb.git ${OTBDIR}
 
 # Initialize the contributor identity
 cd ${WORKINGDIR}
