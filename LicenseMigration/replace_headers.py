@@ -53,9 +53,7 @@ hdrdir = '../headers'
 # Files to be ignored
 op_type_1 = [
     '.travis.yml',
-    '.hgignore',
     '.gitignore',
-    '.hgsigs',
     'CMake/CppcheckTargets.cmake',
     'CMake/Description.txt',
     'CMake/FindGLEW.cmake',
@@ -67,7 +65,6 @@ op_type_1 = [
     'CMake/InsightValgrind.supp',
     'CMake/InsightValgrind-RHEL6.supp',
     'CMake/OTB_CheckCCompilerFlag.cmake',
-    'CMake/otbCheckCXX11.cpp',
     'CMake/otbcli.bat.in',
     'CMake/otbcli.sh.in',
     'CMake/otbcli_app.bat.in',
@@ -76,10 +73,7 @@ op_type_1 = [
     'CMake/otbgui.sh.in',
     'CMake/otbgui_app.bat.in',
     'CMake/otbgui_app.sh.in',
-    'CMake/otbTestNullPtr.cpp',
     'CMake/otbTestNumpy.py',
-    'CMake/otbTestOverride.cpp',
-    'CMake/otbTestUniquePtr.cpp',
     'CMake/pre-commit',
     'CMake/PythonCompile.py',
     'CMake/qt.conf.in',
@@ -124,9 +118,7 @@ op_type_1 = [
     'SuperBuild/Packaging/Files/otbenv.cmd',
     'Utilities/Data/monteverdi.desktop.in',
     'Utilities/Doxygen/mcdoc.py',
-    'Utilities/Doxygen/otbdoxygen.pl.in',
     'Utilities/Doxygen/otbgroup.pl',
-    'Utilities/Doxygen/vxl_doxy.pl',
     'Utilities/Maintenance/BuildHeaderTest.py',
     'Utilities/Maintenance/fix_typos.sh'
 ]
