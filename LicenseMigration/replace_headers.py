@@ -5,7 +5,7 @@
 # Author: Sebastien DINOT <sebastien.dinot@c-s.fr>
 #
 
-import os, sys, re, copy
+import os, sys, re, copy, argparse
 
 
 
@@ -45,9 +45,6 @@ def addHeader(filename, newHeader):
     sourceFile.close()
     return True
 
-
-otbdir = '.'
-hdrdir = '../headers'
 
 
 # Files to be ignored
@@ -387,12 +384,39 @@ op_type_5 = [
 
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-t', '--templatedir', dest='templatedir', default='headers',
+                    help='Path to the directory which contains the copyright header templates')
+parser.add_argument('-r', '--repodir', dest='repodir', default='otb',
+                    help='Path to the local repository')
+
+args = parser.parse_args()
+
+templatedir = args.templatedir
+repodir = args.repodir
+
+print('Template directory is "{0}"'.format(templatedir))
+if not os.path.exists(templatedir):
+    print('ERROR: Directory "{0}" does not exist.'.format(templatedir))
+    exit(1)
+elif not os.path.isdir(templatedir):
+    print('ERROR: "{0}" is not a directory.'.format(templatedir))
+    exit(1)
+
+print('Repository directory is "{0}"'.format(repodir))
+if not os.path.exists(repodir):
+    print('ERROR: Directory "{0}" does not exist.'.format(repodir))
+    exit(1)
+elif not os.path.isdir(repodir):
+    print('ERROR: "{0}" is not a directory.'.format(repodir))
+    exit(1)
+
 otbfiles = []
 
 pattern1 = re.compile('^(CMakeLists\\.txt|.*\\.cmake(\\.in)?)$')
 pattern2 = re.compile('((README|VERSION|LICENS|AUTHORS|RELEASE|INSTALL|NOTES|Makefile-upstream).*|'
                       + '.*\\.(png|ico|dox|html|desktop|ts|xpm|ui|qrc|svg|orig|icns|rc.in|dox.in|config.in|css))$')
-for root, dirs, files in os.walk(otbdir, topdown=True):
+for root, dirs, files in os.walk(repodir, topdown=True):
     if '.git' in dirs:
         dirs.remove('.git')
 
@@ -427,7 +451,7 @@ for root, dirs, files in os.walk(otbdir, topdown=True):
 otbfiles1 = copy.deepcopy(otbfiles)
 
 for fn in op_type_1:
-    filename = os.path.join(otbdir, fn)
+    filename = os.path.join(repodir, fn)
     if filename in otbfiles1:
         otbfiles1.remove(filename)
         print("REMOVED: {0}".format(filename))
@@ -438,16 +462,16 @@ otbfiles2 = copy.deepcopy(otbfiles1)
 
 for op in op_type_2:
 
-    newHeaderFile = open(os.path.join(hdrdir, op['new']))
+    newHeaderFile = open(os.path.join(templatedir, op['new']))
     newHeader     = newHeaderFile.read()
 
     for fn in op['files']:
 
         for old in op['old']:
 
-            oldHeaderFile = open(os.path.join(hdrdir, old))
+            oldHeaderFile = open(os.path.join(templatedir, old))
             oldHeader     = oldHeaderFile.read()
-            filename = os.path.join(otbdir, fn)
+            filename = os.path.join(repodir, fn)
             if os.path.isfile(filename) and filename in otbfiles2:
                 if replaceHeader(filename, oldHeader, newHeader):
                     otbfiles2.remove(filename)
@@ -456,12 +480,12 @@ for op in op_type_2:
 
 for op in op_type_3:
 
-    newHeaderFile = open(os.path.join(hdrdir, op['new']))
+    newHeaderFile = open(os.path.join(templatedir, op['new']))
     newHeader     = newHeaderFile.read()
 
     for fn in op['files']:
 
-        filename = os.path.join(otbdir, fn)
+        filename = os.path.join(repodir, fn)
         if os.path.isfile(filename) and filename in otbfiles2:
             addHeader(filename, newHeader)
             otbfiles2.remove(filename)
@@ -472,14 +496,14 @@ otbfiles3 = copy.deepcopy(otbfiles2)
 
 for op in op_type_4:
 
-    newHeaderFile = open(os.path.join(hdrdir, op['new']))
+    newHeaderFile = open(os.path.join(templatedir, op['new']))
     newHeader     = newHeaderFile.read()
 
     pattern = re.compile(op['pattern'])
 
     excluded = []
     for i, e in enumerate(op['exclude']):
-        excluded.append(os.path.join(otbdir, e))
+        excluded.append(os.path.join(repodir, e))
 
     for fn in otbfiles2:
         if pattern.match(fn) and fn in otbfiles3 and fn not in excluded:
@@ -492,13 +516,13 @@ otbfiles4 = copy.deepcopy(otbfiles3)
 
 for op in op_type_5:
 
-    newHeaderFile = open(os.path.join(hdrdir, op['new']))
+    newHeaderFile = open(os.path.join(templatedir, op['new']))
     newHeader     = newHeaderFile.read()
 
     for ext in op['ext']:
 
         for old in op['old']:
-            oldHeaderFile = open(os.path.join(hdrdir, old))
+            oldHeaderFile = open(os.path.join(templatedir, old))
             oldHeader     = oldHeaderFile.read()
 
             for fn in otbfiles3:
