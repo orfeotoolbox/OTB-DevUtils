@@ -191,6 +191,20 @@ This software includes code from the SiftFast project.
   https://sourceforge.net/p/libsift/code/HEAD/tree/trunk/LICENSE
 
 
+This software includes code from the Mesa 3D project.
+  Copyright (c) 1999-2017 Brian Paul and many other contributors
+  https://www.mesa3d.org/
+  FreeGLUT is released under MIT License:
+  https://www.mesa3d.org/license.html
+
+
+This software includes code from the FreeGLUT project.
+  Copyright (c) 1999-2000 Pawel W. Olszta
+  http://freeglut.sourceforge.net/
+  FreeGLUT is released under X11/MIT derivate License:
+  https://sourceforge.net/p/freeglut/code/HEAD/tree/trunk/freeglut/freeglut/COPYING
+
+
 This software includes code from the GLFW project.
   Copyright (c) 2002-2006, Marcus Geelnard
   Copyright (c) 2006-2016, Camilla Berglund
