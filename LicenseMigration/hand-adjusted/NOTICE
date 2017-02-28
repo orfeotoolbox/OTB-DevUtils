@@ -106,8 +106,10 @@ This software includes code from the TinyXML project.
   http://tinyxml.cvs.sourceforge.net/viewvc/tinyxml/tinyxml/readme.txt
 
 
+
 The following utilities, used by the OTB libraries, are optional. The OTB
 libraries may be built without them, but some modules will be disabled:
+
 
 This software includes code from the 6S project.
   Public domain
@@ -197,6 +199,12 @@ This software includes code from the GLFW project.
   http://www.glfw.org/license.html
 
 
+This software includes code from the GLFW project.
+  http://glew.sourceforge.net/
+  The GLEW source code is licensed under the BSD 3-Clause license.
+  https://github.com/nigels-com/glew/blob/master/LICENSE.txt
+
+
 This software includes code from the Open MPI project.
   Copyright (c) 2004-2010, The Trustees of Indiana University and Indiana
                            University Research and Technology Corporation
@@ -242,3 +250,18 @@ project.
   https://github.com/kornholi/sptw
   SPTW is put in the public domain by its author, David Matthew Mattli
   https://github.com/kornholi/sptw/blob/master/LICENSE
+
+
+This software includes code from the Shark Machine Learning project.
+  Copyright (c) 1995-2017 Shark Development Team
+  http://image.diku.dk/shark/
+  The Shark library is released under the GNU LGPL v3.0 license:
+  http://image.diku.dk/shark/#section-credit
+
+
+This software includes code from the Qwt project.
+  Copyright (c) 1997 Josef Wilgen
+  Copyright (c) 2002 Uwe Rathmann
+  http://qwt.sourceforge.net/
+  The Qwt project is released under the Qwt v1.0 license:
+  http://qwt.sourceforge.net/qwtlicense.html
