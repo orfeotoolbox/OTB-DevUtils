@@ -123,7 +123,7 @@ This software includes code from the 6S project.
 This software includes code from the Curl project.
   Copyright (c) 1996-2016, Daniel Stenberg and many contributors
   https://curl.haxx.se/
-  Curl and libcurl are licensed under a MIT/X derivate license:
+  Curl and libcurl are licensed under a X11/MIT derivate license:
   https://curl.haxx.se/docs/copyright.html
 
 
