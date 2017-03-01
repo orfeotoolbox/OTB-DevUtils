@@ -1,4 +1,4 @@
-Orfeo Toolbox (OTB) Copyright 2005-2016 Centre National d'Etudes Spatiales (CNES)
+Orfeo Toolbox (OTB) Copyright 2005-2017 Centre National d'Etudes Spatiales (CNES)
 
 This software is distributed under the Apache Software License (ASL) v2.0, see
 LICENSE file or http://www.apache.org/licenses/LICENSE-2.0 for details.
@@ -6,7 +6,7 @@ LICENSE file or http://www.apache.org/licenses/LICENSE-2.0 for details.
 
 This software includes code from the Insight Segmentation and Registration
 Toolkit (ITK) project.
-  Copyright 1999-2011, Insight Software Consortium
+  Copyright 1999-2017, Insight Software Consortium
   https://itk.org/
   Starting from version 4.0, ITK is released under Apache Software License
   (ASL) v2.0:
@@ -15,7 +15,7 @@ Toolkit (ITK) project.
 
 This software includes code that been developed by CS Systemes d'Information
 (CS SI) during internships and self-financed studies.
-  Copyright 2005-2016, CS Systemes d'Information
+  Copyright 2005-2017, CS Systemes d'Information
   This code was contributed under Apache Software License (ASL) v2.0:
   http://www.apache.org/licenses/LICENSE-2.0
 

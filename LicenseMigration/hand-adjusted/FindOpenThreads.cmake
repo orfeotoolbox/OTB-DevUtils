@@ -25,7 +25,7 @@
 
 #=============================================================================
 # Copyright 2007-2009 Kitware, Inc.
-# Copyright 2009-2016 Centre National d'Etudes Spatiales (CNES)
+# Copyright 2009-2017 Centre National d'Etudes Spatiales (CNES)
 #
 # Distributed under the OSI-approved BSD License (the "License");
 # see accompanying file Copyright.txt for details.
