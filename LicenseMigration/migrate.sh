@@ -53,8 +53,6 @@ git clone -b develop https://git@git.orfeo-toolbox.org/git/otb.git ${OTBDIR}
 
 # Initialize the contributor identity
 cd ${OTBDIR}
-git config user.name "Sebastien Dinot"
-git config user.email "sebastien.dinot@c-s.fr"
 
 # Create a branch dedicated to license migration stuff
 git checkout -b apache-license-migration
