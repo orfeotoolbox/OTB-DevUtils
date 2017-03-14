@@ -5,7 +5,7 @@ SET (CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Fedora22-64bits-clang-ThirdPartyTrunk-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -j2 -k install" )
+set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 set(CTEST_DASHBOARD_TRACK Experimental)
@@ -17,6 +17,8 @@ set(dashboard_binary_name "build/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_B
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(CTEST_USE_LAUNCHERS ON)
+
+set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
