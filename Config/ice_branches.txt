@@ -1,2 +1,0 @@
-rfc-20-take_screenshot
-
