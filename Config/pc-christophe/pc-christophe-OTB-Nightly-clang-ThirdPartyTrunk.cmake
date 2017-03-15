@@ -18,8 +18,6 @@ set(dashboard_binary_name "build/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_B
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(CTEST_USE_LAUNCHERS ON)
 
-set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
-
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
 set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
 
@@ -56,10 +54,8 @@ OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/dev/include
 OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/dev/lib64/libossim.so
 
 ##external muparserx
-## Use stable because we are not compatible with trunk for now
-## see https://bugs.orfeo-toolbox.org/view.php?id=1117
-MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/stable/lib/libmuparserx.so
-MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/stable/include/muparserx
+MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/trunk/lib/libmuparserx.so
+MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/trunk/include/muparserx
 
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
