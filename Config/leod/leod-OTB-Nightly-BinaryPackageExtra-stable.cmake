@@ -22,7 +22,7 @@ ctest_start(Nightly TRACK SuperBuild)
 ctest_update()
 ctest_build(TARGET uninstall)
 # 3 official remote modules are not packages because of missing GSL dependency
-# get_cache_for_remote_modules(${CTEST_SOURCE_DIRECTORY} cache_remote_modules)
+# enable_official_remote_modules(${CTEST_SOURCE_DIRECTORY} cache_remote_modules)
 ctest_configure(OPTIONS "-DModule_Mosaic:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON;-DModule_OTBFFSforGMM:BOOL=ON")
 ctest_build(TARGET install)
 ctest_submit()
