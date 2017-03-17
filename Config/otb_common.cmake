@@ -412,7 +412,23 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
 endif()
 
 #-----------------------------------------------------------------------------
+# Handle remote modules
+if(dashboard_remote_modules)
+  # Parse existing remote modules (official + incubated)
+  get_remote_modules(${CTEST_DASHBOARD_ROOT}/${dashboard_source_name}/Modules/Remote OFFICIAL_REMOTES)
+  get_remote_modules(${CTEST_SCRIPT_DIRECTORY}/../moduleIncubation INCUBATED_REMOTES)
+  set(ALL_REMOTES)
+  list(APPEND ALL_REMOTES ${OFFICIAL_REMOTES})
+  list(APPEND ALL_REMOTES ${INCUBATED_REMOTES})
+  list(REMOVE_DUPLICATES ALL_REMOTES)
 
+  # filter the list
+  if(dashboard_remote_blacklist)
+    list(REMOVE_ITEM ALL_REMOTES ${dashboard_remote_blacklist})
+  endif()
+endif()
+
+#-----------------------------------------------------------------------------
 # Send the main script as a note.
 list(APPEND CTEST_NOTES_FILES
   "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}"
@@ -704,15 +720,48 @@ while(NOT dashboard_done)
   set(ENV{HOME} "${dashboard_user_home}")
   set(dashboard_current_branch ${dashboard_git_branch})
 
-  # TODO : update sources on default branch
-  # TODO : copy incubation remote modules
-  # TODO : call a configure with all remotes enabled
-  # TODO : disable update
+  if(dashboard_remote_modules)
+    # update sources on default branch
+    set_git_update_command(${dashboard_current_branch})
+    execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
+                    WORKING_DIRECTORY ${dashboard_update_dir})
 
-  # TODO : loop over modules
-  
-  # Run the main dashboard macro
-  run_dashboard()
+    # copy incubation remote modules
+    file(GLOB _incubated_files "${CTEST_SCRIPT_DIRECTORY}/../moduleIncubation/*.remote.cmake")
+    foreach(_i_file ${_incubated_files})
+      file(COPY ${_i_file} DESTINATION ${dashboard_update_dir}/Modules/Remote)
+    endforeach()
+
+    # call a configure with all remotes enabled
+    get_module_enable_cache(ALL_REMOTES all_remote_cache)
+    set(original_dashboard_cache ${dashboard_cache})
+    set(dashboard_cache "${original_dashboard_cache}
+      ${all_remote_cache}")
+    ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
+    write_cache()
+    ctest_configure()
+
+    # disable update
+    set(dashboard_no_update 1)
+
+    # Loop over remote modules
+    foreach(mod ${ALL_REMOTES})
+      set(_enabled_remote ${mod})
+      set(_disabled_remotes ${ALL_REMOTES})
+      list(REMOVE_ITEM _disabled_remotes ${mod})
+      set(_current_remote_cache)
+      get_module_enable_cache(_enabled_remote _current_remote_cache)
+      get_module_disable_cache(_disabled_remotes _current_remote_cache)
+      set(dashboard_cache "${original_dashboard_cache}
+        ${_current_remote_cache}")
+      message("Run dashboard for module ${mod}")
+      run_dashboard()
+    endforeach()
+
+  else()
+    # Run the main dashboard macro
+    run_dashboard()
+  endif()
 
   # test additional feature branches
   if(number_additional_branches GREATER 0)
