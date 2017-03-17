@@ -2,7 +2,7 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Ubuntu16.04-64bits-SoftwareGuide")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -i -k" )
+set(CTEST_BUILD_FLAGS "-k" )
 include(${CTEST_SCRIPT_DIRECTORY}/dora_common.cmake)
 
 set(dashboard_otb_source "nightly/OTB-Release/src")

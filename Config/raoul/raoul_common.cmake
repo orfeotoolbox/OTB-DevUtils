@@ -33,9 +33,7 @@ elseif(${OTB_ARCH} STREQUAL "amd64")
 endif()
 endif()
 # switch to Nmake Jom builders instead of Visual Studio projects
-if (NOT DEFINED dashboard_build_command)
-  set(dashboard_build_command "jom")
-endif()
+set(CMAKE_MAKE_PROGRAM "jom")
 
 if (NOT DEFINED CTEST_TEST_ARGS)
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)

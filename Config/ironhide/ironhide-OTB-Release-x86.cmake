@@ -3,7 +3,6 @@ set(OTB_PROJECT OTB) # OTB / Monteverdi / Monteverdi2
 set(OTB_ARCH x86) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}")
-set(CTEST_BUILD_TARGET INSTALL)
 include(${CTEST_SCRIPT_DIRECTORY}/ironhide_common.cmake)
 
 set(dashboard_model Experimental)

@@ -1,6 +1,7 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
-set(dashboard_build_command "/usr/bin/make -k -j1 PACKAGE-OTB" )
+set(CTEST_BUILD_FLAGS "-k -j1")
+set(dashboard_build_target PACKAGE-OTB)
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../macro_common.cmake)
@@ -24,7 +25,7 @@ ctest_submit()
 
 unset(CTEST_BINARY_DIRECTORY)
 unset(CTEST_SOURCE_DIRECTORY)
-unset(CTEST_BUILD_FLAGS)
+set(CTEST_BUILD_FLAGS "-k -j1")
 #-------------------------------------------------------------------------------
 
 set(CTEST_BUILD_NAME "Package-Linux-gcc-4.8.5-x86_64-contrib-${dashboard_git_branch}")

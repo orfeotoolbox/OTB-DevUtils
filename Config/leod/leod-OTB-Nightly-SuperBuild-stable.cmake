@@ -4,7 +4,7 @@ set(OTB_PROJECT OTB)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_CONFIGURATION_TYPE Release)
 set(dashboard_no_install 1)
-set(dashboard_build_command "/usr/bin/make -j4 -k" )
+set(CTEST_BUILD_FLAGS "-j4 -k")
 
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)

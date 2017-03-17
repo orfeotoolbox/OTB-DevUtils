@@ -2,7 +2,6 @@
 set(OTB_PROJECT OTB) # OTB / Monteverdi / Monteverdi2
 set(OTB_ARCH x86) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_TARGET INSTALL)
 set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-Stable")
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)

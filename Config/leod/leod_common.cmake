@@ -20,9 +20,6 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
   set(CTEST_GIT_COMMAND "/opt/local/bin/git")
 endif()
 
-if(NOT DEFINED CTEST_BUILD_COMMAND)
-  if(NOT DEFINED dashboard_build_command)
-    set(dashboard_build_command "/usr/bin/make -j8 -k" )
-  endif()
+if(NOT DEFINED CTEST_BUILD_FLAGS)
+  set(CTEST_BUILD_FLAGS "-j8 -k")
 endif()
-

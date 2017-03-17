@@ -22,9 +22,6 @@ if(NOT DEFINED CTEST_USE_LAUNCHERS)
   set(CTEST_USE_LAUNCHERS ON)
 endif()
 
-if(NOT DEFINED CTEST_BUILD_COMMAND)
-  if(NOT DEFINED dashboard_build_command)
-    set(dashboard_build_command "/usr/bin/make -j8 -k")
-  endif()
+if(NOT DEFINED CTEST_BUILD_FLAGS)
+  set(CTEST_BUILD_FLAGS "-j8 -k")
 endif()
-

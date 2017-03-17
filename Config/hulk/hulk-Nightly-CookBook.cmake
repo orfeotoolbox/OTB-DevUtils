@@ -2,7 +2,7 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-CookBook")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -i -k" )
+set(CTEST_BUILD_FLAGS "-k" )
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 
 # peek into ../config_stable.cmake to choose between trunk or stable

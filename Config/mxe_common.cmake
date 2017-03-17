@@ -257,17 +257,9 @@ endif()
 #---------------------- Hook to build package --------------------------------
 macro(dashboard_hook_submit)
   if(dashboard_make_package)
-    if(DEFINED CTEST_BUILD_COMMAND)
-      set(ORIGINAL_CTEST_BUILD_COMMAND ${CTEST_BUILD_COMMAND})
-      if(DEFINED dashboard_build_command)
-        set(CTEST_BUILD_COMMAND "${dashboard_build_command} ${dashboard_package_target}")
-      endif()
-    endif()
     ctest_build(BUILD ${CTEST_BINARY_DIRECTORY}
+                TARGET ${dashboard_package_target}
                 RETURN_VALUE _package_build_rv)
-    if(DEFINED ORIGINAL_CTEST_BUILD_COMMAND)
-      set(CTEST_BUILD_COMMAND ${ORIGINAL_CTEST_BUILD_COMMAND})
-    endif()
   endif()
 endmacro()
 

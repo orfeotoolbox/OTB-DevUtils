@@ -2,7 +2,6 @@ set(dashboard_model Nightly)
 set(OTB_PROJECT OTB)
 set(CTEST_BUILD_CONFIGURATION Release)
 
-set(CTEST_BUILD_COMMAND "/usr/bin/make -k -j1 PACKAGE-OTB" )
 include(${CTEST_SCRIPT_DIRECTORY}/binpkg_common.cmake)
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
 

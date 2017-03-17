@@ -78,12 +78,9 @@ OTB_DOXYGEN_ITK_DOXYGEN_URL:STRING=\"http://www.itk.org/Doxygen48/html\"
 endmacro()
 
 macro(dashboard_hook_end)
-  set(ORIGINAL_CTEST_BUILD_COMMAND ${CTEST_BUILD_COMMAND})
-  unset(CTEST_BUILD_COMMAND)
   if("${dashboard_current_branch}" STREQUAL "nightly")
     ctest_build(TARGET "Documentation")
   endif()
-  set(CTEST_BUILD_COMMAND ${ORIGINAL_CTEST_BUILD_COMMAND})
 endmacro()
 
 execute_process (COMMAND ${CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})

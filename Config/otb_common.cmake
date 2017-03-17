@@ -62,11 +62,10 @@
 #   CTEST_BUILD_CONFIGURATION = Configuration to build (Release/Debug/...)
 #   dashboard_cache           = Initial CMakeCache.txt file content
 #   dashboard_cache_for_xxx   = Specific cache content for branch 'xxx'
-#   dashboard_build_command   = Executable to call in CTEST_BUILD_COMMAND
-#   dashboard_build_target    = Default target to build (default is 'install',
-#                               unless dashboard_no_install is true)
-#   CTEST_BUILD_COMMAND       = Build command given to ctest (default is
-#                               $dashboard_build_command $dashboard_build_target)
+#   dashboard_build_target    = Default target to build (default depends on the
+#                               project tested)
+#   CTEST_BUILD_COMMAND       = DO NOT USE THIS VARIABLE !! IT OVERRIDES ANY
+#                               FLAGS AND TARGET
 #   dashboard_git_url         = URL of Git source repository
 #   dashboard_git_branch      = Git branch to test (default is 'nightly' when
 #                               dashboard model is Nightly, 'develop' otherwise)
@@ -77,10 +76,13 @@
 #   CTEST_GIT_UPDATE_CUSTOM   = Custom Git update command to replace 'git pull'
 #                               (default is to use a home-made updater script
 #                               git_updater.cmake, which does more cleaning)
-#   dashboard_module          = Name of the remote module to enable
+#   dashboard_remote_modules  = enable testing of remote modules (official +
+#                               incubation)
+#   dashboard_module          = Name of the module to enable
 #                               (incompatible with SuperBuild and additional
 #                               feature branches)
-#   dashboard_module_url      = URL of the remote module to enable
+#   dashboard_module_url      = URL of the requested remote module (if
+#                               dashboard_module is remote)
 #   CTEST_BUILD_FLAGS         = build tool arguments (ex: -j2)
 #   CTEST_TEST_CTEST          = Whether to run long CTestTest* tests
 #   CTEST_TEST_TIMEOUT        = Per-test timeout length
@@ -173,41 +175,15 @@ endif()
 if(DEFINED ENV{OTBNAS_PACKAGES_DIR})
   set(OTBNAS_PACKAGES_DIR "$ENV{OTBNAS_PACKAGES_DIR}")
 endif()
-
-
-if(NOT DEFINED MXE_ROOT)
-  if(dashboard_build_target)
-    set(dashboard_label ${dashboard_build_target})
-    string(REPLACE "-all" "" dashboard_label ${dashboard_label})
-  endif()
   
-  if(dashboard_label)
-    set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_label}")
-    # we are sure this is an experimental build
-    set(CTEST_DASHBOARD_TRACK Experimental)
-    list(APPEND CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_label})
-  endif()
-endif() #NOT DEFINED MXE_ROOT
+if(dashboard_label)
+  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_label}")
+  # we are sure this is an experimental build
+  set(CTEST_DASHBOARD_TRACK Experimental)
+endif()
 
 if(NOT CTEST_CMAKE_GENERATOR)
   set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-endif()
-
-# Create build command
-if(NOT DEFINED CTEST_BUILD_COMMAND)
-  if(DEFINED dashboard_build_command)
-    if(DEFINED dashboard_build_target)
-      # use custom target
-      set(CTEST_BUILD_COMMAND "${dashboard_build_command} ${dashboard_build_target}")
-    else()
-      if(NOT dashboard_no_install)
-        # default target : install
-        set(CTEST_BUILD_COMMAND "${dashboard_build_command} install")
-      else()
-        set(CTEST_BUILD_COMMAND "${dashboard_build_command}")
-      endif()
-    endif()
-  endif()
 endif()
 
 # Choose CTest reporting mode.
@@ -265,6 +241,25 @@ endif()
 # Select source directory to update
 if(NOT DEFINED dashboard_update_dir)
   set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
+endif()
+
+# set default target depending on the project
+if("${dashboard_update_dir}" STREQUAL "${CTEST_SOURCE_DIRECTORY}")
+  set(default_target install)
+else()
+  if("${_source_directory_filename}" STREQUAL "SuperBuild")
+    set(default_target OTB)
+  elseif("${_source_directory_filename}" STREQUAL "Packaging")
+    set(default_target PACKAGE-OTB)
+  elseif("${_source_directory_filename}" STREQUAL "CookBook")
+    set(default_target)
+  elseif("${_source_directory_filename}" STREQUAL "SoftwareGuide")
+    set(default_target)
+  elseif("${_source_directory_filename}" STREQUAL "Examples")
+    set(default_target)
+  else()
+    set(default_target install)
+  endif()
 endif()
 
 # Select Git source to use.
@@ -387,10 +382,12 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
   # Guess using the dashboard model
   if("${dashboard_model}" STREQUAL "Nightly")
     # Guess using the branch name (except with superbuild)
-    if("${_source_directory_filename}" MATCHES "^SuperBuild$")
+    if("${_source_directory_filename}" STREQUAL "SuperBuild")
       set(CTEST_DASHBOARD_TRACK SuperBuild)
-    elseif("${_source_directory_filename}" MATCHES "^Packaging$")
+    elseif("${_source_directory_filename}" STREQUAL "Packaging")
       set(CTEST_DASHBOARD_TRACK Packaging)
+    elseif("${_source_directory_filename}" STREQUAL "Examples")
+      set(CTEST_DASHBOARD_TRACK Examples)
     elseif("${dashboard_git_branch}" STREQUAL "master")
       set(CTEST_DASHBOARD_TRACK Nightly)
     elseif("${dashboard_git_branch}" STREQUAL "nightly")
@@ -408,9 +405,8 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
   elseif("${dashboard_model}" STREQUAL "Experimental")
     set(CTEST_DASHBOARD_TRACK Experimental)
   endif()
-  # RemoteModules
-  if(DEFINED dashboard_module)
-    set(CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
+  # RemoteModules (either specific URL, or all remote modules tested
+  if(dashboard_module_url OR dashboard_remote_modules)
     set(CTEST_DASHBOARD_TRACK RemoteModules)
   endif()
 endif()
@@ -593,7 +589,7 @@ macro(run_dashboard)
   endif()
 
   # add specific modules (works for OTB only)
-  if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
+  if(dashboard_module AND dashboard_module_url)
     execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}" RESULT_VARIABLE rv)
     if(NOT rv EQUAL 0)
       message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
@@ -607,21 +603,41 @@ macro(run_dashboard)
     if(COMMAND dashboard_hook_build)
       dashboard_hook_build()
     endif()
-    
+
+    # find the target to build
+    set(_target)
     if(dashboard_build_target)
       message("building requested target ${dashboard_build_target} on ${CTEST_BINARY_DIRECTORY}")
+      set(_target "${dashboard_build_target}")
+    elseif(dashboard_module)
+      set(_target "${dashboard_module}-all")
+    elseif(default_target)
+      set(_target ${default_target})
+    endif()
+    if(dashboard_no_install AND "${_target}" STREQUAL "install")
+      set(_target)
+    endif()
+
+    # ---------- Building ----------
+    if(_target)
       ctest_build(
         BUILD "${CTEST_BINARY_DIRECTORY}"
-        TARGET "${dashboard_build_target}"
+        TARGET "${_target}"
         RETURN_VALUE _build_rv)
     else()
       ctest_build(
         BUILD "${CTEST_BINARY_DIRECTORY}"
         RETURN_VALUE _build_rv)
     endif()
-    
 
     if(NOT dashboard_no_test)
+      # ---------- Testing ----------
+      set(CTEST_TEST_ARGS ${ORIGINAL_CTEST_TEST_ARGS})
+      if(dashboard_module)
+        list(APPEND CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_module})
+      elseif(dashboard_label)
+        list(APPEND CTEST_TEST_ARGS INCLUDE_LABEL ${dashboard_label})
+      endif()
       if(COMMAND dashboard_hook_test)
         dashboard_hook_test()
       endif()
@@ -675,6 +691,11 @@ if(NOT DEFINED dashboard_otb_data_root)
   endif()
 endif()
 
+# Backup some variables
+set(ORIGINAL_CTEST_BUILD_NAME ${CTEST_BUILD_NAME})
+set(ORIGINAL_CTEST_DASHBOARD_TRACK ${CTEST_DASHBOARD_TRACK})
+set(ORIGINAL_CTEST_TEST_ARGS ${CTEST_TEST_ARGS})
+
 set(dashboard_done 0)
 while(NOT dashboard_done)
   if(dashboard_loop)
@@ -683,24 +704,21 @@ while(NOT dashboard_done)
   set(ENV{HOME} "${dashboard_user_home}")
   set(dashboard_current_branch ${dashboard_git_branch})
 
+  # TODO : update sources on default branch
+  # TODO : copy incubation remote modules
+  # TODO : call a configure with all remotes enabled
+  # TODO : disable update
+
+  # TODO : loop over modules
+  
   # Run the main dashboard macro
   run_dashboard()
 
   # test additional feature branches
   if(number_additional_branches GREATER 0)
-    # save default configuration
-    set(ORIGINAL_CTEST_BUILD_NAME ${CTEST_BUILD_NAME})
-    set(ORIGINAL_CTEST_DASHBOARD_TRACK ${CTEST_DASHBOARD_TRACK})
     set(CTEST_DASHBOARD_TRACK FeatureBranches)
     # no install for additional branches
-    if(DEFINED CTEST_BUILD_COMMAND)
-      set(ORIGINAL_CTEST_BUILD_COMMAND ${CTEST_BUILD_COMMAND})
-      if(DEFINED dashboard_build_command)
-        set(CTEST_BUILD_COMMAND "${dashboard_build_command}")
-      #else()
-      #  unset(CTEST_BUILD_COMMAND)
-      endif()
-    endif()
+    set(dashboard_no_install 1)
     foreach(branch ${additional_branches})
       set(dashboard_current_branch ${branch})
       set(CTEST_BUILD_NAME  ${branch}-${ORIGINAL_CTEST_BUILD_NAME})
@@ -717,9 +735,7 @@ while(NOT dashboard_done)
     endforeach()
     set(CTEST_DASHBOARD_TRACK ${ORIGINAL_CTEST_DASHBOARD_TRACK})
     set(CTEST_BUILD_NAME ${ORIGINAL_CTEST_BUILD_NAME})
-    if(DEFINED ORIGINAL_CTEST_BUILD_COMMAND)
-      set(CTEST_BUILD_COMMAND ${ORIGINAL_CTEST_BUILD_COMMAND})
-    endif()
+    set(dashboard_no_install 0)
     # update sources back to their original state
     set_git_update_command(${dashboard_git_branch})
     ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
@@ -738,6 +754,6 @@ while(NOT dashboard_done)
 endwhile()
 
 ctest_sleep(5)
-if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
-  file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
-endif()
+#~ if(DEFINED dashboard_module AND DEFINED dashboard_module_url)
+  #~ file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_module}")
+#~ endif()

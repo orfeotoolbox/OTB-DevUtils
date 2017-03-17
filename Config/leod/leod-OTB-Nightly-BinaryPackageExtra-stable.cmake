@@ -2,7 +2,8 @@ set(CTEST_BUILD_CONFIGURATION Release)
 
 set(dashboard_model Nightly)
 set(dashboard_no_install 1)
-set(dashboard_build_command "/usr/bin/make -j1  PACKAGE-OTB" )
+set(CTEST_BUILD_FLAGS -j1)
+set(dashboard_build_target PACKAGE-OTB)
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../macro_common.cmake)
@@ -29,7 +30,7 @@ ctest_submit()
 
 unset(CTEST_BINARY_DIRECTORY)
 unset(CTEST_SOURCE_DIRECTORY)
-unset(CTEST_BUILD_FLAGS)
+set(CTEST_BUILD_FLAGS -j1)
 #-------------------------------------------------------------------------------
 
 set(CTEST_BUILD_NAME "Package-MacOSX-10.10-contrib-${dashboard_git_branch}")

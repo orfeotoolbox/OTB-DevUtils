@@ -2,8 +2,7 @@
 set(OTB_PROJECT OTB) # OTB / Monteverdi / Monteverdi2
 set(OTB_ARCH x86) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_TARGET INSTALL)
-set(CTEST_BUILD_COMMAND "jom OTB")
+set(dashboard_build_target "OTB")
 set(CTEST_BUILD_NAME "Win7-OTB-vc10-x86-Release-SuperBuild")
 
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)

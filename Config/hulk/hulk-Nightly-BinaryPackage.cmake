@@ -1,7 +1,7 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Package-Linux-gcc-4.8.5-x86_64")
-set(CTEST_BUILD_COMMAND "/usr/bin/make -k -j1 PACKAGE-OTB" )
+set(CTEST_BUILD_FLAGS "-k -j1")
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
 set(dashboard_source_name "src/OTB/SuperBuild/Packaging")

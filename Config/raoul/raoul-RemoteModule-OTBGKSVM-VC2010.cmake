@@ -6,8 +6,6 @@ set(dashboard_module_url "https://github.com/jmichel-otb/GKSVM")
 set(OTB_PROJECT OTB) # OTB / Monteverdi / Monteverdi2
 set(OTB_ARCH x86) # x86 / amd64
 set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
-set(CTEST_BUILD_TARGET BUILD)
-set(CTEST_BUILD_COMMAND "jom")
 include(${CTEST_SCRIPT_DIRECTORY}/raoul_common.cmake)
 set(CTEST_BINARY_DIRECTORY "C:/OTB-RemoteModules/build/${dashboard_module}-${OTB_ARCH}")
 set(CTEST_BUILD_NAME "Win7-vc10-${OTB_ARCH}-${CTEST_BUILD_CONFIGURATION}-Static-${dashboard_module}")
