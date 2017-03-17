@@ -119,6 +119,15 @@
 #   set(ENV{LD_LIBRARY_PATH} /path/to/vendor/lib) # (if necessary)
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
+# find and include macro_common
+if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/macro_common.cmake)
+  include(${CTEST_SCRIPT_DIRECTORY}/macro_common.cmake)
+elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../macro_common.cmake)
+  include(${CTEST_SCRIPT_DIRECTORY}/../macro_common.cmake)
+elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../../macro_common.cmake)
+  include(${CTEST_SCRIPT_DIRECTORY}/../../macro_common.cmake)
+endif()
+
 set(dashboard_user_home "$ENV{HOME}")
 
 get_filename_component(dashboard_self_dir ${CMAKE_CURRENT_LIST_FILE} PATH)
@@ -328,21 +337,11 @@ if(NOT DEFINED CTEST_GIT_COMMAND)
   message(FATAL_ERROR "No Git Found.")
 endif()
 
-# TODO : try to use a simple string with all commands separated by &&
+# Q : can we try to use a simple string with all commands separated by &&
 # something like :
-# set(CTEST_GIT_UPDATE_CUSTOM git fetch && git clean && git checkout && git reset)
-if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
-  if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
-    set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
-  elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
-    set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
-  elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../../git_updater.cmake)
-    set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/../../git_updater.cmake)
-  endif()
-  if(_git_updater_script)
-    set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${_git_updater_script})
-  endif()
-endif()
+#   set(CTEST_GIT_UPDATE_CUSTOM git fetch && git clean && git checkout && git reset)
+# A : it doesn't work, the && are not interpreted, and grouping all the command
+# inside double quotes doesn't work either (tested with cmake 2.8)
 
 # Delete source tree if it is incompatible with current VCS.
 if(EXISTS ${dashboard_update_dir})
@@ -577,13 +576,15 @@ macro(run_dashboard)
 
   # Checkout specific data branch if any
   if(DEFINED specific_data_branch_for_${dashboard_current_branch})
-    execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${specific_data_branch_for_${dashboard_current_branch}} -P ${_git_updater_script}
+    set_git_update_command(${specific_data_branch_for_${dashboard_current_branch}})
+    execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
                     WORKING_DIRECTORY ${dashboard_otb_data_root})
     message("Set data branch to ${specific_data_branch_for_${dashboard_current_branch}}")
   endif()
 
   # Look for updates.
   if(NOT dashboard_no_update)
+    set_git_update_command(${dashboard_current_branch})
     ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
     set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
     message("Found ${count} changed files")
@@ -655,7 +656,8 @@ macro(run_dashboard)
 
   # reset data to Nightly branch
   if(DEFINED specific_data_branch_for_${dashboard_current_branch})
-    execute_process(COMMAND ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=nightly -P ${_git_updater_script}
+    set_git_update_command(nightly)
+    execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
                     WORKING_DIRECTORY ${dashboard_otb_data_root})
     message("Reset data")
   endif()
@@ -688,7 +690,6 @@ while(NOT dashboard_done)
   if(number_additional_branches GREATER 0)
     # save default configuration
     set(ORIGINAL_CTEST_BUILD_NAME ${CTEST_BUILD_NAME})
-    set(ORIGINAL_CTEST_GIT_UPDATE_CUSTOM ${CTEST_GIT_UPDATE_CUSTOM})
     set(ORIGINAL_CTEST_DASHBOARD_TRACK ${CTEST_DASHBOARD_TRACK})
     set(CTEST_DASHBOARD_TRACK FeatureBranches)
     # no install for additional branches
@@ -703,7 +704,6 @@ while(NOT dashboard_done)
     foreach(branch ${additional_branches})
       set(dashboard_current_branch ${branch})
       set(CTEST_BUILD_NAME  ${branch}-${ORIGINAL_CTEST_BUILD_NAME})
-      set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${branch} -P ${_git_updater_script})
       #remove testing directory
       file(REMOVE_RECURSE ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
       file(MAKE_DIRECTORY ${CTEST_BINARY_DIRECTORY}/Testing/Temporary)
@@ -717,11 +717,11 @@ while(NOT dashboard_done)
     endforeach()
     set(CTEST_DASHBOARD_TRACK ${ORIGINAL_CTEST_DASHBOARD_TRACK})
     set(CTEST_BUILD_NAME ${ORIGINAL_CTEST_BUILD_NAME})
-    set(CTEST_GIT_UPDATE_CUSTOM ${ORIGINAL_CTEST_GIT_UPDATE_CUSTOM})
     if(DEFINED ORIGINAL_CTEST_BUILD_COMMAND)
       set(CTEST_BUILD_COMMAND ${ORIGINAL_CTEST_BUILD_COMMAND})
     endif()
     # update sources back to their original state
+    set_git_update_command(${dashboard_git_branch})
     ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
   endif()
 

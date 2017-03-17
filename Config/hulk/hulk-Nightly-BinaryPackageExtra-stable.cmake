@@ -11,9 +11,9 @@ set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/OTB-SuperBuild-stable/
 set(CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/src/OTB")
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-SuperBuild-contrib-${dashboard_git_branch}")
 set(CTEST_BUILD_FLAGS -j8)
-set(CTEST_GIT_UPDATE_CUSTOM  ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=git -D TESTED_BRANCH:STRING=${dashboard_git_branch} -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
 
 ctest_start(Nightly TRACK SuperBuild)
+set_git_update_command(${dashboard_git_branch})
 ctest_update()
 ctest_build(TARGET uninstall)
 # 3 official remote modules are not packages because of missing GSL dependency
@@ -24,7 +24,6 @@ ctest_submit()
 
 unset(CTEST_BINARY_DIRECTORY)
 unset(CTEST_SOURCE_DIRECTORY)
-unset(CTEST_GIT_UPDATE_CUSTOM)
 unset(CTEST_BUILD_FLAGS)
 #-------------------------------------------------------------------------------
 

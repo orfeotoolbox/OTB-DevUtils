@@ -26,3 +26,18 @@ macro(enable_official_remote_modules otb_src_dir output_cache)
   get_remote_modules(${otb_src_dir}/Modules/Remote _output_list)
   get_module_enable_cache(_output_list output_cache)
 endmacro()
+
+# set the git update command to checkout the given branch
+# the macro looks for the git_updater scrip, and modifies CTEST_GIT_COMMAND
+macro(set_git_update_command _branch)
+  if((NOT _git_updater_script) OR (NOT EXISTS "${_git_updater_script}"))
+    if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
+      set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
+    elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+      set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+    elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../../git_updater.cmake)
+      set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/../../git_updater.cmake)
+    endif()
+  endif()
+  set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${_branch} -P ${_git_updater_script})
+endmacro()

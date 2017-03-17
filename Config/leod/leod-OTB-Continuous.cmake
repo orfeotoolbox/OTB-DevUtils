@@ -1,5 +1,6 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Continuous)
+include(${CTEST_SCRIPT_DIRECTORY}/../macro_common.cmake)
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/Dashboard")
 set(CTEST_SITE "leod.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Release)
@@ -10,7 +11,7 @@ set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 500)
 
 set(CTEST_GIT_COMMAND "/opt/local/bin/git")
-set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=develop -P ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
+set_git_update_command(develop)
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
