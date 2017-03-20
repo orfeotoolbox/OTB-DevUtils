@@ -720,9 +720,11 @@ while(NOT dashboard_done)
   if(dashboard_remote_modules)
     # ----------------- remote modules mode -------------------------
     # update sources on default branch
-    set_git_update_command(${dashboard_current_branch})
-    execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
-                    WORKING_DIRECTORY ${dashboard_update_dir})
+    if(NOT dashboard_no_update)
+      set_git_update_command(${dashboard_current_branch})
+      execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
+                      WORKING_DIRECTORY ${dashboard_update_dir})
+    endif()
     # copy incubation remote modules
     file(GLOB _incubated_files "${CTEST_SCRIPT_DIRECTORY}/../moduleIncubation/*.remote.cmake")
     foreach(_i_file ${_incubated_files})
