@@ -14,6 +14,8 @@ set(dashboard_remote_blacklist OTBBioVars OTBPhenology OTBTemporalGapFilling)
 
 set(dashboard_cache "
 BUILD_EXAMPLES:BOOL=OFF
+CMAKE_C_FLAGS:STRING=-Wall
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-cpp --std=c++11 -Wno-unknown-pragmas
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
 BUILD_SHARED_LIBS:BOOL=ON
 BUILD_TESTING:BOOL=ON
