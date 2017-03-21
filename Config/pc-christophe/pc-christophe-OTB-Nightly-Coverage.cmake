@@ -10,6 +10,7 @@ set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
 set(CTEST_TEST_TIMEOUT 1500)
 set(CTEST_HG_COMMAND "/usr/bin/hg")
+set(dashboard_no_install 1)
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
