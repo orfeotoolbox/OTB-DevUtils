@@ -262,6 +262,11 @@ else()
   endif()
 endif()
 
+# set the CTEST_PROJECT_NAME for packaging only (because no CTestConfig.cmake is present)
+if("${_source_directory_filename}" STREQUAL "Packaging")
+  set(CTEST_PROJECT_NAME "OTB")
+endif()
+
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
   set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
