@@ -405,9 +405,13 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
   elseif("${dashboard_model}" STREQUAL "Experimental")
     set(CTEST_DASHBOARD_TRACK Experimental)
   endif()
-  # RemoteModules (either specific URL, or all remote modules tested
+
   if(dashboard_module_url OR dashboard_remote_modules)
+    # RemoteModules (either specific URL, or all remote modules tested
     set(CTEST_DASHBOARD_TRACK RemoteModules)
+  elseif(dashboard_module)
+    # Specific module selected (may not be a remote one)
+    set(CTEST_DASHBOARD_TRACK Experimental)
   endif()
 endif()
 
