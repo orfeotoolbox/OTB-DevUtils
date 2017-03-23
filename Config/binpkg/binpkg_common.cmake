@@ -25,7 +25,7 @@ if(NOT DEFINED CTEST_BUILD_FLAGS)
   set(CTEST_BUILD_FLAGS "-k")
 endif()
 
-set(CMAKE_MAKE_PROGRAM "make")
+set(CMAKE_MAKE_PROGRAM "/usr/bin/make")
 
 # special setting for ctest_submit(), issue with CA checking
 set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
