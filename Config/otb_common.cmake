@@ -262,11 +262,6 @@ else()
   endif()
 endif()
 
-# set the CTEST_PROJECT_NAME for packaging only (because no CTestConfig.cmake is present)
-if("${_source_directory_filename}" STREQUAL "Packaging")
-  set(CTEST_PROJECT_NAME "OTB")
-endif()
-
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
   set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
@@ -375,10 +370,16 @@ endif()
 
 # CTest delayed initialization is broken, so we put the
 # CTestConfig.cmake info here.
+if("${_source_directory_filename}" STREQUAL "CookBook" OR
+   "${_source_directory_filename}" STREQUAL "SoftwareGuide")
+  set(CTEST_PROJECT_NAME "Documentation")
+else()
+  set(CTEST_PROJECT_NAME "OTB")
+endif()
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
 set(CTEST_DROP_METHOD "https")
 set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
+set(CTEST_DROP_LOCATION "/submit.php?project=${CTEST_PROJECT_NAME}")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
 
