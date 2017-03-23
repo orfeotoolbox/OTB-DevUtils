@@ -378,7 +378,7 @@ set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
 set(CTEST_DROP_LOCATION "/submit.php?project=${CTEST_PROJECT_NAME}")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
-
+#-----------------------------------------------------------------------------
 # Choose the dashboard track
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
   # Guess using the dashboard model
@@ -547,7 +547,32 @@ ${dashboard_cache_for_${dashboard_current_branch}}
 endmacro(write_cache)
 
 #------------------------------------------------------------------------------
-# Cleaning
+# Special cleaning for some superbuild cases
+if(superbuild_rebuild_otb_only OR superbuild_with_contrib)
+  set(dashboard_no_clean 1)
+  message("${CTEST_BINARY_DIRECTORY} will not be cleared.")
+  # checkout the right branch before calling uninstall (it triggers a configure)
+  set_git_update_command(${dashboard_git_branch})
+  execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
+                  WORKING_DIRECTORY ${dashboard_update_dir})
+  execute_process(
+    COMMAND ${CMAKE_COMMAND}
+    --build ${CTEST_BINARY_DIRECTORY}/OTB/build
+    --target uninstall
+    WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build
+    RESULT_VARIABLE uninstall_otb_rv)
+  if(uninstall_otb_rv)
+    message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} - FAILED")
+  endif()
+
+  if(NOT superbuild_with_contrib)
+    remove_folder_recurse(${CTEST_BINARY_DIRECTORY}/OTB)
+    if(EXISTS ${CTEST_BINARY_DIRECTORY}/OTB)
+      message("Remove OTB directory from ${CTEST_BINARY_DIRECTORY} - FAILED")
+    endif()
+  endif()
+endif()
+# Classic cleaning
 file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
 if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
     AND NOT dashboard_no_clean)
@@ -568,6 +593,7 @@ if(IS_DIRECTORY ${CTEST_INSTALL_DIRECTORY} AND NOT dashboard_no_clean)
   endif()
 endif()
 
+#-----------------------------------------------------------------------------
 set(dashboard_continuous 0)
 if("${dashboard_model}" STREQUAL "Continuous")
   set(dashboard_continuous 1)
