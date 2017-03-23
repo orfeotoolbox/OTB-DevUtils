@@ -546,12 +546,26 @@ ${dashboard_cache_for_${dashboard_current_branch}}
 ")
 endmacro(write_cache)
 
-# Start with a fresh build tree.
+#------------------------------------------------------------------------------
+# Cleaning
 file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
 if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
     AND NOT dashboard_no_clean)
   message("Clearing build tree...")
-  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  if(WIN32)
+    remove_folder_recurse(${CTEST_BINARY_DIRECTORY})
+    file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
+  else()
+    ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  endif()
+endif()
+if(IS_DIRECTORY ${CTEST_INSTALL_DIRECTORY} AND NOT dashboard_no_clean)
+  if(WIN32)
+    remove_folder_recurse(${CTEST_INSTALL_DIRECTORY})
+    file(MAKE_DIRECTORY "${CTEST_INSTALL_DIRECTORY}")
+  else()
+    ctest_empty_binary_directory(${CTEST_INSTALL_DIRECTORY})
+  endif()
 endif()
 
 set(dashboard_continuous 0)
