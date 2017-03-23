@@ -258,6 +258,14 @@ else()
   endif()
 endif()
 
+# Set configure options if needed
+set(CONFIGURE_OPTIONS)
+if(superbuild_with_contrib)
+  foreach(_mod "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
+    list(APPEND CONFIGURE_OPTIONS "-DModule_${_mod}:BOOL=ON")
+  endforeach()
+endif()
+
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
   set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
@@ -627,7 +635,9 @@ macro(run_dashboard)
     set(dashboard_fresh 1)
     safe_message("Starting fresh build...")
   endif()
-  write_cache()
+  if(NOT dashboard_no_cache)
+    write_cache()
+  endif()
 
   # Checkout specific data branch if any
   if(DEFINED specific_data_branch_for_${dashboard_current_branch})
@@ -656,7 +666,11 @@ macro(run_dashboard)
   endif()
 
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
-    ctest_configure()
+    if(CONFIGURE_OPTIONS)
+      ctest_configure(OPTIONS "${CONFIGURE_OPTIONS}")
+    else()
+      ctest_configure()
+    endif()
     ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 
     if(COMMAND dashboard_hook_build)
