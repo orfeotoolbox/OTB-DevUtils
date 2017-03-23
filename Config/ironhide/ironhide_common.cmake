@@ -54,10 +54,6 @@ elseif(${CTEST_BUILD_CONFIGURATION} STREQUAL "RelWithDebInfo")
   set(BUILD_CONF_SHORT "RDI")
 endif()
 
-if(NOT DEFINED CTEST_BUILD_FLAGS)
-  set(CTEST_BUILD_FLAGS "-j2 -k")
-endif()
-
 if (NOT DEFINED dashboard_fresh_source_checkout)
 set(dashboard_fresh_source_checkout OFF)
 endif()
