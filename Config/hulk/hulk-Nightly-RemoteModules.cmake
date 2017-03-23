@@ -10,7 +10,7 @@ set(dashboard_source_name "src/OTB")
 set(dashboard_binary_name "build/build-remotes")
 
 # filter the list
-set(dashboard_remote_blacklist OTBBioVars OTBPhenology OTBTemporalGapFilling)
+# set(dashboard_remote_blacklist OTBBioVars OTBPhenology OTBTemporalGapFilling)
 
 set(dashboard_cache "
 BUILD_EXAMPLES:BOOL=OFF

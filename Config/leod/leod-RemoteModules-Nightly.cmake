@@ -11,7 +11,7 @@ set(dashboard_remote_modules 1)
 set(dashboard_no_install 1)
 
 # filter the list
-set(dashboard_remote_blacklist OTBBioVars OTBPhenology OTBTemporalGapFilling)
+# set(dashboard_remote_blacklist OTBBioVars OTBPhenology OTBTemporalGapFilling)
 
 set(dashboard_cache "
 BUILD_EXAMPLES:BOOL=OFF

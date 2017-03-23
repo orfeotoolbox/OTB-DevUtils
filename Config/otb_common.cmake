@@ -163,10 +163,6 @@ if(NOT DEFINED CTEST_CONFIGURATION_TYPE)
   set(CTEST_CONFIGURATION_TYPE Debug)
 endif()
 
-if(NOT CTEST_BUILD_FLAGS)
-  set(CTEST_BUILD_FLAGS "-j4 -k" )
-endif()
-
 if(NOT CTEST_TEST_ARGS)
   set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 endif()
@@ -382,7 +378,7 @@ set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
 set(CTEST_DROP_LOCATION "/submit.php?project=${CTEST_PROJECT_NAME}")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
-
+#-----------------------------------------------------------------------------
 # Choose the dashboard track
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
   # Guess using the dashboard model
@@ -550,14 +546,54 @@ ${dashboard_cache_for_${dashboard_current_branch}}
 ")
 endmacro(write_cache)
 
-# Start with a fresh build tree.
+#------------------------------------------------------------------------------
+# Special cleaning for some superbuild cases
+if(superbuild_rebuild_otb_only OR superbuild_with_contrib)
+  set(dashboard_no_clean 1)
+  message("${CTEST_BINARY_DIRECTORY} will not be cleared.")
+  # checkout the right branch before calling uninstall (it triggers a configure)
+  set_git_update_command(${dashboard_git_branch})
+  execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
+                  WORKING_DIRECTORY ${dashboard_update_dir})
+  execute_process(
+    COMMAND ${CMAKE_COMMAND}
+    --build ${CTEST_BINARY_DIRECTORY}/OTB/build
+    --target uninstall
+    WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build
+    RESULT_VARIABLE uninstall_otb_rv)
+  if(uninstall_otb_rv)
+    message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} - FAILED")
+  endif()
+
+  if(NOT superbuild_with_contrib)
+    remove_folder_recurse(${CTEST_BINARY_DIRECTORY}/OTB)
+    if(EXISTS ${CTEST_BINARY_DIRECTORY}/OTB)
+      message("Remove OTB directory from ${CTEST_BINARY_DIRECTORY} - FAILED")
+    endif()
+  endif()
+endif()
+# Classic cleaning
 file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
 if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
     AND NOT dashboard_no_clean)
   message("Clearing build tree...")
-  ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  if(WIN32)
+    remove_folder_recurse(${CTEST_BINARY_DIRECTORY})
+    file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
+  else()
+    ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+  endif()
+endif()
+if(IS_DIRECTORY ${CTEST_INSTALL_DIRECTORY} AND NOT dashboard_no_clean)
+  if(WIN32)
+    remove_folder_recurse(${CTEST_INSTALL_DIRECTORY})
+    file(MAKE_DIRECTORY "${CTEST_INSTALL_DIRECTORY}")
+  else()
+    ctest_empty_binary_directory(${CTEST_INSTALL_DIRECTORY})
+  endif()
 endif()
 
+#-----------------------------------------------------------------------------
 set(dashboard_continuous 0)
 if("${dashboard_model}" STREQUAL "Continuous")
   set(dashboard_continuous 1)
