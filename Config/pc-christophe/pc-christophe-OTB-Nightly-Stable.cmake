@@ -16,7 +16,7 @@ set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly-Stable/${CTEST_BUILD_CO
 set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
-set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly-Stable/${CTEST_BUILD_CONFIGURATION}")
+set (CTEST_INSTALL_DIRECTORY "${INSTALLROOT}/orfeo/trunk/OTB-Nightly-Stable/${CTEST_BUILD_CONFIGURATION}")
 
 macro(dashboard_hook_init)
 
@@ -28,7 +28,7 @@ set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-Wall -Wextra
 CMAKE_CXX_FLAGS:STRING=-Wall -Wno-cpp -Wextra -Wno-deprecated-declarations -fopenmp --std=c++11
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=ON
@@ -78,7 +78,7 @@ OTB_USE_QWT:BOOL=ON
 endmacro()
 
 #remove install dir
-#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
+#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

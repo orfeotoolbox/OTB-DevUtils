@@ -15,7 +15,7 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly/SuperBuild")
 set(dashboard_binary_name "build/orfeo/trunk/OTB-SuperBuild")
 
-set(OTB_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild")
+set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild")
 
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nightly)
@@ -33,7 +33,7 @@ set(GDAL_EXTRA_OPT "--with-python")
 
 macro(dashboard_hook_start)
 # before testing, set the LD_LIBRARY_PATH
-set(ENV{LD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
+set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 endmacro()
 
 macro(dashboard_hook_init)
@@ -42,7 +42,7 @@ macro(dashboard_hook_init)
 CMAKE_C_FLAGS:STRING=-fopenmp
 CMAKE_CXX_FLAGS:STRING=-fopenmp --std=c++11
 
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 DOWNLOAD_LOCATION:PATH=${CTEST_DASHBOARD_ROOT}/sources/archives-superbuild-develop/
@@ -68,21 +68,21 @@ endmacro()
 
 macro(dashboard_hook_build)
 # before building, set the PYTHONPATH to allow custom install for python bindings
-set(ENV{PYTHONPATH} ${OTB_INSTALL_PREFIX}/lib)
+set(ENV{PYTHONPATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 #and LD_LIBRARY_PATH
-set(ENV{LD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
+set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 endmacro()
 
 macro(dashboard_hook_test)
 # before testing, set the LD_LIBRARY_PATH
-set(ENV{LD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
+set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 endmacro()
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX}/lib)
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX}/bin)
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX}/include)
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/lib)
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/bin)
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/include)
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
 

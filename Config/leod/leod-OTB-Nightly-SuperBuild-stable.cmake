@@ -15,7 +15,7 @@ set(dashboard_source_name "nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBui
 set(dashboard_binary_name "nightly/OTB-SuperBuild/build-stable")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/nightly/OTB-${CTEST_BUILD_CONFIGURATION}/src)
 
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/install-stable)
+set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/nightly/OTB-SuperBuild/install-stable)
 
 list(APPEND CTEST_TEST_ARGS
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
@@ -23,7 +23,7 @@ list(APPEND CTEST_TEST_ARGS
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
@@ -54,7 +54,7 @@ endmacro()
 #OTB_ADDITIONAL_CACHE:STRING='-DOTB_SHOW_ALL_MSG_DEBUG:BOOL=ON'
 
 macro(dashboard_hook_test)
-  set(ENV{LD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
+  set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 endmacro()
 
 list(APPEND CTEST_NOTES_FILES
@@ -62,11 +62,11 @@ list(APPEND CTEST_NOTES_FILES
   ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/otbConfigure.h
 )
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX}/lib)
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX}/bin)
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX}/include)
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/lib)
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/bin)
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY}/include)
 
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

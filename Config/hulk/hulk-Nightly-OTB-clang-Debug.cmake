@@ -8,7 +8,7 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")
 set(dashboard_binary_name "build/OTB-clang-${CTEST_BUILD_CONFIGURATION}")
 
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-clang-${CTEST_BUILD_CONFIGURATION})
+set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/install/OTB-clang-${CTEST_BUILD_CONFIGURATION})
 
 #set(dashboard_fresh_source_checkout TRUE)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
@@ -24,7 +24,7 @@ CMAKE_CXX_COMPILER=/usr/bin/clang++
 
 CMAKE_C_FLAGS:STRING= -fPIC -Wall -Wextra
 CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wextra -Wno-gnu-static-float-init
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:STRING=/home/otbval/Data/OTB-LargeInput

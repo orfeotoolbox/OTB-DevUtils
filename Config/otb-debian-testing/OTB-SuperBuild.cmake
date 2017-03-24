@@ -13,7 +13,7 @@ set(dashboard_binary_name "otb/build")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install)
+set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install)
 
 #set(CTEST_DASHBOARD_TRACK "LatestRelease")
 #set(dashboard_git_branch "release-5.10")
@@ -24,7 +24,7 @@ list(APPEND CTEST_TEST_ARGS
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CMAKE_CXX_FLAGS:STRING=-Wshift-negative-value -Wshift-overflow -Wtautological-compare -Wnull-dereference -Wduplicated-cond -Wmisleading-indentation -Wlogical-op -Wframe-address -Wno-deprecated-declarations
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
@@ -58,7 +58,7 @@ endmacro()
 
 
 macro(dashboard_hook_test)
-  set(ENV{LD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
+  set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 endmacro()
 
 list(APPEND CTEST_NOTES_FILES

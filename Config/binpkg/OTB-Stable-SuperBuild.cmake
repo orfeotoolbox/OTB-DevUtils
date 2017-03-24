@@ -7,7 +7,7 @@ set(dashboard_source_name "otb/src/SuperBuild")
 set(dashboard_binary_name "otb/build-stable")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/otb/install-stable)
+set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install-stable)
 
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
@@ -16,7 +16,7 @@ set(CTEST_BUILD_NAME "CentOS-5-x86_64-${dashboard_git_branch}-SuperBuild")
 #OTB_DATA_LARGEINPUT_ROOT:PATH=/media/otbnas/otb/OTB-LargeInput
 macro(dashboard_hook_init)
 set(dashboard_cache "
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
@@ -60,7 +60,7 @@ endmacro()
 # )
 
 macro(dashboard_hook_test)
-  set(ENV{LD_LIBRARY_PATH} ${OTB_INSTALL_PREFIX}/lib)
+  set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
 endmacro()
 
 list(APPEND CTEST_NOTES_FILES

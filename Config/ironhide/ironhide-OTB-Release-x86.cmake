@@ -8,7 +8,7 @@ include(${CTEST_SCRIPT_DIRECTORY}/ironhide_common.cmake)
 set(dashboard_model Experimental)
 set(dashboard_source_name "sources/otb")
 set(dashboard_binary_name "build/otb/develop")
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/otb/develop)
+set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/install/otb/develop)
 
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
@@ -19,7 +19,7 @@ set(dashboard_no_install 1)
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 
 BUILD_TESTING:BOOL=ON
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
@@ -91,7 +91,7 @@ QWT_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/Qwt-5.2.3/lib/qwt5.lib
 endmacro()
 
 #remove install dir
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${OTB_INSTALL_PREFIX})
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${OTB_INSTALL_PREFIX})
+execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

@@ -18,8 +18,8 @@ set(dashboard_git_url "http://git@git.orfeo-toolbox.org/git/otb.git")
 #set(ENV{DISPLAY} ":0.0")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
-set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Nightly-clang/${CTEST_BUILD_CONFIGURATION}")
-#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
+set (CTEST_INSTALL_DIRECTORY "${INSTALLROOT}/orfeo/trunk/OTB-Nightly-clang/${CTEST_BUILD_CONFIGURATION}")
+#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${CTEST_INSTALL_DIRECTORY}")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
@@ -28,7 +28,7 @@ CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
 CMAKE_C_FLAGS:STRING=-Wall
 CMAKE_CXX_FLAGS:STRING=-std=c++11 -Wall -Wno-gnu-static-float-init -Wno-\\\\#warnings -Wno-unknown-attributes
-CMAKE_INSTALL_PREFIX=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
 
 BUILD_APPLICATIONS:BOOL=ON
 BUILD_TESTING:BOOL=ON

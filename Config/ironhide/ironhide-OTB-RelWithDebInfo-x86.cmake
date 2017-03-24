@@ -7,14 +7,14 @@ include(${CTEST_SCRIPT_DIRECTORY}/ironhide_common.cmake)
 
 set(dashboard_source_name "sources/otb")
 set(dashboard_binary_name "build/otb/develop")
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/otb/develop)
+set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/install/otb/develop)
 
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 
 BUILD_TESTING:BOOL=ON
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}

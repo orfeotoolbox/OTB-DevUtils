@@ -19,11 +19,11 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(CTEST_USE_LAUNCHERS ON)
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
-set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
+set (CTEST_INSTALL_DIRECTORY "${INSTALLROOT}/orfeo/trunk/OTB-clang-ThirdPartyTrunk/${CTEST_BUILD_CONFIGURATION}")
 
 set(ENV{GDAL_DATA} "${CTEST_DASHBOARD_ROOT}sources/gdal/trunk/gdal/data")
 
-#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${OTB_INSTALL_PREFIX}")
+#execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory "${CTEST_INSTALL_DIRECTORY}")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
@@ -36,7 +36,7 @@ CMAKE_C_COMPILER=/usr/bin/clang
 CMAKE_CXX_COMPILER=/usr/bin/clang++
 CMAKE_C_FLAGS:STRING=-Wall
 CMAKE_CXX_FLAGS:STRING=-std=c++11 -Wall -Wno-gnu-static-float-init -Wno-\\\\#warnings  -Wno-unknown-attributes
-CMAKE_INSTALL_PREFIX=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX=${CTEST_INSTALL_DIRECTORY}
 
 ##external GDAL
 GDAL_CONFIG:FILEPATH=${INSTALLROOT}/gdal/trunk/bin/gdal-config

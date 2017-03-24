@@ -8,7 +8,7 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "src/OTB")
 set(dashboard_binary_name "build/OTB-GDAL_2")
 
-set(OTB_INSTALL_PREFIX ${CTEST_DASHBOARD_ROOT}/install/OTB-GDAL_2)
+set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/install/OTB-GDAL_2)
 
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
@@ -18,7 +18,7 @@ macro(dashboard_hook_init)
 
 CMAKE_C_FLAGS:STRING=-fPIC -Wall
 CMAKE_CXX_FLAGS:STRING=-fPIC -Wall -Wno-cpp
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 
 BUILD_TESTING:BOOL=ON
 BUILD_EXAMPLES:BOOL=OFF

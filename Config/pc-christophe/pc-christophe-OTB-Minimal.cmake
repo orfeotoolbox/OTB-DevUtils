@@ -21,14 +21,14 @@ set(dashboard_hg_branch "default")
 #set(ENV{DISPLAY} ":0.0")
 
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
-set (OTB_INSTALL_PREFIX "${INSTALLROOT}/orfeo/trunk/OTB-Minimal/${CTEST_BUILD_CONFIGURATION}")
+set (CTEST_INSTALL_DIRECTORY "${INSTALLROOT}/orfeo/trunk/OTB-Minimal/${CTEST_BUILD_CONFIGURATION}")
 
 macro(dashboard_hook_init)
 set(dashboard_cache "${dashboard_cache}
 
 #CMAKE_C_FLAGS:STRING=-Wall -Wno-uninitialized -Wno-unused-variable -Wno-unused-but-set-variable
 #CMAKE_CXX_FLAGS:STRING=-Wno-cpp -Wextra
-CMAKE_INSTALL_PREFIX:PATH=${OTB_INSTALL_PREFIX}
+CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 
 #BUILD_APPLICATIONS:BOOL=OFF
 BUILD_TESTING:BOOL=ON
