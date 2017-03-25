@@ -26,3 +26,4 @@ if(NOT DEFINED CTEST_BUILD_FLAGS)
   set(CTEST_BUILD_FLAGS "-j9 -k")
 endif()
 
+set(CMAKE_MAKE_PROGRAM "/usr/bin/make")
