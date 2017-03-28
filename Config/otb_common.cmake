@@ -247,7 +247,7 @@ else()
     set(default_target OTB)
   elseif("${_source_directory_filename}" STREQUAL "Packaging")
     set(default_target PACKAGE-OTB)
-  elseif("${_source_directory_filename}" STREQUAL "CookBook")
+  elseif("${_source_directory_filename}" STREQUAL "Cookbook")
     set(default_target)
   elseif("${_source_directory_filename}" STREQUAL "SoftwareGuide")
     set(default_target)
@@ -374,7 +374,7 @@ endif()
 
 # CTest delayed initialization is broken, so we put the
 # CTestConfig.cmake info here.
-if("${_source_directory_filename}" STREQUAL "CookBook" OR
+if("${_source_directory_filename}" STREQUAL "Cookbook" OR
    "${_source_directory_filename}" STREQUAL "SoftwareGuide")
   set(CTEST_PROJECT_NAME "Documentation")
 else()
