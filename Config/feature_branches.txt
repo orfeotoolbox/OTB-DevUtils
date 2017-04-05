@@ -1,4 +1,3 @@
-new_app_modulus_phase new_app_modulus_phase
 unsupervised_classif shark_kmeans
 contingency_table shark_kmeans
 extended_band extended_band
