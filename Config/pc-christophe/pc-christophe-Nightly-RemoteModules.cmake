@@ -9,6 +9,8 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly")
 set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly-RemotesModules/${CTEST_BUILD_CONFIGURATION}")
 
+set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}/install")
+
 # filter the list
 #set(dashboard_remote_blacklist OTBBioVars OTBPhenology OTBTemporalGapFilling)
 
