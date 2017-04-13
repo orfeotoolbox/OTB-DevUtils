@@ -1,3 +1,4 @@
 unsupervised_classif shark_kmeans
 contingency_table shark_kmeans
 vector_classifier vector_classifier
+clean_deprecated
