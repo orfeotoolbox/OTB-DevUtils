@@ -1,3 +1,3 @@
 contingency_table shark_kmeans
 vector_classifier vector_classifier
-clean_deprecated clean_deprecated
+clean_deprecated_ready clean_deprecated_ready
