@@ -59,7 +59,7 @@ PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python2.7
 PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers
 PYTHON_LIBRARY:FILEPATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python
 
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/itkv4/install/lib/cmake/ITK-4.8
+ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/itkv4/install/lib/cmake/ITK-4.9
 
 GDAL_CONFIG:PATH=/opt/local/bin/gdal-config
 GDAL_CONFIG_CHECKING:BOOL=ON
