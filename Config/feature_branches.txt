@@ -1,2 +1,1 @@
-contingency_table shark_kmeans
 vector_classifier vector_classifier
