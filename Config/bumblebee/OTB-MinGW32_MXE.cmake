@@ -5,10 +5,8 @@ set(CTEST_BUILD_CONFIGURATION Release)
 set(MXE_TARGET_ARCH "i686")
 set(PROJECT "otb")
 include(${CTEST_SCRIPT_DIRECTORY}/bumblebee_common.cmake)
-
+include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 set(CTEST_TEST_ARGS INCLUDE Tu)
-
-set(dashboard_git_branch release-5.10)
 
 macro(dashboard_hook_init)
 set(dashboard_cache "
