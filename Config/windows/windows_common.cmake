@@ -151,6 +151,41 @@ else()
 	file(TO_CMAKE_PATH "${CTEST_DASHBOARD_ROOT}" CTEST_DASHBOARD_ROOT)
 endif()
 
+if(NOT DEFINED CTEST_CONFIGURATION_TYPE)
+  set(CTEST_CONFIGURATION_TYPE ${CTEST_BUILD_CONFIGURATION})
+endif()
+
+if(DEFINED ENV{COMPILER_ARCH})
+  set(COMPILER_ARCH "$ENV{COMPILER_ARCH}")
+else()
+  if(UNIX)
+    execute_process(COMMAND uname -m OUTPUT_VARIABLE arch_ov
+    RESULT_VARIABLE COMPILER_ARCH)
+  endif()
+endif()
+
+if(NOT COMPILER_ARCH)
+    message(FATAL_ERROR "No COMPILER_ARCH set. cannot continue.")
+endif()
+
+set(SUPERBUILD_BINARY_DIR   ${CTEST_DASHBOARD_ROOT}/superbuild_${COMPILER_ARCH})
+set(SUPERBUILD_INSTALL_DIR  ${CTEST_DASHBOARD_ROOT}/install_sb_${COMPILER_ARCH})
+
+#######################################################################################
+#######################################################################################
+# uncomment SET command below to use another source, build, install, xdk directories 
+# set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/src)
+# set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/fbuild_${COMPILER_ARCH})
+# set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/finstall_${COMPILER_ARCH})
+# set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/finstall_${COMPILER_ARCH})
+#
+#
+# OPTIONAL: only for package_only build
+#set(SUPERBUILD_BINARY_DIR   ${CTEST_DASHBOARD_ROOT}/superbuild_${COMPILER_ARCH})
+#set(SUPERBUILD_INSTALL_DIR  ${CTEST_DASHBOARD_ROOT}/install_sb_${COMPILER_ARCH})
+
+#######################################################################################
+#######################################################################################
 
 # Select the model (Nightly, Experimental, Continuous).
 if(NOT DEFINED dashboard_model)
@@ -176,23 +211,6 @@ endif()
 # Default to a Release build.
 if(NOT DEFINED CTEST_BUILD_CONFIGURATION)
     set(CTEST_BUILD_CONFIGURATION Release)
-endif()
-
-if(NOT DEFINED CTEST_CONFIGURATION_TYPE)
-  set(CTEST_CONFIGURATION_TYPE ${CTEST_BUILD_CONFIGURATION})
-endif()
-
-if(DEFINED ENV{COMPILER_ARCH})
-  set(COMPILER_ARCH "$ENV{COMPILER_ARCH}")
-else()
-  if(UNIX)
-    execute_process(COMMAND uname -m OUTPUT_VARIABLE arch_ov
-    RESULT_VARIABLE COMPILER_ARCH)
-  endif()
-endif()
-
-if(NOT COMPILER_ARCH)
-    message(FATAL_ERROR "No COMPILER_ARCH set. cannot continue.")
 endif()
 
 if(NOT DEFINED OTB_DATA_ROOT)
@@ -293,10 +311,19 @@ if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
   endif()
 endif()
 
-#reset XDK_INSTALL_DIR when building packages: OTB and XDK
-if(DASHBOARD_PACKAGE_ONLY)
-  set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+if(NOT DEFINED XDK_INSTALL_DIR)
+  if(DASHBOARD_SUPERBUILD)
+   set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+  else()
+   set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/xdk/install_sb_${COMPILER_ARCH})
+  endif()
 endif()
+
+
+#reset XDK_INSTALL_DIR when building packages: OTB and XDK
+#if(DASHBOARD_PACKAGE_ONLY)
+  #set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+#endif()
 
 # DEFAULT values for CTEST_BINARY_DIRECTORY if not defined
 if(NOT DEFINED CTEST_BINARY_DIRECTORY)
@@ -713,8 +740,8 @@ if(DASHBOARD_PACKAGE_ONLY)
 set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 BUILD_TESTING:BOOL=ON
-SUPERBUILD_BINARY_DIR:PATH=C:/dashboard/otb/superbuild_${COMPILER_ARCH}
-SUPERBUILD_INSTALL_DIR:PATH=C:/dashboard/otb/install_sb_${COMPILER_ARCH}
+SUPERBUILD_BINARY_DIR:PATH=${SUPERBUILD_BINARY_DIR}
+SUPERBUILD_INSTALL_DIR:PATH=${SUPERBUILD_INSTALL_DIR}
 OTB_WRAP_PYTHON:BOOL=ON
 ${dashboard_cache_packaging}
 ${dashboard_cache_for_${dashboard_otb_branch}}
