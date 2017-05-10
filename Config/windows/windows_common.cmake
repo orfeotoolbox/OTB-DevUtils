@@ -1,5 +1,4 @@
 # OTB Common Dashboard Script
-# OTB Common Dashboard Script
 #
 # This script contains basic dashboard driver code common to all
 # clients.
@@ -186,6 +185,14 @@ set(SUPERBUILD_INSTALL_DIR  ${CTEST_DASHBOARD_ROOT}/install_sb_${COMPILER_ARCH})
 
 #######################################################################################
 #######################################################################################
+
+#uncomment below line to have a superbuild rebuild only OTB.
+#setting this variable to TRUE will uninstall OTB from install tree
+#and rebuild it.
+#TODO: check output of ctest_update and set this variable if there
+#are any changes to SuperBuild/CMake/External_*.cmake
+set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
+
 
 # Select the model (Nightly, Experimental, Continuous).
 if(NOT DEFINED dashboard_model)
@@ -820,13 +827,6 @@ ${DEFAULT_CMAKE_CACHE}
 ${dashboard_cache_for_${dashboard_otb_branch}}
 ")
 endmacro(write_cache)
-
-#uncomment below line to have a superbuild rebuild only OTB.
-#setting this variable to TRUE will uninstall OTB from install tree
-#and rebuild it.
-#TODO: check output of ctest_update and set this variable if there
-#are any changes to SuperBuild/CMake/External_*.cmake
-set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
 
 if(DASHBOARD_SUPERBUILD)
   if(SUPERBUILD_REBUILD_OTB_ONLY)
