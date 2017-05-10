@@ -5,6 +5,8 @@ IF %1.==. ( echo "No arch"
 goto Fin )
 
 ::set EXIT_PROMPT=1
+::logs are deleted by C:\dashboard\scripts\clean_otb_cron.bat 
+::del C:\dashboard\logs\*.txt
 
 set COMPILER_ARCH=%1
 
@@ -13,7 +15,7 @@ set CURRENT_SCRIPT_DIR=%~dp0
 ::net use R: /delete /Y
 ::net use R: \\otbnas.si.c-s.fr\otbdata\otb /persistent:no
 
-cmake -DCOMPILER_ARCH=%COMPILER_ARCH% -P %CURRENT_SCRIPT_DIR%nightly.cmake > C:/dashboard/logs/nightly_bat.txt 2>&1
+cmake -DCOMPILER_ARCH=%COMPILER_ARCH% -P %CURRENT_SCRIPT_DIR%nightly.cmake > C:\dashboard\logs\nightly_bat.txt 2>&1
 
 goto Fin
 
