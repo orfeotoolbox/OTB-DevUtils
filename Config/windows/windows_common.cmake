@@ -167,22 +167,21 @@ if(NOT COMPILER_ARCH)
   message(FATAL_ERROR "No COMPILER_ARCH set. cannot continue.")
 endif()
 
-set(SUPERBUILD_BINARY_DIR   ${CTEST_DASHBOARD_ROOT}/superbuild_${COMPILER_ARCH})
-set(SUPERBUILD_INSTALL_DIR  ${CTEST_DASHBOARD_ROOT}/install_sb_${COMPILER_ARCH})
+set(SUPERBUILD_BINARY_DIR   ${CTEST_DASHBOARD_ROOT}/otb/superbuild_${COMPILER_ARCH})
+
+set(SUPERBUILD_INSTALL_DIR  ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
 
 #######################################################################################
 #######################################################################################
-# uncomment SET command below to use another source, build, install, xdk directories 
+# uncomment SET command belows to use another source, build, install, xdk directories 
 # set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/src)
 # set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/fbuild_${COMPILER_ARCH})
 # set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/finstall_${COMPILER_ARCH})
 # set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/finstall_${COMPILER_ARCH})
 #
-#
 # OPTIONAL: only for package_only build
-#set(SUPERBUILD_BINARY_DIR   ${CTEST_DASHBOARD_ROOT}/superbuild_${COMPILER_ARCH})
-#set(SUPERBUILD_INSTALL_DIR  ${CTEST_DASHBOARD_ROOT}/install_sb_${COMPILER_ARCH})
-
+#set(SUPERBUILD_BINARY_DIR   ${CTEST_DASHBOARD_ROOT}/otb/fbuild_${COMPILER_ARCH})
+#set(SUPERBUILD_INSTALL_DIR  ${CTEST_DASHBOARD_ROOT}/otb/finstall_${COMPILER_ARCH})
 #######################################################################################
 #######################################################################################
 
@@ -192,6 +191,9 @@ set(SUPERBUILD_INSTALL_DIR  ${CTEST_DASHBOARD_ROOT}/install_sb_${COMPILER_ARCH})
 #TODO: check output of ctest_update and set this variable if there
 #are any changes to SuperBuild/CMake/External_*.cmake
 set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
+
+
+
 
 
 # Select the model (Nightly, Experimental, Continuous).
