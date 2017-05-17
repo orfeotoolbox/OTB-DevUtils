@@ -54,6 +54,9 @@ all_entries = [
     ("Permission denied (output)",
      "otbcli_Convert -in data/QB_1_ortho.tif -out /root/out.tif -progress false"),
 
+    ("Trying to open a directory",
+     "otbcli_Convert -in data/DEM_srtm -out /tmp/out.tif"),
+
 ]),
 ("Parameter errors", [
 
@@ -108,13 +111,12 @@ all_entries = [
     ("Invalid output type",
      "otbcli_Convert -in data/QB_1_ortho.tif -out /tmp/out.tif iunt8 -progress false"),
 
+    # TODO
+    #("Invalid output type (complex image)",
+    #"otbcli_Convert -in data/QB_1_ortho.tif -out /tmp/out.tif iunt8 -progress false"),
+
     ("Too many parameter values (output image)",
      "otbcli_Convert -in data/QB_1_ortho.tif -out /tmp/out.tif uint8 float double -progress false"),
-
-    # TODO
-    #("Invalid output type (Complex image)",
-    #"otbcli_Convert -in data/QB_1_ortho.tif -out /tmp/out.tif iunt8 -progress false"),
-    # and too many parameter values (output complex image)
 
 ]),
 ("Module path errors", [
@@ -165,9 +167,8 @@ all_entries = [
     # TODO
     # complex input image
     # complex input image list
-    # image list with several parameters
-    # valid extended filename on file that doesnt exists
     # GDAL derived dataset
+    # and too many parameter values (output complex image)
 
 ]),
 
