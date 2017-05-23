@@ -50,9 +50,13 @@ OTB_USE_GLUT:BOOL=ON
 
 OTB_USE_MPI:BOOL=ON
 OTB_USE_SPTW:BOOL=OFF
+OTB_USE_SHARK:BOOL=ON
 
 MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
+
+SHARK_LIBRARY:FILEPATH=/home/otbval/Tools/shark/install/lib/libshark_debug.so
+SHARK_INCLUDE_DIR:PATH=/home/otbval/Tools/shark/install/include
 
 #MAPNIK_INCLUDE_DIR:PATH=/home/otbval/Tools/mapnik/install/include
 #MAPNIK_LIBRARY:FILEPATH=/home/otbval/Tools/mapnik/install/lib/libmapnik2.so
