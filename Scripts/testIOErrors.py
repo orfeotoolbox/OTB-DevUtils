@@ -115,14 +115,23 @@ all_entries = [
     #("Invalid output type (complex image)",
     #"otbcli_Convert -in data/QB_1_ortho.tif -out /tmp/out.tif iunt8 -progress false"),
 
-    ("Too many parameter values (output image)",
+    ("Type given to input image",
+     "otbcli_Convert -in data/QB_1_ortho.tif uint8 -out /tmp/out.tif -progress false"),
+
+    ("Too many parameter values (-in)",
+     "otbcli_Convert -in data/QB_1_ortho.tif blabla.tif -out /tmp/out.tif -progress false"),
+
+    ("Too many parameter values (-out)",
      "otbcli_Convert -in data/QB_1_ortho.tif -out /tmp/out.tif uint8 float double -progress false"),
 
 ]),
 ("Module path errors", [
 
+    ("otbApplicationLauncherCommandLine without arguments",
+     "otbApplicationLauncherCommandLine"),
+
     ("No module available",
-    """OTB_APPLICATION_PATH=""; otbApplicationLauncherCommandLine '' /tmp"""),
+    """OTB_APPLICATION_PATH=""; otbApplicationLauncherCommandLine Convert"""),
 
     ("Application not available",
     "otbApplicationLauncherCommandLine MakeCoffee"),
@@ -167,8 +176,9 @@ all_entries = [
     # TODO
     # complex input image
     # complex input image list
-    # GDAL derived dataset
+    # GDAL derived subdataset
     # and too many parameter values (output complex image)
+    # directory image product
 
 ]),
 
