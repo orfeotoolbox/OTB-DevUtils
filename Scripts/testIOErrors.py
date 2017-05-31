@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import subprocess
+import sys
 
 def run_otb(cmd, prefix):
     cmd = prefix + ";" + cmd
@@ -9,6 +10,23 @@ def run_otb(cmd, prefix):
     outs, errs = p.communicate()
 
     return outs.decode("utf-8")
+
+def run_py(pycmd, prefix):
+    title, params = pycmd
+
+    code = "import otbApplication; app = otbApplication.Registry.CreateApplication('{}'); ".format(title)
+
+    for key, value in params.items():
+        code += "app.{} = {}; ".format(key, repr(value))
+
+    code += "app.ExecuteAndWriteOutput();"
+
+    cmd = prefix + "; python -c '{}'".format(code.replace("'", "\""))
+
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    outs, errs = p.communicate()
+
+    return code, outs.decode("utf-8")
 
 def indent(string):
     if string == "":
@@ -28,7 +46,9 @@ all_entries = [
 ("IO Errors", [
 
     ("Input file does not exist (Convert)",
-     "otbcli_Convert -in blabla.tif -out /tmp/out.tif"),
+     "otbcli_Convert -in blabla.tif -out /tmp/out.tif",
+     ("Rescale", {"IN": "blabla.tif",
+                 "OUT": "/tmp/out.tif"})),
 
     ("Input file does not exist (ReadImageInfo)",
      "otbcli_ReadImageInfo -in blabla.tif"),
@@ -171,7 +191,9 @@ all_entries = [
      "otbcli_BandMathX -il data/QB_1_ortho.tif -out /tmp/out.tif -exp '1' -progress false"),
 
     ("Rescale",
-     "otbcli_Rescale -in data/QB_1_ortho.tif -out /tmp/out.tif -progress false"),
+     "otbcli_Rescale -in data/QB_1_ortho.tif -out /tmp/out.tif -progress false",
+     ("Rescale", {"IN": "data/QB_1_ortho.tif",
+                 "OUT": "/tmp/out.tif"})),
 
     # TODO
     # complex input image
@@ -205,6 +227,23 @@ if __name__ == "__main__":
                           "</div>\n"
                           )
 
+    template_python = ('<div class="mw-collapsible mw-collapsed">\n'
+                       "''Python API:\n"
+                       '<div class="mw-collapsible-content">\n'
+                       "Code:\n"
+                       "    {}\n"
+                       "\n"
+                       "''Output on better_error_messages branch:''\n"
+                       "{}\n"
+                       "\n"
+                       "''Output on better_error_messages branch (in Debug):''\n"
+                       "{}\n"
+                       "\n"
+                       "''Output on release-6.0:\n"
+                       "{}\n"
+                       "</div>\n"
+                       "</div>\n")
+
     otb_branch_release = "source ~/cnes/dev/config/env-develop-releasemode.sh"
     otb_branch_debug = "source ~/cnes/dev/config/env-develop.sh"
     otb_develop = "source ~/Téléchargements/OTB-contrib-6.0.0-Linux64/otbenv.profile"
@@ -214,17 +253,31 @@ if __name__ == "__main__":
     print("")
     print("")
 
-    for section, commands in all_entries:
-        print("=== {} ===".format(section))
+    for section_title, section in all_entries:
+        print("=== {} ===".format(section_title))
 
-        for comment, cmd in commands:
-            out_branch_release = run_otb(cmd, otb_branch_release)
-            out_branch_debug = run_otb(cmd, otb_branch_debug)
-            out_develop = run_otb(cmd, otb_develop)
+        for entry in section:
+            comment, cli = entry[0], entry[1]
+            pycmd = entry[2] if len(entry) == 3 else None
+
+            out_branch_release = run_otb(cli, otb_branch_release)
+            out_branch_debug = run_otb(cli, otb_branch_debug)
+            out_develop = run_otb(cli, otb_develop)
 
             # Render to mediawiki
             print(mediawiki_template.format(
                 comment,
-                cmd, indent(out_branch_release),
+                cli, indent(out_branch_release),
                 indent(out_branch_debug),
                 indent(out_develop)))
+
+            if pycmd is not None:
+                code, out_py_branch_release = run_py(pycmd, otb_branch_debug)
+                code, out_py_branch_debug = run_py(pycmd, otb_branch_debug)
+                #code, out_py_develop = run_py(pycmd, otb_branch_develop)
+
+                print(template_python.format(code,
+                    indent(out_py_branch_release),
+                    indent(out_py_branch_debug),
+                    "TODO",
+                    ))
