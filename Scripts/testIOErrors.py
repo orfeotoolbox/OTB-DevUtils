@@ -72,7 +72,9 @@ all_entries = [
      "otbcli_Convert -in noReadPermission.png -out /tmp/out.tif"),
 
     ("Permission denied (output)",
-     "otbcli_Convert -in data/QB_1_ortho.tif -out /root/out.tif -progress false"),
+     "otbcli_Convert -in data/QB_1_ortho.tif -out /root/out.tif -progress false",
+     ("Convert", {"IN": "data/QB_1_ortho.tif",
+                 "OUT": "/root/out.tif"})),
 
     ("Trying to open a directory",
      "otbcli_Convert -in data/DEM_srtm -out /tmp/out.tif"),
@@ -274,10 +276,10 @@ if __name__ == "__main__":
             if pycmd is not None:
                 code, out_py_branch_release = run_py(pycmd, otb_branch_debug)
                 code, out_py_branch_debug = run_py(pycmd, otb_branch_debug)
-                #code, out_py_develop = run_py(pycmd, otb_branch_develop)
+                code, out_py_develop = run_py(pycmd, otb_develop)
 
                 print(template_python.format(code,
                     indent(out_py_branch_release),
                     indent(out_py_branch_debug),
-                    "TODO",
+                    indent(out_py_develop)
                     ))
