@@ -56,8 +56,7 @@ all_entries = [
 
     ("Input file does not exist (ReadImageInfo)",
      "otbcli_ReadImageInfo -in blabla.tif",
-     ("ReadImageInfo", {"IN": "blabla.tif",
-                        "OUT": "/tmp/out.tif"})),
+     ("ReadImageInfo", {"IN": "blabla.tif"})),
 
     ("Input file does not exist, with extended filename (Convert)",
      "otbcli_Convert -in 'blabla.tif&bands=1' -out /tmp/out.tif",
@@ -102,7 +101,8 @@ all_entries = [
      "otbcli_Convert"),
 
     ("Non existing parameter",
-     "otbcli_Convert -hello world"),
+     "otbcli_Convert -hello world",
+     ("Convert", {"HELLO": "WORLD"})),
 
     ("Missing parameter (output)",
      "otbcli_Convert -in data/QB_1_ortho.tif"),
