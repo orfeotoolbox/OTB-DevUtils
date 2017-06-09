@@ -18,8 +18,8 @@ def run_py(pycmd, prefix):
     code += "app = otbApplication.Registry.CreateApplication('{}')\n".format(title)
 
     for key, value in params.items():
-        if key == "IL":
-            code += "app.SetParameterStringList('il', {})\n".format(repr(value))
+        if key == "IL" or key == "LIST":
+            code += "app.SetParameterStringList('{}', {})\n".format(key.lower(), repr(value))
         else:
             code += "app.{} = {}\n".format(key, repr(value))
 
@@ -178,10 +178,16 @@ all_entries = [
 ("Application errors", [
 
     ("RadiometricIndices",
-     "otbcli_RadiometricIndices -in data/QB_1_ortho.tif  -out /tmp/out.tif -list blabla"),
+     "otbcli_RadiometricIndices -in data/QB_1_ortho.tif  -out /tmp/out.tif -list blabla",
+     ("RadiometricIndices", {"IN": "data/QB_1_ortho.tif",
+                             "OUT": "/tmp/out.tif",
+                             "LIST": "blabla"})),
 
     ("PixelValue",
-     "otbcli_PixelValue -in ~/cnes/dev/otb-data/Examples/QB_1_ortho.tif -coordx 50 -coordy -6"),
+     "otbcli_PixelValue -in ~/cnes/dev/otb-data/Examples/QB_1_ortho.tif -coordx 50 -coordy -6",
+     ("PixelValue", {"IN": "/home/poughov/cnes/dev/otb-data/Examples/QB_1_ortho.tif",
+                     "COORDX": 50,
+                     "COORDY": -6})),
 
     ("ConcatenateImage",
      "otbcli_ConcatenateImages -il data/QB_1_ortho.tif data/Circle.png -out /tmp/out.tif"),
