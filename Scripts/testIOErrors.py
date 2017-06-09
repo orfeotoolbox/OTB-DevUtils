@@ -290,7 +290,7 @@ if __name__ == "__main__":
                 indent(out_develop)))
 
             if pycmd is not None:
-                code, out_py_branch_release = run_py(pycmd, otb_branch_debug)
+                code, out_py_branch_release = run_py(pycmd, otb_branch_release)
                 code, out_py_branch_debug = run_py(pycmd, otb_branch_debug)
                 code, out_py_develop = run_py(pycmd, otb_develop)
 
