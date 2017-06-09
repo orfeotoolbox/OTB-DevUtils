@@ -14,12 +14,16 @@ def run_otb(cmd, prefix):
 def run_py(pycmd, prefix):
     title, params = pycmd
 
-    code = "import otbApplication; app = otbApplication.Registry.CreateApplication('{}'); ".format(title)
+    code = "import otbApplication\n"
+    code += "app = otbApplication.Registry.CreateApplication('{}')\n".format(title)
 
     for key, value in params.items():
-        code += "app.{} = {}; ".format(key, repr(value))
+        if key == "IL":
+            code += "app.SetParameterStringList('il', {})\n".format(repr(value))
+        else:
+            code += "app.{} = {}\n".format(key, repr(value))
 
-    code += "app.ExecuteAndWriteOutput();"
+    code += "app.ExecuteAndWriteOutput()\n"
 
     cmd = prefix + "; python -c '{}'".format(code.replace("'", "\""))
 
@@ -51,13 +55,19 @@ all_entries = [
                  "OUT": "/tmp/out.tif"})),
 
     ("Input file does not exist (ReadImageInfo)",
-     "otbcli_ReadImageInfo -in blabla.tif"),
+     "otbcli_ReadImageInfo -in blabla.tif",
+     ("ReadImageInfo", {"IN": "blabla.tif",
+                        "OUT": "/tmp/out.tif"})),
 
     ("Input file does not exist, with extended filename (Convert)",
-     "otbcli_Convert -in 'blabla.tif&bands=1' -out /tmp/out.tif"),
+     "otbcli_Convert -in 'blabla.tif&bands=1' -out /tmp/out.tif",
+     ("Convert", {"IN": "blabla.tif&bands=1",
+                  "OUT": "/tmp/out.tif"})),
 
     ("One of the input files does not exist",
-     "otbcli_BandMath -il data/QB_1_ortho.tif blabla.tif -out /tmp/out.tif -exp '1'"),
+     "otbcli_BandMath -il data/QB_1_ortho.tif blabla.tif -out /tmp/out.tif -exp '1'",
+     ("BandMath", {"IL": ["data/QB_1_ortho.tif", "blabla.tif"],
+                   "OUT": "/tmp/out.tif"})),
 
     ("Unsupported input format",
      "otbcli_Convert -in data/svm_model.svm -out /tmp/out.tif"),
@@ -233,7 +243,7 @@ if __name__ == "__main__":
                        "''Python API:\n"
                        '<div class="mw-collapsible-content">\n'
                        "Code:\n"
-                       "    {}\n"
+                       "{}\n"
                        "\n"
                        "''Output on better_error_messages branch:''\n"
                        "{}\n"
@@ -278,7 +288,7 @@ if __name__ == "__main__":
                 code, out_py_branch_debug = run_py(pycmd, otb_branch_debug)
                 code, out_py_develop = run_py(pycmd, otb_develop)
 
-                print(template_python.format(code,
+                print(template_python.format(indent(code),
                     indent(out_py_branch_release),
                     indent(out_py_branch_debug),
                     indent(out_py_develop)
