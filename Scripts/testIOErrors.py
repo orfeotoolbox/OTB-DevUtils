@@ -51,7 +51,7 @@ all_entries = [
 
     ("Input file does not exist (Convert)",
      "otbcli_Convert -in blabla.tif -out /tmp/out.tif",
-     ("Rescale", {"IN": "blabla.tif",
+     ("Convert", {"IN": "blabla.tif",
                  "OUT": "/tmp/out.tif"})),
 
     ("Input file does not exist (ReadImageInfo)",
@@ -69,16 +69,24 @@ all_entries = [
                    "OUT": "/tmp/out.tif"})),
 
     ("Unsupported input format",
-     "otbcli_Convert -in data/svm_model.svm -out /tmp/out.tif"),
+     "otbcli_Convert -in data/svm_model.svm -out /tmp/out.tif",
+     ("Convert", {"IN": "data/svm_model.svm",
+                   "OUT": "/tmp/out.tif"})),
 
     ("Unsupported output format",
-     "otbcli_Convert -in data/QB_1_ortho.tif -out /tmp/out.blabla"),
+     "otbcli_Convert -in data/QB_1_ortho.tif -out /tmp/out.blabla",
+     ("Convert", {"IN": "data/QB_1_ortho.tif",
+                 "OUT": "/tmp/out.blabla"})),
 
     ("Invalid input image (Convert)",
-     "otbcli_Convert -in data/notActuallyTif.tif -out /tmp/out.tif"),
+     "otbcli_Convert -in data/notActuallyTif.tif -out /tmp/out.tif",
+     ("Convert", {"IN": "data/notActually.tif",
+                 "OUT": "/tmp/out.tif"})),
 
     ("Permission denied (input)",
-     "otbcli_Convert -in noReadPermission.png -out /tmp/out.tif"),
+     "otbcli_Convert -in noReadPermission.png -out /tmp/out.tif",
+     ("Convert", {"IN": "noReadPermission.png",
+                 "OUT": "/tmp/out.tif"})),
 
     ("Permission denied (output)",
      "otbcli_Convert -in data/QB_1_ortho.tif -out /root/out.tif -progress false",
@@ -86,7 +94,9 @@ all_entries = [
                  "OUT": "/root/out.tif"})),
 
     ("Trying to open a directory",
-     "otbcli_Convert -in data/DEM_srtm -out /tmp/out.tif"),
+     "otbcli_Convert -in data/DEM_srtm -out /tmp/out.tif",
+     ("Convert", {"IN": "data/DEM_srtm",
+                 "OUT": "/tmp/out.tif"})),
 
 ]),
 ("Parameter errors", [
@@ -105,16 +115,22 @@ all_entries = [
      ("Convert", {"HELLO": "WORLD"})),
 
     ("Missing parameter (output)",
-     "otbcli_Convert -in data/QB_1_ortho.tif"),
+     "otbcli_Convert -in data/QB_1_ortho.tif",
+     ("Convert", {"IN": "data/QB_1_ortho.tif"})),
 
     ("Missing parameter (input)",
-     "otbcli_Convert -out /tmp/out.tif"),
+     "otbcli_Convert -out /tmp/out.tif",
+     ("Convert", {"OUT": "/tmp/out.tif"})),
 
     ("Missing parameter value",
-     "otbcli_Convert -in -out /tmp/out.tif"),
+     "otbcli_Convert -in -out /tmp/out.tif",
+     ("Convert", {"IN": "",
+                  "OUT": "/tmp/out.tif"})),
 
     ("Empty input image list",
-     "otbcli_BandMath -il -out /tmp/out.tif -exp '1'"),
+     "otbcli_BandMath -il -out /tmp/out.tif -exp '1'",
+     ("BandMath", {"IL": [],
+                   "OUT": "/tmp/out.tif"})),
 
     ("Missing input extension (Convert)",
      "otbcli_Convert -in data/QB_1_ortho -out /tmp/out.tif"),
@@ -203,7 +219,10 @@ all_entries = [
      "otbcli_Convert -in data/QB_1_ortho.tif -out /tmp/out.tif -progress false"),
 
     ("BandMath",
-     "otbcli_BandMath -il data/QB_1_ortho.tif -out /tmp/out.tif -exp '1' -progress false"),
+     "otbcli_BandMath -il data/QB_1_ortho.tif -out /tmp/out.tif -exp '1' -progress false",
+     ("BandMath", {"IL": ["data/QB_1_ortho.tif"],
+                   "OUT": "/tmp/out.tif",
+                   "EXP": "1"})),
 
     ("BandMathX",
      "otbcli_BandMathX -il data/QB_1_ortho.tif -out /tmp/out.tif -exp '1' -progress false"),
