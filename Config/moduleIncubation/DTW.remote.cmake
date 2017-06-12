@@ -1,5 +1,5 @@
 #Contact: Rémi Cresson <remi.cresson@teledetection.fr>
-otb_fetch_module(Mosaic
+otb_fetch_module(DTW
   "This module provides Dynamic Time Warping algorithm for remote sensing time
   series analysis 
   "
