@@ -9,7 +9,9 @@ set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install-stable)
 
-include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
+# stick to release_6.0 as gcc 4.1.2 is no longer supported.
+set(dashboard_git_branch release-6.0)
+set(specific_data_branch_for_${dashboard_git_branch} release-6.0)
 
 set(CTEST_BUILD_NAME "CentOS-5-x86_64-${dashboard_git_branch}-SuperBuild")
 

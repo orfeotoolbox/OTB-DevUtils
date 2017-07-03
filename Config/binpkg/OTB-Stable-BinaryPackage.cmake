@@ -9,7 +9,9 @@ set(dashboard_source_name "otb/src/SuperBuild/Packaging")
 set(dashboard_binary_name "otb/pkg-otb-stable")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src/)
 
-include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
+# stick to release_6.0 as gcc 4.1.2 is no longer supported.
+set(dashboard_git_branch release-6.0)
+set(specific_data_branch_for_${dashboard_git_branch} release-6.0)
 
 set(CTEST_BUILD_NAME "Package-Linux-gcc-4.1.2-x86_64-${dashboard_git_branch}")
 
@@ -40,7 +42,7 @@ OTB_WRAP_PYTHON:BOOL=ON
 PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python26
 PYTHON_INCLUDE_DIR:PATH=/usr/include/python2.6
 PYTHON_LIBRARY:FILEPATH=/usr/lib64/libpython2.6.so
-
+NAME_SUFFIX:STRING=-gcc-4.1.2
 ")
 endmacro()
 
