@@ -20,7 +20,7 @@ CMAKE_C_COMPILER=/usr/bin/clang-3.8
 CMAKE_CXX_COMPILER=/usr/bin/clang++-3.8
 
 CMAKE_C_FLAGS:STRING=-fPIC -Wall -Wextra
-CMAKE_CXX_FLAGS:STRING= -std=c++11 -fPIC -Wall -Wextra -Wno-gnu-static-float-init -Wno-\\#warnings 
+CMAKE_CXX_FLAGS:STRING=-std=c++11 -fPIC -Wall -Wextra -Wno-gnu-static-float-init -Wno-#warnings
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 
 BUILD_TESTING:BOOL=ON
