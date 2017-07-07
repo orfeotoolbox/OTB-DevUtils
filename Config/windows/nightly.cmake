@@ -25,8 +25,8 @@ set(sb_file "${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt")
 
 # We can only build onr branch of superbuild.
 # Comment next two line to switch to nightly OR a branch listed in superbuild_branch.txt
-set(SUPERBUILD_BRANCH release-${OTB_STABLE_VERSION})
-set(SUPERBUILD_DATA_BRANCH release-${OTB_STABLE_VERSION})
+#~ set(SUPERBUILD_BRANCH release-${OTB_STABLE_VERSION})
+#~ set(SUPERBUILD_DATA_BRANCH release-${OTB_STABLE_VERSION})
 
 # If SUPERBUILD_BRANCH is set then don't bother reading superbuild_branch.txt file.
 # For that we simply unset "sb_file" variable
