@@ -57,9 +57,9 @@ OTB_USE_SHARK:BOOL=OFF
 endmacro()
 
 
-# list(APPEND CTEST_TEST_ARGS
-#   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
-# )
+list(APPEND CTEST_TEST_ARGS
+  BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
+)
 
 macro(dashboard_hook_test)
   set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
