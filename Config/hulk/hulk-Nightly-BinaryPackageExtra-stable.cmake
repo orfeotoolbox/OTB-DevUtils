@@ -28,7 +28,7 @@ unset(CTEST_SOURCE_DIRECTORY)
 set(CTEST_BUILD_FLAGS "-k -j1")
 #-------------------------------------------------------------------------------
 
-set(CTEST_BUILD_NAME "Package-Linux-gcc-4.8.5-x86_64-contrib-${dashboard_git_branch}")
+set(CTEST_BUILD_NAME "Package-Linux-gcc-4.9.4-x86_64-contrib-${dashboard_git_branch}")
 
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
 set(dashboard_source_name "src/OTB/SuperBuild/Packaging")
@@ -43,8 +43,8 @@ set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=/tmp/install-pkg-otb
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
-CMAKE_C_COMPILER:PATH=/usr/bin/gcc-4.8
-CMAKE_CXX_COMPILER:PATH=/usr/bin/g++-4.8
+CMAKE_C_COMPILER:PATH=/usr/bin/gcc-4.9
+CMAKE_CXX_COMPILER:PATH=/usr/bin/g++-4.9
 BUILD_TESTING:BOOL=ON
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
