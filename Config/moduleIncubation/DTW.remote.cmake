@@ -1,4 +1,4 @@
-#Contact: Rémi Cresson <remi.cresson@teledetection.fr>
+#Contact: Manuel Grizonnet
 otb_fetch_module(DTW
   "This module provides Dynamic Time Warping algorithm for remote sensing time
   series analysis 
