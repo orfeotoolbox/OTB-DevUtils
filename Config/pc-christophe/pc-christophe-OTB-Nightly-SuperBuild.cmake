@@ -40,7 +40,7 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-fopenmp
-CMAKE_CXX_FLAGS:STRING=-fopenmp --std=c++11
+CMAKE_CXX_FLAGS:STRING=-fopenmp
 
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
