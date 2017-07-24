@@ -29,6 +29,8 @@ OTB_USE_SHARK:BOOL=ON
 "
 )
 
+set(dashboard_cache_for_rfc-98-qwt6 "CMAKE_PREFIX_PATH=C:/Qwt-6.1.3")
+
 include(windows_common.cmake)
 
 
