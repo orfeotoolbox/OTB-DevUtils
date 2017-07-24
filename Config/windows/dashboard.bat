@@ -117,7 +117,8 @@ set PATH=%PATH%;%TOOLS_DIR%\Git-2.9.0\bin
 set PATH=%PATH%;%TOOLS_DIR%\ninja
 set PATH=%PATH%;%TOOLS_DIR%\jom\bin
 set PATH=%PATH%;%TOOLS_DIR%\7zip-16.02
-set PATH=%PATH%;C:\Tools\swigwin-3.0.10
+set PATH=%PATH%;%TOOLS_DIR%\swigwin-3.0.10
+set PATH=%PATH%;%TOOLS_DIR%\Perl-5.24.1\bin
 set PATH=%PATH%;C:\Python27_%COMPILER_ARCH%;C:\Python27_%COMPILER_ARCH%\Scripts
 ::set PATH=%PATH%;%TOOLS_DIR%\coreutils-5.3.0\bin
 
