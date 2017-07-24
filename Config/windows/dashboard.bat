@@ -69,12 +69,12 @@ goto Fin
 IF %4.==. ( echo "using default branch set in dashboard.bat" ) 
 set dashboard_otb_branch=%4
 ::default value is develop(otb_common.cmake)
-IF %dashboard_otb_branch%.==. ( set dashboard_otb_branch=nightly )
+IF %dashboard_otb_branch%.==. ( set dashboard_otb_branch=nightly)
 
 IF %5.==. ( echo "using default data branch set in dashboard.bat" ) 
 set dashboard_data_branch=%5
 ::default value is develop(otb_common.cmake)
-IF %dashboard_data_branch%.==. ( set dashboard_data_branch=nightly )
+IF %dashboard_data_branch%.==. ( set dashboard_data_branch=nightly)
 
 IF %6.==. ( echo "default behaviour is a full build" ) 
 set dashboard_remote_module=%6
