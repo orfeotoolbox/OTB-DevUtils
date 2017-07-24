@@ -30,7 +30,7 @@ set(CTEST_BUILD_FLAGS "-j1 -k")
 set(CTEST_BUILD_NAME "Package-Linux-gcc-4.9.4-x86_64-contrib")
 
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
-set(dashboard_source_name "src/OTB/SuperBuild/Packaging")
+set(dashboard_source_name "src/OTB/Packaging")
 set(dashboard_binary_name "build/pkg-otb-contrib")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB/)
 
