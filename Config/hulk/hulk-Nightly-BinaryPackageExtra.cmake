@@ -1,7 +1,7 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_FLAGS "-j1 -k")
-#set(dashboard_build_target PACKAGE-OTB)
+set(dashboard_build_target PACKAGE-OTB)
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../macro_common.cmake)
 
