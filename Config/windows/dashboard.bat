@@ -110,6 +110,7 @@ set CTEST_BUILD_CONFIGURATION=Release
 set TOOLS_DIR=C:\Tools
 set SYSPATH=C:\Windows\system32;C:\Windows
 set PATH=%SYSPATH%
+set PATH=%PATH%;%TOOLS_DIR%\clink\0.4.8
 set PATH=%PATH%;%TOOLS_DIR%\CMake-3.5.2\bin
 set PATH=%PATH%;%TOOLS_DIR%\patch-2.5.9-7\bin
 set PATH=%PATH%;%TOOLS_DIR%\wget-1.11.4-1\bin

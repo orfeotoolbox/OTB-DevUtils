@@ -443,7 +443,7 @@ endif()
 
 set(SHELL_COMMAND)
 if(WIN32)
-  set(SHELL_COMMAND cmd.exe)
+  set(SHELL_COMMAND clink.bat)
 else()
   find_program(SHELL_COMMAND NAMES bash)
 endif()
@@ -458,10 +458,16 @@ if(DROP_SHELL)
   execute_process(COMMAND 
     ${CTEST_GIT_COMMAND} checkout ${dashboard_otb_branch}
     WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+    RESULT_VARIABLE checkout_rv
+    ERROR_VARIABLE checkout_ev
   )
-  
-  execute_process(COMMAND 
-    ${SHELL_COMMAND}
+  if(checkout_rv)
+    message(FATAL_ERROR 
+    "git checkout failed with ${checkout_rv}: error: ${checkout_ev}")
+    return()
+  endif()
+  execute_process(COMMAND  
+    ${SHELL_COMMAND} 
     WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
   )
 
