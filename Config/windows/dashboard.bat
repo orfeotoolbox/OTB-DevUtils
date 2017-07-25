@@ -144,7 +144,7 @@ net use R: /delete /Y
 echo "Usage : dashboard.bat <compiler_arch>  <cmd_prompt>  [<dasboard_action>] [<otb_git_branch>] [<otb_data_branch>] [<remote_module>]"
 echo "All arguments accept only single values. Below '|' means 'or'"
 echo "Values for compiler_arch: x86|x64"
-echo "Values for cmd_prompt: 0|CMD"
+echo "Values for cmd_prompt: 0|CMD (CMD option will spawn a cmd.exe into CMAKE_BINARY_DIR along with 'git checkout <otb_git_branch>'"
 echo "Values for dasboard_action: BUILD|SUPER_BUILD|PACKAGE_OTB|PACKAGE_XDK"
 echo "Values for otb_git_branch: develop|release-5.8| etc.. (default is nightly)"
 echo "Values for otb_data_branch: master|release-5.8| etc.. (default is nightly)"

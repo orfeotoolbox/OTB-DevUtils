@@ -443,6 +443,18 @@ endif()
 
 set(SHELL_COMMAND)
 if(WIN32)
+  # Earlier we were using cmd.exe for shell_command
+  # clink adds readline features to cmd such as tab completion for file and folders,
+  # history of commands are saved after closing each cmd.exe.
+
+  # This is a nice feature to have when we drop to shell on windows
+  # On raoul and megatron, clink is installed clink.bat is found in PATH.
+  # tab completion, loop through history etc.. are very important and useful
+  # when debugging builds. after all, this "DROP_SHELL" option is specifically
+  # used in debugging
+  # clink.bat is a wrapper script with spawn a child cmd.exe with clink injected
+  # see source of clink.bat for more information
+  # CLINK is not BASH for WINDOWS!
   set(SHELL_COMMAND clink.bat)
 else()
   find_program(SHELL_COMMAND NAMES bash)
