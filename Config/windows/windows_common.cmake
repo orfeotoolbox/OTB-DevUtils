@@ -300,7 +300,7 @@ endif()
 if(DASHBOARD_SUPERBUILD)
   set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
 elseif(DASHBOARD_PACKAGE_ONLY) 
-  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/Packaging)
+  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild/Packaging)
 endif()
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -354,6 +354,42 @@ file(TO_NATIVE_PATH "${XDK_INSTALL_DIR}" XDK_INSTALL_DIR_NATIVE)
 file(TO_NATIVE_PATH "${OTB_BUILD_BIN_DIR}" OTB_BUILD_BIN_DIR_NATIVE)
 
 
+function(print_summary)
+# Print summary information.
+foreach(v
+    CTEST_SITE
+    CTEST_BUILD_NAME
+    CTEST_SOURCE_DIRECTORY
+    CTEST_BINARY_DIRECTORY
+    CTEST_INSTALL_DIRECTORY
+    CTEST_CMAKE_GENERATOR
+    CTEST_BUILD_CONFIGURATION
+    CTEST_GIT_COMMAND
+    CTEST_GIT_UPDATE_OPTIONS
+    CTEST_GIT_UPDATE_CUSTOM
+    CTEST_CHECKOUT_COMMAND
+    CTEST_USE_LAUNCHERS
+    CTEST_DASHBOARD_TRACK
+    CMAKE_MAKE_PROGRAM
+    DASHBOARD_SUPERBUILD
+    SUPERBUILD_REBUILD_OTB_ONLY
+    DASHBOARD_PACKAGE_ONLY
+    DOWNLOAD_LOCATION
+    XDK_INSTALL_DIR
+    CTEST_DROP_LOCATION
+    dashboard_otb_branch
+    dashboard_data_branch
+    dashboard_update_dir
+    OTBNAS_PACKAGES_DIR
+    WITH_CONTRIB
+    )
+  set(vars "${vars}  ${v}=[${${v}}]\n")
+endforeach(v)
+message("ENV{PATH}=$ENV{PATH}")
+message("Dashboard script configuration:\n${vars}\n")
+
+endfunction() #print_summary
+
 #only needed if generator is Visual studio
 if(CTEST_CMAKE_GENERATOR MATCHES "Visual Studio")
   set(ENV{PATH} "$ENV{PATH};${OTB_BUILD_BIN_DIR_NATIVE}\\${CTEST_BUILD_CONFIGURATION}" )
@@ -376,24 +412,6 @@ GDAL_DATA=$ENV{GDAL_DATA}
 GEOTIFF_CSV=$ENV{GEOTIFF_CSV}
 PROJ_LIB=$ENV{PROJ_LIB}
 ")
-
-set(SHELL_COMMAND)
-if(WIN32)
-  set(SHELL_COMMAND cmd.exe)
-else()
-  find_program(SHELL_COMMAND NAMES bash)
-endif()
-
-if(DROP_SHELL)
-  if(SHELL_COMMAND)
-    execute_process(COMMAND ${SHELL_COMMAND}
-      WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/../)
-  else()
-    message(FATAL_ERROR "SHELL_COMMAND not found")
-  endif()
-  
-  return()
-endif()
 
 if(otb_data_use_largeinput)
   if(DEFINED ENV{OTB_DATA_LARGEINPUT_ROOT})
@@ -421,6 +439,51 @@ endif()
 
 if(dashboard_build_target)
   string(REPLACE "-all" "" dashboard_label ${dashboard_build_target})
+endif()
+
+set(SHELL_COMMAND)
+if(WIN32)
+  # Earlier we were using cmd.exe for shell_command
+  # clink adds readline features to cmd such as tab completion for file and folders,
+  # history of commands are saved after closing each cmd.exe.
+
+  # This is a nice feature to have when we drop to shell on windows
+  # On raoul and megatron, clink is installed clink.bat is found in PATH.
+  # tab completion, loop through history etc.. are very important and useful
+  # when debugging builds. after all, this "DROP_SHELL" option is specifically
+  # used in debugging
+  # clink.bat is a wrapper script with spawn a child cmd.exe with clink injected
+  # see source of clink.bat for more information
+  # CLINK is not BASH for WINDOWS!
+  set(SHELL_COMMAND clink.bat)
+else()
+  find_program(SHELL_COMMAND NAMES bash)
+endif()
+
+if(DROP_SHELL)
+  if(NOT SHELL_COMMAND)
+    message(FATAL_ERROR "SHELL_COMMAND not found")
+    return()
+  endif()
+    
+    print_summary()
+  execute_process(COMMAND 
+    ${CTEST_GIT_COMMAND} checkout ${dashboard_otb_branch}
+    WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+    RESULT_VARIABLE checkout_rv
+    ERROR_VARIABLE checkout_ev
+  )
+  if(checkout_rv)
+    message(FATAL_ERROR 
+    "git checkout failed with ${checkout_rv}: error: ${checkout_ev}")
+    return()
+  endif()
+  execute_process(COMMAND  
+    ${SHELL_COMMAND} 
+    WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
+  )
+
+ return()
 endif()
 
 # Check build name
@@ -937,39 +1000,9 @@ if(COMMAND dashboard_hook_start)
   dashboard_hook_start()
 endif()
 
-# Print summary information.
-foreach(v
-    CTEST_SITE
-    CTEST_BUILD_NAME
-    CTEST_SOURCE_DIRECTORY
-    CTEST_BINARY_DIRECTORY
-    CTEST_INSTALL_DIRECTORY
-    CTEST_CMAKE_GENERATOR
-    CTEST_BUILD_CONFIGURATION
-    CTEST_GIT_COMMAND
-    CTEST_GIT_UPDATE_OPTIONS
-    CTEST_GIT_UPDATE_CUSTOM
-    CTEST_CHECKOUT_COMMAND
-    CTEST_USE_LAUNCHERS
-    CTEST_DASHBOARD_TRACK
-    CMAKE_MAKE_PROGRAM
-    DASHBOARD_SUPERBUILD
-    SUPERBUILD_REBUILD_OTB_ONLY
-    DASHBOARD_PACKAGE_ONLY
-    DOWNLOAD_LOCATION
-    XDK_INSTALL_DIR
-    CTEST_DROP_LOCATION
-    dashboard_otb_branch
-    dashboard_data_branch
-    dashboard_update_dir
-    OTBNAS_PACKAGES_DIR
-    WITH_CONTRIB
-    )
-  set(vars "${vars}  ${v}=[${${v}}]\n")
-endforeach(v)
-message("Dashboard script configuration:\n${vars}\n")
 
-message("ENV{PATH}=$ENV{PATH}")
+print_summary()
+
 if(COMMAND dashboard_hook_init)
   dashboard_hook_init()
 endif()

@@ -246,7 +246,7 @@ else()
   if("${_source_directory_filename}" STREQUAL "SuperBuild")
     set(default_target OTB)
   elseif("${_source_directory_filename}" STREQUAL "Packaging")
-    set(default_target install)
+    set(default_target PACKAGE-OTB)
   elseif("${_source_directory_filename}" STREQUAL "Cookbook")
     set(default_target)
   elseif("${_source_directory_filename}" STREQUAL "SoftwareGuide")
@@ -278,8 +278,10 @@ if(NOT DEFINED dashboard_git_branch)
     set(dashboard_git_branch develop)
   endif()
   # handle SuperBuild branch
-  if("${_source_directory_filename}" STREQUAL "SuperBuild" OR
-      "${_source_directory_filename}" STREQUAL "Packaging" )
+
+#  if("${_source_directory_filename}" STREQUAL "SuperBuild" OR
+#     "${_source_directory_filename}" STREQUAL "Packaging" )
+  if("${_source_directory_filename}" STREQUAL "SuperBuild")
     if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/superbuild_branch.txt)
       set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/superbuild_branch.txt)
     elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../superbuild_branch.txt)

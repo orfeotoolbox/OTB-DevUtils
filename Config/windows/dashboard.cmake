@@ -29,6 +29,11 @@ OTB_USE_SHARK:BOOL=ON
 "
 )
 
+#conflit with includes in xdk/install_sb_x86 which is from qwt5
+#better to test qwt6 build after merge!
+#see sample build: https://dash.orfeo-toolbox.org/viewBuildError.php?buildid=283314
+#set(dashboard_cache_for_rfc-98-qwt6 "CMAKE_PREFIX_PATH:PATH=C:/Qwt-6.1.3")
+
 include(windows_common.cmake)
 
 
