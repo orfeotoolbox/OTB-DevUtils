@@ -128,7 +128,10 @@ call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %COM
 
 set DASHBOARD_SCRIPT_FILE=%CTEST_DASHBOARD_ROOT%\devutils\Config\windows\dashboard.cmake
 
-ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE% -DDROP_SHELL=%OPEN_CMD_ONLY% -DWITH_CONTRIB=%WITH_CONTRIB%
+:: we use ctest option -V instead of ctest -VV to see if that speed up our builds
+:: -VV is more verbose and write cycles takes more time on Windows.
+:: see jira #1309
+ctest -C %CTEST_BUILD_CONFIGURATION% -V -S %DASHBOARD_SCRIPT_FILE% -DDROP_SHELL=%OPEN_CMD_ONLY% -DWITH_CONTRIB=%WITH_CONTRIB%
 
 ::cmd /C start /wait ctest -C %CTEST_BUILD_CONFIGURATION% -VV -S %DASHBOARD_SCRIPT_FILE%
 
