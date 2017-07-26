@@ -91,5 +91,16 @@ endmacro()
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_PREFIX})
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX})
 
+#
+# Specific cache for feature branches {
+
+set( dashboard_cache_for_rfc-98-qwt6 "
+# QWT
+QWT_INCLUDE_DIR=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/Headers
+QWT_LIBRARY=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/qwt
+" )
+
+# } Specific cache for feature branches.
+#
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
