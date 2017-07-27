@@ -4,8 +4,10 @@ set(CTEST_BUILD_NAME "Package-Linux-gcc-4.9.4-x86_64")
 set(CTEST_BUILD_FLAGS "-k -j1")
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
-set(dashboard_source_name "src/OTB/SuperBuild/Packaging")
+set(dashboard_git_branch "update_pkg")
+set(dashboard_source_name "src/OTB/Packaging")
 set(dashboard_binary_name "build/pkg-otb")
+
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB/)
 
 set(SUPERBUILD_BINARY_DIR ${CTEST_DASHBOARD_ROOT}/build/OTB-SuperBuild)
@@ -24,8 +26,6 @@ OTB_DATA_ROOT:PATH=/media/otbnas/otb/DataForTests/OTB-Data
 DOWNLOAD_LOCATION:PATH=/media/otbnas/otb/DataForTests/SuperBuild-archives
 SUPERBUILD_BINARY_DIR:PATH=${SUPERBUILD_BINARY_DIR}
 SUPERBUILD_INSTALL_DIR:PATH=${SUPERBUILD_INSTALL_DIR}
-GENERATE_PACKAGE:BOOL=ON
-OTB_WRAP_PYTHON:BOOL=ON
 ")
 endmacro()
 
