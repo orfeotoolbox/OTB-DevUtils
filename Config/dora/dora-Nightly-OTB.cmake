@@ -15,6 +15,7 @@ set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${C
 #set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
+
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
@@ -55,13 +56,17 @@ OTB_USE_SHARK:BOOL=ON
 MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
 
-SHARK_LIBRARY:FILEPATH=/home/otbval/Tools/shark/install/lib/libshark_debug.so
+SHARK_LIBRARY:FILEPATH=/home/otbval/Tools/shark/install/lib/libshark.so
 SHARK_INCLUDE_DIR:PATH=/home/otbval/Tools/shark/install/include
 
 #MAPNIK_INCLUDE_DIR:PATH=/home/otbval/Tools/mapnik/install/include
 #MAPNIK_LIBRARY:FILEPATH=/home/otbval/Tools/mapnik/install/lib/libmapnik2.so
     ")
 endmacro()
+#TODO: This SHOULD use CMAKE_PREFIX_PATH and avoid mess from
+# <LIBRARY>_LIBRARY:FILEPATH=..
+# <LIBRARY>_INCLUDE_DIR:PATH=..
+
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})
