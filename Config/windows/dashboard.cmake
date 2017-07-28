@@ -27,12 +27,10 @@ OTB_USE_MUPARSERX:BOOL=ON
 OTB_WRAP_PYTHON:BOOL=ON
 OTB_USE_SHARK:BOOL=ON
 "
-)
 
-#conflit with includes in xdk/install_sb_x86 which is from qwt5
-#better to test qwt6 build after merge!
-#see sample build: https://dash.orfeo-toolbox.org/viewBuildError.php?buildid=283314
-#set(dashboard_cache_for_rfc-98-qwt6 "CMAKE_PREFIX_PATH:PATH=C:/Qwt-6.1.3")
+if("$ENV{dashboard_otb_branch}" STREQUAL "rfc-98-qwt6")
+  set(XDK_INSTALL_DIR "C:/dashboard/otb/xdk/otb61_$ENV{COMPILER_ARCH}")
+endif()
 
 include(windows_common.cmake)
 
