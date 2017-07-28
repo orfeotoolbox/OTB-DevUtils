@@ -26,7 +26,7 @@ OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_WRAP_PYTHON:BOOL=ON
 OTB_USE_SHARK:BOOL=ON
-"
+")
 
 if("$ENV{dashboard_otb_branch}" STREQUAL "rfc-98-qwt6")
   set(XDK_INSTALL_DIR "C:/dashboard/otb/xdk/otb61_$ENV{COMPILER_ARCH}")
