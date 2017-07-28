@@ -20,7 +20,7 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-Wall
-CMAKE_CXX_FLAGS:STRING=-Wall -Wno-cpp --std=c++11 -Wno-unknown-pragmas
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-cpp -Wno-unknown-pragmas
 
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 
