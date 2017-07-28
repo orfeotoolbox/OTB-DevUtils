@@ -310,13 +310,11 @@ get_filename_component(_source_directory_filename "${_source_directory_abspath}"
 if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
   if(DASHBOARD_SUPERBUILD)
     set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
-    set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
   else()
     set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_${COMPILER_ARCH})
-    set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/xdk/install_sb_${COMPILER_ARCH})
   endif()
 endif()
-
+# DEFAULT values for XDK_INSTALL_DIR if not defined
 if(NOT DEFINED XDK_INSTALL_DIR)
   if(DASHBOARD_SUPERBUILD)
     set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
