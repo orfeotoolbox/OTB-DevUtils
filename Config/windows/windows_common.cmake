@@ -190,10 +190,7 @@ set(SUPERBUILD_INSTALL_DIR  ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_AR
 #and rebuild it.
 #TODO: check output of ctest_update and set this variable if there
 #are any changes to SuperBuild/CMake/External_*.cmake
-#~ set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
-
-
-
+set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
 
 
 # Select the model (Nightly, Experimental, Continuous).
