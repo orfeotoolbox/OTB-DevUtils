@@ -1,4 +1,3 @@
-better_error_messages
 refactor_extractROI
 rfc-98-qwt6
 composite_sharkkmeans composite_sharkkmeans
