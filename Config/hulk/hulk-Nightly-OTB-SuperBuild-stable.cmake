@@ -1,4 +1,10 @@
 # Client maintainer: julien.malik@c-s.fr
+
+#RK: DONT EVEN THINK OF ACTIVATING SYSTEM LIBRARY AND MAKING OTB PACKAGE!
+# THIS WILL REQUIRE SPECIFIC PATCHING IN GENERATED CMAKE FILES
+# SEE otb.git/Packaging/install_cmake_files.cmake
+
+
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(dashboard_no_install 1)

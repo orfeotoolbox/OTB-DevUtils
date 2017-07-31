@@ -8,6 +8,11 @@
 # set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015") 
 # set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015 Win64")
 
+# SuperBuild: DONT EVEN THINK OF ACTIVATING
+# ANY SYSTEM LIBRARY AND THEN MAKING OTB PACKAGE!
+# THIS WILL REQUIRE SPECIFIC PATCHING IN GENERATED CMAKE FILES
+# SEE otb.git/Packaging/install_cmake_files.cmake
+
 set(otb_data_use_largeinput ON)
 
 set(dashboard_cache 
