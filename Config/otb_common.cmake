@@ -364,6 +364,22 @@ if(EXISTS ${dashboard_update_dir})
 endif()
 
 # Support initial checkout if necessary.
+if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}")
+  #remove trailing slash. this messes up get_filename_component call
+  STRING(REGEX REPLACE "\\/$" "" ctest_src_dir ${CTEST_SOURCE_DIRECTORY})
+  get_filename_component(srcdir_name "${ctest_src_dir}" NAME)
+  message("srcdir_name=  ${srcdir_name} ")
+  # Generate an initial checkout script.
+  set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${srcdir_name}-init.cmake)
+  message("ctest_checkout_script= " ${ctest_checkout_script})
+  file(WRITE ${ctest_checkout_script} "# git repo init script for ${srcdir_name}
+        execute_process(
+            COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
+                    \"${CTEST_SOURCE_DIRECTORY}\" )   ")
+  set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
+endif()
+
+# Support initial checkout if necessary.
 if(NOT EXISTS "${dashboard_update_dir}" AND
     NOT DEFINED CTEST_CHECKOUT_COMMAND)
   #remove trailing slash. this messes up get_filename_component call
