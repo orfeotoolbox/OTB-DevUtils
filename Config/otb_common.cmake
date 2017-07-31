@@ -381,9 +381,12 @@ if( empty_update_or_source_dir AND
   set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
   message("ctest_checkout_script= " ${ctest_checkout_script})
   file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
-        execute_process(
-            COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
-                    \"${dashboard_update_dir}\" )   ")
+        execute_process(COMMAND 
+             \"${CTEST_GIT_COMMAND}\" 
+             clone
+             --branch=${dashboard_git_branch}
+              \"${dashboard_git_url}\"
+             \"${dashboard_update_dir}\" )   ")
   
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
 endif()
