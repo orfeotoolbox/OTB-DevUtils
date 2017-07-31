@@ -365,8 +365,10 @@ endif()
 
 # Support initial checkout if necessary.
 if(NOT EXISTS "${dashboard_update_dir}" AND
-   NOT DEFINED CTEST_CHECKOUT_COMMAND)
-  get_filename_component(_name "${dashboard_update_dir}" NAME)
+    NOT DEFINED CTEST_CHECKOUT_COMMAND)
+  #remove trailing slash. this messes up get_filename_component call
+  STRING(REGEX REPLACE "\\/$" "" _dashboard_update_dir ${dashboard_update_dir})
+  get_filename_component(_name "${_dashboard_update_dir}" NAME)
   message("_name= " ${_name})
   # Generate an initial checkout script.
   set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)

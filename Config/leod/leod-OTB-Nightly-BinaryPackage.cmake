@@ -9,10 +9,10 @@ include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 set(dashboard_git_branch "update_pkg")
-set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/Packaging")
+set(dashboard_source_name "${lcdashboard_model}/update_pkg/src/Packaging")
 set(dashboard_binary_name "${lcdashboard_model}/OTB-SuperBuild/pkg-otb")
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
-set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src)
+set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/update_pkg/src)
 
 set(OTB_SB_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/install)
 set(OTB_SB_BINARY_DIR  ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/build)
