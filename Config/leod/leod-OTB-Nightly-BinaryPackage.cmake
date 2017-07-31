@@ -2,7 +2,7 @@ set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Package-MacOSX-10.10")
 
 set(dashboard_model Nightly)
-set(dashboard_no_install 1)
+#set(dashboard_no_install 1)
 set(CTEST_BUILD_FLAGS -j1)
 set(dashboard_build_target PACKAGE-OTB)
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
