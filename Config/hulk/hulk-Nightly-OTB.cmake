@@ -20,7 +20,7 @@ macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
 CMAKE_C_FLAGS:STRING=-Wall
-CMAKE_CXX_FLAGS:STRING=-Wall -Wno-cpp --std=c++11 -Wno-unknown-pragmas
+CMAKE_CXX_FLAGS:STRING=-Wall -Wno-cpp -Wno-unknown-pragmas
 
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 
@@ -82,6 +82,8 @@ macro(dashboard_hook_end)
     ctest_build(TARGET "Documentation")
   endif()
 endmacro()
+
+set(dashboard_cache_for_rfc-98-qwt6 "CMAKE_PREFIX_PATH:PATH=$ENV{HOME}/local/qwt-6.1.3")
 
 execute_process (COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_DIRECTORY})
 execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_DIRECTORY})

@@ -25,7 +25,7 @@ CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_PREFIX}
 CMAKE_PREFIX_PATH:PATH=/opt/local
 
 CMAKE_C_FLAGS:STRING= -fPIC -Wall
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-gnu -Wno-gnu-static-float-init -Wno-\\\\#warnings -std=c++11
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-gnu -Wno-gnu-static-float-init -Wno-\\\\#warnings
 
 OPENTHREADS_CONFIG_HAS_BEEN_RUN_BEFORE:BOOL=ON
 
@@ -91,5 +91,16 @@ endmacro()
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${CTEST_INSTALL_PREFIX})
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFIX})
 
+#
+# Specific cache for feature branches {
+
+set( dashboard_cache_for_rfc-98-qwt6 "
+# QWT
+QWT_INCLUDE_DIR=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/Headers
+QWT_LIBRARY=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/qwt
+" )
+
+# } Specific cache for feature branches.
+#
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

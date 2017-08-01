@@ -8,6 +8,11 @@
 # set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015") 
 # set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015 Win64")
 
+# SuperBuild: DONT EVEN THINK OF ACTIVATING
+# ANY SYSTEM LIBRARY AND THEN MAKING OTB PACKAGE!
+# THIS WILL REQUIRE SPECIFIC PATCHING IN GENERATED CMAKE FILES
+# SEE otb.git/Packaging/install_cmake_files.cmake
+
 set(otb_data_use_largeinput ON)
 
 set(dashboard_cache 
@@ -26,8 +31,11 @@ OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_WRAP_PYTHON:BOOL=ON
 OTB_USE_SHARK:BOOL=ON
-"
-)
+")
+
+if("$ENV{dashboard_otb_branch}" STREQUAL "rfc-98-qwt6")
+  set(XDK_INSTALL_DIR "C:/dashboard/otb/xdk/otb61_$ENV{COMPILER_ARCH}")
+endif()
 
 include(windows_common.cmake)
 

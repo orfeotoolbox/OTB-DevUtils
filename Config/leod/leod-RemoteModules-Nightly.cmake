@@ -17,7 +17,7 @@ set(dashboard_cache "
 BUILD_EXAMPLES:BOOL=OFF
 CMAKE_PREFIX_PATH:PATH=/opt/local
 CMAKE_C_FLAGS:STRING= -fPIC -Wall
-CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-gnu -Wno-gnu-static-float-init -Wno-\\\\#warnings -std=c++11
+CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-gnu -Wno-gnu-static-float-init -Wno-\\\\#warnings
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_ROOT:STRING=$ENV{HOME}/Data/OTB-Data
 BUILD_SHARED_LIBS:BOOL=ON

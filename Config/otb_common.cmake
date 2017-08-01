@@ -278,7 +278,9 @@ if(NOT DEFINED dashboard_git_branch)
     set(dashboard_git_branch develop)
   endif()
   # handle SuperBuild branch
-  if("${_source_directory_filename}" STREQUAL "SuperBuild")
+
+  if("${_source_directory_filename}" STREQUAL "SuperBuild" OR
+     "${_source_directory_filename}" STREQUAL "Packaging" )
     if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/superbuild_branch.txt)
       set(_superbuild_branch_file ${CTEST_SCRIPT_DIRECTORY}/superbuild_branch.txt)
     elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../superbuild_branch.txt)
@@ -288,9 +290,14 @@ if(NOT DEFINED dashboard_git_branch)
     endif()
     if(EXISTS ${_superbuild_branch_file})
       file(STRINGS ${_superbuild_branch_file} _superbuild_branch_content
-           REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *\$")
+           REGEX "^ *([a-zA-Z0-9]|-|_|\\.)+ *([a-zA-Z0-9]|-|_|\\.)* *\$")
       if(_superbuild_branch_content)
-        list(GET _superbuild_branch_content 0 dashboard_git_branch)
+        string(REGEX REPLACE "^ *(([a-zA-Z0-9]|-|_|\\.)+) *(([a-zA-Z0-9]|-|_|\\.)*) *\$" "\\1" _branch ${_superbuild_branch_content})
+        string(REGEX REPLACE "^ *(([a-zA-Z0-9]|-|_|\\.)+) *(([a-zA-Z0-9]|-|_|\\.)*) *\$" "\\3" _databranch ${_superbuild_branch_content})
+        set(dashboard_git_branch ${_branch})
+        if(_databranch)
+          set(specific_data_branch_for_${_branch} ${_databranch})
+        endif()
       endif()
     endif()
   endif()
@@ -356,18 +363,30 @@ if(EXISTS ${dashboard_update_dir})
   endif()
 endif()
 
+
+
+set(empty_update_or_source_dir FALSE)
+if( NOT EXISTS "${dashboard_update_dir}" OR
+    NOT EXISTS "${CTEST_SOURCE_DIRECTORY}")
+    set(empty_update_or_source_dir TRUE)
+endif()
 # Support initial checkout if necessary.
-if(NOT EXISTS "${dashboard_update_dir}" AND
-   NOT DEFINED CTEST_CHECKOUT_COMMAND)
-  get_filename_component(_name "${dashboard_update_dir}" NAME)
+if( empty_update_or_source_dir AND
+    NOT DEFINED CTEST_CHECKOUT_COMMAND)
+  #remove trailing slash. this messes up get_filename_component call
+  STRING(REGEX REPLACE "\\/$" "" _dashboard_update_dir ${dashboard_update_dir})
+  get_filename_component(_name "${_dashboard_update_dir}" NAME)
   message("_name= " ${_name})
   # Generate an initial checkout script.
   set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
   message("ctest_checkout_script= " ${ctest_checkout_script})
   file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
-        execute_process(
-            COMMAND \"${CTEST_GIT_COMMAND}\" clone \"${dashboard_git_url}\"
-                    \"${dashboard_update_dir}\" )   ")
+        execute_process(COMMAND 
+             \"${CTEST_GIT_COMMAND}\" 
+             clone
+             --branch=${dashboard_git_branch}
+              \"${dashboard_git_url}\"
+             \"${dashboard_update_dir}\" )   ")
   
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
 endif()
