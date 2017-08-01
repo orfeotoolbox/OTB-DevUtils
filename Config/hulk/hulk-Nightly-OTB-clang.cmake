@@ -59,8 +59,8 @@ OpenCV_DIR:PATH=/usr/share/OpenCV
 MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
 
-SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/shark/lib/libshark_debug.so
-SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/shark/include
+SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/shark-clang/lib/libshark.so
+SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/shark-clang/include
     ")
 endmacro()
 
