@@ -55,25 +55,18 @@ foreach(line_in_sb_file_content ${sb_file_contents})
 
 endforeach()
 
-
 # Finally if there is no SUPERBUILD_DATA_BRANCH set, From file or wherever, set it to nightly
 if(NOT SUPERBUILD_DATA_BRANCH)
   set(SUPERBUILD_DATA_BRANCH nightly)
 endif()
-
-if(NOT SUPERBUILD_BRANCH)
-  set(SUPERBUILD_BRANCH nightly)
-endif()
-
-set(PACKAGING_BRANCH "update_pkg")
-#set(PACKAGING_BRANCH "${SUPERBUILD_BRANCH}")
-
 
 set(LIST_OF_BRANCHES)
 list(APPEND LIST_OF_BRANCHES "nightly nightly")
 list(APPEND LIST_OF_BRANCHES "release-${OTB_STABLE_VERSION} release-${OTB_STABLE_VERSION}")
 
 # LIST_OF_BRANCHES is updated with contents from feature_branches.txt
+
+
 
 #CAREFUL when you update code below.
 if(NOT DEFINED COMPILER_ARCH)
@@ -129,12 +122,11 @@ execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat
    ERROR_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 
-# Packaging
-#otb-data branch for package build is irrelevant 
+# Packaging  
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   ${COMPILER_ARCH} 0 PACKAGE_OTB ${PACKAGING_BRANCH} ${SUPERBUILD_DATA_BRANCH}
-   OUTPUT_FILE ${LOGS_DIR}/package_otb_${PACKAGING_BRANCH}_${COMPILER_ARCH}.txt
-   ERROR_FILE ${LOGS_DIR}/package_otb_${PACKAGING_BRANCH}_${COMPILER_ARCH}.txt
+   ${COMPILER_ARCH} 0 PACKAGE_OTB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
+   OUTPUT_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
+   ERROR_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
   
 # SuperBuild with remote modules (dashboard action is SUPERBUILD_CONTRIB)
@@ -145,11 +137,10 @@ execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat
   WORKING_DIRECTORY ${SCRIPTS_DIR})
   
 # Packaging  new build
-#otb-data branch for package build is irrelevant 
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   ${COMPILER_ARCH} 0 PACKAGE_OTB_CONTRIB ${PACKAGING_BRANCH} ${SUPERBUILD_DATA_BRANCH}
-   OUTPUT_FILE ${LOGS_DIR}/package_contrib_${PACKAGING_BRANCH}_${COMPILER_ARCH}.txt
-   ERROR_FILE ${LOGS_DIR}/package_contrib_${PACKAGING_BRANCH}_${COMPILER_ARCH}.txt
+   ${COMPILER_ARCH} 0 PACKAGE_OTB_CONTRIB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
+   OUTPUT_FILE ${LOGS_DIR}/package_contrib_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
+   ERROR_FILE ${LOGS_DIR}/package_contrib_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 
 # nightly latest release + Feature Branches
