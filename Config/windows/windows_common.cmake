@@ -701,7 +701,8 @@ list(APPEND CTEST_NOTES_FILES
 if(DASHBOARD_SUPERBUILD)
   set(CTEST_NOTES_FILES
     "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-configure-out.log"
-    "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-configure-err.log"    
+    "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-configure-err.log"
+    "${CTEST_BINARY_DIRECTORY}/OTB/build/CMakeCache.txt"
     )
 endif()
 
