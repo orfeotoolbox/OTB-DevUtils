@@ -7,8 +7,6 @@ set(LOGS_DIR "C:/dashboard/logs")
 execute_process(COMMAND "net" "use" "R:" "/delete" "/Y")
 execute_process(COMMAND "net" "use" "R:" "\\\\otbnas.si.c-s.fr\\otbdata\\otb"  "/persistent:no")
 
-set(ENV{EXIT_PROMPT} "1")
-
 #find devutils/Config directory relative to this file (nightly.cmake)
 get_filename_component(DEVUTILS_CONFIG_DIR "${CMAKE_CURRENT_LIST_DIR}" PATH)
 
@@ -124,7 +122,7 @@ execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat
 
 # Packaging  
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   ${COMPILER_ARCH} 0 PACKAGE_OTB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
+   ${COMPILER_ARCH} 0 PKG ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
    OUTPUT_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
    ERROR_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})
@@ -138,7 +136,7 @@ execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat
   
 # Packaging  new build
 execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   ${COMPILER_ARCH} 0 PACKAGE_OTB_CONTRIB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
+   ${COMPILER_ARCH} 0 PKG_CONTRIB ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
    OUTPUT_FILE ${LOGS_DIR}/package_contrib_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
    ERROR_FILE ${LOGS_DIR}/package_contrib_${SUPERBUILD_BRANCH}_${COMPILER_ARCH}.txt
   WORKING_DIRECTORY ${SCRIPTS_DIR})

@@ -49,7 +49,7 @@
 #                               (default: script_dir/../$dashboard_root_name)
 #   dashboard_source_name     = Name of source directory (default : OTB)
 #   dashboard_binary_name     = Name of binary directory (default : OTB-build)
-#   dashboard_update_dir      = Source directory to update (default :
+#   CTEST_UPDATE_DIRECTORY    = root directory where project is cloned.(default :
 #                               $CTEST_SOURCE_DIRECTORY)
 #   CTEST_SOURCE_DIRECTORY    = Path to source directory (default :
 #                               $CTEST_DASHBOARD_ROOT/$dashboard_source_name)
@@ -205,9 +205,7 @@ if(DEFINED ENV{OTBNAS_PACKAGES_DIR})
   set(OTBNAS_PACKAGES_DIR "$ENV{OTBNAS_PACKAGES_DIR}")
 endif()
 
-
 # Look for a GIT command-line client.
-
 find_program(CTEST_GIT_COMMAND NAMES git git.cmd)
 
 if(NOT CTEST_GIT_COMMAND)
@@ -248,19 +246,20 @@ if(DEFINED ENV{DASHBOARD_SUPERBUILD})
   set(DASHBOARD_SUPERBUILD "$ENV{DASHBOARD_SUPERBUILD}")
 endif()
 
-if(DEFINED ENV{DASHBOARD_PACKAGE_OTB})
-  set(DASHBOARD_PACKAGE_OTB $ENV{DASHBOARD_PACKAGE_OTB})
+if(DEFINED ENV{DASHBOARD_PKG})
+  set(DASHBOARD_PKG $ENV{DASHBOARD_PKG})
 endif()
 
-if(DEFINED ENV{DASHBOARD_PACKAGE_XDK})
-  set(DASHBOARD_PACKAGE_XDK $ENV{DASHBOARD_PACKAGE_XDK})
+set(WITH_CONTRIB FALSE)
+if(DEFINED ENV{WITH_CONTRIB})
+  set(WITH_CONTRIB $ENV{WITH_CONTRIB})
 endif()
 
-set(DASHBOARD_PACKAGE_ONLY FALSE)
-if(DASHBOARD_PACKAGE_XDK OR DASHBOARD_PACKAGE_OTB)
-  set(DASHBOARD_PACKAGE_ONLY TRUE)
+if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
+  file(TO_CMAKE_PATH "$ENV{CTEST_SOURCE_DIRECTORY}" CTEST_SOURCE_DIRECTORY)
 endif()
 #end of check env
+
 
 set(CONFIGURE_OPTIONS)
 if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB)
@@ -268,10 +267,6 @@ if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB)
   foreach(remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
     list(APPEND CONFIGURE_OPTIONS "-DModule_${remote_module}:BOOL=ON")
   endforeach()
-endif()
-
-if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
-  file(TO_CMAKE_PATH "$ENV{CTEST_SOURCE_DIRECTORY}" CTEST_SOURCE_DIRECTORY)
 endif()
 
 # Set CTEST_SOURCE_DIRECTORY if not defined
@@ -282,29 +277,26 @@ if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
     set(CTEST_SOURCE_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/src)
   endif()
 endif()
-
 #do not move below code. we must set 
-# Set source directory to update right after we decide on CTEST_SOURCE_DIRECTORY
-if(NOT DEFINED dashboard_update_dir)
-  set(dashboard_update_dir ${CTEST_SOURCE_DIRECTORY})
+# Set source directory to update right after we decide 
+# on first CTEST_SOURCE_DIRECTORY which is actually the git repo dir
+if(NOT DEFINED CTEST_UPDATE_DIRECTORY) #CTEST_UPDATE_DIRECTORY
+  set(CTEST_UPDATE_DIRECTORY ${CTEST_SOURCE_DIRECTORY})
 endif()
 
+#helper var for remote module root directory
+set(REMOTE_MODULES_DIR "${CTEST_UPDATE_DIRECTORY}/Modules/Remote")
+
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# CTEST_SOURCE_DIRECTORY is changed depending on the condition
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# CTEST_SOURCE_DIRECTORY is changed depending on your config
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 if(DASHBOARD_SUPERBUILD)
   set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
-elseif(DASHBOARD_PACKAGE_ONLY) 
-  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild/Packaging)
+elseif(DASHBOARD_PKG) 
+  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/Packaging)
 endif()
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
-get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
+
 
 # DEFAULT values for CTEST_INSTALL_DIRECTORY if not defined
 if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
@@ -323,9 +315,8 @@ if(NOT DEFINED XDK_INSTALL_DIR)
   endif()
 endif()
 
-
 #reset XDK_INSTALL_DIR when building packages: OTB and XDK
-#if(DASHBOARD_PACKAGE_ONLY)
+#if(DASHBOARD_PKG)
 #set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
 #endif()
 
@@ -354,27 +345,27 @@ function(print_summary)
 foreach(v
     CTEST_SITE
     CTEST_BUILD_NAME
-    CTEST_SOURCE_DIRECTORY
-    CTEST_BINARY_DIRECTORY
-    CTEST_INSTALL_DIRECTORY
-    CTEST_CMAKE_GENERATOR
-    CTEST_BUILD_CONFIGURATION
     CTEST_GIT_COMMAND
     CTEST_GIT_UPDATE_OPTIONS
     CTEST_GIT_UPDATE_CUSTOM
     CTEST_CHECKOUT_COMMAND
     CTEST_USE_LAUNCHERS
+    CTEST_CMAKE_GENERATOR  
+    CTEST_SOURCE_DIRECTORY
+    CTEST_UPDATE_DIRECTORY
+    CTEST_BINARY_DIRECTORY
+    CTEST_INSTALL_DIRECTORY
+    CTEST_BUILD_CONFIGURATION
     CTEST_DASHBOARD_TRACK
     CMAKE_MAKE_PROGRAM
     DASHBOARD_SUPERBUILD
     SUPERBUILD_REBUILD_OTB_ONLY
-    DASHBOARD_PACKAGE_ONLY
+    DASHBOARD_PKG
     DOWNLOAD_LOCATION
     XDK_INSTALL_DIR
     CTEST_DROP_LOCATION
     dashboard_otb_branch
     dashboard_data_branch
-    dashboard_update_dir
     OTBNAS_PACKAGES_DIR
     WITH_CONTRIB
     )
@@ -462,6 +453,7 @@ if(DROP_SHELL)
   endif()
     
     print_summary()
+    
   execute_process(COMMAND 
     ${CTEST_GIT_COMMAND} checkout ${dashboard_otb_branch}
     WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
@@ -498,7 +490,7 @@ if(DASHBOARD_SUPERBUILD)
   set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-SuperBuild")
 endif()
 
-if(DASHBOARD_PACKAGE_ONLY)
+if(DASHBOARD_PKG)
   set(CTEST_BUILD_NAME "Package-${CTEST_BUILD_NAME}")
 endif()
 
@@ -507,14 +499,14 @@ if(dashboard_label)
 endif()
 
 if(NOT "${dashboard_otb_branch}" MATCHES "^(nightly|develop|release.([0-9]+)\\.([0-9]+))$")
-  if(NOT (DASHBOARD_SUPERBUILD OR DASHBOARD_PACKAGE_ONLY))
+  if(NOT (DASHBOARD_SUPERBUILD OR DASHBOARD_PKG))
     set(CTEST_BUILD_NAME "${dashboard_otb_branch}-${CTEST_BUILD_NAME}")
   endif()
 endif()
 
 # Append release-X.Y to CTEST_BUILD_NAME when building release branch for OTB
 if("${dashboard_otb_branch}" MATCHES "^(release.([0-9]+)\\.([0-9]+))$")
-  if(NOT (DASHBOARD_SUPERBUILD OR DASHBOARD_PACKAGE_ONLY))
+  if(NOT (DASHBOARD_SUPERBUILD OR DASHBOARD_PKG))
     set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-${dashboard_otb_branch}")
   endif()
 endif()
@@ -546,7 +538,7 @@ if(NOT DEFINED CTEST_CMAKE_GENERATOR)
     set(CTEST_CMAKE_GENERATOR "$ENV{CTEST_CMAKE_GENERATOR}")
   else() #if(DEFINED ENV{CTEST_CMAKE_GENERATOR})
     if(WIN32)
-      if(DASHBOARD_SUPERBUILD OR DASHBOARD_PACKAGE_ONLY)
+      if(DASHBOARD_SUPERBUILD OR DASHBOARD_PKG)
         set(CTEST_CMAKE_GENERATOR "NMake Makefiles JOM")
       else()
         set(CTEST_CMAKE_GENERATOR "Ninja")
@@ -566,41 +558,6 @@ if(DASHBOARD_SUPERBUILD)
     file(TO_CMAKE_PATH "${DOWNLOAD_LOCATION}" DOWNLOAD_LOCATION)
   endif()
 endif()
-
-# Check for required variables.
-foreach(req
-    CTEST_CMAKE_GENERATOR
-    CTEST_SITE
-    CTEST_BUILD_NAME
-    )
-  if(NOT DEFINED ${req})
-    message(FATAL_ERROR "you must ${req} before calling otb_common.cmake")
-  endif()
-endforeach(req)
-
-
-#if(NOT dashboard_build_target)
-#	set(dashboard_build_target install)
-#endif()
-#for superbuild
-#set(dashboard_build_target PACKAGE-OTB)
-
-# Create build command
-# if(NOT DEFINED CTEST_BUILD_COMMAND)
-# if(DEFINED dashboard_build_command)
-# if(DEFINED dashboard_build_target)
-#use custom target
-# set(CTEST_BUILD_COMMAND "${dashboard_build_command} ${dashboard_build_target}")
-# else()
-# if(NOT dashboard_no_install)
-#       default target : install
-# set(CTEST_BUILD_COMMAND "${dashboard_build_command} install")
-# else()
-# set(CTEST_BUILD_COMMAND "${dashboard_build_command}")
-# endif()
-# endif()
-# endif()
-# endif()
 
 # Choose CTest reporting mode.
 if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make")
@@ -643,6 +600,9 @@ endif()
 if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
   set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_otb_branch} -P ${_git_updater_script})
 endif()
+
+get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
+get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
 
 # Choose the dashboard track
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
@@ -705,7 +665,6 @@ if(DASHBOARD_SUPERBUILD)
     "${CTEST_BINARY_DIRECTORY}/OTB/build/CMakeCache.txt"
     )
 endif()
-
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -770,19 +729,6 @@ OTB_DATA_LARGEINPUT_ROOT:PATH=${OTB_DATA_LARGEINPUT_ROOT}
     )
 endif()
 
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# NOTE:: CTEST_BUILD_COMMAND will skip ctest_build( ) arguments.
-# It doesn't matter you have dashboard_build_target set
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-if(DASHBOARD_PACKAGE_ONLY)
-  if(DASHBOARD_PACKAGE_XDK)
-    set(CTEST_BUILD_COMMAND "jom PACKAGE-XDK" )
-  else()
-    set(CTEST_BUILD_COMMAND "jom PACKAGE-OTB" )
-  endif()
-endif()
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -804,7 +750,7 @@ endif()
 # NOTE:: RESET whatever 'dashboard_cache' set and use the below 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-if(DASHBOARD_PACKAGE_ONLY)
+if(DASHBOARD_PKG)
   set(dashboard_cache "
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 BUILD_TESTING:BOOL=ON
@@ -813,45 +759,45 @@ SUPERBUILD_INSTALL_DIR:PATH=${SUPERBUILD_INSTALL_DIR}
 OTB_WRAP_PYTHON:BOOL=ON
 ${dashboard_cache_packaging}
 ${dashboard_cache_for_${dashboard_otb_branch}}
-GENERATE_PACKAGE:BOOL=${DASHBOARD_PACKAGE_OTB}
-GENERATE_XDK:BOOL=${DASHBOARD_PACKAGE_XDK}
 ")
 
   if(WITH_CONTRIB)
     set(dashboard_cache "${dashboard_cache} \n NAME_SUFFIX:STRING=-contrib")
   endif()
 
-endif(DASHBOARD_PACKAGE_ONLY)
+endif() #DASHBOARD_PKG
 
 # Delete source tree if it is incompatible with current VCS.
-if(EXISTS ${dashboard_update_dir})
-  if(NOT EXISTS "${dashboard_update_dir}/.git")
+if(EXISTS ${CTEST_UPDATE_DIRECTORY})
+  if(NOT EXISTS "${CTEST_UPDATE_DIRECTORY}/.git")
     set(vcs_refresh "because it is not managed by git.")
   endif()
   if(${dashboard_fresh_source_checkout})
     set(vcs_refresh "because dashboard_fresh_source_checkout is specified.")
   endif()
   if(vcs_refresh)
-    message("Deleting source tree\n  ${dashboard_update_dir}\n${vcs_refresh}")
-    file(REMOVE_RECURSE "${dashboard_update_dir}")
+    message("Deleting source tree\n  ${CTEST_UPDATE_DIRECTORY}\n${vcs_refresh}")
+    file(REMOVE_RECURSE "${CTEST_UPDATE_DIRECTORY}")
   endif()
 endif()
 
 # Support initial checkout if necessary.
-if(NOT EXISTS "${dashboard_update_dir}"
-    AND NOT DEFINED CTEST_CHECKOUT_COMMAND)
-  get_filename_component(_name "${dashboard_update_dir}" NAME)
-  message("_name= " ${_name})
+if(NOT EXISTS "${CTEST_UPDATE_DIRECTORY}"
+  AND NOT DEFINED CTEST_CHECKOUT_COMMAND)
+   #remove trailing slash. this messes up get_filename_component call
+  STRING(REGEX REPLACE "\\/$" "" my_update_dir ${CTEST_UPDATE_DIRECTORY})
+  get_filename_component(update_dirname "${my_update_dir}" NAME)
+  message("update_dirname= " ${update_dirname})
   # Generate an initial checkout script.
-  set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
+  set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${update_dirname}-init.cmake)
   message("ctest_checkout_script= " ${ctest_checkout_script})
-  file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
+  file(WRITE ${ctest_checkout_script} "# git repo init script for ${update_dirname}
         execute_process(
             COMMAND \"${CTEST_GIT_COMMAND}\" clone  
 			--depth=1  
 			--branch=${dashboard_otb_branch} 
 			\"${dashboard_git_url}\" 
-			\"${dashboard_update_dir}\" )   ")
+			\"${CTEST_UPDATE_DIRECTORY}\" )   ")
 
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
 
@@ -996,18 +942,30 @@ if(COMMAND dashboard_hook_start)
   dashboard_hook_start()
 endif()
 
-
 print_summary()
 
 if(COMMAND dashboard_hook_init)
   dashboard_hook_init()
 endif()
 
+if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}")
+  execute_process(COMMAND 
+    ${CTEST_GIT_COMMAND} checkout ${dashboard_otb_branch}
+    WORKING_DIRECTORY ${CTEST_UPDATE_DIRECTORY}
+    RESULT_VARIABLE checkout_rv
+    ERROR_VARIABLE checkout_ev
+  )
+  if(checkout_rv)
+    message(FATAL_ERROR 
+    "git checkout failed with ${checkout_rv}: error: ${checkout_ev}")
+    return()
+  endif()
+endif()
 ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
 
 # Look for updates.
 if(NOT dashboard_no_update)
-  ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
+  ctest_update(SOURCE ${CTEST_UPDATE_DIRECTORY} RETURN_VALUE count)
   set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
   message("Found ${count} changed files")
 else()
@@ -1016,7 +974,8 @@ endif()
 
 # add specific modules (works for OTB only)
 if(DEFINED dashboard_remote_module AND DEFINED dashboard_remote_module_url)
-  execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_remote_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}" RESULT_VARIABLE rv)
+  execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_remote_module_url}"
+    "${REMOTE_MODULES_DIR}/${dashboard_remote_module}" RESULT_VARIABLE rv)
   if(NOT rv EQUAL 0)
     message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
   endif()
@@ -1067,19 +1026,16 @@ macro(dashboard_reset_sources)
     -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
     -D TESTED_BRANCH:STRING=develop
     -P ${_git_updater_script}
-    WORKING_DIRECTORY ${dashboard_update_dir})
+    WORKING_DIRECTORY ${CTEST_UPDATE_DIRECTORY})
 endmacro(dashboard_reset_sources)
 
 
-file(GLOB remote_module_dirs "${dashboard_update_dir}/Modules/Remote/*")
-foreach(remote_module_dir ${remote_module_dirs})
-  
-  if( EXISTS${remote_module_dir} AND IS_DIRECTORY ${remote_module_dir})
-    message( "Removing ${dashboard_update_dir}/Modules/Remote/${remote_module_dir}")
-    file(REMOVE_RECURSE "${dashboard_update_dir}/Modules/Remote/${dashboard_remote_module}")
+file(GLOB otb_remote_module_dirs "${REMOTE_MODULES_DIR}/*")
+foreach(otb_remote_module_dir ${remote_module_dirs})
+  if( EXISTS${otb_remote_module_dir} AND IS_DIRECTORY ${otb_remote_module_dir})
+    message( "Removing ${REMOTE_MODULES_DIR}/${otb_remote_module_dir}")
+    file(REMOVE_RECURSE "${REMOTE_MODULES_DIR}/${dashboard_remote_module}")
   endif()
-  
-  
 endforeach()
 # special setting for ctest_submit(), issue with CA checking
 set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
@@ -1090,20 +1046,38 @@ if(NOT dashboard_no_configure)
   write_cache()
   message("Running ctest_configure() on ${CTEST_BINARY_DIRECTORY}")
   if(CONFIGURE_OPTIONS)
-    ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" OPTIONS "${CONFIGURE_OPTIONS}"	RETURN_VALUE _configure_rv)
+    ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" 
+    OPTIONS "${CONFIGURE_OPTIONS}"	
+    RETURN_VALUE _configure_rv)
   else()
-    ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" 	RETURN_VALUE _configure_rv)
+    ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" 
+    RETURN_VALUE _configure_rv)
   endif()
   ctest_read_custom_files(${CTEST_BINARY_DIRECTORY})
 
   if(NOT _configure_rv EQUAL 0)
+  # Send CMakeFiles/CMakeOutput.log"
+ set(CTEST_NOTES_FILES
+  "${CTEST_BINARY_DIRECTORY}/CMakeFiles/CMakeOutput.log"
+  "${CTEST_BINARY_DIRECTORY}/CMakeFiles/CMakeCache.txt"
+  "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}"
+  "${CMAKE_CURRENT_LIST_FILE}"
+  )
+  if(NOT dashboard_no_submit)
     ctest_submit()
+  endif()
     return()
   endif()
 endif() #NOT dashboard_no_configure
 
 if(COMMAND dashboard_hook_build)
   dashboard_hook_build()
+endif()
+
+#must have install target.
+#keep this if condition here because it's used in next loop
+if(DASHBOARD_PKG)
+	set(dashboard_build_target install)
 endif()
 
 if(NOT dashboard_no_build)
@@ -1155,7 +1129,7 @@ endif()
 #   dashboard_reset_sources()
 # endif()
 
-if(DASHBOARD_PACKAGE_ONLY)
+if(DASHBOARD_PKG)
   dashboard_copy_packages()
 endif()
 
