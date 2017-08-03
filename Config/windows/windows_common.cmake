@@ -426,6 +426,15 @@ if(NOT DEFINED dashboard_data_branch)
   set(dashboard_data_branch nightly)
 endif()
 
+if(DASHBOARD_SUPERBUILD
+    AND SUPERBUILD_REBUILD_OTB_ONLY
+    AND WITH_CONTRIB
+    )
+  if(NOT dashboard_build_target)
+    set(dashboard_build_target install)
+  endif()
+endif()
+
 if(dashboard_build_target)
   string(REPLACE "-all" "" dashboard_label ${dashboard_build_target})
 endif()
@@ -856,25 +865,11 @@ if(DASHBOARD_SUPERBUILD)
     else()
       message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} - OK")
     endif()
-    
-    # execute_process(
-    # COMMAND ${CMAKE_COMMAND} 
-    # --build ${CTEST_BINARY_DIRECTORY}
-    # --target OTB_DEPENDS
-    # WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
-    # RESULT_VARIABLE otb_depends_rv
-    # )
-    # if(otb_depends_rv)
-    # message("Build target OTB_DEPENDS - FAILED")
-    # else()
-    # message("Build target OTB_DEPENDS - OK")
-    # endif()
-    
+ 
     if(WITH_CONTRIB)
       get_filename_component(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY} PATH)
       set(CTEST_BINARY_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build)
       message("changing source and build directory [WITH_CONTRIB=1]")
-      set(dashboard_build_target install)
     else()
       execute_process(COMMAND ${CMAKE_COMMAND} 
         -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
@@ -1081,7 +1076,7 @@ endif()
 #must have install target.
 #keep this if condition here because it's used in next loop
 if(DASHBOARD_PKG)
-	set(dashboard_build_target install)
+  set(dashboard_build_target install)
 endif()
 
 if(NOT dashboard_no_build)
