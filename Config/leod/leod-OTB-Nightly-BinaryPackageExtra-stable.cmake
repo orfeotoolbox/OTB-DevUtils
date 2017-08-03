@@ -26,6 +26,7 @@ ctest_build(TARGET uninstall)
 # enable_official_remote_modules(${CTEST_SOURCE_DIRECTORY} cache_remote_modules)
 ctest_configure(OPTIONS "-DModule_Mosaic:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON;-DModule_OTBFFSforGMM:BOOL=ON")
 ctest_build(TARGET install)
+ctest_test(BUILD "${CTEST_DASHBOARD_ROOT}/build/OTB-SuperBuild/build-stable")
 ctest_submit()
 
 unset(CTEST_BINARY_DIRECTORY)
