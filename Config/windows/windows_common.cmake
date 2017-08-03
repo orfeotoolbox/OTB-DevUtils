@@ -1,46 +1,34 @@
+# Client maintainer: rashad.kanavath@c-s.fr
 # OTB Common Dashboard Script
 #
 # This script contains basic dashboard driver code common to all
-# clients.
+# windows platforms. But it sure can be reused on other platforms.
 #
-# Put this script in a directory such as "~/Dashboards/Scripts" or
-# "c:/Dashboards/Scripts".  Also place the script "git_updater.cmake" in the 
-# same folder to use custom update commands. Create a file next to this script,
-# say 'my_dashboard.cmake', with code of the following form:
+# THIS SCRIPT IS NOT STANDALONE FILE. IT CAN WORK ONLY AS "BUNDLE"
+# THE COMPLETE SCRIPT INCLUDES:
+# dashboard.bat, dashboard.cmake and windows_common.cmake
+
+# TO RUN THIS SCRIPT USE dashboard.bat FOUND IN THE SAME DIRECTORY
+# syntax : dashboard.bat <arch> <TYPE> <otb_git_branch> <otb_data_branch>
+# usage  : dashboard.bat x64 BUILD develop master
+# MORE DOCUMENTATION AND INLINE COMMENTS CAN BE FOUND INSIDE dashboard.bat
+
+# THIS SCRIPT MAKE SOME ASSUMPTIONS SUCH AS INSTALL LOCATION OF
+# Microsoft Visual Studio 2015 in C:\
+# certain tools in C:\Tools.
+# Directory named  c:\dashboard\otb (where we keep all builds)
+# A valid otb xdk package in c:\dashboard\otb\xdk\install_sb_<arch>
+
+#This is evident from dashboard.bat and windows_common.cmake
+# Any change in these directory names required a 'search and replace'
+# inside windows_common.cmake and dashboard.bat
 #
-#   # Client maintainer: me@mydomain.net
-#   set(CTEST_SITE "machine.site")
-#   set(CTEST_BUILD_NAME "Platform-Compiler")
-#   set(CTEST_BUILD_CONFIGURATION Debug)
-#   set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
-#   set(CTEST_SOURCE_DIRECTORY Path_to_source_dir)
-#   set(CTEST_BINARY_DIRECTORY Path_to_build_dir)
-#   set(dashboard_model Nightly)
-#   set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
-#   macro(dashboard_hook_init)
-#     set(dashboard_cache "${dashboard_cache}
-#       # set your initial cmake cache variables
-#       ")
-#   endmacro()
-#   include(${CTEST_SCRIPT_DIRECTORY}/otb_common.cmake)
-#
-# Then run a scheduled task (cron job) with a command line such as
-#
-#   ctest -S ~/Dashboards/Scripts/my_dashboard.cmake -V
-#
-# By default the source and build trees will be placed in the path
-# "../My Tests/" relative to your script location.
-#
-# The following variables may be set before including this script
-# to configure it. If a variable is not defined, it may recieve a default value.
-# Generally, the variables CTEST_* have priority over dashboard_* variables, as 
-# they are directly used by ctest :
 #
 #   ---------------------- General setup ---------------------------------------
 #   dashboard_model           = Nightly | Experimental | Continuous
 #   dashboard_loop            = Repeat until N seconds have elapsed
 #   CTEST_SITE                = Site name
-#   CTEST_BUILD_NAME          = Name of the build
+#   CTEST_BUILD_NAME          = Name of the build 
 #   CTEST_DASHBOARD_TRACK     = Dashboard track (default is guessed based on
 #                               tested branch, dashboard model, and source dir)
 #
@@ -117,7 +105,7 @@
 #   set(ENV{CXX} /path/to/cxx)  # C++ compiler
 #   set(ENV{FC}  /path/to/fc)   # Fortran compiler (optional)
 #   set(ENV{LD_LIBRARY_PATH} /path/to/vendor/lib) # (if necessary)
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 # Avoid non-ascii characters in tool output.
 set(ENV{LC_ALL} C)
@@ -260,7 +248,6 @@ if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
 endif()
 #end of check env
 
-
 set(CONFIGURE_OPTIONS)
 if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB)
   set(CONFIGURE_OPTIONS "-DBUILD_TESTING:BOOL=ON")
@@ -287,44 +274,28 @@ endif()
 #helper var for remote module root directory
 set(REMOTE_MODULES_DIR "${CTEST_UPDATE_DIRECTORY}/Modules/Remote")
 
+#see loop where we set CONFIGURE_OPTIONS
+# set(CONFIGURE_OPTIONS) .. if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB) ..
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # CTEST_SOURCE_DIRECTORY is changed depending on your config
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 if(DASHBOARD_SUPERBUILD)
-  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
-elseif(DASHBOARD_PKG) 
+  #if WITH_CONTRIB is set, we don't touch CTEST_SOURCE_DIRECTORY
+  #because we are not running configure over CTEST_SOURCE_DIRECTORY/SuperBuild
+  if(NOT WITH_CONTRIB)
+    set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
+  endif(WITH_CONTRIB)
+elseif(DASHBOARD_PKG)
   set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/Packaging)
 endif()
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-# DEFAULT values for CTEST_INSTALL_DIRECTORY if not defined
-if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
-  if(DASHBOARD_SUPERBUILD)
-    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
-  else()
-    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_${COMPILER_ARCH})
-  endif()
-endif()
-# DEFAULT values for XDK_INSTALL_DIR if not defined
-if(NOT DEFINED XDK_INSTALL_DIR)
-  if(DASHBOARD_SUPERBUILD)
-    set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
-  else()
-    set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/xdk/install_sb_${COMPILER_ARCH})
-  endif()
-endif()
-
-#reset XDK_INSTALL_DIR when building packages: OTB and XDK
-#if(DASHBOARD_PKG)
-#set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
-#endif()
 
 # DEFAULT values for CTEST_BINARY_DIRECTORY if not defined
 if(NOT DEFINED CTEST_BINARY_DIRECTORY)
   if(DEFINED dashboard_binary_name)
     set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name})
   else()
+    #other than superbuild, all uses otb/build_<arch>. That includes packaging
     if(DASHBOARD_SUPERBUILD)
       set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/superbuild_${COMPILER_ARCH})
       set(OTB_BUILD_BIN_DIR  ${CTEST_BINARY_DIRECTORY}/OTB/build/bin)
@@ -334,6 +305,33 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
     endif()
   endif()
 endif()
+
+#other than superbuild, all uses otb/install_<arch>. That includes packaging
+# DEFAULT values for CTEST_INSTALL_DIRECTORY if not defined
+if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
+  if(DASHBOARD_SUPERBUILD)
+    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+  else()
+    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_${COMPILER_ARCH})
+  endif()
+endif()
+
+# DEFAULT values for XDK_INSTALL_DIR if not defined.
+# DASHBOARD_PKG does not have XDK!. we set it to a NO path
+if(NOT DEFINED XDK_INSTALL_DIR)
+  if(DASHBOARD_SUPERBUILD)
+    set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+  elseif(DASHBOARD_PKG)
+    set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH}) #nullpath)
+  else()
+    set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/xdk/install_sb_${COMPILER_ARCH})
+  endif()
+endif()
+
+#reset XDK_INSTALL_DIR when building packages: OTB and XDK
+#if(DASHBOARD_PKG)
+#set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+#endif()
 
 file(TO_NATIVE_PATH "${XDK_INSTALL_DIR}" XDK_INSTALL_DIR_NATIVE)
 
