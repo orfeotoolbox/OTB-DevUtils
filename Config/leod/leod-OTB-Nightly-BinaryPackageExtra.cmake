@@ -15,7 +15,7 @@ set(CTEST_BUILD_NAME "MacOSX-10.10-SuperBuild-contrib")
 set(CTEST_BUILD_FLAGS -j8)
 
 ctest_start(Nightly TRACK SuperBuild)
-set_git_update_command(${dashboard_git_branch})
+set_git_update_command(nightly)
 ctest_update()
 ctest_build(TARGET uninstall)
 # 3 official remote modules are not packages because of missing GSL dependency
