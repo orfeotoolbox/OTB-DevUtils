@@ -648,6 +648,22 @@ macro(run_dashboard)
   if(COMMAND dashboard_hook_start)
     dashboard_hook_start()
   endif()
+
+  if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}")
+    execute_process(COMMAND
+      ${CTEST_GIT_COMMAND} checkout ${dashboard_otb_branch}
+      WORKING_DIRECTORY ${CTEST_UPDATE_DIRECTORY}
+      RESULT_VARIABLE checkout_rv
+      ERROR_VARIABLE checkout_ev
+      )
+
+    if(checkout_rv)
+      message(FATAL_ERROR
+	"git checkout failed with ${checkout_rv}: error: ${checkout_ev}")
+      return()
+    endif()
+  endif()
+
   ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
 
   # Always build if the tree is fresh.
