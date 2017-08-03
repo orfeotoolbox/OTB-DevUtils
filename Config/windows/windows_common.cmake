@@ -110,6 +110,13 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 # Avoid non-ascii characters in tool output.
 set(ENV{LC_ALL} C)
 
+set(exe_ext)
+set(lib_ext ".so")
+if(WIN32)
+set(exe_ext ".exe")
+set(lib_ext ".lib")
+endif()
+
 # Custom function to remove a folder (divide & conquer ...)
 function(remove_folder_recurse dir)
   file(GLOB content "${dir}/*")
@@ -243,6 +250,10 @@ if(DEFINED ENV{WITH_CONTRIB})
   set(WITH_CONTRIB $ENV{WITH_CONTRIB})
 endif()
 
+if(WITH_CONTRIB)
+  set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
+endif()
+
 if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
   file(TO_CMAKE_PATH "$ENV{CTEST_SOURCE_DIRECTORY}" CTEST_SOURCE_DIRECTORY)
 endif()
@@ -274,17 +285,11 @@ endif()
 #helper var for remote module root directory
 set(REMOTE_MODULES_DIR "${CTEST_UPDATE_DIRECTORY}/Modules/Remote")
 
-#see loop where we set CONFIGURE_OPTIONS
-# set(CONFIGURE_OPTIONS) .. if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB) ..
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # CTEST_SOURCE_DIRECTORY is changed depending on your config
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 if(DASHBOARD_SUPERBUILD)
-  #if WITH_CONTRIB is set, we don't touch CTEST_SOURCE_DIRECTORY
-  #because we are not running configure over CTEST_SOURCE_DIRECTORY/SuperBuild
-  if(NOT WITH_CONTRIB)
-    set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
-  endif() #NOT WITH_CONTRIB
+  set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
 elseif(DASHBOARD_PKG)
   set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/Packaging)
 endif()
@@ -322,7 +327,7 @@ if(NOT DEFINED XDK_INSTALL_DIR)
   if(DASHBOARD_SUPERBUILD)
     set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
   elseif(DASHBOARD_PKG)
-    set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH}) #nullpath)
+    set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/no_path) #nullpath)
   else()
     set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/xdk/install_sb_${COMPILER_ARCH})
   endif()
@@ -681,17 +686,18 @@ DOWNLOAD_LOCATION:PATH=${DOWNLOAD_LOCATION}")
 
 else()
 
+
   if(XDK_INSTALL_DIR)
     set(DEFAULT_CMAKE_CACHE "${DEFAULT_CMAKE_CACHE}
 QT_BINARY_DIR:PATH=${XDK_INSTALL_DIR}/bin
 QT_INSTALL_TRANSLATIONS:PATH=${XDK_INSTALL_DIR}/translations
-QT_MOC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/moc
-QT_UIC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/uic
-QT_RCC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/rcc
+QT_MOC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/moc${exe_ext}
+QT_UIC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/uic${exe_ext}
+QT_RCC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/rcc${exe_ext}
 QT_INSTALL_PLUGINS:PATH=${XDK_INSTALL_DIR}/plugins
 QT_INSTALL_HEADERS:PATH=${XDK_INSTALL_DIR}/include
 QT_MKSPECS_DIR:PATH=${XDK_INSTALL_DIR}/mkspecs  
-QT_QTCORE_LIBRARY_RELEASE:FILEPATH=${XDK_INSTALL_DIR}/lib/QtCore4.lib
+QT_QTCORE_LIBRARY_RELEASE:FILEPATH=${XDK_INSTALL_DIR}/lib/QtCore4${lib_ext}
 QT_QTCORE_INCLUDE_DIR:PATH=${XDK_INSTALL_DIR}/include/QtCore
 QT_HEADERS_DIR:PATH=${XDK_INSTALL_DIR}/include/
     "
@@ -844,7 +850,7 @@ if(DASHBOARD_SUPERBUILD)
       WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build
       RESULT_VARIABLE uninstall_otb_rv
       )
-    
+
     if(uninstall_otb_rv)
       message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} - FAILED")
     else()
@@ -881,7 +887,7 @@ if(DASHBOARD_SUPERBUILD)
         message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - OK")
       endif()  
 
-    endif() #  if(NOT WITH_CONTRIB)
+    endif() #  if(WITH_CONTRIB)
     
   endif() #if(SUPERBUILD_REBUILD_OTB_ONLY)
 endif() #if(DASHBOARD_SUPERBUILD)
