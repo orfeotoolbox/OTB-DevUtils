@@ -284,7 +284,7 @@ if(DASHBOARD_SUPERBUILD)
   #because we are not running configure over CTEST_SOURCE_DIRECTORY/SuperBuild
   if(NOT WITH_CONTRIB)
     set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/SuperBuild)
-  endif(WITH_CONTRIB)
+  endif() #NOT WITH_CONTRIB
 elseif(DASHBOARD_PKG)
   set(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY}/Packaging)
 endif()
