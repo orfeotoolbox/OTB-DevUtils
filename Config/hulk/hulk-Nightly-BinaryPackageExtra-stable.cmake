@@ -12,6 +12,8 @@ set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/OTB-SuperBuild-stable/
 set(CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/src/OTB")
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-SuperBuild-contrib-${dashboard_git_branch}")
 set(CTEST_BUILD_FLAGS -j8)
+#disable warnings on superbuild contrib
+set(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 0)
 
 ctest_start(Nightly TRACK SuperBuild)
 set_git_update_command(${dashboard_git_branch})
@@ -26,6 +28,7 @@ ctest_submit()
 
 unset(CTEST_BINARY_DIRECTORY)
 unset(CTEST_SOURCE_DIRECTORY)
+unset(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS)
 set(CTEST_BUILD_FLAGS "-k -j1")
 #-------------------------------------------------------------------------------
 
