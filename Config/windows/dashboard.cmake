@@ -1,9 +1,14 @@
 # set(dashboard_no_clean 1)
 # set(dashboard_no_update 1) 
 # set(dashboard_no_configure 1)
+# set(dashboard_no_build 1)
+# set(dashboard_no_test 1)
 # set(dashboard_no_submit 1)
 # set(dashboard_model Experimental)
+
+#packaging build will force dashboard_build_target to 'install'
 # set(dashboard_build_target OTBWavelet-all)
+
 # set(CTEST_BUILD_CONFIGURATION RelWithDebInfo)
 # set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015") 
 # set(CTEST_CMAKE_GENERATOR "Visual Studio 14 2015 Win64")
