@@ -36,7 +36,7 @@ set(CTEST_BUILD_FLAGS -j1)
 
 set(CTEST_BUILD_NAME "Package-MacOSX-10.10-contrib")
 
-set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/SuperBuild/Packaging")
+set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/Packaging")
 set(dashboard_binary_name "${lcdashboard_model}/OTB-SuperBuild/pkg-otb-contrib")
 
 set(OTB_SB_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/install)

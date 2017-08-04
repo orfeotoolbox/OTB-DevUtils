@@ -609,7 +609,9 @@ if(NOT dashboard_no_clean)
       remove_folder_recurse(${CTEST_BINARY_DIRECTORY})
       file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
     else()
-      ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+      if(EXISTS ${CTEST_BINARY_DIRECTORY})
+	ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+	endif()
     endif()
   endif()
   if(IS_DIRECTORY ${CTEST_INSTALL_DIRECTORY})
@@ -617,7 +619,9 @@ if(NOT dashboard_no_clean)
       remove_folder_recurse(${CTEST_INSTALL_DIRECTORY})
       file(MAKE_DIRECTORY "${CTEST_INSTALL_DIRECTORY}")
     else()
-      ctest_empty_binary_directory(${CTEST_INSTALL_DIRECTORY})
+      if(EXISTS ${CTEST_INSTALL_DIRECTORY})
+	ctest_empty_binary_directory(${CTEST_INSTALL_DIRECTORY})
+	endif()
     endif()
   endif()
 endif()
@@ -650,9 +654,10 @@ macro(run_dashboard)
   endif()
 
   if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}")
+    message("running ${CTEST_GIT_COMMAND} checkout ${dashboard_git_branch} on '${dashboard_update_dir}'")
     execute_process(COMMAND
-      ${CTEST_GIT_COMMAND} checkout ${dashboard_otb_branch}
-      WORKING_DIRECTORY ${CTEST_UPDATE_DIRECTORY}
+      ${CTEST_GIT_COMMAND} checkout ${dashboard_git_branch}
+      WORKING_DIRECTORY ${dashboard_update_dir}
       RESULT_VARIABLE checkout_rv
       ERROR_VARIABLE checkout_ev
       )
