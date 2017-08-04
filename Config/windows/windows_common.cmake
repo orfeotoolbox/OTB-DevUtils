@@ -566,6 +566,16 @@ if(NOT CTEST_CMAKE_GENERATOR)
   endif(WIN32)
 endif() #if(NOT CTEST_CMAKE_GENERATOR)
 
+include(ProcessorCount)
+ProcessorCount(process_count)
+if(CTEST_CMAKE_GENERATOR MATCHES "JOM")
+  set(CTEST_BUILD_FLAGS "/S")
+else()
+  if(NOT process_count EQUAL 0)
+    set(CTEST_BUILD_FLAGS -j${process_count})
+  endif()
+endif()
+
 #ONLY to report in cmake_summary().
 #otb now also check DOWNLOAD_LOCATION from ENV variable
 if(DEFINED ENV{DOWNLOAD_LOCATION})
@@ -663,6 +673,10 @@ if(DASHBOARD_SUPERBUILD)
 endif()
 
 #-----------------------------------------------------------------------------
+
+if(NOT process_count EQUAL 0)
+  set(CTEST_TEST_ARGS ${CTEST_TEST_ARGS} PARALLEL_LEVEL ${process_count})
+endif()
 
 # Send the main script as a note.
 list(APPEND CTEST_NOTES_FILES
