@@ -307,13 +307,19 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
     #other than superbuild, all uses otb/build_<arch>. That includes packaging
     if(DASHBOARD_SUPERBUILD)
       set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/superbuild_${COMPILER_ARCH})
-      set(OTB_BUILD_BIN_DIR  ${CTEST_BINARY_DIRECTORY}/OTB/build/bin)
     else()
       set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/build_${COMPILER_ARCH})
-      set(OTB_BUILD_BIN_DIR  ${CTEST_BINARY_DIRECTORY}/bin)
     endif()
   endif()
 endif()
+
+#SET OTB_BUILD_BIN_DIR. used to update PATH in ENV
+if(DASHBOARD_SUPERBUILD)
+  set(OTB_BUILD_BIN_DIR ${CTEST_BINARY_DIRECTORY}/OTB/build/bin)
+else()
+  set(OTB_BUILD_BIN_DIR ${CTEST_BINARY_DIRECTORY}/bin)
+endif()
+file(TO_NATIVE_PATH "${OTB_BUILD_BIN_DIR}" OTB_BUILD_BIN_DIR_NATIVE)
 
 #other than superbuild, all uses otb/install_<arch>. That includes packaging
 # DEFAULT values for CTEST_INSTALL_DIRECTORY if not defined
@@ -337,15 +343,12 @@ if(NOT DEFINED XDK_INSTALL_DIR)
   endif()
 endif()
 
-#reset XDK_INSTALL_DIR when building packages: OTB and XDK
-#if(DASHBOARD_PKG)
-#set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
-#endif()
+if(NOT DASHBOARD_PKG AND
+    NOT EXISTS "${XDK_INSTALL_DIR}" )
+  message(FATAL_ERROR "cannot continue without XDK_INSTALL_DIR for builds other than DASHBOARD_PKG")
+endif()
 
 file(TO_NATIVE_PATH "${XDK_INSTALL_DIR}" XDK_INSTALL_DIR_NATIVE)
-
-file(TO_NATIVE_PATH "${OTB_BUILD_BIN_DIR}" OTB_BUILD_BIN_DIR_NATIVE)
-
 
 function(print_summary)
 # Print summary information.
@@ -685,9 +688,9 @@ CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
   "
   )
 
-if(NOT DASHBOARD_SUPERBUILD)
-  if(XDK_INSTALL_DIR)
-    set(DEFAULT_CMAKE_CACHE "${DEFAULT_CMAKE_CACHE}
+
+if(XDK_INSTALL_DIR)
+  set(DEFAULT_CMAKE_CACHE "${DEFAULT_CMAKE_CACHE}
 QT_BINARY_DIR:PATH=${XDK_INSTALL_DIR}/bin
 QT_INSTALL_TRANSLATIONS:PATH=${XDK_INSTALL_DIR}/translations
 QT_MOC_EXECUTABLE:FILEPATH=${XDK_INSTALL_DIR}/bin/moc${exe_ext}
@@ -701,7 +704,6 @@ QT_QTCORE_INCLUDE_DIR:PATH=${XDK_INSTALL_DIR}/include/QtCore
 QT_HEADERS_DIR:PATH=${XDK_INSTALL_DIR}/include/
     "
       )
-  endif()
 endif()
 
 if(NOT DEFINED dashboard_build_shared)
