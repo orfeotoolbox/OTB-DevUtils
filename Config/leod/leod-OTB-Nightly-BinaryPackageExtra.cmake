@@ -18,7 +18,7 @@ set(CTEST_BUILD_FLAGS -j8)
 set(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 0)
 
 ctest_start(Nightly TRACK SuperBuild)
-set_git_update_command(nightly)
+set_git_update_command(update_pkg)
 ctest_update()
 ctest_build(TARGET uninstall)
 # 3 official remote modules are not packages because of missing GSL dependency
@@ -38,7 +38,7 @@ set(CTEST_BUILD_NAME "Package-MacOSX-10.10-contrib")
 
 set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/Packaging")
 set(dashboard_binary_name "${lcdashboard_model}/OTB-SuperBuild/pkg-otb-contrib")
-
+set(dashboard_git_branch update_pkg)
 set(OTB_SB_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/install)
 set(OTB_SB_BINARY_DIR  ${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-SuperBuild/build)
 

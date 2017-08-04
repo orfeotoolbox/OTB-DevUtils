@@ -15,7 +15,7 @@ set(CTEST_BUILD_FLAGS -j8)
 set(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 0)
 
 ctest_start(Nightly TRACK SuperBuild)
-set_git_update_command(nightly)
+set_git_update_command(update_pkg)
 ctest_update()
 ctest_build(TARGET uninstall)
 # 3 official remote modules are not packages because of missing GSL dependency
