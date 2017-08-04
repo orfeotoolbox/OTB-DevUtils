@@ -348,7 +348,9 @@ if(NOT DASHBOARD_PKG AND
   message(FATAL_ERROR "cannot continue without XDK_INSTALL_DIR for builds other than DASHBOARD_PKG")
 endif()
 
-file(TO_NATIVE_PATH "${XDK_INSTALL_DIR}" XDK_INSTALL_DIR_NATIVE)
+if(EXISTS "${XDK_INSTALL_DIR}")
+  file(TO_NATIVE_PATH "${XDK_INSTALL_DIR}" XDK_INSTALL_DIR_NATIVE)
+endif()
 
 function(print_summary)
 # Print summary information.
@@ -366,6 +368,7 @@ foreach(v
     CTEST_BINARY_DIRECTORY
     CTEST_INSTALL_DIRECTORY
     CTEST_BUILD_CONFIGURATION
+    CTEST_BUILD_FLAGS
     CTEST_DASHBOARD_TRACK
     CMAKE_MAKE_PROGRAM
     DASHBOARD_SUPERBUILD
@@ -393,6 +396,7 @@ else()
   set(ENV{PATH} "$ENV{PATH};${OTB_BUILD_BIN_DIR_NATIVE}" )
 endif()
 
+if(EXISTS "${XDK_INSTALL_DIR}")
 set(ENV{PATH} "$ENV{PATH};${XDK_INSTALL_DIR_NATIVE}\\bin" )
 set(ENV{PATH} "$ENV{PATH};${XDK_INSTALL_DIR_NATIVE}\\lib" )
 
@@ -401,6 +405,7 @@ set(ENV{CMAKE_PREFIX_PATH} "${XDK_INSTALL_DIR}" )
 set(ENV{GDAL_DATA} "${XDK_INSTALL_DIR_NATIVE}\\share\\gdal" )
 set(ENV{GEOTIFF_CSV} "${XDK_INSTALL_DIR_NATIVE}\\share\\epsg_csv" )
 set(ENV{PROJ_LIB} "${XDK_INSTALL_DIR_NATIVE}\\share" )
+endif()
 
 set(CTEST_ENVIRONMENT 
   "PATH=$ENV{PATH}
@@ -465,32 +470,6 @@ else()
   find_program(SHELL_COMMAND NAMES bash)
 endif()
 
-if(DROP_SHELL)
-  if(NOT SHELL_COMMAND)
-    message(FATAL_ERROR "SHELL_COMMAND not found")
-    return()
-  endif()
-    
-    print_summary()
-    
-  execute_process(COMMAND 
-    ${CTEST_GIT_COMMAND} checkout ${dashboard_otb_branch}
-    WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
-    RESULT_VARIABLE checkout_rv
-    ERROR_VARIABLE checkout_ev
-  )
-  if(checkout_rv)
-    message(FATAL_ERROR 
-    "git checkout failed with ${checkout_rv}: error: ${checkout_ev}")
-    return()
-  endif()
-  execute_process(COMMAND  
-    ${SHELL_COMMAND} 
-    WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
-  )
-
- return()
-endif()
 
 # Check build name
 if(DEFINED ENV{CTEST_BUILD_NAME_PREFIX})
@@ -627,6 +606,7 @@ endif()
 get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
 get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
 
+set(dashboard_continuous 0)
 # Choose the dashboard track
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
   # Guess using the dashboard model
@@ -648,10 +628,22 @@ if(NOT DEFINED CTEST_DASHBOARD_TRACK)
     
   elseif("${dashboard_model}" STREQUAL "Continuous")
     set(CTEST_DASHBOARD_TRACK Continuous)
+    set(dashboard_continuous 1)
   elseif("${dashboard_model}" STREQUAL "Experimental")
     set(CTEST_DASHBOARD_TRACK Experimental)
   endif()
 endif()
+
+
+#legacy code block from otb_common.cmake
+if(NOT DEFINED dashboard_loop)
+  if(dashboard_continuous)
+    set(dashboard_loop 43200)
+  else()
+    set(dashboard_loop 0)
+  endif()
+endif()
+
 
 # RemoteModules
 if(DEFINED dashboard_remote_module)
@@ -703,7 +695,7 @@ CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
   )
 
 
-if(XDK_INSTALL_DIR)
+if(EXISTS ${XDK_INSTALL_DIR})
   set(DEFAULT_CMAKE_CACHE "${DEFAULT_CMAKE_CACHE}
 QT_BINARY_DIR:PATH=${XDK_INSTALL_DIR}/bin
 QT_INSTALL_TRANSLATIONS:PATH=${XDK_INSTALL_DIR}/translations
@@ -786,19 +778,14 @@ ${dashboard_cache_for_${dashboard_otb_branch}}
 
 endif() #DASHBOARD_PKG
 
-# Delete source tree if it is incompatible with current VCS.
-if(EXISTS ${CTEST_UPDATE_DIRECTORY})
-  if(NOT EXISTS "${CTEST_UPDATE_DIRECTORY}/.git")
-    set(vcs_refresh "because it is not managed by git.")
-  endif()
-  if(${dashboard_fresh_source_checkout})
-    set(vcs_refresh "because dashboard_fresh_source_checkout is specified.")
-  endif()
-  if(vcs_refresh)
-    message("Deleting source tree\n  ${CTEST_UPDATE_DIRECTORY}\n${vcs_refresh}")
-    file(REMOVE_RECURSE "${CTEST_UPDATE_DIRECTORY}")
-  endif()
-endif()
+# CTest delayed initialization is broken, so we put the
+# CTestConfig.cmake info here.
+set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
+set(CTEST_DROP_METHOD "https")
+set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
+set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
+set(CTEST_DROP_SITE_CDASH TRUE)
+
 
 # Support initial checkout if necessary.
 if(NOT EXISTS "${CTEST_UPDATE_DIRECTORY}"
@@ -822,14 +809,80 @@ if(NOT EXISTS "${CTEST_UPDATE_DIRECTORY}"
 
 endif()
 
-# CTest delayed initialization is broken, so we put the
-# CTestConfig.cmake info here.
-set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
-set(CTEST_DROP_METHOD "https")
-set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
-set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
-set(CTEST_DROP_SITE_CDASH TRUE)
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#must drop to shell after check and setting all required variables
+#:!!!!!!!!!!!!!!!!!!!!BEGIN DROP_SHELL BLOCK!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+if(DROP_SHELL)
+  if(NOT SHELL_COMMAND)
+    message(FATAL_ERROR "SHELL_COMMAND not found")
+    return()
+  endif()
+    
+  print_summary()
+    
+  if(NOT dashboard_no_update)
+    execute_process(COMMAND 
+    ${CTEST_GIT_COMMAND} checkout ${dashboard_otb_branch}
+    WORKING_DIRECTORY ${CTEST_SOURCE_DIRECTORY}
+    RESULT_VARIABLE checkout_rv
+    ERROR_VARIABLE checkout_ev
+    )
+    
+    if(checkout_rv)
+      message(FATAL_ERROR 
+      "git checkout failed with ${checkout_rv}: error: ${checkout_ev}")
+      return()
+    endif()
+  endif() #dashboard_no_update
+  
+  execute_process(COMMAND  
+    ${SHELL_COMMAND} 
+    WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
+    )
+ return()
+endif() #DROP_SHELL
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#:!!!!!!!!!!!!!!!!!!!!!!END DROP_SHELL BLOCK!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#                              .
+#                              .
+#                              .
+#                              .
+#                              .
+#    NO MORE SET/UPDATE OF VARIABLES GOES BELOW THIS BLOCK
+#    IF YOU SEEM TO FIND ANY STRANGE SET/UPDATE CALLS BELOW, 
+#    PLEASE FIX OR REPORT ON BUG MANTIS
+#
+#
+# WE STARTING THE PROCESS.... CHECK, UPDATE, CONFIGURE, BUILD, INSTALL
+#                              .
+#                              .
+#                              .
+#                              .
+#                              .
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#must drop to shell after check and setting all required variables
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+# Delete source tree if it is incompatible with current VCS.
+if(EXISTS ${CTEST_UPDATE_DIRECTORY})
+  if(NOT EXISTS "${CTEST_UPDATE_DIRECTORY}/.git")
+    set(vcs_refresh "because it is not managed by git.")
+  endif()
+  if(${dashboard_fresh_source_checkout})
+    set(vcs_refresh "because dashboard_fresh_source_checkout is specified.")
+  endif()
+  if(vcs_refresh)
+    message("Deleting source tree\n  ${CTEST_UPDATE_DIRECTORY}\n${vcs_refresh}")
+    file(REMOVE_RECURSE "${CTEST_UPDATE_DIRECTORY}")
+  endif()
+endif()
 
 # Helper macro to write the initial cache.
 macro(write_cache)
@@ -921,18 +974,6 @@ set(CTEST_DROP_LOCATION \"/submit.php?project=OTB\")
 set(CTEST_DROP_SITE_CDASH TRUE)
 "
     )
-endif()
-
-set(dashboard_continuous 0)
-if("${dashboard_model}" STREQUAL "Continuous")
-  set(dashboard_continuous 1)
-endif()
-if(NOT DEFINED dashboard_loop)
-  if(dashboard_continuous)
-    set(dashboard_loop 43200)
-  else()
-    set(dashboard_loop 0)
-  endif()
 endif()
 
 if(OTB_DATA_ROOT)
