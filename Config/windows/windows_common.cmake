@@ -897,10 +897,10 @@ endif()
 
 # Helper macro to write the initial cache.
 macro(write_cache)
-  set(cache_build_type "")
+  set(use_response_file "")
   set(cache_make_program "")
-  if(CTEST_CMAKE_GENERATOR MATCHES "Make")
-    set(cache_build_type CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION})
+  if(CTEST_CMAKE_GENERATOR MATCHES "Ninja")
+    set(use_response_file CMAKE_NINJA_FORCE_RESPONSE_FILE:BOOL=1)
     if(CMAKE_MAKE_PROGRAM)
       set(cache_make_program CMAKE_MAKE_PROGRAM:FILEPATH=${CMAKE_MAKE_PROGRAM})
     endif()
@@ -911,6 +911,7 @@ BUILDNAME:STRING=${CTEST_BUILD_NAME}
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 CTEST_TEST_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
+${use_response_file}
 ${cache_make_program}
 ${dashboard_cache}
 ${DEFAULT_CMAKE_CACHE}
