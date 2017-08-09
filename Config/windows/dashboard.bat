@@ -102,8 +102,8 @@ set CTEST_BUILD_CONFIGURATION=Release
 
 :: actually we shouldn't care for other things in system path.
 set TOOLS_DIR=C:\Tools
-set SYSPATH=C:\Windows\system32;C:\Windows
-set PATH=%SYSPATH%
+set SYSPATH=C:\Windows;C:\Windows\system32
+set PATH=%SYSPATH%;C:\Windows\System32\wbem
 set PATH=%PATH%;%TOOLS_DIR%\clink\0.4.8
 set PATH=%PATH%;%TOOLS_DIR%\CMake-3.5.2\bin
 set PATH=%PATH%;%TOOLS_DIR%\patch-2.5.9-7\bin
