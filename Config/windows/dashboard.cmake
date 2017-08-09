@@ -34,6 +34,7 @@ OTB_USE_MUPARSER:BOOL=${default_on_off}
 OTB_USE_MUPARSERX:BOOL=${default_on_off}
 OTB_WRAP_PYTHON:BOOL=${default_on_off}
 OTB_USE_SHARK:BOOL=${default_on_off}
+BUILD_TESTING:BOOL=ON
 ")
 
 if("$ENV{dashboard_otb_branch}" STREQUAL "rfc-98-qwt6")
