@@ -692,10 +692,18 @@ endif()
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Creation of DEFAULT_CMAKE_CACHE starts here. That means all 
 # common variables are set.
-set(DEFAULT_CMAKE_CACHE	"BUILD_TESTING:BOOL=ON
-CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
-  "
-  )
+
+
+set(DEFAULT_CMAKE_CACHE	
+"CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}")
+
+if(dashboard_no_test)
+  set(DEFAULT_CMAKE_CACHE	"${DEFAULT_CMAKE_CACHE}
+BUILD_TESTING:BOOL=OFF" )
+else()
+  set(DEFAULT_CMAKE_CACHE	"${DEFAULT_CMAKE_CACHE} 
+BUILD_TESTING:BOOL=ON" )
+endif()
 
 
 if(EXISTS ${XDK_INSTALL_DIR})
