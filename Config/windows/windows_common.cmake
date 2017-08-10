@@ -441,15 +441,6 @@ if(NOT DEFINED dashboard_data_branch)
   set(dashboard_data_branch nightly)
 endif()
 
-if(DASHBOARD_SUPERBUILD
-    AND SUPERBUILD_REBUILD_OTB_ONLY
-    AND WITH_CONTRIB
-    )
-  if(NOT dashboard_build_target)
-    set(dashboard_build_target install)
-  endif()
-endif()
-
 if(dashboard_build_target)
   string(REPLACE "-all" "" dashboard_label ${dashboard_build_target})
 endif()
@@ -753,6 +744,7 @@ if(dashboard_remote_module)
     "
 OTB_BUILD_DEFAULT_MODULES:BOOL=OFF
 Module_${dashboard_remote_module}:BOOL=ON
+BUILD_TESTING:BOOL=ON
 "
     )
 endif()
@@ -1124,9 +1116,18 @@ if(COMMAND dashboard_hook_build)
 endif()
 
 #must have install target.
-#keep this if condition here because it's used in next loop
+#keep these two if condition here because it's used in next loop
 if(DASHBOARD_PKG)
   set(dashboard_build_target install)
+endif()
+
+if(DASHBOARD_SUPERBUILD
+    AND SUPERBUILD_REBUILD_OTB_ONLY
+    AND WITH_CONTRIB
+    )
+  if(NOT dashboard_build_target)
+    set(dashboard_build_target install)
+  endif()
 endif()
 
 if(NOT dashboard_no_build)
