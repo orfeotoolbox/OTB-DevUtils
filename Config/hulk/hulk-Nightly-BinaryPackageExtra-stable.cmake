@@ -21,7 +21,7 @@ ctest_update()
 ctest_build(TARGET uninstall)
 # 3 official remote modules are not packages because of missing GSL dependency
 # enable_official_remote_modules(${CTEST_SOURCE_DIRECTORY} cache_remote_modules)
-ctest_configure(OPTIONS "-DModule_Mosaic:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON;-DModule_OTBFFSforGMM:BOOL=ON")
+ctest_configure(OPTIONS "-DModule_Mosaic:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON")
 ctest_build(TARGET install)
 ctest_test(BUILD "${CTEST_DASHBOARD_ROOT}/build/OTB-SuperBuild-stable")
 ctest_submit()
