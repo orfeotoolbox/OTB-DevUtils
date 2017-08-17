@@ -12,6 +12,11 @@ set COMPILER_ARCH=%1
 
 set CURRENT_SCRIPT_DIR=%~dp0
 
+::always one. this is used to control ctest verbose option
+:: we need ctest -VV when running locally/manually by called dashboard.bat
+:: but we use ctest -V when run from taskscheduler aka taskschd
+set FROM_TASKSCHD=1
+
 ::net use R: /delete /Y
 ::net use R: \\otbnas.si.c-s.fr\otbdata\otb /persistent:no
 

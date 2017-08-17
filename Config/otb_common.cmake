@@ -469,6 +469,7 @@ if("${_source_directory_filename}" STREQUAL "SuperBuild")
   set(CTEST_NOTES_FILES
     "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-configure-out.log"
     "${CTEST_BINARY_DIRECTORY}/OTB/src/OTB-stamp/OTB-configure-err.log"
+    "${CTEST_BINARY_DIRECTORY}/OTB/build/CMakeCache.txt"
     )
 endif()
 
@@ -608,7 +609,9 @@ if(NOT dashboard_no_clean)
       remove_folder_recurse(${CTEST_BINARY_DIRECTORY})
       file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
     else()
-      ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+      if(EXISTS ${CTEST_BINARY_DIRECTORY})
+	ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+	endif()
     endif()
   endif()
   if(IS_DIRECTORY ${CTEST_INSTALL_DIRECTORY})
@@ -616,7 +619,9 @@ if(NOT dashboard_no_clean)
       remove_folder_recurse(${CTEST_INSTALL_DIRECTORY})
       file(MAKE_DIRECTORY "${CTEST_INSTALL_DIRECTORY}")
     else()
-      ctest_empty_binary_directory(${CTEST_INSTALL_DIRECTORY})
+      if(EXISTS ${CTEST_INSTALL_DIRECTORY})
+	ctest_empty_binary_directory(${CTEST_INSTALL_DIRECTORY})
+	endif()
     endif()
   endif()
 endif()
@@ -647,6 +652,23 @@ macro(run_dashboard)
   if(COMMAND dashboard_hook_start)
     dashboard_hook_start()
   endif()
+
+  if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}")
+    message("running ${CTEST_GIT_COMMAND} checkout ${dashboard_git_branch} on '${dashboard_update_dir}'")
+    execute_process(COMMAND
+      ${CTEST_GIT_COMMAND} checkout ${dashboard_git_branch}
+      WORKING_DIRECTORY ${dashboard_update_dir}
+      RESULT_VARIABLE checkout_rv
+      ERROR_VARIABLE checkout_ev
+      )
+
+    if(checkout_rv)
+      message(FATAL_ERROR
+	"git checkout failed with ${checkout_rv}: error: ${checkout_ev}")
+      return()
+    endif()
+  endif()
+
   ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
 
   # Always build if the tree is fresh.

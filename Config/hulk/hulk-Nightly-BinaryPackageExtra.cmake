@@ -11,30 +11,33 @@ set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/build/OTB-SuperBuild/OTB/bui
 set(CTEST_SOURCE_DIRECTORY "${CTEST_DASHBOARD_ROOT}/src/OTB")
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-SuperBuild-contrib")
 set(CTEST_BUILD_FLAGS -j8)
+#disable warnings on superbuild contrib
+set(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 0)
 
 ctest_start(Nightly TRACK SuperBuild)
-set_git_update_command(nightly)
+set_git_update_command(update_pkg)
 ctest_update()
 ctest_build(TARGET uninstall)
 # 3 official remote modules are not packages because of missing GSL dependency
 # enable_official_remote_modules(${CTEST_SOURCE_DIRECTORY} cache_remote_modules)
-ctest_configure(OPTIONS "-DModule_Mosaic:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON;-DModule_OTBFFSforGMM:BOOL=ON")
+ctest_configure(OPTIONS "-DModule_Mosaic:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON")
 ctest_build(TARGET install)
+ctest_test(BUILD "${CTEST_DASHBOARD_ROOT}/build/OTB-SuperBuild")
 ctest_submit()
 
 unset(CTEST_BINARY_DIRECTORY)
 unset(CTEST_SOURCE_DIRECTORY)
+unset(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS)
 set(CTEST_BUILD_FLAGS "-j1 -k")
 #-------------------------------------------------------------------------------
 
 set(CTEST_BUILD_NAME "Package-Linux-gcc-4.9.4-x86_64-contrib")
 
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
-set(dashboard_git_branch "update_pkg")
-set(dashboard_source_name "src/update_pkg/Packaging")
+set(dashboard_source_name "src/OTB/Packaging")
 set(dashboard_binary_name "build/pkg-otb-contrib")
-set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/update_pkg)
-
+set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB)
+set(dashboard_git_branch update_pkg)
 set(SUPERBUILD_BINARY_DIR ${CTEST_DASHBOARD_ROOT}/build/OTB-SuperBuild)
 set(SUPERBUILD_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild)
 

@@ -34,21 +34,4 @@ GENERATE_PACKAGE:BOOL=ON
 ")
 endmacro()
 
-macro(dashboard_hook_test)
-  # This is hecky way to get the build log of packaging
-  # in the configure part on dashboard. I am not proud of
-  # what happens below. But you gotta do what you gotta do right?
-  set(Testing_DIR ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/Testing)
-  #what happens if year is 2100?. Then we update below line!
-  file(GLOB CTestLaunchConfig_file "${Testing_DIR}/20*/Build/*.cmake")
-  get_filename_component(BuildLog_dir ${CTestLaunchConfig_file} PATH)
-  get_filename_component(BuildLog_dir ${BuildLog_dir} PATH)
-  file(STRINGS "${BuildLog_dir}/Configure.xml" configure_xml_CONTENTS)
-  file(GLOB LastBuildLog "${Testing_DIR}/Temporary/LastBuild_*.log")
-  file(STRINGS "${LastBuildLog}" LastBuildLog_CONTENTS)
-  string(REPLACE "</Log>" "${LastBuildLog_CONTENTS}\n</Log>" configure_xml_CONTENTS_NEW "${configure_xml_CONTENTS}")
-  string(REPLACE ";" "\n" configure_xml_CONTENTS_NEW "${configure_xml_CONTENTS_NEW}")
-  # file(WRITE "${BuildLog_dir}/Configure.xml" ${configure_xml_CONTENTS_NEW})
-endmacro()
-
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
