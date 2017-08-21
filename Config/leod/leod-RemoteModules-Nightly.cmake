@@ -55,7 +55,7 @@ LIBSVM_INCLUDE_DIR:PATH=/opt/local/include
 LIBSVM_LIBRARY:FILEPATH=/opt/local/lib/libsvm.dylib
 GLUT_glut_LIBRARY=/usr/X11R6/lib/libglut.3.dylib
 GLUT_INCLUDE_DIR=/usr/X11R6/include
-SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/shark/install/lib/libshark_debug.dylib
+SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/shark/install/lib/libshark.dylib
 SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/shark/install/include
 ")
 
