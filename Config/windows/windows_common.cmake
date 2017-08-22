@@ -187,7 +187,7 @@ set(SUPERBUILD_INSTALL_DIR  ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_AR
 #are any changes to SuperBuild/CMake/External_*.cmake
 
 #NO MATTER YOU SET THIS VARIABLE TO TRUE, IT WILL BE TRUE IF YOU
-#ARE BUILDING A CONTRIB PACKAGE OR IT'S ASSOCIATED SUPERBUILD
+#ARE BUILDING OTB
 set(SUPERBUILD_REBUILD_OTB_ONLY FALSE)
 
 
@@ -252,22 +252,13 @@ if(DEFINED ENV{DASHBOARD_PKG})
   set(DASHBOARD_PKG $ENV{DASHBOARD_PKG})
 endif()
 
-set(WITH_CONTRIB FALSE)
-if(DEFINED ENV{WITH_CONTRIB})
-  set(WITH_CONTRIB $ENV{WITH_CONTRIB})
-endif()
-
-if(WITH_CONTRIB)
-  set(SUPERBUILD_REBUILD_OTB_ONLY TRUE)
-endif()
-
 if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
   file(TO_CMAKE_PATH "$ENV{CTEST_SOURCE_DIRECTORY}" CTEST_SOURCE_DIRECTORY)
 endif()
 #end of check env
 
 set(CONFIGURE_OPTIONS)
-if(DASHBOARD_SUPERBUILD AND WITH_CONTRIB)
+if(DASHBOARD_SUPERBUILD)
   set(CONFIGURE_OPTIONS "-DBUILD_TESTING:BOOL=ON")
   foreach(remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
     list(APPEND CONFIGURE_OPTIONS "-DModule_${remote_module}:BOOL=ON")
@@ -327,11 +318,15 @@ file(TO_NATIVE_PATH "${OTB_BUILD_BIN_DIR}" OTB_BUILD_BIN_DIR_NATIVE)
 #other than superbuild, all uses otb/install_<arch>. That includes packaging
 # DEFAULT values for CTEST_INSTALL_DIRECTORY if not defined
 if(NOT DEFINED CTEST_INSTALL_DIRECTORY)
-  if(DASHBOARD_SUPERBUILD)
-    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+  if(DEFINED dashboard_install_name)
+    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/${dashboard_install_name})
   else()
-    set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_${COMPILER_ARCH})
-  endif()
+    if(DASHBOARD_SUPERBUILD)
+      set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_sb_${COMPILER_ARCH})
+    else()
+      set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install_${COMPILER_ARCH})
+    endif()
+  endif() #DEFINED dashboard_install_name)
 endif()
 
 # DEFAULT values for XDK_INSTALL_DIR if not defined.
@@ -383,7 +378,6 @@ foreach(v
     dashboard_otb_branch
     dashboard_data_branch
     OTBNAS_PACKAGES_DIR
-    WITH_CONTRIB
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
@@ -508,9 +502,9 @@ if(dashboard_remote_module)
 endif()
 
 #DONT MOVE THIS LOOP. CTEST_BUILD_NAME WILL BE MESSED UP
-if(WITH_CONTRIB)
-  set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-contrib")
-endif()
+# if(WITH_CONTRIB)
+#   set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-contrib")
+# endif()
 
 if(DEFINED ENV{CTEST_SITE})
   set(CTEST_SITE "$ENV{CTEST_SITE}")
@@ -651,12 +645,7 @@ if(dashboard_label)
 endif()
 
 if(DASHBOARD_SUPERBUILD)
-  if(WITH_CONTRIB)
-    set(CTEST_TEST_ARGS BUILD ${CTEST_BINARY_DIRECTORY})
-    set(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 0)
-  else()
-    set(CTEST_TEST_ARGS BUILD ${CTEST_BINARY_DIRECTORY}/OTB/build)
-  endif()
+  set(CTEST_TEST_ARGS BUILD ${CTEST_BINARY_DIRECTORY}/OTB/build)
 endif()
 
 #-----------------------------------------------------------------------------
@@ -766,10 +755,6 @@ OTB_WRAP_PYTHON:BOOL=ON
 ${dashboard_cache_packaging}
 ${dashboard_cache_for_${dashboard_otb_branch}}
 ")
-
-  if(WITH_CONTRIB)
-    set(dashboard_cache "${dashboard_cache} \n NAME_SUFFIX:STRING=-contrib")
-  endif()
 
 endif() #DASHBOARD_PKG
 
@@ -921,24 +906,16 @@ if(DASHBOARD_SUPERBUILD)
       message("Uninstall OTB from ${CTEST_INSTALL_DIRECTORY} - OK")
     endif()
  
-    if(WITH_CONTRIB)
-      get_filename_component(CTEST_SOURCE_DIRECTORY ${CTEST_SOURCE_DIRECTORY} PATH)
-      set(CTEST_BINARY_DIRECTORY ${CTEST_BINARY_DIRECTORY}/OTB/build)
-      message("changing source and build directory [WITH_CONTRIB=1]")
-    else()
-      execute_process(COMMAND ${CMAKE_COMMAND} 
-        -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
-        WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
-        RESULT_VARIABLE clear_otb_build_dir_rv)
-      
-      if(clear_otb_build_dir_rv)
-        message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - FAILED")
-      else()
-        message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - OK")
-      endif()  
-
-    endif() #  if(WITH_CONTRIB)
+    execute_process(COMMAND ${CMAKE_COMMAND} 
+      -E remove_directory ${CTEST_BINARY_DIRECTORY}/OTB
+      WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY}
+      RESULT_VARIABLE clear_otb_build_dir_rv)
     
+    if(clear_otb_build_dir_rv)
+      message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - FAILED")
+    else()
+      message("remove OTB directory from ${CTEST_BINARY_DIRECTORY} - OK")
+    endif()    
   endif() #if(SUPERBUILD_REBUILD_OTB_ONLY)
 endif() #if(DASHBOARD_SUPERBUILD)
 
@@ -1120,15 +1097,6 @@ endif()
 #keep these two if condition here because it's used in next loop
 if(DASHBOARD_PKG)
   set(dashboard_build_target install)
-endif()
-
-if(DASHBOARD_SUPERBUILD
-    AND SUPERBUILD_REBUILD_OTB_ONLY
-    AND WITH_CONTRIB
-    )
-  if(NOT dashboard_build_target)
-    set(dashboard_build_target install)
-  endif()
 endif()
 
 if(NOT dashboard_no_build)

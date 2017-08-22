@@ -27,12 +27,11 @@ list(APPEND CTEST_NOTES_FILES
   ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/otbConfigure.h
 )
 
+#CMAKE_CXX_FLAGS:STRING=-std=c++11
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
-
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
-CMAKE_CXX_FLAGS:STRING=-std=c++11
 OTB_DATA_ROOT:PATH=${CTEST_DASHBOARD_ROOT}/src/OTB-Data
 DOWNLOAD_LOCATION:PATH=${CTEST_DASHBOARD_ROOT}/src/SuperBuild-archives
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
@@ -43,10 +42,9 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=/home/otbval/Data/OTB-LargeInput
 #disable to test update_pkg
 QT4_SB_ENABLE_GTK:BOOL=OFF
-
+OTB_ADDITIONAL_CACHE:STRING='-DModule_Mosaic:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON'
 ")
 endmacro()
-
 
 macro(dashboard_hook_test)
 set(ENV{LD_LIBRARY_PATH} ${CTEST_INSTALL_DIRECTORY}/lib)
