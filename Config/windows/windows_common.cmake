@@ -259,10 +259,12 @@ endif()
 
 set(CONFIGURE_OPTIONS)
 if(DASHBOARD_SUPERBUILD)
-  set(CONFIGURE_OPTIONS "-DBUILD_TESTING:BOOL=ON")
-  foreach(remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
-    list(APPEND CONFIGURE_OPTIONS "-DModule_${remote_module}:BOOL=ON")
+  set(otb_cache)
+  foreach(remote_module "SertitObject" "Mosaic" "otbGRM")
+    list(APPEND otb_cache "-DModule_${remote_module}:BOOL=ON")
   endforeach()
+  set(otb_cache "OTB_ADDITIONAL_CACHE:STRING='${otb_cache}'")
+  list(APPEND CONFIGURE_OPTIONS ${otb_cache})
 endif()
 
 # Set CTEST_SOURCE_DIRECTORY if not defined
