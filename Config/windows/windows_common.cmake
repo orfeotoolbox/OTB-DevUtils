@@ -263,7 +263,7 @@ if(DASHBOARD_SUPERBUILD)
   foreach(remote_module "SertitObject" "Mosaic" "otbGRM")
     list(APPEND otb_cache "-DModule_${remote_module}:BOOL=ON")
   endforeach()
-  set(otb_cache "OTB_ADDITIONAL_CACHE:STRING='${otb_cache}'")
+  set(otb_cache "-DOTB_ADDITIONAL_CACHE:STRING='${otb_cache}'")
   list(APPEND CONFIGURE_OPTIONS ${otb_cache})
 endif()
 

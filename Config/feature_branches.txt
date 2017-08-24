@@ -1,6 +1,4 @@
 rfc-98-qwt6
-lsms_composite
 refac_convert refac_convert
 refactor_PixelValue
-composite_logs
 bugfix-1446 release-6.0
