@@ -947,7 +947,6 @@ set(CTEST_DROP_METHOD \"https\")
 set(CTEST_DROP_SITE \"dash.orfeo-toolbox.org\")
 set(CTEST_DROP_LOCATION \"/submit.php?project=OTB\")
 set(CTEST_DROP_SITE_CDASH TRUE)
-set(CTEST_CUSTOM_MAXIMUM_FAILED_TEST_OUTPUT_SIZE 4096)
 "
     )
 endif()
