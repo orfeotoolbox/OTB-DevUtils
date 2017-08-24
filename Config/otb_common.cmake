@@ -707,6 +707,24 @@ macro(run_dashboard)
     endif()
   endif()
 
+    #create ctestconfig.cmake if not exists in source and binary directory
+if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CTestConfig.cmake" AND 
+    NOT EXISTS "${dashboard_update_dir}/CTestConfig.cmake" 
+    )
+  message("CTestConfig.cmake does not exists in CTEST_BINARY_DIRECTORY and CTEST_SOURCE_DIRECTORY. we create one now in CTEST_BINARY_DIRECTORY")
+  file(WRITE "${CTEST_BINARY_DIRECTORY}/CTestConfig.cmake"
+    "
+set(CTEST_PROJECT_NAME \"OTB\")
+set(CTEST_NIGHTLY_START_TIME \"20:00:00 CEST\")
+set(CTEST_DROP_METHOD \"https\")
+set(CTEST_DROP_SITE \"dash.orfeo-toolbox.org\")
+set(CTEST_DROP_LOCATION \"/submit.php?project=OTB\")
+set(CTEST_DROP_SITE_CDASH TRUE)
+set(CTEST_CUSTOM_MAXIMUM_FAILED_TEST_OUTPUT_SIZE 4096)
+"
+    )
+endif()
+
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
     if(CONFIGURE_OPTIONS)
       ctest_configure(OPTIONS "${CONFIGURE_OPTIONS}")
