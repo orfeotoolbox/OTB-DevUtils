@@ -244,6 +244,14 @@ if(DEFINED ENV{dashboard_remote_module})
   set(dashboard_remote_module "$ENV{dashboard_remote_module}")
 endif()
 
+if(DEFINED ENV{DASHBOARD_ACTION})
+  set(DASHBOARD_ACTION "$ENV{DASHBOARD_ACTION}")
+endif()
+
+if(DEFINED ENV{WITH_REMOTE_MODULES})
+  set(WITH_REMOTE_MODULES "$ENV{WITH_REMOTE_MODULES}")
+endif()
+
 if(DEFINED ENV{DASHBOARD_SUPERBUILD})
   set(DASHBOARD_SUPERBUILD "$ENV{DASHBOARD_SUPERBUILD}")
 endif()
@@ -256,16 +264,6 @@ if(DEFINED ENV{CTEST_SOURCE_DIRECTORY})
   file(TO_CMAKE_PATH "$ENV{CTEST_SOURCE_DIRECTORY}" CTEST_SOURCE_DIRECTORY)
 endif()
 #end of check env
-
-set(CONFIGURE_OPTIONS)
-if(DASHBOARD_SUPERBUILD)
-  set(otb_cache)
-  foreach(remote_module "SertitObject" "Mosaic" "otbGRM")
-    list(APPEND otb_cache "-DModule_${remote_module}:BOOL=ON")
-  endforeach()
-  set(otb_cache "-DOTB_ADDITIONAL_CACHE:STRING='${otb_cache}'")
-  list(APPEND CONFIGURE_OPTIONS ${otb_cache})
-endif()
 
 # Set CTEST_SOURCE_DIRECTORY if not defined
 if(NOT DEFINED CTEST_SOURCE_DIRECTORY)
@@ -343,10 +341,12 @@ if(NOT DEFINED XDK_INSTALL_DIR)
   endif()
 endif()
 
-if(NOT DASHBOARD_PKG AND
-    NOT EXISTS "${XDK_INSTALL_DIR}" )
-  message(FATAL_ERROR "cannot continue without XDK_INSTALL_DIR for builds other than DASHBOARD_PKG")
+if ( 
+DASHBOARD_ACTION STREQUAL "BUILD" AND 
+NOT EXISTS "${XDK_INSTALL_DIR}" )
+  message(FATAL_ERROR "XDK_INSTALL_DIR: ${XDK_INSTALL_DIR} doesn't exists. \nDASHBOARD_ACTION=${DASHBOARD_ACTION} ")
 endif()
+
 
 if(EXISTS "${XDK_INSTALL_DIR}")
   file(TO_NATIVE_PATH "${XDK_INSTALL_DIR}" XDK_INSTALL_DIR_NATIVE)
@@ -380,6 +380,8 @@ foreach(v
     dashboard_otb_branch
     dashboard_data_branch
     OTBNAS_PACKAGES_DIR
+    DASHBOARD_ACTION
+    WITH_REMOTE_MODULES
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
@@ -502,11 +504,6 @@ endif()
 if(dashboard_remote_module)
   set(CTEST_BUILD_NAME "${dashboard_remote_module}-${CTEST_BUILD_NAME}")
 endif()
-
-#DONT MOVE THIS LOOP. CTEST_BUILD_NAME WILL BE MESSED UP
-# if(WITH_CONTRIB)
-#   set(CTEST_BUILD_NAME "${CTEST_BUILD_NAME}-contrib")
-# endif()
 
 if(DEFINED ENV{CTEST_SITE})
   set(CTEST_SITE "$ENV{CTEST_SITE}")
@@ -676,7 +673,6 @@ endif()
 # Creation of DEFAULT_CMAKE_CACHE starts here. That means all 
 # common variables are set.
 
-
 set(DEFAULT_CMAKE_CACHE	
 "CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}")
 
@@ -697,28 +693,26 @@ QT_HEADERS_DIR:PATH=${XDK_INSTALL_DIR}/include/
       )
 endif()
 
+if(DASHBOARD_SUPERBUILD AND WITH_REMOTE_MODULES)
+  set(DEFAULT_CMAKE_CACHE 
+  "${DEFAULT_CMAKE_CACHE}
+WITH_REMOTE_MODULES:BOOL=ON
+  ")
+endif()
+
 if(NOT DEFINED dashboard_build_shared)
   set(dashboard_build_shared ON)
 endif()
 
 set(DEFAULT_CMAKE_CACHE 
-  "
-${DEFAULT_CMAKE_CACHE}
+  "${DEFAULT_CMAKE_CACHE}
 BUILD_SHARED_LIBS:BOOL=${dashboard_build_shared}
 "
   )
 
-if(WIN32)
-  set(DEFAULT_CMAKE_CACHE  "${DEFAULT_CMAKE_CACHE}
-CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS:BOOL=ON
-  "
-    )
-endif()
-
 if(otb_data_use_largeinput)
   set(DEFAULT_CMAKE_CACHE 
-    "
-${DEFAULT_CMAKE_CACHE}
+    "${DEFAULT_CMAKE_CACHE}
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=${OTB_DATA_LARGEINPUT_ROOT}
 "
@@ -753,9 +747,6 @@ CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
 BUILD_TESTING:BOOL=ON
 SUPERBUILD_BINARY_DIR:PATH=${SUPERBUILD_BINARY_DIR}
 SUPERBUILD_INSTALL_DIR:PATH=${SUPERBUILD_INSTALL_DIR}
-OTB_WRAP_PYTHON:BOOL=ON
-${dashboard_cache_packaging}
-${dashboard_cache_for_${dashboard_otb_branch}}
 ")
 
 endif() #DASHBOARD_PKG

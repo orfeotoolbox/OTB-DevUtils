@@ -42,7 +42,7 @@ OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=/home/otbval/Data/OTB-LargeInput
 #disable to test update_pkg
 QT4_SB_ENABLE_GTK:BOOL=OFF
-OTB_ADDITIONAL_CACHE:STRING='-DModule_Mosaic:BOOL=ON;-DModule_otbGRM:BOOL=ON;-DModule_SertitObject:BOOL=ON'
+WITH_REMOTE_MODULES:BOOL=ON
 ")
 endmacro()
 
