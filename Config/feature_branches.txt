@@ -1,4 +1,3 @@
 rfc-98-qwt6
 refac_convert refac_convert
 refactor_PixelValue
-bugfix-1446 release-6.0
