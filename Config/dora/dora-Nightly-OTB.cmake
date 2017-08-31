@@ -52,6 +52,7 @@ OTB_USE_GLUT:BOOL=ON
 OTB_USE_MPI:BOOL=ON
 OTB_USE_SPTW:BOOL=OFF
 OTB_USE_SHARK:BOOL=ON
+OTB_USE_OPENMP:BOOL=ON
 
 MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
