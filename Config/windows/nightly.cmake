@@ -3,12 +3,26 @@ set(UPDATE_DEVUTILS ON)
 
 set(LOGS_DIR "C:/dashboard/logs")
 
-#unmount and mount otbnas on R drive 
-execute_process(COMMAND "net" "use" "R:" "/delete" "/Y")
-execute_process(COMMAND "net" "use" "R:" "\\\\otbnas.si.c-s.fr\\otbdata\\otb"  "/persistent:no")
+string(TIMESTAMP DATE_TIME)
 
 #find devutils/Config directory relative to this file (nightly.cmake)
 get_filename_component(DEVUTILS_CONFIG_DIR "${CMAKE_CURRENT_LIST_DIR}" PATH)
+
+if(UPDATE_DEVUTILS)
+message("${DATE_TIME}: Update OTB-DevUtils")
+execute_process(COMMAND ${CMAKE_COMMAND}
+  -D GIT_COMMAND:PATH=git
+  -D TESTED_BRANCH:STRING=master
+  -P "${DEVUTILS_CONFIG_DIR}/git_updater.cmake"
+  OUTPUT_FILE ${LOGS_DIR}/devutils.txt
+  ERROR_FILE ${LOGS_DIR}/devutils.txt
+  WORKING_DIRECTORY ${DEVUTILS_CONFIG_DIR}/../)
+endif()
+
+
+#unmount and mount otbnas on R drive
+execute_process(COMMAND "net" "use" "R:" "/delete" "/Y")
+execute_process(COMMAND "net" "use" "R:" "\\\\otbnas.si.c-s.fr\\otbdata\\otb"  "/persistent:no")
 
 #scripts_dir is a convenience variable for CMAKE_CURRENT_LIST_DIR. 
 set(SCRIPTS_DIR "${CMAKE_CURRENT_LIST_DIR}")
@@ -20,43 +34,33 @@ endif()
 
 # Input file where SuperBuild branch name is set
 set(sb_file "${DEVUTILS_CONFIG_DIR}/superbuild_branch.txt")
-
-# We can only build onr branch of superbuild.
-# Comment next two line to switch to nightly OR a branch listed in superbuild_branch.txt
-#~ set(SUPERBUILD_BRANCH release-${OTB_STABLE_VERSION})
-#~ set(SUPERBUILD_DATA_BRANCH release-${OTB_STABLE_VERSION})
-
-# If SUPERBUILD_BRANCH is set then don't bother reading superbuild_branch.txt file.
-# For that we simply unset "sb_file" variable
-if(SUPERBUILD_BRANCH)
-  set(sb_file "")
-endif()
-
 set(sb_file_contents)
 if(EXISTS ${sb_file})
   message("reading superbuild branch name from : ${sb_file}")
   file(STRINGS ${sb_file} sb_file_contents)
 endif()
 
+set(SUPERBUILD_BRANCH)
+set(SUPERBUILD_DATA_BRANCH)
 foreach(line_in_sb_file_content ${sb_file_contents})
-  set(otb_branch)
-  set(data_branch)
-
   STRING(REPLACE " " ";" branch_input "${line_in_sb_file_content}")
-
   list(LENGTH branch_input branch_input_LEN)
   list(GET branch_input 0 SUPERBUILD_BRANCH)
-
   if( branch_input_LEN GREATER 1)
     list(GET branch_input 1 SUPERBUILD_DATA_BRANCH)
   endif()
-
 endforeach()
 
-# Finally if there is no SUPERBUILD_DATA_BRANCH set, From file or wherever, set it to nightly
 if(NOT SUPERBUILD_DATA_BRANCH)
   set(SUPERBUILD_DATA_BRANCH nightly)
 endif()
+
+if(NOT SUPERBUILD_BRANCH)
+  set(SUPERBUILD_BRANCH nightly)
+endif()
+
+message("SUPERBUILD_BRANCH=${SUPERBUILD_BRANCH}")
+message("SUPERBUILD_DATA_BRANCH=${SUPERBUILD_DATA_BRANCH}")
 
 set(LIST_OF_BRANCHES)
 list(APPEND LIST_OF_BRANCHES "nightly nightly")
@@ -66,30 +70,13 @@ list(APPEND LIST_OF_BRANCHES "release-${OTB_STABLE_VERSION} release-${OTB_STABLE
 
 
 
+
 #CAREFUL when you update code below.
 if(NOT DEFINED COMPILER_ARCH)
   message(FATAL_ERROR "COMPILER_ARCH not defined")
 endif()
 
-string(TIMESTAMP DATE_TIME)
-set(_git_updater_script "${DEVUTILS_CONFIG_DIR}/git_updater.cmake")
-set(GIT_COMMAND git)
-
-if(UPDATE_DEVUTILS)
-message("${DATE_TIME}: Update OTB-DevUtils")
-execute_process(COMMAND ${CMAKE_COMMAND} 
-  -D GIT_COMMAND:PATH=${GIT_COMMAND} 
-  -D TESTED_BRANCH:STRING=master 
-  -P ${_git_updater_script}
-  OUTPUT_FILE ${LOGS_DIR}/devutils.txt
-  ERROR_FILE ${LOGS_DIR}/devutils.txt
-  WORKING_DIRECTORY ${DEVUTILS_CONFIG_DIR}/../)
-endif()
-
 message("${DATE_TIME}: compiler arch set to '${COMPILER_ARCH}'")  
-
-message("SUPERBUILD_BRANCH=${SUPERBUILD_BRANCH}")
-message("SUPERBUILD_DATA_BRANCH=${SUPERBUILD_DATA_BRANCH}")
 
 string(TIMESTAMP BUILD_START_DATE "%Y-%m-%d")
 set(OTBNAS_PACKAGES_DIR "R:/Nightly/${BUILD_START_DATE}")
@@ -161,7 +148,6 @@ foreach(branch_input ${LIST_OF_BRANCHES})
   WORKING_DIRECTORY ${SCRIPTS_DIR})
   
 endforeach()
-
 
 #make sure otbnas is disconnected at end in case a build is broken
 execute_process(COMMAND "net" "use" "R:" "/delete" "/Y")
