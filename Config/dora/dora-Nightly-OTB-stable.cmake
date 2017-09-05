@@ -60,6 +60,9 @@ MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
 SHARK_LIBRARY:FILEPATH=/home/otbval/Tools/shark/install/lib/libshark.so
 SHARK_INCLUDE_DIR:PATH=/home/otbval/Tools/shark/install/include
 
+QWT_LIBRARY:FILEPATH=/home/otbval/Tools/qwt5/install/lib/libqwt.so.5
+QWT_INCLUDE_DIR:PATH=/home/otbval/Tools/qwt5/install/include
+
 #MAPNIK_INCLUDE_DIR:PATH=/home/otbval/Tools/mapnik/install/include
 #MAPNIK_LIBRARY:FILEPATH=/home/otbval/Tools/mapnik/install/lib/libmapnik2.so
     ")

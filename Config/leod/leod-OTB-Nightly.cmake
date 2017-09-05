@@ -83,6 +83,9 @@ GLUT_INCLUDE_DIR=/usr/X11R6/include
 
 SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/shark/install/lib/libshark.dylib
 SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/shark/install/include
+
+QWT_INCLUDE_DIR=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/Headers
+QWT_LIBRARY=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/qwt
     ")
 
 endmacro()
@@ -93,12 +96,6 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CTEST_INSTALL_PREFI
 
 #
 # Specific cache for feature branches {
-
-set( dashboard_cache_for_rfc-98-qwt6 "
-# QWT
-QWT_INCLUDE_DIR=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/Headers
-QWT_LIBRARY=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/qwt
-" )
 
 # } Specific cache for feature branches.
 #
