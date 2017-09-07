@@ -57,6 +57,8 @@ GLUT_glut_LIBRARY=/usr/X11R6/lib/libglut.3.dylib
 GLUT_INCLUDE_DIR=/usr/X11R6/include
 SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/shark/install/lib/libshark.dylib
 SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/shark/install/include
+QWT_INCLUDE_DIR=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/Headers
+QWT_LIBRARY=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/qwt
 ")
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)

@@ -37,8 +37,8 @@ OTB_USE_SHARK:BOOL=${default_on_off}
 BUILD_TESTING:BOOL=ON
 ")
 
-if("$ENV{dashboard_otb_branch}" STREQUAL "rfc-98-qwt6")
-  set(XDK_INSTALL_DIR "C:/dashboard/otb/xdk/otb61_$ENV{COMPILER_ARCH}")
+if("$ENV{dashboard_otb_branch}" STREQUAL "release-6.0")
+  set(XDK_INSTALL_DIR "C:/dashboard/otb/xdk/otb60_$ENV{COMPILER_ARCH}")
 endif()
 
 include(windows_common.cmake)
