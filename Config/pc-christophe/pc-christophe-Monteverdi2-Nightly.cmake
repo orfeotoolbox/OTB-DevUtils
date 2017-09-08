@@ -34,8 +34,8 @@ OTB_DIR:STRING=${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-Nightly/${CTEST_BUI
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/stable/${CTEST_BUILD_CONFIGURATION}
 
 # Qwt
-QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
-QWT_LIBRARY:FILEPATH=/usr/lib64/libqwt.so.5
+QWT_INCLUDE_DIR:PATH=/usr/include/qwt
+QWT_LIBRARY:FILEPATH=/usr/lib64/libqwt.so
 
 ")
 endmacro()

@@ -36,8 +36,8 @@ OTB_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/orfeo/trunk/OTB-clang-ThirdPartyTrunk
 ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/build/itk/trunk/${CTEST_BUILD_CONFIGURATION}
 
 # Qwt
-QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
-QWT_LIBRARY:FILEPATH=/usr/lib64/libqwt.so.5
+QWT_INCLUDE_DIR:PATH=/usr/include/qwt
+QWT_LIBRARY:FILEPATH=/usr/lib64/libqwt.so
 
 ")
 endmacro()
