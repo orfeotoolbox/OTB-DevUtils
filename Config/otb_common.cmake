@@ -681,13 +681,15 @@ macro(run_dashboard)
     write_cache()
   endif()
 
-  # Checkout specific data branch if any
+  # Checkout specific data branch if any, otherwise use nightly
   if(DEFINED specific_data_branch_for_${dashboard_current_branch})
     set_git_update_command(${specific_data_branch_for_${dashboard_current_branch}})
-    execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
-                    WORKING_DIRECTORY ${dashboard_otb_data_root})
     message("Set data branch to ${specific_data_branch_for_${dashboard_current_branch}}")
+  else()
+    set_git_update_command(nightly)
   endif()
+  execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
+                  WORKING_DIRECTORY ${dashboard_otb_data_root})
 
   # Look for updates.
   if(NOT dashboard_no_update)
@@ -783,14 +785,6 @@ macro(run_dashboard)
     if(COMMAND dashboard_hook_end)
       dashboard_hook_end()
     endif()
-  endif()
-
-  # reset data to Nightly branch
-  if(DEFINED specific_data_branch_for_${dashboard_current_branch})
-    set_git_update_command(nightly)
-    execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
-                    WORKING_DIRECTORY ${dashboard_otb_data_root})
-    message("Reset data")
   endif()
 endmacro()
 
