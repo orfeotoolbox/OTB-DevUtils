@@ -1,3 +1,2 @@
-refactor_PixelValue
 refac_download_srtm
 rename_opticcal_filters
