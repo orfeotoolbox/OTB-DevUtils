@@ -17,7 +17,6 @@ set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild)
 
 set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/src/OTB)
-#set(dashboard_git_branch sb-gdal-s2)
 
 list(APPEND CTEST_TEST_ARGS 
   BUILD ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build
@@ -27,7 +26,6 @@ list(APPEND CTEST_NOTES_FILES
   ${CTEST_DASHBOARD_ROOT}/${dashboard_binary_name}/OTB/build/otbConfigure.h
 )
 
-#CMAKE_CXX_FLAGS:STRING=-std=c++11
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 CMAKE_INSTALL_PREFIX:PATH=${CTEST_INSTALL_DIRECTORY}
@@ -37,6 +35,7 @@ DOWNLOAD_LOCATION:PATH=${CTEST_DASHBOARD_ROOT}/src/SuperBuild-archives
 CTEST_USE_LAUNCHERS:BOOL=${CTEST_USE_LAUNCHERS}
 CMAKE_C_COMPILER:PATH=/usr/bin/gcc-4.9
 CMAKE_CXX_COMPILER:PATH=/usr/bin/g++-4.9
+CMAKE_CXX_FLAGS:STRING='-std=c++11'
 BUILD_TESTING:BOOL=ON
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=/home/otbval/Data/OTB-LargeInput
