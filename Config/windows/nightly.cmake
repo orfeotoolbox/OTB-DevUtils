@@ -1,6 +1,9 @@
 # TODO: update devutils based on option from nightly.bat
 set(UPDATE_DEVUTILS ON)
 
+# Are we in a release preparation ? if yes, superbuild and packaging will use the latest release branch
+set(RELEASE_PREPARATION ON)
+
 set(LOGS_DIR "C:/dashboard/logs")
 
 string(TIMESTAMP DATE_TIME)
@@ -42,14 +45,19 @@ endif()
 
 set(SUPERBUILD_BRANCH)
 set(SUPERBUILD_DATA_BRANCH)
-foreach(line_in_sb_file_content ${sb_file_contents})
-  STRING(REPLACE " " ";" branch_input "${line_in_sb_file_content}")
-  list(LENGTH branch_input branch_input_LEN)
-  list(GET branch_input 0 SUPERBUILD_BRANCH)
-  if( branch_input_LEN GREATER 1)
-    list(GET branch_input 1 SUPERBUILD_DATA_BRANCH)
-  endif()
-endforeach()
+if(RELEASE_PREPARATION)
+  set(SUPERBUILD_BRANCH "release-${OTB_STABLE_VERSION}")
+  set(SUPERBUILD_DATA_BRANCH "release-${OTB_STABLE_VERSION}")
+else()
+  foreach(line_in_sb_file_content ${sb_file_contents})
+    STRING(REPLACE " " ";" branch_input "${line_in_sb_file_content}")
+    list(LENGTH branch_input branch_input_LEN)
+    list(GET branch_input 0 SUPERBUILD_BRANCH)
+    if( branch_input_LEN GREATER 1)
+      list(GET branch_input 1 SUPERBUILD_DATA_BRANCH)
+    endif()
+  endforeach()
+endif()
 
 if(NOT SUPERBUILD_DATA_BRANCH)
   set(SUPERBUILD_DATA_BRANCH nightly)
