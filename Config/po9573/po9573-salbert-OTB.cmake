@@ -29,8 +29,8 @@ OTB_DATA_ROOT:STRING=$ENV{HOME}/dev/source/OTB-Data
 CMAKE_C_COMPILER=/usr/bin/gcc-5
 CMAKE_CXX_COMPILER=/usr/bin/g++-5
 
-CMAKE_C_FLAGS:STRING= -Wall -Wextra
-CMAKE_CXX_FLAGS:STRING= -Wall -Wextra
+CMAKE_C_FLAGS:STRING= -Wall -Wextra -Wshadow
+CMAKE_CXX_FLAGS:STRING= -Wall -Wextra -Wshadow
 CMAKE_BUILD_TYPE:STRING=${CTEST_BUILD_CONFIGURATION}
 
 BUILD_TESTING:BOOL=OFF
@@ -88,6 +88,10 @@ OSSIM_LIBRARY:FILEPATH=$ENV{HOME}/local/lib/libossim.so
 # Ice
 GLFW_INCLUDE_DIR=$ENV{HOME}/local/include
 GLFW_LIBRARY=$ENV{HOME}/local/lib/libglfw.so
+
+# QWT
+# QWT_INCLUDE_DIR=$ENV{HOME}/local/include/qwt-6.1.3
+# QWT_LIBRARY=$ENV{HOME}/local/lib/qwt-6.1.3/libqwt.so
 
 # Monteverdi
 OTB_I18N_MERGE_TS:BOOL=OFF
