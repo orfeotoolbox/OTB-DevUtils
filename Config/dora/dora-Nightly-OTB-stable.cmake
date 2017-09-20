@@ -44,6 +44,7 @@ OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
 OTB_USE_QT4:BOOL=ON
+OTB_USE_QWT:BOOL=ON
 # Ice module
 OTB_USE_OPENGL:BOOL=ON
 OTB_USE_GLEW:BOOL=ON
@@ -53,15 +54,13 @@ OTB_USE_GLUT:BOOL=ON
 OTB_USE_MPI:BOOL=ON
 OTB_USE_SPTW:BOOL=OFF
 OTB_USE_SHARK:BOOL=ON
+OTB_USE_OPENMP:BOOL=ON
 
 MUPARSERX_LIBRARY:PATH=/home/otbval/Tools/muparserx/install/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=/home/otbval/Tools/muparserx/install/include
 
 SHARK_LIBRARY:FILEPATH=/home/otbval/Tools/shark/install/lib/libshark.so
 SHARK_INCLUDE_DIR:PATH=/home/otbval/Tools/shark/install/include
-
-QWT_LIBRARY:FILEPATH=/home/otbval/Tools/qwt5/install/lib/libqwt.so.5
-QWT_INCLUDE_DIR:PATH=/home/otbval/Tools/qwt5/install/include
 
 #MAPNIK_INCLUDE_DIR:PATH=/home/otbval/Tools/mapnik/install/include
 #MAPNIK_LIBRARY:FILEPATH=/home/otbval/Tools/mapnik/install/lib/libmapnik2.so
