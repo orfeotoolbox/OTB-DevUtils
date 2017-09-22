@@ -53,8 +53,9 @@ PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
 OTB_WRAP_PYTHON:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
 
-QWT_INCLUDE_DIR:PATH=/usr/include/qwt5-qt4
-QWT_LIBRARY:FILEPATH=/usr/lib64/libqwt.so.5
+# Comment QWT include and libs
+# QWT_INCLUDE_DIR:PATH=/usr/include/qwt
+# QWT_LIBRARY:FILEPATH=/usr/lib64/libqwt.so
 
 #OTB_USE_XXX
 OTB_USE_6S=ON
