@@ -18,5 +18,5 @@ fi
 "$SHELLCHECK" "$OTB_SOURCE_DIR/CMake/otbgui_app.sh.in"
 
 "$SHELLCHECK" "$OTB_SOURCE_DIR/Utilities/Maintenance/SuperbuildDownloadList.sh"
-"$SHELLCHECK" "$OTB_SOURCE_DIR/SuperBuild/Packaging/linux_pkgsetup.in"
-"$SHELLCHECK" "$OTB_SOURCE_DIR/SuperBuild/Packaging/macx_pkgsetup.in"
+"$SHELLCHECK" "$OTB_SOURCE_DIR/Packaging/Files/linux_pkgsetup.in"
+"$SHELLCHECK" "$OTB_SOURCE_DIR/Packaging/Files/macx_pkgsetup.in"
