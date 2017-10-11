@@ -28,3 +28,5 @@ endif()
 
 set(CMAKE_MAKE_PROGRAM "make")
 
+# special setting for ctest_submit(), issue with CA checking
+set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
