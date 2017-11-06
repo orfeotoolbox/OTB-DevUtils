@@ -4,3 +4,4 @@ enable_ossim_sar_sensor_model
 dynamic_convert dynamic_convert
 lnicolas-stopwatch
 spacing_correction spacing_correction
+contrast_enhancement
