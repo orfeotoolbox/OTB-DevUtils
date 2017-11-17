@@ -3,3 +3,4 @@ ossimplugins_headers
 dynamic_convert dynamic_convert
 lnicolas-stopwatch
 contrast_enhancement
+complexImage_integration
