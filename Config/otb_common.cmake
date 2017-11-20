@@ -261,7 +261,7 @@ endif()
 # Set configure options if needed
 set(CONFIGURE_OPTIONS)
 if(superbuild_with_contrib)
-  foreach(_mod "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
+  foreach(_mod "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM" "OTBTemporalGapFilling" "OTBBioVars" "OTBPhenology")
     list(APPEND CONFIGURE_OPTIONS "-DModule_${_mod}:BOOL=ON")
   endforeach()
 endif()
