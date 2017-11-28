@@ -1,5 +1,4 @@
 enable_ossim_sar_sensor_model
-dynamic_convert dynamic_convert
 lnicolas-stopwatch
 contrast_enhancement contrast_enhancement
 complexImage_integration
