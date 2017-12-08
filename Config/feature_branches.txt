@@ -1,3 +1,4 @@
 lnicolas-stopwatch
 complexImage_integration complexImage_integration
 python_2_and_3
+bugfix-1498
