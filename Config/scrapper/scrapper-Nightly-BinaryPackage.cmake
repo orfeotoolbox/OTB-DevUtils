@@ -2,16 +2,15 @@ set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_FLAGS "-k -j1")
 include(${CTEST_SCRIPT_DIRECTORY}/scrapper_common.cmake)
-include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
-set(CTEST_BUILD_NAME "Package-Linux-gcc-6-x86_64-${dashboard_git_branch}")
+set(CTEST_BUILD_NAME "Package-Linux-gcc-6-x86_64")
 
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
 set(dashboard_source_name "otb/src/Packaging")
-set(dashboard_binary_name "otb/pkg-otb-stable")
+set(dashboard_binary_name "otb/pkg-otb")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 
-set(SUPERBUILD_BINARY_DIR ${CTEST_DASHBOARD_ROOT}/otb/superbuild-stable)
-set(SUPERBUILD_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install-sb-stable)
+set(SUPERBUILD_BINARY_DIR ${CTEST_DASHBOARD_ROOT}/otb/superbuild)
+set(SUPERBUILD_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/install-sb)
 
 macro(dashboard_hook_init)
 set(dashboard_cache "

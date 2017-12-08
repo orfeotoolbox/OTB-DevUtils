@@ -1,5 +1,5 @@
 # Common variables for scrapper dashboard (CentOS6 VM)
-set(CTEST_DASHBOARD_ROOT "/home/otbval/Dashboard")
+set(CTEST_DASHBOARD_ROOT "/home/otbval/dashboard")
 set(CTEST_SITE "scrapper.c-s.fr")
 
 if(NOT DEFINED CTEST_CMAKE_GENERATOR)
