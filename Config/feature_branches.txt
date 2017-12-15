@@ -1,4 +1,3 @@
 lnicolas-stopwatch
 complexImage_integration complexImage_integration
-bugfix-1498
 dim_red_module dim_red_module
