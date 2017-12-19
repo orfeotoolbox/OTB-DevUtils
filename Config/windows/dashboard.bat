@@ -105,6 +105,11 @@ set PATH=%PATH%;%TOOLS_DIR%\7zip-16.02
 set PATH=%PATH%;%TOOLS_DIR%\swigwin-3.0.10
 set PATH=%PATH%;%TOOLS_DIR%\Perl-5.24.1\bin
 set PATH=%PATH%;C:\Python27_%COMPILER_ARCH%;C:\Python27_%COMPILER_ARCH%\Scripts
+set PATH=%PATH%;C:\Python35_%COMPILER_ARCH%
+
+:: The trick for an easy detection of Python 3 is to clone python.exe into python3.exe
+:: Python 2 should appear first in the PATH to be found by default
+
 ::set PATH=%PATH%;%TOOLS_DIR%\coreutils-5.3.0\bin
 
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %COMPILER_ARCH%
