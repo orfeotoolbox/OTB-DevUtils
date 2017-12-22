@@ -1,1 +1,1 @@
-gsl_superbuild
+nightly
