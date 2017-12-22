@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 # ------------- Version section (update before each release)------------------ 
-set(OTB_STABLE_VERSION 6.2)
+set(OTB_STABLE_VERSION 6.4)
 # ----------------------------------------------------------
 
 set(OTB_STABLE_DIR_SUFFIX lib/cmake/OTB-${OTB_STABLE_VERSION})
