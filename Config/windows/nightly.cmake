@@ -2,7 +2,7 @@
 set(UPDATE_DEVUTILS ON)
 
 # Are we in a release preparation ? if yes, superbuild and packaging will use the latest release branch
-set(RELEASE_PREPARATION OFF)
+set(RELEASE_PREPARATION ON)
 
 set(LOGS_DIR "C:/dashboard/logs")
 
