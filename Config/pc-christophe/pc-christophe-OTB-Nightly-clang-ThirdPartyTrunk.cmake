@@ -49,9 +49,9 @@ ITK_DIR:PATH=${INSTALLROOT}/itk/trunk/Release/lib/cmake/ITK-4.11
 ##external OpenCV
 OpenCV_DIR=${INSTALLROOT}/opencv/trunk/share/OpenCV/
 
-##external OSSIM
-OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/dev/include
-OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/dev/lib64/libossim.so
+##external OSSIM (use master branch as OTB is still not compatible with ossim 2.X)
+OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/master/include
+OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/master/lib64/libossim.so
 
 ##external muparserx
 MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/trunk/lib/libmuparserx.so
