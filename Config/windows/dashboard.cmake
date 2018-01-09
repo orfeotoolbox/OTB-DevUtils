@@ -33,6 +33,8 @@ OTB_USE_LIBSVM:BOOL=${default_on_off}
 OTB_USE_MUPARSER:BOOL=${default_on_off}
 OTB_USE_MUPARSERX:BOOL=${default_on_off}
 OTB_WRAP_PYTHON:BOOL=${default_on_off}
+OTB_WRAP_PYTHON3:BOOL=${default_on_off}
+OTB_WRAP_JAVA:BOOL=${default_on_off}
 OTB_USE_SHARK:BOOL=${default_on_off}
 BUILD_TESTING:BOOL=ON
 ")

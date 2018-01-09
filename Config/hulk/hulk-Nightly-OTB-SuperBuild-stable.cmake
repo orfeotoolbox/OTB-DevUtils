@@ -43,6 +43,8 @@ OTB_DATA_LARGEINPUT_ROOT:PATH=/media/otbnas/otb/OTB-LargeInput
 #disable to test update_pkg
 QT4_SB_ENABLE_GTK:BOOL=OFF
 WITH_REMOTE_MODULES:BOOL=ON
+OTB_WRAP_PYTHON3:BOOL=ON
+OTB_WRAP_JAVA:BOOL=ON
 ")
 endmacro()
 
