@@ -1,1 +1,1 @@
-update-shark-rf
+update-shark-rf update-shark
