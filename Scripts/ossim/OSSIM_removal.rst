@@ -137,7 +137,13 @@ The following actions can be planned:
     compatibility)
   * other models: the metadata parsing will be ported into specifics IMI in OTBMetadata
 
-* ossim/otb/\*: we should remove as many files as possible.
+* ossim/otb/\*:
+
+  * We should remove as many files as possible
+  * Maybe the date-time classes can be kept, because it is difficult to find equivalent solutions
+    in other libs (see Boost::DateTime and also QDateTime in QtCore)
+  * The classes related to Ephemeris, Coordinates, and other frames should be removed. Frames can
+    be defined by GDAL SRS.
 
 Dispatch of OTBOSSIMAdapters
 ----------------------------
