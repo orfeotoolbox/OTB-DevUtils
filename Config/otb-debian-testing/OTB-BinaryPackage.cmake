@@ -8,7 +8,6 @@ set(CTEST_SITE "otb-debian-testing.c-s.fr")
 
 set(dashboard_source_name "otb/src/SuperBuild/Packaging")
 set(dashboard_binary_name "otb/pkg-otb")
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 
 # special setting for ctest_submit(), issue with CA checking

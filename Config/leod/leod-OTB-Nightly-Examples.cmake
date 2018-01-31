@@ -12,10 +12,6 @@ set(dashboard_update_dir "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTE
 set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/src/Examples")
 set(dashboard_binary_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build-examples")
 
-#set(dashboard_fresh_source_checkout OFF)
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
-#set(dashboard_hg_branch "default")
-
 macro(dashboard_hook_init)
 set(dashboard_cache "
 CMAKE_CXX_FLAGS:STRING=-std=c++11

@@ -16,7 +16,7 @@
 #   set(CTEST_SOURCE_DIRECTORY Path_to_source_dir)
 #   set(CTEST_BINARY_DIRECTORY Path_to_build_dir)
 #   set(dashboard_model Nightly)
-#   set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
+#   set(dashboard_git_url "https://gitlab.orfeo-toolbox.org/orfeotoolbox/otb.git")
 #   macro(dashboard_hook_init)
 #     set(dashboard_cache "${dashboard_cache}
 #       # set your initial cmake cache variables
@@ -268,7 +268,7 @@ endif()
 
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
-  set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
+  set(dashboard_git_url "https://gitlab.orfeo-toolbox.org/orfeotoolbox/otb.git")
 endif()
 
 if(NOT DEFINED dashboard_git_branch)

@@ -18,8 +18,6 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "${dashboard_otb_source}/Documentation/Cookbook")
 set(dashboard_binary_name "nightly/CookBook/stable")
 
-#set(dashboard_fresh_source_checkout OFF)
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/${dashboard_otb_source})
 
 macro(dashboard_hook_init)

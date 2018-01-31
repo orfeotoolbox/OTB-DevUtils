@@ -14,7 +14,6 @@ set(dashboard_root_name "tests")
 set(dashboard_source_name "sources/orfeo/trunk/OTB-Nightly/Documentation/SoftwareGuide")
 set(dashboard_binary_name "build/orfeo/SoftwareGuide")
 
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nightly)
 
 macro(dashboard_hook_init)

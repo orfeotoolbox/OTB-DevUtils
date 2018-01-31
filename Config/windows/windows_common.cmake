@@ -567,7 +567,7 @@ endif()
 
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
-  set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
+  set(dashboard_git_url "https://gitlab.orfeo-toolbox.org/orfeotoolbox/otb.git")
 endif()
 
 if(NOT DEFINED dashboard_git_crlf)

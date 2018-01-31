@@ -9,8 +9,6 @@ set(dashboard_source_name "sources/otb")
 set(dashboard_binary_name "build/otb/develop")
 set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/install/otb/develop)
 
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
-
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 

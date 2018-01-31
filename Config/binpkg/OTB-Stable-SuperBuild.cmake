@@ -5,7 +5,6 @@ include(${CTEST_SCRIPT_DIRECTORY}/binpkg_common.cmake)
 
 set(dashboard_source_name "otb/src/SuperBuild")
 set(dashboard_binary_name "otb/build-stable")
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install-stable)
 

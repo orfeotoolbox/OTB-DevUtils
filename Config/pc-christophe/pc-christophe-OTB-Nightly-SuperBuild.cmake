@@ -17,7 +17,6 @@ set(dashboard_binary_name "build/orfeo/trunk/OTB-SuperBuild")
 
 set(CTEST_INSTALL_DIRECTORY "${CTEST_DASHBOARD_ROOT}/install/OTB-SuperBuild")
 
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/sources/orfeo/trunk/OTB-Nightly)
 #set(dashboard_git_branch release-5.6)
 

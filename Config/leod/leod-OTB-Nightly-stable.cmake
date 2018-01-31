@@ -13,9 +13,6 @@ set(dashboard_source_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}
 set(dashboard_binary_name "${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/build-stable")
 set(CTEST_INSTALL_PREFIX "${CTEST_DASHBOARD_ROOT}/${lcdashboard_model}/OTB-${CTEST_BUILD_CONFIGURATION}/install-stable")
 
-#set(dashboard_fresh_source_checkout OFF)
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
-
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 

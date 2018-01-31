@@ -10,8 +10,6 @@ set(dashboard_source_name "sources/otb")
 set(dashboard_binary_name "build/otb/develop")
 set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/install/otb/develop)
 
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
-
 # set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
 
 set(dashboard_no_install 1)

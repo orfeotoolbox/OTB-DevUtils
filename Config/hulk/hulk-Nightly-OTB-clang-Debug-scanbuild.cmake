@@ -15,8 +15,6 @@ set(dashboard_binary_name "build/OTB-clang-${CTEST_BUILD_CONFIGURATION}-scanbuil
 set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/install/OTB-clang-${CTEST_BUILD_CONFIGURATION}-scanbuild)
 
 set(dashboard_no_submit ON)
-#set(dashboard_fresh_source_checkout TRUE)
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 
 set(ENV{CCC_CC}   "$ENV{HOME}/tools/install/llvm/bin/clang")
 set(ENV{CCC_CXX}  "$ENV{HOME}/tools/install/llvm/bin/clang++")

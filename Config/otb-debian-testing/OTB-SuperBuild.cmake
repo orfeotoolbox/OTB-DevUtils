@@ -10,7 +10,6 @@ set(CTEST_TEST_TIMEOUT 1500)
 
 set(dashboard_source_name "otb/src/SuperBuild")
 set(dashboard_binary_name "otb/build")
-set(dashboard_git_url "https://git@git.orfeo-toolbox.org/git/otb.git")
 set(dashboard_update_dir ${CTEST_DASHBOARD_ROOT}/otb/src)
 
 set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/install)
