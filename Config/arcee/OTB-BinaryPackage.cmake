@@ -4,7 +4,7 @@ set(CTEST_BUILD_NAME "Package-Linux-gcc6-x86_64")
 set(CTEST_BUILD_FLAGS "-k -j1")
 set(dashboard_build_target PACKAGE-OTB)
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 1)
-set(CTEST_SITE "otb-debian-testing.c-s.fr")
+set(CTEST_SITE "arcee.c-s.fr")
 
 set(dashboard_source_name "otb/src/SuperBuild/Packaging")
 set(dashboard_binary_name "otb/pkg-otb")
