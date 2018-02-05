@@ -175,15 +175,129 @@ Role:
 * Handle a default elevation setting
 * Provide the elevation at any coordinates (lon/lat)
 
-Actions: there is nothing really equivalent in GDAL. If we go for a custom development:
+Actions: there is nothing really equivalent in GDAL. If we go for a custom development, we could
+also plan a different use of this DEM:
 
-* Create a DEM directory reader, maybe through a (in-memory) VRT. SRTM tiles are added to 
-  the VRT. If they are still in a zip, they can be accessed with /vsizip/. Then a single 
-  ImageFileReader can open the VRT and retrieve elevation data.
-* Performance: how to handle caching for elevation data? Will GDAL do it?
-* The geoid file can be opened in a separate ImageFileReader. 
-* The new DEMHandler will then interpolate data using DEM and geoid readers.
-* Design: is-it still relevant to use a singleton?
+* Point-based: this is the current implementation. We query the DEMHandler for an elevation at each
+  position independently. This implementation requires some caching to be efficient (done by Ossim, 
+  can also be done by GDAL).
+* Grid-based: this is a new strategy that could be implemented. For instance, during an 
+  orthorectification process, a deformation grid is computed, using calls to the DEMHandler
+  at each point. It would be more efficient to extract the elevation values block by block.
+  In this case, we can also foresee some relevant features for DEM processing (like no-data
+  filling, reprojection, smoothing,...).
+
+With a grid-based approach, the DEMHandler would rather return an image pointer (probably the output
+of a pipeline) than a single float. After a quick review of the calls to 
+``itk::Transform::TransformPoint()``, it seems difficult to avoid the point-based service in
+the DEMHandler.
+
+The best example is the computation of an ortho extent. This requires (at least) 4 forward 
+transforms for each image corner. Assuming a RPC model, this sensor-to-ground transform uses
+an iterative approach, because the RPC gives the transform from ground to sensor. The DEMHandler
+will have to supply several elevations for each image corner and the (x,y) coordinates of theses
+elevations can't be easily predicted. Also, since the corners may represent a large extent on
+the ground, it is risky to assume that the whole region can be buffered.
+
+Then, there is also the question of the input to the DEMHandler. At the moment, we give a directory
+and an (optional) path to a geoid file. Giving a path to a DEM file could be easier for the 
+users, but keeping the existing behaviour would ensure nothing is broken on user side.
+Since a DEM is often composed of several tiles, the VRT solution seems the best to gather 
+the tiles in a single entry point. We can even create it in-memory to deal with backward
+compatibility.
+
+Solution
+^^^^^^^^
+
+The solution proposed is to work with 3 classes:
+
+* ``DEMHandler``: part of OTBTransform, singleton, holds the defaults settings, and an internal DEM reader
+* ``DEMReaderInterface``: part of OTBTransform, defines the interface to request point-based and
+  grid-based elevation
+* ``GDALDEMReader``: part of OTBImageIO, implements the DEMReaderInterface, with point-based and 
+  grid-based services as a standard image reader.
+
+This is the proposed skeleton for the future ``DEMHandler`` class:
+
+.. code-block:: cpp
+
+  class DEMHandler : public itk::Object
+  {
+  public:
+    /** Retrieve the singleton instance */
+    static Pointer Instance();
+    
+    /** Default DEM settings  */
+    string GetDEMPath();
+    void   SetDEMPath(string);
+    
+    string GetGeoidPath();
+    void   SetGeoidPath(string);
+    
+    double GetDefaultHeight();
+    void   SetDefaultHeight();
+    
+    void SetReader(reader);
+    DEMReaderInterface* GetReader();
+
+  private:
+    static Pointer m_Singleton;
+    
+    string m_Geoid;
+    string m_DEM;
+    double m_DefaultHeight;
+    
+    /** internal DEMReaderInterface */
+    DEMReaderInterface::Pointer m_Reader;
+  };
+
+The skeleton of ``DEMReaderInterface`` will look like:
+
+.. code-block:: cpp
+
+  class DEMReaderInterface
+  {
+  public:
+    /** Point-based elevation */
+    virtual double GetHeight(double x, double y);
+    
+    /** Grid-based elevation */
+    virtual otb::Image<double,2>* GetHeightGrid();
+    
+    /** setup function */
+    void SetSource(dem, geoid, defaultHeight);
+  };
+
+The ``GDALDEMReader`` class will be a composite filter, containing the following boxes:
+
+* [optional] ``DirectoryToVRT``: small tool used if the DEM path is a directory. It will:
+
+  * find the first VRT file in that directory
+  * or create an in-memory VRT using image present in the directory
+
+* ``ImageFileReader``: actually reads an input VRT (we may also use GDALImageIO directly)
+* ``DEMResampler``: can be used to support interpolation, resampling the DEM to a different grid and
+  a different SRS.
+* [optional] ``GeoidReader``: reads the input geoid file, this will likely be an ``ImageFileReader``,
+  it may use the full buffer if the size allows it.
+* [optional] ``AddImageFilter``: combine DEM and geoid heights
+
+This reader will be used during the point-based calls: a small patch of DEM will be extracted around
+the requested location. During grid-based calls, it will return an ``otb::Image`` connected to a pipeline.
+
+The ``DEMResampler`` can be really simple at the start. The only mandatory feature to be implemented
+is the interpolation on a different grid (using the same SRS). Indeed, this is how the point-based
+method ``GetHeight()`` will interpolate the correct elevation. Later on, we can improve it to support:
+
+* transformation to a different SRS
+* gap-filling
+* smoothing
+* ...
+
+It could be a nice feature in the long term.
+
+We will probably need to modify the GDAL_CACHE_SIZE variable for better performances. Also, this
+cache size should be subtracted from our RAM parameter.
 
 otbEllipsoidAdapter
 ~~~~~~~~~~~~~~~~~~~
