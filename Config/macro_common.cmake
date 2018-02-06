@@ -69,3 +69,25 @@ foreach(item ${content})
 endforeach()
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${dir})
 endfunction(remove_folder_recurse)
+
+# Analyse a file containing branches
+#   INPUT: text file path
+#   OUTPUT: variables "_branch_list", "specific_data_branch_for_<branch>"
+macro(parse_branch_list _input_file)
+  unset(_branch_list)
+  set(_branch_list_regex "^ *(([a-zA-Z0-9]|-|_|\\.|/)+) *(([a-zA-Z0-9]|-|_|\\.|/)*) *\$")
+  file(STRINGS ${_input_file} _feature_list_content
+       REGEX ${_branch_list_regex})
+  foreach(_line ${_feature_list_content})
+    string(REGEX REPLACE ${_branch_list_regex} "\\1" _branch ${_line})
+    string(REGEX REPLACE ${_branch_list_regex} "\\3" _databranch ${_line})
+    list(APPEND _branch_list ${_branch})
+    if(specific_data_branch_for_${_branch})
+      unset(specific_data_branch_for_${_branch})
+    endif()
+    if(_databranch)
+      set(specific_data_branch_for_${_branch} ${_databranch})
+      message("Found specific data branch for ${_branch} : ${_databranch}")
+    endif()
+  endforeach()
+endmacro()
