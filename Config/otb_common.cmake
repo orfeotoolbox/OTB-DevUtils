@@ -303,7 +303,7 @@ if(NOT DEFINED dashboard_git_crlf)
 endif()
 
 # Detect additional branches to test
-if(EXISTS dashboard_git_features_list)
+if(EXISTS ${dashboard_git_features_list})
   message("Checking feature branches file : ${dashboard_git_features_list}")
   parse_branch_list(${dashboard_git_features_list})
   set(additional_branches ${_branch_list})
