@@ -27,15 +27,21 @@ else()
 endif()
 
 # check if local branch already exists
-execute_process(COMMAND ${GIT_COMMAND} branch --list ${_BRANCH}
-  OUTPUT_VARIABLE _local_branch)
+execute_process(COMMAND ${GIT_COMMAND} branch
+  OUTPUT_VARIABLE _local_branches)
+string(REPLACE "\n" " " in_line "${_local_branches}")
+string(STRIP "${in_line}" striped_line)
+string(REPLACE "  " " " striped_line "${striped_line}")
+string(REPLACE "  " " " striped_line "${striped_line}")
+string(REPLACE " " ";" split_line "${striped_line}")
+list(FIND split_line "${_BRANCH}" _is_local)
 
 # run the update
 execute_process(COMMAND ${GIT_COMMAND} fetch --all)
 execute_process(COMMAND ${GIT_COMMAND} clean -d -f -f)
-if(_local_branch)
+if(_is_local EQUAL -1)
+  execute_process(COMMAND ${GIT_COMMAND} checkout -b ${_BRANCH} --track ${_REMOTE}/${_BRANCH})
+else()
   execute_process(COMMAND ${GIT_COMMAND} checkout ${_BRANCH})
   execute_process(COMMAND ${GIT_COMMAND} reset --hard ${_REMOTE}/${_BRANCH})
-else()
-  execute_process(COMMAND ${GIT_COMMAND} checkout -b ${_BRANCH} --track ${_REMOTE}/${_BRANCH})
 endif()
