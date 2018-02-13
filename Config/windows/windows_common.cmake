@@ -107,6 +107,15 @@
 #   set(ENV{LD_LIBRARY_PATH} /path/to/vendor/lib) # (if necessary)
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
+# find and include macro_common
+if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/macro_common.cmake)
+  include(${CTEST_SCRIPT_DIRECTORY}/macro_common.cmake)
+elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../macro_common.cmake)
+  include(${CTEST_SCRIPT_DIRECTORY}/../macro_common.cmake)
+elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../../macro_common.cmake)
+  include(${CTEST_SCRIPT_DIRECTORY}/../../macro_common.cmake)
+endif()
+
 # Avoid non-ascii characters in tool output.
 set(ENV{LC_ALL} C)
 
@@ -578,18 +587,6 @@ if(NOT DEFINED dashboard_git_crlf)
   endif(UNIX)
 endif()
 
-if(EXISTS ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
-  set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/git_updater.cmake)
-elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
-  set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/../git_updater.cmake)
-elseif(EXISTS ${CTEST_SCRIPT_DIRECTORY}/../../git_updater.cmake)
-  set(_git_updater_script ${CTEST_SCRIPT_DIRECTORY}/../../git_updater.cmake)
-endif()
-
-if(NOT DEFINED CTEST_GIT_UPDATE_CUSTOM)
-  set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${dashboard_otb_branch} -P ${_git_updater_script})
-endif()
-
 get_filename_component(_source_directory_abspath "${CTEST_SOURCE_DIRECTORY}" ABSOLUTE)
 get_filename_component(_source_directory_filename "${_source_directory_abspath}" NAME)
 
@@ -943,11 +940,9 @@ set(CTEST_DROP_SITE_CDASH TRUE)
 endif()
 
 if(OTB_DATA_ROOT)
-  execute_process(COMMAND ${CMAKE_COMMAND} 
-    -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
-    -D TESTED_BRANCH:STRING=${dashboard_data_branch} 
-    -P ${_git_updater_script}
-    WORKING_DIRECTORY ${OTB_DATA_ROOT})
+  set_git_update_command(${dashboard_data_branch})
+  execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
+                    WORKING_DIRECTORY ${OTB_DATA_ROOT})
 endif()  
 
 if(COMMAND dashboard_hook_start)
@@ -977,6 +972,11 @@ ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
 
 # Look for updates.
 if(NOT dashboard_no_update)
+  if(CTEST_DASHBOARD_TRACK STREQUAL "FeatureBranches")
+    set_git_update_and_sync_command(${dashboard_otb_branch})
+  else()
+    set_git_update_command(${dashboard_otb_branch})
+  endif()
   ctest_update(SOURCE ${CTEST_UPDATE_DIRECTORY} RETURN_VALUE count)
   set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
   message("Found ${count} changed files")
@@ -1026,19 +1026,15 @@ endmacro(dashboard_copy_packages)
 macro(dashboard_reset_sources)
   message("reset otb-data to master branch" )
   if(OTB_DATA_ROOT)
-    execute_process(COMMAND ${CMAKE_COMMAND} 
-      -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
-      -D TESTED_BRANCH:STRING=master
-      -P ${_git_updater_script}
-      WORKING_DIRECTORY ${OTB_DATA_ROOT})
+    set_git_update_command(master)
+    execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
+                    WORKING_DIRECTORY ${OTB_DATA_ROOT})
   endif()
   
   message("reset otb to develop branch" )
-  execute_process(COMMAND ${CMAKE_COMMAND} 
-    -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} 
-    -D TESTED_BRANCH:STRING=develop
-    -P ${_git_updater_script}
-    WORKING_DIRECTORY ${CTEST_UPDATE_DIRECTORY})
+  set_git_update_command(develop)
+  execute_process(COMMAND ${CTEST_GIT_UPDATE_CUSTOM}
+                    WORKING_DIRECTORY ${CTEST_UPDATE_DIRECTORY})
 endmacro(dashboard_reset_sources)
 
 

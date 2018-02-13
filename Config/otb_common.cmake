@@ -674,7 +674,11 @@ macro(run_dashboard)
 
   # Look for updates.
   if(NOT dashboard_no_update)
-    set_git_update_command(${dashboard_current_branch})
+    if(CTEST_DASHBOARD_TRACK STREQUAL "FeatureBranches")
+      set_git_update_and_sync_command(${dashboard_current_branch})
+    else()
+      set_git_update_command(${dashboard_current_branch})
+    endif()
     ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
     set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
     message("Found ${count} changed files")
