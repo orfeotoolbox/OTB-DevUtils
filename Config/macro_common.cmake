@@ -44,6 +44,11 @@ macro(set_git_update_command _branch)
   set(CTEST_GIT_UPDATE_CUSTOM ${CMAKE_COMMAND} -D GIT_COMMAND:PATH=${CTEST_GIT_COMMAND} -D TESTED_BRANCH:STRING=${_branch} -P ${_git_updater_script})
 endmacro()
 
+macro(set_git_update_and_sync_command _branch)
+  set_git_update_command(${_branch})
+  list(INSERT CTEST_GIT_UPDATE_CUSTOM -2 -D SYNC_DEVELOP:BOOL=ON)
+endmacro()
+
 macro(clean_directories)
   foreach(dir ${ARGV})
     if(IS_DIRECTORY ${dir})

@@ -38,10 +38,22 @@ list(FIND split_line "${_BRANCH}" _is_local)
 
 # run the update
 execute_process(COMMAND ${GIT_COMMAND} fetch --all)
+execute_process(COMMAND ${GIT_COMMAND} reset --hard HEAD)
 execute_process(COMMAND ${GIT_COMMAND} clean -d -f -f)
 if(_is_local EQUAL -1)
   execute_process(COMMAND ${GIT_COMMAND} checkout -b ${_BRANCH} --track ${_REMOTE}/${_BRANCH})
 else()
   execute_process(COMMAND ${GIT_COMMAND} checkout ${_BRANCH})
   execute_process(COMMAND ${GIT_COMMAND} reset --hard ${_REMOTE}/${_BRANCH})
+endif()
+
+# sync with develop
+if(SYNC_DEVELOP)
+  execute_process(COMMAND ${GIT_COMMAND} merge --no-commit origin/develop)
+  # find if there are conflicts
+  execute_process(COMMAND ${GIT_COMMAND} diff
+    OUTPUT_VARIABLE _diff_result)
+  if(_diff_result)
+    message(FATAL_ERROR "MERGE CONFLICT")
+  endif()
 endif()
