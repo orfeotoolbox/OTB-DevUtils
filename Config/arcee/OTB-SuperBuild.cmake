@@ -1,6 +1,6 @@
 set(dashboard_model Nightly)
 set(CTEST_DASHBOARD_ROOT "$ENV{HOME}/dashboard")
-set(CTEST_SITE "otb-debian-testing.c-s.fr")
+set(CTEST_SITE "arcee.c-s.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_NAME "Debian-gcc-6.2.1-x86_64-SuperBuild-Debug")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
