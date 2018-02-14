@@ -49,11 +49,5 @@ endif()
 
 # sync with develop
 if(SYNC_DEVELOP)
-  execute_process(COMMAND ${GIT_COMMAND} merge --no-commit origin/develop)
-  # find if there are conflicts
-  execute_process(COMMAND ${GIT_COMMAND} diff
-    OUTPUT_VARIABLE _diff_result)
-  if(_diff_result)
-    message(FATAL_ERROR "MERGE CONFLICT")
-  endif()
+  execute_process(COMMAND ${GIT_COMMAND} merge origin/develop)
 endif()
