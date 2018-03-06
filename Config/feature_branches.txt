@@ -2,5 +2,5 @@ doc_app_python
 app_engine_flags
 optimize_sample_extraction
 parameter_bool
-1515-refactor-loggin
+1515-refactor-logging
 OGR_extended_filename OGR_extended_filename
