@@ -2,3 +2,4 @@ doc_app_python
 optimize_sample_extraction
 1515-refactor-logging
 OGR_extended_filename OGR_extended_filename
+appli_new_services
