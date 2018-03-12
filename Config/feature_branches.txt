@@ -1,3 +1,4 @@
+fix-clang-warnings
 optimize_sample_extraction
 1515-refactor-logging
 OGR_extended_filename OGR_extended_filename
