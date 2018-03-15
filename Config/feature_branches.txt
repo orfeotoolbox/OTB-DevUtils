@@ -1,3 +1,3 @@
 optimize_sample_extraction
 OGR_extended_filename OGR_extended_filename
-appli_new_services
+appli_new_services appli_new_services
