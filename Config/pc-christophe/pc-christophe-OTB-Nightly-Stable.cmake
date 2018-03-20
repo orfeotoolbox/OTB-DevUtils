@@ -5,7 +5,7 @@ set(CTEST_BUILD_CONFIGURATION Release)
 include(${CTEST_SCRIPT_DIRECTORY}/pc-christophe_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 
-set(CTEST_BUILD_NAME "Fedora22-64bits-${CTEST_BUILD_CONFIGURATION}-${dashboard_git_branch}")
+set(CTEST_BUILD_NAME "Fedora27-64bits-${CTEST_BUILD_CONFIGURATION}-${dashboard_git_branch}")
 string(TOLOWER ${dashboard_model} lcdashboard_model)
 
 set(dashboard_root_name "tests")

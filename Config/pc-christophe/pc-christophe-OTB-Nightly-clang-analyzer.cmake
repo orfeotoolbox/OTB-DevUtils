@@ -2,7 +2,7 @@
 # Make command for parallel builds
 SET(MAKECOMMAND "scan-build -o /home/otbtesting/build/orfeo/trunk/scan-build-output /usr/bin/make -k -j 4" CACHE STRING "" FORCE)
 # Name of the build
-SET(BUILDNAME "Fedora22-64bits-clang-analyzer-Debug" CACHE STRING "" FORCE)
+SET(BUILDNAME "Fedora27-64bits-clang-analyzer-Debug" CACHE STRING "" FORCE)
 # Name of the computer/site where compile is being run
 SET(SITE "pc-christophe.cst.cnes.fr" CACHE STRING "" FORCE)
 # LargeInput
