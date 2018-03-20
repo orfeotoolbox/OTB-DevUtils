@@ -33,7 +33,7 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/media/TeraDisk2/LargeInput
 OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/sources/orfeo/OTB-Data
 
 ## ITK
-ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.10
+ITK_DIR:PATH=${INSTALLROOT}/itk/stable/Release/lib/cmake/ITK-4.13
 
 ## OSSIM
 OSSIM_INCLUDE_DIR:PATH=${INSTALLROOT}/ossim/release/include
