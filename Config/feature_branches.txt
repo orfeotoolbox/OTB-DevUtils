@@ -1,4 +1,3 @@
 optimize_sample_extraction
-OGR_extended_filename OGR_extended_filename
 app_register_pipeline
 stop_appli_button
