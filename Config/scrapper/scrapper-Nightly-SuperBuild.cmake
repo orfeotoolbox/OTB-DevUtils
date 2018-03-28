@@ -41,7 +41,7 @@ QT4_SB_ENABLE_GTK:BOOL=OFF
 WITH_REMOTE_MODULES:BOOL=ON
 OTB_WRAP_PYTHON3:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
-GDAL_SB_EXTRA_OPTIONS:STRING='--with-python=/opt/rh/python27/root/usr/bin/python'
+#GDAL_SB_EXTRA_OPTIONS:STRING='--with-python=/opt/rh/python27/root/usr/bin/python'
 ")
 endmacro()
 
