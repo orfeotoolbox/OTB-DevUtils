@@ -1,3 +1,2 @@
 jinglada/data-augmentation
-app_register_pipeline
 stop_appli_button
