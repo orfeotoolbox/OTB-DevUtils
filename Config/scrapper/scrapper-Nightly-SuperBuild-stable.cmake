@@ -41,6 +41,7 @@ OTB_DATA_LARGEINPUT_ROOT:STRING=/media/otbnas/otb/OTB-LargeInput
 QT4_SB_ENABLE_GTK:BOOL=OFF
 WITH_REMOTE_MODULES:BOOL=ON
 OTB_WRAP_PYTHON3:BOOL=ON
+PYTHON3_LIBRARY:PATH='/opt/rh/rh-python35/root/usr/lib64/libpython3.5m.so'
 OTB_WRAP_JAVA:BOOL=ON
 GDAL_SB_EXTRA_OPTIONS:STRING='--with-python=/opt/rh/python27/root/usr/bin/python'
 ")
