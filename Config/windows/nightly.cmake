@@ -1,6 +1,3 @@
-# TODO: update devutils based on option from nightly.bat
-set(UPDATE_DEVUTILS ON)
-
 # Are we in a release preparation ? if yes, superbuild and packaging will use the latest release branch
 set(RELEASE_PREPARATION OFF)
 
@@ -10,17 +7,6 @@ string(TIMESTAMP DATE_TIME)
 
 #find devutils/Config directory relative to this file (nightly.cmake)
 get_filename_component(DEVUTILS_CONFIG_DIR "${CMAKE_CURRENT_LIST_DIR}" PATH)
-
-if(UPDATE_DEVUTILS)
-message("${DATE_TIME}: Update OTB-DevUtils")
-execute_process(COMMAND ${CMAKE_COMMAND}
-  -D GIT_COMMAND:PATH=git
-  -D TESTED_BRANCH:STRING=master
-  -P "${DEVUTILS_CONFIG_DIR}/git_updater.cmake"
-  OUTPUT_FILE ${LOGS_DIR}/devutils.txt
-  ERROR_FILE ${LOGS_DIR}/devutils.txt
-  WORKING_DIRECTORY ${DEVUTILS_CONFIG_DIR}/../)
-endif()
 
 # macro common
 include("${DEVUTILS_CONFIG_DIR}/macro_common.cmake")

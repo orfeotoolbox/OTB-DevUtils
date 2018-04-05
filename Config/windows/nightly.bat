@@ -20,6 +20,12 @@ set FROM_TASKSCHD=1
 ::net use R: /delete /Y
 ::net use R: \\otbnas.si.c-s.fr\otbdata\otb /persistent:no
 
+cd %CURRENT_SCRIPT_DIR%\..\..
+git fetch
+git clean -d -f -f
+git checkout master
+git reset --hard origin/master
+
 cmake -DCOMPILER_ARCH=%COMPILER_ARCH% -P %CURRENT_SCRIPT_DIR%nightly.cmake > C:\dashboard\logs\nightly_bat.txt 2>&1
 
 goto Fin
