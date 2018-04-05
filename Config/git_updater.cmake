@@ -4,7 +4,7 @@
 get_filename_component(_BRANCH ${TESTED_BRANCH} NAME)
 get_filename_component(_REMOTE ${TESTED_BRANCH} DIRECTORY)
 if(_REMOTE)
-  if(_REMOTE MATCHES "^[a-z0-9]+\$")
+  if(_REMOTE MATCHES "^[a-zA-Z0-9_-]+\$")
     # check if the remote is already present
     execute_process(COMMAND ${GIT_COMMAND} remote
       OUTPUT_VARIABLE _remotes)
