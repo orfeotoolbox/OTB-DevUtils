@@ -67,8 +67,8 @@ OpenCV_DIR:PATH=/usr/share/OpenCV
 MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
 
-SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/shark/lib/libshark_debug.so
-SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/shark/include
+SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/shark-github/lib/libshark_debug.so
+SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/shark-github/include
 
 OTB_DOXYGEN_ITK_TAGFILE:FILEPATH=${CTEST_DASHBOARD_ROOT}/src/InsightDoxygenDocTag-4.8
 OTB_DOXYGEN_ITK_DOXYGEN_URL:STRING=\"http://www.itk.org/Doxygen48/html\"

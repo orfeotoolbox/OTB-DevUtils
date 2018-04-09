@@ -42,8 +42,8 @@ OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/ossim-1.8.20-3/lib/liboss
 OpenCV_DIR:PATH=/usr/share/OpenCV
 MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
-SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/shark/lib/libshark_debug.so
-SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/shark/include
+SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/shark-github/lib/libshark_debug.so
+SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/shark-github/include
 ")
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
