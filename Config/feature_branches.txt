@@ -1,3 +1,4 @@
+wrapper_qgis
 bug_ExtractROI
 move_log_setup_info
 1548-fix-skipcarto
