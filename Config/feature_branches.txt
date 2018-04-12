@@ -1,2 +1,2 @@
-wrapper_qgis
+1554-add-wrapper-qgis-to-generate-qgis-descriptors-for-processing-plugin
 bug_ExtractROI
