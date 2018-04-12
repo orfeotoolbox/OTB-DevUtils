@@ -8,7 +8,7 @@ set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_CONFIGURATION_TYPE Release)
 set(CTEST_BUILD_NAME "MacOSX10.10-SuperBuild")
 set(dashboard_no_install 1)
-set(CTEST_BUILD_FLAGS "-j4 -k" )
+set(CTEST_BUILD_FLAGS "-j4" )
 
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)

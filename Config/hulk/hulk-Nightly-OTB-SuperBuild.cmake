@@ -7,6 +7,9 @@ set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_BUILD_NAME "Ubuntu14.04-64bits-SuperBuild")
 set(dashboard_no_install 1)
+
+set(CTEST_BUILD_FLAGS "-j9")
+
 include(${CTEST_SCRIPT_DIRECTORY}/hulk_common.cmake)
 
 set(dashboard_root_name "tests")

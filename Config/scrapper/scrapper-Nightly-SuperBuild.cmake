@@ -6,9 +6,12 @@
 set(dashboard_model Nightly)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(dashboard_no_install 1)
-include(${CTEST_SCRIPT_DIRECTORY}/scrapper_common.cmake)
-set(CTEST_BUILD_NAME "CentOS6-64bits-SuperBuild")
 
+set(CTEST_BUILD_FLAGS "-j2")
+
+include(${CTEST_SCRIPT_DIRECTORY}/scrapper_common.cmake)
+
+set(CTEST_BUILD_NAME "CentOS6-64bits-SuperBuild")
 set(dashboard_root_name "tests")
 set(dashboard_source_name "otb/src/SuperBuild")
 set(dashboard_binary_name "otb/superbuild")
