@@ -310,6 +310,8 @@ if(NOT DEFINED CTEST_BINARY_DIRECTORY)
     #other than superbuild, all uses otb/build_<arch>. That includes packaging
     if(DASHBOARD_SUPERBUILD)
       set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/superbuild_${COMPILER_ARCH})
+    elseif(DASHBOARD_PKG)
+      set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/pkg_${COMPILER_ARCH})
     else()
       set(CTEST_BINARY_DIRECTORY ${CTEST_DASHBOARD_ROOT}/otb/build_${COMPILER_ARCH})
     endif()
