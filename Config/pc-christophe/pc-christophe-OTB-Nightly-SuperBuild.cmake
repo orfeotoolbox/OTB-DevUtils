@@ -58,6 +58,11 @@ OTB_USE_SHARK:BOOL=OFF
 
 USE_SYSTEM_QT4:BOOL=OFF
 USE_SYSTEM_QWT:BOOL=OFF
+
+# GCC version in Fedora is not compatible with OpenCV 2 integrated in OTB Superbuild
+# Use the system version 3.x instead
+USE_SYSTEM_OPENCV:BOOL=ON
+
 GENERATE_PACKAGE:BOOL=OFF
 ")
 # Don't use system's QWT above because FindQwt.cmake can't find it, see:
