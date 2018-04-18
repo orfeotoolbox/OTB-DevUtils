@@ -1,3 +1,4 @@
 1554-add-wrapper-qgis-to-generate-qgis-descriptors-for-processing-plugin
 maskfiltering maskfiltering
 avoid_same_output_file
+1561-logger-composite-app
