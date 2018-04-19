@@ -384,6 +384,9 @@ set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
 set(CTEST_DROP_LOCATION "/submit.php?project=${CTEST_PROJECT_NAME}")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
+# temporary fix for expired certificate on dash.orfeo-toolbox.org
+set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
+
 #-----------------------------------------------------------------------------
 # Choose the dashboard track
 if(NOT DEFINED CTEST_DASHBOARD_TRACK)
