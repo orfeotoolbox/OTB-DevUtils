@@ -1,3 +1,4 @@
 maskfiltering maskfiltering
 avoid_same_output_file
 default_display_pleiadeMetaData
+wrapper_qgis_fixes
