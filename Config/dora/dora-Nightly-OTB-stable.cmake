@@ -40,7 +40,7 @@ OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
-OTB_USE_QT4:BOOL=ON
+OTB_USE_QT:BOOL=ON
 OTB_USE_QWT:BOOL=ON
 # Ice module
 OTB_USE_OPENGL:BOOL=ON
@@ -60,6 +60,9 @@ SHARK_LIBRARY:FILEPATH=/home/otbval/Tools/shark/install-github/lib/libshark_debu
 SHARK_INCLUDE_DIR:PATH=/home/otbval/Tools/shark/install-github/include
 #MAPNIK_INCLUDE_DIR:PATH=/home/otbval/Tools/mapnik/install/include
 #MAPNIK_LIBRARY:FILEPATH=/home/otbval/Tools/mapnik/install/lib/libmapnik2.so
+
+QWT_LIBRARY:FILEPATH=/home/otbval/Tools/qwt6/install/lib/libqwt.so
+QWT_INCLUDE_DIR:PATH=/home/otbval/Tools/qwt6/install/include
     ")
 endmacro()
 
