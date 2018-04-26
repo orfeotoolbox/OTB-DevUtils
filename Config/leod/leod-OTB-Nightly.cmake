@@ -42,7 +42,7 @@ OTB_USE_LIBSVM:BOOL=ON
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
-OTB_USE_QT4:BOOL=ON
+OTB_USE_QT:BOOL=ON
 OTB_USE_QWT:BOOL=ON
 # Ice module
 OTB_USE_OPENGL:BOOL=ON
@@ -80,8 +80,14 @@ GLUT_INCLUDE_DIR=/usr/X11R6/include
 SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/shark/install-github/lib/libshark_debug.dylib
 SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/shark/install-github/include
 
-QWT_INCLUDE_DIR=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/Headers
-QWT_LIBRARY=$ENV{HOME}/local/qwt-6.1.3/lib/qwt.framework/qwt
+Qt5Core_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5Core
+Qt5Gui_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5Gui
+Qt5Widgets_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5Widgets
+Qt5OpenGL_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5OpenGL
+Qt5LinguistTools_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5LinguistTools
+
+QWT_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/qwt/install/include
+QWT_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/qwt/install/lib/libqwt.dylib
     ")
 
 endmacro()
