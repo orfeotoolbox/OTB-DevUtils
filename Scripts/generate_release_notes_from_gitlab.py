@@ -8,15 +8,13 @@ def format_mr(mr):
 # Project id for otb
 id=53
 
-if len(sys.argv)!=4:
-    print("Usage: {} [bugs|others] release_name(ex: 6.6.0) last_release_date(ex: 2017-12-22)")
+if len(sys.argv)!=3:
+    print("Usage: {} release_name(ex: 6.6.0) last_release_date(ex: 2017-12-22)".format(sys.argv[0]))
 
     exit(1)
 
-mode = sys.argv[1]
-milestone = sys.argv[2]
-last_release_date = sys.argv[3]
-
+milestone = sys.argv[1]
+last_release_date = sys.argv[2]
 
 # Merge Requests with milestone M.m.p
 req="https://gitlab.orfeo-toolbox.org/api/v4/projects/53/merge_requests?scope=all&status=merged&milestone={}".format(milestone)
