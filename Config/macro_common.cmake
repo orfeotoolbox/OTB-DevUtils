@@ -46,7 +46,7 @@ endmacro()
 
 macro(set_git_update_and_sync_command _branch)
   set_git_update_command(${_branch})
-  list(INSERT CTEST_GIT_UPDATE_CUSTOM -2 -D SYNC_DEVELOP:BOOL=OFF)
+  list(INSERT CTEST_GIT_UPDATE_CUSTOM -2 -D SYNC_DEVELOP:BOOL=ON)
 endmacro()
 
 macro(clean_directories)
