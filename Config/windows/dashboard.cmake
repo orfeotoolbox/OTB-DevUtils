@@ -47,6 +47,10 @@ if("$ENV{dashboard_otb_branch}" STREQUAL "release-6.4")
   set(XDK_INSTALL_DIR "C:/dashboard/otb/xdk/otb64_$ENV{COMPILER_ARCH}")
 endif()
 
+if("$ENV{dashboard_otb_branch}" STREQUAL "release-6.6")
+  set(XDK_INSTALL_DIR "C:/dashboard/otb/xdk/install_sb_$ENV{COMPILER_ARCH}_SS")
+endif()
+
 include(windows_common.cmake)
 
 

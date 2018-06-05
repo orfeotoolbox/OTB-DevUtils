@@ -59,8 +59,8 @@ OpenCV_DIR:PATH=/usr/share/OpenCV
 MUPARSERX_LIBRARY:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/muparserx/include
 
-SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/shark-github/lib/libshark_debug.so
-SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/shark-github/include
+SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/shark/lib/libshark_debug.so
+SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/shark/include
 
 QWT_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/qwt-6.1.3/lib/libqwt.so
 QWT_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/qwt-6.1.3/include

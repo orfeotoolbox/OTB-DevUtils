@@ -75,8 +75,8 @@ OPENGL_INCLUDE_DIR:PATH=/System/Library/Frameworks/OpenGL.framework
 OPENGL_gl_LIBRARY:PATH=/System/Library/Frameworks/OpenGL.framework
 OPENGL_glu_LIBRARY:PATH=/System/Library/Frameworks/AGL.framework
 
-SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/shark/install-github/lib/libshark_debug.dylib
-SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/shark/install-github/include
+SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/shark/install/lib/libshark_debug.dylib
+SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/shark/install/include
 
 Qt5Core_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5Core
 Qt5Gui_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5Gui
