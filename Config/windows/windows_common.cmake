@@ -349,6 +349,10 @@ if(NOT DEFINED XDK_INSTALL_DIR)
     set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/no_path) #nullpath)
   else()
     set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/xdk/install_sb_${COMPILER_ARCH})
+
+    if("${dashboard_otb_branch}" STREQUAL "release-6.6")
+      set(XDK_INSTALL_DIR ${CTEST_DASHBOARD_ROOT}/otb/xdk/install_sb_${COMPILER_ARCH}_SS)
+    endif()
   endif()
 endif()
 
