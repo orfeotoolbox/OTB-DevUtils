@@ -1,3 +1,4 @@
 maskfiltering maskfiltering
 avoid_same_output_file
 new_spinboxes
+widget_parents
