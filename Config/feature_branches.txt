@@ -2,3 +2,4 @@ maskfiltering maskfiltering
 avoid_same_output_file
 widget_parents
 cpp14_override
+cpp14_nullptr
