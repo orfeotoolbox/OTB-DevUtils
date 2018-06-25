@@ -3,3 +3,4 @@ avoid_same_output_file
 bug-1639
 enhance_mapfromlabelstats
 1649-wrapper-application
+txx_to_hxx
