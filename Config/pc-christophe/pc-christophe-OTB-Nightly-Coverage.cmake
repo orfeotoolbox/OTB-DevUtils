@@ -5,11 +5,11 @@ set(CTEST_SITE "pc-christophe.cst.cnes.fr")
 set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_NAME "Fedora27-64bits-Coverage-${CTEST_BUILD_CONFIGURATION}")
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+set(CTEST_BUILD_CONFIGURATION Debug)
 set(CTEST_BUILD_FLAGS "-j4 -k" )
 set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov")
 set(CTEST_TEST_ARGS PARALLEL_LEVEL 4)
-set(CTEST_TEST_TIMEOUT 1500)
-set(CTEST_HG_COMMAND "/usr/bin/hg")
+set(CTEST_TEST_TIMEOUT 2500)
 set(dashboard_no_install 1)
 
 set(dashboard_root_name "tests")
@@ -18,6 +18,8 @@ set(dashboard_binary_name "build/orfeo/trunk/OTB-Nightly-Coverage/${CTEST_BUILD_
 
 set(dashboard_do_coverage true)
 set(INSTALLROOT "${CTEST_DASHBOARD_ROOT}install")
+
+set(ENV{OTB_LOGGER_LEVEL} "DEBUG")
 
 macro(dashboard_hook_init)
 
@@ -44,7 +46,6 @@ OSSIM_LIBRARY:FILEPATH=${INSTALLROOT}/ossim/release/lib64/libossim.so
 MUPARSERX_LIBRARY:PATH=${INSTALLROOT}/muparserx/stable/lib/libmuparserx.so
 MUPARSERX_INCLUDE_DIR:PATH=${INSTALLROOT}/muparserx/stable/include/muparserx
 
-
 #external glfw
 GLFW_INCLUDE_DIR:PATH=/usr/include/GLFW
 GLFW_LIBRARY:PATH=/usr/lib64/libglfw.so
@@ -70,7 +71,8 @@ OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_MUPARSER:BOOL=ON
 OTB_USE_MUPARSERX:BOOL=ON
 OTB_USE_OPENCV:BOOL=ON
-OTB_USE_QT4=ON
+OTB_USE_QT=ON
+OTB_USE_QWT:BOOL=ON
 OTB_USE_SIFTFAST=ON
 OTB_USE_OPENGL=ON
 OTB_USE_GLUT=ON
@@ -78,6 +80,8 @@ OTB_USE_GLEW=ON
 OTB_USE_GLFW=ON
 OTB_USE_MPI=ON
 OTB_USE_SPTW=ON
+
+OTB_USE_OPENMP:BOOL=ON
 ")
 
 endmacro()
