@@ -30,8 +30,8 @@ SET(MUPARSERX_INCLUDE_DIR "/home/otbtesting/install/muparserx/stable/include/mup
 
 
 # Qwt
-SET(QWT_INCLUDE_DIR "/usr/include/qwt" CACHE STRING "" FORCE)
-SET(QWT_LIBRARY "/usr/lib64/libqwt.so"  CACHE STRING "" FORCE)
+SET(QWT_INCLUDE_DIR "/usr/include/qt5/qwt" CACHE STRING "" FORCE)
+SET(QWT_LIBRARY "/usr/lib64/libqwt-qt5.so"  CACHE STRING "" FORCE)
 
 # These options are not available anymore
 SET(OTB_USE_PATENTED ON CACHE BOOL "" FORCE)
