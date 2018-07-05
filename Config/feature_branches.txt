@@ -2,7 +2,6 @@ maskfiltering maskfiltering
 avoid_same_output_file
 enhance_mapfromlabelstats
 1649-extern-templates
-fix_1647
 opengl_glvnd_preferences
 app-binary-morhological-oper
 dynamic_convert_doc_test
