@@ -4,7 +4,5 @@ enhance_mapfromlabelstats
 1649-wrapper-application
 1649-extern-templates
 fix_1647
-bug-1656
-modulus_2bands
 opengl_glvnd_preferences
 app-binary-morhological-oper
