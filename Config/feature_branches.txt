@@ -7,3 +7,4 @@ modulus_2bands
 opengl_glvnd_preferences
 app-binary-morhological-oper
 dynamic_convert_doc_test
+merge-6.6
