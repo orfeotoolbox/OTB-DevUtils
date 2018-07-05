@@ -1,7 +1,6 @@
 maskfiltering maskfiltering
 avoid_same_output_file
 enhance_mapfromlabelstats
-1649-wrapper-application
 1649-extern-templates
 modulus_2bands
 opengl_glvnd_preferences
