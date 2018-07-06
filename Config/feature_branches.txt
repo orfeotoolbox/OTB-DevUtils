@@ -1,6 +1,5 @@
 avoid_same_output_file
 enhance_mapfromlabelstats
-1649-extern-templates
 opengl_glvnd_preferences
 app-binary-morhological-oper
 dynamic_convert_doc_test
