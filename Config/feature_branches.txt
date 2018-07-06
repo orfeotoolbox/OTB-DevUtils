@@ -1,4 +1,3 @@
-avoid_same_output_file
 enhance_mapfromlabelstats
 opengl_glvnd_preferences
 app-binary-morhological-oper
