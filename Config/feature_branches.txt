@@ -1,4 +1,3 @@
 enhance_mapfromlabelstats
 opengl_glvnd_preferences
-app-binary-morhological-oper
 merge-6.6
