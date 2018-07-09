@@ -1,3 +1,4 @@
 enhance_mapfromlabelstats
 opengl_glvnd_preferences
 fix_warnings
+1646-qt5-signal-slot
