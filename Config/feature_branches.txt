@@ -1,2 +1,3 @@
 enhance_mapfromlabelstats
 opengl_glvnd_preferences
+fix_warnings
