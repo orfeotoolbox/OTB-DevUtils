@@ -2,3 +2,4 @@ enhance_mapfromlabelstats
 opengl_glvnd_preferences
 fix_warnings
 de-vcl-math
+1638-no-catch-when-testenv-on
