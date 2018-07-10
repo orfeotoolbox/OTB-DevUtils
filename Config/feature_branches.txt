@@ -4,3 +4,5 @@ fix_warnings
 de-vcl-math
 1638-no-catch-when-testenv-on
 1658-install-qgis-descriptors-to-share
+1649-WrapperParameter-move-bodies-to-src
+1649-swap-iostream-with-iosfwd
