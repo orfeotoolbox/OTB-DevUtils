@@ -1,1 +1,1 @@
-superbuild_opencv_3.4.1 superbuild_opencv_3.4.1
+nightly
