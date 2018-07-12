@@ -1,6 +1,5 @@
 enhance_mapfromlabelstats
 opengl_glvnd_preferences
-de-vcl-math
 1649-WrapperParameter-move-bodies-to-src
 1649-swap-iostream-with-iosfwd
 513-trivial-cstr
