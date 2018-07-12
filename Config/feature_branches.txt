@@ -3,3 +3,4 @@ opengl_glvnd_preferences
 1649-WrapperParameter-move-bodies-to-src
 1649-swap-iostream-with-iosfwd
 513-trivial-cstr
+1649-extern-templates
