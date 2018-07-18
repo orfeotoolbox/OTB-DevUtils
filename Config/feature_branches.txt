@@ -1,3 +1,4 @@
+otb-nodata_extended_filename
 1649-extern-templates
 1673-opencv2-model 1673-opencv2-model
 cvrtree-missing-override
