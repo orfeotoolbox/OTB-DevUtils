@@ -3,3 +3,4 @@ otb-nodata_extended_filename
 cvrtree-missing-override
 513-string-cstr
 1649-remove-New-tests
+763-output-time-format
