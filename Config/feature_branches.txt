@@ -1,5 +1,4 @@
 otb-nodata_extended_filename
-1649-extern-templates
 cvrtree-missing-override
 513-string-cstr
 1649-remove-New-tests
