@@ -1,5 +1,4 @@
 otb-nodata_extended_filename
-cvrtree-missing-override
 1649-remove-New-tests
 763-output-time-format
 1649-extern-templates-take2
