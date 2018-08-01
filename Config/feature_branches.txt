@@ -1,4 +1,4 @@
-819-display-pixel-type-of-image-in-readimageinfo-application
+819-display-pixel-type-of-image-in-readimageinfo-application 819-display-pixel-type-of-image-in-readimageinfo-application
 1649-remove-New-tests
 1649-extern-templates-take2
 1681-fix-output-vectordatareprojection
