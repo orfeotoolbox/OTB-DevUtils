@@ -3,5 +3,4 @@
 1649-extern-templates-take2
 1645-qlayout
 513-SetFileName
-fix_compil_gdalimageio
 opengl_glvnd_preferences
