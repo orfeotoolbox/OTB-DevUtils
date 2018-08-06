@@ -1,6 +1,5 @@
 819-display-pixel-type-of-image-in-readimageinfo-application 819-display-pixel-type-of-image-in-readimageinfo-application
 1649-remove-New-tests
 1649-extern-templates-take2
-1645-qlayout
 513-SetFileName
 opengl_glvnd_preferences
