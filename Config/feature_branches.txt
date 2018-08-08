@@ -2,5 +2,4 @@
 1649-remove-New-tests
 1649-extern-templates-take2
 513-SetFileName
-opengl_glvnd_preferences
 1661-monteverdi-build-error-superbuild
