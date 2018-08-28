@@ -1,6 +1,6 @@
 # Run nightly test on each remote module
 set(CTEST_BUILD_CONFIGURATION Release)
-set(CTEST_BUILD_NAME "Fedora27-64bits-${CTEST_BUILD_CONFIGURATION}")
+set(CTEST_BUILD_NAME "Fedora28-64bits-${CTEST_BUILD_CONFIGURATION}")
 include(${CTEST_SCRIPT_DIRECTORY}/pc-christophe_common.cmake)
 set(dashboard_remote_modules 1)
 set(dashboard_no_install 1)
