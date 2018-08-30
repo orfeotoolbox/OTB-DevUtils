@@ -2,3 +2,4 @@
 1706-otb-does-not-compile-with-gcc-8-1
 819-display-pixel-type-of-image-in-readimageinfo-application 819-display-pixel-type-of-image-in-readimageinfo-application
 1506-refactor-MapProjectionAdapter
+1506-remove-unused-classes
