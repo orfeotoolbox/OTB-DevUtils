@@ -1,4 +1,4 @@
 1649-extern-templates-take2
 1506-refactor-MapProjectionAdapter
-1506-remove-unused-classes
+1506-remove-unused-classes-take2
 maskfiltering connectedcomponents
