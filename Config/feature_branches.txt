@@ -4,3 +4,4 @@
 maskfiltering connectedcomponents
 513-exceptions
 streaming-statistics-map-nodata
+1676-qgis-descriptor-lib64
