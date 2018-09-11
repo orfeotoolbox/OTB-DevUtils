@@ -2,5 +2,4 @@
 1506-refactor-MapProjectionAdapter
 1506-remove-unused-classes-take2
 maskfiltering connectedcomponents
-1676-qgis-descriptor-lib64
 warnings_shadow_declaration
