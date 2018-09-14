@@ -6,3 +6,4 @@ warnings_shadow_declaration
 zonalstatistics zonalstatistics
 1708-static-imageiobase-fcn
 detect-empty-samples
+1686-clarify-list-param
