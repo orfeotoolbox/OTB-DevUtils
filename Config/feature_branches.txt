@@ -3,6 +3,5 @@
 1506-remove-unused-classes-take2
 maskfiltering connectedcomponents
 zonalstatistics zonalstatistics
-1708-static-imageiobase-fcn
 detect-empty-samples
 1686-clarify-list-param
