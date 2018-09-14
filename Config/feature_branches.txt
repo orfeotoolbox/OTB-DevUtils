@@ -2,7 +2,6 @@
 1506-refactor-MapProjectionAdapter
 1506-remove-unused-classes-take2
 maskfiltering connectedcomponents
-warnings_shadow_declaration
 zonalstatistics zonalstatistics
 1708-static-imageiobase-fcn
 detect-empty-samples
