@@ -8,3 +8,4 @@ detect-empty-samples
 rasterization-all-touched
 deprecate-mapnik
 small_region_merging small_region_merging
+rm-adapters-openthreads
