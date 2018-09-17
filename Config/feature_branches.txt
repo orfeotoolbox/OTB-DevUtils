@@ -7,3 +7,4 @@ detect-empty-samples
 1686-clarify-list-param
 rasterization-all-touched
 deprecate-mapnik
+small_region_merging small_region_merging
