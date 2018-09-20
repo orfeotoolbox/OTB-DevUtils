@@ -5,3 +5,4 @@ maskfiltering connectedcomponents
 zonalstatistics zonalstatistics
 detect-empty-samples
 small_region_merging small_region_merging
+cssi/cost_volume_filter cssi/resultsTestCVF
