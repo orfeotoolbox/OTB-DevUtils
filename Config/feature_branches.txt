@@ -4,5 +4,4 @@
 maskfiltering connectedcomponents
 zonalstatistics zonalstatistics
 detect-empty-samples
-1686-clarify-list-param
 small_region_merging small_region_merging
