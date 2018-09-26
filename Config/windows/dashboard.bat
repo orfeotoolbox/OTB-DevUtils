@@ -115,6 +115,8 @@ set PATH=%PATH%;C:\Python35_%COMPILER_ARCH%
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %COMPILER_ARCH%
 @echo on
 
+git config --system --unset credential.helper
+
 set DASHBOARD_SCRIPT_FILE=%CTEST_DASHBOARD_ROOT%\devutils\Config\windows\dashboard.cmake
 
 :: we use ctest option -V instead of ctest -VV to see if that speed up our builds
