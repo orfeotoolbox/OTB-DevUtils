@@ -3,5 +3,4 @@
 1506-remove-unused-classes-take2
 maskfiltering connectedcomponents
 zonalstatistics zonalstatistics
-small_region_merging small_region_merging
 cs-si/cost_volume_filter cs-si/resultsTestCVF
