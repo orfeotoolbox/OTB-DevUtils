@@ -14,9 +14,17 @@ if(_REMOTE)
     message("Remote list : ${_remote_list}")
     list(FIND _remote_list ${_REMOTE} _is_remote_here)
     if(_is_remote_here EQUAL -1)
+      #check which project we are on: otb or otb-data
+      set(_PROJECT otb)
+      execute_process(COMMAND ${GIT_COMMAND} remote -v
+        OUTPUT_VARIABLE _remotes_urls)
+      string(FIND ${_remotes_urls} "gitlab.orfeo-toolbox.org/orfeotoolbox/otb-data.git" IS_OTB_DATA )
+      if ( IS_OTB_DATA GREATER -1 )
+        set(_PROJECT otb-data)
+      endif()
       # add the remote
       execute_process(
-        COMMAND ${GIT_COMMAND} remote add ${_REMOTE} https://gitlab.orfeo-toolbox.org/${_REMOTE}/otb.git)
+        COMMAND ${GIT_COMMAND} remote add ${_REMOTE} https://gitlab.orfeo-toolbox.org/${_REMOTE}/${_PROJECT}.git)
     endif()
   else()
     message("Wrong remote name found : ${_REMOTE}")
