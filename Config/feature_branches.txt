@@ -6,3 +6,4 @@ cs-si/cost_volume_filter cs-si/resultsTestCVF
 cs-si/fix_parameter_is_optional
 1652_FineRegistration_correction
 fix_bug_1725
+deprecate_onlinedata
