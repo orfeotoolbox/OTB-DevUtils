@@ -1,1 +1,1 @@
-cs-si/itk5_preperation master
+fix_1687_qt5_superbuild
