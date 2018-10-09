@@ -498,8 +498,8 @@ foreach(v
 endforeach(v)
 message("Dashboard script configuration:\n${vars}\n")
 
-# Avoid non-ascii characters in tool output.
-set(ENV{LC_ALL} C)
+# Only modify LC_NUMERIC for Ossim conversions
+set(ENV{LC_NUMERIC} C)
 
 macro(dashboard_copy_packages)
   set(copy_packages_failed FALSE)
