@@ -95,7 +95,11 @@ set TOOLS_DIR=C:\Tools
 set SYSPATH=C:\Windows;C:\Windows\system32
 set PATH=%SYSPATH%;C:\Windows\System32\wbem
 set PATH=%PATH%;%TOOLS_DIR%\clink\0.4.8
+IF "%dashboard_otb_branch%" == "cs-si/itk5_preperation" (
+set PATH=%PATH%;%TOOLS_DIR%\cmake-3.10.3\bin
+) ELSE (
 set PATH=%PATH%;%TOOLS_DIR%\cmake-3.5.2\bin
+)
 set PATH=%PATH%;%TOOLS_DIR%\patch-2.5.9-7\bin
 set PATH=%PATH%;%TOOLS_DIR%\wget-1.11.4-1\bin
 set PATH=%PATH%;%TOOLS_DIR%\Git-2.9.0\bin
