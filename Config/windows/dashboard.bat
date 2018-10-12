@@ -33,7 +33,10 @@ set DASHBOARD_ARG3_OK=1
 IF "%DASHBOARD_ACTION%" == "SUPER_BUILD" (
 set DASHBOARD_SUPERBUILD=1
 set DASHBOARD_ARG3_OK=1
-set WITH_REMOTE_MODULES=1
+:: RK: disable remote modules temporarily
+:: currently mosaic, ffsforgmm, sertitobject build OK
+:: problem is evident only using cmake 3.10 and export all symbols off
+set WITH_REMOTE_MODULES=0
 )
 
 IF "%DASHBOARD_ACTION%" == "PKG" (
