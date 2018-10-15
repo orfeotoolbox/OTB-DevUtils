@@ -1,6 +1,6 @@
 1506-refactor-MapProjectionAdapter
 1506-remove-unused-classes-take2
-maskfiltering connectedcomponents
+connectedcomponents connectedcomponents
 zonalstatistics zonalstatistics
 cs-si/cost_volume_filter cs-si/resultsTestCVF
 1652_FineRegistration_correction 1652_FineRegistration_Data
