@@ -77,6 +77,7 @@ QWT_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/install/qwt-6.1.3/lib/libqwt.so
 QWT_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/install/qwt-6.1.3/include
 
 PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python3
+SPHINX_BUILD:FILEPATH=/usr/local/bin/sphinx-build
     ")
 endmacro()
 
