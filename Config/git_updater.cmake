@@ -45,7 +45,7 @@ string(REPLACE " " ";" split_line "${striped_line}")
 list(FIND split_line "${_BRANCH}" _is_local)
 
 # run the update
-execute_process(COMMAND ${GIT_COMMAND} fetch --all)
+execute_process(COMMAND ${GIT_COMMAND} fetch --all --prune)
 execute_process(COMMAND ${GIT_COMMAND} reset --hard HEAD)
 execute_process(COMMAND ${GIT_COMMAND} clean -d -f -f)
 if(_is_local EQUAL -1)
