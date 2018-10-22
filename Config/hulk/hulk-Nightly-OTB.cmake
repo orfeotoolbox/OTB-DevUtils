@@ -13,6 +13,8 @@ set(CTEST_INSTALL_DIRECTORY ${CTEST_DASHBOARD_ROOT}/install/OTB-${CTEST_BUILD_CO
 
 set(dashboard_git_features_list "${CTEST_SCRIPT_DIRECTORY}/../feature_branches.txt")
 
+string(TIMESTAMP dashboard_day_of_week "%w")
+
 macro(dashboard_hook_init)
   set(dashboard_cache "${dashboard_cache}
 
@@ -84,6 +86,12 @@ endmacro()
 macro(dashboard_hook_end)
   if("${dashboard_current_branch}" STREQUAL "nightly")
     ctest_build(TARGET "Documentation")
+
+    # Copy output documentation
+    copy_cookbook_to_nas()
+    if(dashboard_day_of_week EQUAL 6)
+      copy_doxygen_to_nas()
+    endif()
   endif()
 endmacro()
 

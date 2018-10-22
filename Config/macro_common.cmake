@@ -113,3 +113,51 @@ macro(convert_branch_to_filename _branch _path)
     set(${_path} ${_branch})
   endif()
 endmacro()
+
+macro(copy_file_to_nas)
+  foreach(_file ${ARGV})
+      get_filename_component(_file_name ${_file} NAME)
+      execute_process(
+        COMMAND ${CMAKE_COMMAND}
+        -E copy
+        "${_file}"
+        "${OTBNAS_PACKAGES_DIR}/${_file_name}"
+        RESULT_VARIABLE copy_rv)
+      if(NOT copy_rv EQUAL 0)
+        message("Cannot copy '${_file}' to '${OTBNAS_PACKAGES_DIR}'")
+      else()
+        message("Copied '${_file}' to '${OTBNAS_PACKAGES_DIR}'")
+      endif()
+    endforeach()
+endmacro()
+
+macro(copy_cookbook_to_nas)
+  if(EXISTS "${OTBNAS_PACKAGES_DIR}")
+    file(GLOB _html_tar_cb "${CTEST_BINARY_DIRECTORY}/CookBook-*-html.tar.gz")
+    file(GLOB _pdf_cb "${CTEST_BINARY_DIRECTORY}/latex/CookBook-*.pdf")
+    copy_file_to_nas(${_html_tar_cb} ${_pdf_cb})
+    if(EXISTS "${CTEST_BINARY_DIRECTORY}/html")
+      if(EXISTS "${_html_tar_cb}")
+        string(REGEX REPLACE ".*/(CookBook-[0-9\\.]*)-html\\.tar\\.gz" "\\1" _output_cb_html "${_html_tar_cb}")
+        execute_process(
+          COMMAND ${CMAKE_COMMAND}
+          -E copy_directory
+          "${CTEST_BINARY_DIRECTORY}/html"
+          "${OTBNAS_PACKAGES_DIR}/${_output_cb_html}"
+          RESULT_VARIABLE copy_rv)
+        if(NOT copy_rv EQUAL 0)
+          message("Cannot copy '${CTEST_BINARY_DIRECTORY}/html' to '${OTBNAS_PACKAGES_DIR}/${_output_cb_html}'")
+        else()
+          message("Copied '${CTEST_BINARY_DIRECTORY}/html' to '${OTBNAS_PACKAGES_DIR}/${_output_cb_html}'")
+        endif()
+      endif()
+    endif()
+  endif()
+endmacro()
+
+macro(copy_doxygen_to_nas)
+  if(EXISTS "${OTBNAS_PACKAGES_DIR}")
+    file(GLOB _html_tar_dox "${CTEST_BINARY_DIRECTORY}/Documentation/Doxygen/OTB-Doxygen-*.tar.bz2")
+    copy_file_to_nas(${_html_tar_dox})
+  endif()
+endmacro()
