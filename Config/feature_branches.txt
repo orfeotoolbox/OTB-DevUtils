@@ -1,4 +1,3 @@
-1506-refactor-MapProjectionAdapter
 1506-remove-unused-classes-take2
 connectedcomponents connectedcomponents
 zonalstatistics zonalstatistics
