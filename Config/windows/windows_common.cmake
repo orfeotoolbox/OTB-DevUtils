@@ -421,6 +421,8 @@ set(ENV{CMAKE_PREFIX_PATH} "${XDK_INSTALL_DIR}" )
 set(ENV{GDAL_DATA} "${XDK_INSTALL_DIR_NATIVE}\\share\\gdal" )
 set(ENV{GEOTIFF_CSV} "${XDK_INSTALL_DIR_NATIVE}\\share\\epsg_csv" )
 set(ENV{PROJ_LIB} "${XDK_INSTALL_DIR_NATIVE}\\share" )
+# needed to load Qt plugins for testing, not for binary packages where we use a qt.conf file
+set(ENV{QT_PLUGIN_PATH} "${XDK_INSTALL_DIR_NATIVE}\\plugins")
 endif()
 
 set(CTEST_ENVIRONMENT 
