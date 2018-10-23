@@ -4,3 +4,4 @@ fix_bug_1725
 deprecate_onlinedata
 bug_composite
 refac-tidy
+1734-fix-hdr-test 1734-fix-hdr-test
