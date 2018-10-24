@@ -134,21 +134,21 @@ endmacro()
 macro(copy_cookbook_to_nas)
   if(EXISTS "${OTBNAS_PACKAGES_DIR}")
     file(GLOB _html_tar_cb "${CTEST_BINARY_DIRECTORY}/CookBook-*-html.tar.gz")
-    file(GLOB _pdf_cb "${CTEST_BINARY_DIRECTORY}/latex/CookBook-*.pdf")
+    file(GLOB _pdf_cb "${CTEST_BINARY_DIRECTORY}/Documentation/Cookbook/latex/CookBook-*.pdf")
     copy_file_to_nas(${_html_tar_cb} ${_pdf_cb})
-    if(EXISTS "${CTEST_BINARY_DIRECTORY}/html")
+    if(EXISTS "${CTEST_BINARY_DIRECTORY}/Documentation/Cookbook/html")
       if(EXISTS "${_html_tar_cb}")
         string(REGEX REPLACE ".*/(CookBook-[0-9\\.]*)-html\\.tar\\.gz" "\\1" _output_cb_html "${_html_tar_cb}")
         execute_process(
           COMMAND ${CMAKE_COMMAND}
           -E copy_directory
-          "${CTEST_BINARY_DIRECTORY}/html"
+          "${CTEST_BINARY_DIRECTORY}/Documentation/Cookbook/html"
           "${OTBNAS_PACKAGES_DIR}/${_output_cb_html}"
           RESULT_VARIABLE copy_rv)
         if(NOT copy_rv EQUAL 0)
-          message("Cannot copy '${CTEST_BINARY_DIRECTORY}/html' to '${OTBNAS_PACKAGES_DIR}/${_output_cb_html}'")
+          message("Cannot copy '${CTEST_BINARY_DIRECTORY}/Documentation/Cookbook/html' to '${OTBNAS_PACKAGES_DIR}/${_output_cb_html}'")
         else()
-          message("Copied '${CTEST_BINARY_DIRECTORY}/html' to '${OTBNAS_PACKAGES_DIR}/${_output_cb_html}'")
+          message("Copied '${CTEST_BINARY_DIRECTORY}/Documentation/Cookbook/html' to '${OTBNAS_PACKAGES_DIR}/${_output_cb_html}'")
         endif()
       endif()
     endif()
