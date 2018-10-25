@@ -3,4 +3,4 @@ connectedcomponents connectedcomponents
 1652_FineRegistration_correction 1652_FineRegistration_Data
 fix_bug_1725
 bug_composite
-1734-fix-hdr-test 1734-fix-hdr-test
+1734-hdr-warning-gdalio
