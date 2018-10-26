@@ -2,3 +2,4 @@
 connectedcomponents connectedcomponents
 1652_FineRegistration_correction 1652_FineRegistration_Data
 fix_bug_1725
+1758-missuse-of-bool-param
