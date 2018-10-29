@@ -4,3 +4,4 @@ connectedcomponents connectedcomponents
 fix_bug_1725
 1758-missuse-of-bool-param
 apps_parameter_order
+1757-siftfast-install
