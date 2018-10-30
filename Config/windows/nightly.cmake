@@ -78,7 +78,7 @@ set(ENV{OTBNAS_PACKAGES_DIR} "${OTBNAS_PACKAGES_DIR}")
 
 # RemoteModules
 #foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
-foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM")
+foreach(dashboard_remote_module "SertitObject" "Mosaic" "otbGRM" "OTBFFSforGMM" "DiapOTBModule")
 message("${DATE_TIME}: Bulding remote module ${dashboard_remote_module}")
   execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
   ${COMPILER_ARCH} 0 BUILD nightly nightly ${dashboard_remote_module}

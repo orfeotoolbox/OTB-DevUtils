@@ -1008,6 +1008,12 @@ if(DEFINED dashboard_remote_module AND DEFINED dashboard_remote_module_url)
   endif()
 endif()
 
+# copy incubation remote modules
+file(GLOB _incubated_files "${CTEST_SCRIPT_DIRECTORY}/../moduleIncubation/*.remote.cmake")
+foreach(_i_file ${_incubated_files})
+  file(COPY "${_i_file}" DESTINATION "${REMOTE_MODULES_DIR}")
+endforeach()
+
 macro(dashboard_copy_packages)
   set(copy_packages_failed TRUE)
   file(GLOB otb_package_file "${CTEST_BINARY_DIRECTORY}/OTB*.zip")
