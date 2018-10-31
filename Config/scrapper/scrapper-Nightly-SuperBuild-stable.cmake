@@ -46,6 +46,7 @@ WITH_REMOTE_MODULES:BOOL=ON
 OTB_WRAP_PYTHON3:BOOL=ON
 PYTHON3_LIBRARY:PATH='/opt/rh/rh-python35/root/usr/lib64/libpython3.5m.so'
 OTB_WRAP_JAVA:BOOL=ON
+OTB_USE_OPENMP:BOOL=ON
 GDAL_SB_EXTRA_OPTIONS:STRING='--with-python=/opt/rh/python27/root/usr/bin/python'
 ")
 endmacro()
