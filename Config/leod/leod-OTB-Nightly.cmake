@@ -51,6 +51,8 @@ OTB_USE_GLFW:BOOL=ON
 OTB_USE_GLUT:BOOL=ON
 OTB_USE_SHARK:BOOL=ON
 
+OTB_USE_OPENMP:BOOL=ON
+
 PYTHON_EXECUTABLE:FILEPATH=/opt/local/bin/python2.7
 PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers
 PYTHON_LIBRARY:FILEPATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python
