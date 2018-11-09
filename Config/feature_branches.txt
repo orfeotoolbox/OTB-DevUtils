@@ -3,3 +3,4 @@ maskfiltering connectedcomponents
 fix_bug_1725
 openmp-fixes
 zonalstatistics zonalstatistics
+functorfilter_refactor
