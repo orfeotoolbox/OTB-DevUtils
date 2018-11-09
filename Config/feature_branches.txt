@@ -1,6 +1,5 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 maskfiltering connectedcomponents
-1652_FineRegistration_correction 1652_FineRegistration_Data
 fix_bug_1725
 openmp-fixes
 zonalstatistics zonalstatistics
