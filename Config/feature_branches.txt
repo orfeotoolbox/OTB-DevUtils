@@ -1,6 +1,6 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 maskfiltering connectedcomponents
 fix_bug_1725
-openmp-fixes
+warning-clang7
 zonalstatistics zonalstatistics
 functorfilter_refactor
