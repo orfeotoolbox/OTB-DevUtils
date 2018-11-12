@@ -741,6 +741,7 @@ if(dashboard_remote_module)
   set(dashboard_cache
     "
 OTB_BUILD_DEFAULT_MODULES:BOOL=OFF
+OTB_USE_OPENMP:BOOL=ON
 Module_${dashboard_remote_module}:BOOL=ON
 BUILD_TESTING:BOOL=ON
 "
