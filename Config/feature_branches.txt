@@ -4,3 +4,4 @@ fix_bug_1725
 warning-clang7
 zonalstatistics zonalstatistics
 functorfilter_refactor
+openmp_nb_threads
