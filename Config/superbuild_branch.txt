@@ -1,1 +1,1 @@
-nightly
+fftw-upgrade
