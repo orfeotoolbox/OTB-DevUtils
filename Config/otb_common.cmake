@@ -824,6 +824,8 @@ while(NOT dashboard_done)
     ctest_configure()
     # disable update
     set(dashboard_no_update 1)
+    # clear any module URL
+    set(dashboard_module_url)
 
     # Loop over remote modules
     foreach(mod ${remotes_list_all})
@@ -836,6 +838,7 @@ while(NOT dashboard_done)
       set(dashboard_cache "${original_dashboard_cache}
         ${_current_remote_cache}")
       set(CTEST_BUILD_NAME "${mod}-${ORIGINAL_CTEST_BUILD_NAME}")
+      set(dashboard_module ${mod})
       message("Run dashboard for module ${mod}")
       run_dashboard()
     endforeach()
