@@ -2,3 +2,4 @@
 fix_bug_1725
 functorfilter_refactor
 ussegliog/enhance_otbSarSensorModelAdapter_2
+change_cmake_policies
