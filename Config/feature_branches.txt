@@ -1,5 +1,4 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
-maskfiltering connectedcomponents
 fix_bug_1725
 functorfilter_refactor
 ussegliog/enhance_otbSarSensorModelAdapter_2
