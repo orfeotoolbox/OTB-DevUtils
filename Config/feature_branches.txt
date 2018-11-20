@@ -1,5 +1,5 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 fix_bug_1725
-functorfilter_refactor
+functorfilter-take2
 ussegliog/enhance_otbSarSensorModelAdapter_2
 change_cmake_policies
