@@ -1,5 +1,4 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 fix_bug_1725
-functorfilter-take2
 ussegliog/enhance_otbSarSensorModelAdapter_2
 ussegliog/addMetadata_ossimSentinel1
