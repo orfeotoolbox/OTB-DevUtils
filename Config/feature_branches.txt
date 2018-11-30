@@ -2,3 +2,4 @@
 fix_bug_1725
 ussegliog/enhance_otbSarSensorModelAdapter_2
 ussegliog/addMetadata_ossimSentinel1
+1770-remove-parameter-empty
