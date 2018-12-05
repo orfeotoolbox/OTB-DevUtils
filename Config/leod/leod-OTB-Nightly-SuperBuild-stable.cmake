@@ -1,12 +1,10 @@
 # Client maintainer: julien.malik@c-s.fr
 set(dashboard_model Nightly)
-set(OTB_PROJECT OTB)
 set(CTEST_BUILD_CONFIGURATION Release)
 set(CTEST_CONFIGURATION_TYPE Release)
 set(dashboard_no_install 1)
-set(CTEST_BUILD_FLAGS "-j4" )
+set(CTEST_BUILD_FLAGS "-j8" )
 
-set(CTEST_TEST_ARGS PARALLEL_LEVEL 3)
 include(${CTEST_SCRIPT_DIRECTORY}/leod_common.cmake)
 include(${CTEST_SCRIPT_DIRECTORY}/../config_stable.cmake)
 set(CTEST_BUILD_NAME "MacOSX10.10-SuperBuild-${dashboard_git_branch}")
