@@ -4,19 +4,19 @@ set (ENV{LANG} "C")
 set (CTEST_BUILD_CONFIGURATION "Debug")
 # set (CTEST_BUILD_CONFIGURATION "Release")
 
-set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/OTB")
-set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/OTB")
+set (CTEST_SOURCE_DIRECTORY "$ENV{HOME}/dev/source/otb")
+set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/otb")
 
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 set (CTEST_CMAKE_COMMAND "cmake" )
 set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
-set (CTEST_SITE "po9573.c-s.fr" )
+set (CTEST_SITE "po9573lx.c-s.fr" )
 set (CTEST_BUILD_NAME "Ubuntu-14.04_x86_64_${CTEST_BUILD_CONFIGURATION}-${USER}")
 # set (CTEST_GIT_COMMAND "/usr/bin/git")
 # set (CTEST_GIT_UPDATE_OPTIONS "")
 set (CTEST_USE_LAUNCHERS ON)
 
-set (OTB_INSTALL_PREFIX "$ENV{HOME}/dev/install/OTB")
+set (OTB_INSTALL_PREFIX "$ENV{HOME}/dev/install/otb")
 
 set (OTB_INITIAL_CACHE "
 BUILDNAME:STRING=${CTEST_BUILD_NAME}
@@ -26,8 +26,8 @@ OTB_DATA_USE_LARGEINPUT:BOOL=OFF
 OTB_DATA_LARGEINPUT_ROOT:STRING=$ENV{HOME}/Data/OTB-LargeInput
 OTB_DATA_ROOT:STRING=$ENV{HOME}/dev/source/OTB-Data
 
-CMAKE_C_COMPILER=/usr/bin/gcc-5
-CMAKE_CXX_COMPILER=/usr/bin/g++-5
+# CMAKE_C_COMPILER=/usr/bin/gcc-5
+# CMAKE_CXX_COMPILER=/usr/bin/g++-5
 
 CMAKE_C_FLAGS:STRING= -Wall -Wextra -Wshadow
 CMAKE_CXX_FLAGS:STRING= -Wall -Wextra -Wshadow
@@ -54,8 +54,9 @@ OTB_USE_GLEW:BOOL=ON
 OTB_USE_GLUT:BOOL=ON
 # Monteverdi
 OTB_USE_QWT:BOOL=ON
+OTB_WRAP_QGIS:BOOL=OFF
 
-ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4-debug/lib/cmake/ITK-4.10
+ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4.13-Debug/lib/cmake/ITK-4.13
 
 # MAPNIK_INCLUDE_DIR:PATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/include
 # MAPNIK_LIBRARY:FILEPATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/lib/libmapnik.so
@@ -64,8 +65,8 @@ CMAKE_INSTALL_PREFIX:STRING=${OTB_INSTALL_PREFIX}
 
 ## OTB-5
 
-MUPARSERX_LIBRARY:PATH=$ENV{HOME}/local/lib/libmuparserx.so
-MUPARSERX_INCLUDE_DIR:PATH=$ENV{HOME}/local/include
+# MUPARSERX_LIBRARY:PATH=$ENV{HOME}/local/lib/libmuparserx.so
+# MUPARSERX_INCLUDE_DIR:PATH=$ENV{HOME}/local/include
 
 # use custom libkml install because official package has undefined symbols
 # LIBKML_INCLUDE_DIR:PATH=$ENV{HOME}/Tools/libkml/install/include
@@ -79,15 +80,15 @@ MUPARSERX_INCLUDE_DIR:PATH=$ENV{HOME}/local/include
 
 # OpenJPEG_DIR:PATH=$ENV{HOME}/local/lib/openjpeg-2.1
 
-OSSIM_INCLUDE_DIR:STRING=$ENV{HOME}/local/include
-OSSIM_LIBRARY:FILEPATH=$ENV{HOME}/local/lib/libossim.so
+# OSSIM_INCLUDE_DIR:STRING=$ENV{HOME}/local/include
+# OSSIM_LIBRARY:FILEPATH=$ENV{HOME}/local/lib/libossim.so
 
 # GDAL_INCLUDE_DIR:STRING=$ENV{HOME}/local/include
 # GDAL_LIBRARY:FILEPATH=$ENV{HOME}/local/lib/libgdal.so
 
 # Ice
-GLFW_INCLUDE_DIR=$ENV{HOME}/local/include
-GLFW_LIBRARY=$ENV{HOME}/local/lib/libglfw.so
+# GLFW_INCLUDE_DIR=$ENV{HOME}/local/include
+# GLFW_LIBRARY=$ENV{HOME}/local/lib/libglfw.so
 
 # QWT
 # QWT_INCLUDE_DIR=$ENV{HOME}/local/include/qwt-6.1.3
