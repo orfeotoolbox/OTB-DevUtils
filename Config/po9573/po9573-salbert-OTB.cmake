@@ -9,7 +9,8 @@ set (CTEST_BINARY_DIRECTORY "$ENV{HOME}/dev/build/otb")
 
 set (CTEST_CMAKE_GENERATOR  "Unix Makefiles" )
 set (CTEST_CMAKE_COMMAND "cmake" )
-set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
+# set (CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
+set (CTEST_BUILD_COMMAND "/usr/bin/make -k VERBOSE=1 install" )
 set (CTEST_SITE "po9573lx.c-s.fr" )
 set (CTEST_BUILD_NAME "Ubuntu-14.04_x86_64_${CTEST_BUILD_CONFIGURATION}-${USER}")
 # set (CTEST_GIT_COMMAND "/usr/bin/git")
@@ -54,9 +55,11 @@ OTB_USE_GLEW:BOOL=ON
 OTB_USE_GLUT:BOOL=ON
 # Monteverdi
 OTB_USE_QWT:BOOL=ON
-OTB_WRAP_QGIS:BOOL=OFF
+# Module_OTBQGIS:BOOL=OFF
+# OTBQGIS_IS_TEST:BOOL=ON
 
 ITK_DIR:PATH=$ENV{HOME}/dev/install/ITK-4.13-Debug/lib/cmake/ITK-4.13
+# ITK_DIR:PATH=/mnt/ssd/home/salbert/dev/install/ITK-4.13-Debug/lib/cmake/ITK-4.13
 
 # MAPNIK_INCLUDE_DIR:PATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/include
 # MAPNIK_LIBRARY:FILEPATH=/ORFEO/otbval/OTB-OUTILS/mapnik/install/lib/libmapnik.so
