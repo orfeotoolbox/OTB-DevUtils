@@ -1,6 +1,5 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 fix_bug_1725
-1770-remove-parameter-empty
 classifier_probability_output
 ussegliog/enhance_SARDeburst
 xmas_cookbook
