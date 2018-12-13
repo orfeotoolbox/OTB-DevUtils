@@ -4,3 +4,4 @@ fix_bug_1725
 classifier_probability_output
 ussegliog/enhance_SARDeburst
 xmas_cookbook xmas_cookbook
+refactor-sinclairimagefilter
