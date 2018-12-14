@@ -1,5 +1,4 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
-default_functor_filter
 fix_bug_1725
 classifier_probability_output
 ussegliog/enhance_SARDeburst
