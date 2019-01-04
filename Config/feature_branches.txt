@@ -5,5 +5,4 @@ ussegliog/enhance_SARDeburst
 refactor-sinclairimagefilter
 use_Functor_Filter_in_AppImageUtils
 1792-remove-use-deprecated 1792-remove-use-deprecated
-constexpr_otbMath
 cookbook_warnings
