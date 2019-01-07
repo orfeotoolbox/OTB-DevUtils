@@ -3,5 +3,4 @@ fix_bug_1725
 classifier_probability_output
 ussegliog/enhance_SARDeburst
 refactor-sinclairimagefilter
-cookbook_warnings
 1769_drop_support_gdal_1
