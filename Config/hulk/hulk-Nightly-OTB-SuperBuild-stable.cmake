@@ -47,7 +47,7 @@ WITH_REMOTE_MODULES:BOOL=ON
 OTB_WRAP_PYTHON3:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
 OTB_USE_OPENMP:BOOL=ON
-GDAL_SB_EXTRA_OPTIONS:STRING='--with-python=/usr/bin/python --with-freexl=no'
+GDAL_SB_EXTRA_OPTIONS:STRING='--with-python=/usr/bin/python --with-freexl=no --with-libjson-c=internal'
 ")
 endmacro()
 
