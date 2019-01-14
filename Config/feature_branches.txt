@@ -5,3 +5,4 @@ remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 refactor-keypoints-tests refactor-keypoints-tests-bis
 remove_variadic_fom_getset
+1778-test-refactoring-owTvQtWidgetShow
