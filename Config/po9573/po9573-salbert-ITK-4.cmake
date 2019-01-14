@@ -15,7 +15,7 @@ set(CTEST_BUILD_COMMAND "/usr/bin/make -j4 -k install" )
 
 set(dashboard_root_name "tests")
 set(dashboard_source_name "source/ITK")
-set(dashboard_binary_name "build/ITK-${CTEST_BUILD_CONFIGURATION}")
+set(dashboard_binary_name "build/ITK.${CTEST_BUILD_CONFIGURATION}")
 
 set(dashboard_fresh_source_checkout OFF)
 set(dashboard_git_url "http://itk.org/ITK.git")
