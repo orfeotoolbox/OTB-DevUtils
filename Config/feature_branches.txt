@@ -1,5 +1,4 @@
 fix-warnings
-ussegliog/enhance_SARDeburst ussegliog/data_enhance_SARDeburst
 remove_gdal_1
 number_of_endmember_estimation number_of_endmember_estimation
 use_functor_filter_morphologicalprofiles
