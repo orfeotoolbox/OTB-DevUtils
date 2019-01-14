@@ -1,7 +1,6 @@
 fix-warnings
 remove_gdal_1
 number_of_endmember_estimation number_of_endmember_estimation
-use_functor_filter_morphologicalprofiles
 haralick_in_software_guide
 remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
