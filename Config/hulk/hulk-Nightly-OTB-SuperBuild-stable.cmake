@@ -43,12 +43,11 @@ BUILD_TESTING:BOOL=ON
 OTB_DATA_USE_LARGEINPUT:BOOL=ON
 OTB_DATA_LARGEINPUT_ROOT:PATH=/media/otbnas/otb/OTB-LargeInput
 #disable to test update_pkg
-QT4_SB_ENABLE_GTK:BOOL=OFF
 WITH_REMOTE_MODULES:BOOL=ON
 OTB_WRAP_PYTHON3:BOOL=ON
 OTB_WRAP_JAVA:BOOL=ON
 OTB_USE_OPENMP:BOOL=ON
-GDAL_SB_EXTRA_OPTIONS:STRING='--with-python=/usr/bin/python'
+GDAL_SB_EXTRA_OPTIONS:STRING='--with-python=/usr/bin/python --with-freexl=no --with-libjson-c=internal'
 ")
 endmacro()
 
