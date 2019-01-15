@@ -1,5 +1,4 @@
 fix-warnings
-number_of_endmember_estimation number_of_endmember_estimation
 haralick_in_software_guide
 remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
