@@ -5,3 +5,4 @@ refactor-keypoints-tests refactor-keypoints-tests-bis
 remove_variadic_fom_getset
 1778-test-refactoring-owTvQtWidgetShow
 update_source_build_msg
+update-copyright-date
