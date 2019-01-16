@@ -2,7 +2,6 @@ haralick_in_software_guide
 remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 refactor-keypoints-tests refactor-keypoints-tests-bis
-1778-test-refactoring-owTvQtWidgetShow
 update_source_build_msg
 update-copyright-date
 1800-fix-boost-build-with-clang
