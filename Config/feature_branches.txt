@@ -4,7 +4,6 @@ remove_commandlineparser
 update_source_build_msg
 local_rx_detector local_rx_detector 
 1800-fix-boost-build-with-clang
-silent-remaining-warnings
 enhance_SARconcatenateBursts
 faster_sample_augmentation
 increase_default_ram
