@@ -7,3 +7,4 @@ local_rx_detector local_rx_detector
 remove_const_char_overloads
 1778-test-refactoring-dmTvFineRegistrationImageFilterTestWithMeanSquare 1778-test-refactoring-dmTvFineRegistrationImageFilterTestWithMeanSquare
 silent-remaining-warnings
+enhance_SARconcatenateBursts
