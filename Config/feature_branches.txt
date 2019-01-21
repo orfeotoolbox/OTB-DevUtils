@@ -1,7 +1,6 @@
 haralick_in_software_guide
 remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
-refactor-keypoints-tests refactor-keypoints-tests-bis
 update_source_build_msg
 local_rx_detector local_rx_detector 
 1800-fix-boost-build-with-clang
