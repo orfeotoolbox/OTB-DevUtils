@@ -8,3 +8,4 @@ remove_const_char_overloads
 1778-test-refactoring-dmTvFineRegistrationImageFilterTestWithMeanSquare 1778-test-refactoring-dmTvFineRegistrationImageFilterTestWithMeanSquare
 silent-remaining-warnings
 enhance_SARconcatenateBursts
+faster_sample_augmentation
