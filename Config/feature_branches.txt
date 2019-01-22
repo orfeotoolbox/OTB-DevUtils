@@ -3,7 +3,6 @@ haralick_in_software_guide
 remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 local_rx_detector local_rx_detector 
-1800-fix-boost-build-with-clang
 enhance_SARconcatenateBursts
 faster_sample_augmentation
 increase_default_ram
