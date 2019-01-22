@@ -4,5 +4,4 @@ remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 local_rx_detector local_rx_detector 
 enhance_SARconcatenateBursts
-faster_sample_augmentation
 increase_default_ram
