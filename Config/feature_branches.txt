@@ -4,3 +4,4 @@ remove_commandlineparser
 local_rx_detector local_rx_detector 
 enhance_SARconcatenateBursts
 increase_default_ram
+tests_segmentation tests_segmentation
