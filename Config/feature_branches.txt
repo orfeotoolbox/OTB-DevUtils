@@ -3,6 +3,5 @@ remove_commandlineparser remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 local_rx_detector local_rx_detector
 enhance_SARconcatenateBursts
-increase_default_ram
 tests_segmentation tests_segmentation
 1818-TestHelper-regression-test-ogr-file
