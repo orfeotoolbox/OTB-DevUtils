@@ -2,7 +2,6 @@ haralick_in_software_guide
 remove_commandlineparser remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 local_rx_detector local_rx_detector
-enhance_SARconcatenateBursts
 1818-TestHelper-regression-test-ogr-file
 remove_gbt
 doc-compilefromsource
