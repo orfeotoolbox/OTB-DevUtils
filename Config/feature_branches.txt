@@ -2,5 +2,5 @@ remove_commandlineparser remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 local_rx_detector local_rx_detector
 1818-TestHelper-regression-test-ogr-file
-remove_gbt
 1778-apTvFeLineSegmentDetection 1778-apTvFeLineSegmentDetection
+no_progress_to_file
