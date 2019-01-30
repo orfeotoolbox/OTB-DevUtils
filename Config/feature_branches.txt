@@ -5,3 +5,4 @@ remove_commandlineparser remove_commandlineparser
 1778-apTvFeLineSegmentDetection 1778-apTvFeLineSegmentDetection
 no_progress_to_file
 1778-hyTvMDMDNMFImageFilterTest2 hyTvMDMDNMFImageFilterTest2
+1778-MeanShiftSmoothingImageFilterQBRoad 1778-MeanShiftSmoothingImageFilterQBRoad
