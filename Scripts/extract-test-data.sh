@@ -6,12 +6,12 @@
 tmp_dir=${HOME}/tmp/otb-test-data
 
 bname=`basename $0`
+ext=".log"
 
-
-unique_filename()
+unique_basename()
 {
     # echo "${bname}.$$.`date +%Y-%m-%d-%H-%M-%S.%N`"
-    echo "${bname}.log"
+    echo "${bname}"
 }
 
 
@@ -40,7 +40,11 @@ strace_command()
 {
     # stdbuf -oL strace -e trace=openat $1
     # strace -o $2 -e trace=openat $1
-    strace -e trace=openat $1 2>&1 | cut -f2 -d\"
+
+    filename=$2.$3.log
+
+    strace -o ${filename} -e trace=openat $1
+    cat ${filename} | cut -f2 -d\" | sort -u >> $2.${ext}
 }
 
 
@@ -53,6 +57,8 @@ filter_ctest()
 	    # command = ""
 	    # label = ""
 	    # id = ""
+
+	    echo "" > "$2.${ext}"
 
 	    while read -r command
 	    do
@@ -147,7 +153,7 @@ filter_ctest()
 		echo "${index} ${label} ${name}" 1>&2
 		echo "${command}" 1>&2
 
-		$1 "${command}"
+		$1 "${command}" $2 ${index}
 	    done
 
 	    echo "Number of lines: ${i}"
@@ -161,7 +167,7 @@ filter_ctest()
 
 create_tmp_dir
 
-filter_ctest strace_command ${tmp_dir}/`unique_filename`
+filter_ctest strace_command ${tmp_dir}/`unique_basename`
 # filter_ctest echo
 
 # unique_filename
