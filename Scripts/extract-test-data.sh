@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # set -v
-# set -x
+set -x
 
 tmp_dir=${HOME}/tmp/otb-test-data
 
@@ -9,16 +9,20 @@ bname=`basename $0`
 ext="log"
 
 
+usage()
+{
+    echo "$1: [-x] <otb-data-dir> [ctest-options]"
+    echo
+    echo "Dislplay all open system calls to files in <otb-data-dir> from ctest [<ctest-options>]."
+    echo
+    echo "  -x Display extended output"
+}
+
+
 unique_basename()
 {
     # echo "${bname}.$$.`date +%Y-%m-%d-%H-%M-%S.%N`"
     echo "${bname}"
-}
-
-
-usage()
-{
-    echo "$1"
 }
 
 
@@ -33,7 +37,7 @@ create_tmp_dir()
 
 delete_tmp_dir()
 {
-    rm ${tmp_dir}
+    rm -r ${tmp_dir}
 }
 
 
@@ -66,10 +70,10 @@ filter_ctest()
 
 	    while read -r command
 	    do
-		if [ ${i} -eq 100 ]
-		then
-		    break
-		fi
+		# if [ ${i} -eq 100 ]
+		# then
+		#     break
+		# fi
 
 		# Count one line.
 		i=$(( i + 1 ))
@@ -105,7 +109,7 @@ filter_ctest()
 		if ! read -r label
 		then
 		    echo "ERROR:${i}: Unable to read label line." 1>&2
-		    exit 1
+		    exit 2
 		fi
 
 		skip_label=false
@@ -177,11 +181,9 @@ filter_strace_openat()
     filename=$1.${ext}
     tmp_filename=$1.strace.${ext}
 
-    echo "" > ${filename}
+    strace -f -q -o ${tmp_filename} -e trace=openat ctest $3
 
-    strace -f -q -o ${tmp_filename} -e trace=openat ctest $4
-
-    cat ${tmp_filename} | grep "openat(" | cut -f2 -d\" | grep $2 | sort -u >> ${filename}
+    cat ${tmp_filename} | grep "openat(" | cut -f2 -d\" | grep $2 | sort -u > ${filename}
 
     cat ${filename} 1>&2
 
@@ -193,12 +195,49 @@ filter_strace_openat()
 ## main
 ##
 
+##
+## Quick check command-line.
+if [ $# -lt 1 ]
+   then
+       usage ${bname}
+       exit 1
+fi
+
+##
+     ## Parce command-line arguments.
+while [ true ]
+do
+    case ${arg} in
+	-x) extended=1
+	    shift
+	    ;;
+
+	*) break
+	   ;;
+    esac
+done
+
+otb_data_dir=$1
+shift
+
+# Check otb-data dir.
+if [ -z $otb_data_dir ]
+then
+    usage ${bname}
+    exit 1
+fi
+
+##
+## Crate temporary dir if needed.
 create_tmp_dir
+
+##
+## Main task.
 
 # filter_ctest strace_command ${tmp_dir}/`unique_basename`
 # filter_ctest echo
 # filter_strace_openat ${tmp_dir}/${bname} "otb-data" "-L OTBAppClassification"
-filter_strace_openat ${tmp_dir}/${bname} "otb-data" "-Q"
+filter_strace_openat ${tmp_dir}/${bname} $1 "$*"
 
 # unique_filename
 
