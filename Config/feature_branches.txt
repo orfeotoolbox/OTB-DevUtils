@@ -1,4 +1,3 @@
-remove_commandlineparser remove_commandlineparser
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 1808_solar_variability_as_input 1808_solar_variability_as_input
 1818-TestHelper-regression-test-ogr-file 1818-TestHelper-regression-test-ogr-file
