@@ -5,3 +5,5 @@
 1778-MeanShiftSmoothingImageFilterQBRoad 1778-bfTuMeanShiftSmoothingImageFilterQBRoad
 functor_image_filter_neighborhood functor_image_filter_neighborhood 
 ussegliog:specify_IW_overlaps
+1837-cookbook-ninja
+1649-extern-templates-take3
