@@ -6,7 +6,8 @@
 tmp_dir=${HOME}/tmp/otb-test-data
 
 bname=`basename $0`
-ext=".log"
+ext="log"
+
 
 unique_basename()
 {
@@ -41,10 +42,12 @@ strace_command()
     # stdbuf -oL strace -e trace=openat $1
     # strace -o $2 -e trace=openat $1
 
-    filename=$2.$3.log
+    filename=$2.$3.${ext}
 
-    strace -o ${filename} -e trace=openat $1
+    strace -o ${filename} -e trace=openat $1 1> $2.stdout$.{ext}
     cat ${filename} | cut -f2 -d\" | sort -u >> $2.${ext}
+
+    rm ${filename}
 }
 
 
@@ -58,10 +61,16 @@ filter_ctest()
 	    # label = ""
 	    # id = ""
 
-	    echo "" > "$2.${ext}"
+	    echo "" > $2.${ext}
+	    echo "" > $2.stdout.${ext}
 
 	    while read -r command
 	    do
+		if [ ${i} -eq 100 ]
+		then
+		    break
+		fi
+
 		# Count one line.
 		i=$(( i + 1 ))
 
@@ -150,14 +159,33 @@ filter_ctest()
 		# echo "${index}: ${name} ${label}"
 		# echo ${command}
 
-		echo "${index} ${label} ${name}" 1>&2
-		echo "${command}" 1>&2
+		# echo "${index} ${label} ${name}" 1>&2
+		# echo "${command}" 1>&2
 
 		$1 "${command}" $2 ${index}
 	    done
 
 	    echo "Number of lines: ${i}"
+
+	    cat $2.${ext} | sort -u
 	)
+}
+
+
+filter_strace_openat()
+{
+    filename=$1.${ext}
+    tmp_filename=$1.strace.${ext}
+
+    echo "" > ${filename}
+
+    strace -f -q -o ${tmp_filename} -e trace=openat ctest $4
+
+    cat ${tmp_filename} | grep "openat(" | cut -f2 -d\" | grep $2 | sort -u >> ${filename}
+
+    cat ${filename} 1>&2
+
+    # rm ${tmp_filename}
 }
 
 
@@ -167,8 +195,10 @@ filter_ctest()
 
 create_tmp_dir
 
-filter_ctest strace_command ${tmp_dir}/`unique_basename`
+# filter_ctest strace_command ${tmp_dir}/`unique_basename`
 # filter_ctest echo
+# filter_strace_openat ${tmp_dir}/${bname} "otb-data" "-L OTBAppClassification"
+filter_strace_openat ${tmp_dir}/${bname} "otb-data" "-Q"
 
 # unique_filename
 
