@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # set -v
-set -x
+# set -x
 
 tmp_dir=${HOME}/tmp/otb-test-data
 
@@ -178,16 +178,45 @@ filter_ctest()
 
 filter_strace_openat()
 {
-    filename=$1.${ext}
-    tmp_filename=$1.strace.${ext}
+    log=$1.${ext}
+    strace_log=$1.strace.${ext}
+    cat_log=$1.cat.${ext}
 
-    strace -f -q -o ${tmp_filename} -e trace=openat ctest $3
+    strace -f -q -o ${strace_log} -e trace=openat ctest $3
 
-    cat ${tmp_filename} | grep "openat(" | cut -f2 -d\" | grep $2 | sort -u > ${filename}
+    stdbuf -oL cat ${strace_log} | grep "openat(" | cut -f2 -d\" | grep $2 | sort -u > ${cat_log}
 
-    cat ${filename} 1>&2
+    stdbuf -oL cat ${cat_log} |
+	(
+	    while read -r filename
+	    do
+		# If file is not a multi-baseline component.
+		if [ -f ${filename} ] && ! echo ${filename} | grep -Eq "^.+\.[[:digit:]]+".${ext}"$"
+		then
+		    # Keep it...
+		    echo ${filename}
 
-    # rm ${tmp_filename}
+		    # ...And add existing multi-baseline components, if any.
+		    fbasename=${filename%.*}
+		    fext=${filename##*.}
+
+		    i=1
+
+		    while [ -f ${fbasename}.${i}.${ext} ]
+		    do
+			echo ${fbasename}.${i}.${ext}
+			i=$((i+1))
+		    done
+		else
+		    echo "Skipped: ${filename}" 1>&2
+		fi
+	    done
+	) > ${log}
+
+    cat ${log} 1>&2
+
+    # rm ${strace_log}
+    # rm ${cat_log}
 }
 
 
@@ -237,7 +266,7 @@ create_tmp_dir
 # filter_ctest strace_command ${tmp_dir}/`unique_basename`
 # filter_ctest echo
 # filter_strace_openat ${tmp_dir}/${bname} "otb-data" "-L OTBAppClassification"
-filter_strace_openat ${tmp_dir}/${bname} $1 "$*"
+filter_strace_openat ${tmp_dir}/${bname} ${otb_data_dir} "$*"
 
 # unique_filename
 
