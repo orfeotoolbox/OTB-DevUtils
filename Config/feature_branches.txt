@@ -6,3 +6,4 @@
 functor_image_filter_neighborhood functor_image_filter_neighborhood 
 1837-cookbook-ninja
 1649-extern-templates-take3
+softwareguide-cleanup softwareguide-cleanup
