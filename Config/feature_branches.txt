@@ -3,6 +3,6 @@
 1818-TestHelper-regression-test-ogr-file 1818-TestHelper-regression-test-ogr-file
 1778-hyTvMDMDNMFImageFilterTest2 hyTvMDMDNMFImageFilterTest2
 1778-MeanShiftSmoothingImageFilterQBRoad 1778-bfTuMeanShiftSmoothingImageFilterQBRoad
-functor_image_filter_neighborhood functor_image_filter_neighborhood 
-1837-cookbook-ninja
+fix_fastica fix_fastica 
 1649-extern-templates-take3
+softwareguide-cleanup softwareguide-cleanup
