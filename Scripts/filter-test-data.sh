@@ -8,7 +8,7 @@ bname=`basename $0`
 tmp_dir=/tmp
 
 
-if [ $# -lt 1 ]
+if [ $# -ne 1 ]
 then
     echo "${bname} <inotify-log-file>" 1>&2
     exit 1
