@@ -15,7 +15,8 @@ then
 fi
 
 
-cat $1 | grep -E ' OPEN ' | sort -u | sed -e 's,/ OPEN ,/,' |
+# cat $1 | grep -E ' OPEN ' | sort -u | sed -e 's,/ OPEN ,/,' |
+sed -ne 's, OPEN ,,p' $1 | sort -u |
     (
 	while read -r filename
 	do
