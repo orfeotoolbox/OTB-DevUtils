@@ -4,5 +4,4 @@
 1778-hyTvMDMDNMFImageFilterTest2 hyTvMDMDNMFImageFilterTest2
 1778-MeanShiftSmoothingImageFilterQBRoad 1778-bfTuMeanShiftSmoothingImageFilterQBRoad
 fix_fastica fix_fast_ica_take2
-softwareguide-cleanup softwareguide-cleanup
 fix_warning_local_Rx
