@@ -55,7 +55,7 @@ else()
   execute_process(COMMAND ${GIT_COMMAND} reset --hard ${_REMOTE}/${_BRANCH})
 endif()
 
-# sync with develop
-if(SYNC_DEVELOP)
-  execute_process(COMMAND ${GIT_COMMAND} merge origin/develop)
+# sync with a reference branch
+if(SYNC_BRANCH)
+  execute_process(COMMAND ${GIT_COMMAND} merge origin/${SYNC_BRANCH})
 endif()
