@@ -2,4 +2,5 @@
 1778-hyTvMDMDNMFImageFilterTest2 hyTvMDMDNMFImageFilterTest2
 1778-MeanShiftSmoothingImageFilterQBRoad 1778-bfTuMeanShiftSmoothingImageFilterQBRoad
 data_move_input data_move_input
+remove_stale_examples remove_stale_example
 logger_bug
