@@ -1,1 +1,1 @@
-drop_python2
+sb_low_kernel_version
