@@ -1,5 +1,3 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
-data_move_input data_move_input
 remove_stale_examples remove_stale_examples
 logger_bug
-otbTestMain-catch-ImageFileReaderException
