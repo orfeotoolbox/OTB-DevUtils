@@ -1,3 +1,2 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
-remove_stale_examples remove_stale_examples
 remove-ROI-4w remove-ROI-4w
