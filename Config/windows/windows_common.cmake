@@ -957,7 +957,9 @@ endif()
 
 if(OTB_DATA_ROOT)
   if(CTEST_DASHBOARD_TRACK STREQUAL "FeatureBranches")
-    set_git_update_and_sync_command(${dashboard_data_branch} master)
+    # set_git_update_and_sync_command(${dashboard_data_branch} master)
+    # No sync on data branch ever!!!!!!!!!!!!!!
+    set_git_update_command(${dashboard_data_branch})
   else()
     set_git_update_command(${dashboard_data_branch})
   endif()
