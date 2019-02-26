@@ -667,7 +667,9 @@ macro(run_dashboard)
     # Checkout specific data branch if any, otherwise use nightly
     if(DEFINED specific_data_branch_for_${dashboard_current_branch})
       if(CTEST_DASHBOARD_TRACK STREQUAL "FeatureBranches")
-        set_git_update_and_sync_command(${specific_data_branch_for_${dashboard_current_branch}} master)
+        # set_git_update_and_sync_command(${specific_data_branch_for_${dashboard_current_branch}} master)
+        # never sync otb data branch
+        set_git_update_command(${specific_data_branch_for_${dashboard_current_branch}})
       else()
         set_git_update_command(${specific_data_branch_for_${dashboard_current_branch}})
       endif()
