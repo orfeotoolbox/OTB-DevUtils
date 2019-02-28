@@ -1,4 +1,3 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 cookbook_examples cookbook_examples
 1834-test-data-lfs 1834-test-data-lfs
-1649-extern-templates-take4
