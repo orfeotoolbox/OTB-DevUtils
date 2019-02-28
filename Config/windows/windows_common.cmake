@@ -1077,7 +1077,10 @@ endforeach()
 set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
 
 #if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
-
+#Check if CTEST_SOURCE_DIRECTORY/Data exists => git lfs
+if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/Data)
+  set($ENV{OTB_DATA_ROOT} "${CTEST_SOURCE_DIRECTORY}/Data")
+endif()
 if(NOT dashboard_no_configure)
   write_cache()
   message("Running ctest_configure() on ${CTEST_BINARY_DIRECTORY}")
