@@ -653,16 +653,39 @@ macro(run_dashboard)
 
   ctest_start(${dashboard_model} TRACK ${CTEST_DASHBOARD_TRACK})
 
+
+  # Look for updates.
+  # OTB
+  if(NOT dashboard_no_update)
+    if(CTEST_DASHBOARD_TRACK STREQUAL "FeatureBranches")
+      set_git_update_and_sync_command(${dashboard_current_branch} develop)
+    else()
+      set_git_update_command(${dashboard_current_branch})
+    endif()
+    ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
+    set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
+    message("Found ${count} changed files")
+  else()
+    message("dashboard_no_update is TRUE. skipping update of source tree")
+  endif()
+
   # Always build if the tree is fresh.
   set(dashboard_fresh 0)
   if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt")
     set(dashboard_fresh 1)
     safe_message("Starting fresh build...")
   endif()
+  if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/Data)
+    set( dashboard_cache "${dashboard_cache}
+      OTB_DATA_ROOT:STRING=${CTEST_SOURCE_DIRECTORY}/Data")
+  endif()
   if(NOT dashboard_no_cache)
     write_cache()
   endif()
-
+  
+  # Look for updates.
+  # OTB-Data
+  # We will be able to remove this code when all branches will have lfs
   if(dashboard_otb_data_root)
     # Checkout specific data branch if any, otherwise use nightly
     if(DEFINED specific_data_branch_for_${dashboard_current_branch})
@@ -681,20 +704,6 @@ macro(run_dashboard)
                     WORKING_DIRECTORY ${dashboard_otb_data_root})
   endif()
 
-  # Look for updates.
-  if(NOT dashboard_no_update)
-    if(CTEST_DASHBOARD_TRACK STREQUAL "FeatureBranches")
-      set_git_update_and_sync_command(${dashboard_current_branch} develop)
-    else()
-      set_git_update_command(${dashboard_current_branch})
-    endif()
-    ctest_update(SOURCE ${dashboard_update_dir} RETURN_VALUE count)
-    set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
-    message("Found ${count} changed files")
-  else()
-    message("dashboard_no_update is TRUE. skipping update of source tree")
-  endif()
-
   # add specific modules (works for OTB only)
   if(dashboard_module AND dashboard_module_url)
     execute_process(COMMAND "${CTEST_GIT_COMMAND}" "clone" "${dashboard_module_url}"  "${dashboard_update_dir}/Modules/Remote/${dashboard_module}" RESULT_VARIABLE rv)
@@ -702,7 +711,11 @@ macro(run_dashboard)
       message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
     endif()
   endif()
-
+  if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/Data)
+    #Ugly set, look for better stuff with append or else if it can be.
+    set( CONFIGURE_OPTIONS "${CONFIGURE_OPTIONS}
+      OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/Data")
+  endif()
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
     if(CONFIGURE_OPTIONS)
       ctest_configure(OPTIONS "${CONFIGURE_OPTIONS}")
