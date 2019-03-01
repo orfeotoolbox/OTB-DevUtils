@@ -711,11 +711,7 @@ macro(run_dashboard)
       message(FATAL_ERROR "Cannot checkout remote module: ${rv}")
     endif()
   endif()
-  if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/Data)
-    #Ugly set, look for better stuff with append or else if it can be.
-    set( CONFIGURE_OPTIONS "${CONFIGURE_OPTIONS}
-      OTB_DATA_ROOT:STRING=${CTEST_DASHBOARD_ROOT}/Data")
-  endif()
+
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
     if(CONFIGURE_OPTIONS)
       ctest_configure(OPTIONS "${CONFIGURE_OPTIONS}")
