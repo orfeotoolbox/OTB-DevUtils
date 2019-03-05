@@ -4,3 +4,4 @@ cookbook-devguide
 1850-imagefilereader
 ci_lld
 bug_superimpose
+logging_in_python_wrapper
