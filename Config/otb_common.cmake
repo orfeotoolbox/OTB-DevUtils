@@ -676,7 +676,7 @@ macro(run_dashboard)
     safe_message("Starting fresh build...")
   endif()
   if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/Data)
-    set( dashboard_cache "${dashboard_cache_for_${dashboard_current_branch}}
+    set( dashboard_cache_for_${dashboard_current_branch} "${dashboard_cache_for_${dashboard_current_branch}}
       OTB_DATA_ROOT:STRING=${CTEST_SOURCE_DIRECTORY}/Data")
   endif()
   if(NOT dashboard_no_cache)
