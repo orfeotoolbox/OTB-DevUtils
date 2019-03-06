@@ -53,13 +53,3 @@ for project in OTB; do
   done
   
 done
-
-# Generate OTB-Data-Example
-cd $CLONE_DIR/OTB-Data
-# Extract latest release branch
-latest_release=$(git branch -r | grep -E -o 'release-[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
-for format in zip tgz; do
-  # latest release
-  echo Generating $OUT_DIR/OTB-Data-Examples.$format
-  git archive --format=$format -o $OUT_DIR/OTB-Data-Examples.$format origin/$latest_release Examples
-done
