@@ -1,1 +1,1 @@
-drop_python2
+nightly
