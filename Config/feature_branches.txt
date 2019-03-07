@@ -5,3 +5,4 @@ cookbook-devguide
 ci_lld
 bug_superimpose
 logging_in_python_wrapper
+lhermitte/deprecate_auto_ptr
