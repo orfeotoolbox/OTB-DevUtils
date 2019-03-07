@@ -1,7 +1,6 @@
 1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
 1834-test-data-lfs 1834-test-data-lfs
 cookbook-devguide
-ci_lld
 bug_superimpose
 logging_in_python_wrapper
 lhermitte/deprecate_auto_ptr
