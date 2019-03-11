@@ -42,7 +42,7 @@ execute_process(COMMAND ${GIT_COMMAND} branch --list "${_BRANCH}"
 # clean tree
 execute_process(COMMAND ${GIT_COMMAND} clean -d -f -f)
 execute_process(COMMAND ${GIT_COMMAND} fetch --all --prune)
-execute_process(COMMAND ${GIT_COMMAND} reset --hard origin/develop )
+execute_process(COMMAND ${GIT_COMMAND} reset --hard)
 
 # if(_is_local EQUAL -1)
 if ( NOT _local_branches )
