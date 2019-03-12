@@ -7,7 +7,7 @@ if(NOT DEFINED CTEST_CMAKE_GENERATOR)
 endif()
 
 if(NOT DEFINED CTEST_GIT_COMMAND)
-  set(CTEST_GIT_COMMAND "/usr/bin/git")
+  set(CTEST_GIT_COMMAND "/home/otbval/local/bin/git")
 endif()
 
 if(NOT DEFINED CTEST_TEST_ARGS)
