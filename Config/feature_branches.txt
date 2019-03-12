@@ -3,4 +3,3 @@
 bug_superimpose
 logging_in_python_wrapper
 refactor-dynamiccast
-numpy_optional_test
