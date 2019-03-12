@@ -2,7 +2,5 @@
 1834-test-data-lfs 1834-test-data-lfs
 bug_superimpose
 logging_in_python_wrapper
-lhermitte/optimize_compare_image
-lhermitte/line_progress
 refactor-dynamiccast
 numpy_optional_test
