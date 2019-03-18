@@ -1,6 +1,5 @@
-1506-refactor-MapProjectionAdapter 1506-refactor-MapProjectionAdapter
-1834-test-data-lfs 1834-test-data-lfs
+1506-refactor-MapProjectionAdapter
 bug_superimpose
 refactor-dynamiccast
-1841_virtual_dimensionality 1841_virtual_dimensionality
+1841_virtual_dimensionality
 1863-drop-java-support
