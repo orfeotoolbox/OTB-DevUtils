@@ -1078,8 +1078,17 @@ set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
 
 #if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
 #Check if CTEST_SOURCE_DIRECTORY/Data exists => git lfs
-if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/Data)
-  set($ENV{OTB_DATA_ROOT} "${CTEST_SOURCE_DIRECTORY}/Data")
+if ( DASHBOARD_SUPERBUILD )
+  if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/../Data)
+    get_filename_component( _LFSDataDir "../Data" 
+        REALPATH 
+        BASE_DIR ${CTEST_SOURCE_DIRECTORY})
+    set($ENV{OTB_DATA_ROOT} "${_LFSDataDir}")
+  endif()
+else()
+  if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/Data)
+    set($ENV{OTB_DATA_ROOT} "${CTEST_SOURCE_DIRECTORY}/Data")
+  endif()
 endif()
 if(NOT dashboard_no_configure)
   write_cache()
@@ -1097,7 +1106,8 @@ if(NOT dashboard_no_configure)
   if(NOT _configure_rv EQUAL 0)
   # Send CMakeFiles/CMakeOutput.log"
  set(CTEST_NOTES_FILES
-  "${CTEST_BINARY_DIRECTORY}/CMakeFiles/CMakeOutput.log"
+  "${CTEST_BINARY_DIRECTORY
+  }/CMakeFiles/CMakeOutput.log"
   "${CTEST_BINARY_DIRECTORY}/CMakeFiles/CMakeCache.txt"
   "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}"
   "${CMAKE_CURRENT_LIST_FILE}"
