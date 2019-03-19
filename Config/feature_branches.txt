@@ -1,6 +1,5 @@
 1506-refactor-MapProjectionAdapter
 bug_superimpose
 1841_virtual_dimensionality
-1863-drop-java-support
 jinglada/GeoJSON_driver
 replace_unary_functor_image_filter
