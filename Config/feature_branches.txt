@@ -5,4 +5,3 @@ bug_superimpose
 jinglada/GeoJSON_driver
 1851_hypserspectral_recipe
 replace_unary_functor_image_filter
-cookbook-virtualenv
