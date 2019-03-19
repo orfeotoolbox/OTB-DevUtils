@@ -675,9 +675,22 @@ macro(run_dashboard)
     set(dashboard_fresh 1)
     safe_message("Starting fresh build...")
   endif()
-  if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/Data)
+  # Finding the data root in otb sources: two cases
+  # OTB => data is in ${source}/Data
+  # SuperBuild => data is in ${source}/../Data
+  if ( ${_source_directory_filename} STREQUAL "SuperBuild" )
+    if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/../Data )
+      get_filename_component( _LFSDataDir "../Data" 
+        REALPATH 
+        BASE_DIR ${CTEST_SOURCE_DIRECTORY})
     set( dashboard_cache_for_${dashboard_current_branch} "${dashboard_cache_for_${dashboard_current_branch}}
-      OTB_DATA_ROOT:STRING=${CTEST_SOURCE_DIRECTORY}/Data")
+      OTB_DATA_ROOT:STRING=${_LFSDataDir}")
+    endif()
+  else()
+    if ( EXISTS ${CTEST_SOURCE_DIRECTORY}/Data )
+      set( dashboard_cache_for_${dashboard_current_branch} "${dashboard_cache_for_${dashboard_current_branch}}
+        OTB_DATA_ROOT:STRING=${CTEST_SOURCE_DIRECTORY}/Data")
+    endif()
   endif()
   if(NOT dashboard_no_cache)
     write_cache()
