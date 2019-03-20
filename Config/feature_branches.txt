@@ -6,3 +6,4 @@ replace_unary_functor_image_filter
 cookbook-versions
 warning-missing-braces
 1649-application-engine-refactoring
+remove-softwareguide
