@@ -4,3 +4,4 @@ bug_superimpose
 jinglada/GeoJSON_driver
 replace_unary_functor_image_filter
 cookbook-versions
+warning-missing-braces
