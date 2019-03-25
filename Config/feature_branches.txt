@@ -4,3 +4,4 @@ warning-missing-braces
 1649-application-engine-refactoring
 remove-softwareguide
 doc-bandmath-strings
+1860_multiband_watershed_crash
