@@ -5,3 +5,4 @@ warning-missing-braces
 remove-softwareguide
 doc-bandmath-strings
 1860_multiband_watershed_crash
+remove-html-doc
