@@ -3,3 +3,4 @@ bug_superimpose
 warning-missing-braces
 1649-application-engine-refactoring
 remove-softwareguide
+doc-bandmath-strings
