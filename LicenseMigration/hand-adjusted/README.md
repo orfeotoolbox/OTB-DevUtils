@@ -25,7 +25,7 @@ not a black box!
 * [Downloads](https://www.orfeo-toolbox.org/download/)
 * [Public git repositories](https://git.orfeo-toolbox.org/)
 * [GitHub mirror](https://github.com/orfeotoolbox/)
-* [Build status](http://dash.orfeo-toolbox.org/index.php?project=OTB)
+* [Build status](http://cdash.orfeo-toolbox.org/index.php?project=OTB)
 * [Bug tracker](https://bugs.orfeo-toolbox.org/)
 * [Wiki](http://wiki.orfeo-toolbox.org/index.php/Main_Page)
 * [Task tracking](http://scrum.orfeo-toolbox.org)

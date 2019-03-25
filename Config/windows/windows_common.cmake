@@ -768,7 +768,7 @@ endif() #DASHBOARD_PKG
 # CTestConfig.cmake info here.
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
 set(CTEST_DROP_METHOD "https")
-set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
+set(CTEST_DROP_SITE "cdash.orfeo-toolbox.org")
 set(CTEST_DROP_LOCATION "/submit.php?project=OTB")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
@@ -948,7 +948,7 @@ if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CTestConfig.cmake" AND
 set(CTEST_PROJECT_NAME \"OTB\")
 set(CTEST_NIGHTLY_START_TIME \"20:00:00 CEST\")
 set(CTEST_DROP_METHOD \"https\")
-set(CTEST_DROP_SITE \"dash.orfeo-toolbox.org\")
+set(CTEST_DROP_SITE \"cdash.orfeo-toolbox.org\")
 set(CTEST_DROP_LOCATION \"/submit.php?project=OTB\")
 set(CTEST_DROP_SITE_CDASH TRUE)
 "

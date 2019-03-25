@@ -380,11 +380,11 @@ else()
 endif()
 set(CTEST_NIGHTLY_START_TIME "20:00:00 CEST")
 set(CTEST_DROP_METHOD "https")
-set(CTEST_DROP_SITE "dash.orfeo-toolbox.org")
+set(CTEST_DROP_SITE "cdash.orfeo-toolbox.org")
 set(CTEST_DROP_LOCATION "/submit.php?project=${CTEST_PROJECT_NAME}")
 set(CTEST_DROP_SITE_CDASH TRUE)
 
-# temporary fix for expired certificate on dash.orfeo-toolbox.org
+# temporary fix for expired certificate on cdash.orfeo-toolbox.org
 set(CTEST_CURL_OPTIONS "CURLOPT_SSL_VERIFYPEER_OFF")
 
 #-----------------------------------------------------------------------------
