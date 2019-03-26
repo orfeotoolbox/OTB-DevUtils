@@ -2,6 +2,6 @@
 bug_superimpose
 1649-application-engine-refactoring
 remove-softwareguide
-1860_multiband_watershed_crash
 remove-html-doc
 1870-remove-filters
+remove_complex_image_parameters
