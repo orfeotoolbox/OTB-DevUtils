@@ -4,3 +4,4 @@ bug_superimpose
 remove-softwareguide
 1860_multiband_watershed_crash
 remove-html-doc
+1870-remove-filters
