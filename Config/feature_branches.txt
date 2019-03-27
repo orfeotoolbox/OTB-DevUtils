@@ -3,5 +3,4 @@ bug_superimpose
 1649-application-engine-refactoring
 remove-softwareguide
 remove-html-doc
-1870-remove-filters
 remove_complex_image_parameters
