@@ -1,5 +1,4 @@
 1506-refactor-MapProjectionAdapter
-bug_superimpose
 1649-application-engine-refactoring
 remove-softwareguide
 remove-html-doc
