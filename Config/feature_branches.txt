@@ -1,5 +1,4 @@
 1506-refactor-MapProjectionAdapter
 1649-application-engine-refactoring
 remove-softwareguide
-remove-html-doc
 remove_complex_image_parameters
