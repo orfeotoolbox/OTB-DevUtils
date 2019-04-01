@@ -1,3 +1,4 @@
 1506-refactor-MapProjectionAdapter
 1649-application-engine-refactoring
 bug-qt-execute
+lhermitte/speedup_convolution
