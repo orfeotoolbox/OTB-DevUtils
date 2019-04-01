@@ -2,3 +2,4 @@
 1649-application-engine-refactoring
 bug-qt-execute
 lhermitte/speedup_convolution
+ussegliog/patch_locS1
