@@ -1,4 +1,3 @@
 1506-refactor-MapProjectionAdapter
 1649-application-engine-refactoring
-remove-softwareguide
 bug-qt-execute
