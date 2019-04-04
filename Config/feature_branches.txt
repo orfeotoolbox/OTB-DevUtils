@@ -1,5 +1,4 @@
 1649-application-engine-refactoring
-lhermitte/dynlib_load_errors
 ussegliog/patch_locS1
 filter-wheel-combobox
 jinglada/sort_shark_labels
