@@ -1,4 +1,3 @@
-1506-refactor-MapProjectionAdapter
 1649-application-engine-refactoring
 lhermitte/dynlib_load_errors
 ussegliog/patch_locS1
