@@ -15,7 +15,7 @@ set(dashboard_no_install 1)
 
 set(dashboard_cache "
 BUILD_EXAMPLES:BOOL=OFF
-CMAKE_PREFIX_PATH:PATH=/opt/local
+CMAKE_PREFIX_PATH:PATH=/Users/otbval/Dashboard/xdk-6.6
 CMAKE_C_FLAGS:STRING= -fPIC -Wall
 CMAKE_CXX_FLAGS:STRING= -fPIC -Wall -Wno-gnu -Wno-gnu-static-float-init -Wno-\\\\#warnings
 OTB_DATA_USE_LARGEINPUT:BOOL=OFF
@@ -41,30 +41,9 @@ OTB_USE_MAPNIK:BOOL=OFF
 OTB_USE_SHARK:BOOL=ON
 OTB_USE_OPENMP:BOOL=ON
 
-ITK_DIR:PATH=${CTEST_DASHBOARD_ROOT}/itkv4/install/lib/cmake/ITK-4.9
-GDAL_CONFIG:PATH=/opt/local/bin/gdal-config
-GDAL_CONFIG_CHECKING:BOOL=ON
-GDAL_INCLUDE_DIR:PATH=/opt/local/include
-GDAL_LIBRARY:PATH=/opt/local/lib/libgdal.dylib
-OSSIM_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/ossim/install-1.8.20-3/include
-OSSIM_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/ossim/install-1.8.20-3/lib/libossim.dylib
-MUPARSER_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/muparser/install/include
-MUPARSER_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/muparser/install/lib/libmuparser.dylib
-MUPARSERX_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/muparserx/install_4.0.7/include/muparserx
-MUPARSERX_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/muparserx/install_4.0.7/lib/libmuparserx.dylib
-LIBSVM_INCLUDE_DIR:PATH=/opt/local/include
-LIBSVM_LIBRARY:FILEPATH=/opt/local/lib/libsvm.dylib
 GLUT_glut_LIBRARY=/usr/X11R6/lib/libglut.3.dylib
 GLUT_INCLUDE_DIR=/usr/X11R6/include
-SHARK_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/shark/install-github/lib/libshark_debug.dylib
-SHARK_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/shark/install-github/include
-Qt5Core_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5Core
-Qt5Gui_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5Gui
-Qt5Widgets_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5Widgets
-Qt5OpenGL_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5OpenGL
-Qt5LinguistTools_DIR:PATH=${CTEST_DASHBOARD_ROOT}/Qt/5.10.1/clang_64/lib/cmake/Qt5LinguistTools
-QWT_INCLUDE_DIR:PATH=${CTEST_DASHBOARD_ROOT}/qwt/install/include
-QWT_LIBRARY:FILEPATH=${CTEST_DASHBOARD_ROOT}/qwt/install/lib/libqwt.dylib
+
 ")
 
 include(${CTEST_SCRIPT_DIRECTORY}/../otb_common.cmake)
