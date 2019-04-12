@@ -1,4 +1,2 @@
 1649-application-engine-refactoring
 ussegliog/patch_locS1
-filter-wheel-combobox
-jinglada/sort_shark_labels
