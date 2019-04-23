@@ -3,5 +3,4 @@ ussegliog/patch_locS1
 1870-refactor-indices-functor
 redesign-gui
 kmean_centroids
-1886-spinbox-locale
 remove-docname
