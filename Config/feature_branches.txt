@@ -4,3 +4,4 @@ ussegliog/patch_locS1
 redesign-gui
 kmean_centroids
 1886-spinbox-locale
+remove-docname
