@@ -1,5 +1,4 @@
 1649-application-engine-refactoring
-1870-refactor-indices-functor
 redesign-gui
 kmean_centroids
 remove-docname
