@@ -3,4 +3,3 @@ redesign-gui
 kmean_centroids
 remove-docname
 cleanup
-1865-examples-review1
