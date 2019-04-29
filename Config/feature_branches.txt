@@ -1,3 +1,2 @@
 ussegliog/CosmoSARModel
 remove-docname
-cleanup
