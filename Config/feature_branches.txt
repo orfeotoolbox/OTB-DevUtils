@@ -1,5 +1,4 @@
 ussegliog/CosmoSARModel
 redesign-gui
-kmean_centroids
 remove-docname
 cleanup
