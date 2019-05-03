@@ -2,3 +2,5 @@ ussegliog/CosmoSARModel
 remove-docname
 refactor-xml
 regression_refactoring
+display_deprecation_status
+missing_include_stackindicefunctor
