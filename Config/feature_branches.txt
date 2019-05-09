@@ -1,2 +1,3 @@
 ussegliog/CosmoSARModel
 refactor-xml
+indices-virtual-dtor
