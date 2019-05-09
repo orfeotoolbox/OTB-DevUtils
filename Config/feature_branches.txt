@@ -1,4 +1,2 @@
 ussegliog/CosmoSARModel
 refactor-xml
-regression_refactoring
-display_deprecation_status
