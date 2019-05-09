@@ -1,5 +1,4 @@
 ussegliog/CosmoSARModel
-remove-docname
 refactor-xml
 regression_refactoring
 display_deprecation_status
