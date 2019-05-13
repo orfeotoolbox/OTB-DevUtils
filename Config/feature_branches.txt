@@ -1,3 +1,2 @@
 ussegliog/CosmoSARModel
-indices-virtual-dtor
 remove_java_superbuild 
