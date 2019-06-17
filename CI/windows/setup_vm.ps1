@@ -8,7 +8,7 @@ mkdir C:\clcache
 
 echo "Setup otbbot user"
 $passbot = Read-Host 'What is otbbot password?' -asSecureString
-New-LocalUser "otbbot" -Password $passbot -FullName "OTB bot" -Description "bot for OTB CI"
+New-LocalUser "otbbot" -Password $passbot -PasswordNeverExpires -FullName "OTB bot" -Description "bot for OTB CI"
 
 # Function to grand the Log On as a service rights to an account
 function Add-ServiceLogonRight([string] $Username) {
@@ -155,6 +155,15 @@ $passbotPlainText = $passbot | ConvertFrom-SecureString
 .\gitlab-runner.exe install --user ".\otbbot" --password "$passbotPlainText"
 .\gitlab-runner.exe start
 
+echo "Create updater script for gitlab runner and register a daily task"
+Set-Content -Path updater.ps1 -Value "cd C:\Gitlab-Runner"
+Add-Content -Path updater.ps1 -Value ".\gitlab-runner stop"
+Add-Content -Path updater.ps1 -Value "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12"
+Add-Content -Path updater.ps1 -Value "Invoke-WebRequest -UseBasicParsing https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-windows-amd64.exe -OutFile gitlab-runner.exe"
+Add-Content -Path updater.ps1 -Value ".\gitlab-runner start"
+
+schtasks /create /tn GitlabRunnerUpdater /tr C:\Gitlab-Runner\updater.ps1 /sc monthly /d 22 /st 01:00
+
 cd C:\tools
 
 echo "Add some paths to global configuration"
@@ -163,6 +172,7 @@ ADD-PATH C:\tools\cmake\bin
 ADD-PATH C:\tools\GnuWin32\bin
 ADD-PATH C:\tools\7-Zip
 ADD-PATH C:\tools\swig
+ADD-PATH C:\tools\Python35-x64
 
 echo "Setup ssh key for otbbot"
 $botcred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList otbbot, $passbot
