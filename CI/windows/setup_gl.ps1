@@ -65,6 +65,7 @@ echo "Build GLU"
 C:\tools\7-Zip\7z.exe x -y glu.tar.gz
 C:\tools\7-Zip\7z.exe x -y glu.tar
 Invoke-WebRequest -UseBasicParsing https://www.orfeo-toolbox.org/packages/archives/Misc/GLU-CMakeLists.txt -OutFile glu-9.0.0/CMakeLists.txt
+Invoke-WebRequest -UseBasicParsing https://www.orfeo-toolbox.org/packages/archives/Misc/GLU32.def -OutFile glu-9.0.0/GLU32.def
 cd glu-9.0.0
 mkdir build-x64
 cd build-x64

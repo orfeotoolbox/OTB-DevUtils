@@ -1,0 +1,144 @@
+cmake_minimum_required(VERSION 2.8.3)
+
+project(mesaglu)
+
+set(MESAGLU_INC_DIR ${CMAKE_SOURCE_DIR}/include)
+set(MESAGLU_SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+
+option(BUILD_SHARED_LIBS "Building shared libs. Default is ON" ON)
+
+add_definitions(-DLIBRARYBUILD)
+
+set(GLU_LIBRARY_VERSION 1.3.1)
+
+if(MSVC)
+  add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+  add_definitions(-DBUILD_GLU32)
+endif()
+
+find_package(OpenGL REQUIRED)
+
+include_directories(${OPENGL_INCLUDE_DIR})
+
+set(MESAGLU_SRCS
+  ${MESAGLU_SRC_DIR}/libutil/error.c
+  ${MESAGLU_SRC_DIR}/libutil/glue.c
+  ${MESAGLU_SRC_DIR}/libutil/mipmap.c
+  ${MESAGLU_SRC_DIR}/libutil/project.c
+  ${MESAGLU_SRC_DIR}/libutil/quad.c
+  ${MESAGLU_SRC_DIR}/libutil/registry.c
+  ${MESAGLU_SRC_DIR}/libtess/dict.c
+  ${MESAGLU_SRC_DIR}/libtess/geom.c
+  ${MESAGLU_SRC_DIR}/libtess/memalloc.c
+  ${MESAGLU_SRC_DIR}/libtess/mesh.c
+  ${MESAGLU_SRC_DIR}/libtess/normal.c
+  ${MESAGLU_SRC_DIR}/libtess/priorityq.c
+  ${MESAGLU_SRC_DIR}/libtess/render.c
+  ${MESAGLU_SRC_DIR}/libtess/sweep.c
+  ${MESAGLU_SRC_DIR}/libtess/tess.c
+  ${MESAGLU_SRC_DIR}/libtess/tessmono.c
+  ${MESAGLU_SRC_DIR}/libnurbs/interface/bezierEval.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/interface/bezierPatch.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/interface/bezierPatchMesh.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/interface/glcurveval.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/interface/glinterface.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/interface/glrenderer.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/interface/glsurfeval.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/interface/incurveeval.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/interface/insurfeval.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/arc.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/arcsorter.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/arctess.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/backend.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/basiccrveval.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/basicsurfeval.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/bin.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/bufpool.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/cachingeval.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/ccw.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/coveandtiler.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/curve.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/curvelist.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/curvesub.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/dataTransform.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/displaylist.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/flist.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/flistsorter.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/hull.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/intersect.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/knotvector.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/mapdesc.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/mapdescv.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/maplist.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/mesher.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/monoTriangulationBackend.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/monotonizer.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/mycode.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/nurbsinterfac.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/nurbstess.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/patch.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/patchlist.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/quilt.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/reader.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/renderhints.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/slicer.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/sorter.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/splitarcs.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/subdivider.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/tobezier.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/trimline.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/trimregion.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/trimvertpool.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/uarray.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/internals/varray.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/directedLine.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/gridWrap.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/monoChain.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/monoPolyPart.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/monoTriangulation.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/partitionX.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/partitionY.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/polyDBG.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/polyUtil.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/primitiveStream.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/quicksort.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/rectBlock.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/sampleComp.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/sampleCompBot.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/sampleCompRight.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/sampleCompTop.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/sampleMonoPoly.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/sampledLine.cc
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess/searchTree.cc)
+
+if(MSVC)
+  # Use a .def file to make sure the exported symbols are not decorated by stdcall
+  set(MESAGLU_SRCS ${MESAGLU_SRCS} ${CMAKE_SOURCE_DIR}/GLU32.def)
+endif()
+
+set(MESAGLU_INC_DIRS
+  ${MESAGLU_INC_DIR}
+  ${MESAGLU_SRC_DIR}/include
+  ${MESAGLU_SRC_DIR}/libnurbs/internals
+  ${MESAGLU_SRC_DIR}/libnurbs/interface
+  ${MESAGLU_SRC_DIR}/libnurbs/nurbtess)
+
+include_directories(${MESAGLU_INC_DIRS})
+
+set(MESAGLU_INCLUDES
+  ${MESAGLU_INC_DIR}/GL/glu.h
+  ${MESAGLU_INC_DIR}/GL/glu_mangle.h)
+
+add_library(GLU32 ${MESAGLU_SRCS})
+target_link_libraries(GLU32 ${OPENGL_LIBRARY})
+set_target_properties(GLU32 PROPERTIES VERSION "${GLU_LIBRARY_VERSION}")
+
+
+install(TARGETS GLU32
+  RUNTIME DESTINATION bin COMPONENT RuntimeLibraries
+  LIBRARY DESTINATION lib COMPONENT RuntimeLibraries
+  ARCHIVE DESTINATION lib COMPONENT Development)
+
+install(FILES ${MESAGLU_INCLUDES}
+    DESTINATION include/GL/
+    COMPONENT Development)
