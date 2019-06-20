@@ -126,10 +126,12 @@ del depends22_x86.zip
 
 echo "Install Python 3.5.4 32bit to C:\tools\Python35-x86"
 .\python35.exe | Out-Null
+copy Python35-x86\python.exe Python35-x86\python3.exe
 del python35.exe
 
 echo "Install Python 3.5.4 64bit to C:\tools\Python35-x64"
 .\python35-amd64.exe | Out-Null
+copy Python35-x64\python.exe Python35-x64\python3.exe
 del python35-amd64.exe
 
 echo "Install clcache and numpy for both 32bit and 64bit"
