@@ -1,2 +1,3 @@
 1842-update-parameter
 dmci/otb_dmci_updates
+remove_spatial_objects
