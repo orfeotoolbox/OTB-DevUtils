@@ -87,47 +87,47 @@ message("${DATE_TIME}: Bulding remote module ${dashboard_remote_module}")
   WORKING_DIRECTORY ${SCRIPTS_DIR})
 endforeach()
 
-# SuperBuild
-execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   ${COMPILER_ARCH} 0 SUPER_BUILD ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
-   OUTPUT_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH_OK}_${COMPILER_ARCH}.txt
-   ERROR_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH_OK}_${COMPILER_ARCH}.txt
-  WORKING_DIRECTORY ${SCRIPTS_DIR})
-
-# Packaging  
-execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-   ${COMPILER_ARCH} 0 PKG ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
-   OUTPUT_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH_OK}_${COMPILER_ARCH}.txt
-   ERROR_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH_OK}_${COMPILER_ARCH}.txt
-  WORKING_DIRECTORY ${SCRIPTS_DIR})
-
-# nightly latest release + Feature Branches
-set(FEATURE_BRANCHES_FILE "${DEVUTILS_CONFIG_DIR}/feature_branches.txt")
-
-message("Checking feature branches file : ${FEATURE_BRANCHES_FILE}")
-parse_branch_list(${FEATURE_BRANCHES_FILE})
-list(APPEND LIST_OF_BRANCHES ${_branch_list})
-
-foreach(otb_branch ${LIST_OF_BRANCHES})
-  # find the corresponding data branch
-  set(data_branch ${specific_data_branch_for_${otb_branch}})
-  if(NOT data_branch)
-    set(data_branch "nightly")
-  endif()
-
-  # convert branch names for filenames
-  convert_branch_to_filename(${otb_branch} otb_branch_clean)
-  convert_branch_to_filename(${data_branch} data_branch_clean)
-
-  message("${DATE_TIME}: Bulding otb branch '${otb_branch}' with data branch '${data_branch}'")
-  message("${DATE_TIME}: Output will be logged on ${LOGS_DIR}/${otb_branch_clean}_${COMPILER_ARCH}_${data_branch_clean}.txt")
-  execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
-  ${COMPILER_ARCH} 0 BUILD ${otb_branch} ${data_branch}
-  OUTPUT_FILE ${LOGS_DIR}/${otb_branch_clean}_${COMPILER_ARCH}_${data_branch_clean}.txt
-  ERROR_FILE ${LOGS_DIR}/${otb_branch_clean}_${COMPILER_ARCH}_${data_branch_clean}.txt
-  WORKING_DIRECTORY ${SCRIPTS_DIR})
-  
-endforeach()
+#~ # SuperBuild
+#~ execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
+   #~ ${COMPILER_ARCH} 0 SUPER_BUILD ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
+   #~ OUTPUT_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH_OK}_${COMPILER_ARCH}.txt
+   #~ ERROR_FILE ${LOGS_DIR}/superbuild_${SUPERBUILD_BRANCH_OK}_${COMPILER_ARCH}.txt
+  #~ WORKING_DIRECTORY ${SCRIPTS_DIR})
+#~ 
+#~ # Packaging  
+#~ execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
+   #~ ${COMPILER_ARCH} 0 PKG ${SUPERBUILD_BRANCH} ${SUPERBUILD_DATA_BRANCH}
+   #~ OUTPUT_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH_OK}_${COMPILER_ARCH}.txt
+   #~ ERROR_FILE ${LOGS_DIR}/package_otb_${SUPERBUILD_BRANCH_OK}_${COMPILER_ARCH}.txt
+  #~ WORKING_DIRECTORY ${SCRIPTS_DIR})
+#~ 
+#~ # nightly latest release + Feature Branches
+#~ set(FEATURE_BRANCHES_FILE "${DEVUTILS_CONFIG_DIR}/feature_branches.txt")
+#~ 
+#~ message("Checking feature branches file : ${FEATURE_BRANCHES_FILE}")
+#~ parse_branch_list(${FEATURE_BRANCHES_FILE})
+#~ list(APPEND LIST_OF_BRANCHES ${_branch_list})
+#~ 
+#~ foreach(otb_branch ${LIST_OF_BRANCHES})
+  #~ # find the corresponding data branch
+  #~ set(data_branch ${specific_data_branch_for_${otb_branch}})
+  #~ if(NOT data_branch)
+    #~ set(data_branch "nightly")
+  #~ endif()
+#~ 
+  #~ # convert branch names for filenames
+  #~ convert_branch_to_filename(${otb_branch} otb_branch_clean)
+  #~ convert_branch_to_filename(${data_branch} data_branch_clean)
+#~ 
+  #~ message("${DATE_TIME}: Bulding otb branch '${otb_branch}' with data branch '${data_branch}'")
+  #~ message("${DATE_TIME}: Output will be logged on ${LOGS_DIR}/${otb_branch_clean}_${COMPILER_ARCH}_${data_branch_clean}.txt")
+  #~ execute_process(COMMAND ${SCRIPTS_DIR}/dashboard.bat 
+  #~ ${COMPILER_ARCH} 0 BUILD ${otb_branch} ${data_branch}
+  #~ OUTPUT_FILE ${LOGS_DIR}/${otb_branch_clean}_${COMPILER_ARCH}_${data_branch_clean}.txt
+  #~ ERROR_FILE ${LOGS_DIR}/${otb_branch_clean}_${COMPILER_ARCH}_${data_branch_clean}.txt
+  #~ WORKING_DIRECTORY ${SCRIPTS_DIR})
+  #~ 
+#~ endforeach()
 
 #make sure otbnas is disconnected at end in case a build is broken
 execute_process(COMMAND "net" "use" "R:" "/delete" "/Y")
