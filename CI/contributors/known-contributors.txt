@@ -24,6 +24,7 @@ Grégoire Mercier <gregoire.mercier@telecom-bretagne.eu>
 Guilhem Bonnefille <guilhem.bonnefille@c-s.fr>
 Guillaume Borrut <guillaume.borrut@c-s.fr>
 Guillaume Pasero <guillaume.pasero@c-s.fr>
+Guillaume Pernot <guillaume.pernot@c-s.fr>
 janestar <janestar92@163.com>
 Jee Roen <jeroen.staab@posteo.de>
 Jonathan Guinet <jonathan.guinet@c-s.fr>
