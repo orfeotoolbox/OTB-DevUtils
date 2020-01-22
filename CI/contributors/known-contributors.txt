@@ -3,7 +3,7 @@ Amit Kulkarni <amitkulz@gmail.com>
 Angelos Tzotsos <tzotsos@gmail.com>
 Antoine Regimbeau <antoine.regimbeau@c-s.fr>
 Arnaud Jaen <arnaud.jaen@c-s.fr>
-Arthur Vincent <vincenta@cesbio.cnes.fr>
+Arthur Vincent <arthur.vincent@c-s.fr>
 Aurélie Emilien <aurelie.emilien@c-s.fr>
 Aurelien Bricier <aurelien.bricier@c-s.fr>
 Bas Couwenberg <sebastic@debian.org>
