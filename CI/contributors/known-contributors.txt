@@ -33,6 +33,7 @@ Jonathan Guinet <jonathan.guinet@c-s.fr>
 Jordi Inglada <jordi.inglada@cesbio.eu>
 Julien Malik <julien.malik@c-s.fr>
 Julien Michel <julien.michel@cnes.fr>
+Julien Osman <julien.osman@c-s.fr>
 Laurențiu Nicola <lnicola@dend.ro>
 Luc Hermitte <luc.hermitte@c-s.fr>
 Ludovic Hussonnois <ludovic.hussonnois@c-s.fr>
