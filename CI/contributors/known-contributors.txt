@@ -46,6 +46,7 @@ Otmane Lahlou <otmane.lahlou@c-s.fr>
 Patrick Imbo <patrick.imbo@c-s.fr>
 Rashad Kanavath <rashad.kanavath@c-s.fr>
 Rémi Cresson <remi.cresson@irstea.fr>
+Rémi Cression <remi.cresson@inrae.fr>
 Romain Garrigues <romain.garrigues@c-s.fr>
 Rosa Ruiloba <rosario.ruiloba@c-s.fr>
 Sébastien Dinot <sebastien.dinot@c-s.fr>
