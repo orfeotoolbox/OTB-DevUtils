@@ -4,7 +4,7 @@ mkdir C:\build
 mkdir C:\GitLab-Runner
 mkdir C:\tools
 mkdir C:\tools\bin
-mkdir C:\clcache
+mkdir C:\sccache
 
 echo "Setup otbbot user"
 $passbot = Read-Host 'What is otbbot password?' -asSecureString
@@ -134,10 +134,13 @@ echo "Install Python 3.5.4 64bit to C:\tools\Python35-x64"
 copy Python35-x64\python.exe Python35-x64\python3.exe
 del python35-amd64.exe
 
-echo "Install clcache and numpy for both 32bit and 64bit"
-C:\tools\Python35-x86\Scripts\pip3.exe install clcache
-C:\tools\Python35-x64\Scripts\pip3.exe install clcache
+echo "Install scoop (A command-line installer for Windows). This is needed to install sccache"
+iwr -useb get.scoop.sh | iex
 
+echo "Install sccache (Shared Compilation Cache)"
+scoop install sccache
+
+echo "Install numpy for both 32bit and 64bit"
 C:\tools\Python35-x86\Scripts\pip3.exe install numpy
 C:\tools\Python35-x64\Scripts\pip3.exe install numpy
 
