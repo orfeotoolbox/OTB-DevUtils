@@ -7,6 +7,7 @@ Arthur Vincent <arthur.vincent@c-s.fr>
 Aurélie Emilien <aurelie.emilien@c-s.fr>
 Aurelien Bricier <aurelien.bricier@c-s.fr>
 Bas Couwenberg <sebastic@debian.org>
+Brad Hards <bradh@frogmouth.net>
 Carole Amiot <carole.amiot@cnes.fr>
 Caroline Ruffel <caroline.ruffel@c-s.fr>
 Cédric Traizet <cedric.traizet@c-s.fr>
